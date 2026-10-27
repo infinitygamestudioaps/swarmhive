@@ -1,0 +1,900 @@
+{
+ "id": 338,
+ "name": "Alligator Hunter",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.756Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 40,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Heine",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 10,
+ "refLevel": 40,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30892",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will join the hunt for alligators.\""
+   ],
+   "npc": {
+    "id": 30892,
+    "name": "Enverun",
+    "title": "Accessory Merchant",
+    "town": "Heine",
+    "at": [
+     107082,
+     216673,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Talk to Enverun – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30892@107082,216673",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 8281,
+    "sec": 89,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 8281,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111288,
+      219016,
+      -3536
+     ],
+     [
+      111032,
+      219096,
+      -3536
+     ],
+     [
+      110760,
+      219096,
+      -3536
+     ],
+     [
+      110488,
+      219096,
+      -3536
+     ],
+     [
+      110216,
+      219112,
+      -3472
+     ],
+     [
+      110072,
+      219000,
+      -3472
+     ],
+     [
+      110072,
+      218728,
+      -3536
+     ],
+     [
+      110072,
+      218456,
+      -3544
+     ],
+     [
+      110072,
+      218184,
+      -3544
+     ],
+     [
+      110072,
+      217912,
+      -3560
+     ],
+     [
+      110072,
+      217640,
+      -3632
+     ],
+     [
+      110072,
+      217368,
+      -3744
+     ],
+     [
+      109992,
+      217208,
+      -3744
+     ],
+     [
+      109896,
+      217208,
+      -3744
+     ],
+     [
+      109688,
+      217288,
+      -3744
+     ],
+     [
+      109480,
+      217432,
+      -3744
+     ],
+     [
+      109304,
+      217512,
+      -3744
+     ],
+     [
+      109032,
+      217512,
+      -3720
+     ],
+     [
+      108760,
+      217464,
+      -3704
+     ],
+     [
+      108488,
+      217512,
+      -3696
+     ],
+     [
+      108216,
+      217512,
+      -3688
+     ],
+     [
+      108056,
+      217464,
+      -3680
+     ],
+     [
+      107784,
+      217512,
+      -3672
+     ],
+     [
+      107720,
+      217736,
+      -3672
+     ],
+     [
+      107528,
+      217928,
+      -3672
+     ],
+     [
+      107352,
+      218120,
+      -3672
+     ],
+     [
+      107144,
+      218168,
+      -3672
+     ],
+     [
+      106936,
+      218040,
+      -3672
+     ],
+     [
+      107064,
+      218088,
+      -3672
+     ],
+     [
+      107112,
+      217928,
+      -3648
+     ],
+     [
+      107096,
+      217656,
+      -3592
+     ],
+     [
+      107112,
+      217496,
+      -3592
+     ],
+     [
+      107112,
+      217224,
+      -3592
+     ],
+     [
+      107112,
+      216952,
+      -3592
+     ],
+     [
+      107080,
+      216680,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20135,
+     "name": "Alligator",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 4337,
+     "name": "Alligator Leather",
+     "n": 10,
+     "from": [
+      {
+       "id": 20135,
+       "name": "Alligator",
+       "chance": 100
+      },
+      {
+       "id": 20135,
+       "name": "Alligator",
+       "chance": 19
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Alligator for Alligator Leather x10",
+   "places": [
+    {
+     "mobs": [
+      20135
+     ],
+     "items": [
+      4337
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "alligator-islands-4",
+      "name": "Alligator Islands 4: Alligator area (north-west)",
+      "at": [
+       111336,
+       187432,
+       -3664
+      ],
+      "radius": 4081,
+      "levels": [
+       40,
+       41
+      ],
+      "count": 10,
+      "region": "Alligator Islands",
+      "atlasKey": "area:alligator-islands-4",
+      "status": "ok",
+      "sec": 99,
+      "danger": 41,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -58.35,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "alligator-islands-3",
+        "name": "Alligator Islands 3: Crokian Lad area (north)",
+        "at": [
+         114920,
+         186712,
+         -3760
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "alligator-islands-7",
+        "name": "Alligator Islands 7: Alligator area (north-west)",
+        "at": [
+         109272,
+         185832,
+         -3760
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "alligator-islands-11",
+        "name": "Alligator Islands 11: Crokian area (south)",
+        "at": [
+         112808,
+         200504,
+         -3720
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:alligator-islands-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 6470,
+      "sec": 99,
+      "via": ".heine > Heine -> Entrance to Alligator Islands",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Entrance to Alligator Islands",
+        "link": "alligator island",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6470,
+        "how": "field-areas",
+        "danger": 41
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Entrance to Alligator Islands"
+      },
+      "simple": true,
+      "pv": [
+       [
+        115576,
+        192264,
+        -3488
+       ],
+       [
+        115064,
+        191272,
+        -3408
+       ],
+       [
+        114072,
+        190280,
+        -3720
+       ],
+       [
+        113896,
+        190104,
+        -3720
+       ],
+       [
+        113016,
+        189112,
+        -3584
+       ],
+       [
+        112024,
+        188120,
+        -3752
+       ],
+       [
+        111336,
+        187432,
+        -3664
+       ]
+      ],
+      "maxDanger": 41,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 41,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "alligator-islands-4",
+    "name": "Alligator Islands 4: Alligator area (north-west)",
+    "at": [
+     111336,
+     187432,
+     -3664
+    ],
+    "radius": 4081,
+    "levels": [
+     40,
+     41
+    ],
+    "count": 10,
+    "region": "Alligator Islands",
+    "atlasKey": "area:alligator-islands-4",
+    "status": "ok",
+    "sec": 99,
+    "danger": 41,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -58.35,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "alligator-islands-3",
+      "name": "Alligator Islands 3: Crokian Lad area (north)",
+      "at": [
+       114920,
+       186712,
+       -3760
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "alligator-islands-7",
+      "name": "Alligator Islands 7: Alligator area (north-west)",
+      "at": [
+       109272,
+       185832,
+       -3760
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "alligator-islands-11",
+      "name": "Alligator Islands 11: Crokian area (south)",
+      "at": [
+       112808,
+       200504,
+       -3720
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:alligator-islands-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 6470,
+    "sec": 99,
+    "via": ".heine > Heine -> Entrance to Alligator Islands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Entrance to Alligator Islands",
+      "link": "alligator island",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6470,
+      "how": "field-areas",
+      "danger": 41
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115576,
+      192264,
+      -3488
+     ],
+     [
+      115064,
+      191272,
+      -3408
+     ],
+     [
+      114072,
+      190280,
+      -3720
+     ],
+     [
+      113896,
+      190104,
+      -3720
+     ],
+     [
+      113016,
+      189112,
+      -3584
+     ],
+     [
+      112024,
+      188120,
+      -3752
+     ],
+     [
+      111336,
+      187432,
+      -3664
+     ]
+    ],
+    "maxDanger": 41,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 41,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 349,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30892",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Sell pelts."
+   ],
+   "npc": {
+    "id": 30892,
+    "name": "Enverun",
+    "title": "Accessory Merchant",
+    "town": "Heine",
+    "at": [
+     107082,
+     216673,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Hand in Alligator Leather at Enverun (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 4337,
+     "name": "Alligator Leather",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30892@107082,216673",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 8281,
+    "sec": 89,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 8281,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111288,
+      219016,
+      -3536
+     ],
+     [
+      111032,
+      219096,
+      -3536
+     ],
+     [
+      110760,
+      219096,
+      -3536
+     ],
+     [
+      110488,
+      219096,
+      -3536
+     ],
+     [
+      110216,
+      219112,
+      -3472
+     ],
+     [
+      110072,
+      219000,
+      -3472
+     ],
+     [
+      110072,
+      218728,
+      -3536
+     ],
+     [
+      110072,
+      218456,
+      -3544
+     ],
+     [
+      110072,
+      218184,
+      -3544
+     ],
+     [
+      110072,
+      217912,
+      -3560
+     ],
+     [
+      110072,
+      217640,
+      -3632
+     ],
+     [
+      110072,
+      217368,
+      -3744
+     ],
+     [
+      109992,
+      217208,
+      -3744
+     ],
+     [
+      109896,
+      217208,
+      -3744
+     ],
+     [
+      109688,
+      217288,
+      -3744
+     ],
+     [
+      109480,
+      217432,
+      -3744
+     ],
+     [
+      109304,
+      217512,
+      -3744
+     ],
+     [
+      109032,
+      217512,
+      -3720
+     ],
+     [
+      108760,
+      217464,
+      -3704
+     ],
+     [
+      108488,
+      217512,
+      -3696
+     ],
+     [
+      108216,
+      217512,
+      -3688
+     ],
+     [
+      108056,
+      217464,
+      -3680
+     ],
+     [
+      107784,
+      217512,
+      -3672
+     ],
+     [
+      107720,
+      217736,
+      -3672
+     ],
+     [
+      107528,
+      217928,
+      -3672
+     ],
+     [
+      107352,
+      218120,
+      -3672
+     ],
+     [
+      107144,
+      218168,
+      -3672
+     ],
+     [
+      106936,
+      218040,
+      -3672
+     ],
+     [
+      107064,
+      218088,
+      -3672
+     ],
+     [
+      107112,
+      217928,
+      -3648
+     ],
+     [
+      107096,
+      217656,
+      -3592
+     ],
+     [
+      107112,
+      217496,
+      -3592
+     ],
+     [
+      107112,
+      217224,
+      -3592
+     ],
+     [
+      107112,
+      216952,
+      -3592
+     ],
+     [
+      107080,
+      216680,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 114,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:27.762Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

@@ -1,0 +1,1312 @@
+{
+ "id": 627,
+ "name": "Heart in Search of Power",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.691Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 60,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 200,
+ "refLevel": 60,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31518",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What do you want me to do?\""
+   ],
+   "npc": {
+    "id": 31518,
+    "name": "Mysterious Necromancer",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     68064,
+     -71712,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mysterious Necromancer – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31518@68064,-71712",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 2798,
+    "sec": 68,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2798,
+      "how": "geodata",
+      "danger": 62
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65802,
+      -71574,
+      -3748
+     ],
+     [
+      66296,
+      -71704,
+      -3808
+     ],
+     [
+      67288,
+      -71704,
+      -3848
+     ],
+     [
+      68072,
+      -71704,
+      -3712
+     ]
+    ],
+    "maxDanger": 62,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 62,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 21520,
+     "name": "Eye of Splendor",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 21523,
+     "name": "Flash of Splendor",
+     "level": 61,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 21524,
+     "name": "Blade of Splendor",
+     "level": 61,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 21526,
+     "name": "Wisdom of Splendor",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 21529,
+     "name": "Soul of Splendor",
+     "level": 63,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21530,
+     "name": "Victory of Splendor",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21531,
+     "name": "Punishment of Splendor",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 21532,
+     "name": "Shout of Splendor",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 21535,
+     "name": "Signet of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21536,
+     "name": "Crown of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21539,
+     "name": "Wailing of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7171,
+     "name": "Bead of Obedience",
+     "n": 300,
+     "from": [
+      {
+       "id": 21520,
+       "name": "Eye of Splendor",
+       "chance": 66.1
+      },
+      {
+       "id": 21523,
+       "name": "Flash of Splendor",
+       "chance": 66.8
+      },
+      {
+       "id": 21524,
+       "name": "Blade of Splendor",
+       "chance": 71.4
+      },
+      {
+       "id": 21526,
+       "name": "Wisdom of Splendor",
+       "chance": 79.6
+      },
+      {
+       "id": 21529,
+       "name": "Soul of Splendor",
+       "chance": 65.9
+      },
+      {
+       "id": 21530,
+       "name": "Victory of Splendor",
+       "chance": 70.4
+      },
+      {
+       "id": 21531,
+       "name": "Punishment of Splendor",
+       "chance": 79.1
+      },
+      {
+       "id": 21532,
+       "name": "Shout of Splendor",
+       "chance": 82
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Eye of Splendor, Flash of Splendor, Blade of Splendor for Bead of Obedience x300",
+   "places": [
+    {
+     "mobs": [
+      21520,
+      21523,
+      21524,
+      21526,
+      21529,
+      21530,
+      21531,
+      21532
+     ],
+     "items": [
+      7171
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-1",
+      "name": "Valley of Saints 1: Flash of Splendor area (north-east)",
+      "at": [
+       68584,
+       -75224,
+       -3712
+      ],
+      "radius": 5077,
+      "levels": [
+       60,
+       62
+      ],
+      "count": 20,
+      "region": "Valley of Saints",
+      "atlasKey": "area:valley-of-saints-1",
+      "status": "ok",
+      "sec": 87,
+      "danger": 62,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -118.55,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-saints-2",
+        "name": "Valley of Saints 2: Flash of Splendor area (east)",
+        "at": [
+         71960,
+         -74120,
+         -3720
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-9",
+        "name": "Valley of Saints 9: Blade of Splendor area (north-east)",
+        "at": [
+         80200,
+         -80008,
+         -4040
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-10",
+        "name": "Valley of Saints 10: Blade of Splendor area (north-east)",
+        "at": [
+         76632,
+         -85560,
+         -3568
+        ],
+        "count": 11,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 5070,
+      "sec": 87,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5070,
+        "how": "field-areas",
+        "danger": 62
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65304,
+        -71448,
+        -3696
+       ],
+       [
+        65976,
+        -71960,
+        -3720
+       ],
+       [
+        66184,
+        -72184,
+        -3744
+       ],
+       [
+        66312,
+        -72424,
+        -3712
+       ],
+       [
+        66792,
+        -73416,
+        -3656
+       ],
+       [
+        67768,
+        -74408,
+        -3704
+       ],
+       [
+        68584,
+        -75224,
+        -3712
+       ]
+      ],
+      "maxDanger": 62,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 62,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21520,
+      21523,
+      21524,
+      21526,
+      21529,
+      21530,
+      21531,
+      21532,
+      21535,
+      21536,
+      21539
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-1",
+      "name": "Valley of Saints 1: Flash of Splendor area (north-east)",
+      "at": [
+       68584,
+       -75224,
+       -3712
+      ],
+      "radius": 5077,
+      "levels": [
+       60,
+       62
+      ],
+      "count": 20,
+      "region": "Valley of Saints",
+      "atlasKey": "area:valley-of-saints-1",
+      "status": "ok",
+      "sec": 87,
+      "danger": 62,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -118.55,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-saints-2",
+        "name": "Valley of Saints 2: Flash of Splendor area (east)",
+        "at": [
+         71960,
+         -74120,
+         -3720
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-9",
+        "name": "Valley of Saints 9: Blade of Splendor area (north-east)",
+        "at": [
+         80200,
+         -80008,
+         -4040
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-10",
+        "name": "Valley of Saints 10: Blade of Splendor area (north-east)",
+        "at": [
+         76632,
+         -85560,
+         -3568
+        ],
+        "count": 11,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 5070,
+      "sec": 87,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5070,
+        "how": "field-areas",
+        "danger": 62
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65304,
+        -71448,
+        -3696
+       ],
+       [
+        65976,
+        -71960,
+        -3720
+       ],
+       [
+        66184,
+        -72184,
+        -3744
+       ],
+       [
+        66312,
+        -72424,
+        -3712
+       ],
+       [
+        66792,
+        -73416,
+        -3656
+       ],
+       [
+        67768,
+        -74408,
+        -3704
+       ],
+       [
+        68584,
+        -75224,
+        -3712
+       ]
+      ],
+      "maxDanger": 62,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 62,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "valley-of-saints-1",
+    "name": "Valley of Saints 1: Flash of Splendor area (north-east)",
+    "at": [
+     68584,
+     -75224,
+     -3712
+    ],
+    "radius": 5077,
+    "levels": [
+     60,
+     62
+    ],
+    "count": 20,
+    "region": "Valley of Saints",
+    "atlasKey": "area:valley-of-saints-1",
+    "status": "ok",
+    "sec": 87,
+    "danger": 62,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -118.55,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "valley-of-saints-2",
+      "name": "Valley of Saints 2: Flash of Splendor area (east)",
+      "at": [
+       71960,
+       -74120,
+       -3720
+      ],
+      "count": 16,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-9",
+      "name": "Valley of Saints 9: Blade of Splendor area (north-east)",
+      "at": [
+       80200,
+       -80008,
+       -4040
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-10",
+      "name": "Valley of Saints 10: Blade of Splendor area (north-east)",
+      "at": [
+       76632,
+       -85560,
+       -3568
+      ],
+      "count": 11,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:valley-of-saints-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 5070,
+    "sec": 87,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5070,
+      "how": "field-areas",
+      "danger": 62
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65304,
+      -71448,
+      -3696
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66184,
+      -72184,
+      -3744
+     ],
+     [
+      66312,
+      -72424,
+      -3712
+     ],
+     [
+      66792,
+      -73416,
+      -3656
+     ],
+     [
+      67768,
+      -74408,
+      -3704
+     ],
+     [
+      68584,
+      -75224,
+      -3712
+     ]
+    ],
+    "maxDanger": 62,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 62,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 11437,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:31518",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 3,
+   "links": [
+    "\"Here you go.\""
+   ],
+   "npc": {
+    "id": 31518,
+    "name": "Mysterious Necromancer",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     68064,
+     -71712,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Bring Bead of Obedience x300 to Mysterious Necromancer",
+   "needs": [
+    {
+     "id": 7171,
+     "name": "Bead of Obedience",
+     "n": 300
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31518@68064,-71712",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 2798,
+    "sec": 68,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2798,
+      "how": "geodata",
+      "danger": 62
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65802,
+      -71574,
+      -3748
+     ],
+     [
+      66296,
+      -71704,
+      -3808
+     ],
+     [
+      67288,
+      -71704,
+      -3848
+     ],
+     [
+      68072,
+      -71704,
+      -3712
+     ]
+    ],
+    "maxDanger": 62,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 62,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 93,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:31519",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "Insert the seal."
+   ],
+   "npc": {
+    "id": 31519,
+    "name": "Enfeux",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     78064,
+     -82672,
+     -3642
+    ],
+    "alt": []
+   },
+   "text": "Bring Seal of Light to Enfeux",
+   "needs": [
+    {
+     "id": 7170,
+     "name": "Seal of Light",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:valley-of-saints-10",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 23622,
+    "sec": 242,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8428,
+      "how": "field-areas-gap",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 11914,
+      "how": "field-areas",
+      "danger": 63
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      70600,
+      -77240,
+      -4032
+     ],
+     [
+      71592,
+      -77240,
+      -4016
+     ],
+     [
+      72584,
+      -77240,
+      -3616
+     ],
+     [
+      73576,
+      -78168,
+      -3232
+     ],
+     [
+      74568,
+      -79160,
+      -3256
+     ],
+     [
+      74920,
+      -79512,
+      -3360
+     ],
+     [
+      75512,
+      -80264,
+      -3584
+     ],
+     [
+      75784,
+      -80536,
+      -3632
+     ],
+     [
+      75800,
+      -80584,
+      -3640
+     ],
+     [
+      75800,
+      -81576,
+      -3616
+     ],
+     [
+      75800,
+      -82568,
+      -3608
+     ],
+     [
+      75800,
+      -83560,
+      -3608
+     ],
+     [
+      75800,
+      -84552,
+      -3584
+     ],
+     [
+      76424,
+      -85368,
+      -3568
+     ],
+     [
+      76632,
+      -85560,
+      -3568
+     ],
+     [
+      76984,
+      -85528,
+      -3600
+     ],
+     [
+      77976,
+      -84536,
+      -3608
+     ],
+     [
+      78072,
+      -83544,
+      -3608
+     ],
+     [
+      78072,
+      -82664,
+      -3640
+     ]
+    ],
+    "maxDanger": 63,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 63,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:valley-of-saints-10",
+     "name": "Valley of Saints 10: Blade of Splendor area (north-east)"
+    },
+    "points": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      70600,
+      -77240,
+      -4032
+     ],
+     [
+      71592,
+      -77240,
+      -4016
+     ],
+     [
+      72584,
+      -77240,
+      -3616
+     ],
+     [
+      73576,
+      -78168,
+      -3232
+     ],
+     [
+      74568,
+      -79160,
+      -3256
+     ],
+     [
+      74920,
+      -79512,
+      -3360
+     ],
+     [
+      75512,
+      -80264,
+      -3584
+     ],
+     [
+      75784,
+      -80536,
+      -3632
+     ],
+     [
+      75800,
+      -80584,
+      -3640
+     ],
+     [
+      75800,
+      -81576,
+      -3616
+     ],
+     [
+      75800,
+      -82568,
+      -3608
+     ],
+     [
+      75800,
+      -83560,
+      -3608
+     ],
+     [
+      75800,
+      -84552,
+      -3584
+     ],
+     [
+      76424,
+      -85368,
+      -3568
+     ],
+     [
+      76632,
+      -85560,
+      -3568
+     ],
+     [
+      76984,
+      -85528,
+      -3600
+     ],
+     [
+      77976,
+      -84536,
+      -3608
+     ],
+     [
+      78072,
+      -83544,
+      -3608
+     ],
+     [
+      78072,
+      -82664,
+      -3640
+     ]
+    ]
+   },
+   "expectedSec": 267,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:deliver:31518",
+   "cond": 4,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Adena.\""
+   ],
+   "npc": {
+    "id": 31518,
+    "name": "Mysterious Necromancer",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     68064,
+     -71712,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Bring Gem of Saints to Mysterious Necromancer",
+   "needs": [
+    {
+     "id": 7172,
+     "name": "Gem of Saints",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31518@68064,-71712",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 2798,
+    "sec": 68,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2798,
+      "how": "geodata",
+      "danger": 62
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65802,
+      -71574,
+      -3748
+     ],
+     [
+      66296,
+      -71704,
+      -3808
+     ],
+     [
+      67288,
+      -71704,
+      -3848
+     ],
+     [
+      68072,
+      -71704,
+      -3712
+     ]
+    ],
+    "maxDanger": 62,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 62,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 93,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:13.912Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "script-flow-far",
+   "area-partial",
+   "hunt-long",
+   "route-detour"
+  ]
+ }
+}

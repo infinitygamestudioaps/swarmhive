@@ -1,0 +1,2523 @@
+{
+ "id": 405,
+ "name": "Path Of The Cleric",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.145Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludin",
+ "requirements": {
+  "items": [
+   {
+    "id": 1201,
+    "name": "Mark of Faith"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Mark of Faith"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 18,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30022",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the task"
+   ],
+   "npc": {
+    "id": 30022,
+    "name": "Zigaunt",
+    "title": "Priest",
+    "town": "Gludin",
+    "at": [
+     -79256,
+     150676,
+     -3043
+    ],
+    "alt": []
+   },
+   "text": "Talk to Zigaunt – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30022@-79256,150676",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4307,
+    "sec": 56,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4307,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79256,
+      150680,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20026,
+     "name": "Ruin Zombie",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20029,
+     "name": "Ruin Zombie Leader",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1198,
+     "name": "Pendant of Mother",
+     "n": 1,
+     "from": [
+      {
+       "id": 20026,
+       "name": "Ruin Zombie",
+       "chance": 100
+      },
+      {
+       "id": 20029,
+       "name": "Ruin Zombie Leader",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ruin Zombie, Ruin Zombie Leader for Pendant of Mother x1",
+   "places": [
+    {
+     "mobs": [
+      20026,
+      20029
+     ],
+     "items": [
+      1198
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-20",
+      "name": "Fellmere Harvest Grounds 20: Ruin Zombie area (east)",
+      "at": [
+       -49432,
+       105640,
+       -3312
+      ],
+      "radius": 1912,
+      "levels": [
+       15,
+       21
+      ],
+      "count": 4,
+      "region": "Fellmere Harvest Grounds",
+      "atlasKey": "area:fellmere-harvest-grounds-20",
+      "status": "ok",
+      "sec": 216,
+      "danger": 21,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-21",
+        "name": "Fellmere Harvest Grounds 21: Ruin Zombie Leader area (south)",
+        "at": [
+         -59608,
+         116856,
+         -3240
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-12",
+        "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+        "at": [
+         -58232,
+         110552,
+         -3336
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fellmere-harvest-grounds-20",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 20515,
+      "sec": 216,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11303,
+        "how": "field-areas-gap",
+        "danger": 24
+       },
+       {
+        "do": "walk",
+        "len": 9212,
+        "how": "field-areas",
+        "danger": 24
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41248,
+        122848,
+        -2904
+       ],
+       [
+        -43944,
+        112808,
+        -3688
+       ],
+       [
+        -44936,
+        111816,
+        -3808
+       ],
+       [
+        -45512,
+        110824,
+        -3808
+       ],
+       [
+        -45736,
+        110600,
+        -3808
+       ],
+       [
+        -46056,
+        109608,
+        -3808
+       ],
+       [
+        -46984,
+        108680,
+        -3768
+       ],
+       [
+        -47000,
+        108664,
+        -3760
+       ],
+       [
+        -47016,
+        108648,
+        -3744
+       ],
+       [
+        -47032,
+        108632,
+        -3736
+       ],
+       [
+        -47048,
+        108616,
+        -3728
+       ],
+       [
+        -47064,
+        108600,
+        -3720
+       ],
+       [
+        -47080,
+        108584,
+        -3712
+       ],
+       [
+        -47096,
+        108568,
+        -3704
+       ],
+       [
+        -47112,
+        108552,
+        -3704
+       ],
+       [
+        -47096,
+        108536,
+        -3688
+       ],
+       [
+        -47096,
+        108328,
+        -3520
+       ],
+       [
+        -47160,
+        108264,
+        -3512
+       ],
+       [
+        -47800,
+        107272,
+        -3336
+       ],
+       [
+        -48792,
+        106280,
+        -3328
+       ],
+       [
+        -49432,
+        105640,
+        -3312
+       ]
+      ],
+      "maxDanger": 24,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 24,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Tumran Bugbear Warrior",
+         "lv": 24,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "fellmere-harvest-grounds-20",
+    "name": "Fellmere Harvest Grounds 20: Ruin Zombie area (east)",
+    "at": [
+     -49432,
+     105640,
+     -3312
+    ],
+    "radius": 1912,
+    "levels": [
+     15,
+     21
+    ],
+    "count": 4,
+    "region": "Fellmere Harvest Grounds",
+    "atlasKey": "area:fellmere-harvest-grounds-20",
+    "status": "ok",
+    "sec": 216,
+    "danger": 21,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -20.4,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-21",
+      "name": "Fellmere Harvest Grounds 21: Ruin Zombie Leader area (south)",
+      "at": [
+       -59608,
+       116856,
+       -3240
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-12",
+      "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+      "at": [
+       -58232,
+       110552,
+       -3336
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-5",
+      "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+      "at": [
+       -48072,
+       120920,
+       -3128
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:fellmere-harvest-grounds-20",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 20515,
+    "sec": 216,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11303,
+      "how": "field-areas-gap",
+      "danger": 24
+     },
+     {
+      "do": "walk",
+      "len": 9212,
+      "how": "field-areas",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -43944,
+      112808,
+      -3688
+     ],
+     [
+      -44936,
+      111816,
+      -3808
+     ],
+     [
+      -45512,
+      110824,
+      -3808
+     ],
+     [
+      -45736,
+      110600,
+      -3808
+     ],
+     [
+      -46056,
+      109608,
+      -3808
+     ],
+     [
+      -46984,
+      108680,
+      -3768
+     ],
+     [
+      -47000,
+      108664,
+      -3760
+     ],
+     [
+      -47016,
+      108648,
+      -3744
+     ],
+     [
+      -47032,
+      108632,
+      -3736
+     ],
+     [
+      -47048,
+      108616,
+      -3728
+     ],
+     [
+      -47064,
+      108600,
+      -3720
+     ],
+     [
+      -47080,
+      108584,
+      -3712
+     ],
+     [
+      -47096,
+      108568,
+      -3704
+     ],
+     [
+      -47112,
+      108552,
+      -3704
+     ],
+     [
+      -47096,
+      108536,
+      -3688
+     ],
+     [
+      -47096,
+      108328,
+      -3520
+     ],
+     [
+      -47160,
+      108264,
+      -3512
+     ],
+     [
+      -47800,
+      107272,
+      -3336
+     ],
+     [
+      -48792,
+      106280,
+      -3328
+     ],
+     [
+      -49432,
+      105640,
+      -3312
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": 6,
+     "aggro": [
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 241,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30022",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30022,
+    "name": "Zigaunt",
+    "title": "Priest",
+    "town": "Gludin",
+    "at": [
+     -79256,
+     150676,
+     -3043
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Letter of Order, Lionel's Covenant to Zigaunt",
+   "needs": [
+    {
+     "id": 1192,
+     "name": "2nd Letter of Order",
+     "n": 1
+    },
+    {
+     "id": 1200,
+     "name": "Lionel's Covenant",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30022@-79256,150676",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4307,
+    "sec": 56,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4307,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79256,
+      150680,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30408",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30408,
+    "name": "Lionel",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -106485,
+     233377,
+     -3624
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Letter of Order, Certificate of Gallint to Lionel",
+   "needs": [
+    {
+     "id": 1192,
+     "name": "2nd Letter of Order",
+     "n": 1
+    },
+    {
+     "id": 1197,
+     "name": "Certificate of Gallint",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30408@-106485,233377",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 6315,
+    "sec": 123,
+    "via": ".gludin > Gludin -> TI Village > TI -> Elven Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Elven Ruins",
+      "link": "Elven Ruins",
+      "price": 830,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 6315,
+      "how": "geodata",
+      "danger": 13
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -112367,
+      234703,
+      -3688
+     ],
+     [
+      -111867,
+      234204,
+      -3688
+     ],
+     [
+      -111368,
+      233704,
+      -3688
+     ],
+     [
+      -110408,
+      233528,
+      -3552
+     ],
+     [
+      -109416,
+      233480,
+      -3536
+     ],
+     [
+      -109128,
+      233480,
+      -3560
+     ],
+     [
+      -108136,
+      233384,
+      -3584
+     ],
+     [
+      -107144,
+      233384,
+      -3584
+     ],
+     [
+      -106488,
+      233384,
+      -3624
+     ]
+    ],
+    "maxDanger": 13,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 13,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 148,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30017",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30017,
+    "name": "Gallint",
+    "title": "Grand Magister",
+    "town": "Talking Island",
+    "at": [
+     -91008,
+     248016,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Letter of Order, Lionel's Book to Gallint",
+   "needs": [
+    {
+     "id": 1192,
+     "name": "2nd Letter of Order",
+     "n": 1
+    },
+    {
+     "id": 1193,
+     "name": "Lionel's Book",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30017@-91008,248016",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludin",
+    "length": 7660,
+    "sec": 109,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7660,
+      "how": "straight",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -91008,
+      248016,
+      -3560
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -84141,244623 (gave up after 15000 ms)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 134,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6
+   ],
+   "override": {
+    "route": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "note": "Gallint; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "points": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "pv": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "length": 14311,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30030",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30030,
+    "name": "Vivyan",
+    "title": "Priestess",
+    "town": "Gludio",
+    "at": [
+     -13269,
+     121884,
+     -2966
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Simplon x3, Book of Vivyan, Book of Praga, 1st Letter of Order to Vivyan",
+   "needs": [
+    {
+     "id": 1195,
+     "name": "Book of Simplon",
+     "n": 3
+    },
+    {
+     "id": 1194,
+     "name": "Book of Vivyan",
+     "n": 1
+    },
+    {
+     "id": 1196,
+     "name": "Book of Praga",
+     "n": 1
+    },
+    {
+     "id": 1191,
+     "name": "1st Letter of Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30030@-13269,121884",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2644,
+    "sec": 42,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2644,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13160,
+      122280,
+      -2984
+     ],
+     [
+      -13048,
+      122280,
+      -2984
+     ],
+     [
+      -13096,
+      122024,
+      -2952
+     ],
+     [
+      -13048,
+      121752,
+      -2968
+     ],
+     [
+      -12776,
+      121704,
+      -2952
+     ],
+     [
+      -12824,
+      121704,
+      -2952
+     ],
+     [
+      -13096,
+      121704,
+      -2968
+     ],
+     [
+      -13256,
+      121784,
+      -2968
+     ],
+     [
+      -13272,
+      121880,
+      -2968
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 67,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30253",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30253,
+    "name": "Simplon",
+    "title": "Armor Merchant",
+    "town": "Gludio",
+    "at": [
+     -15132,
+     123282,
+     -3107
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Simplon, Book of Vivyan, Book of Praga, 1st Letter of Order to Simplon",
+   "needs": [
+    {
+     "id": 1195,
+     "name": "Book of Simplon",
+     "n": 1
+    },
+    {
+     "id": 1194,
+     "name": "Book of Vivyan",
+     "n": 1
+    },
+    {
+     "id": 1196,
+     "name": "Book of Praga",
+     "n": 1
+    },
+    {
+     "id": 1191,
+     "name": "1st Letter of Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30253@-15132,123282",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3553,
+    "sec": 50,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 3553,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      122888,
+      -3112
+     ],
+     [
+      -14536,
+      123080,
+      -3112
+     ],
+     [
+      -14712,
+      123176,
+      -3112
+     ],
+     [
+      -14984,
+      123160,
+      -3112
+     ],
+     [
+      -15128,
+      123224,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30333",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30333,
+    "name": "Praga",
+    "title": "Guard",
+    "town": "Gludio",
+    "at": [
+     -16623,
+     124028,
+     -3118
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Simplon x3, Book of Vivyan, Book of Praga, 1st Letter of Order, Book of Praga, Necklace of Mother, Pendant of Mother to Praga",
+   "needs": [
+    {
+     "id": 1195,
+     "name": "Book of Simplon",
+     "n": 3
+    },
+    {
+     "id": 1194,
+     "name": "Book of Vivyan",
+     "n": 1
+    },
+    {
+     "id": 1196,
+     "name": "Book of Praga",
+     "n": 1
+    },
+    {
+     "id": 1191,
+     "name": "1st Letter of Order",
+     "n": 1
+    },
+    {
+     "id": 1196,
+     "name": "Book of Praga",
+     "n": 1
+    },
+    {
+     "id": 1199,
+     "name": "Necklace of Mother",
+     "n": 1
+    },
+    {
+     "id": 1198,
+     "name": "Pendant of Mother",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30333@-16623,124028",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5949,
+    "sec": 70,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5949,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14472,
+      123672,
+      -3112
+     ],
+     [
+      -14696,
+      123816,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15224,
+      123960,
+      -3112
+     ],
+     [
+      -15432,
+      124120,
+      -3112
+     ],
+     [
+      -15512,
+      124296,
+      -3112
+     ],
+     [
+      -15720,
+      124168,
+      -3112
+     ],
+     [
+      -15992,
+      124168,
+      -3112
+     ],
+     [
+      -16264,
+      124168,
+      -3112
+     ],
+     [
+      -16536,
+      124168,
+      -3112
+     ],
+     [
+      -16616,
+      124024,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c6:deliver:30408",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30408,
+    "name": "Lionel",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -106485,
+     233377,
+     -3624
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Letter of Order to Lionel",
+   "needs": [
+    {
+     "id": 1192,
+     "name": "2nd Letter of Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30408@-106485,233377",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 6315,
+    "sec": 123,
+    "via": ".gludin > Gludin -> TI Village > TI -> Elven Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Elven Ruins",
+      "link": "Elven Ruins",
+      "price": 830,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 6315,
+      "how": "geodata",
+      "danger": 13
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -112367,
+      234703,
+      -3688
+     ],
+     [
+      -111867,
+      234204,
+      -3688
+     ],
+     [
+      -111368,
+      233704,
+      -3688
+     ],
+     [
+      -110408,
+      233528,
+      -3552
+     ],
+     [
+      -109416,
+      233480,
+      -3536
+     ],
+     [
+      -109128,
+      233480,
+      -3560
+     ],
+     [
+      -108136,
+      233384,
+      -3584
+     ],
+     [
+      -107144,
+      233384,
+      -3584
+     ],
+     [
+      -106488,
+      233384,
+      -3624
+     ]
+    ],
+    "maxDanger": 13,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 13,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 148,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:deliver:30017": {
+    "route": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "note": "Gallint; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

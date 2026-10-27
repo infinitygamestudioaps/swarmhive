@@ -1,0 +1,146 @@
+{
+ "id": 511,
+ "name": "instances",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.172Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 60,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 60,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:25572",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help."
+   ],
+   "npc": {
+    "id": 25572,
+    "name": "Hager the Outlaw",
+    "title": "Forsaken Inmate",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Hager the Outlaw / Hager's Henchman / Hager's Bodyguard / All-Seeing Rango / Rango's Iris / Rango's Lens / Jakard / Helsing / Helsing's Guard / Helsing's Assassin / Gillien / Gillien's Daughter / Gillien's Attendant / Medici / Medici's Sister / Medici's Brother / Immortal Muus / Brand the Exile / Brand's Chamberlain / Brand's Servant / Commander Koenig / Gerg the Hunter / Gerg's Follower / Gerg's Henchman – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:25589",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25589,
+     "name": "Brand the Exile",
+     "level": 78,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25592,
+     "name": "Commander Koenig",
+     "level": 79,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25593,
+     "name": "Gerg the Hunter",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9797,
+     "name": "Dungeon Leader Mark",
+     "n": 20,
+     "from": [
+      {
+       "id": 25589,
+       "name": "Brand the Exile",
+       "chance": 100
+      },
+      {
+       "id": 25592,
+       "name": "Commander Koenig",
+       "chance": 100
+      },
+      {
+       "id": 25593,
+       "name": "Gerg the Hunter",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (25589, 25592, 25593) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Brand the Exile, Commander Koenig, Gerg the Hunter appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (25589, 25592, 25593) only appear through the quest script and no trigger is known",
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

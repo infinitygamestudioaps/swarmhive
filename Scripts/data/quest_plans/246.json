@@ -1,0 +1,2435 @@
+{
+ "id": 246,
+ "name": "Possessor Of A Precious Soul 3",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.698Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 65,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Goddard",
+ "requirements": {
+  "quests": [
+   {
+    "id": 242,
+    "name": "Q00242_PossessorOfAPreciousSoul2",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "242 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 5
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 5
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 5
+  }
+ ],
+ "expectedMin": 104,
+ "refLevel": 65,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31740",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll wait.\""
+   ],
+   "npc": {
+    "id": 31740,
+    "name": "Caradine",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     150144,
+     -57920,
+     -2979
+    ],
+    "alt": []
+   },
+   "text": "Talk to Caradine – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31841@150748,-57372",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5621,
+    "sec": 67,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5589,
+      "how": "town-graph",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149720,
+      -57864,
+      -2976
+     ],
+     [
+      149912,
+      -57672,
+      -2976
+     ],
+     [
+      150104,
+      -57480,
+      -2976
+     ],
+     [
+      150296,
+      -57304,
+      -2976
+     ],
+     [
+      150568,
+      -57304,
+      -2976
+     ],
+     [
+      150744,
+      -57368,
+      -2976
+     ],
+     [
+      150152,
+      -57880,
+      -2976
+     ],
+     [
+      150152,
+      -57912,
+      -2976
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31841@150748,-57372",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149720,
+      -57864,
+      -2976
+     ],
+     [
+      149912,
+      -57672,
+      -2976
+     ],
+     [
+      150104,
+      -57480,
+      -2976
+     ],
+     [
+      150296,
+      -57304,
+      -2976
+     ],
+     [
+      150568,
+      -57304,
+      -2976
+     ],
+     [
+      150744,
+      -57368,
+      -2976
+     ],
+     [
+      150152,
+      -57880,
+      -2976
+     ],
+     [
+      150152,
+      -57912,
+      -2976
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31741",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"I'll help.\""
+   ],
+   "npc": {
+    "id": 31741,
+    "name": "Ossian",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     150208,
+     -57872,
+     -2979
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ossian",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31841@150748,-57372",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5589,
+    "sec": 67,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5589,
+      "how": "town-graph",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149720,
+      -57864,
+      -2976
+     ],
+     [
+      149912,
+      -57672,
+      -2976
+     ],
+     [
+      150104,
+      -57480,
+      -2976
+     ],
+     [
+      150296,
+      -57304,
+      -2976
+     ],
+     [
+      150568,
+      -57304,
+      -2976
+     ],
+     [
+      150744,
+      -57368,
+      -2976
+     ],
+     [
+      150216,
+      -57864,
+      -2976
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31841@150748,-57372",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149720,
+      -57864,
+      -2976
+     ],
+     [
+      149912,
+      -57672,
+      -2976
+     ],
+     [
+      150104,
+      -57480,
+      -2976
+     ],
+     [
+      150296,
+      -57304,
+      -2976
+     ],
+     [
+      150568,
+      -57304,
+      -2976
+     ],
+     [
+      150744,
+      -57368,
+      -2976
+     ],
+     [
+      150216,
+      -57864,
+      -2976
+     ]
+    ]
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 21541,
+     "name": "Pilgrim of Splendor",
+     "level": 63,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 21544,
+     "name": "Judge of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 18,
+   "reasons": [],
+   "text": "Hunt Pilgrim of Splendor, Judge of Splendor x18",
+   "places": [
+    {
+     "mobs": [
+      21541,
+      21544
+     ],
+     "items": [],
+     "kills": 18,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-9",
+      "name": "Valley of Saints 9: Blade of Splendor area (north-east)",
+      "at": [
+       80200,
+       -80008,
+       -4040
+      ],
+      "radius": 3617,
+      "levels": [
+       61,
+       63
+      ],
+      "count": 2,
+      "region": "Valley of Saints",
+      "atlasKey": "area:valley-of-saints-9",
+      "status": "ok",
+      "sec": 207,
+      "danger": 63,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -8.55,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-saints-10",
+        "name": "Valley of Saints 10: Blade of Splendor area (north-east)",
+        "at": [
+         76632,
+         -85560,
+         -3568
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-5",
+        "name": "Valley of Saints 5: Wisdom of Splendor area (east)",
+        "at": [
+         79080,
+         -75128,
+         -3552
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "den-of-evil-15",
+        "name": "Den of Evil 15: Victory of Splendor area (south)",
+        "at": [
+         73400,
+         -91032,
+         -2096
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 19437,
+      "sec": 207,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 16795,
+        "how": "field-areas-gap",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 2642,
+        "how": "field-areas",
+        "danger": 63
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65307,
+        -71445,
+        -3688
+       ],
+       [
+        77624,
+        -80296,
+        -4000
+       ],
+       [
+        78616,
+        -80296,
+        -4040
+       ],
+       [
+        79608,
+        -80296,
+        -4040
+       ],
+       [
+        80200,
+        -80008,
+        -4040
+       ]
+      ],
+      "maxDanger": 63,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 63,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "valley-of-saints-9",
+    "name": "Valley of Saints 9: Blade of Splendor area (north-east)",
+    "at": [
+     80200,
+     -80008,
+     -4040
+    ],
+    "radius": 3617,
+    "levels": [
+     61,
+     63
+    ],
+    "count": 2,
+    "region": "Valley of Saints",
+    "atlasKey": "area:valley-of-saints-9",
+    "status": "ok",
+    "sec": 207,
+    "danger": 63,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -8.55,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "valley-of-saints-10",
+      "name": "Valley of Saints 10: Blade of Splendor area (north-east)",
+      "at": [
+       76632,
+       -85560,
+       -3568
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-5",
+      "name": "Valley of Saints 5: Wisdom of Splendor area (east)",
+      "at": [
+       79080,
+       -75128,
+       -3552
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "den-of-evil-15",
+      "name": "Den of Evil 15: Victory of Splendor area (south)",
+      "at": [
+       73400,
+       -91032,
+       -2096
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:valley-of-saints-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 19437,
+    "sec": 207,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 16795,
+      "how": "field-areas-gap",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 2642,
+      "how": "field-areas",
+      "danger": 63
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      77624,
+      -80296,
+      -4000
+     ],
+     [
+      78616,
+      -80296,
+      -4040
+     ],
+     [
+      79608,
+      -80296,
+      -4040
+     ],
+     [
+      80200,
+      -80008,
+      -4040
+     ]
+    ],
+    "maxDanger": 63,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 63,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 657,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c4:hunt",
+   "cond": 4,
+   "kind": "hunt",
+   "to": 5,
+   "monsters": [
+    {
+     "id": 21535,
+     "name": "Signet of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21536,
+     "name": "Crown of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21537,
+     "name": "Fang of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 21539,
+     "name": "Wailing of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21725,
+     "name": "Staff of Goddess: Rain Song Fragment",
+     "n": 100,
+     "from": [
+      {
+       "id": 21535,
+       "name": "Signet of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21536,
+       "name": "Crown of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21537,
+       "name": "Fang of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21538,
+       "name": "Fang of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21539,
+       "name": "Wailing of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21540,
+       "name": "Wailing of Splendor",
+       "chance": 60
+      }
+     ]
+    }
+   ],
+   "kills": 185,
+   "reasons": [],
+   "text": "Hunt Signet of Splendor, Crown of Splendor, Fang of Splendor for Staff of Goddess: Rain Song Fragment x100",
+   "places": [
+    {
+     "mobs": [
+      21535,
+      21536,
+      21537,
+      21539
+     ],
+     "items": [
+      21725
+     ],
+     "kills": 185,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-5",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 5: Signet of Splendor area (north-east)",
+      "at": [
+       85816,
+       -90120,
+       -2760
+      ],
+      "radius": 3370,
+      "levels": [
+       66,
+       67
+      ],
+      "count": 16,
+      "region": "Valley of Saints / Monastic Fortress (unreachable)",
+      "atlasKey": "area:valley-of-saints-monastic-fortress-far-5",
+      "status": "ok",
+      "sec": 295,
+      "danger": 67,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": -31.08333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-saints-monastic-fortress-far-10",
+        "name": "Valley of Saints / Monastic Fortress (unreachable) 10: Signet of Splendor area (north-east)",
+        "at": [
+         90520,
+         -91960,
+         -2768
+        ],
+        "count": 14,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-monastic-fortress-far-3",
+        "name": "Valley of Saints / Monastic Fortress (unreachable) 3: Claws of Splendor area (north-east)",
+        "at": [
+         81112,
+         -90936,
+         -3136
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-monastic-fortress-far-9",
+        "name": "Valley of Saints / Monastic Fortress (unreachable) 9: Signet of Splendor area (north-east)",
+        "at": [
+         96104,
+         -90184,
+         -2784
+        ],
+        "count": 10,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-monastic-fortress-far-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 29966,
+      "sec": 295,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8493,
+        "how": "geodata",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 21473,
+        "how": "field-areas",
+        "danger": 67
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65307,
+        -71445,
+        -3688
+       ],
+       [
+        65976,
+        -71960,
+        -3720
+       ],
+       [
+        66472,
+        -72456,
+        -3716
+       ],
+       [
+        66968,
+        -72952,
+        -3712
+       ],
+       [
+        67464,
+        -73448,
+        -3708
+       ],
+       [
+        67960,
+        -73944,
+        -3704
+       ],
+       [
+        68456,
+        -74440,
+        -3720
+       ],
+       [
+        68952,
+        -74936,
+        -3736
+       ],
+       [
+        69448,
+        -75432,
+        -3708
+       ],
+       [
+        69944,
+        -75928,
+        -3680
+       ],
+       [
+        69816,
+        -76200,
+        -3720
+       ],
+       [
+        69688,
+        -76824,
+        -3736
+       ],
+       [
+        69736,
+        -76920,
+        -3720
+       ],
+       [
+        69864,
+        -77112,
+        -3720
+       ],
+       [
+        70168,
+        -77240,
+        -3776
+       ],
+       [
+        70600,
+        -77240,
+        -4032
+       ],
+       [
+        71592,
+        -77240,
+        -4016
+       ],
+       [
+        72584,
+        -77240,
+        -3616
+       ],
+       [
+        73576,
+        -78168,
+        -3232
+       ],
+       [
+        74568,
+        -79160,
+        -3256
+       ],
+       [
+        74920,
+        -79512,
+        -3360
+       ],
+       [
+        75400,
+        -80120,
+        -3568
+       ],
+       [
+        75496,
+        -80216,
+        -3584
+       ],
+       [
+        75672,
+        -80360,
+        -3608
+       ],
+       [
+        76584,
+        -80456,
+        -3608
+       ],
+       [
+        77576,
+        -81448,
+        -3608
+       ],
+       [
+        78568,
+        -82440,
+        -3624
+       ],
+       [
+        78728,
+        -82584,
+        -3640
+       ],
+       [
+        78776,
+        -82584,
+        -3624
+       ],
+       [
+        78808,
+        -82616,
+        -3624
+       ],
+       [
+        79800,
+        -83208,
+        -3616
+       ],
+       [
+        80792,
+        -84200,
+        -3640
+       ],
+       [
+        81656,
+        -85064,
+        -3608
+       ],
+       [
+        82600,
+        -86056,
+        -3576
+       ],
+       [
+        83592,
+        -87048,
+        -3032
+       ],
+       [
+        83704,
+        -87160,
+        -2944
+       ],
+       [
+        83720,
+        -87176,
+        -2928
+       ],
+       [
+        83672,
+        -87976,
+        -2744
+       ],
+       [
+        83608,
+        -88056,
+        -2744
+       ],
+       [
+        83544,
+        -88168,
+        -2728
+       ],
+       [
+        83560,
+        -88712,
+        -2584
+       ],
+       [
+        83688,
+        -88840,
+        -2656
+       ],
+       [
+        83864,
+        -88904,
+        -2736
+       ],
+       [
+        84856,
+        -89160,
+        -2720
+       ],
+       [
+        85816,
+        -90120,
+        -2760
+       ]
+      ],
+      "maxDanger": 67,
+      "needs": [],
+      "why": [
+       "the nearest gatekeeper landing on foot (Rune -> Valley of Saints) is a 30.0k walk — more than the 25k walk limit"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 67,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "valley-of-saints-monastic-fortress-far-5",
+    "name": "Valley of Saints / Monastic Fortress (unreachable) 5: Signet of Splendor area (north-east)",
+    "at": [
+     85816,
+     -90120,
+     -2760
+    ],
+    "radius": 3370,
+    "levels": [
+     66,
+     67
+    ],
+    "count": 16,
+    "region": "Valley of Saints / Monastic Fortress (unreachable)",
+    "atlasKey": "area:valley-of-saints-monastic-fortress-far-5",
+    "status": "ok",
+    "sec": 295,
+    "danger": 67,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": -31.08333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-10",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 10: Signet of Splendor area (north-east)",
+      "at": [
+       90520,
+       -91960,
+       -2768
+      ],
+      "count": 14,
+      "status": "unverified"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-3",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 3: Claws of Splendor area (north-east)",
+      "at": [
+       81112,
+       -90936,
+       -3136
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-9",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 9: Signet of Splendor area (north-east)",
+      "at": [
+       96104,
+       -90184,
+       -2784
+      ],
+      "count": 10,
+      "status": "unverified"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:valley-of-saints-monastic-fortress-far-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 29966,
+    "sec": 295,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8493,
+      "how": "geodata",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 21473,
+      "how": "field-areas",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66472,
+      -72456,
+      -3716
+     ],
+     [
+      66968,
+      -72952,
+      -3712
+     ],
+     [
+      67464,
+      -73448,
+      -3708
+     ],
+     [
+      67960,
+      -73944,
+      -3704
+     ],
+     [
+      68456,
+      -74440,
+      -3720
+     ],
+     [
+      68952,
+      -74936,
+      -3736
+     ],
+     [
+      69448,
+      -75432,
+      -3708
+     ],
+     [
+      69944,
+      -75928,
+      -3680
+     ],
+     [
+      69816,
+      -76200,
+      -3720
+     ],
+     [
+      69688,
+      -76824,
+      -3736
+     ],
+     [
+      69736,
+      -76920,
+      -3720
+     ],
+     [
+      69864,
+      -77112,
+      -3720
+     ],
+     [
+      70168,
+      -77240,
+      -3776
+     ],
+     [
+      70600,
+      -77240,
+      -4032
+     ],
+     [
+      71592,
+      -77240,
+      -4016
+     ],
+     [
+      72584,
+      -77240,
+      -3616
+     ],
+     [
+      73576,
+      -78168,
+      -3232
+     ],
+     [
+      74568,
+      -79160,
+      -3256
+     ],
+     [
+      74920,
+      -79512,
+      -3360
+     ],
+     [
+      75400,
+      -80120,
+      -3568
+     ],
+     [
+      75496,
+      -80216,
+      -3584
+     ],
+     [
+      75672,
+      -80360,
+      -3608
+     ],
+     [
+      76584,
+      -80456,
+      -3608
+     ],
+     [
+      77576,
+      -81448,
+      -3608
+     ],
+     [
+      78568,
+      -82440,
+      -3624
+     ],
+     [
+      78728,
+      -82584,
+      -3640
+     ],
+     [
+      78776,
+      -82584,
+      -3624
+     ],
+     [
+      78808,
+      -82616,
+      -3624
+     ],
+     [
+      79800,
+      -83208,
+      -3616
+     ],
+     [
+      80792,
+      -84200,
+      -3640
+     ],
+     [
+      81656,
+      -85064,
+      -3608
+     ],
+     [
+      82600,
+      -86056,
+      -3576
+     ],
+     [
+      83592,
+      -87048,
+      -3032
+     ],
+     [
+      83704,
+      -87160,
+      -2944
+     ],
+     [
+      83720,
+      -87176,
+      -2928
+     ],
+     [
+      83672,
+      -87976,
+      -2744
+     ],
+     [
+      83608,
+      -88056,
+      -2744
+     ],
+     [
+      83544,
+      -88168,
+      -2728
+     ],
+     [
+      83560,
+      -88712,
+      -2584
+     ],
+     [
+      83688,
+      -88840,
+      -2656
+     ],
+     [
+      83864,
+      -88904,
+      -2736
+     ],
+     [
+      84856,
+      -89160,
+      -2720
+     ],
+     [
+      85816,
+      -90120,
+      -2760
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "the nearest gatekeeper landing on foot (Rune -> Valley of Saints) is a 30.0k walk — more than the 25k walk limit"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 4920,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:spawn:25325",
+   "cond": 4,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25325,
+     "name": "Flame of Splendor Barakiel",
+     "level": 70,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 21538,
+     "name": "Fang of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 21540,
+     "name": "Wailing of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21725,
+     "name": "Staff of Goddess: Rain Song Fragment",
+     "n": 100,
+     "from": [
+      {
+       "id": 21535,
+       "name": "Signet of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21536,
+       "name": "Crown of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21537,
+       "name": "Fang of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21538,
+       "name": "Fang of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21539,
+       "name": "Wailing of Splendor",
+       "chance": 60
+      },
+      {
+       "id": 21540,
+       "name": "Wailing of Splendor",
+       "chance": 60
+      }
+     ]
+    }
+   ],
+   "kills": 185,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (25325, 21538, 21540) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Flame of Splendor Barakiel, Fang of Splendor, Wailing of Splendor appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (25325) only appear through the quest script and no trigger is known",
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:deliver:31741",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "\"I'll take them in person.\""
+   ],
+   "npc": {
+    "id": 31741,
+    "name": "Ossian",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     150208,
+     -57872,
+     -2979
+    ],
+    "alt": []
+   },
+   "text": "Bring Staff of Goddess: Rain Song Fragment x100 to Ossian",
+   "needs": [
+    {
+     "id": 21725,
+     "name": "Staff of Goddess: Rain Song Fragment",
+     "n": 100
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31841@150748,-57372",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5589,
+    "sec": 67,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5589,
+      "how": "town-graph",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149720,
+      -57864,
+      -2976
+     ],
+     [
+      149912,
+      -57672,
+      -2976
+     ],
+     [
+      150104,
+      -57480,
+      -2976
+     ],
+     [
+      150296,
+      -57304,
+      -2976
+     ],
+     [
+      150568,
+      -57304,
+      -2976
+     ],
+     [
+      150744,
+      -57368,
+      -2976
+     ],
+     [
+      150216,
+      -57864,
+      -2976
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31841@150748,-57372",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149720,
+      -57864,
+      -2976
+     ],
+     [
+      149912,
+      -57672,
+      -2976
+     ],
+     [
+      150104,
+      -57480,
+      -2976
+     ],
+     [
+      150296,
+      -57304,
+      -2976
+     ],
+     [
+      150568,
+      -57304,
+      -2976
+     ],
+     [
+      150744,
+      -57368,
+      -2976
+     ],
+     [
+      150216,
+      -57864,
+      -2976
+     ]
+    ]
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:talk:30721",
+   "cond": 6,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Here's the box.\""
+   ],
+   "npc": {
+    "id": 30721,
+    "name": "Ladd",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ladd",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30721@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      84984,
+      15992,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

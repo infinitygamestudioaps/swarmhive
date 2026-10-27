@@ -1,0 +1,2544 @@
+{
+ "id": 117,
+ "name": "The Ocean of Distant Stars",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.258Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 24,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32053",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it.\""
+   ],
+   "npc": {
+    "id": 32053,
+    "name": "Abey",
+    "title": "Railroad Worker",
+    "town": "Dwarven Village",
+    "at": [
+     113509,
+     -155266,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Talk to Abey – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113512,
+      -155272,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32052@113518,-153755",
+     "name": "Obi"
+    },
+    "points": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113512,
+      -155272,
+      -1528
+     ]
+    ]
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32054",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Ask why."
+   ],
+   "npc": {
+    "id": 32054,
+    "name": "Ghost of a Railroad Engineer",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     122269,
+     -140689,
+     -1522
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ghost of a Railroad Engineer",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32054@122269,-140689",
+    "status": "ok",
+    "flags": [
+     "long-walk",
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".schuttgart",
+    "length": 40505,
+    "sec": 440,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 40505,
+      "how": "geodata",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      88088,
+      -142296,
+      -1336
+     ],
+     [
+      88136,
+      -142360,
+      -1336
+     ],
+     [
+      88968,
+      -142056,
+      -1328
+     ],
+     [
+      89032,
+      -142072,
+      -1384
+     ],
+     [
+      89496,
+      -141768,
+      -1536
+     ],
+     [
+      89880,
+      -141336,
+      -1536
+     ],
+     [
+      90616,
+      -140680,
+      -1640
+     ],
+     [
+      91096,
+      -140376,
+      -1832
+     ],
+     [
+      91592,
+      -140536,
+      -2048
+     ],
+     [
+      93080,
+      -140696,
+      -2224
+     ],
+     [
+      93576,
+      -140816,
+      -2300
+     ],
+     [
+      94456,
+      -141320,
+      -3016
+     ],
+     [
+      94840,
+      -141704,
+      -3656
+     ],
+     [
+      95832,
+      -142056,
+      -3952
+     ],
+     [
+      96872,
+      -142960,
+      -3648
+     ],
+     [
+      97368,
+      -143320,
+      -3384
+     ],
+     [
+      97400,
+      -143368,
+      -3352
+     ],
+     [
+      97432,
+      -143384,
+      -3320
+     ],
+     [
+      97800,
+      -144008,
+      -2816
+     ],
+     [
+      98296,
+      -143512,
+      -2768
+     ],
+     [
+      99288,
+      -142520,
+      -2892
+     ],
+     [
+      100280,
+      -141528,
+      -3108
+     ],
+     [
+      100776,
+      -141032,
+      -3152
+     ],
+     [
+      102392,
+      -140696,
+      -3288
+     ],
+     [
+      103384,
+      -140696,
+      -3384
+     ],
+     [
+      104424,
+      -140744,
+      -3344
+     ],
+     [
+      105240,
+      -140632,
+      -3320
+     ],
+     [
+      105736,
+      -140168,
+      -3208
+     ],
+     [
+      106120,
+      -140152,
+      -3096
+     ],
+     [
+      106616,
+      -140288,
+      -3028
+     ],
+     [
+      107608,
+      -139928,
+      -2948
+     ],
+     [
+      108104,
+      -139432,
+      -2936
+     ],
+     [
+      108824,
+      -139128,
+      -2960
+     ],
+     [
+      109336,
+      -139016,
+      -2960
+     ],
+     [
+      110472,
+      -138984,
+      -3072
+     ],
+     [
+      112024,
+      -139000,
+      -3920
+     ],
+     [
+      112648,
+      -139256,
+      -3888
+     ],
+     [
+      113416,
+      -139896,
+      -3908
+     ],
+     [
+      113912,
+      -140392,
+      -3912
+     ],
+     [
+      114904,
+      -140696,
+      -3912
+     ],
+     [
+      115400,
+      -140384,
+      -3848
+     ],
+     [
+      116072,
+      -139896,
+      -3720
+     ],
+     [
+      117128,
+      -139640,
+      -3128
+     ],
+     [
+      117624,
+      -140136,
+      -2960
+     ],
+     [
+      118952,
+      -140696,
+      -2456
+     ],
+     [
+      119000,
+      -140680,
+      -2424
+     ],
+     [
+      120008,
+      -140696,
+      -1976
+     ],
+     [
+      120712,
+      -140664,
+      -1672
+     ],
+     [
+      122264,
+      -140696,
+      -1520
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 7059,
+      "maxSwim": 5195,
+      "overBreath": true
+     },
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 465,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "override": {
+    "route": [
+     [
+      111960,
+      -154168,
+      -1528
+     ],
+     [
+      112296,
+      -153528,
+      -1528
+     ],
+     [
+      112728,
+      -152536,
+      -1856
+     ],
+     [
+      112728,
+      -151544,
+      -2024
+     ],
+     [
+      112728,
+      -150552,
+      -2160
+     ],
+     [
+      112728,
+      -150136,
+      -2248
+     ],
+     [
+      112728,
+      -149784,
+      -2584
+     ],
+     [
+      112328,
+      -148808,
+      -2776
+     ],
+     [
+      112424,
+      -148728,
+      -2880
+     ],
+     [
+      112728,
+      -147736,
+      -3264
+     ],
+     [
+      112824,
+      -147480,
+      -3256
+     ],
+     [
+      112680,
+      -147032,
+      -3264
+     ],
+     [
+      112744,
+      -146040,
+      -3264
+     ],
+     [
+      112696,
+      -145592,
+      -3264
+     ],
+     [
+      112744,
+      -145352,
+      -3264
+     ],
+     [
+      113224,
+      -144360,
+      -3264
+     ],
+     [
+      113224,
+      -143432,
+      -3424
+     ],
+     [
+      113368,
+      -143416,
+      -3376
+     ],
+     [
+      113992,
+      -143256,
+      -3240
+     ],
+     [
+      114296,
+      -142920,
+      -3240
+     ],
+     [
+      114632,
+      -142392,
+      -3224
+     ],
+     [
+      114552,
+      -142360,
+      -3288
+     ],
+     [
+      115544,
+      -141416,
+      -3136
+     ],
+     [
+      115656,
+      -141064,
+      -3152
+     ],
+     [
+      116648,
+      -141064,
+      -2992
+     ],
+     [
+      117640,
+      -141048,
+      -2776
+     ],
+     [
+      118056,
+      -141064,
+      -2656
+     ],
+     [
+      118920,
+      -141064,
+      -2496
+     ],
+     [
+      119608,
+      -140808,
+      -2088
+     ],
+     [
+      120200,
+      -140808,
+      -1872
+     ],
+     [
+      120536,
+      -140856,
+      -1728
+     ],
+     [
+      121528,
+      -140696,
+      -1536
+     ],
+     [
+      122264,
+      -140696,
+      -1520
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "note": "Route: Schuttgart gatekeeper \"Plunderous Plains\" (the landing the other steps of this quest use, 111965,-154172), then a geodata walk computed with raid_policy policyLeg (dry, walls block) to the Ghost of a Railroad Engineer 122269,-140689: 21601 long, no swim, no aggressive monster lv >= 45 on it. The old route was a 40 km walk from Schuttgart with a 5.2 km swim.",
+    "fixed": [],
+    "editedAt": "2026-10-27T10:27:51.262Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "points": [
+     [
+      111960,
+      -154168,
+      -1528
+     ],
+     [
+      112296,
+      -153528,
+      -1528
+     ],
+     [
+      112728,
+      -152536,
+      -1856
+     ],
+     [
+      112728,
+      -151544,
+      -2024
+     ],
+     [
+      112728,
+      -150552,
+      -2160
+     ],
+     [
+      112728,
+      -150136,
+      -2248
+     ],
+     [
+      112728,
+      -149784,
+      -2584
+     ],
+     [
+      112328,
+      -148808,
+      -2776
+     ],
+     [
+      112424,
+      -148728,
+      -2880
+     ],
+     [
+      112728,
+      -147736,
+      -3264
+     ],
+     [
+      112824,
+      -147480,
+      -3256
+     ],
+     [
+      112680,
+      -147032,
+      -3264
+     ],
+     [
+      112744,
+      -146040,
+      -3264
+     ],
+     [
+      112696,
+      -145592,
+      -3264
+     ],
+     [
+      112744,
+      -145352,
+      -3264
+     ],
+     [
+      113224,
+      -144360,
+      -3264
+     ],
+     [
+      113224,
+      -143432,
+      -3424
+     ],
+     [
+      113368,
+      -143416,
+      -3376
+     ],
+     [
+      113992,
+      -143256,
+      -3240
+     ],
+     [
+      114296,
+      -142920,
+      -3240
+     ],
+     [
+      114632,
+      -142392,
+      -3224
+     ],
+     [
+      114552,
+      -142360,
+      -3288
+     ],
+     [
+      115544,
+      -141416,
+      -3136
+     ],
+     [
+      115656,
+      -141064,
+      -3152
+     ],
+     [
+      116648,
+      -141064,
+      -2992
+     ],
+     [
+      117640,
+      -141048,
+      -2776
+     ],
+     [
+      118056,
+      -141064,
+      -2656
+     ],
+     [
+      118920,
+      -141064,
+      -2496
+     ],
+     [
+      119608,
+      -140808,
+      -2088
+     ],
+     [
+      120200,
+      -140808,
+      -1872
+     ],
+     [
+      120536,
+      -140856,
+      -1728
+     ],
+     [
+      121528,
+      -140696,
+      -1536
+     ],
+     [
+      122264,
+      -140696,
+      -1520
+     ]
+    ],
+    "pv": [
+     [
+      111960,
+      -154168,
+      -1528
+     ],
+     [
+      112296,
+      -153528,
+      -1528
+     ],
+     [
+      112728,
+      -152536,
+      -1856
+     ],
+     [
+      112728,
+      -151544,
+      -2024
+     ],
+     [
+      112728,
+      -150552,
+      -2160
+     ],
+     [
+      112728,
+      -150136,
+      -2248
+     ],
+     [
+      112728,
+      -149784,
+      -2584
+     ],
+     [
+      112328,
+      -148808,
+      -2776
+     ],
+     [
+      112424,
+      -148728,
+      -2880
+     ],
+     [
+      112728,
+      -147736,
+      -3264
+     ],
+     [
+      112824,
+      -147480,
+      -3256
+     ],
+     [
+      112680,
+      -147032,
+      -3264
+     ],
+     [
+      112744,
+      -146040,
+      -3264
+     ],
+     [
+      112696,
+      -145592,
+      -3264
+     ],
+     [
+      112744,
+      -145352,
+      -3264
+     ],
+     [
+      113224,
+      -144360,
+      -3264
+     ],
+     [
+      113224,
+      -143432,
+      -3424
+     ],
+     [
+      113368,
+      -143416,
+      -3376
+     ],
+     [
+      113992,
+      -143256,
+      -3240
+     ],
+     [
+      114296,
+      -142920,
+      -3240
+     ],
+     [
+      114632,
+      -142392,
+      -3224
+     ],
+     [
+      114552,
+      -142360,
+      -3288
+     ],
+     [
+      115544,
+      -141416,
+      -3136
+     ],
+     [
+      115656,
+      -141064,
+      -3152
+     ],
+     [
+      116648,
+      -141064,
+      -2992
+     ],
+     [
+      117640,
+      -141048,
+      -2776
+     ],
+     [
+      118056,
+      -141064,
+      -2656
+     ],
+     [
+      118920,
+      -141064,
+      -2496
+     ],
+     [
+      119608,
+      -140808,
+      -2088
+     ],
+     [
+      120200,
+      -140808,
+      -1872
+     ],
+     [
+      120536,
+      -140856,
+      -1728
+     ],
+     [
+      121528,
+      -140696,
+      -1536
+     ],
+     [
+      122264,
+      -140696,
+      -1520
+     ]
+    ],
+    "length": 21601,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-swim"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:32055",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 10,
+   "links": [
+    "Give him the hammer."
+   ],
+   "npc": {
+    "id": 32055,
+    "name": "Ghost of an Ancient Railroad Engineer",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     113791,
+     -155542,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Bring Engraved Hammer to Ghost of an Ancient Railroad Engineer",
+   "needs": [
+    {
+     "id": 8488,
+     "name": "Engraved Hammer",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113784,
+      -155544,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32052@113518,-153755",
+     "name": "Obi"
+    },
+    "points": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113784,
+      -155544,
+      -1528
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:32052",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 9,
+   "links": [
+    "\"Yes.\""
+   ],
+   "npc": {
+    "id": 32052,
+    "name": "Obi",
+    "title": "Railroad Worker",
+    "town": "Dwarven Village",
+    "at": [
+     113518,
+     -153755,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Grey Star to Obi",
+   "needs": [
+    {
+     "id": 8495,
+     "name": "Book of Grey Star",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:32053",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "\"I'll do it.\""
+   ],
+   "npc": {
+    "id": 32053,
+    "name": "Abey",
+    "title": "Railroad Worker",
+    "town": "Dwarven Village",
+    "at": [
+     113509,
+     -155266,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Bring Engraved Hammer to Abey",
+   "needs": [
+    {
+     "id": 8488,
+     "name": "Engraved Hammer",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113512,
+      -155272,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32052@113518,-153755",
+     "name": "Obi"
+    },
+    "points": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113512,
+      -155272,
+      -1528
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:32076",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Pick up the hammer"
+   ],
+   "npc": {
+    "id": 32076,
+    "name": "Box",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     113224,
+     -154991,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Talk to Box",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1797,
+    "sec": 60,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113352,
+      -154904,
+      -1528
+     ],
+     [
+      113224,
+      -154984,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32052@113518,-153755",
+     "name": "Obi"
+    },
+    "points": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113352,
+      -154904,
+      -1528
+     ],
+     [
+      113224,
+      -154984,
+      -1528
+     ]
+    ]
+   },
+   "expectedSec": 85,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:talk:32053",
+   "cond": 6,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"Well, you see, there was this Dwarven ghost, and a strange hammer...\""
+   ],
+   "npc": {
+    "id": 32053,
+    "name": "Abey",
+    "title": "Railroad Worker",
+    "town": "Dwarven Village",
+    "at": [
+     113509,
+     -155266,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Talk to Abey",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113512,
+      -155272,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32052@113518,-153755",
+     "name": "Obi"
+    },
+    "points": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113512,
+      -155272,
+      -1528
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:hunt",
+   "cond": 7,
+   "kind": "hunt",
+   "to": 8,
+   "monsters": [
+    {
+     "id": 22023,
+     "name": "Bandit Warrior",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 22024,
+     "name": "Bandit Inspector",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8495,
+     "name": "Book of Grey Star",
+     "n": 1,
+     "from": [
+      {
+       "id": 22023,
+       "name": "Bandit Warrior",
+       "chance": 17.9
+      },
+      {
+       "id": 22024,
+       "name": "Bandit Inspector",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Bandit Warrior, Bandit Inspector for Book of Grey Star x1",
+   "places": [
+    {
+     "mobs": [
+      22023,
+      22024
+     ],
+     "items": [
+      8495
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "plunderous-plains-7",
+      "name": "Plunderous Plains 7: Bandit Inspector area (south)",
+      "at": [
+       109128,
+       -145448,
+       -3632
+      ],
+      "radius": 3563,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 11,
+      "region": "Plunderous Plains",
+      "atlasKey": "area:plunderous-plains-7",
+      "status": "ok",
+      "sec": 128,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -63.86666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plunderous-plains-12",
+        "name": "Plunderous Plains 12: Bandit Warrior area (east)",
+        "at": [
+         124984,
+         -159368,
+         -1280
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plunderous-plains-8",
+        "name": "Plunderous Plains 8: Bandit Assassin area (east)",
+        "at": [
+         122312,
+         -152904,
+         -2488
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plunderous-plains-11",
+        "name": "Plunderous Plains 11: Bandit Warrior area (east)",
+        "at": [
+         123464,
+         -150104,
+         -2896
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plunderous-plains-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 9983,
+      "sec": 128,
+      "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Plunderous Plains",
+        "link": "plunderous plains",
+        "price": 1600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6132,
+        "how": "field-areas-gap",
+        "danger": 37
+       },
+       {
+        "do": "walk",
+        "len": 3851,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Plunderous Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        111965,
+        -154172,
+        -1528
+       ],
+       [
+        111960,
+        -148040,
+        -3112
+       ],
+       [
+        111944,
+        -148008,
+        -3128
+       ],
+       [
+        111768,
+        -147832,
+        -3192
+       ],
+       [
+        110776,
+        -147096,
+        -3240
+       ],
+       [
+        109784,
+        -146104,
+        -3456
+       ],
+       [
+        109128,
+        -145448,
+        -3632
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plunderous-plains-7",
+    "name": "Plunderous Plains 7: Bandit Inspector area (south)",
+    "at": [
+     109128,
+     -145448,
+     -3632
+    ],
+    "radius": 3563,
+    "levels": [
+     35,
+     37
+    ],
+    "count": 11,
+    "region": "Plunderous Plains",
+    "atlasKey": "area:plunderous-plains-7",
+    "status": "ok",
+    "sec": 128,
+    "danger": 37,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -63.86666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plunderous-plains-12",
+      "name": "Plunderous Plains 12: Bandit Warrior area (east)",
+      "at": [
+       124984,
+       -159368,
+       -1280
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plunderous-plains-8",
+      "name": "Plunderous Plains 8: Bandit Assassin area (east)",
+      "at": [
+       122312,
+       -152904,
+       -2488
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plunderous-plains-11",
+      "name": "Plunderous Plains 11: Bandit Warrior area (east)",
+      "at": [
+       123464,
+       -150104,
+       -2896
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plunderous-plains-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 9983,
+    "sec": 128,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6132,
+      "how": "field-areas-gap",
+      "danger": 37
+     },
+     {
+      "do": "walk",
+      "len": 3851,
+      "how": "field-areas",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      111960,
+      -148040,
+      -3112
+     ],
+     [
+      111944,
+      -148008,
+      -3128
+     ],
+     [
+      111768,
+      -147832,
+      -3192
+     ],
+     [
+      110776,
+      -147096,
+      -3240
+     ],
+     [
+      109784,
+      -146104,
+      -3456
+     ],
+     [
+      109128,
+      -145448,
+      -3632
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 278,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c9:talk:32052",
+   "cond": 9,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"Tell me about the Sky Wagon.\""
+   ],
+   "npc": {
+    "id": 32052,
+    "name": "Obi",
+    "title": "Railroad Worker",
+    "town": "Dwarven Village",
+    "at": [
+     113518,
+     -153755,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Talk to Obi",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c10:talk:32055",
+   "cond": 10,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Ask what the problem is"
+   ],
+   "npc": {
+    "id": 32055,
+    "name": "Ghost of an Ancient Railroad Engineer",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     113791,
+     -155542,
+     -1528
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ghost of an Ancient Railroad Engineer",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32052@113518,-153755",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1646,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1646,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113784,
+      -155544,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32052@113518,-153755",
+     "name": "Obi"
+    },
+    "points": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      112459,
+      -153946,
+      -1528
+     ],
+     [
+      112952,
+      -153720,
+      -1528
+     ],
+     [
+      113512,
+      -153752,
+      -1528
+     ],
+     [
+      113784,
+      -155544,
+      -1528
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32054": {
+    "route": [
+     [
+      111960,
+      -154168,
+      -1528
+     ],
+     [
+      112296,
+      -153528,
+      -1528
+     ],
+     [
+      112728,
+      -152536,
+      -1856
+     ],
+     [
+      112728,
+      -151544,
+      -2024
+     ],
+     [
+      112728,
+      -150552,
+      -2160
+     ],
+     [
+      112728,
+      -150136,
+      -2248
+     ],
+     [
+      112728,
+      -149784,
+      -2584
+     ],
+     [
+      112328,
+      -148808,
+      -2776
+     ],
+     [
+      112424,
+      -148728,
+      -2880
+     ],
+     [
+      112728,
+      -147736,
+      -3264
+     ],
+     [
+      112824,
+      -147480,
+      -3256
+     ],
+     [
+      112680,
+      -147032,
+      -3264
+     ],
+     [
+      112744,
+      -146040,
+      -3264
+     ],
+     [
+      112696,
+      -145592,
+      -3264
+     ],
+     [
+      112744,
+      -145352,
+      -3264
+     ],
+     [
+      113224,
+      -144360,
+      -3264
+     ],
+     [
+      113224,
+      -143432,
+      -3424
+     ],
+     [
+      113368,
+      -143416,
+      -3376
+     ],
+     [
+      113992,
+      -143256,
+      -3240
+     ],
+     [
+      114296,
+      -142920,
+      -3240
+     ],
+     [
+      114632,
+      -142392,
+      -3224
+     ],
+     [
+      114552,
+      -142360,
+      -3288
+     ],
+     [
+      115544,
+      -141416,
+      -3136
+     ],
+     [
+      115656,
+      -141064,
+      -3152
+     ],
+     [
+      116648,
+      -141064,
+      -2992
+     ],
+     [
+      117640,
+      -141048,
+      -2776
+     ],
+     [
+      118056,
+      -141064,
+      -2656
+     ],
+     [
+      118920,
+      -141064,
+      -2496
+     ],
+     [
+      119608,
+      -140808,
+      -2088
+     ],
+     [
+      120200,
+      -140808,
+      -1872
+     ],
+     [
+      120536,
+      -140856,
+      -1728
+     ],
+     [
+      121528,
+      -140696,
+      -1536
+     ],
+     [
+      122264,
+      -140696,
+      -1520
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "note": "Route: Schuttgart gatekeeper \"Plunderous Plains\" (the landing the other steps of this quest use, 111965,-154172), then a geodata walk computed with raid_policy policyLeg (dry, walls block) to the Ghost of a Railroad Engineer 122269,-140689: 21601 long, no swim, no aggressive monster lv >= 45 on it. The old route was a 40 km walk from Schuttgart with a 5.2 km swim.",
+    "fixed": [],
+    "editedAt": "2026-10-27T10:27:51.262Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T10:27:51.262Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ }
+}

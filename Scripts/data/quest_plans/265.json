@@ -1,0 +1,1181 @@
+{
+ "id": 265,
+ "name": "Bonds of Slavery",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.993Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 6,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dark Elf Village",
+ "requirements": {
+  "races": [
+   "DARK_ELF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DARK_ELF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 15,
+ "refLevel": 6,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30357",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will hunt the imps"
+   ],
+   "npc": {
+    "id": 30357,
+    "name": "Kristin",
+    "title": "Sentry",
+    "town": "Dark Elf Village",
+    "at": [
+     7644,
+     18048,
+     -4376
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kristin – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:35231@9383,17746",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3242,
+    "sec": 72,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2736,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10152,
+      16856,
+      -4584
+     ],
+     [
+      10056,
+      17032,
+      -4584
+     ],
+     [
+      9864,
+      17160,
+      -4584
+     ],
+     [
+      9768,
+      17224,
+      -4584
+     ],
+     [
+      9560,
+      17288,
+      -4584
+     ],
+     [
+      9368,
+      17480,
+      -4584
+     ],
+     [
+      9384,
+      17752,
+      -4568
+     ],
+     [
+      8120,
+      17896,
+      -4448
+     ],
+     [
+      7640,
+      18056,
+      -4376
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:35231@9383,17746",
+     "name": "Manor Manager"
+    },
+    "points": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10152,
+      16856,
+      -4584
+     ],
+     [
+      10056,
+      17032,
+      -4584
+     ],
+     [
+      9864,
+      17160,
+      -4584
+     ],
+     [
+      9768,
+      17224,
+      -4584
+     ],
+     [
+      9560,
+      17288,
+      -4584
+     ],
+     [
+      9368,
+      17480,
+      -4584
+     ],
+     [
+      9384,
+      17752,
+      -4568
+     ],
+     [
+      8120,
+      17896,
+      -4448
+     ],
+     [
+      7640,
+      18056,
+      -4376
+     ]
+    ]
+   },
+   "expectedSec": 102,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20004,
+     "name": "Imp",
+     "level": 6,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20005,
+     "name": "Imp Elder",
+     "level": 7,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1368,
+     "name": "Imp Shackles",
+     "n": 10,
+     "from": [
+      {
+       "id": 20004,
+       "name": "Imp",
+       "chance": 50
+      },
+      {
+       "id": 20005,
+       "name": "Imp Elder",
+       "chance": 60
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Imp, Imp Elder for Imp Shackles x10",
+   "places": [
+    {
+     "mobs": [
+      20004,
+      20005
+     ],
+     "items": [
+      1368
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-6",
+      "name": "Dark Elf Village outskirts 6: Imp area (north-east)",
+      "at": [
+       26440,
+       7432,
+       -3720
+      ],
+      "radius": 4157,
+      "levels": [
+       1,
+       7
+      ],
+      "count": 11,
+      "region": "Dark Elf Village outskirts",
+      "atlasKey": "area:dark-elf-village-outskirts-2-6",
+      "status": "ok",
+      "sec": 227,
+      "danger": 7,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -62.21666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dark-elf-village-outskirts-2-5",
+        "name": "Dark Elf Village outskirts 5: Ashen Wolf area (east)",
+        "at": [
+         25128,
+         20392,
+         -3520
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dark-elf-village-outskirts-2-3",
+        "name": "Dark Elf Village outskirts 3: Young Brown Keltir area (north-east)",
+        "at": [
+         22664,
+         8280,
+         -3576
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dark-elf-village-outskirts-2-7",
+        "name": "Dark Elf Village outskirts 7: Goblin area (east)",
+        "at": [
+         31016,
+         13752,
+         -3696
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dark-elf-village-outskirts-2-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 21840,
+      "sec": 227,
+      "via": ".gludio > Gludio -> DE Village",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 21840,
+        "how": "field-areas",
+        "danger": 7
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": true,
+      "pv": [
+       [
+        9704,
+        15560,
+        -4568
+       ],
+       [
+        10696,
+        15560,
+        -4568
+       ],
+       [
+        10824,
+        15608,
+        -4568
+       ],
+       [
+        10856,
+        15704,
+        -4568
+       ],
+       [
+        10872,
+        15720,
+        -4568
+       ],
+       [
+        11672,
+        16040,
+        -4568
+       ],
+       [
+        11688,
+        16056,
+        -4552
+       ],
+       [
+        11832,
+        16024,
+        -4552
+       ],
+       [
+        12296,
+        15976,
+        -4552
+       ],
+       [
+        13288,
+        15976,
+        -4568
+       ],
+       [
+        13688,
+        15928,
+        -4576
+       ],
+       [
+        14680,
+        15928,
+        -4440
+       ],
+       [
+        15672,
+        15928,
+        -4392
+       ],
+       [
+        16632,
+        15528,
+        -4264
+       ],
+       [
+        16680,
+        15480,
+        -4256
+       ],
+       [
+        16712,
+        15400,
+        -4224
+       ],
+       [
+        16712,
+        15144,
+        -4144
+       ],
+       [
+        16616,
+        15048,
+        -4088
+       ],
+       [
+        16168,
+        14648,
+        -3920
+       ],
+       [
+        16104,
+        14536,
+        -3856
+       ],
+       [
+        16088,
+        14424,
+        -3800
+       ],
+       [
+        16088,
+        14104,
+        -3728
+       ],
+       [
+        16472,
+        13720,
+        -3712
+       ],
+       [
+        17000,
+        13656,
+        -3744
+       ],
+       [
+        17992,
+        13656,
+        -3664
+       ],
+       [
+        18024,
+        13624,
+        -3656
+       ],
+       [
+        18104,
+        13592,
+        -3640
+       ],
+       [
+        18216,
+        13576,
+        -3616
+       ],
+       [
+        19208,
+        13576,
+        -3680
+       ],
+       [
+        20088,
+        13448,
+        -3696
+       ],
+       [
+        21080,
+        12792,
+        -3640
+       ],
+       [
+        22072,
+        11800,
+        -3720
+       ],
+       [
+        23064,
+        10808,
+        -3712
+       ],
+       [
+        24056,
+        9816,
+        -3600
+       ],
+       [
+        25048,
+        8824,
+        -3600
+       ],
+       [
+        26040,
+        7832,
+        -3688
+       ],
+       [
+        26440,
+        7432,
+        -3720
+       ]
+      ],
+      "maxDanger": 7,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 7,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dark-elf-village-outskirts-2-6",
+    "name": "Dark Elf Village outskirts 6: Imp area (north-east)",
+    "at": [
+     26440,
+     7432,
+     -3720
+    ],
+    "radius": 4157,
+    "levels": [
+     1,
+     7
+    ],
+    "count": 11,
+    "region": "Dark Elf Village outskirts",
+    "atlasKey": "area:dark-elf-village-outskirts-2-6",
+    "status": "ok",
+    "sec": 227,
+    "danger": 7,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -62.21666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-5",
+      "name": "Dark Elf Village outskirts 5: Ashen Wolf area (east)",
+      "at": [
+       25128,
+       20392,
+       -3520
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-3",
+      "name": "Dark Elf Village outskirts 3: Young Brown Keltir area (north-east)",
+      "at": [
+       22664,
+       8280,
+       -3576
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-7",
+      "name": "Dark Elf Village outskirts 7: Goblin area (east)",
+      "at": [
+       31016,
+       13752,
+       -3696
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dark-elf-village-outskirts-2-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 21840,
+    "sec": 227,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 21840,
+      "how": "field-areas",
+      "danger": 7
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9704,
+      15560,
+      -4568
+     ],
+     [
+      10696,
+      15560,
+      -4568
+     ],
+     [
+      10824,
+      15608,
+      -4568
+     ],
+     [
+      10856,
+      15704,
+      -4568
+     ],
+     [
+      10872,
+      15720,
+      -4568
+     ],
+     [
+      11672,
+      16040,
+      -4568
+     ],
+     [
+      11688,
+      16056,
+      -4552
+     ],
+     [
+      11832,
+      16024,
+      -4552
+     ],
+     [
+      12296,
+      15976,
+      -4552
+     ],
+     [
+      13288,
+      15976,
+      -4568
+     ],
+     [
+      13688,
+      15928,
+      -4576
+     ],
+     [
+      14680,
+      15928,
+      -4440
+     ],
+     [
+      15672,
+      15928,
+      -4392
+     ],
+     [
+      16632,
+      15528,
+      -4264
+     ],
+     [
+      16680,
+      15480,
+      -4256
+     ],
+     [
+      16712,
+      15400,
+      -4224
+     ],
+     [
+      16712,
+      15144,
+      -4144
+     ],
+     [
+      16616,
+      15048,
+      -4088
+     ],
+     [
+      16168,
+      14648,
+      -3920
+     ],
+     [
+      16104,
+      14536,
+      -3856
+     ],
+     [
+      16088,
+      14424,
+      -3800
+     ],
+     [
+      16088,
+      14104,
+      -3728
+     ],
+     [
+      16472,
+      13720,
+      -3712
+     ],
+     [
+      17000,
+      13656,
+      -3744
+     ],
+     [
+      17992,
+      13656,
+      -3664
+     ],
+     [
+      18024,
+      13624,
+      -3656
+     ],
+     [
+      18104,
+      13592,
+      -3640
+     ],
+     [
+      18216,
+      13576,
+      -3616
+     ],
+     [
+      19208,
+      13576,
+      -3680
+     ],
+     [
+      20088,
+      13448,
+      -3696
+     ],
+     [
+      21080,
+      12792,
+      -3640
+     ],
+     [
+      22072,
+      11800,
+      -3720
+     ],
+     [
+      23064,
+      10808,
+      -3712
+     ],
+     [
+      24056,
+      9816,
+      -3600
+     ],
+     [
+      25048,
+      8824,
+      -3600
+     ],
+     [
+      26040,
+      7832,
+      -3688
+     ],
+     [
+      26440,
+      7432,
+      -3720
+     ]
+    ],
+    "maxDanger": 7,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 7,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 727,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30357",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30357,
+    "name": "Kristin",
+    "title": "Sentry",
+    "town": "Dark Elf Village",
+    "at": [
+     7644,
+     18048,
+     -4376
+    ],
+    "alt": []
+   },
+   "text": "Hand in Imp Shackles at Kristin (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 1368,
+     "name": "Imp Shackles",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:35231@9383,17746",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3242,
+    "sec": 72,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2736,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10152,
+      16856,
+      -4584
+     ],
+     [
+      10056,
+      17032,
+      -4584
+     ],
+     [
+      9864,
+      17160,
+      -4584
+     ],
+     [
+      9768,
+      17224,
+      -4584
+     ],
+     [
+      9560,
+      17288,
+      -4584
+     ],
+     [
+      9368,
+      17480,
+      -4584
+     ],
+     [
+      9384,
+      17752,
+      -4568
+     ],
+     [
+      8120,
+      17896,
+      -4448
+     ],
+     [
+      7640,
+      18056,
+      -4376
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:35231@9383,17746",
+     "name": "Manor Manager"
+    },
+    "points": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10152,
+      16856,
+      -4584
+     ],
+     [
+      10056,
+      17032,
+      -4584
+     ],
+     [
+      9864,
+      17160,
+      -4584
+     ],
+     [
+      9768,
+      17224,
+      -4584
+     ],
+     [
+      9560,
+      17288,
+      -4584
+     ],
+     [
+      9368,
+      17480,
+      -4584
+     ],
+     [
+      9384,
+      17752,
+      -4568
+     ],
+     [
+      8120,
+      17896,
+      -4448
+     ],
+     [
+      7640,
+      18056,
+      -4376
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:17.003Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing",
+   "chance-unconfirmed",
+   "route-detour"
+  ]
+ }
+}

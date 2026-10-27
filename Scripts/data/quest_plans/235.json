@@ -1,0 +1,1953 @@
+{
+ "id": 235,
+ "name": "Mimir's Elixir",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.510Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Oren",
+ "requirements": {
+  "notRaces": [
+   "KAMAEL"
+  ],
+  "items": [
+   {
+    "id": 5011,
+    "name": "Star of Destiny"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "not for KAMAEL"
+  },
+  {
+   "code": "needs-item",
+   "text": "Star of Destiny"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 3
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 12,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30721",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Yes.\""
+   ],
+   "npc": {
+    "id": 30721,
+    "name": "Ladd",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ladd – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30721@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      84984,
+      15992,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20965,
+     "name": "Chimera Piece",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 21090,
+     "name": "Bloody Guardian",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 6318,
+     "name": "Blood Fire",
+     "n": 1,
+     "from": [
+      {
+       "id": 21090,
+       "name": "Bloody Guardian",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 6322,
+     "name": "Sage's Stone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20965,
+       "name": "Chimera Piece",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Chimera Piece, Bloody Guardian for Blood Fire x1, Sage's Stone x1",
+   "places": [
+    {
+     "mobs": [
+      21090
+     ],
+     "items": [
+      6318
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-22",
+      "name": "Dragon Valley 22: Maluk Berserker area (north)",
+      "at": [
+       75112,
+       111032,
+       -2424
+      ],
+      "radius": 1735,
+      "levels": [
+       67,
+       75
+      ],
+      "count": 1,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-22",
+      "status": "ok",
+      "sec": 285,
+      "danger": 75,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": 58.75,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-22",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".hunters",
+      "length": 28854,
+      "sec": 285,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 28854,
+        "how": "field-areas",
+        "danger": 75
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        73032,
+        117496,
+        -3688
+       ],
+       [
+        73032,
+        116504,
+        -3664
+       ],
+       [
+        72312,
+        115608,
+        -3688
+       ],
+       [
+        72184,
+        115336,
+        -3632
+       ],
+       [
+        72184,
+        114344,
+        -3608
+       ],
+       [
+        71544,
+        113416,
+        -3688
+       ],
+       [
+        71544,
+        112424,
+        -3672
+       ],
+       [
+        71544,
+        111432,
+        -3720
+       ],
+       [
+        71544,
+        110440,
+        -3712
+       ],
+       [
+        71544,
+        109448,
+        -3712
+       ],
+       [
+        71544,
+        108456,
+        -3720
+       ],
+       [
+        71544,
+        107464,
+        -3720
+       ],
+       [
+        71544,
+        106472,
+        -3648
+       ],
+       [
+        71416,
+        106264,
+        -3656
+       ],
+       [
+        71416,
+        105272,
+        -3600
+       ],
+       [
+        71416,
+        104280,
+        -3688
+       ],
+       [
+        71416,
+        103288,
+        -3704
+       ],
+       [
+        71688,
+        102520,
+        -3720
+       ],
+       [
+        72568,
+        101640,
+        -3464
+       ],
+       [
+        72584,
+        101624,
+        -3448
+       ],
+       [
+        72760,
+        101592,
+        -3304
+       ],
+       [
+        72776,
+        101576,
+        -3296
+       ],
+       [
+        72792,
+        101560,
+        -3280
+       ],
+       [
+        72808,
+        101544,
+        -3272
+       ],
+       [
+        72824,
+        101528,
+        -3256
+       ],
+       [
+        72952,
+        101352,
+        -3208
+       ],
+       [
+        72968,
+        101352,
+        -3192
+       ],
+       [
+        72984,
+        101352,
+        -3176
+       ],
+       [
+        73000,
+        101352,
+        -3160
+       ],
+       [
+        73016,
+        101352,
+        -3144
+       ],
+       [
+        73032,
+        101352,
+        -3128
+       ],
+       [
+        73048,
+        101352,
+        -3104
+       ],
+       [
+        73064,
+        101352,
+        -3088
+       ],
+       [
+        73096,
+        101368,
+        -3056
+       ],
+       [
+        74088,
+        102360,
+        -2600
+       ],
+       [
+        74232,
+        102504,
+        -2624
+       ],
+       [
+        74376,
+        102776,
+        -2656
+       ],
+       [
+        74376,
+        103768,
+        -2648
+       ],
+       [
+        74376,
+        104760,
+        -2696
+       ],
+       [
+        74456,
+        104952,
+        -2704
+       ],
+       [
+        74456,
+        105944,
+        -2680
+       ],
+       [
+        74472,
+        106936,
+        -2632
+       ],
+       [
+        74472,
+        107928,
+        -2488
+       ],
+       [
+        74472,
+        108920,
+        -2336
+       ],
+       [
+        74472,
+        109912,
+        -2200
+       ],
+       [
+        74568,
+        110488,
+        -2296
+       ],
+       [
+        75112,
+        111032,
+        -2424
+       ]
+      ],
+      "maxDanger": 75,
+      "needs": [],
+      "why": [
+       "the nearest gatekeeper landing on foot (Hunters -> Dragon Valley) is a 29.2k walk — more than the 25k walk limit"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 75,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20965
+     ],
+     "items": [
+      6322
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "20965@175371,54757",
+      "name": "Chimera Piece (Forsaken Plains / Silent Valley / Bayou Fortress)",
+      "at": [
+       175371,
+       54757,
+       -5966
+      ],
+      "radius": 1500,
+      "levels": [
+       73,
+       73
+      ],
+      "count": 12,
+      "region": "Forsaken Plains / Silent Valley / Bayou Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 18,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "20965@175004,57815",
+        "name": "Chimera Piece (Forsaken Plains / Silent Valley / Bayou Fortress)",
+        "at": [
+         175004,
+         57815,
+         -5873
+        ],
+        "count": 8,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20965@178901,54517",
+        "name": "Chimera Piece (Forsaken Plains / Silent Valley / Bayou Fortress)",
+        "at": [
+         178901,
+         54517,
+         -5962
+        ],
+        "count": 4,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "room:giants-1-straight-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 24952,
+      "sec": 253,
+      "via": ".aden > Aden -> Entrance to The Giant's Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Entrance to The Giant's Cave",
+        "link": "entrance to the giant cave",
+        "price": 7400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 5040,
+        "how": "dungeon-rooms",
+        "danger": 80
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Entrance to The Giant's Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174488,
+        51928,
+        -4360
+       ],
+       [
+        174632,
+        52440,
+        -4360
+       ],
+       [
+        174632,
+        52728,
+        -4360
+       ],
+       [
+        175096,
+        53080,
+        -4360
+       ],
+       [
+        175416,
+        53432,
+        -4360
+       ],
+       [
+        175464,
+        54344,
+        -4352
+       ],
+       [
+        175464,
+        54440,
+        -4344
+       ],
+       [
+        174312,
+        54808,
+        -4352
+       ],
+       [
+        173368,
+        54456,
+        -4344
+       ],
+       [
+        173400,
+        53832,
+        -4360
+       ],
+       [
+        173496,
+        53800,
+        -4360
+       ],
+       [
+        173496,
+        53304,
+        -4360
+       ],
+       [
+        173864,
+        52952,
+        -4360
+       ],
+       [
+        174376,
+        52760,
+        -4360
+       ],
+       [
+        174344,
+        52248,
+        -4360
+       ],
+       [
+        174408,
+        51256,
+        -4360
+       ],
+       [
+        174424,
+        50264,
+        -4288
+       ],
+       [
+        174344,
+        50056,
+        -4240
+       ],
+       [
+        174184,
+        50008,
+        -4208
+       ],
+       [
+        174136,
+        49720,
+        -4192
+       ],
+       [
+        173400,
+        49032,
+        -4104
+       ],
+       [
+        172792,
+        49000,
+        -4000
+       ],
+       [
+        172472,
+        48008,
+        -4128
+       ],
+       [
+        172840,
+        47800,
+        -3848
+       ],
+       [
+        172920,
+        47224,
+        -3800
+       ],
+       [
+        172936,
+        47224,
+        -3800
+       ],
+       [
+        172936,
+        47112,
+        -3928
+       ],
+       [
+        173592,
+        46952,
+        -3656
+       ],
+       [
+        174152,
+        47240,
+        -3440
+       ],
+       [
+        174840,
+        47240,
+        -3384
+       ],
+       [
+        174840,
+        47736,
+        -3088
+       ],
+       [
+        175112,
+        48728,
+        -2968
+       ],
+       [
+        175112,
+        49368,
+        -2904
+       ],
+       [
+        175416,
+        50360,
+        -2896
+       ],
+       [
+        175304,
+        51352,
+        -3296
+       ],
+       [
+        175368,
+        51464,
+        -3344
+       ],
+       [
+        175368,
+        51480,
+        -3400
+       ],
+       [
+        175368,
+        51496,
+        -3448
+       ],
+       [
+        175368,
+        51512,
+        -3504
+       ],
+       [
+        175368,
+        51560,
+        -3656
+       ],
+       [
+        175368,
+        52120,
+        -4088
+       ],
+       [
+        175368,
+        52136,
+        -4976
+       ],
+       [
+        175368,
+        52184,
+        -5024
+       ],
+       [
+        175368,
+        52200,
+        -5624
+       ],
+       [
+        175368,
+        53192,
+        -5928
+       ],
+       [
+        175368,
+        54184,
+        -6024
+       ],
+       [
+        175368,
+        54600,
+        -6032
+       ],
+       [
+        175368,
+        54760,
+        -6024
+       ]
+      ],
+      "maxDanger": 80,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 80,
+       "dangerVsLevel": 5,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "room:giants-1-straight-a",
+       "name": "Giant's Cave: Upper layer, straight: Palit room"
+      },
+      "points": [
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174488,
+        51928,
+        -4360
+       ],
+       [
+        174632,
+        52440,
+        -4360
+       ],
+       [
+        174632,
+        52728,
+        -4360
+       ],
+       [
+        175096,
+        53080,
+        -4360
+       ],
+       [
+        175416,
+        53432,
+        -4360
+       ],
+       [
+        175464,
+        54344,
+        -4352
+       ],
+       [
+        175464,
+        54440,
+        -4344
+       ],
+       [
+        174488,
+        55080,
+        -4368
+       ],
+       [
+        174312,
+        54808,
+        -4352
+       ],
+       [
+        173368,
+        54456,
+        -4344
+       ],
+       [
+        173400,
+        53832,
+        -4360
+       ],
+       [
+        173496,
+        53800,
+        -4360
+       ],
+       [
+        173496,
+        53304,
+        -4360
+       ],
+       [
+        173864,
+        52952,
+        -4360
+       ],
+       [
+        174376,
+        52760,
+        -4360
+       ],
+       [
+        174344,
+        52248,
+        -4360
+       ],
+       [
+        174408,
+        51256,
+        -4360
+       ],
+       [
+        174424,
+        50264,
+        -4288
+       ],
+       [
+        174344,
+        50056,
+        -4240
+       ],
+       [
+        174184,
+        50008,
+        -4208
+       ],
+       [
+        174136,
+        49720,
+        -4192
+       ],
+       [
+        173400,
+        49032,
+        -4104
+       ],
+       [
+        172792,
+        49000,
+        -4000
+       ],
+       [
+        172472,
+        48008,
+        -4128
+       ],
+       [
+        172632,
+        47816,
+        -3944
+       ],
+       [
+        172840,
+        47800,
+        -3848
+       ],
+       [
+        172920,
+        47224,
+        -3800
+       ],
+       [
+        172936,
+        47224,
+        -3800
+       ],
+       [
+        172936,
+        47112,
+        -3928
+       ],
+       [
+        173592,
+        46952,
+        -3656
+       ],
+       [
+        174152,
+        47240,
+        -3440
+       ],
+       [
+        174840,
+        47240,
+        -3384
+       ],
+       [
+        174840,
+        47736,
+        -3088
+       ],
+       [
+        175112,
+        48728,
+        -2968
+       ],
+       [
+        175112,
+        49368,
+        -2904
+       ],
+       [
+        175416,
+        50360,
+        -2896
+       ],
+       [
+        175304,
+        51352,
+        -3296
+       ],
+       [
+        175368,
+        51464,
+        -3344
+       ],
+       [
+        175368,
+        51480,
+        -3400
+       ],
+       [
+        175368,
+        51496,
+        -3448
+       ],
+       [
+        175368,
+        51512,
+        -3504
+       ],
+       [
+        175368,
+        51544,
+        -3600
+       ],
+       [
+        175368,
+        51560,
+        -3656
+       ],
+       [
+        175368,
+        52120,
+        -4088
+       ],
+       [
+        175368,
+        52136,
+        -4976
+       ],
+       [
+        175368,
+        52184,
+        -5024
+       ],
+       [
+        175368,
+        52200,
+        -5624
+       ],
+       [
+        175368,
+        53192,
+        -5928
+       ],
+       [
+        175368,
+        54184,
+        -6024
+       ],
+       [
+        175368,
+        54600,
+        -6032
+       ],
+       [
+        175368,
+        54760,
+        -6024
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dragon-valley-22",
+    "name": "Dragon Valley 22: Maluk Berserker area (north)",
+    "at": [
+     75112,
+     111032,
+     -2424
+    ],
+    "radius": 1735,
+    "levels": [
+     67,
+     75
+    ],
+    "count": 1,
+    "region": "Dragon Valley",
+    "atlasKey": "area:dragon-valley-22",
+    "status": "ok",
+    "sec": 285,
+    "danger": 75,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": 58.75,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dragon-valley-22",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".hunters",
+    "length": 28854,
+    "sec": 285,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 28854,
+      "how": "field-areas",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73032,
+      117496,
+      -3688
+     ],
+     [
+      73032,
+      116504,
+      -3664
+     ],
+     [
+      72312,
+      115608,
+      -3688
+     ],
+     [
+      72184,
+      115336,
+      -3632
+     ],
+     [
+      72184,
+      114344,
+      -3608
+     ],
+     [
+      71544,
+      113416,
+      -3688
+     ],
+     [
+      71544,
+      112424,
+      -3672
+     ],
+     [
+      71544,
+      111432,
+      -3720
+     ],
+     [
+      71544,
+      110440,
+      -3712
+     ],
+     [
+      71544,
+      109448,
+      -3712
+     ],
+     [
+      71544,
+      108456,
+      -3720
+     ],
+     [
+      71544,
+      107464,
+      -3720
+     ],
+     [
+      71544,
+      106472,
+      -3648
+     ],
+     [
+      71416,
+      106264,
+      -3656
+     ],
+     [
+      71416,
+      105272,
+      -3600
+     ],
+     [
+      71416,
+      104280,
+      -3688
+     ],
+     [
+      71416,
+      103288,
+      -3704
+     ],
+     [
+      71688,
+      102520,
+      -3720
+     ],
+     [
+      72568,
+      101640,
+      -3464
+     ],
+     [
+      72584,
+      101624,
+      -3448
+     ],
+     [
+      72760,
+      101592,
+      -3304
+     ],
+     [
+      72776,
+      101576,
+      -3296
+     ],
+     [
+      72792,
+      101560,
+      -3280
+     ],
+     [
+      72808,
+      101544,
+      -3272
+     ],
+     [
+      72824,
+      101528,
+      -3256
+     ],
+     [
+      72952,
+      101352,
+      -3208
+     ],
+     [
+      72968,
+      101352,
+      -3192
+     ],
+     [
+      72984,
+      101352,
+      -3176
+     ],
+     [
+      73000,
+      101352,
+      -3160
+     ],
+     [
+      73016,
+      101352,
+      -3144
+     ],
+     [
+      73032,
+      101352,
+      -3128
+     ],
+     [
+      73048,
+      101352,
+      -3104
+     ],
+     [
+      73064,
+      101352,
+      -3088
+     ],
+     [
+      73096,
+      101368,
+      -3056
+     ],
+     [
+      74088,
+      102360,
+      -2600
+     ],
+     [
+      74232,
+      102504,
+      -2624
+     ],
+     [
+      74376,
+      102776,
+      -2656
+     ],
+     [
+      74376,
+      103768,
+      -2648
+     ],
+     [
+      74376,
+      104760,
+      -2696
+     ],
+     [
+      74456,
+      104952,
+      -2704
+     ],
+     [
+      74456,
+      105944,
+      -2680
+     ],
+     [
+      74472,
+      106936,
+      -2632
+     ],
+     [
+      74472,
+      107928,
+      -2488
+     ],
+     [
+      74472,
+      108920,
+      -2336
+     ],
+     [
+      74472,
+      109912,
+      -2200
+     ],
+     [
+      74568,
+      110488,
+      -2296
+     ],
+     [
+      75112,
+      111032,
+      -2424
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [
+     "the nearest gatekeeper landing on foot (Hunters -> Dragon Valley) is a 29.2k walk — more than the 25k walk limit"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 310,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    8
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30721",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Drink the elixir."
+   ],
+   "npc": {
+    "id": 30721,
+    "name": "Ladd",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -1769
+    ],
+    "alt": []
+   },
+   "text": "Bring Magister's Mixing Stone, Mimir's Elixir to Ladd",
+   "needs": [
+    {
+     "id": 5905,
+     "name": "Magister's Mixing Stone",
+     "n": 1
+    },
+    {
+     "id": 6319,
+     "name": "Mimir's Elixir",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30721@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "4th Floor Dark Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -1776
+     ],
+     [
+      84984,
+      15992,
+      -1776
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    8
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:31149",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 8,
+   "links": [
+    "#3 - Phoenix"
+   ],
+   "npc": {
+    "id": 31149,
+    "name": "Alchemist's Mixing Urn",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     85515,
+     16192,
+     -4272
+    ],
+    "alt": []
+   },
+   "text": "Bring Blood Fire, Pure Silver, True Gold to Alchemist's Mixing Urn",
+   "needs": [
+    {
+     "id": 6318,
+     "name": "Blood Fire",
+     "n": 1
+    },
+    {
+     "id": 6320,
+     "name": "Pure Silver",
+     "n": 1
+    },
+    {
+     "id": 6321,
+     "name": "True Gold",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere",
+    "no-route"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31812@85373,16200",
+    "status": "unreachable",
+    "flags": [],
+    "from": ".oren",
+    "length": 33,
+    "sec": 45,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 33,
+      "how": "adjacent",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85373,
+      16200,
+      -3665
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "no walk on the geodata from Adventure Guildsman: no way through (searched 71132 cells); no way through (flooded 13465 cells, the goal side ran out); plain: no way through (searched 101169 cells)"
+    ],
+    "checks": {
+     "reachable": false,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31812@85373,16200",
+     "name": "Adventure Guildsman"
+    }
+   },
+   "expectedSec": 70,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30718",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "\"Yes, please!\""
+   ],
+   "npc": {
+    "id": 30718,
+    "name": "Joan",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -2285
+    ],
+    "alt": []
+   },
+   "text": "Bring Sage's Stone to Joan",
+   "needs": [
+    {
+     "id": 6322,
+     "name": "Sage's Stone",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30718@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "3rd Floor Elven Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2293
+     ],
+     [
+      84984,
+      15992,
+      -2288
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    6,
+    8
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:talk:30718",
+   "cond": 5,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"I will help you.\""
+   ],
+   "npc": {
+    "id": 30718,
+    "name": "Joan",
+    "title": "Magister",
+    "town": "Oren",
+    "at": [
+     84985,
+     15991,
+     -2285
+    ],
+    "alt": []
+   },
+   "text": "Talk to Joan",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30718@84985,15991",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 463,
+    "sec": 64,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "3rd Floor Elven Wizard Guild"
+     },
+     {
+      "do": "walk",
+      "len": 463,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      85399,
+      16197,
+      -2293
+     ],
+     [
+      84984,
+      15992,
+      -2288
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,289 @@
+{
+ "id": 512,
+ "name": "Blade Under Foot",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.174Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 70,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Gludio",
+ "requirements": {
+  "clan": {
+   "leader": false,
+   "minLevel": null
+  }
+ },
+ "restrictions": [],
+ "status": "not-for-bots",
+ "reasons": [
+  {
+   "code": "clan",
+   "text": "clan quest"
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 0
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 8,
+ "refLevel": 70,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:36403",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help."
+   ],
+   "npc": {
+    "id": 36403,
+    "name": "Warden",
+    "title": "Gludio",
+    "town": "Gludio",
+    "at": [
+     -17962,
+     109067,
+     -2657
+    ],
+    "alt": []
+   },
+   "text": "Talk to Warden / Warden / Warden / Warden / Warden / Warden / Warden / Warden / Warden – accept the quest",
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:35097@-18279,110702",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludio",
+    "length": 15234,
+    "sec": 147,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 13296,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -18279,
+      110702,
+      -2460
+     ],
+     [
+      -18216,
+      110264,
+      -2512
+     ],
+     [
+      -18328,
+      110296,
+      -2512
+     ],
+     [
+      -18440,
+      110296,
+      -2512
+     ],
+     [
+      -18600,
+      110024,
+      -2512
+     ],
+     [
+      -18440,
+      109128,
+      -2656
+     ],
+     [
+      -17960,
+      109064,
+      -2656
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -12712,122776 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:35097@-18279,110702",
+     "name": "Inner Doorman"
+    },
+    "points": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -18279,
+      110702,
+      -2460
+     ],
+     [
+      -18216,
+      110264,
+      -2512
+     ],
+     [
+      -18328,
+      110296,
+      -2512
+     ],
+     [
+      -18440,
+      110296,
+      -2512
+     ],
+     [
+      -18600,
+      110024,
+      -2512
+     ],
+     [
+      -18440,
+      109128,
+      -2656
+     ],
+     [
+      -17960,
+      109064,
+      -2656
+     ]
+    ]
+   },
+   "expectedSec": 177,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:25563",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25563,
+     "name": "Beautiful Atrielle",
+     "level": 81,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25566,
+     "name": "Nagen the Tomboy",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25569,
+     "name": "Jax the Destroyer",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9798,
+     "name": "Fragment of the Dungeon Leader Mark",
+     "n": 20,
+     "from": [
+      {
+       "id": 25563,
+       "name": "Beautiful Atrielle",
+       "chance": 100
+      },
+      {
+       "id": 25566,
+       "name": "Nagen the Tomboy",
+       "chance": 100
+      },
+      {
+       "id": 25569,
+       "name": "Jax the Destroyer",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (25563, 25566, 25569) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Beautiful Atrielle, Nagen the Tomboy, Jax the Destroyer appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (25563, 25566, 25569) only appear through the quest script and no trigger is known",
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

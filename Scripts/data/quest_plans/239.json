@@ -1,0 +1,1277 @@
+{
+ "id": 239,
+ "name": "Won't You Join Us?",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.598Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Heine",
+ "requirements": {
+  "quests": [
+   {
+    "id": 238,
+    "name": "Q00238_SuccessFailureOfBusiness",
+    "need": "completed"
+   },
+   {
+    "id": 237,
+    "name": "Q00237_WindsOfChange",
+    "need": "completed"
+   }
+  ],
+  "items": [
+   {
+    "id": 14866,
+    "name": "Certificate of Support"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "238 completed, 237 completed"
+  },
+  {
+   "code": "needs-item",
+   "text": "Certificate of Support"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 26,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32643",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you understand."
+   ],
+   "npc": {
+    "id": 32643,
+    "name": "Athenia",
+    "title": "Priestess",
+    "town": "Heine",
+    "at": [
+     81181,
+     226516,
+     -3584
+    ],
+    "alt": []
+   },
+   "text": "Talk to Athenia – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32643@81181,226516",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1129,
+    "sec": 54,
+    "via": ".heine > Heine -> Field of Whispers",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Whispers",
+      "link": "field of whispers",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1129,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Whispers"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82192,
+      226128,
+      -3664
+     ],
+     [
+      81512,
+      226536,
+      -3592
+     ],
+     [
+      81176,
+      226520,
+      -3584
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 18805,
+     "name": "Waste Landfill Machine",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14869,
+     "name": "Destroyed machine piece",
+     "n": 10,
+     "from": [
+      {
+       "id": 18805,
+       "name": "Waste Landfill Machine",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Waste Landfill Machine for Destroyed machine piece x10",
+   "places": [
+    {
+     "mobs": [
+      18805
+     ],
+     "items": [
+      14869
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "field-of-silence-8",
+      "name": "Field of Silence 8: Waste Landfill Machine area (south)",
+      "at": [
+       86360,
+       178328,
+       -3672
+      ],
+      "radius": 2905,
+      "levels": [
+       83,
+       84
+      ],
+      "count": 5,
+      "region": "Field of Silence",
+      "atlasKey": "area:field-of-silence-8",
+      "status": "ok",
+      "sec": 178,
+      "danger": 84,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -27.03333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "field-of-silence-3",
+        "name": "Field of Silence 3: Suppressor area (south)",
+        "at": [
+         87064,
+         174104,
+         -3760
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "field-of-silence-1",
+        "name": "Field of Silence 1: Exterminator area (south)",
+        "at": [
+         89384,
+         171784,
+         -3576
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "field-of-silence-2",
+        "name": "Field of Silence 2: Suppressor area (south-east)",
+        "at": [
+         91656,
+         171272,
+         -3760
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:field-of-silence-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 15905,
+      "sec": 178,
+      "via": ".heine > Heine -> Field of Silence",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Field of Silence",
+        "link": "field of silence",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15905,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Field of Silence"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87688,
+        162840,
+        -3536
+       ],
+       [
+        87688,
+        163832,
+        -3528
+       ],
+       [
+        87688,
+        164824,
+        -3424
+       ],
+       [
+        87688,
+        165816,
+        -3464
+       ],
+       [
+        87688,
+        166808,
+        -3504
+       ],
+       [
+        87688,
+        167800,
+        -3760
+       ],
+       [
+        86936,
+        168792,
+        -3744
+       ],
+       [
+        86904,
+        168824,
+        -3752
+       ],
+       [
+        86776,
+        169096,
+        -3712
+       ],
+       [
+        86776,
+        170088,
+        -3760
+       ],
+       [
+        86776,
+        171080,
+        -3720
+       ],
+       [
+        86792,
+        171672,
+        -3528
+       ],
+       [
+        86792,
+        172664,
+        -3720
+       ],
+       [
+        86792,
+        173656,
+        -3760
+       ],
+       [
+        86792,
+        174648,
+        -3760
+       ],
+       [
+        86792,
+        175640,
+        -3608
+       ],
+       [
+        86792,
+        176632,
+        -3656
+       ],
+       [
+        86792,
+        177624,
+        -3760
+       ],
+       [
+        86360,
+        178328,
+        -3672
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "field-of-silence-8",
+    "name": "Field of Silence 8: Waste Landfill Machine area (south)",
+    "at": [
+     86360,
+     178328,
+     -3672
+    ],
+    "radius": 2905,
+    "levels": [
+     83,
+     84
+    ],
+    "count": 5,
+    "region": "Field of Silence",
+    "atlasKey": "area:field-of-silence-8",
+    "status": "ok",
+    "sec": 178,
+    "danger": 84,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -27.03333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "field-of-silence-3",
+      "name": "Field of Silence 3: Suppressor area (south)",
+      "at": [
+       87064,
+       174104,
+       -3760
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "field-of-silence-1",
+      "name": "Field of Silence 1: Exterminator area (south)",
+      "at": [
+       89384,
+       171784,
+       -3576
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "field-of-silence-2",
+      "name": "Field of Silence 2: Suppressor area (south-east)",
+      "at": [
+       91656,
+       171272,
+       -3760
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:field-of-silence-8",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 15905,
+    "sec": 178,
+    "via": ".heine > Heine -> Field of Silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Silence",
+      "link": "field of silence",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15905,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87688,
+      162840,
+      -3536
+     ],
+     [
+      87688,
+      163832,
+      -3528
+     ],
+     [
+      87688,
+      164824,
+      -3424
+     ],
+     [
+      87688,
+      165816,
+      -3464
+     ],
+     [
+      87688,
+      166808,
+      -3504
+     ],
+     [
+      87688,
+      167800,
+      -3760
+     ],
+     [
+      86936,
+      168792,
+      -3744
+     ],
+     [
+      86904,
+      168824,
+      -3752
+     ],
+     [
+      86776,
+      169096,
+      -3712
+     ],
+     [
+      86776,
+      170088,
+      -3760
+     ],
+     [
+      86776,
+      171080,
+      -3720
+     ],
+     [
+      86792,
+      171672,
+      -3528
+     ],
+     [
+      86792,
+      172664,
+      -3720
+     ],
+     [
+      86792,
+      173656,
+      -3760
+     ],
+     [
+      86792,
+      174648,
+      -3760
+     ],
+     [
+      86792,
+      175640,
+      -3608
+     ],
+     [
+      86792,
+      176632,
+      -3656
+     ],
+     [
+      86792,
+      177624,
+      -3760
+     ],
+     [
+      86360,
+      178328,
+      -3672
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 428,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32643",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"So?\""
+   ],
+   "npc": {
+    "id": 32643,
+    "name": "Athenia",
+    "title": "Priestess",
+    "town": "Heine",
+    "at": [
+     81181,
+     226516,
+     -3584
+    ],
+    "alt": []
+   },
+   "text": "Talk to Athenia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32643@81181,226516",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1129,
+    "sec": 54,
+    "via": ".heine > Heine -> Field of Whispers",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Whispers",
+      "link": "field of whispers",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1129,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Whispers"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82192,
+      226128,
+      -3664
+     ],
+     [
+      81512,
+      226536,
+      -3592
+     ],
+     [
+      81176,
+      226520,
+      -3584
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:hunt",
+   "cond": 3,
+   "kind": "hunt",
+   "to": 4,
+   "monsters": [
+    {
+     "id": 18805,
+     "name": "Waste Landfill Machine",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 22656,
+     "name": "Suppressor",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 53,
+     "questSpawned": false
+    },
+    {
+     "id": 22657,
+     "name": "Exterminator",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 35,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14870,
+     "name": "Enchanted Golem Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 18805,
+       "name": "Waste Landfill Machine",
+       "chance": 80
+      },
+      {
+       "id": 22656,
+       "name": "Suppressor",
+       "chance": 80
+      },
+      {
+       "id": 22657,
+       "name": "Exterminator",
+       "chance": 80
+      }
+     ]
+    }
+   ],
+   "kills": 30,
+   "reasons": [],
+   "text": "Hunt Waste Landfill Machine, Suppressor, Exterminator for Enchanted Golem Shard x20",
+   "places": [
+    {
+     "mobs": [
+      18805,
+      22656,
+      22657
+     ],
+     "items": [
+      14870
+     ],
+     "kills": 30,
+     "area": {
+      "kind": "field",
+      "id": "field-of-silence-3",
+      "name": "Field of Silence 3: Suppressor area (south)",
+      "at": [
+       87064,
+       174104,
+       -3760
+      ],
+      "radius": 2467,
+      "levels": [
+       83,
+       84
+      ],
+      "count": 19,
+      "region": "Field of Silence",
+      "atlasKey": "area:field-of-silence-3",
+      "status": "ok",
+      "sec": 142,
+      "danger": 84,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -111.63333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "field-of-silence-2",
+        "name": "Field of Silence 2: Suppressor area (south-east)",
+        "at": [
+         91656,
+         171272,
+         -3760
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "field-of-silence-4",
+        "name": "Field of Silence 4: Suppressor area (south)",
+        "at": [
+         90488,
+         174056,
+         -3760
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "field-of-silence-5",
+        "name": "Field of Silence 5: Suppressor area (south)",
+        "at": [
+         87800,
+         176120,
+         -3512
+        ],
+        "count": 14,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:field-of-silence-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 11635,
+      "sec": 142,
+      "via": ".heine > Heine -> Field of Silence",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Field of Silence",
+        "link": "field of silence",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11635,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Field of Silence"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87688,
+        162840,
+        -3536
+       ],
+       [
+        87688,
+        163832,
+        -3528
+       ],
+       [
+        87688,
+        164824,
+        -3424
+       ],
+       [
+        87688,
+        165816,
+        -3464
+       ],
+       [
+        87688,
+        166808,
+        -3504
+       ],
+       [
+        87688,
+        167800,
+        -3760
+       ],
+       [
+        86936,
+        168792,
+        -3744
+       ],
+       [
+        86904,
+        168824,
+        -3752
+       ],
+       [
+        86776,
+        169096,
+        -3712
+       ],
+       [
+        86776,
+        170088,
+        -3760
+       ],
+       [
+        86776,
+        171080,
+        -3720
+       ],
+       [
+        86792,
+        171672,
+        -3528
+       ],
+       [
+        86792,
+        172664,
+        -3720
+       ],
+       [
+        86792,
+        173656,
+        -3760
+       ],
+       [
+        87064,
+        174104,
+        -3760
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "field-of-silence-3",
+    "name": "Field of Silence 3: Suppressor area (south)",
+    "at": [
+     87064,
+     174104,
+     -3760
+    ],
+    "radius": 2467,
+    "levels": [
+     83,
+     84
+    ],
+    "count": 19,
+    "region": "Field of Silence",
+    "atlasKey": "area:field-of-silence-3",
+    "status": "ok",
+    "sec": 142,
+    "danger": 84,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -111.63333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "field-of-silence-2",
+      "name": "Field of Silence 2: Suppressor area (south-east)",
+      "at": [
+       91656,
+       171272,
+       -3760
+      ],
+      "count": 17,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "field-of-silence-4",
+      "name": "Field of Silence 4: Suppressor area (south)",
+      "at": [
+       90488,
+       174056,
+       -3760
+      ],
+      "count": 17,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "field-of-silence-5",
+      "name": "Field of Silence 5: Suppressor area (south)",
+      "at": [
+       87800,
+       176120,
+       -3512
+      ],
+      "count": 14,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:field-of-silence-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 11635,
+    "sec": 142,
+    "via": ".heine > Heine -> Field of Silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Silence",
+      "link": "field of silence",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11635,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87688,
+      162840,
+      -3536
+     ],
+     [
+      87688,
+      163832,
+      -3528
+     ],
+     [
+      87688,
+      164824,
+      -3424
+     ],
+     [
+      87688,
+      165816,
+      -3464
+     ],
+     [
+      87688,
+      166808,
+      -3504
+     ],
+     [
+      87688,
+      167800,
+      -3760
+     ],
+     [
+      86936,
+      168792,
+      -3744
+     ],
+     [
+      86904,
+      168824,
+      -3752
+     ],
+     [
+      86776,
+      169096,
+      -3712
+     ],
+     [
+      86776,
+      170088,
+      -3760
+     ],
+     [
+      86776,
+      171080,
+      -3720
+     ],
+     [
+      86792,
+      171672,
+      -3528
+     ],
+     [
+      86792,
+      172664,
+      -3720
+     ],
+     [
+      86792,
+      173656,
+      -3760
+     ],
+     [
+      87064,
+      174104,
+      -3760
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 892,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:deliver:32643",
+   "cond": 4,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32643,
+    "name": "Athenia",
+    "title": "Priestess",
+    "town": "Heine",
+    "at": [
+     81181,
+     226516,
+     -3584
+    ],
+    "alt": []
+   },
+   "text": "Bring Enchanted Golem Shard x20 to Athenia",
+   "needs": [
+    {
+     "id": 14870,
+     "name": "Enchanted Golem Shard",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32643@81181,226516",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1129,
+    "sec": 54,
+    "via": ".heine > Heine -> Field of Whispers",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Whispers",
+      "link": "field of whispers",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1129,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Whispers"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82192,
+      226128,
+      -3664
+     ],
+     [
+      81512,
+      226536,
+      -3592
+     ],
+     [
+      81176,
+      226520,
+      -3584
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.631Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

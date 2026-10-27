@@ -1,0 +1,992 @@
+{
+ "id": 622,
+ "name": "Specialty Liquor Delivery",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.524Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 68,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 0
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 4
+  }
+ ],
+ "expectedMin": 9,
+ "refLevel": 68,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31521",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll deliver your liquor.\""
+   ],
+   "npc": {
+    "id": 31521,
+    "name": "Jeremy",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149520,
+     -112704,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jeremy – accept the quest",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31697@149568,-112768",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4922,
+    "sec": 86,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4922,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:31697@149568,-112768",
+     "name": "Eindarkner"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ]
+   },
+   "expectedSec": 116,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:31547",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"I'm here to deliver some liquor.\""
+   ],
+   "npc": {
+    "id": 31547,
+    "name": "Beolin",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     147504,
+     -113296,
+     -2113
+    ],
+    "alt": []
+   },
+   "text": "Bring Special Drink to Beolin",
+   "needs": [
+    {
+     "id": 7197,
+     "name": "Special Drink",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31626@149312,-112484",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5410,
+    "sec": 90,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4840,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -112978,
+      -2508
+     ],
+     [
+      145880,
+      -112488,
+      -2456
+     ],
+     [
+      146872,
+      -112488,
+      -2264
+     ],
+     [
+      147864,
+      -112488,
+      -2168
+     ],
+     [
+      148856,
+      -112488,
+      -2104
+     ],
+     [
+      149320,
+      -112488,
+      -2064
+     ],
+     [
+      148072,
+      -113240,
+      -2120
+     ],
+     [
+      147896,
+      -113224,
+      -2120
+     ],
+     [
+      147688,
+      -113288,
+      -2112
+     ],
+     [
+      147512,
+      -113288,
+      -2112
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 3
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:31626@149312,-112484",
+     "name": "Duncan"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -112978,
+      -2508
+     ],
+     [
+      145880,
+      -112488,
+      -2456
+     ],
+     [
+      146872,
+      -112488,
+      -2264
+     ],
+     [
+      147864,
+      -112488,
+      -2168
+     ],
+     [
+      148856,
+      -112488,
+      -2104
+     ],
+     [
+      149320,
+      -112488,
+      -2064
+     ],
+     [
+      148072,
+      -113240,
+      -2120
+     ],
+     [
+      147896,
+      -113224,
+      -2120
+     ],
+     [
+      147688,
+      -113288,
+      -2112
+     ],
+     [
+      147512,
+      -113288,
+      -2112
+     ]
+    ]
+   },
+   "expectedSec": 115,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:31546",
+   "cond": 1,
+   "kind": "deliver",
+   "to": {
+    "raw": "qs.getCond() + 1"
+   },
+   "links": [
+    "\"Here's the liquor delivery.\"",
+    "Say \"I've brought you some specially brewed liquor!\"",
+    "\"I have your liquor right here!\"",
+    "\"I'm here to deliver some liquor.\""
+   ],
+   "npc": {
+    "id": 31546,
+    "name": "Kuber",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     141632,
+     -109424,
+     -3591
+    ],
+    "alt": []
+   },
+   "text": "Bring Special Drink to Kuber",
+   "needs": [
+    {
+     "id": 7197,
+     "name": "Special Drink",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:hot-springs-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 7850,
+    "sec": 110,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6729,
+      "how": "field-areas-gap",
+      "danger": 76
+     },
+     {
+      "do": "walk",
+      "len": 769,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      141368,
+      -108136,
+      -3568
+     ],
+     [
+      140824,
+      -107592,
+      -3648
+     ],
+     [
+      141368,
+      -109192,
+      -3584
+     ],
+     [
+      141640,
+      -109416,
+      -3584
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Hot Springs Atrox",
+       "lv": 76,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Grendel",
+       "lv": 76,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Nepenthes",
+       "lv": 75,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:hot-springs-5",
+     "name": "Hot Springs 5: Hot Springs Nepenthes area (south-west)"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      141368,
+      -108136,
+      -3568
+     ],
+     [
+      140824,
+      -107592,
+      -3648
+     ],
+     [
+      141368,
+      -109192,
+      -3584
+     ],
+     [
+      141640,
+      -109416,
+      -3584
+     ]
+    ]
+   },
+   "expectedSec": 135,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c6:deliver:31521",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 7,
+   "links": [
+    "\"I completed the delivery.\""
+   ],
+   "npc": {
+    "id": 31521,
+    "name": "Jeremy",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149520,
+     -112704,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Bring Fee of Special Drink x5 to Jeremy",
+   "needs": [
+    {
+     "id": 7198,
+     "name": "Fee of Special Drink",
+     "n": 5
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31697@149568,-112768",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4922,
+    "sec": 86,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4922,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:31697@149568,-112768",
+     "name": "Eindarkner"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ]
+   },
+   "expectedSec": 111,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c7:talk:31267",
+   "cond": 7,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Jeremy sent me to get some Adena.\""
+   ],
+   "npc": {
+    "id": 31267,
+    "name": "Lietta",
+    "title": "Warehouse Keeper",
+    "town": "Goddard",
+    "at": [
+     146440,
+     -57500,
+     -2965
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lietta",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31267@146440,-57500",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4541,
+    "sec": 58,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4541,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147704,
+      -57640,
+      -2880
+     ],
+     [
+      147704,
+      -57912,
+      -2968
+     ],
+     [
+      147608,
+      -58008,
+      -2976
+     ],
+     [
+      147640,
+      -58136,
+      -2976
+     ],
+     [
+      147432,
+      -58280,
+      -2976
+     ],
+     [
+      147160,
+      -58280,
+      -2976
+     ],
+     [
+      146888,
+      -58280,
+      -2976
+     ],
+     [
+      146616,
+      -58296,
+      -2976
+     ],
+     [
+      146488,
+      -58280,
+      -2976
+     ],
+     [
+      146232,
+      -58184,
+      -2976
+     ],
+     [
+      146040,
+      -58104,
+      -2976
+     ],
+     [
+      146072,
+      -58072,
+      -2976
+     ],
+     [
+      146248,
+      -57864,
+      -2960
+     ],
+     [
+      146280,
+      -57768,
+      -2960
+     ],
+     [
+      146424,
+      -57544,
+      -2960
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

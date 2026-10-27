@@ -1,0 +1,2968 @@
+{
+ "id": 419,
+ "name": "Get A Pet",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.804Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Gludin",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 44,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30731",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "I will take the task."
+   ],
+   "npc": {
+    "id": 30731,
+    "name": "Martin",
+    "title": "Pet Manager",
+    "town": "Gludin",
+    "at": [
+     -84624,
+     150832,
+     -3129
+    ],
+    "alt": []
+   },
+   "text": "Talk to Martin – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@-84816,151008",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4893,
+    "sec": 61,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4893,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150760,
+      -3120
+     ],
+     [
+      -83608,
+      150760,
+      -3120
+     ],
+     [
+      -83784,
+      150856,
+      -3120
+     ],
+     [
+      -83832,
+      150904,
+      -3120
+     ],
+     [
+      -84008,
+      150904,
+      -3120
+     ],
+     [
+      -84280,
+      150904,
+      -3120
+     ],
+     [
+      -84536,
+      150984,
+      -3120
+     ],
+     [
+      -84808,
+      151016,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@-84816,151008",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150760,
+      -3120
+     ],
+     [
+      -83608,
+      150760,
+      -3120
+     ],
+     [
+      -83784,
+      150856,
+      -3120
+     ],
+     [
+      -83832,
+      150904,
+      -3120
+     ],
+     [
+      -84008,
+      150904,
+      -3120
+     ],
+     [
+      -84280,
+      150904,
+      -3120
+     ],
+     [
+      -84536,
+      150984,
+      -3120
+     ],
+     [
+      -84808,
+      151016,
+      -3120
+     ]
+    ]
+   },
+   "expectedSec": 91,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20025,
+     "name": "Lesser Dark Horror",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 78,
+     "questSpawned": false
+    },
+    {
+     "id": 20034,
+     "name": "Prowler",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 79,
+     "questSpawned": false
+    },
+    {
+     "id": 20103,
+     "name": "Giant Spider",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20105,
+     "name": "Dark Horror",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 20106,
+     "name": "Talon Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20108,
+     "name": "Blade Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20308,
+     "name": "Hook Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20403,
+     "name": "Hunter Tarantula",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20460,
+     "name": "Crimson Spider",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20466,
+     "name": "Pincer Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    },
+    {
+     "id": 20474,
+     "name": "Kasha Spider",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20476,
+     "name": "Kasha Fang Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    },
+    {
+     "id": 20478,
+     "name": "Kasha Blade Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 20508,
+     "name": "Plunder Tarantula",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 22244,
+     "name": "Crimson Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3423,
+     "name": "Bloody Fang",
+     "n": 50,
+     "from": [
+      {
+       "id": 20103,
+       "name": "Giant Spider",
+       "chance": 60
+      },
+      {
+       "id": 20106,
+       "name": "Talon Spider",
+       "chance": 75
+      },
+      {
+       "id": 20108,
+       "name": "Blade Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3424,
+     "name": "Bloody Claw",
+     "n": 50,
+     "from": [
+      {
+       "id": 20308,
+       "name": "Hook Spider",
+       "chance": 75
+      },
+      {
+       "id": 20460,
+       "name": "Crimson Spider",
+       "chance": 60
+      },
+      {
+       "id": 20466,
+       "name": "Pincer Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3425,
+     "name": "Bloody Nail",
+     "n": 50,
+     "from": [
+      {
+       "id": 20025,
+       "name": "Lesser Dark Horror",
+       "chance": 60
+      },
+      {
+       "id": 20034,
+       "name": "Prowler",
+       "chance": 100
+      },
+      {
+       "id": 20105,
+       "name": "Dark Horror",
+       "chance": 75
+      }
+     ]
+    },
+    {
+     "id": 3426,
+     "name": "Bloody Kasha Fang",
+     "n": 50,
+     "from": [
+      {
+       "id": 20474,
+       "name": "Kasha Spider",
+       "chance": 60
+      },
+      {
+       "id": 20476,
+       "name": "Kasha Fang Spider",
+       "chance": 75
+      },
+      {
+       "id": 20478,
+       "name": "Kasha Blade Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3427,
+     "name": "Bloody Tarantula Nail",
+     "n": 50,
+     "from": [
+      {
+       "id": 20403,
+       "name": "Hunter Tarantula",
+       "chance": 75
+      },
+      {
+       "id": 20508,
+       "name": "Plunder Tarantula",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 10165,
+     "name": "Bloody Red Claw",
+     "n": 50,
+     "from": [
+      {
+       "id": 22244,
+       "name": "Crimson Spider",
+       "chance": 75
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Lesser Dark Horror, Prowler, Giant Spider for Bloody Fang x50, Bloody Claw x50, Bloody Nail x50, Bloody Kasha Fang x50, Bloody Tarantula Nail x50, Bloody Red Claw x50",
+   "places": [
+    {
+     "mobs": [
+      20103,
+      20106,
+      20108
+     ],
+     "items": [
+      3423
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "singing-waterfall-2",
+      "name": "Singing Waterfall 2: Blade Spider area (south-west)",
+      "at": [
+       -115096,
+       248520,
+       -3232
+      ],
+      "radius": 3722,
+      "levels": [
+       14,
+       17
+      ],
+      "count": 11,
+      "region": "Singing Waterfall",
+      "atlasKey": "area:singing-waterfall-2",
+      "status": "ok",
+      "sec": 119,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -64.01666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-territory-1",
+        "name": "Western Territory 1: Crasher area (south-west)",
+        "at": [
+         -107752,
+         216200,
+         -3264
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "singing-waterfall-3",
+        "name": "Singing Waterfall 3: Talon Spider area (north-west)",
+        "at": [
+         -117416,
+         240312,
+         -3120
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-ruins-2",
+        "name": "Elven Ruins 2: Blade Spider area (north-west)",
+        "at": [
+         -118024,
+         239192,
+         -3000
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:singing-waterfall-2",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 5878,
+      "sec": 119,
+      "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Singing Waterfall",
+        "link": "Singing Waterfall",
+        "price": 770,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 5878,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -111720,
+        244328,
+        -3448
+       ],
+       [
+        -112712,
+        244568,
+        -3448
+       ],
+       [
+        -112824,
+        244680,
+        -3392
+       ],
+       [
+        -112904,
+        244872,
+        -3312
+       ],
+       [
+        -113032,
+        245528,
+        -2912
+       ],
+       [
+        -113096,
+        246520,
+        -2536
+       ],
+       [
+        -114088,
+        247512,
+        -2976
+       ],
+       [
+        -115080,
+        248504,
+        -3232
+       ],
+       [
+        -115096,
+        248520,
+        -3232
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20308,
+      20460,
+      20466
+     ],
+     "items": [
+      3424
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "elven-forest-23",
+      "name": "Elven Forest 23: Hook Spider area (south-west)",
+      "at": [
+       5832,
+       59960,
+       -3648
+      ],
+      "radius": 4010,
+      "levels": [
+       16,
+       18
+      ],
+      "count": 12,
+      "region": "Elven Forest",
+      "atlasKey": "area:elven-forest-23",
+      "status": "ok",
+      "sec": 229,
+      "danger": 18,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -68.18333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "neutral-zone-10",
+        "name": "Neutral Zone 10: Lirein area (east)",
+        "at": [
+         4248,
+         74344,
+         -3712
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "neutral-zone-12",
+        "name": "Neutral Zone 12: Pincer Spider area (north-east)",
+        "at": [
+         2920,
+         64616,
+         -3600
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "neutral-zone-11",
+        "name": "Neutral Zone 11: Lirein Elder area (east)",
+        "at": [
+         4776,
+         81464,
+         -3576
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:elven-forest-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 19069,
+      "sec": 229,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Forest",
+        "link": "elven forest",
+        "price": 710,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10052,
+        "how": "field-areas-gap",
+        "danger": 16
+       },
+       {
+        "do": "walk",
+        "len": 9017,
+        "how": "field-areas",
+        "danger": 18
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        21362,
+        51122,
+        -3688
+       ],
+       [
+        12216,
+        53592,
+        -3672
+       ],
+       [
+        11224,
+        54568,
+        -3536
+       ],
+       [
+        10232,
+        55560,
+        -3432
+       ],
+       [
+        9240,
+        56552,
+        -3392
+       ],
+       [
+        8248,
+        57544,
+        -3600
+       ],
+       [
+        7256,
+        58536,
+        -3664
+       ],
+       [
+        6264,
+        59528,
+        -3664
+       ],
+       [
+        5832,
+        59960,
+        -3648
+       ]
+      ],
+      "maxDanger": 18,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 18,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20025,
+      20034,
+      20105
+     ],
+     "items": [
+      3425
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swampland-18",
+      "name": "Swampland 18: Dark Horror area (south-east)",
+      "at": [
+       -12776,
+       50344,
+       -3760
+      ],
+      "radius": 3921,
+      "levels": [
+       15,
+       16
+      ],
+      "count": 14,
+      "region": "Swampland",
+      "atlasKey": "area:swampland-18",
+      "status": "ok",
+      "sec": 183,
+      "danger": 16,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -80.95,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "swampland-13",
+        "name": "Swampland 13: Lesser Dark Horror area (south)",
+        "at": [
+         -20440,
+         52088,
+         -3664
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-27",
+        "name": "Swampland 27: Lesser Dark Horror area (south)",
+        "at": [
+         -25704,
+         57608,
+         -3784
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "spider-nest-21",
+        "name": "Spider Nest 21: Prowler area (north-east)",
+        "at": [
+         -43208,
+         64872,
+         -3304
+        ],
+        "count": 11,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swampland-18",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 13509,
+      "sec": 183,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Swampland",
+        "link": "swampland",
+        "price": 1100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 13509,
+        "how": "field-areas",
+        "danger": 39
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -21960,
+        40552,
+        -3192
+       ],
+       [
+        -21576,
+        41544,
+        -3456
+       ],
+       [
+        -20584,
+        42536,
+        -3672
+       ],
+       [
+        -19592,
+        43528,
+        -3760
+       ],
+       [
+        -18600,
+        44520,
+        -3736
+       ],
+       [
+        -17608,
+        45512,
+        -3760
+       ],
+       [
+        -16616,
+        46504,
+        -3768
+       ],
+       [
+        -15624,
+        47496,
+        -3768
+       ],
+       [
+        -14632,
+        48488,
+        -3760
+       ],
+       [
+        -13640,
+        49480,
+        -3688
+       ],
+       [
+        -12776,
+        50344,
+        -3760
+       ]
+      ],
+      "maxDanger": 39,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 39,
+       "dangerVsLevel": 24,
+       "aggro": [
+        {
+         "name": "Black Willow Lurker",
+         "lv": 39,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20474,
+      20476,
+      20478
+     ],
+     "items": [
+      3426
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "the-immortal-plateau-20",
+      "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+      "at": [
+       -2952,
+       -123320,
+       -2536
+      ],
+      "radius": 4571,
+      "levels": [
+       14,
+       17
+      ],
+      "count": 14,
+      "region": "The Immortal Plateau",
+      "atlasKey": "area:the-immortal-plateau-20",
+      "status": "ok",
+      "sec": 247,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -79.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-the-lords-far-2",
+        "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+        "at": [
+         26408,
+         -125144,
+         -712
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-1",
+        "name": "Frozen Waterfall 1: Kasha Fang Spider area (east)",
+        "at": [
+         11144,
+         -140856,
+         -1800
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-8",
+        "name": "Frozen Waterfall 8: Kasha Spider area (south)",
+        "at": [
+         12728,
+         -129208,
+         -1368
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:the-immortal-plateau-20",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 21264,
+      "sec": 247,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Frozen Waterfall",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Frozen Waterfall",
+        "link": "frozen waterfall",
+        "price": 1600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7950,
+        "how": "field-areas-gap",
+        "danger": 13
+       },
+       {
+        "do": "walk",
+        "len": 13314,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        8652,
+        -139941,
+        -1144
+       ],
+       [
+        5992,
+        -133128,
+        -2656
+       ],
+       [
+        5016,
+        -132136,
+        -3032
+       ],
+       [
+        4024,
+        -131144,
+        -3312
+       ],
+       [
+        3656,
+        -130776,
+        -3344
+       ],
+       [
+        3000,
+        -129784,
+        -3232
+       ],
+       [
+        2008,
+        -128792,
+        -2888
+       ],
+       [
+        1016,
+        -127800,
+        -3224
+       ],
+       [
+        24,
+        -126808,
+        -3280
+       ],
+       [
+        -792,
+        -125992,
+        -3192
+       ],
+       [
+        -1480,
+        -125112,
+        -3096
+       ],
+       [
+        -1864,
+        -124728,
+        -2976
+       ],
+       [
+        -2536,
+        -123736,
+        -2728
+       ],
+       [
+        -2952,
+        -123320,
+        -2536
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20403,
+      20508
+     ],
+     "items": [
+      3427
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-13",
+      "name": "Western Mining Zone (Central Shore) 13: Plunder Tarantula area (north-east)",
+      "at": [
+       148200,
+       -212664,
+       -3384
+      ],
+      "radius": 5053,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 19,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-13",
+      "status": "ok",
+      "sec": 201,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -110.65,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-6",
+        "name": "Western Mining Zone (Central Shore) 6: Plunder Tarantula area (north-east)",
+        "at": [
+         141752,
+         -210536,
+         -3192
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-19",
+        "name": "Western Mining Zone (Central Shore) 19: Twink Puma area (north-east)",
+        "at": [
+         147704,
+         -216776,
+         -3272
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-1",
+        "name": "Western Mining Zone (Central Shore) 1: Hunter Tarantula area (north)",
+        "at": [
+         136728,
+         -207304,
+         -3536
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-13",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 14364,
+      "sec": 201,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14364,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        137896,
+        -205080,
+        -3816
+       ],
+       [
+        138888,
+        -205080,
+        -3528
+       ],
+       [
+        139880,
+        -205080,
+        -3576
+       ],
+       [
+        140872,
+        -205336,
+        -3672
+       ],
+       [
+        141864,
+        -206328,
+        -3632
+       ],
+       [
+        142856,
+        -207320,
+        -3672
+       ],
+       [
+        143848,
+        -208312,
+        -3680
+       ],
+       [
+        144840,
+        -209304,
+        -3536
+       ],
+       [
+        145832,
+        -210296,
+        -3592
+       ],
+       [
+        146824,
+        -211288,
+        -3592
+       ],
+       [
+        147816,
+        -212280,
+        -3408
+       ],
+       [
+        148200,
+        -212664,
+        -3384
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1004,
+        "maxSwim": 1004,
+        "overBreath": false
+       },
+       "danger": 17,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      22244
+     ],
+     "items": [
+      10165
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-iii-6",
+      "name": "Stronghold III 6: Muertos Warrior area (south-east)",
+      "at": [
+       -79576,
+       45768,
+       -2752
+      ],
+      "radius": 4340,
+      "levels": [
+       13,
+       16
+      ],
+      "count": 7,
+      "region": "Stronghold III",
+      "atlasKey": "area:stronghold-iii-6",
+      "status": "ok",
+      "sec": 163,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -39.28333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stronghold-iii-4",
+        "name": "Stronghold III 4: Crimson Spider area (south-east)",
+        "at": [
+         -78776,
+         40104,
+         -2648
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-iii-5",
+        "name": "Stronghold III 5: Muertos Captain area (south-east)",
+        "at": [
+         -77112,
+         42136,
+         -2656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-iii-9",
+        "name": "Stronghold III 9: Muertos Captain area (south-east)",
+        "at": [
+         -75576,
+         46008,
+         -2976
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-iii-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 11213,
+      "sec": 163,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold III",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold III",
+        "link": "stronghold iii",
+        "price": 3200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1598,
+        "how": "field-areas-gap",
+        "danger": 15
+       },
+       {
+        "do": "walk",
+        "len": 9615,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -85928,
+        37095,
+        -2048
+       ],
+       [
+        -85928,
+        38664,
+        -2216
+       ],
+       [
+        -85560,
+        39656,
+        -2416
+       ],
+       [
+        -84568,
+        40648,
+        -2552
+       ],
+       [
+        -83576,
+        41640,
+        -2688
+       ],
+       [
+        -82584,
+        42632,
+        -2752
+       ],
+       [
+        -81592,
+        43624,
+        -2824
+       ],
+       [
+        -80744,
+        44472,
+        -2784
+       ],
+       [
+        -80104,
+        45240,
+        -2664
+       ],
+       [
+        -79576,
+        45768,
+        -2752
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "singing-waterfall-2",
+    "name": "Singing Waterfall 2: Blade Spider area (south-west)",
+    "at": [
+     -115096,
+     248520,
+     -3232
+    ],
+    "radius": 3722,
+    "levels": [
+     14,
+     17
+    ],
+    "count": 11,
+    "region": "Singing Waterfall",
+    "atlasKey": "area:singing-waterfall-2",
+    "status": "ok",
+    "sec": 119,
+    "danger": 17,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -64.01666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "western-territory-1",
+      "name": "Western Territory 1: Crasher area (south-west)",
+      "at": [
+       -107752,
+       216200,
+       -3264
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "singing-waterfall-3",
+      "name": "Singing Waterfall 3: Talon Spider area (north-west)",
+      "at": [
+       -117416,
+       240312,
+       -3120
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-ruins-2",
+      "name": "Elven Ruins 2: Blade Spider area (north-west)",
+      "at": [
+       -118024,
+       239192,
+       -3000
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:singing-waterfall-2",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 5878,
+    "sec": 119,
+    "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Singing Waterfall",
+      "link": "Singing Waterfall",
+      "price": 770,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 5878,
+      "how": "field-areas",
+      "danger": 17
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -111720,
+      244328,
+      -3448
+     ],
+     [
+      -112712,
+      244568,
+      -3448
+     ],
+     [
+      -112824,
+      244680,
+      -3392
+     ],
+     [
+      -112904,
+      244872,
+      -3312
+     ],
+     [
+      -113032,
+      245528,
+      -2912
+     ],
+     [
+      -113096,
+      246520,
+      -2536
+     ],
+     [
+      -114088,
+      247512,
+      -2976
+     ],
+     [
+      -115080,
+      248504,
+      -3232
+     ],
+     [
+      -115096,
+      248520,
+      -3232
+     ]
+    ],
+    "maxDanger": 17,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 17,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 2219,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1879048192
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30731",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1879048192,
+   "links": [],
+   "npc": {
+    "id": 30731,
+    "name": "Martin",
+    "title": "Pet Manager",
+    "town": "Gludin",
+    "at": [
+     -84624,
+     150832,
+     -3129
+    ],
+    "alt": []
+   },
+   "text": "Bring Animal Lover's List to Martin",
+   "needs": [
+    {
+     "id": 3417,
+     "name": "Animal Lover's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@-84816,151008",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4893,
+    "sec": 61,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4893,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150760,
+      -3120
+     ],
+     [
+      -83608,
+      150760,
+      -3120
+     ],
+     [
+      -83784,
+      150856,
+      -3120
+     ],
+     [
+      -83832,
+      150904,
+      -3120
+     ],
+     [
+      -84008,
+      150904,
+      -3120
+     ],
+     [
+      -84280,
+      150904,
+      -3120
+     ],
+     [
+      -84536,
+      150984,
+      -3120
+     ],
+     [
+      -84808,
+      151016,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@-84816,151008",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150760,
+      -3120
+     ],
+     [
+      -83608,
+      150760,
+      -3120
+     ],
+     [
+      -83784,
+      150856,
+      -3120
+     ],
+     [
+      -83832,
+      150904,
+      -3120
+     ],
+     [
+      -84008,
+      150904,
+      -3120
+     ],
+     [
+      -84280,
+      150904,
+      -3120
+     ],
+     [
+      -84536,
+      150984,
+      -3120
+     ],
+     [
+      -84808,
+      151016,
+      -3120
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1879048192
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30072",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30072,
+    "name": "Metty",
+    "title": "Guard",
+    "town": "Dion",
+    "at": [
+     17503,
+     147575,
+     -3124
+    ],
+    "alt": []
+   },
+   "text": "Bring Animal Lover's List to Metty",
+   "needs": [
+    {
+     "id": 3417,
+     "name": "Animal Lover's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31798@17388,146912",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5655,
+    "sec": 68,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5589,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17368,
+      145384,
+      -3064
+     ],
+     [
+      17592,
+      145544,
+      -3080
+     ],
+     [
+      17784,
+      145720,
+      -3088
+     ],
+     [
+      17976,
+      145912,
+      -3104
+     ],
+     [
+      17960,
+      146184,
+      -3104
+     ],
+     [
+      17848,
+      146424,
+      -3104
+     ],
+     [
+      17720,
+      146664,
+      -3112
+     ],
+     [
+      17560,
+      146872,
+      -3112
+     ],
+     [
+      17384,
+      146920,
+      -3096
+     ],
+     [
+      17432,
+      147560,
+      -3120
+     ],
+     [
+      17496,
+      147576,
+      -3120
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 7,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31798@17388,146912",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17368,
+      145384,
+      -3064
+     ],
+     [
+      17592,
+      145544,
+      -3080
+     ],
+     [
+      17784,
+      145720,
+      -3088
+     ],
+     [
+      17976,
+      145912,
+      -3104
+     ],
+     [
+      17960,
+      146184,
+      -3104
+     ],
+     [
+      17848,
+      146424,
+      -3104
+     ],
+     [
+      17720,
+      146664,
+      -3112
+     ],
+     [
+      17560,
+      146872,
+      -3112
+     ],
+     [
+      17384,
+      146920,
+      -3096
+     ],
+     [
+      17432,
+      147560,
+      -3120
+     ],
+     [
+      17496,
+      147576,
+      -3120
+     ]
+    ]
+   },
+   "expectedSec": 93,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1879048192
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30091",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30091,
+    "name": "Ellie",
+    "title": "Accessory Merchant",
+    "town": "Giran",
+    "at": [
+     80510,
+     149250,
+     -3508
+    ],
+    "alt": []
+   },
+   "text": "Bring Animal Lover's List to Ellie",
+   "needs": [
+    {
+     "id": 3417,
+     "name": "Animal Lover's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30091@80510,149250",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6418,
+    "sec": 73,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6418,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      80104,
+      148616,
+      -3528
+     ],
+     [
+      79848,
+      148664,
+      -3528
+     ],
+     [
+      79800,
+      148936,
+      -3528
+     ],
+     [
+      79752,
+      149176,
+      -3528
+     ],
+     [
+      79608,
+      149320,
+      -3528
+     ],
+     [
+      79784,
+      149448,
+      -3528
+     ],
+     [
+      80056,
+      149448,
+      -3504
+     ],
+     [
+      80248,
+      149432,
+      -3504
+     ],
+     [
+      80440,
+      149256,
+      -3504
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1879048192
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30256",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30256,
+    "name": "Bella",
+    "title": "Gatekeeper",
+    "town": "Gludio",
+    "at": [
+     -12736,
+     122816,
+     -3114
+    ],
+    "alt": []
+   },
+   "text": "Bring Animal Lover's List to Bella",
+   "needs": [
+    {
+     "id": 3417,
+     "name": "Animal Lover's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30256@-12736,122816",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 160,
+    "sec": 21,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 160,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122824,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 46,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1879048192
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

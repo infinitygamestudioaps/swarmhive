@@ -1,0 +1,145 @@
+{
+ "id": 10294,
+ "name": "Seven Signs, To the Monastery of Silence",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.533Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 81,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10293,
+    "name": "Q10293_SevenSignsForbiddenBookOfTheElmoreAdenKingdom",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10293 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "spawn-script",
+   "text": "quest monsters / NPCs spawned by a timer"
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 1
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 2
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 81,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32784",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "I'm ready."
+   ],
+   "npc": {
+    "id": 32784,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia / Odd Globe / Elcadia / Relic Guardian – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32792",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "What is that power?"
+   ],
+   "npc": {
+    "id": 32792,
+    "name": "Eris's Evil Thoughts",
+    "title": "Director",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Eris's Evil Thoughts",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32803",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 32803,
+    "name": "Relic Guardian",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Relic Guardian",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

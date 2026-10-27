@@ -1,0 +1,923 @@
+{
+ "id": 36,
+ "name": "Make a Sewing Kit",
+ "version": 1,
+ "generated": "2026-10-27T11:14:55.303Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 60,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: flow-stuck"
+  },
+  {
+   "code": "dryrun:flow-stuck",
+   "text": "cond 3: talk to 30847 needs 1891x10+1893x10 — not in the bag"
+  }
+ ],
+ "expectedMin": 13,
+ "refLevel": 60,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30847",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What do you need?\""
+   ],
+   "npc": {
+    "id": 30847,
+    "name": "Ferris",
+    "title": "Head Blacksmith",
+    "town": "Aden",
+    "at": [
+     150337,
+     28398,
+     -2246
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ferris – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30847@150337,28398",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6253,
+    "sec": 72,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6253,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150552,
+      28104,
+      -2248
+     ],
+     [
+      150440,
+      28216,
+      -2248
+     ],
+     [
+      150344,
+      28392,
+      -2240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20566,
+     "name": "Enchanted Iron Golem",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7163,
+     "name": "Enchanted Iron",
+     "n": 5,
+     "from": [
+      {
+       "id": 20566,
+       "name": "Enchanted Iron Golem",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": 16,
+   "reasons": [],
+   "text": "Hunt Enchanted Iron Golems",
+   "places": [
+    {
+     "mobs": [
+      20566
+     ],
+     "items": [
+      7163
+     ],
+     "kills": 16,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": -15,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ivory-tower-area-far-6",
+    "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+    "at": [
+     88408,
+     13224,
+     -5288
+    ],
+    "radius": 3701,
+    "levels": [
+     41,
+     43
+    ],
+    "count": 5,
+    "region": "Ivory Tower area",
+    "atlasKey": "area:ivory-tower-area-far-6",
+    "status": "ok",
+    "sec": 210,
+    "danger": 43,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -26.5,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ivory-tower-area-far-1",
+      "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+      "at": [
+       82888,
+       12520,
+       -5288
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "sea-of-spores-25",
+      "name": "Sea of Spores 25: Shackle area (north-east)",
+      "at": [
+       81624,
+       16968,
+       -5288
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ivory-tower-area-far-5",
+      "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+      "at": [
+       88840,
+       17288,
+       -5280
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ivory-tower-area-far-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 19779,
+    "sec": 210,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9599,
+      "how": "field-areas-gap",
+      "danger": 45
+     },
+     {
+      "do": "walk",
+      "len": 10180,
+      "how": "field-areas",
+      "danger": 45
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85560,
+      22392,
+      -5272
+     ],
+     [
+      85688,
+      21992,
+      -5288
+     ],
+     [
+      85688,
+      21000,
+      -5288
+     ],
+     [
+      85992,
+      20008,
+      -5288
+     ],
+     [
+      86984,
+      19016,
+      -5264
+     ],
+     [
+      87976,
+      18024,
+      -5256
+     ],
+     [
+      88184,
+      17816,
+      -5264
+     ],
+     [
+      88184,
+      16824,
+      -5256
+     ],
+     [
+      88184,
+      15832,
+      -5256
+     ],
+     [
+      88184,
+      14840,
+      -5256
+     ],
+     [
+      88184,
+      13848,
+      -5288
+     ],
+     [
+      88408,
+      13224,
+      -5288
+     ]
+    ],
+    "maxDanger": 45,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 45,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 610,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30847",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Here are 10 Artisan's Frames and 10 Oriharukons.\""
+   ],
+   "npc": {
+    "id": 30847,
+    "name": "Ferris",
+    "title": "Head Blacksmith",
+    "town": "Aden",
+    "at": [
+     150337,
+     28398,
+     -2246
+    ],
+    "alt": []
+   },
+   "text": "Hunt Enchanted Iron Golems",
+   "needs": [
+    {
+     "id": 1891,
+     "name": "Artisan's Frame",
+     "n": 10
+    },
+    {
+     "id": 1893,
+     "name": "Oriharukon",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30847@150337,28398",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6253,
+    "sec": 72,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6253,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150552,
+      28104,
+      -2248
+     ],
+     [
+      150440,
+      28216,
+      -2248
+     ],
+     [
+      150344,
+      28392,
+      -2240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:55.744Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "flow-stuck",
+    "t": "cond 3: talk to 30847 needs 1891x10+1893x10 — not in the bag"
+   }
+  ],
+  "warns": [
+   "chance-unconfirmed"
+  ]
+ }
+}

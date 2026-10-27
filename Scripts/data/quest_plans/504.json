@@ -1,0 +1,1333 @@
+{
+ "id": 504,
+ "name": "Competition for the Bandit Stronghold",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.157Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": null,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {
+  "other": [
+   "(!BANDIT_STRONGHOLD.isWaitingBattle())"
+  ],
+  "clan": {
+   "leader": true,
+   "level": 4,
+   "noHall": true,
+   "siege": "Bandit Stronghold (hall 35) registration window"
+  }
+ },
+ "restrictions": [
+  {
+   "code": "level-unknown",
+   "text": "minimum level unknown"
+  }
+ ],
+ "status": "not-for-bots",
+ "reasons": [
+  {
+   "code": "clan",
+   "text": "clan quest (clan leader only)"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 0
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  }
+ ],
+ "expectedMin": 30,
+ "refLevel": 44,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:35437",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Participate in the preliminary contest for the clan hall siege."
+   ],
+   "npc": {
+    "id": 35437,
+    "name": "Messenger",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     86228,
+     -19620,
+     -1904
+    ],
+    "alt": []
+   },
+   "text": "Talk to Messenger – accept the quest",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:35435@86528,-19392",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12273,
+    "sec": 147,
+    "via": ".oren > Oren -> Outlaw Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Outlaw Forest",
+      "link": "outlaw forest",
+      "price": 5200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12273,
+      "how": "geodata",
+      "danger": 55
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Outlaw Forest"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91539,
+      -12204,
+      -2440
+     ],
+     [
+      91480,
+      -12248,
+      -2432
+     ],
+     [
+      91312,
+      -12744,
+      -2320
+     ],
+     [
+      91144,
+      -13240,
+      -2208
+     ],
+     [
+      91296,
+      -13736,
+      -2112
+     ],
+     [
+      91448,
+      -14232,
+      -2016
+     ],
+     [
+      91528,
+      -14312,
+      -2040
+     ],
+     [
+      91656,
+      -14584,
+      -2016
+     ],
+     [
+      91784,
+      -15224,
+      -2024
+     ],
+     [
+      91768,
+      -15480,
+      -2008
+     ],
+     [
+      91520,
+      -15976,
+      -1800
+     ],
+     [
+      91272,
+      -16472,
+      -1592
+     ],
+     [
+      91272,
+      -16520,
+      -1576
+     ],
+     [
+      90744,
+      -17016,
+      -1112
+     ],
+     [
+      90632,
+      -17128,
+      -1040
+     ],
+     [
+      90632,
+      -17544,
+      -1432
+     ],
+     [
+      90568,
+      -17816,
+      -1632
+     ],
+     [
+      90552,
+      -18072,
+      -1824
+     ],
+     [
+      90344,
+      -18280,
+      -1768
+     ],
+     [
+      90232,
+      -18768,
+      -1868
+     ],
+     [
+      90120,
+      -19256,
+      -1968
+     ],
+     [
+      90088,
+      -19656,
+      -2016
+     ],
+     [
+      90056,
+      -19704,
+      -2016
+     ],
+     [
+      89896,
+      -19800,
+      -2000
+     ],
+     [
+      89400,
+      -19920,
+      -2028
+     ],
+     [
+      88904,
+      -20040,
+      -2056
+     ],
+     [
+      88712,
+      -20232,
+      -2056
+     ],
+     [
+      88328,
+      -20344,
+      -1984
+     ],
+     [
+      88088,
+      -20360,
+      -1904
+     ],
+     [
+      88056,
+      -20360,
+      -1912
+     ],
+     [
+      87208,
+      -20152,
+      -2072
+     ],
+     [
+      86872,
+      -19768,
+      -1992
+     ],
+     [
+      86536,
+      -19384,
+      -1912
+     ]
+    ],
+    "maxDanger": 55,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 55,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Oel Mahum Witch Doctor",
+       "lv": 55,
+       "n": 2
+      },
+      {
+       "name": "Oel Mahum Warrior",
+       "lv": 54,
+       "n": 1
+      },
+      {
+       "name": "Oel Mahum",
+       "lv": 53,
+       "n": 3
+      },
+      {
+       "name": "Elder Tarlk Basilisk",
+       "lv": 51,
+       "n": 1
+      },
+      {
+       "name": "Ol Mahum Transcender",
+       "lv": 50,
+       "n": 3
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:35435@86528,-19392",
+     "name": "Outer Doorman"
+    },
+    "points": [
+     [
+      91539,
+      -12204,
+      -2440
+     ],
+     [
+      91480,
+      -12248,
+      -2432
+     ],
+     [
+      91312,
+      -12744,
+      -2320
+     ],
+     [
+      91144,
+      -13240,
+      -2208
+     ],
+     [
+      91296,
+      -13736,
+      -2112
+     ],
+     [
+      91448,
+      -14232,
+      -2016
+     ],
+     [
+      91528,
+      -14312,
+      -2040
+     ],
+     [
+      91656,
+      -14584,
+      -2016
+     ],
+     [
+      91784,
+      -15224,
+      -2024
+     ],
+     [
+      91768,
+      -15480,
+      -2008
+     ],
+     [
+      91520,
+      -15976,
+      -1800
+     ],
+     [
+      91272,
+      -16472,
+      -1592
+     ],
+     [
+      91272,
+      -16520,
+      -1576
+     ],
+     [
+      90744,
+      -17016,
+      -1112
+     ],
+     [
+      90632,
+      -17128,
+      -1040
+     ],
+     [
+      90632,
+      -17544,
+      -1432
+     ],
+     [
+      90568,
+      -17816,
+      -1632
+     ],
+     [
+      90552,
+      -18072,
+      -1824
+     ],
+     [
+      90344,
+      -18280,
+      -1768
+     ],
+     [
+      90232,
+      -18768,
+      -1868
+     ],
+     [
+      90120,
+      -19256,
+      -1968
+     ],
+     [
+      90088,
+      -19656,
+      -2016
+     ],
+     [
+      90056,
+      -19704,
+      -2016
+     ],
+     [
+      89896,
+      -19800,
+      -2000
+     ],
+     [
+      89400,
+      -19920,
+      -2028
+     ],
+     [
+      88904,
+      -20040,
+      -2056
+     ],
+     [
+      88712,
+      -20232,
+      -2056
+     ],
+     [
+      88328,
+      -20344,
+      -1984
+     ],
+     [
+      88088,
+      -20360,
+      -1904
+     ],
+     [
+      88056,
+      -20360,
+      -1912
+     ],
+     [
+      87208,
+      -20152,
+      -2072
+     ],
+     [
+      86872,
+      -19768,
+      -1992
+     ],
+     [
+      86536,
+      -19384,
+      -1912
+     ]
+    ]
+   },
+   "expectedSec": 177,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20570,
+     "name": "Tarlk Bugbear",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 77,
+     "questSpawned": false
+    },
+    {
+     "id": 20571,
+     "name": "Tarlk Bugbear Warrior",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 57,
+     "questSpawned": false
+    },
+    {
+     "id": 20572,
+     "name": "Tarlk Bugbear High Warrior",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20573,
+     "name": "Tarlk Basilisk",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 63,
+     "questSpawned": false
+    },
+    {
+     "id": 20574,
+     "name": "Elder Tarlk Basilisk",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 65,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 4332,
+     "name": "Tarlk Amulet",
+     "n": 30,
+     "from": [
+      {
+       "id": 20570,
+       "name": "Tarlk Bugbear",
+       "chance": 60
+      },
+      {
+       "id": 20571,
+       "name": "Tarlk Bugbear Warrior",
+       "chance": 70
+      },
+      {
+       "id": 20572,
+       "name": "Tarlk Bugbear High Warrior",
+       "chance": 80
+      },
+      {
+       "id": 20573,
+       "name": "Tarlk Basilisk",
+       "chance": 90
+      },
+      {
+       "id": 20574,
+       "name": "Elder Tarlk Basilisk",
+       "chance": 70
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Tarlk Bugbear, Tarlk Bugbear Warrior, Tarlk Bugbear High Warrior for Tarlk Amulet x30",
+   "places": [
+    {
+     "mobs": [
+      20570,
+      20571,
+      20572,
+      20573,
+      20574
+     ],
+     "items": [
+      4332
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ancient-battleground-11",
+      "name": "Ancient Battleground 11: Tarlk Bugbear Warrior area (south-west)",
+      "at": [
+       93576,
+       9448,
+       -3848
+      ],
+      "radius": 5714,
+      "levels": [
+       46,
+       48
+      ],
+      "count": 23,
+      "region": "Ancient Battleground",
+      "atlasKey": "area:ancient-battleground-11",
+      "status": "ok",
+      "sec": 181,
+      "danger": 48,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -134.98333333333332,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "outlaw-forest-22",
+        "name": "Outlaw Forest 22: Tarlk Basilisk area (south-west)",
+        "at": [
+         75816,
+         -1096,
+         -3664
+        ],
+        "count": 22,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-15",
+        "name": "Sea of Spores 15: Tarlk Bugbear area (north-east)",
+        "at": [
+         76616,
+         18792,
+         -3728
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "outlaw-forest-24",
+        "name": "Outlaw Forest 24: Formor Elder area (south-west)",
+        "at": [
+         79976,
+         3736,
+         -2936
+        ],
+        "count": 14,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ancient-battleground-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 16320,
+      "sec": 181,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14738,
+        "how": "field-areas-gap",
+        "danger": 48
+       },
+       {
+        "do": "walk",
+        "len": 1582,
+        "how": "field-areas",
+        "danger": 48
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        92168,
+        8968,
+        -3904
+       ],
+       [
+        93160,
+        9032,
+        -3904
+       ],
+       [
+        93576,
+        9448,
+        -3848
+       ]
+      ],
+      "maxDanger": 48,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 48,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ancient-battleground-11",
+    "name": "Ancient Battleground 11: Tarlk Bugbear Warrior area (south-west)",
+    "at": [
+     93576,
+     9448,
+     -3848
+    ],
+    "radius": 5714,
+    "levels": [
+     46,
+     48
+    ],
+    "count": 23,
+    "region": "Ancient Battleground",
+    "atlasKey": "area:ancient-battleground-11",
+    "status": "ok",
+    "sec": 181,
+    "danger": 48,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -134.98333333333332,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "outlaw-forest-22",
+      "name": "Outlaw Forest 22: Tarlk Basilisk area (south-west)",
+      "at": [
+       75816,
+       -1096,
+       -3664
+      ],
+      "count": 22,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "sea-of-spores-15",
+      "name": "Sea of Spores 15: Tarlk Bugbear area (north-east)",
+      "at": [
+       76616,
+       18792,
+       -3728
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "outlaw-forest-24",
+      "name": "Outlaw Forest 24: Formor Elder area (south-west)",
+      "at": [
+       79976,
+       3736,
+       -2936
+      ],
+      "count": 14,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ancient-battleground-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 16320,
+    "sec": 181,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14738,
+      "how": "field-areas-gap",
+      "danger": 48
+     },
+     {
+      "do": "walk",
+      "len": 1582,
+      "how": "field-areas",
+      "danger": 48
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      92168,
+      8968,
+      -3904
+     ],
+     [
+      93160,
+      9032,
+      -3904
+     ],
+     [
+      93576,
+      9448,
+      -3848
+     ]
+    ],
+    "maxDanger": 48,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 48,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1431,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:35437",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 35437,
+    "name": "Messenger",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     86228,
+     -19620,
+     -1904
+    ],
+    "alt": []
+   },
+   "text": "Talk to Messenger",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:35435@86528,-19392",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12273,
+    "sec": 147,
+    "via": ".oren > Oren -> Outlaw Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Outlaw Forest",
+      "link": "outlaw forest",
+      "price": 5200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12273,
+      "how": "geodata",
+      "danger": 55
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Outlaw Forest"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91539,
+      -12204,
+      -2440
+     ],
+     [
+      91480,
+      -12248,
+      -2432
+     ],
+     [
+      91312,
+      -12744,
+      -2320
+     ],
+     [
+      91144,
+      -13240,
+      -2208
+     ],
+     [
+      91296,
+      -13736,
+      -2112
+     ],
+     [
+      91448,
+      -14232,
+      -2016
+     ],
+     [
+      91528,
+      -14312,
+      -2040
+     ],
+     [
+      91656,
+      -14584,
+      -2016
+     ],
+     [
+      91784,
+      -15224,
+      -2024
+     ],
+     [
+      91768,
+      -15480,
+      -2008
+     ],
+     [
+      91520,
+      -15976,
+      -1800
+     ],
+     [
+      91272,
+      -16472,
+      -1592
+     ],
+     [
+      91272,
+      -16520,
+      -1576
+     ],
+     [
+      90744,
+      -17016,
+      -1112
+     ],
+     [
+      90632,
+      -17128,
+      -1040
+     ],
+     [
+      90632,
+      -17544,
+      -1432
+     ],
+     [
+      90568,
+      -17816,
+      -1632
+     ],
+     [
+      90552,
+      -18072,
+      -1824
+     ],
+     [
+      90344,
+      -18280,
+      -1768
+     ],
+     [
+      90232,
+      -18768,
+      -1868
+     ],
+     [
+      90120,
+      -19256,
+      -1968
+     ],
+     [
+      90088,
+      -19656,
+      -2016
+     ],
+     [
+      90056,
+      -19704,
+      -2016
+     ],
+     [
+      89896,
+      -19800,
+      -2000
+     ],
+     [
+      89400,
+      -19920,
+      -2028
+     ],
+     [
+      88904,
+      -20040,
+      -2056
+     ],
+     [
+      88712,
+      -20232,
+      -2056
+     ],
+     [
+      88328,
+      -20344,
+      -1984
+     ],
+     [
+      88088,
+      -20360,
+      -1904
+     ],
+     [
+      88056,
+      -20360,
+      -1912
+     ],
+     [
+      87208,
+      -20152,
+      -2072
+     ],
+     [
+      86872,
+      -19768,
+      -1992
+     ],
+     [
+      86536,
+      -19384,
+      -1912
+     ]
+    ],
+    "maxDanger": 55,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 55,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Oel Mahum Witch Doctor",
+       "lv": 55,
+       "n": 2
+      },
+      {
+       "name": "Oel Mahum Warrior",
+       "lv": 54,
+       "n": 1
+      },
+      {
+       "name": "Oel Mahum",
+       "lv": 53,
+       "n": 3
+      },
+      {
+       "name": "Elder Tarlk Basilisk",
+       "lv": 51,
+       "n": 1
+      },
+      {
+       "name": "Ol Mahum Transcender",
+       "lv": 50,
+       "n": 3
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:35435@86528,-19392",
+     "name": "Outer Doorman"
+    },
+    "points": [
+     [
+      91539,
+      -12204,
+      -2440
+     ],
+     [
+      91480,
+      -12248,
+      -2432
+     ],
+     [
+      91312,
+      -12744,
+      -2320
+     ],
+     [
+      91144,
+      -13240,
+      -2208
+     ],
+     [
+      91296,
+      -13736,
+      -2112
+     ],
+     [
+      91448,
+      -14232,
+      -2016
+     ],
+     [
+      91528,
+      -14312,
+      -2040
+     ],
+     [
+      91656,
+      -14584,
+      -2016
+     ],
+     [
+      91784,
+      -15224,
+      -2024
+     ],
+     [
+      91768,
+      -15480,
+      -2008
+     ],
+     [
+      91520,
+      -15976,
+      -1800
+     ],
+     [
+      91272,
+      -16472,
+      -1592
+     ],
+     [
+      91272,
+      -16520,
+      -1576
+     ],
+     [
+      90744,
+      -17016,
+      -1112
+     ],
+     [
+      90632,
+      -17128,
+      -1040
+     ],
+     [
+      90632,
+      -17544,
+      -1432
+     ],
+     [
+      90568,
+      -17816,
+      -1632
+     ],
+     [
+      90552,
+      -18072,
+      -1824
+     ],
+     [
+      90344,
+      -18280,
+      -1768
+     ],
+     [
+      90232,
+      -18768,
+      -1868
+     ],
+     [
+      90120,
+      -19256,
+      -1968
+     ],
+     [
+      90088,
+      -19656,
+      -2016
+     ],
+     [
+      90056,
+      -19704,
+      -2016
+     ],
+     [
+      89896,
+      -19800,
+      -2000
+     ],
+     [
+      89400,
+      -19920,
+      -2028
+     ],
+     [
+      88904,
+      -20040,
+      -2056
+     ],
+     [
+      88712,
+      -20232,
+      -2056
+     ],
+     [
+      88328,
+      -20344,
+      -1984
+     ],
+     [
+      88088,
+      -20360,
+      -1904
+     ],
+     [
+      88056,
+      -20360,
+      -1912
+     ],
+     [
+      87208,
+      -20152,
+      -2072
+     ],
+     [
+      86872,
+      -19768,
+      -1992
+     ],
+     [
+      86536,
+      -19384,
+      -1912
+     ]
+    ]
+   },
+   "expectedSec": 172,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {},
+  "note": "Clan leader + clan level 4 + clan hall siege window: a clan quest (not for bots). Source: Q00504_CompetitionForTheBanditStronghold.java onTalk: clan level >= 4 (35437-04), clan LEADER only (35437-05), no hideout / fort / castle (35437-10), only while the Bandit Stronghold clan hall siege registration is open (isWaitingBattle). The \"level 4\" in the data was the CLAN level, not a character level",
+  "editedAt": "2026-10-27T10:23:31.458Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ }
+}

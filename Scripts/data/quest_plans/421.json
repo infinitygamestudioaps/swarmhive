@@ -1,0 +1,535 @@
+{
+ "id": 421,
+ "name": "Little Wing's Big Adventure",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.834Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 45,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {
+  "other": [
+   "(getQuestItemsCount(player, DRAGONFLUTE_OF_WIND, DRAGONFLUTE_OF_STAR, DRAGONFLUTE_OF_TWILIGHT) == 1)",
+   "(flute.getEnchantLevel() < MIN_HACHLING_LVL)",
+   "(fluteCount > 1)",
+   "(getFlute(talker).getEnchantLevel() < MIN_HACHLING_LVL)"
+  ]
+ },
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "kill-parse",
+   "text": "kill NPCs registered but no drop / kill step parsed"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 4,
+ "refLevel": 45,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30610",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Do you know how to do this?\""
+   ],
+   "npc": {
+    "id": 30610,
+    "name": "Cronos",
+    "title": "Elder",
+    "town": "Hunters Village",
+    "at": [
+     117866,
+     76483,
+     -2692
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cronos – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30610@117866,76483",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1602,
+    "sec": 33,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1602,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30747",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30747,
+    "name": "Mimyu",
+    "title": "Fairy",
+    "town": "Oren",
+    "at": [
+     110395,
+     41625,
+     -4619
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mimyu",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:northern-pathway-of-enchanted-valley-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 13208,
+    "sec": 155,
+    "via": ".hunters > Hunters -> Northern Pathway of Enchanted Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Northern Pathway of Enchanted Valley",
+      "link": "enchanted valley, northern region",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12776,
+      "how": "field-areas",
+      "danger": 53
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Northern Pathway of Enchanted Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      104424,
+      33752,
+      -3800
+     ],
+     [
+      104424,
+      34744,
+      -4080
+     ],
+     [
+      104696,
+      35736,
+      -4488
+     ],
+     [
+      105208,
+      36232,
+      -4600
+     ],
+     [
+      106200,
+      36600,
+      -4536
+     ],
+     [
+      107192,
+      37592,
+      -4576
+     ],
+     [
+      108184,
+      38584,
+      -4544
+     ],
+     [
+      108264,
+      38664,
+      -4536
+     ],
+     [
+      108824,
+      39048,
+      -4552
+     ],
+     [
+      109192,
+      39416,
+      -4536
+     ],
+     [
+      109576,
+      39928,
+      -4608
+     ],
+     [
+      109688,
+      40232,
+      -4632
+     ],
+     [
+      110200,
+      41224,
+      -4632
+     ],
+     [
+      110216,
+      41240,
+      -4632
+     ],
+     [
+      110232,
+      41256,
+      -4624
+     ],
+     [
+      110248,
+      41272,
+      -4624
+     ],
+     [
+      110264,
+      41288,
+      -4616
+     ],
+     [
+      110280,
+      41304,
+      -4616
+     ],
+     [
+      110296,
+      41320,
+      -4608
+     ],
+     [
+      110312,
+      41336,
+      -4608
+     ],
+     [
+      110328,
+      41352,
+      -4608
+     ],
+     [
+      110520,
+      41464,
+      -4640
+     ],
+     [
+      110632,
+      41496,
+      -4632
+     ],
+     [
+      111624,
+      41496,
+      -4640
+     ],
+     [
+      112616,
+      41352,
+      -4632
+     ],
+     [
+      112808,
+      41160,
+      -4608
+     ],
+     [
+      110824,
+      41624,
+      -4640
+     ],
+     [
+      110392,
+      41624,
+      -4640
+     ]
+    ],
+    "maxDanger": 53,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 53,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Liele Elder",
+       "lv": 52,
+       "n": 2
+      },
+      {
+       "name": "Fline Elder",
+       "lv": 51,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:northern-pathway-of-enchanted-valley-2",
+     "name": "Northern Pathway of Enchanted Valley 2: Liele area (south-east)"
+    },
+    "points": [
+     [
+      104424,
+      33752,
+      -3800
+     ],
+     [
+      104424,
+      34744,
+      -4080
+     ],
+     [
+      104696,
+      35736,
+      -4488
+     ],
+     [
+      105208,
+      36232,
+      -4600
+     ],
+     [
+      106200,
+      36600,
+      -4536
+     ],
+     [
+      107192,
+      37592,
+      -4576
+     ],
+     [
+      108184,
+      38584,
+      -4544
+     ],
+     [
+      108264,
+      38664,
+      -4536
+     ],
+     [
+      108824,
+      39048,
+      -4552
+     ],
+     [
+      109192,
+      39416,
+      -4536
+     ],
+     [
+      109576,
+      39928,
+      -4608
+     ],
+     [
+      109688,
+      40232,
+      -4632
+     ],
+     [
+      110200,
+      41224,
+      -4632
+     ],
+     [
+      110216,
+      41240,
+      -4632
+     ],
+     [
+      110232,
+      41256,
+      -4624
+     ],
+     [
+      110248,
+      41272,
+      -4624
+     ],
+     [
+      110264,
+      41288,
+      -4616
+     ],
+     [
+      110280,
+      41304,
+      -4616
+     ],
+     [
+      110296,
+      41320,
+      -4608
+     ],
+     [
+      110312,
+      41336,
+      -4608
+     ],
+     [
+      110328,
+      41352,
+      -4608
+     ],
+     [
+      110520,
+      41464,
+      -4640
+     ],
+     [
+      110632,
+      41496,
+      -4632
+     ],
+     [
+      111624,
+      41496,
+      -4640
+     ],
+     [
+      112616,
+      41352,
+      -4632
+     ],
+     [
+      112808,
+      41160,
+      -4608
+     ],
+     [
+      110824,
+      41624,
+      -4640
+     ],
+     [
+      110392,
+      41624,
+      -4640
+     ]
+    ]
+   },
+   "expectedSec": 180,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

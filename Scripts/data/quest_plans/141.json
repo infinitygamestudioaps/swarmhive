@@ -1,0 +1,691 @@
+{
+ "id": 141,
+ "name": "Shadow Fox - 3",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.938Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 37,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Heine",
+ "requirements": {
+  "quests": [
+   {
+    "id": 140,
+    "name": "Q00140_ShadowFoxPart2",
+    "need": "completed",
+    "where": "somewhere in the script"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "140 completed"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 28,
+ "refLevel": 37,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30894",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I am ready.\""
+   ],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Natools – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30894",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I cannot say who is right and who is wrong...\""
+   ],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Natools",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 20135,
+     "name": "Alligator",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20791,
+     "name": "Crokian Warrior",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20792,
+     "name": "Farhite",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10350,
+     "name": "Predecessor's Report",
+     "n": 30,
+     "from": [
+      {
+       "id": 20135,
+       "name": "Alligator",
+       "chance": 53
+      },
+      {
+       "id": 20791,
+       "name": "Crokian Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20792,
+       "name": "Farhite",
+       "chance": 92
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Alligator, Crokian Warrior, Farhite for Predecessor's Report x30",
+   "places": [
+    {
+     "mobs": [
+      20135,
+      20791,
+      20792
+     ],
+     "items": [
+      10350
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "alligator-islands-4",
+      "name": "Alligator Islands 4: Alligator area (north-west)",
+      "at": [
+       111336,
+       187432,
+       -3664
+      ],
+      "radius": 4081,
+      "levels": [
+       40,
+       41
+      ],
+      "count": 10,
+      "region": "Alligator Islands",
+      "atlasKey": "area:alligator-islands-4",
+      "status": "ok",
+      "sec": 99,
+      "danger": 41,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -58.35,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "alligator-islands-11",
+        "name": "Alligator Islands 11: Crokian area (south)",
+        "at": [
+         112808,
+         200504,
+         -3720
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "alligator-islands-14",
+        "name": "Alligator Islands 14: Alligator area (south-west)",
+        "at": [
+         108136,
+         200072,
+         -3560
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "alligator-islands-3",
+        "name": "Alligator Islands 3: Crokian Lad area (north)",
+        "at": [
+         114920,
+         186712,
+         -3760
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:alligator-islands-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 6470,
+      "sec": 99,
+      "via": ".heine > Heine -> Entrance to Alligator Islands",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Entrance to Alligator Islands",
+        "link": "alligator island",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6470,
+        "how": "field-areas",
+        "danger": 41
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Entrance to Alligator Islands"
+      },
+      "simple": true,
+      "pv": [
+       [
+        115576,
+        192264,
+        -3488
+       ],
+       [
+        115064,
+        191272,
+        -3408
+       ],
+       [
+        114072,
+        190280,
+        -3720
+       ],
+       [
+        113896,
+        190104,
+        -3720
+       ],
+       [
+        113016,
+        189112,
+        -3584
+       ],
+       [
+        112024,
+        188120,
+        -3752
+       ],
+       [
+        111336,
+        187432,
+        -3664
+       ]
+      ],
+      "maxDanger": 41,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 41,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "alligator-islands-4",
+    "name": "Alligator Islands 4: Alligator area (north-west)",
+    "at": [
+     111336,
+     187432,
+     -3664
+    ],
+    "radius": 4081,
+    "levels": [
+     40,
+     41
+    ],
+    "count": 10,
+    "region": "Alligator Islands",
+    "atlasKey": "area:alligator-islands-4",
+    "status": "ok",
+    "sec": 99,
+    "danger": 41,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -58.35,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "alligator-islands-11",
+      "name": "Alligator Islands 11: Crokian area (south)",
+      "at": [
+       112808,
+       200504,
+       -3720
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "alligator-islands-14",
+      "name": "Alligator Islands 14: Alligator area (south-west)",
+      "at": [
+       108136,
+       200072,
+       -3560
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "alligator-islands-3",
+      "name": "Alligator Islands 3: Crokian Lad area (north)",
+      "at": [
+       114920,
+       186712,
+       -3760
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:alligator-islands-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 6470,
+    "sec": 99,
+    "via": ".heine > Heine -> Entrance to Alligator Islands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Entrance to Alligator Islands",
+      "link": "alligator island",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6470,
+      "how": "field-areas",
+      "danger": 41
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115576,
+      192264,
+      -3488
+     ],
+     [
+      115064,
+      191272,
+      -3408
+     ],
+     [
+      114072,
+      190280,
+      -3720
+     ],
+     [
+      113896,
+      190104,
+      -3720
+     ],
+     [
+      113016,
+      189112,
+      -3584
+     ],
+     [
+      112024,
+      188120,
+      -3752
+     ],
+     [
+      111336,
+      187432,
+      -3664
+     ]
+    ],
+    "maxDanger": 41,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 41,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1524,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.954Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing",
+   "area-partial"
+  ]
+ }
+}

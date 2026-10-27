@@ -1,0 +1,4448 @@
+{
+ "id": 85,
+ "name": "Saga of the Cardinal",
+ "version": 1,
+ "generated": "2026-10-27T11:14:57.129Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 76,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Oren",
+ "requirements": {
+  "classIds": [
+   16
+  ],
+  "toClassIds": [
+   97
+  ]
+ },
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "timer",
+   "text": "the quest script runs timers (Archon Hellisha has despawned, Mob_1 Timer 1)"
+  },
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 3
+  },
+  {
+   "code": "route-swim",
+   "text": "the way has a swim longer than one breath",
+   "step": 5
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 7
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 8
+  },
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 11
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 13
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 13
+  },
+  {
+   "code": "no-hunt-place",
+   "text": "no hunting place (field area / room / spawn cluster) for the monsters of a step",
+   "step": 15
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 16
+  },
+  {
+   "code": "npc-quest-spawned",
+   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
+   "step": 18
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 21
+  }
+ ],
+ "expectedMin": 363,
+ "refLevel": 76,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30191",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What's different?\"",
+    "\"I'll do it.\""
+   ],
+   "npc": {
+    "id": 30191,
+    "name": "Hollint",
+    "title": "High Priest",
+    "town": "Oren",
+    "at": [
+     83634,
+     52927,
+     -1443
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hollint – accept the saga (level 76, class 16)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30191@83634,52927",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 2203,
+    "sec": 38,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 2203,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82440,
+      53720,
+      -1488
+     ],
+     [
+      82664,
+      53576,
+      -1488
+     ],
+     [
+      82936,
+      53576,
+      -1488
+     ],
+     [
+      83208,
+      53576,
+      -1448
+     ],
+     [
+      83480,
+      53576,
+      -1456
+     ],
+     [
+      83624,
+      53464,
+      -1456
+     ],
+     [
+      83640,
+      53192,
+      -1456
+     ],
+     [
+      83640,
+      52920,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 68,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31588",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"What can I do?\""
+   ],
+   "npc": {
+    "id": 31588,
+    "name": "Agnes",
+    "title": "Saint of Light",
+    "town": "Goddard",
+    "at": [
+     149488,
+     -57152,
+     -2979
+    ],
+    "alt": []
+   },
+   "text": "Talk to Agnes",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31588@149488,-57152",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5194,
+    "sec": 63,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5194,
+      "how": "town-graph",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149784,
+      -57800,
+      -2976
+     ],
+     [
+      149800,
+      -57528,
+      -2976
+     ],
+     [
+      149736,
+      -57352,
+      -2976
+     ],
+     [
+      149528,
+      -57176,
+      -2976
+     ],
+     [
+      149496,
+      -57144,
+      -2976
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:31626",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"What do you need?\""
+   ],
+   "npc": {
+    "id": 31626,
+    "name": "Duncan",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149312,
+     -112484,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Talk to Duncan",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31626@149312,-112484",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4840,
+    "sec": 85,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4840,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -112978,
+      -2508
+     ],
+     [
+      145880,
+      -112488,
+      -2456
+     ],
+     [
+      146872,
+      -112488,
+      -2264
+     ],
+     [
+      147864,
+      -112488,
+      -2168
+     ],
+     [
+      148856,
+      -112488,
+      -2104
+     ],
+     [
+      149320,
+      -112488,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:31626",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "\"Here it is.\""
+   ],
+   "npc": {
+    "id": 31626,
+    "name": "Duncan",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149312,
+     -112484,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Bring Ice Crystal 7080 to Duncan",
+   "needs": [
+    {
+     "id": 7080,
+     "name": "Ice Crystal",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31626@149312,-112484",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4840,
+    "sec": 85,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4840,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -112978,
+      -2508
+     ],
+     [
+      145880,
+      -112488,
+      -2456
+     ],
+     [
+      146872,
+      -112488,
+      -2264
+     ],
+     [
+      147864,
+      -112488,
+      -2168
+     ],
+     [
+      148856,
+      -112488,
+      -2104
+     ],
+     [
+      149320,
+      -112488,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:deliver:31588",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "\"Here's the food you asked for.\""
+   ],
+   "npc": {
+    "id": 31588,
+    "name": "Agnes",
+    "title": "Saint of Light",
+    "town": "Goddard",
+    "at": [
+     149488,
+     -57152,
+     -2979
+    ],
+    "alt": []
+   },
+   "text": "Bring Offering to Agnes",
+   "needs": [
+    {
+     "id": 7522,
+     "name": "Offering",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31588@149488,-57152",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5194,
+    "sec": 63,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5194,
+      "how": "town-graph",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149784,
+      -57800,
+      -2976
+     ],
+     [
+      149800,
+      -57528,
+      -2976
+     ],
+     [
+      149736,
+      -57352,
+      -2976
+     ],
+     [
+      149528,
+      -57176,
+      -2976
+     ],
+     [
+      149496,
+      -57144,
+      -2976
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:deliver:31646",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "Touch the Stone of Commune to the Tablet of Vision."
+   ],
+   "npc": {
+    "id": 31646,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     120112,
+     30912,
+     -3616
+    ],
+    "alt": []
+   },
+   "text": "Bring Resonance Amulet - 1 to Tablet of Vision",
+   "needs": [
+    {
+     "id": 7283,
+     "name": "Resonance Amulet - 1",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "route-swim"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31646@120112,30912",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".hunters",
+    "length": 16825,
+    "sec": 286,
+    "via": ".hunters > Hunters -> Northern Pathway of Enchanted Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Northern Pathway of Enchanted Valley",
+      "link": "enchanted valley, northern region",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 16825,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Northern Pathway of Enchanted Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      104426,
+      33746,
+      -3800
+     ],
+     [
+      104921,
+      33253,
+      -3760
+     ],
+     [
+      105416,
+      32760,
+      -3720
+     ],
+     [
+      105912,
+      32264,
+      -3664
+     ],
+     [
+      106408,
+      31768,
+      -3608
+     ],
+     [
+      106904,
+      31344,
+      -3724
+     ],
+     [
+      107400,
+      30920,
+      -3840
+     ],
+     [
+      108392,
+      30920,
+      -3840
+     ],
+     [
+      109384,
+      30920,
+      -3840
+     ],
+     [
+      110376,
+      30920,
+      -3760
+     ],
+     [
+      111368,
+      30920,
+      -3648
+     ],
+     [
+      112360,
+      30920,
+      -3840
+     ],
+     [
+      113352,
+      30920,
+      -3800
+     ],
+     [
+      114344,
+      30920,
+      -3832
+     ],
+     [
+      115336,
+      30920,
+      -3840
+     ],
+     [
+      116328,
+      30920,
+      -3840
+     ],
+     [
+      117320,
+      30920,
+      -3824
+     ],
+     [
+      118312,
+      30920,
+      -3736
+     ],
+     [
+      119304,
+      30920,
+      -3464
+     ],
+     [
+      120120,
+      30920,
+      -3616
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 8619,
+      "maxSwim": 5972,
+      "overBreath": true
+     },
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 311,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:hunt",
+   "cond": 6,
+   "kind": "hunt",
+   "to": 7,
+   "monsters": [
+    {
+     "id": 27214,
+     "name": "Guardian of Forbidden Knowledge",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 27215,
+     "name": "Guardian of Forbidden Knowledge",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 27216,
+     "name": "Guardian of Forbidden Knowledge",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7314,
+     "name": "Resonance Amulet - 2",
+     "n": 1,
+     "from": [
+      {
+       "id": 27214,
+       "name": "Guardian of Forbidden Knowledge",
+       "chance": 100
+      },
+      {
+       "id": 27215,
+       "name": "Guardian of Forbidden Knowledge",
+       "chance": 100
+      },
+      {
+       "id": 27216,
+       "name": "Guardian of Forbidden Knowledge",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 10,
+   "reasons": [],
+   "text": "Kill 10 Guardian Angels 27214-27216 (the 10th gives item 7314)",
+   "places": [
+    {
+     "mobs": [
+      27214,
+      27215,
+      27216
+     ],
+     "items": [
+      7314
+     ],
+     "kills": 10,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-6",
+      "name": "Valley of Saints 6: Guardian of Forbidden Knowledge area (east)",
+      "at": [
+       79816,
+       -72824,
+       -4456
+      ],
+      "radius": 4471,
+      "levels": [
+       61,
+       76
+      ],
+      "count": 10,
+      "region": "Valley of Saints",
+      "atlasKey": "area:valley-of-saints-6",
+      "status": "ok",
+      "sec": 176,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -57.06666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-saints-7",
+        "name": "Valley of Saints 7: Guardian of Forbidden Knowledge area (north-east)",
+        "at": [
+         72392,
+         -84200,
+         -4312
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-monastic-fortress-far-8",
+        "name": "Valley of Saints / Monastic Fortress (unreachable) 8: Guardian of Forbidden Knowledge area (north-east)",
+        "at": [
+         94392,
+         -88264,
+         -3792
+        ],
+        "count": 10,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 15779,
+      "sec": 176,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15187,
+        "how": "field-areas-gap",
+        "danger": 76
+       },
+       {
+        "do": "walk",
+        "len": 592,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65307,
+        -71445,
+        -3688
+       ],
+       [
+        79352,
+        -72456,
+        -4384
+       ],
+       [
+        79816,
+        -72824,
+        -4456
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "valley-of-saints-6",
+    "name": "Valley of Saints 6: Guardian of Forbidden Knowledge area (east)",
+    "at": [
+     79816,
+     -72824,
+     -4456
+    ],
+    "radius": 4471,
+    "levels": [
+     61,
+     76
+    ],
+    "count": 10,
+    "region": "Valley of Saints",
+    "atlasKey": "area:valley-of-saints-6",
+    "status": "ok",
+    "sec": 176,
+    "danger": 76,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -57.06666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "valley-of-saints-7",
+      "name": "Valley of Saints 7: Guardian of Forbidden Knowledge area (north-east)",
+      "at": [
+       72392,
+       -84200,
+       -4312
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-8",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 8: Guardian of Forbidden Knowledge area (north-east)",
+      "at": [
+       94392,
+       -88264,
+       -3792
+      ],
+      "count": 10,
+      "status": "unverified"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:valley-of-saints-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 15779,
+    "sec": 176,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15187,
+      "how": "field-areas-gap",
+      "danger": 76
+     },
+     {
+      "do": "walk",
+      "len": 592,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      79352,
+      -72456,
+      -4384
+     ],
+     [
+      79816,
+      -72824,
+      -4456
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 426,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c7:deliver:31647",
+   "cond": 7,
+   "kind": "deliver",
+   "to": 8,
+   "links": [
+    "Touch the Tablet of Vision with the Stone of Commune."
+   ],
+   "npc": {
+    "id": 31647,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     94160,
+     -88912,
+     -3792
+    ],
+    "alt": []
+   },
+   "text": "Bring Resonance Amulet - 2 to Tablet of Vision",
+   "needs": [
+    {
+     "id": 7314,
+     "name": "Resonance Amulet - 2",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31647@94160,-88912",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".rune",
+    "length": 12304,
+    "sec": 148,
+    "via": ".rune > Rune -> Monastery of Silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Monastery of Silence",
+      "link": "monastery of silence",
+      "price": 14000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12304,
+      "how": "straight",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Monastery of Silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      94160,
+      -88912,
+      -3792
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 106414,-87799 (no way through (searched 851668 cells))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 173,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:spawn:27267",
+   "cond": 8,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27267,
+     "name": "Fallen Angel Haures",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 7345,
+     "name": "Resonance Amulet - 3",
+     "n": 1,
+     "from": [
+      {
+       "id": 27267,
+       "name": "Fallen Angel Haures",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     31651
+    ]
+   },
+   "text": "Examine the area at Tablet of Vision (spawns Fallen Angel Haures 27267 at 119518,-28658,-3811, 5 min), kill it ALONE (no party)",
+   "npc": {
+    "id": 31651,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     119472,
+     -28688,
+     -3776
+    ],
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31651@119472,-28688",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".aden",
+    "length": 32895,
+    "sec": 319,
+    "via": ".aden > Aden -> Ancient Battleground",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Ancient Battleground",
+      "link": "ancient battleground",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 32895,
+      "how": "geodata",
+      "danger": 64
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Ancient Battleground"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106517,
+      -2871,
+      -3416
+     ],
+     [
+      106759,
+      -3335,
+      -3352
+     ],
+     [
+      107000,
+      -3800,
+      -3288
+     ],
+     [
+      107992,
+      -4792,
+      -3144
+     ],
+     [
+      108280,
+      -5144,
+      -3112
+     ],
+     [
+      108776,
+      -5640,
+      -3040
+     ],
+     [
+      109272,
+      -6136,
+      -2968
+     ],
+     [
+      110072,
+      -7128,
+      -2752
+     ],
+     [
+      110072,
+      -7304,
+      -2752
+     ],
+     [
+      110344,
+      -7832,
+      -2632
+     ],
+     [
+      110712,
+      -8712,
+      -2424
+     ],
+     [
+      110840,
+      -9096,
+      -2272
+     ],
+     [
+      111112,
+      -10088,
+      -1944
+     ],
+     [
+      110968,
+      -10232,
+      -1936
+     ],
+     [
+      110968,
+      -10280,
+      -1936
+     ],
+     [
+      111096,
+      -10504,
+      -1896
+     ],
+     [
+      112088,
+      -11496,
+      -1704
+     ],
+     [
+      112168,
+      -11992,
+      -1708
+     ],
+     [
+      112248,
+      -12488,
+      -1712
+     ],
+     [
+      111872,
+      -12880,
+      -1704
+     ],
+     [
+      111496,
+      -13272,
+      -1696
+     ],
+     [
+      111608,
+      -15112,
+      -1696
+     ],
+     [
+      111896,
+      -15368,
+      -1696
+     ],
+     [
+      111976,
+      -15720,
+      -1696
+     ],
+     [
+      111976,
+      -16088,
+      -1696
+     ],
+     [
+      111512,
+      -16184,
+      -1696
+     ],
+     [
+      111496,
+      -16232,
+      -1696
+     ],
+     [
+      111496,
+      -17224,
+      -1696
+     ],
+     [
+      111992,
+      -17720,
+      -1696
+     ],
+     [
+      112984,
+      -18704,
+      -1696
+     ],
+     [
+      113480,
+      -19192,
+      -1696
+     ],
+     [
+      114200,
+      -19192,
+      -1768
+     ],
+     [
+      115096,
+      -19576,
+      -1984
+     ],
+     [
+      115464,
+      -19704,
+      -1976
+     ],
+     [
+      116072,
+      -20456,
+      -1760
+     ],
+     [
+      116568,
+      -20952,
+      -1688
+     ],
+     [
+      117000,
+      -21112,
+      -1816
+     ],
+     [
+      117128,
+      -21112,
+      -1912
+     ],
+     [
+      117368,
+      -21352,
+      -1688
+     ],
+     [
+      117864,
+      -21848,
+      -2224
+     ],
+     [
+      118360,
+      -22344,
+      -2760
+     ],
+     [
+      118728,
+      -22712,
+      -3184
+     ],
+     [
+      118728,
+      -22792,
+      -3264
+     ],
+     [
+      119480,
+      -23784,
+      -3584
+     ],
+     [
+      119480,
+      -24776,
+      -3496
+     ],
+     [
+      119480,
+      -25768,
+      -3520
+     ],
+     [
+      119480,
+      -26760,
+      -3752
+     ],
+     [
+      119416,
+      -27768,
+      -3576
+     ],
+     [
+      119448,
+      -27784,
+      -3616
+     ],
+     [
+      119480,
+      -28680,
+      -3776
+     ]
+    ],
+    "maxDanger": 64,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 64,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "area": {
+    "kind": "spawn",
+    "id": "spawn",
+    "name": "quest spawn",
+    "at": [
+     119518,
+     -28658,
+     -3811
+    ],
+    "radius": 800,
+    "count": 1
+   },
+   "expectedSec": 619,
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:deliver:31651",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 10,
+   "links": [
+    "Touch the Stone of Commune to the Tablet of Vision."
+   ],
+   "npc": {
+    "id": 31651,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     119472,
+     -28688,
+     -3776
+    ],
+    "alt": []
+   },
+   "text": "Bring Resonance Amulet - 3 to Tablet of Vision",
+   "needs": [
+    {
+     "id": 7345,
+     "name": "Resonance Amulet - 3",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31651@119472,-28688",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".aden",
+    "length": 32895,
+    "sec": 319,
+    "via": ".aden > Aden -> Ancient Battleground",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Ancient Battleground",
+      "link": "ancient battleground",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 32895,
+      "how": "geodata",
+      "danger": 64
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Ancient Battleground"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106517,
+      -2871,
+      -3416
+     ],
+     [
+      106759,
+      -3335,
+      -3352
+     ],
+     [
+      107000,
+      -3800,
+      -3288
+     ],
+     [
+      107992,
+      -4792,
+      -3144
+     ],
+     [
+      108280,
+      -5144,
+      -3112
+     ],
+     [
+      108776,
+      -5640,
+      -3040
+     ],
+     [
+      109272,
+      -6136,
+      -2968
+     ],
+     [
+      110072,
+      -7128,
+      -2752
+     ],
+     [
+      110072,
+      -7304,
+      -2752
+     ],
+     [
+      110344,
+      -7832,
+      -2632
+     ],
+     [
+      110712,
+      -8712,
+      -2424
+     ],
+     [
+      110840,
+      -9096,
+      -2272
+     ],
+     [
+      111112,
+      -10088,
+      -1944
+     ],
+     [
+      110968,
+      -10232,
+      -1936
+     ],
+     [
+      110968,
+      -10280,
+      -1936
+     ],
+     [
+      111096,
+      -10504,
+      -1896
+     ],
+     [
+      112088,
+      -11496,
+      -1704
+     ],
+     [
+      112168,
+      -11992,
+      -1708
+     ],
+     [
+      112248,
+      -12488,
+      -1712
+     ],
+     [
+      111872,
+      -12880,
+      -1704
+     ],
+     [
+      111496,
+      -13272,
+      -1696
+     ],
+     [
+      111608,
+      -15112,
+      -1696
+     ],
+     [
+      111896,
+      -15368,
+      -1696
+     ],
+     [
+      111976,
+      -15720,
+      -1696
+     ],
+     [
+      111976,
+      -16088,
+      -1696
+     ],
+     [
+      111512,
+      -16184,
+      -1696
+     ],
+     [
+      111496,
+      -16232,
+      -1696
+     ],
+     [
+      111496,
+      -17224,
+      -1696
+     ],
+     [
+      111992,
+      -17720,
+      -1696
+     ],
+     [
+      112984,
+      -18704,
+      -1696
+     ],
+     [
+      113480,
+      -19192,
+      -1696
+     ],
+     [
+      114200,
+      -19192,
+      -1768
+     ],
+     [
+      115096,
+      -19576,
+      -1984
+     ],
+     [
+      115464,
+      -19704,
+      -1976
+     ],
+     [
+      116072,
+      -20456,
+      -1760
+     ],
+     [
+      116568,
+      -20952,
+      -1688
+     ],
+     [
+      117000,
+      -21112,
+      -1816
+     ],
+     [
+      117128,
+      -21112,
+      -1912
+     ],
+     [
+      117368,
+      -21352,
+      -1688
+     ],
+     [
+      117864,
+      -21848,
+      -2224
+     ],
+     [
+      118360,
+      -22344,
+      -2760
+     ],
+     [
+      118728,
+      -22712,
+      -3184
+     ],
+     [
+      118728,
+      -22792,
+      -3264
+     ],
+     [
+      119480,
+      -23784,
+      -3584
+     ],
+     [
+      119480,
+      -24776,
+      -3496
+     ],
+     [
+      119480,
+      -25768,
+      -3520
+     ],
+     [
+      119480,
+      -26760,
+      -3752
+     ],
+     [
+      119416,
+      -27768,
+      -3576
+     ],
+     [
+      119448,
+      -27784,
+      -3616
+     ],
+     [
+      119480,
+      -28680,
+      -3776
+     ]
+    ],
+    "maxDanger": 64,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 64,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 344,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c10:talk:31280",
+   "cond": 10,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"What do you need?\"",
+    "\"I'll approach the Ketra Orcs!\""
+   ],
+   "npc": {
+    "id": 31280,
+    "name": "Bastian",
+    "title": "Priest",
+    "town": "Goddard",
+    "at": [
+     148048,
+     -52416,
+     -2736
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bastian and choose Ketra or Varka",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31280@148048,-52416",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4378,
+    "sec": 56,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4378,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147752,
+      -53384,
+      -2728
+     ],
+     [
+      147816,
+      -53320,
+      -2728
+     ],
+     [
+      147816,
+      -53176,
+      -2728
+     ],
+     [
+      147928,
+      -52920,
+      -2728
+     ],
+     [
+      148056,
+      -52680,
+      -2728
+     ],
+     [
+      148056,
+      -52408,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10,
+    14
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c11:deliver:31280",
+   "cond": 11,
+   "kind": "deliver",
+   "to": 13,
+   "links": [
+    "\"Here it is.\""
+   ],
+   "npc": {
+    "id": 31280,
+    "name": "Bastian",
+    "title": "Priest",
+    "town": "Goddard",
+    "at": [
+     148048,
+     -52416,
+     -2736
+    ],
+    "alt": []
+   },
+   "text": "Bring the Divine Stone of Wisdom 7081",
+   "needs": [
+    {
+     "id": 7081,
+     "name": "Divine Stone of Wisdom",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31280@148048,-52416",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4378,
+    "sec": 56,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 4378,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56200,
+      -2776
+     ],
+     [
+      147704,
+      -55928,
+      -2760
+     ],
+     [
+      147704,
+      -55656,
+      -2736
+     ],
+     [
+      147704,
+      -55384,
+      -2728
+     ],
+     [
+      147704,
+      -55112,
+      -2728
+     ],
+     [
+      147704,
+      -54840,
+      -2728
+     ],
+     [
+      147704,
+      -54568,
+      -2728
+     ],
+     [
+      147576,
+      -54472,
+      -2728
+     ],
+     [
+      147704,
+      -54408,
+      -2728
+     ],
+     [
+      147704,
+      -54136,
+      -2728
+     ],
+     [
+      147704,
+      -53864,
+      -2728
+     ],
+     [
+      147704,
+      -53592,
+      -2728
+     ],
+     [
+      147752,
+      -53384,
+      -2728
+     ],
+     [
+      147816,
+      -53320,
+      -2728
+     ],
+     [
+      147816,
+      -53176,
+      -2728
+     ],
+     [
+      147928,
+      -52920,
+      -2728
+     ],
+     [
+      148056,
+      -52680,
+      -2728
+     ],
+     [
+      148056,
+      -52408,
+      -2728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11,
+    12
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c13:deliver:31654",
+   "cond": 13,
+   "kind": "deliver",
+   "to": 14,
+   "links": [
+    "Take the Stone of Commune nearer to the Tablet of Vision."
+   ],
+   "npc": {
+    "id": 31654,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     122512,
+     -69965,
+     -3112
+    ],
+    "alt": []
+   },
+   "text": "Bring Resonance Amulet - 4 to Tablet of Vision",
+   "needs": [
+    {
+     "id": 7376,
+     "name": "Resonance Amulet - 4",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31654@122512,-69965",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".goddard",
+    "length": 24025,
+    "sec": 245,
+    "via": ".goddard > Goddard -> Monastery of silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Monastery of silence",
+      "link": "monastery of silence",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 24025,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Monastery of silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      122512,
+      -69965,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 106414,-87799 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Ascetic Solina",
+       "lv": 83,
+       "n": 2
+      },
+      {
+       "name": "Seeker Solina",
+       "lv": 83,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 270,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c15:hunt",
+   "cond": 15,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21646,
+     "name": "Grave Scarab",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 21647,
+     "name": "Scavenger Scarab",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 21648,
+     "name": "Grave Ant",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21649,
+     "name": "Scavenger Ant",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 21650,
+     "name": "Shrine Knight",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21651,
+     "name": "Shrine Guard",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 18212,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18214,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18215,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18216,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18218,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7407,
+     "name": "Resonance Amulet - 5",
+     "n": 1,
+     "from": [
+      {
+       "id": 27234,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18212,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18214,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18215,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18216,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18218,
+       "name": "Archon of Halisha",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7500,
+     "name": "Halisha's Mark",
+     "n": 700,
+     "from": [
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21648,
+       "name": "Grave Ant",
+       "chance": 100
+      },
+      {
+       "id": 21649,
+       "name": "Scavenger Ant",
+       "chance": 100
+      },
+      {
+       "id": 21650,
+       "name": "Shrine Knight",
+       "chance": 100
+      },
+      {
+       "id": 21651,
+       "name": "Shrine Guard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 234,
+   "reasons": [
+    "no-hunt-place"
+   ],
+   "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7500 (700), then the Archon of Halisha 27234 spawns at you (10 min): kill it ALONE",
+   "places": [
+    {
+     "mobs": [
+      18212,
+      18214,
+      18215,
+      18216,
+      18218
+     ],
+     "items": [
+      7407
+     ],
+     "kills": null,
+     "area": null
+    },
+    {
+     "mobs": [
+      21646,
+      21647,
+      21648,
+      21649,
+      21650,
+      21651
+     ],
+     "items": [
+      7500
+     ],
+     "kills": 234,
+     "area": {
+      "kind": "room",
+      "id": "imperialtomb-1-right-a",
+      "name": "Imperial Tomb (outer halls): Outer tomb, right: Grave Ant room",
+      "at": [
+       193174,
+       -67003,
+       -2806
+      ],
+      "radius": 1881,
+      "levels": [
+       74,
+       75
+      ],
+      "count": 7,
+      "region": "Imperial Tomb (outer halls)",
+      "atlasKey": "room:imperialtomb-1-right-a",
+      "status": "ok",
+      "sec": 632,
+      "danger": 74,
+      "reachable": true,
+      "score": -31.46666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "imperialtomb-1-behind-a",
+        "name": "Imperial Tomb (outer halls): Outer tomb, behind: Grave Ant room",
+        "at": [
+         189936,
+         -69128,
+         -2615
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wall-of-argos-far-1",
+        "name": "Wall of Argos (unreachable) 1: Shrine Knight area (north-east)",
+        "at": [
+         186200,
+         -62312,
+         -2960
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "imperialtomb-1-behind-b",
+        "name": "Imperial Tomb (outer halls): Outer tomb, behind: Shrine Knight room",
+        "at": [
+         194160,
+         -64484,
+         -2897
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:imperialtomb-1-right-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 70380,
+      "sec": 632,
+      "via": ".goddard > Goddard -> Wall of Argos",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Wall of Argos",
+        "link": "wall of argos",
+        "price": 2200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 58438,
+        "how": "saved",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 11942,
+        "how": "dungeon-rooms",
+        "danger": 75
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Wall of Argos"
+      },
+      "simple": true,
+      "pv": [
+       [
+        164744,
+        -48504,
+        -3552
+       ],
+       [
+        165384,
+        -48904,
+        -3120
+       ],
+       [
+        166008,
+        -50184,
+        -3056
+       ],
+       [
+        166952,
+        -52168,
+        -3056
+       ],
+       [
+        167032,
+        -52264,
+        -3120
+       ],
+       [
+        167928,
+        -52952,
+        -2704
+       ],
+       [
+        168344,
+        -52968,
+        -3160
+       ],
+       [
+        170328,
+        -54952,
+        -3488
+       ],
+       [
+        170696,
+        -56376,
+        -3528
+       ],
+       [
+        170936,
+        -56712,
+        -3472
+       ],
+       [
+        172376,
+        -57752,
+        -3360
+       ],
+       [
+        174360,
+        -59736,
+        -3272
+       ],
+       [
+        176344,
+        -61720,
+        -3056
+       ],
+       [
+        178328,
+        -62952,
+        -3008
+       ],
+       [
+        180040,
+        -62856,
+        -3064
+       ],
+       [
+        183016,
+        -62840,
+        -3088
+       ],
+       [
+        184504,
+        -62776,
+        -2944
+       ],
+       [
+        184872,
+        -62856,
+        -2960
+       ],
+       [
+        185912,
+        -63496,
+        -2840
+       ],
+       [
+        187896,
+        -63496,
+        -2904
+       ],
+       [
+        188968,
+        -62984,
+        -2784
+       ],
+       [
+        188984,
+        -62328,
+        -2728
+       ],
+       [
+        189608,
+        -61304,
+        -2872
+       ],
+       [
+        189864,
+        -60216,
+        -2952
+       ],
+       [
+        190408,
+        -59800,
+        -2960
+       ],
+       [
+        191848,
+        -59384,
+        -2840
+       ],
+       [
+        192520,
+        -59192,
+        -2840
+       ],
+       [
+        193080,
+        -59576,
+        -2888
+       ],
+       [
+        193400,
+        -60600,
+        -2880
+       ],
+       [
+        193928,
+        -61928,
+        -2768
+       ],
+       [
+        193848,
+        -63208,
+        -2856
+       ],
+       [
+        193896,
+        -64168,
+        -2888
+       ],
+       [
+        194360,
+        -64968,
+        -2872
+       ],
+       [
+        194056,
+        -65800,
+        -2864
+       ],
+       [
+        192072,
+        -67784,
+        -2696
+       ],
+       [
+        190856,
+        -68824,
+        -2592
+       ],
+       [
+        189960,
+        -69464,
+        -2600
+       ],
+       [
+        190008,
+        -69912,
+        -2512
+       ],
+       [
+        190056,
+        -70888,
+        -2576
+       ],
+       [
+        190120,
+        -71608,
+        -2624
+       ],
+       [
+        189368,
+        -72536,
+        -2656
+       ],
+       [
+        188056,
+        -74424,
+        -2720
+       ],
+       [
+        186696,
+        -75912,
+        -2824
+       ],
+       [
+        188680,
+        -73928,
+        -2696
+       ],
+       [
+        190120,
+        -72296,
+        -2624
+       ],
+       [
+        190088,
+        -70152,
+        -2488
+       ],
+       [
+        190072,
+        -69736,
+        -2504
+       ],
+       [
+        190088,
+        -69336,
+        -2576
+       ],
+       [
+        192072,
+        -67352,
+        -2640
+       ],
+       [
+        193176,
+        -67000,
+        -2808
+       ]
+      ],
+      "maxDanger": 75,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 75,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": null,
+   "expectedSec": 17500,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    15
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c15:spawn:27234",
+   "cond": 15,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27234,
+     "name": "Archon of Halisha",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 7407,
+     "name": "Resonance Amulet - 5",
+     "n": 1,
+     "from": [
+      {
+       "id": 27234,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18212,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18214,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18215,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18216,
+       "name": "Archon of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 18218,
+       "name": "Archon of Halisha",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7500,
+     "name": "Halisha's Mark",
+     "n": 700,
+     "from": [
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21648,
+       "name": "Grave Ant",
+       "chance": 100
+      },
+      {
+       "id": 21649,
+       "name": "Scavenger Ant",
+       "chance": 100
+      },
+      {
+       "id": 21650,
+       "name": "Shrine Knight",
+       "chance": 100
+      },
+      {
+       "id": 21651,
+       "name": "Shrine Guard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 234,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     21646,
+     21647,
+     21648,
+     21649,
+     21650,
+     21651
+    ]
+   },
+   "text": "Kill Archon Minions 21646-21651 for Halisha's Marks 7500 (700), then the Archon of Halisha 27234 spawns at you (10 min): kill it ALONE",
+   "area": {
+    "kind": "room",
+    "id": "imperialtomb-1-right-a",
+    "name": "Imperial Tomb (outer halls): Outer tomb, right: Grave Ant room",
+    "at": [
+     193174,
+     -67003,
+     -2806
+    ],
+    "radius": 1881,
+    "levels": [
+     74,
+     75
+    ],
+    "count": 7,
+    "region": "Imperial Tomb (outer halls)",
+    "atlasKey": "room:imperialtomb-1-right-a",
+    "status": "ok",
+    "sec": 632,
+    "danger": 74,
+    "reachable": true,
+    "score": -31.46666666666667,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "imperialtomb-1-behind-a",
+      "name": "Imperial Tomb (outer halls): Outer tomb, behind: Grave Ant room",
+      "at": [
+       189936,
+       -69128,
+       -2615
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "wall-of-argos-far-1",
+      "name": "Wall of Argos (unreachable) 1: Shrine Knight area (north-east)",
+      "at": [
+       186200,
+       -62312,
+       -2960
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "imperialtomb-1-behind-b",
+      "name": "Imperial Tomb (outer halls): Outer tomb, behind: Shrine Knight room",
+      "at": [
+       194160,
+       -64484,
+       -2897
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:imperialtomb-1-right-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 70380,
+    "sec": 632,
+    "via": ".goddard > Goddard -> Wall of Argos",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 58438,
+      "how": "saved",
+      "danger": 75
+     },
+     {
+      "do": "walk",
+      "len": 11942,
+      "how": "dungeon-rooms",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": true,
+    "pv": [
+     [
+      164744,
+      -48504,
+      -3552
+     ],
+     [
+      165384,
+      -48904,
+      -3120
+     ],
+     [
+      166008,
+      -50184,
+      -3056
+     ],
+     [
+      166952,
+      -52168,
+      -3056
+     ],
+     [
+      167032,
+      -52264,
+      -3120
+     ],
+     [
+      167928,
+      -52952,
+      -2704
+     ],
+     [
+      168344,
+      -52968,
+      -3160
+     ],
+     [
+      170328,
+      -54952,
+      -3488
+     ],
+     [
+      170696,
+      -56376,
+      -3528
+     ],
+     [
+      170936,
+      -56712,
+      -3472
+     ],
+     [
+      172376,
+      -57752,
+      -3360
+     ],
+     [
+      174360,
+      -59736,
+      -3272
+     ],
+     [
+      176344,
+      -61720,
+      -3056
+     ],
+     [
+      178328,
+      -62952,
+      -3008
+     ],
+     [
+      180040,
+      -62856,
+      -3064
+     ],
+     [
+      183016,
+      -62840,
+      -3088
+     ],
+     [
+      184504,
+      -62776,
+      -2944
+     ],
+     [
+      184872,
+      -62856,
+      -2960
+     ],
+     [
+      185912,
+      -63496,
+      -2840
+     ],
+     [
+      187896,
+      -63496,
+      -2904
+     ],
+     [
+      188968,
+      -62984,
+      -2784
+     ],
+     [
+      188984,
+      -62328,
+      -2728
+     ],
+     [
+      189608,
+      -61304,
+      -2872
+     ],
+     [
+      189864,
+      -60216,
+      -2952
+     ],
+     [
+      190408,
+      -59800,
+      -2960
+     ],
+     [
+      191848,
+      -59384,
+      -2840
+     ],
+     [
+      192520,
+      -59192,
+      -2840
+     ],
+     [
+      193080,
+      -59576,
+      -2888
+     ],
+     [
+      193400,
+      -60600,
+      -2880
+     ],
+     [
+      193928,
+      -61928,
+      -2768
+     ],
+     [
+      193848,
+      -63208,
+      -2856
+     ],
+     [
+      193896,
+      -64168,
+      -2888
+     ],
+     [
+      194360,
+      -64968,
+      -2872
+     ],
+     [
+      194056,
+      -65800,
+      -2864
+     ],
+     [
+      192072,
+      -67784,
+      -2696
+     ],
+     [
+      190856,
+      -68824,
+      -2592
+     ],
+     [
+      189960,
+      -69464,
+      -2600
+     ],
+     [
+      190008,
+      -69912,
+      -2512
+     ],
+     [
+      190056,
+      -70888,
+      -2576
+     ],
+     [
+      190120,
+      -71608,
+      -2624
+     ],
+     [
+      189368,
+      -72536,
+      -2656
+     ],
+     [
+      188056,
+      -74424,
+      -2720
+     ],
+     [
+      186696,
+      -75912,
+      -2824
+     ],
+     [
+      188680,
+      -73928,
+      -2696
+     ],
+     [
+      190120,
+      -72296,
+      -2624
+     ],
+     [
+      190088,
+      -70152,
+      -2488
+     ],
+     [
+      190072,
+      -69736,
+      -2504
+     ],
+     [
+      190088,
+      -69336,
+      -2576
+     ],
+     [
+      192072,
+      -67352,
+      -2640
+     ],
+     [
+      193176,
+      -67000,
+      -2808
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 932,
+   "conds": [
+    15
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c16:deliver:31655",
+   "cond": 16,
+   "kind": "deliver",
+   "to": 17,
+   "links": [
+    "Approach the Tablet of Vision with the Stone of Commune."
+   ],
+   "npc": {
+    "id": 31655,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     168528,
+     -61488,
+     -3872
+    ],
+    "alt": []
+   },
+   "text": "Bring Resonance Amulet - 5 to Tablet of Vision",
+   "needs": [
+    {
+     "id": 7407,
+     "name": "Resonance Amulet - 5",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31655@168528,-61488",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 18261,
+    "sec": 197,
+    "via": ".goddard > Goddard -> Wall of Argos",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18261,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": true,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164744,
+      -48504,
+      -3552
+     ],
+     [
+      164760,
+      -48536,
+      -3536
+     ],
+     [
+      164856,
+      -48600,
+      -3456
+     ],
+     [
+      165160,
+      -48920,
+      -3264
+     ],
+     [
+      164816,
+      -49344,
+      -3332
+     ],
+     [
+      164472,
+      -49768,
+      -3400
+     ],
+     [
+      164600,
+      -50056,
+      -3376
+     ],
+     [
+      164648,
+      -50120,
+      -3368
+     ],
+     [
+      164648,
+      -50360,
+      -3432
+     ],
+     [
+      164984,
+      -50792,
+      -3336
+     ],
+     [
+      164984,
+      -50824,
+      -3352
+     ],
+     [
+      165480,
+      -51320,
+      -3376
+     ],
+     [
+      165976,
+      -51816,
+      -3400
+     ],
+     [
+      166008,
+      -51976,
+      -3304
+     ],
+     [
+      166280,
+      -52504,
+      -3208
+     ],
+     [
+      166376,
+      -52600,
+      -3216
+     ],
+     [
+      166376,
+      -52728,
+      -3376
+     ],
+     [
+      166520,
+      -53704,
+      -3408
+     ],
+     [
+      166152,
+      -54328,
+      -3432
+     ],
+     [
+      165952,
+      -54800,
+      -3436
+     ],
+     [
+      165752,
+      -55272,
+      -3440
+     ],
+     [
+      165368,
+      -55656,
+      -3304
+     ],
+     [
+      165256,
+      -55784,
+      -3296
+     ],
+     [
+      165256,
+      -55816,
+      -3288
+     ],
+     [
+      166104,
+      -55816,
+      -2808
+     ],
+     [
+      166376,
+      -55544,
+      -2768
+     ],
+     [
+      166904,
+      -55560,
+      -2616
+     ],
+     [
+      167560,
+      -55544,
+      -2608
+     ],
+     [
+      167672,
+      -55656,
+      -2584
+     ],
+     [
+      167816,
+      -55672,
+      -2896
+     ],
+     [
+      167936,
+      -56168,
+      -2932
+     ],
+     [
+      168056,
+      -56664,
+      -2968
+     ],
+     [
+      168056,
+      -56712,
+      -2976
+     ],
+     [
+      168536,
+      -57240,
+      -3560
+     ],
+     [
+      168536,
+      -58232,
+      -3864
+     ],
+     [
+      168536,
+      -59224,
+      -3896
+     ],
+     [
+      168536,
+      -60216,
+      -3896
+     ],
+     [
+      168536,
+      -61208,
+      -3872
+     ],
+     [
+      168536,
+      -61480,
+      -3864
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 222,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c17:talk:31644",
+   "cond": 17,
+   "kind": "talk",
+   "to": 18,
+   "links": [
+    "\"Don't you want it?\"",
+    "\"Is this a...\""
+   ],
+   "npc": {
+    "id": 31644,
+    "name": "Dawn Witness Franz",
+    "title": "Witness of Dawn",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Patrol at Tablet of Vision: Fallen Angel Tanakia 27274 and Dawn Witness Franz 31644 spawn (60 s); hit 27274 16 times, then talk to 31644",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    17
+   ]
+  },
+  {
+   "i": 17,
+   "key": "c18:deliver:31658",
+   "cond": 18,
+   "kind": "deliver",
+   "to": 19,
+   "links": [
+    "Touch the Stone of Commune to the tablet."
+   ],
+   "npc": {
+    "id": 31658,
+    "name": "Tablet of Vision",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     181264,
+     36640,
+     -4789
+    ],
+    "alt": []
+   },
+   "text": "Bring Resonance Amulet - 6 to Tablet of Vision",
+   "needs": [
+    {
+     "id": 7438,
+     "name": "Resonance Amulet - 6",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31658@181264,36640",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 14080,
+    "sec": 162,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14080,
+      "how": "geodata",
+      "danger": 60
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      168680,
+      37624,
+      -4024
+     ],
+     [
+      168792,
+      37640,
+      -4024
+     ],
+     [
+      168824,
+      37624,
+      -4024
+     ],
+     [
+      169320,
+      37184,
+      -4068
+     ],
+     [
+      169816,
+      36744,
+      -4112
+     ],
+     [
+      170808,
+      36648,
+      -4296
+     ],
+     [
+      171384,
+      36856,
+      -4536
+     ],
+     [
+      172024,
+      37128,
+      -4496
+     ],
+     [
+      172568,
+      37256,
+      -4480
+     ],
+     [
+      173432,
+      37512,
+      -4544
+     ],
+     [
+      174184,
+      37896,
+      -4536
+     ],
+     [
+      174216,
+      37896,
+      -4520
+     ],
+     [
+      175208,
+      37896,
+      -4624
+     ],
+     [
+      175752,
+      37896,
+      -4648
+     ],
+     [
+      176104,
+      37624,
+      -4624
+     ],
+     [
+      176248,
+      37624,
+      -4648
+     ],
+     [
+      176744,
+      37376,
+      -4668
+     ],
+     [
+      177240,
+      37128,
+      -4688
+     ],
+     [
+      178232,
+      37128,
+      -4720
+     ],
+     [
+      178696,
+      37128,
+      -4760
+     ],
+     [
+      178760,
+      37080,
+      -4784
+     ],
+     [
+      178904,
+      37080,
+      -4800
+     ],
+     [
+      179464,
+      36872,
+      -4800
+     ],
+     [
+      179896,
+      36648,
+      -4664
+     ],
+     [
+      180888,
+      36648,
+      -4792
+     ],
+     [
+      181272,
+      36648,
+      -4784
+     ]
+    ],
+    "maxDanger": 60,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 60,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 187,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    18
+   ]
+  },
+  {
+   "i": 18,
+   "key": "c19:talk:30191",
+   "cond": 19,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I've gained a new understanding.\""
+   ],
+   "npc": {
+    "id": 30191,
+    "name": "Hollint",
+    "title": "High Priest",
+    "town": "Oren",
+    "at": [
+     83634,
+     52927,
+     -1443
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hollint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30191@83634,52927",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 2203,
+    "sec": 38,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 2203,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82440,
+      53720,
+      -1488
+     ],
+     [
+      82664,
+      53576,
+      -1488
+     ],
+     [
+      82936,
+      53576,
+      -1488
+     ],
+     [
+      83208,
+      53576,
+      -1448
+     ],
+     [
+      83480,
+      53576,
+      -1456
+     ],
+     [
+      83624,
+      53464,
+      -1456
+     ],
+     [
+      83640,
+      53192,
+      -1456
+     ],
+     [
+      83640,
+      52920,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    19
+   ]
+  },
+  {
+   "i": 19,
+   "key": "c20:manual",
+   "cond": 20,
+   "kind": "special",
+   "text": "step 20",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "no automatic step at cond 20",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    20
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,223 @@
+{
+ "id": 10293,
+ "name": "Seven Signs, Forbidden Book of the Elmore-Aden Kingdom",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.530Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 81,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10292,
+    "name": "Q10292_SevenSignsGirlOfDoubt",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10292 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 1
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 4
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 12
+  }
+ ],
+ "expectedMin": 2,
+ "refLevel": 81,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32784",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Plan to meet at the Rune's Library."
+   ],
+   "npc": {
+    "id": 32784,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32784",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Monastery of Silence?"
+   ],
+   "npc": {
+    "id": 32784,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32861",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Nothing yet. Let me look around.\""
+   ],
+   "npc": {
+    "id": 32861,
+    "name": "Sophia",
+    "title": "Library Director of Saints",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Sophia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:32785",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 32785,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    4,
+    7
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c6:talk:32809",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"This is it!\""
+   ],
+   "npc": {
+    "id": 32809,
+    "name": "Pile of Books",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Pile of Books",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

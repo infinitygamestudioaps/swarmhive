@@ -1,0 +1,806 @@
+{
+ "id": 368,
+ "name": "Trespassing into the Holy Ground",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.291Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 36,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Heine",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 11,
+ "refLevel": 36,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30926",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will help.\""
+   ],
+   "npc": {
+    "id": 30926,
+    "name": "Restina",
+    "title": "Priestess",
+    "town": "Heine",
+    "at": [
+     111053,
+     224148,
+     -3549
+    ],
+    "alt": []
+   },
+   "text": "Talk to Restina – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30926@111053,224148",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 7512,
+    "sec": 83,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 7512,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111464,
+      219000,
+      -3536
+     ],
+     [
+      111720,
+      219080,
+      -3536
+     ],
+     [
+      111992,
+      219096,
+      -3536
+     ],
+     [
+      112264,
+      219096,
+      -3536
+     ],
+     [
+      112536,
+      219128,
+      -3536
+     ],
+     [
+      112616,
+      219304,
+      -3536
+     ],
+     [
+      112616,
+      219576,
+      -3536
+     ],
+     [
+      112568,
+      219704,
+      -3536
+     ],
+     [
+      112600,
+      219912,
+      -3536
+     ],
+     [
+      112616,
+      220184,
+      -3536
+     ],
+     [
+      112584,
+      220456,
+      -3536
+     ],
+     [
+      112584,
+      220632,
+      -3536
+     ],
+     [
+      112616,
+      220904,
+      -3536
+     ],
+     [
+      112552,
+      221176,
+      -3536
+     ],
+     [
+      112504,
+      221384,
+      -3536
+     ],
+     [
+      112232,
+      221416,
+      -3608
+     ],
+     [
+      112088,
+      221608,
+      -3648
+     ],
+     [
+      112088,
+      221624,
+      -3656
+     ],
+     [
+      112088,
+      221640,
+      -3656
+     ],
+     [
+      112088,
+      221912,
+      -3672
+     ],
+     [
+      112088,
+      222184,
+      -3592
+     ],
+     [
+      112088,
+      222456,
+      -3560
+     ],
+     [
+      112088,
+      222728,
+      -3592
+     ],
+     [
+      112088,
+      223000,
+      -3672
+     ],
+     [
+      112008,
+      223160,
+      -3672
+     ],
+     [
+      111832,
+      223096,
+      -3672
+     ],
+     [
+      111592,
+      222952,
+      -3672
+     ],
+     [
+      111416,
+      223032,
+      -3672
+     ],
+     [
+      111384,
+      223272,
+      -3608
+     ],
+     [
+      111384,
+      223512,
+      -3544
+     ],
+     [
+      111336,
+      223784,
+      -3544
+     ],
+     [
+      111272,
+      224040,
+      -3544
+     ],
+     [
+      111096,
+      224152,
+      -3544
+     ],
+     [
+      111048,
+      224152,
+      -3544
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 113,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20794,
+     "name": "Blade Stakato",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 23,
+     "questSpawned": false
+    },
+    {
+     "id": 20795,
+     "name": "Blade Stakato Worker",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20796,
+     "name": "Blade Stakato Warrior",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 20797,
+     "name": "Blade Stakato Drone",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5881,
+     "name": "Blade Stakato Fang",
+     "n": 10,
+     "from": [
+      {
+       "id": 20794,
+       "name": "Blade Stakato",
+       "chance": 60
+      },
+      {
+       "id": 20795,
+       "name": "Blade Stakato Worker",
+       "chance": 57
+      },
+      {
+       "id": 20796,
+       "name": "Blade Stakato Warrior",
+       "chance": 61
+      },
+      {
+       "id": 20797,
+       "name": "Blade Stakato Drone",
+       "chance": 93
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "no-route"
+   ],
+   "text": "Hunt Blade Stakato, Blade Stakato Worker, Blade Stakato Warrior for Blade Stakato Fang x10",
+   "places": [
+    {
+     "mobs": [
+      20794,
+      20795,
+      20796,
+      20797
+     ],
+     "items": [
+      5881
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "20796@84848,246886",
+      "name": "Blade Stakato Warrior (Garden of Eva)",
+      "at": [
+       84848,
+       246886,
+       -9233
+      ],
+      "radius": 1500,
+      "levels": [
+       43,
+       43
+      ],
+      "count": 5,
+      "region": "Garden of Eva",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 60,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "20796@76890,252396",
+        "name": "Blade Stakato Warrior (Garden of Eva)",
+        "at": [
+         76890,
+         252396,
+         -9141
+        ],
+        "count": 5,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20797@78544,247982",
+        "name": "Blade Stakato Drone (Garden of Eva)",
+        "at": [
+         78544,
+         247982,
+         -9337
+        ],
+        "count": 5,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20794@78345,246820",
+        "name": "Blade Stakato (Garden of Eva)",
+        "at": [
+         78345,
+         246820,
+         -8824
+        ],
+        "count": 4,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Water Giant",
+       "lv": 45
+      },
+      {
+       "name": "Queen Undine Lad",
+       "lv": 46
+      },
+      {
+       "name": "Queen Undine Lad",
+       "lv": 46
+      },
+      {
+       "name": "Eva's Seeker",
+       "lv": 47
+      },
+      {
+       "name": "Queen Undine Lad",
+       "lv": 46
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "20796@84848,246886",
+    "name": "Blade Stakato Warrior (Garden of Eva)",
+    "at": [
+     84848,
+     246886,
+     -9233
+    ],
+    "radius": 1500,
+    "levels": [
+     43,
+     43
+    ],
+    "count": 5,
+    "region": "Garden of Eva",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 60,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "20796@76890,252396",
+      "name": "Blade Stakato Warrior (Garden of Eva)",
+      "at": [
+       76890,
+       252396,
+       -9141
+      ],
+      "count": 5,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "20797@78544,247982",
+      "name": "Blade Stakato Drone (Garden of Eva)",
+      "at": [
+       78544,
+       247982,
+       -9337
+      ],
+      "count": 5,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "20794@78345,246820",
+      "name": "Blade Stakato (Garden of Eva)",
+      "at": [
+       78345,
+       246820,
+       -8824
+      ],
+      "count": 4,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 425,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30926",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I must be going.\""
+   ],
+   "npc": {
+    "id": 30926,
+    "name": "Restina",
+    "title": "Priestess",
+    "town": "Heine",
+    "at": [
+     111053,
+     224148,
+     -3549
+    ],
+    "alt": []
+   },
+   "text": "Talk to Restina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30926@111053,224148",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 7512,
+    "sec": 83,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 7512,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111464,
+      219000,
+      -3536
+     ],
+     [
+      111720,
+      219080,
+      -3536
+     ],
+     [
+      111992,
+      219096,
+      -3536
+     ],
+     [
+      112264,
+      219096,
+      -3536
+     ],
+     [
+      112536,
+      219128,
+      -3536
+     ],
+     [
+      112616,
+      219304,
+      -3536
+     ],
+     [
+      112616,
+      219576,
+      -3536
+     ],
+     [
+      112568,
+      219704,
+      -3536
+     ],
+     [
+      112600,
+      219912,
+      -3536
+     ],
+     [
+      112616,
+      220184,
+      -3536
+     ],
+     [
+      112584,
+      220456,
+      -3536
+     ],
+     [
+      112584,
+      220632,
+      -3536
+     ],
+     [
+      112616,
+      220904,
+      -3536
+     ],
+     [
+      112552,
+      221176,
+      -3536
+     ],
+     [
+      112504,
+      221384,
+      -3536
+     ],
+     [
+      112232,
+      221416,
+      -3608
+     ],
+     [
+      112088,
+      221608,
+      -3648
+     ],
+     [
+      112088,
+      221624,
+      -3656
+     ],
+     [
+      112088,
+      221640,
+      -3656
+     ],
+     [
+      112088,
+      221912,
+      -3672
+     ],
+     [
+      112088,
+      222184,
+      -3592
+     ],
+     [
+      112088,
+      222456,
+      -3560
+     ],
+     [
+      112088,
+      222728,
+      -3592
+     ],
+     [
+      112088,
+      223000,
+      -3672
+     ],
+     [
+      112008,
+      223160,
+      -3672
+     ],
+     [
+      111832,
+      223096,
+      -3672
+     ],
+     [
+      111592,
+      222952,
+      -3672
+     ],
+     [
+      111416,
+      223032,
+      -3672
+     ],
+     [
+      111384,
+      223272,
+      -3608
+     ],
+     [
+      111384,
+      223512,
+      -3544
+     ],
+     [
+      111336,
+      223784,
+      -3544
+     ],
+     [
+      111272,
+      224040,
+      -3544
+     ],
+     [
+      111096,
+      224152,
+      -3544
+     ],
+     [
+      111048,
+      224152,
+      -3544
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 108,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

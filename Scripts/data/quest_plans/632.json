@@ -1,0 +1,1099 @@
+{
+ "id": 632,
+ "name": "Necromancer's Request",
+ "version": 1,
+ "generated": "2026-10-27T11:16:13.947Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 63,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 189,
+ "refLevel": 63,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31522",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Quest"
+   ],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mysterious Wizard – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 21568,
+     "name": "Devil Bat",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21569,
+     "name": "Devil Bat",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21573,
+     "name": "Atrox",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 21582,
+     "name": "Vampire Soldier",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 21585,
+     "name": "Vampire Magician",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21586,
+     "name": "Vampire Adept",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21587,
+     "name": "Vampire Warrior",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 21588,
+     "name": "Vampire Wizard",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 21590,
+     "name": "Vampire Magister",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 21589,
+     "name": "Vampire Wizard",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21591,
+     "name": "Vampire Magister",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 21592,
+     "name": "Vampire Magister",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 21593,
+     "name": "Vampire Warlord",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 21594,
+     "name": "Vampire Warlord",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 21595,
+     "name": "Vampire Warlord",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7542,
+     "name": "Vampire's Heart",
+     "n": 200,
+     "from": [
+      {
+       "id": 21568,
+       "name": "Devil Bat",
+       "chance": 45.2
+      },
+      {
+       "id": 21569,
+       "name": "Devil Bat",
+       "chance": 48.4
+      },
+      {
+       "id": 21573,
+       "name": "Atrox",
+       "chance": 49.9
+      },
+      {
+       "id": 21582,
+       "name": "Vampire Soldier",
+       "chance": 52.2
+      },
+      {
+       "id": 21585,
+       "name": "Vampire Magician",
+       "chance": 41.3
+      },
+      {
+       "id": 21586,
+       "name": "Vampire Adept",
+       "chance": 49.6
+      },
+      {
+       "id": 21587,
+       "name": "Vampire Warrior",
+       "chance": 51.9
+      },
+      {
+       "id": 21588,
+       "name": "Vampire Wizard",
+       "chance": 42.8
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Devil Bat, Devil Bat, Atrox for Vampire's Heart x200",
+   "places": [
+    {
+     "mobs": [
+      21568,
+      21569,
+      21573,
+      21582,
+      21585,
+      21586,
+      21587,
+      21588
+     ],
+     "items": [
+      7542
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "rune-outskirts-2",
+      "name": "Rune outskirts 2: Ghost of Rebellion Soldier area (south)",
+      "at": [
+       50824,
+       -43944,
+       -2952
+      ],
+      "radius": 3291,
+      "levels": [
+       69,
+       71
+      ],
+      "count": 9,
+      "region": "Rune outskirts",
+      "atlasKey": "area:rune-outskirts-2",
+      "status": "ok",
+      "sec": 136,
+      "danger": 71,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -51.733333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "rune-outskirts-1",
+        "name": "Rune outskirts 1: Corpse of Deadman area (south)",
+        "at": [
+         49704,
+         -47384,
+         -3392
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "rune-outskirts-6",
+        "name": "Rune outskirts 6: Behemoth Zombie area (south)",
+        "at": [
+         46808,
+         -39560,
+         -1928
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-2",
+        "name": "Forest of the Dead 2: Atrox area (east)",
+        "at": [
+         53528,
+         -54776,
+         -2928
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:rune-outskirts-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 10896,
+      "sec": 136,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7825,
+        "how": "field-areas-gap",
+        "danger": 70
+       },
+       {
+        "do": "walk",
+        "len": 3071,
+        "how": "field-areas",
+        "danger": 71
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        51704,
+        -46840,
+        -3576
+       ],
+       [
+        51288,
+        -45864,
+        -3480
+       ],
+       [
+        51272,
+        -45656,
+        -3456
+       ],
+       [
+        51240,
+        -44872,
+        -3120
+       ],
+       [
+        50824,
+        -43944,
+        -2952
+       ]
+      ],
+      "maxDanger": 71,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 71,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Vampire Soldier",
+         "lv": 71,
+         "n": 2
+        },
+        {
+         "name": "Ghost of Guillotine",
+         "lv": 70,
+         "n": 1
+        },
+        {
+         "name": "Ghost of Rebellion Soldier",
+         "lv": 69,
+         "n": 1
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Bone Caster",
+       "lv": 71
+      },
+      {
+       "name": "Ghost of Rebellion Leader",
+       "lv": 71
+      },
+      {
+       "name": "Ghost of Rebellion Leader",
+       "lv": 71
+      },
+      {
+       "name": "Bone Caster",
+       "lv": 71
+      },
+      {
+       "name": "Bone Caster",
+       "lv": 71
+      }
+     ]
+    },
+    {
+     "mobs": [
+      21568,
+      21569,
+      21573,
+      21582,
+      21585,
+      21586,
+      21587,
+      21588,
+      21589,
+      21590,
+      21591,
+      21592,
+      21593,
+      21594,
+      21595
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "rune-outskirts-6",
+      "name": "Rune outskirts 6: Behemoth Zombie area (south)",
+      "at": [
+       46808,
+       -39560,
+       -1928
+      ],
+      "radius": 2223,
+      "levels": [
+       71,
+       73
+      ],
+      "count": 14,
+      "region": "Rune outskirts",
+      "atlasKey": "area:rune-outskirts-6",
+      "status": "ok",
+      "sec": 186,
+      "danger": 73,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -72.9,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "rune-outskirts-2",
+        "name": "Rune outskirts 2: Ghost of Rebellion Soldier area (south)",
+        "at": [
+         50824,
+         -43944,
+         -2952
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "rune-outskirts-7",
+        "name": "Rune outskirts 7: Vampire Magician area (south)",
+        "at": [
+         49496,
+         -37992,
+         -2024
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "rune-outskirts-8",
+        "name": "Rune outskirts 8: Behemoth Zombie area (south)",
+        "at": [
+         49400,
+         -36104,
+         -1528
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:rune-outskirts-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 16886,
+      "sec": 186,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7840,
+        "how": "field-areas-gap",
+        "danger": 70
+       },
+       {
+        "do": "walk",
+        "len": 9046,
+        "how": "field-areas",
+        "danger": 73
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        51704,
+        -46840,
+        -3576
+       ],
+       [
+        51288,
+        -45864,
+        -3480
+       ],
+       [
+        51272,
+        -45656,
+        -3456
+       ],
+       [
+        51240,
+        -44872,
+        -3120
+       ],
+       [
+        50680,
+        -43880,
+        -2904
+       ],
+       [
+        49688,
+        -42888,
+        -2600
+       ],
+       [
+        49416,
+        -42616,
+        -2504
+       ],
+       [
+        49400,
+        -42600,
+        -2480
+       ],
+       [
+        48504,
+        -41608,
+        -2184
+       ],
+       [
+        47512,
+        -40616,
+        -2072
+       ],
+       [
+        46984,
+        -40088,
+        -1984
+       ],
+       [
+        46808,
+        -39560,
+        -1928
+       ]
+      ],
+      "maxDanger": 73,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 73,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Vampire Magister",
+         "lv": 73,
+         "n": 2
+        },
+        {
+         "name": "Vampire Adept",
+         "lv": 72,
+         "n": 2
+        },
+        {
+         "name": "Vampire Soldier",
+         "lv": 71,
+         "n": 3
+        },
+        {
+         "name": "Ghost of Rebellion Leader",
+         "lv": 71,
+         "n": 3
+        },
+        {
+         "name": "Bone Caster",
+         "lv": 71,
+         "n": 1
+        },
+        {
+         "name": "Behemoth Zombie",
+         "lv": 71,
+         "n": 1
+        },
+        {
+         "name": "Ghost of Guillotine",
+         "lv": 70,
+         "n": 3
+        },
+        {
+         "name": "Bone Grinder",
+         "lv": 70,
+         "n": 1
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Behemoth Zombie",
+       "lv": 71
+      },
+      {
+       "name": "Behemoth Zombie",
+       "lv": 71
+      },
+      {
+       "name": "Behemoth Zombie",
+       "lv": 71
+      },
+      {
+       "name": "Ghost of Rebellion Leader",
+       "lv": 71
+      },
+      {
+       "name": "Bone Caster",
+       "lv": 71
+      },
+      {
+       "name": "Bone Puppeteer",
+       "lv": 71
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "rune-outskirts-2",
+    "name": "Rune outskirts 2: Ghost of Rebellion Soldier area (south)",
+    "at": [
+     50824,
+     -43944,
+     -2952
+    ],
+    "radius": 3291,
+    "levels": [
+     69,
+     71
+    ],
+    "count": 9,
+    "region": "Rune outskirts",
+    "atlasKey": "area:rune-outskirts-2",
+    "status": "ok",
+    "sec": 136,
+    "danger": 71,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -51.733333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "rune-outskirts-1",
+      "name": "Rune outskirts 1: Corpse of Deadman area (south)",
+      "at": [
+       49704,
+       -47384,
+       -3392
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "rune-outskirts-6",
+      "name": "Rune outskirts 6: Behemoth Zombie area (south)",
+      "at": [
+       46808,
+       -39560,
+       -1928
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-2",
+      "name": "Forest of the Dead 2: Atrox area (east)",
+      "at": [
+       53528,
+       -54776,
+       -2928
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:rune-outskirts-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 10896,
+    "sec": 136,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7825,
+      "how": "field-areas-gap",
+      "danger": 70
+     },
+     {
+      "do": "walk",
+      "len": 3071,
+      "how": "field-areas",
+      "danger": 71
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51704,
+      -46840,
+      -3576
+     ],
+     [
+      51288,
+      -45864,
+      -3480
+     ],
+     [
+      51272,
+      -45656,
+      -3456
+     ],
+     [
+      51240,
+      -44872,
+      -3120
+     ],
+     [
+      50824,
+      -43944,
+      -2952
+     ]
+    ],
+    "maxDanger": 71,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 71,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Vampire Soldier",
+       "lv": 71,
+       "n": 2
+      },
+      {
+       "name": "Ghost of Guillotine",
+       "lv": 70,
+       "n": 1
+      },
+      {
+       "name": "Ghost of Rebellion Soldier",
+       "lv": 69,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 11211,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:31522",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "\"I'll sell you the vampire hearts.\""
+   ],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Hand in Vampire's Heart at Mysterious Wizard (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 7542,
+     "name": "Vampire's Heart",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "turnin": true,
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

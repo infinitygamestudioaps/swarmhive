@@ -48,6 +48,7 @@ let changed = 0; const seen = new Set();
 function doFile(file, wrap) {
   if (!fs.existsSync(file)) return;
   const raw = fs.readFileSync(file, 'utf8'), bom = raw.charCodeAt(0) === 0xFEFF, j = JSON.parse(raw.replace(/^﻿/, ''));
+  if (wrap && j && j.manual === true) { console.log(`kept ${path.relative(ROOT, file)} (manual: true, a fixer's record)`); return; }   // 2026-10-27: never overwrite manual records
   const n = wrap ? (() => { const id = Number(path.basename(file, '.json')); const f = FIX[id]; if (!f) return 0; const R = j.requirements || (j.quest && j.quest.requirements); const c = fixReq(R, f); if (c) seen.add(id); return (c ? 1 : 0) + walk(j, seen); })() : walk(j, seen);
   if (!n) return;
   changed += n;

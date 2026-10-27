@@ -1,0 +1,1267 @@
+{
+ "id": 624,
+ "name": "The Finest Ingredients - Part 1",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.659Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 73,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 26,
+ "refLevel": 73,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31521",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will help."
+   ],
+   "npc": {
+    "id": 31521,
+    "name": "Jeremy",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149520,
+     -112704,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jeremy – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31697@149568,-112768",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4922,
+    "sec": 86,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4922,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 2,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31697@149568,-112768",
+     "name": "Eindarkner"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ]
+   },
+   "expectedSec": 116,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 21314,
+     "name": "Hot Springs Bandersnatchling",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 21317,
+     "name": "Hot Springs Atroxspawn",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 21321,
+     "name": "Hot Springs Atrox",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21319,
+     "name": "Hot Springs Nepenthes",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7202,
+     "name": "Trunk of Nepenthes",
+     "n": 50,
+     "from": [
+      {
+       "id": 21319,
+       "name": "Hot Springs Nepenthes",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7203,
+     "name": "Foot of Bandersnatchling",
+     "n": 50,
+     "from": [
+      {
+       "id": 21314,
+       "name": "Hot Springs Bandersnatchling",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7204,
+     "name": "Secret Spice",
+     "n": 50,
+     "from": [
+      {
+       "id": 21317,
+       "name": "Hot Springs Atroxspawn",
+       "chance": 100
+      },
+      {
+       "id": 21321,
+       "name": "Hot Springs Atrox",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Hot Springs Bandersnatchling, Hot Springs Atroxspawn, Hot Springs Atrox for Trunk of Nepenthes x50, Foot of Bandersnatchling x50, Secret Spice x50",
+   "places": [
+    {
+     "mobs": [
+      21319
+     ],
+     "items": [
+      7202
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "hot-springs-4",
+      "name": "Hot Springs 4: Hot Springs Bandersnatchling area (south)",
+      "at": [
+       143752,
+       -107320,
+       -3440
+      ],
+      "radius": 5478,
+      "levels": [
+       73,
+       76
+      ],
+      "count": 8,
+      "region": "Hot Springs",
+      "atlasKey": "area:hot-springs-4",
+      "status": "ok",
+      "sec": 100,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -46.333333333333336,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "hot-springs-5",
+        "name": "Hot Springs 5: Hot Springs Nepenthes area (south-west)",
+        "at": [
+         140824,
+         -107592,
+         -3648
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-6",
+        "name": "Hot Springs 6: Hot Springs Nepenthes area (east)",
+        "at": [
+         153576,
+         -115288,
+         -1536
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-8",
+        "name": "Hot Springs 8: Hot Springs Antelope area (east)",
+        "at": [
+         156552,
+         -114840,
+         -1784
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:hot-springs-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 6598,
+      "sec": 100,
+      "via": ".goddard > Goddard -> Hot Springs",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Hot Springs",
+        "link": "hot springs",
+        "price": 9300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2424,
+        "how": "field-areas-gap",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 4174,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Hot Springs"
+      },
+      "simple": true,
+      "pv": [
+       [
+        144880,
+        -113468,
+        -2560
+       ],
+       [
+        144888,
+        -111112,
+        -3464
+       ],
+       [
+        144888,
+        -110120,
+        -3528
+       ],
+       [
+        144888,
+        -109128,
+        -3464
+       ],
+       [
+        144552,
+        -108136,
+        -3456
+       ],
+       [
+        143960,
+        -107544,
+        -3448
+       ],
+       [
+        143752,
+        -107320,
+        -3440
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21314
+     ],
+     "items": [
+      7203
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "hot-springs-4",
+      "name": "Hot Springs 4: Hot Springs Bandersnatchling area (south)",
+      "at": [
+       143752,
+       -107320,
+       -3440
+      ],
+      "radius": 5478,
+      "levels": [
+       73,
+       76
+      ],
+      "count": 8,
+      "region": "Hot Springs",
+      "atlasKey": "area:hot-springs-4",
+      "status": "ok",
+      "sec": 100,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -46.333333333333336,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "hot-springs-10",
+        "name": "Hot Springs 10: Hot Springs Bandersnatchling area (south-east)",
+        "at": [
+         153704,
+         -106200,
+         -2744
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-2",
+        "name": "Hot Springs 2: Hot Springs Antelope area (east)",
+        "at": [
+         149448,
+         -114056,
+         -1960
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-7",
+        "name": "Hot Springs 7: Hot Springs Antelope area (east)",
+        "at": [
+         155320,
+         -109704,
+         -2632
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:hot-springs-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 6598,
+      "sec": 100,
+      "via": ".goddard > Goddard -> Hot Springs",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Hot Springs",
+        "link": "hot springs",
+        "price": 9300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2424,
+        "how": "field-areas-gap",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 4174,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Hot Springs"
+      },
+      "simple": true,
+      "pv": [
+       [
+        144880,
+        -113468,
+        -2560
+       ],
+       [
+        144888,
+        -111112,
+        -3464
+       ],
+       [
+        144888,
+        -110120,
+        -3528
+       ],
+       [
+        144888,
+        -109128,
+        -3464
+       ],
+       [
+        144552,
+        -108136,
+        -3456
+       ],
+       [
+        143960,
+        -107544,
+        -3448
+       ],
+       [
+        143752,
+        -107320,
+        -3440
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21317,
+      21321
+     ],
+     "items": [
+      7204
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "hot-springs-4",
+      "name": "Hot Springs 4: Hot Springs Bandersnatchling area (south)",
+      "at": [
+       143752,
+       -107320,
+       -3440
+      ],
+      "radius": 5478,
+      "levels": [
+       73,
+       76
+      ],
+      "count": 4,
+      "region": "Hot Springs",
+      "atlasKey": "area:hot-springs-4",
+      "status": "ok",
+      "sec": 100,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -22.333333333333332,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "hot-springs-5",
+        "name": "Hot Springs 5: Hot Springs Nepenthes area (south-west)",
+        "at": [
+         140824,
+         -107592,
+         -3648
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-7",
+        "name": "Hot Springs 7: Hot Springs Antelope area (east)",
+        "at": [
+         155320,
+         -109704,
+         -2632
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-9",
+        "name": "Hot Springs 9: Hot Springs Atrox area (north-east)",
+        "at": [
+         153432,
+         -121736,
+         -2352
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:hot-springs-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 6598,
+      "sec": 100,
+      "via": ".goddard > Goddard -> Hot Springs",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Hot Springs",
+        "link": "hot springs",
+        "price": 9300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2424,
+        "how": "field-areas-gap",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 4174,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Hot Springs"
+      },
+      "simple": true,
+      "pv": [
+       [
+        144880,
+        -113468,
+        -2560
+       ],
+       [
+        144888,
+        -111112,
+        -3464
+       ],
+       [
+        144888,
+        -110120,
+        -3528
+       ],
+       [
+        144888,
+        -109128,
+        -3464
+       ],
+       [
+        144552,
+        -108136,
+        -3456
+       ],
+       [
+        143960,
+        -107544,
+        -3448
+       ],
+       [
+        143752,
+        -107320,
+        -3440
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21314,
+      21317,
+      21319,
+      21321
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "hot-springs-4",
+      "name": "Hot Springs 4: Hot Springs Bandersnatchling area (south)",
+      "at": [
+       143752,
+       -107320,
+       -3440
+      ],
+      "radius": 5478,
+      "levels": [
+       73,
+       76
+      ],
+      "count": 20,
+      "region": "Hot Springs",
+      "atlasKey": "area:hot-springs-4",
+      "status": "ok",
+      "sec": 100,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -118.33333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "hot-springs-5",
+        "name": "Hot Springs 5: Hot Springs Nepenthes area (south-west)",
+        "at": [
+         140824,
+         -107592,
+         -3648
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-10",
+        "name": "Hot Springs 10: Hot Springs Bandersnatchling area (south-east)",
+        "at": [
+         153704,
+         -106200,
+         -2744
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "hot-springs-7",
+        "name": "Hot Springs 7: Hot Springs Antelope area (east)",
+        "at": [
+         155320,
+         -109704,
+         -2632
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:hot-springs-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 6598,
+      "sec": 100,
+      "via": ".goddard > Goddard -> Hot Springs",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Hot Springs",
+        "link": "hot springs",
+        "price": 9300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2424,
+        "how": "field-areas-gap",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 4174,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Hot Springs"
+      },
+      "simple": true,
+      "pv": [
+       [
+        144880,
+        -113468,
+        -2560
+       ],
+       [
+        144888,
+        -111112,
+        -3464
+       ],
+       [
+        144888,
+        -110120,
+        -3528
+       ],
+       [
+        144888,
+        -109128,
+        -3464
+       ],
+       [
+        144552,
+        -108136,
+        -3456
+       ],
+       [
+        143960,
+        -107544,
+        -3448
+       ],
+       [
+        143752,
+        -107320,
+        -3440
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "hot-springs-4",
+    "name": "Hot Springs 4: Hot Springs Bandersnatchling area (south)",
+    "at": [
+     143752,
+     -107320,
+     -3440
+    ],
+    "radius": 5478,
+    "levels": [
+     73,
+     76
+    ],
+    "count": 8,
+    "region": "Hot Springs",
+    "atlasKey": "area:hot-springs-4",
+    "status": "ok",
+    "sec": 100,
+    "danger": 76,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -46.333333333333336,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "hot-springs-5",
+      "name": "Hot Springs 5: Hot Springs Nepenthes area (south-west)",
+      "at": [
+       140824,
+       -107592,
+       -3648
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "hot-springs-6",
+      "name": "Hot Springs 6: Hot Springs Nepenthes area (east)",
+      "at": [
+       153576,
+       -115288,
+       -1536
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "hot-springs-8",
+      "name": "Hot Springs 8: Hot Springs Antelope area (east)",
+      "at": [
+       156552,
+       -114840,
+       -1784
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:hot-springs-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 6598,
+    "sec": 100,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2424,
+      "how": "field-areas-gap",
+      "danger": 75
+     },
+     {
+      "do": "walk",
+      "len": 4174,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      144888,
+      -111112,
+      -3464
+     ],
+     [
+      144888,
+      -110120,
+      -3528
+     ],
+     [
+      144888,
+      -109128,
+      -3464
+     ],
+     [
+      144552,
+      -108136,
+      -3456
+     ],
+     [
+      143960,
+      -107544,
+      -3448
+     ],
+     [
+      143752,
+      -107320,
+      -3440
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1350,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:31521",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Here you go.\""
+   ],
+   "npc": {
+    "id": 31521,
+    "name": "Jeremy",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149520,
+     -112704,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jeremy",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31697@149568,-112768",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4922,
+    "sec": 86,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4922,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 2,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31697@149568,-112768",
+     "name": "Eindarkner"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ]
+   },
+   "expectedSec": 111,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:41.665Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

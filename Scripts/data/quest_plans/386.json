@@ -1,0 +1,943 @@
+{
+ "id": 386,
+ "name": "Stolen Dignity",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.963Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 58,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 211,
+ "refLevel": 58,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30843",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30843,
+    "name": "Romp",
+    "title": "Warehouse Keeper",
+    "town": "Aden",
+    "at": [
+     148859,
+     27258,
+     -2216
+    ],
+    "alt": []
+   },
+   "text": "Talk to Romp – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30843@148859,27258",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 4141,
+    "sec": 55,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 4141,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147464,
+      26504,
+      -2192
+     ],
+     [
+      147544,
+      26680,
+      -2200
+     ],
+     [
+      147736,
+      26872,
+      -2200
+     ],
+     [
+      148008,
+      26872,
+      -2200
+     ],
+     [
+      148216,
+      26776,
+      -2200
+     ],
+     [
+      148408,
+      26584,
+      -2200
+     ],
+     [
+      148312,
+      26488,
+      -2184
+     ],
+     [
+      148360,
+      26328,
+      -2184
+     ],
+     [
+      148616,
+      26280,
+      -2184
+     ],
+     [
+      148840,
+      26440,
+      -2184
+     ],
+     [
+      148856,
+      26712,
+      -2184
+     ],
+     [
+      148856,
+      26984,
+      -2184
+     ],
+     [
+      148856,
+      27256,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 85,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20670,
+     "name": "Crimson Drake",
+     "level": 61,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20671,
+     "name": "Kadios",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21005,
+     "name": "Grave Predator",
+     "level": 59,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20956,
+     "name": "Past Knight",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 20959,
+     "name": "Dark Guard",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 20963,
+     "name": "Bloody Lord",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20967,
+     "name": "Past Creature",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20969,
+     "name": "Giant's Shadow",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20970,
+     "name": "Soldier of Ancient Times",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20971,
+     "name": "Warrior of Ancient Times",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20974,
+     "name": "Spiteful Soul Leader",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21001,
+     "name": "Wretched Archer",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 21003,
+     "name": "Grave Lich",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 38,
+     "questSpawned": false
+    },
+    {
+     "id": 21020,
+     "name": "Fallen Orc Shaman",
+     "level": 58,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 21021,
+     "name": "Sharp Talon Tiger",
+     "level": 59,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 21108,
+     "name": "Glow Wisp",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 21110,
+     "name": "Marsh Predator",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 21113,
+     "name": "Hames Orc Sniper",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 21114,
+     "name": "Cursed Guardian",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 21116,
+     "name": "Hames Orc Overlord",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 6363,
+     "name": "Stolen Infernium Ore",
+     "n": 100,
+     "from": [
+      {
+       "id": 20670,
+       "name": "Crimson Drake",
+       "chance": 20.200001
+      },
+      {
+       "id": 20671,
+       "name": "Kadios",
+       "chance": 21.1
+      },
+      {
+       "id": 21005,
+       "name": "Grave Predator",
+       "chance": 21.1
+      },
+      {
+       "id": 20956,
+       "name": "Past Knight",
+       "chance": 21.6
+      },
+      {
+       "id": 20959,
+       "name": "Dark Guard",
+       "chance": 27.3
+      },
+      {
+       "id": 20963,
+       "name": "Bloody Lord",
+       "chance": 19.9
+      },
+      {
+       "id": 20967,
+       "name": "Past Creature",
+       "chance": 25.7
+      },
+      {
+       "id": 20969,
+       "name": "Giant's Shadow",
+       "chance": 20.5
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Crimson Drake, Kadios, Grave Predator for Stolen Infernium Ore x100",
+   "places": [
+    {
+     "mobs": [
+      20670,
+      20671,
+      21005,
+      20956,
+      20959,
+      20963,
+      20967,
+      20969
+     ],
+     "items": [
+      6363
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "seal-of-shilen-5",
+      "name": "Seal of Shilen 5: Crimson Drake area (north)",
+      "at": [
+       185608,
+       15080,
+       -3272
+      ],
+      "radius": 5303,
+      "levels": [
+       60,
+       63
+      ],
+      "count": 13,
+      "region": "Seal of Shilen",
+      "atlasKey": "area:seal-of-shilen-5",
+      "status": "ok",
+      "sec": 88,
+      "danger": 64,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -76.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-17",
+        "name": "Fields of Massacre 17: Grave Predator area (west)",
+        "at": [
+         172472,
+         -11352,
+         -2912
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ancient-battleground-9",
+        "name": "Ancient Battleground 9: Bloody Lord area (east)",
+        "at": [
+         120712,
+         -4776,
+         -3768
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-20",
+        "name": "Fields of Massacre 20: Doom Servant area (west)",
+        "at": [
+         171736,
+         -16920,
+         -3128
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:seal-of-shilen-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 5210,
+      "sec": 88,
+      "via": ".aden > Aden -> Seal of Shilen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Seal of Shilen",
+        "link": "seal of shilen",
+        "price": 3000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 704,
+        "how": "field-areas-gap",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 4506,
+        "how": "field-areas",
+        "danger": 62
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Seal of Shilen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        184742,
+        19745,
+        -3168
+       ],
+       [
+        185288,
+        19480,
+        -3296
+       ],
+       [
+        185288,
+        18488,
+        -3320
+       ],
+       [
+        185288,
+        17496,
+        -3296
+       ],
+       [
+        185288,
+        16504,
+        -3296
+       ],
+       [
+        185288,
+        15512,
+        -3280
+       ],
+       [
+        185608,
+        15080,
+        -3272
+       ]
+      ],
+      "maxDanger": 62,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 62,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "seal-of-shilen-5",
+    "name": "Seal of Shilen 5: Crimson Drake area (north)",
+    "at": [
+     185608,
+     15080,
+     -3272
+    ],
+    "radius": 5303,
+    "levels": [
+     60,
+     63
+    ],
+    "count": 13,
+    "region": "Seal of Shilen",
+    "atlasKey": "area:seal-of-shilen-5",
+    "status": "ok",
+    "sec": 88,
+    "danger": 64,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -76.53333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-17",
+      "name": "Fields of Massacre 17: Grave Predator area (west)",
+      "at": [
+       172472,
+       -11352,
+       -2912
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ancient-battleground-9",
+      "name": "Ancient Battleground 9: Bloody Lord area (east)",
+      "at": [
+       120712,
+       -4776,
+       -3768
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-20",
+      "name": "Fields of Massacre 20: Doom Servant area (west)",
+      "at": [
+       171736,
+       -16920,
+       -3128
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:seal-of-shilen-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 5210,
+    "sec": 88,
+    "via": ".aden > Aden -> Seal of Shilen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Seal of Shilen",
+      "link": "seal of shilen",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 704,
+      "how": "field-areas-gap",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 4506,
+      "how": "field-areas",
+      "danger": 62
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Seal of Shilen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      184742,
+      19745,
+      -3168
+     ],
+     [
+      185288,
+      19480,
+      -3296
+     ],
+     [
+      185288,
+      18488,
+      -3320
+     ],
+     [
+      185288,
+      17496,
+      -3296
+     ],
+     [
+      185288,
+      16504,
+      -3296
+     ],
+     [
+      185288,
+      15512,
+      -3280
+     ],
+     [
+      185608,
+      15080,
+      -3272
+     ]
+    ],
+    "maxDanger": 62,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 62,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 12488,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30843",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30843,
+    "name": "Romp",
+    "title": "Warehouse Keeper",
+    "town": "Aden",
+    "at": [
+     148859,
+     27258,
+     -2216
+    ],
+    "alt": []
+   },
+   "text": "Talk to Romp",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30843@148859,27258",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 4141,
+    "sec": 55,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 4141,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147464,
+      26504,
+      -2192
+     ],
+     [
+      147544,
+      26680,
+      -2200
+     ],
+     [
+      147736,
+      26872,
+      -2200
+     ],
+     [
+      148008,
+      26872,
+      -2200
+     ],
+     [
+      148216,
+      26776,
+      -2200
+     ],
+     [
+      148408,
+      26584,
+      -2200
+     ],
+     [
+      148312,
+      26488,
+      -2184
+     ],
+     [
+      148360,
+      26328,
+      -2184
+     ],
+     [
+      148616,
+      26280,
+      -2184
+     ],
+     [
+      148840,
+      26440,
+      -2184
+     ],
+     [
+      148856,
+      26712,
+      -2184
+     ],
+     [
+      148856,
+      26984,
+      -2184
+     ],
+     [
+      148856,
+      27256,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:20954": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "optional: these monster ids have no spawn in the datapack (spawnlist.sql, no minion entry in stats/npcs); item 6363 also drops from 20 spawned monster(s) of the hunt step at this cond (quest record drops), and the engine (qeHuntAction) hunts only the spawned ones.",
+    "editedAt": "2026-10-27T10:06:26.453Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.453Z",
+  "by": "quest-fixer batch 5"
+ }
+}

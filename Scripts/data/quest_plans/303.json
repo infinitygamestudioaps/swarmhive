@@ -1,0 +1,1135 @@
+{
+ "id": 303,
+ "name": "Collect Arrowheads",
+ "version": 1,
+ "generated": "2026-10-27T11:15:19.310Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 10,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 21,
+ "refLevel": 10,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30029",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the task"
+   ],
+   "npc": {
+    "id": 30029,
+    "name": "Minia",
+    "title": "Master",
+    "town": "Talking Island",
+    "at": [
+     -83175,
+     243065,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Minia – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30029@-83175,243065",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5013,
+    "sec": 87,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5013,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85112,
+      243528,
+      -3728
+     ],
+     [
+      -85016,
+      243416,
+      -3728
+     ],
+     [
+      -84920,
+      243336,
+      -3728
+     ],
+     [
+      -84728,
+      243144,
+      -3728
+     ],
+     [
+      -84664,
+      242888,
+      -3728
+     ],
+     [
+      -84504,
+      242680,
+      -3728
+     ],
+     [
+      -84296,
+      242536,
+      -3728
+     ],
+     [
+      -84024,
+      242536,
+      -3728
+     ],
+     [
+      -83752,
+      242536,
+      -3728
+     ],
+     [
+      -83560,
+      242344,
+      -3728
+     ],
+     [
+      -83480,
+      242264,
+      -3728
+     ],
+     [
+      -83304,
+      242344,
+      -3728
+     ],
+     [
+      -83128,
+      242552,
+      -3720
+     ],
+     [
+      -83112,
+      242568,
+      -3720
+     ],
+     [
+      -83160,
+      242808,
+      -3720
+     ],
+     [
+      -83176,
+      243064,
+      -3720
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 117,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20361,
+     "name": "Tunath Orc Marksman",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 963,
+     "name": "Orcish Arrowhead",
+     "n": 10,
+     "from": [
+      {
+       "id": 20361,
+       "name": "Tunath Orc Marksman",
+       "chance": 40
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "area-danger",
+    "route-unverified",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Tunath Orc Marksman for Orcish Arrowhead x10",
+   "places": [
+    {
+     "mobs": [
+      20361
+     ],
+     "items": [
+      963
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "20361@47446,246679",
+      "name": "Tunath Orc Marksman",
+      "at": [
+       47446,
+       246679,
+       -6677
+      ],
+      "radius": 1500,
+      "levels": [
+       10,
+       10
+      ],
+      "count": 2,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 78,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "20361@44971,249199",
+        "name": "Tunath Orc Marksman",
+        "at": [
+         44971,
+         249199,
+         -6405
+        ],
+        "count": 1,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:30429@49328,248416",
+      "status": "unverified",
+      "flags": [
+       "unverified-walk",
+       "long-walk"
+      ],
+      "from": ".heine",
+      "length": 41731,
+      "sec": 393,
+      "via": ".heine > Heine -> Garden of Eva",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Garden of Eva",
+        "link": "garden of eva",
+        "price": 2400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 37806,
+        "how": "straight",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Garden of Eva"
+      },
+      "simple": true,
+      "pv": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        46408,
+        248296,
+        -6360
+       ],
+       [
+        46424,
+        247976,
+        -6360
+       ],
+       [
+        47016,
+        247864,
+        -6360
+       ],
+       [
+        47736,
+        247832,
+        -6488
+       ],
+       [
+        47736,
+        247288,
+        -6616
+       ],
+       [
+        47496,
+        246888,
+        -6616
+       ],
+       [
+        47448,
+        246680,
+        -6616
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [
+       "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 12,
+       "aggro": [
+        {
+         "name": "Dre Vanul Disposer",
+         "lv": 22,
+         "n": 2
+        },
+        {
+         "name": "Nerkas",
+         "lv": 22,
+         "n": 1
+        },
+        {
+         "name": "Dre Vanul",
+         "lv": 20,
+         "n": 6
+        },
+        {
+         "name": "Undine Noble",
+         "lv": 19,
+         "n": 2
+        }
+       ]
+      },
+      "anchor": {
+       "key": "npc:30429@49328,248416",
+       "name": "Tiramisa"
+      },
+      "points": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        46408,
+        248296,
+        -6360
+       ],
+       [
+        46424,
+        247976,
+        -6360
+       ],
+       [
+        47016,
+        247864,
+        -6360
+       ],
+       [
+        47736,
+        247832,
+        -6488
+       ],
+       [
+        47736,
+        247288,
+        -6616
+       ],
+       [
+        47496,
+        246888,
+        -6616
+       ],
+       [
+        47448,
+        246680,
+        -6616
+       ]
+      ]
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Dre Vanul Disposer",
+       "lv": 22
+      },
+      {
+       "name": "Salamander Noble",
+       "lv": 19
+      },
+      {
+       "name": "Dre Vanul",
+       "lv": 20
+      },
+      {
+       "name": "Dre Vanul",
+       "lv": 20
+      },
+      {
+       "name": "Dre Vanul",
+       "lv": 20
+      },
+      {
+       "name": "Dre Vanul Disposer",
+       "lv": 22
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "20361@47446,246679",
+    "name": "Tunath Orc Marksman",
+    "at": [
+     47446,
+     246679,
+     -6677
+    ],
+    "radius": 1500,
+    "levels": [
+     10,
+     10
+    ],
+    "count": 2,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 78,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "20361@44971,249199",
+      "name": "Tunath Orc Marksman",
+      "at": [
+       44971,
+       249199,
+       -6405
+      ],
+      "count": 1,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:30429@49328,248416",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk",
+     "long-walk"
+    ],
+    "from": ".heine",
+    "length": 41731,
+    "sec": 393,
+    "via": ".heine > Heine -> Garden of Eva",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Garden of Eva",
+      "link": "garden of eva",
+      "price": 2400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 37806,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Garden of Eva"
+    },
+    "simple": true,
+    "pv": [
+     [
+      84413,
+      234334,
+      -3656
+     ],
+     [
+      49328,
+      248416,
+      -5952
+     ],
+     [
+      47352,
+      248440,
+      -6360
+     ],
+     [
+      46488,
+      248472,
+      -6360
+     ],
+     [
+      46408,
+      248296,
+      -6360
+     ],
+     [
+      46424,
+      247976,
+      -6360
+     ],
+     [
+      47016,
+      247864,
+      -6360
+     ],
+     [
+      47736,
+      247832,
+      -6488
+     ],
+     [
+      47736,
+      247288,
+      -6616
+     ],
+     [
+      47496,
+      246888,
+      -6616
+     ],
+     [
+      47448,
+      246680,
+      -6616
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 12,
+     "aggro": [
+      {
+       "name": "Dre Vanul Disposer",
+       "lv": 22,
+       "n": 2
+      },
+      {
+       "name": "Nerkas",
+       "lv": 22,
+       "n": 1
+      },
+      {
+       "name": "Dre Vanul",
+       "lv": 20,
+       "n": 6
+      },
+      {
+       "name": "Undine Noble",
+       "lv": 19,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:30429@49328,248416",
+     "name": "Tiramisa"
+    },
+    "points": [
+     [
+      84413,
+      234334,
+      -3656
+     ],
+     [
+      49328,
+      248416,
+      -5952
+     ],
+     [
+      47352,
+      248440,
+      -6360
+     ],
+     [
+      46488,
+      248472,
+      -6360
+     ],
+     [
+      46408,
+      248296,
+      -6360
+     ],
+     [
+      46424,
+      247976,
+      -6360
+     ],
+     [
+      47016,
+      247864,
+      -6360
+     ],
+     [
+      47736,
+      247832,
+      -6488
+     ],
+     [
+      47736,
+      247288,
+      -6616
+     ],
+     [
+      47496,
+      246888,
+      -6616
+     ],
+     [
+      47448,
+      246680,
+      -6616
+     ]
+    ]
+   },
+   "expectedSec": 1018,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "note": "Tunath Orc Marksman 20361: TI dungeon interior only (spawns_h5.json); way in = Siff teleport; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles | NOT stored as the route: aggressive monsters Dre Vanul 20 x6, Undine Noble 19 x2, Nerkas 22 x1, Dre Vanul Disposer 22 x2 (>= quest level 10 + 6) touch it; needs a party of about level 20+ or another way",
+    "routeProposed": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      47624,
+      248520,
+      -6360
+     ],
+     [
+      46632,
+      248408,
+      -6360
+     ],
+     [
+      46600,
+      248376,
+      -6336
+     ],
+     [
+      46536,
+      248376,
+      -6360
+     ],
+     [
+      46472,
+      248312,
+      -6360
+     ],
+     [
+      46472,
+      248040,
+      -6360
+     ],
+     [
+      47128,
+      247880,
+      -6360
+     ],
+     [
+      47672,
+      247784,
+      -6488
+     ],
+     [
+      47688,
+      247240,
+      -6616
+     ],
+     [
+      47448,
+      246680,
+      -6616
+     ]
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30029",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30029,
+    "name": "Minia",
+    "title": "Master",
+    "town": "Talking Island",
+    "at": [
+     -83175,
+     243065,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Minia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30029@-83175,243065",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5013,
+    "sec": 87,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5013,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85112,
+      243528,
+      -3728
+     ],
+     [
+      -85016,
+      243416,
+      -3728
+     ],
+     [
+      -84920,
+      243336,
+      -3728
+     ],
+     [
+      -84728,
+      243144,
+      -3728
+     ],
+     [
+      -84664,
+      242888,
+      -3728
+     ],
+     [
+      -84504,
+      242680,
+      -3728
+     ],
+     [
+      -84296,
+      242536,
+      -3728
+     ],
+     [
+      -84024,
+      242536,
+      -3728
+     ],
+     [
+      -83752,
+      242536,
+      -3728
+     ],
+     [
+      -83560,
+      242344,
+      -3728
+     ],
+     [
+      -83480,
+      242264,
+      -3728
+     ],
+     [
+      -83304,
+      242344,
+      -3728
+     ],
+     [
+      -83128,
+      242552,
+      -3720
+     ],
+     [
+      -83112,
+      242568,
+      -3720
+     ],
+     [
+      -83160,
+      242808,
+      -3720
+     ],
+     [
+      -83176,
+      243064,
+      -3720
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 112,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "note": "Tunath Orc Marksman 20361: TI dungeon interior only (spawns_h5.json); way in = Siff teleport; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles | NOT stored as the route: aggressive monsters Dre Vanul 20 x6, Undine Noble 19 x2, Nerkas 22 x1, Dre Vanul Disposer 22 x2 (>= quest level 10 + 6) touch it; needs a party of about level 20+ or another way",
+    "routeProposed": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      47624,
+      248520,
+      -6360
+     ],
+     [
+      46632,
+      248408,
+      -6360
+     ],
+     [
+      46600,
+      248376,
+      -6336
+     ],
+     [
+      46536,
+      248376,
+      -6360
+     ],
+     [
+      46472,
+      248312,
+      -6360
+     ],
+     [
+      46472,
+      248040,
+      -6360
+     ],
+     [
+      47128,
+      247880,
+      -6360
+     ],
+     [
+      47672,
+      247784,
+      -6488
+     ],
+     [
+      47688,
+      247240,
+      -6616
+     ],
+     [
+      47448,
+      246680,
+      -6616
+     ]
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

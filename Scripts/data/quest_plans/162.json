@@ -1,0 +1,1655 @@
+{
+ "id": 162,
+ "name": "Curse of the Underground Fortress",
+ "version": 1,
+ "generated": "2026-10-27T11:15:13.359Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 12,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Elven Village",
+ "requirements": {
+  "notRaces": [
+   "DARK_ELF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "not for DARK_ELF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 44,
+ "refLevel": 12,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30147",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will do the favor"
+   ],
+   "npc": {
+    "id": 30147,
+    "name": "Unoren",
+    "title": "Weapon Merchant",
+    "town": "Elven Village",
+    "at": [
+     44667,
+     46896,
+     -2982
+    ],
+    "alt": []
+   },
+   "text": "Talk to Unoren – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30147@44667,46896",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6649,
+    "sec": 100,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6649,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45480,
+      48360,
+      -3056
+     ],
+     [
+      45496,
+      48264,
+      -3056
+     ],
+     [
+      45496,
+      47992,
+      -3056
+     ],
+     [
+      45528,
+      47720,
+      -3032
+     ],
+     [
+      45544,
+      47448,
+      -2992
+     ],
+     [
+      45448,
+      47272,
+      -2992
+     ],
+     [
+      45256,
+      47096,
+      -2992
+     ],
+     [
+      45112,
+      47224,
+      -2992
+     ],
+     [
+      44888,
+      47320,
+      -2992
+     ],
+     [
+      44712,
+      47192,
+      -2984
+     ],
+     [
+      44536,
+      47000,
+      -2984
+     ],
+     [
+      44568,
+      46888,
+      -2984
+     ],
+     [
+      44616,
+      46872,
+      -2984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 130,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20033,
+     "name": "Shade Horror",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20345,
+     "name": "Dark Terror",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20371,
+     "name": "Mist Terror",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 20463,
+     "name": "Dungeon Skeleton Archer",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 20464,
+     "name": "Dungeon Skeleton",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20504,
+     "name": "Dread Soldier",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1158,
+     "name": "Bone Fragment",
+     "n": 10,
+     "from": [
+      {
+       "id": 20463,
+       "name": "Dungeon Skeleton Archer",
+       "chance": 25
+      },
+      {
+       "id": 20464,
+       "name": "Dungeon Skeleton",
+       "chance": 23
+      },
+      {
+       "id": 20504,
+       "name": "Dread Soldier",
+       "chance": 26
+      }
+     ]
+    },
+    {
+     "id": 1159,
+     "name": "Elf Skull",
+     "n": 3,
+     "from": [
+      {
+       "id": 20033,
+       "name": "Shade Horror",
+       "chance": 25
+      },
+      {
+       "id": 20345,
+       "name": "Dark Terror",
+       "chance": 26
+      },
+      {
+       "id": 20371,
+       "name": "Mist Terror",
+       "chance": 23
+      }
+     ]
+    }
+   ],
+   "kills": 88,
+   "reasons": [],
+   "text": "Hunt Shade Horror, Dark Terror, Mist Terror for Bone Fragment x10, Elf Skull x3",
+   "places": [
+    {
+     "mobs": [
+      20463,
+      20464,
+      20504
+     ],
+     "items": [
+      1158
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "elvenfortress-1-left-d",
+      "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton room",
+      "at": [
+       24350,
+       80898,
+       -4096
+      ],
+      "radius": 560,
+      "levels": [
+       12,
+       14
+      ],
+      "count": 5,
+      "region": "Elven Fortress (underground)",
+      "atlasKey": "room:elvenfortress-1-left-d",
+      "status": "ok",
+      "sec": 160,
+      "danger": 14,
+      "reachable": true,
+      "score": -27.333333333333332,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-e",
+        "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton Archer room",
+        "at": [
+         22177,
+         79204,
+         -4096
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-g",
+        "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton room",
+        "at": [
+         21322,
+         80468,
+         -4096
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-a",
+        "name": "Elven Fortress (underground): Underground, left: Baraq Orc Fighter room",
+        "at": [
+         24307,
+         76494,
+         -4096
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:elvenfortress-1-left-d",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 10772,
+      "sec": 160,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Fortress",
+        "link": "elven fortress",
+        "price": 820,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 10772,
+        "how": "dungeon-rooms",
+        "danger": 14
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        28296,
+        75048,
+        -3776
+       ],
+       [
+        27304,
+        75048,
+        -3808
+       ],
+       [
+        26312,
+        75048,
+        -4096
+       ],
+       [
+        25784,
+        75048,
+        -4096
+       ],
+       [
+        24792,
+        75064,
+        -4096
+       ],
+       [
+        24440,
+        75064,
+        -4096
+       ],
+       [
+        24264,
+        75256,
+        -4096
+       ],
+       [
+        24264,
+        76248,
+        -4096
+       ],
+       [
+        24264,
+        77240,
+        -4096
+       ],
+       [
+        24264,
+        78232,
+        -4096
+       ],
+       [
+        24264,
+        79224,
+        -4096
+       ],
+       [
+        24264,
+        80216,
+        -4096
+       ],
+       [
+        24264,
+        80424,
+        -4096
+       ],
+       [
+        24344,
+        80904,
+        -4096
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 14,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20033,
+      20345,
+      20371
+     ],
+     "items": [
+      1159
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "elvenfortress-1-straight-c",
+      "name": "Elven Fortress (underground): Underground, straight: Shade Horror room",
+      "at": [
+       20195,
+       76146,
+       -4409
+      ],
+      "radius": 1177,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 6,
+      "region": "Elven Fortress (underground)",
+      "atlasKey": "room:elvenfortress-1-straight-c",
+      "status": "ok",
+      "sec": 226,
+      "danger": 16,
+      "reachable": true,
+      "score": -32.233333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-i",
+        "name": "Elven Fortress (underground): Underground, left: Dark Terror room",
+        "at": [
+         18648,
+         81992,
+         -4384
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-h",
+        "name": "Elven Fortress (underground): Underground, left: Shade Horror room",
+        "at": [
+         19160,
+         79576,
+         -4352
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:elvenfortress-1-straight-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 18692,
+      "sec": 226,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Fortress",
+        "link": "elven fortress",
+        "price": 820,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 18692,
+        "how": "dungeon-rooms",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        28296,
+        75032,
+        -3776
+       ],
+       [
+        27304,
+        75048,
+        -3808
+       ],
+       [
+        26312,
+        75048,
+        -4096
+       ],
+       [
+        25784,
+        75048,
+        -4096
+       ],
+       [
+        24792,
+        75064,
+        -4096
+       ],
+       [
+        24440,
+        75064,
+        -4096
+       ],
+       [
+        24088,
+        75464,
+        -4096
+       ],
+       [
+        24088,
+        76456,
+        -4096
+       ],
+       [
+        24088,
+        77448,
+        -4096
+       ],
+       [
+        24072,
+        78440,
+        -4096
+       ],
+       [
+        24072,
+        78872,
+        -4096
+       ],
+       [
+        23880,
+        79016,
+        -4096
+       ],
+       [
+        22904,
+        79192,
+        -4096
+       ],
+       [
+        22744,
+        79352,
+        -4096
+       ],
+       [
+        22488,
+        79512,
+        -4096
+       ],
+       [
+        22232,
+        79896,
+        -4096
+       ],
+       [
+        22232,
+        80552,
+        -4080
+       ],
+       [
+        22104,
+        80760,
+        -4096
+       ],
+       [
+        21736,
+        80760,
+        -4096
+       ],
+       [
+        21144,
+        80056,
+        -4096
+       ],
+       [
+        21144,
+        79064,
+        -4096
+       ],
+       [
+        21144,
+        78072,
+        -4096
+       ],
+       [
+        21144,
+        77432,
+        -4240
+       ],
+       [
+        21080,
+        77240,
+        -4288
+       ],
+       [
+        20712,
+        76888,
+        -4240
+       ],
+       [
+        19912,
+        76888,
+        -4384
+       ],
+       [
+        19848,
+        76856,
+        -4384
+       ],
+       [
+        19592,
+        76504,
+        -4384
+       ],
+       [
+        19592,
+        76344,
+        -4384
+       ],
+       [
+        19800,
+        76152,
+        -4384
+       ],
+       [
+        20200,
+        76152,
+        -4384
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20033,
+      20345,
+      20371,
+      20463,
+      20464,
+      20504
+     ],
+     "items": [],
+     "kills": 88,
+     "area": {
+      "kind": "room",
+      "id": "elvenfortress-1-straight-c",
+      "name": "Elven Fortress (underground): Underground, straight: Shade Horror room",
+      "at": [
+       20195,
+       76146,
+       -4409
+      ],
+      "radius": 1177,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 6,
+      "region": "Elven Fortress (underground)",
+      "atlasKey": "room:elvenfortress-1-straight-c",
+      "status": "ok",
+      "sec": 226,
+      "danger": 16,
+      "reachable": true,
+      "score": -32.233333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-d",
+        "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton room",
+        "at": [
+         24350,
+         80898,
+         -4096
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-e",
+        "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton Archer room",
+        "at": [
+         22177,
+         79204,
+         -4096
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "elvenfortress-1-left-g",
+        "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton room",
+        "at": [
+         21322,
+         80468,
+         -4096
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:elvenfortress-1-straight-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 18692,
+      "sec": 226,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Fortress",
+        "link": "elven fortress",
+        "price": 820,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 18692,
+        "how": "dungeon-rooms",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        28296,
+        75032,
+        -3776
+       ],
+       [
+        27304,
+        75048,
+        -3808
+       ],
+       [
+        26312,
+        75048,
+        -4096
+       ],
+       [
+        25784,
+        75048,
+        -4096
+       ],
+       [
+        24792,
+        75064,
+        -4096
+       ],
+       [
+        24440,
+        75064,
+        -4096
+       ],
+       [
+        24088,
+        75464,
+        -4096
+       ],
+       [
+        24088,
+        76456,
+        -4096
+       ],
+       [
+        24088,
+        77448,
+        -4096
+       ],
+       [
+        24072,
+        78440,
+        -4096
+       ],
+       [
+        24072,
+        78872,
+        -4096
+       ],
+       [
+        23880,
+        79016,
+        -4096
+       ],
+       [
+        22904,
+        79192,
+        -4096
+       ],
+       [
+        22744,
+        79352,
+        -4096
+       ],
+       [
+        22488,
+        79512,
+        -4096
+       ],
+       [
+        22232,
+        79896,
+        -4096
+       ],
+       [
+        22232,
+        80552,
+        -4080
+       ],
+       [
+        22104,
+        80760,
+        -4096
+       ],
+       [
+        21736,
+        80760,
+        -4096
+       ],
+       [
+        21144,
+        80056,
+        -4096
+       ],
+       [
+        21144,
+        79064,
+        -4096
+       ],
+       [
+        21144,
+        78072,
+        -4096
+       ],
+       [
+        21144,
+        77432,
+        -4240
+       ],
+       [
+        21080,
+        77240,
+        -4288
+       ],
+       [
+        20712,
+        76888,
+        -4240
+       ],
+       [
+        19912,
+        76888,
+        -4384
+       ],
+       [
+        19848,
+        76856,
+        -4384
+       ],
+       [
+        19592,
+        76504,
+        -4384
+       ],
+       [
+        19592,
+        76344,
+        -4384
+       ],
+       [
+        19800,
+        76152,
+        -4384
+       ],
+       [
+        20200,
+        76152,
+        -4384
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "elvenfortress-1-left-d",
+    "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton room",
+    "at": [
+     24350,
+     80898,
+     -4096
+    ],
+    "radius": 560,
+    "levels": [
+     12,
+     14
+    ],
+    "count": 5,
+    "region": "Elven Fortress (underground)",
+    "atlasKey": "room:elvenfortress-1-left-d",
+    "status": "ok",
+    "sec": 160,
+    "danger": 14,
+    "reachable": true,
+    "score": -27.333333333333332,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "elvenfortress-1-left-e",
+      "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton Archer room",
+      "at": [
+       22177,
+       79204,
+       -4096
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "elvenfortress-1-left-g",
+      "name": "Elven Fortress (underground): Underground, left: Dungeon Skeleton room",
+      "at": [
+       21322,
+       80468,
+       -4096
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "elvenfortress-1-left-a",
+      "name": "Elven Fortress (underground): Underground, left: Baraq Orc Fighter room",
+      "at": [
+       24307,
+       76494,
+       -4096
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:elvenfortress-1-left-d",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 10772,
+    "sec": 160,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Fortress",
+      "link": "elven fortress",
+      "price": 820,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 10772,
+      "how": "dungeon-rooms",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      29294,
+      74968,
+      -3776
+     ],
+     [
+      29294,
+      74968,
+      -3776
+     ],
+     [
+      28296,
+      75048,
+      -3776
+     ],
+     [
+      27304,
+      75048,
+      -3808
+     ],
+     [
+      26312,
+      75048,
+      -4096
+     ],
+     [
+      25784,
+      75048,
+      -4096
+     ],
+     [
+      24792,
+      75064,
+      -4096
+     ],
+     [
+      24440,
+      75064,
+      -4096
+     ],
+     [
+      24264,
+      75256,
+      -4096
+     ],
+     [
+      24264,
+      76248,
+      -4096
+     ],
+     [
+      24264,
+      77240,
+      -4096
+     ],
+     [
+      24264,
+      78232,
+      -4096
+     ],
+     [
+      24264,
+      79224,
+      -4096
+     ],
+     [
+      24264,
+      80216,
+      -4096
+     ],
+     [
+      24264,
+      80424,
+      -4096
+     ],
+     [
+      24344,
+      80904,
+      -4096
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 2360,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30147",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30147,
+    "name": "Unoren",
+    "title": "Weapon Merchant",
+    "town": "Elven Village",
+    "at": [
+     44667,
+     46896,
+     -2982
+    ],
+    "alt": []
+   },
+   "text": "Talk to Unoren",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30147@44667,46896",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6649,
+    "sec": 100,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6649,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45480,
+      48360,
+      -3056
+     ],
+     [
+      45496,
+      48264,
+      -3056
+     ],
+     [
+      45496,
+      47992,
+      -3056
+     ],
+     [
+      45528,
+      47720,
+      -3032
+     ],
+     [
+      45544,
+      47448,
+      -2992
+     ],
+     [
+      45448,
+      47272,
+      -2992
+     ],
+     [
+      45256,
+      47096,
+      -2992
+     ],
+     [
+      45112,
+      47224,
+      -2992
+     ],
+     [
+      44888,
+      47320,
+      -2992
+     ],
+     [
+      44712,
+      47192,
+      -2984
+     ],
+     [
+      44536,
+      47000,
+      -2984
+     ],
+     [
+      44568,
+      46888,
+      -2984
+     ],
+     [
+      44616,
+      46872,
+      -2984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 125,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:13.399Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

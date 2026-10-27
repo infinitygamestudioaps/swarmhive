@@ -1,0 +1,285 @@
+{
+ "id": 904,
+ "name": "Dragon Trophy - Antharas",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.301Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 84,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Hunters Village",
+ "requirements": {
+  "items": [
+   {
+    "id": 3865,
+    "name": "Portal Stone"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Portal Stone"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 8,
+ "refLevel": 84,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30755",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I shall defeat Antharas.\""
+   ],
+   "npc": {
+    "id": 30755,
+    "name": "Theodric",
+    "title": "Antharas Watchman",
+    "town": "Hunters Village",
+    "at": [
+     131176,
+     114676,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Theodric – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30755@131176,114676",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 418,
+    "sec": 48,
+    "via": ".hunters > Hunters -> Antharas Lair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Antharas Lair",
+      "link": "antharas lair",
+      "price": 7000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 418,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Antharas Lair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      131176,
+      114680,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:29068",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 29068,
+     "name": "Antharas",
+     "level": 85,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (29068) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Antharas appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (29068) only appear through the quest script and no trigger is known",
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30755",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30755,
+    "name": "Theodric",
+    "title": "Antharas Watchman",
+    "town": "Hunters Village",
+    "at": [
+     131176,
+     114676,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Theodric",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30755@131176,114676",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 418,
+    "sec": 48,
+    "via": ".hunters > Hunters -> Antharas Lair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Antharas Lair",
+      "link": "antharas lair",
+      "price": 7000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 418,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Antharas Lair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      131176,
+      114680,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

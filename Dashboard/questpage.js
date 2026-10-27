@@ -68,7 +68,7 @@
     s.addEventListener('input', onInput);
     s.addEventListener('change', onInput);
     // COMPACT-2026-10-23: detail sections fold; their open / closed state is remembered (the route view mounts on first open)
-    s.addEventListener('toggle', (e) => { const d = e.target; if (!d || !d.dataset || !d.dataset.qpsec) return; const o = store('sec') || {}; o[d.dataset.qpsec] = d.open; store('sec', o); if (d.open && d.dataset.qpsec === 'route') mountRoute(); }, true);
+    s.addEventListener('toggle', (e) => { const d = e.target; if (!d || !d.dataset || !d.dataset.qpsec) return; const o = store('sec') || {}; o[d.dataset.qpsec] = d.open; store('sec', o); if (d.open && d.dataset.qpsec === 'route') mountRoute(); if (d.open && d.dataset.qpsec === 'plan') mountPlan(); }, true);   // QUESTPLAN-2026-10-27
     return s;
   }
   // COMPACT-2026-10-23 (owner: "make /quests more compact and user friendly"): the list page has three tabs instead of stacked boxes:
@@ -275,16 +275,27 @@
           ${sec('map', 'Map', `<div class="qp-mapbtn" id="qpMapBtns"></div><div id="qpMap" class="qp-map"></div>
             <div class="muted qp-legend"><span><i class="qp-dot" style="background:#f0c040"></i>start NPC</span><span><i class="qp-dot" style="background:#5aa9ff"></i>NPC</span><span><i class="qp-dot" style="background:#ff4d4d"></i>monsters (count)</span><span><i class="qp-dot" style="background:#3ddc84"></i>hunting area</span><span><i class="qp-dot qp-sq" style="background:#d6b3ff"></i>teleport landing</span></div>`, true)}
         </div>
-      </div>`;
+      </div>
+      ${sec('plan', 'Bot plan + route override <small class="muted">status, every step, live, your own route</small>', '<div id="qpPlan" class="muted">…</div>', true)}`;   // QUESTPLAN-2026-10-27
     QP.routeMounted = null;
     renderDetailChars();
     renderMap(d);
     const rd = el.querySelector('[data-qpsec="route"]'); if (rd && rd.open) mountRoute();   // ROUTE VIEW 2026-10-12: every step's NPC / hunting area (mounted when its section is open)
+    { const pd = el.querySelector('[data-qpsec="plan"]'); if (pd && pd.open) mountPlan(); }   // QUESTPLAN-2026-10-27
     liveHook('paint');   // QUEST LIVE 2026-10-12: #qpLive was just (re)built
   }
   function mountRoute() {
     const id = QP.sel; if (!id || QP.routeMounted === id) return;
     try { if (window.RouteView && $id('qpRoute')) { RouteView.mount($id('qpRoute'), 'quest:' + id, { map: true }); QP.routeMounted = id; } } catch (e) { }
+  }
+  // QUESTPLAN-2026-10-27: the bot plan + route override editor (Dashboard/questplan.js + .css, loaded on first use)
+  function mountPlan() {
+    const id = QP.sel, el = $id('qpPlan'); if (!id || !el) return;
+    if (window.QuestPlan) { try { QuestPlan.mount(el, id); } catch (e) { } return; }
+    if (QP.planLoading) return; QP.planLoading = true;
+    const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = '/questplan.css'; document.head.appendChild(l);
+    const sc = document.createElement('script'); sc.src = '/questplan.js'; sc.onload = () => { const e2 = $id('qpPlan'); if (QP.open && QP.sel && e2) { try { QuestPlan.mount(e2, QP.sel); } catch (e) { } } }; sc.onerror = () => { QP.planLoading = false; };
+    document.head.appendChild(sc);
   }
   function trigHtml(t, nm) {
     if (!t) return '';

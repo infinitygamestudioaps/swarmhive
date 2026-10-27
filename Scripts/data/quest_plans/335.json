@@ -1,0 +1,3062 @@
+{
+ "id": 335,
+ "name": "The Song of the Hunter",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.708Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 35,
+  "max": 45
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "drop-unresolved",
+   "text": "a quest drop (item / chance) was not resolved"
+  },
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 29,
+ "refLevel": 35,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30744",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I wish to take the test for the hunting license.\""
+   ],
+   "npc": {
+    "id": 30744,
+    "name": "Grey",
+    "title": "Guild Member",
+    "town": "Hunters Village",
+    "at": [
+     117980,
+     76704,
+     -2597
+    ],
+    "alt": []
+   },
+   "text": "Talk to Grey – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30610@117866,76483",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 37,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1602,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ],
+     [
+      117576,
+      76408,
+      -2688
+     ],
+     [
+      117688,
+      76536,
+      -2656
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30610@117866,76483",
+     "name": "Cronos"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ],
+     [
+      117576,
+      76408,
+      -2688
+     ],
+     [
+      117688,
+      76536,
+      -2656
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ]
+    ]
+   },
+   "expectedSec": 67,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20269,
+     "name": "Breka Orc Shaman",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20271,
+     "name": "Breka Orc Warrior",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20550,
+     "name": "Guardian Basilisk",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20552,
+     "name": "Fettered Soul",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 42,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20554,
+     "name": "Grandis",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 44,
+     "questSpawned": false
+    },
+    {
+     "id": 20555,
+     "name": "Giant Fungus",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20556,
+     "name": "Giant Monstereye",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20557,
+     "name": "Dire Wyrm",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 20558,
+     "name": "Rotting tree",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 20560,
+     "name": "Trisalim Spider",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20561,
+     "name": "Trisalim Tarantula",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20562,
+     "name": "Spore Zombie",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20565,
+     "name": "Enchanted Stone Golem",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20567,
+     "name": "Enchanted Gargoyle",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 20571,
+     "name": "Tarlk Bugbear Warrior",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 57,
+     "questSpawned": false
+    },
+    {
+     "id": 20578,
+     "name": "Leto Lizardman Archer",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20579,
+     "name": "Leto Lizardman Soldier",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20581,
+     "name": "Leto Lizardman Shaman",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20586,
+     "name": "Timak Orc Warrior",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 51,
+     "questSpawned": false
+    },
+    {
+     "id": 20588,
+     "name": "Timak Orc Overlord",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20589,
+     "name": "Fline",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20590,
+     "name": "Liele",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20591,
+     "name": "Valley Treant",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20592,
+     "name": "Satyr",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20593,
+     "name": "Unicorn",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 38,
+     "questSpawned": false
+    },
+    {
+     "id": 20594,
+     "name": "Forest Runner",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20597,
+     "name": "Valley Treant Elder",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20598,
+     "name": "Satyr Elder",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20599,
+     "name": "Unicorn Elder",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20600,
+     "name": "Karul Bugbear",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20601,
+     "name": "Tamlin Orc",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20602,
+     "name": "Tamlin Orc Archer",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20603,
+     "name": "Kronbe Spider",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20631,
+     "name": "Taik Orc Archer",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20632,
+     "name": "Taik Orc Warrior",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20633,
+     "name": "Taik Orc Shaman",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20634,
+     "name": "Taik Orc Captain",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20639,
+     "name": "Mirror",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 20641,
+     "name": "Harit Lizardman Grunt",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20642,
+     "name": "Harit Lizardman Archer",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20643,
+     "name": "Harit Lizardman Warrior",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 20659,
+     "name": "Grave Wanderer",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20660,
+     "name": "Archer of Greed",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20661,
+     "name": "Hatar Ratman Thief",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20662,
+     "name": "Hatar Ratman Boss",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20664,
+     "name": "Deprive",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 20667,
+     "name": "Farcran",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20675,
+     "name": "Tairim",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20676,
+     "name": "Judge of Marsh",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20682,
+     "name": "Vanor Silenos Grunt",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20683,
+     "name": "Vanor Silenos Scout",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 20684,
+     "name": "Vanor Silenos Warrior",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20686,
+     "name": "Vanor Silenos Chieftain",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3699,
+     "name": "Blood Crystal: Purity 2",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3700,
+     "name": "Blood Crystal: Purity 3",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3701,
+     "name": "Blood Crystal: Purity 4",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3702,
+     "name": "Blood Crystal: Purity 5",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3703,
+     "name": "Blood Crystal: Purity 6",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3704,
+     "name": "Blood Crystal: Purity 7",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3705,
+     "name": "Blood Crystal: Purity 8",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3706,
+     "name": "Blood Crystal: Purity 9",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3707,
+     "name": "Blood Crystal: Purity 10",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3708,
+     "name": "Broken Blood Crystal",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 100
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3794,
+     "name": "Coin of Old Empire",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3796,
+     "name": "Tempest Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3797,
+     "name": "Tsunami Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3799,
+     "name": "Hamadryad Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3804,
+     "name": "Narcissus's Soulstone",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Breka Orc Shaman, Breka Orc Warrior, Guardian Basilisk for Blood Crystal: Purity 2 x20, Blood Crystal: Purity 3 x20, Blood Crystal: Purity 4 x20, Blood Crystal: Purity 5 x20, Blood Crystal: Purity 6 x20, Blood Crystal: Purity 7 x20, Blood Crystal: Purity 8 x20, Blood Crystal: Purity 9 x20, Blood Crystal: Purity 10 x20, Broken Blood Crystal x20, Coin of Old Empire x20, Tempest Shard x20, Tsunami Shard x20, Hamadryad Shard x20, Narcissus's Soulstone x20",
+   "places": [
+    {
+     "mobs": [
+      20581,
+      20582,
+      20578,
+      20579,
+      20641,
+      20642,
+      20643
+     ],
+     "items": [
+      3699,
+      3700,
+      3701,
+      3702,
+      3703,
+      3704,
+      3705,
+      3706,
+      3707,
+      3708
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 14,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -81.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-4",
+        "name": "Forest of Mirrors 4: Harit Lizardman area (east)",
+        "at": [
+         149320,
+         82072,
+         -3472
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "silent-valley-4",
+        "name": "Silent Valley 4: Harit Lizardman Grunt area (south-west)",
+        "at": [
+         163800,
+         67592,
+         -3256
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-20",
+        "name": "Forest of Mirrors 20: Harit Lizardman Shaman area (east)",
+        "at": [
+         158664,
+         74936,
+         -3424
+        ],
+        "count": 11,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 49,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plains-of-lizardmen-23",
+    "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+    "at": [
+     96328,
+     77128,
+     -3592
+    ],
+    "radius": 3827,
+    "levels": [
+     36,
+     40
+    ],
+    "count": 14,
+    "region": "Plains of Lizardmen",
+    "atlasKey": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "sec": 150,
+    "danger": 40,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -81.5,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-4",
+      "name": "Forest of Mirrors 4: Harit Lizardman area (east)",
+      "at": [
+       149320,
+       82072,
+       -3472
+      ],
+      "count": 15,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "silent-valley-4",
+      "name": "Silent Valley 4: Harit Lizardman Grunt area (south-west)",
+      "at": [
+       163800,
+       67592,
+       -3256
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-20",
+      "name": "Forest of Mirrors 20: Harit Lizardman Shaman area (east)",
+      "at": [
+       158664,
+       74936,
+       -3424
+      ],
+      "count": 11,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-lizardmen-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12541,
+    "sec": 150,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11880,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 661,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      95896,
+      77624,
+      -3552
+     ],
+     [
+      96088,
+      77352,
+      -3568
+     ],
+     [
+      96328,
+      77128,
+      -3592
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 49,
+     "aggro": [
+      {
+       "name": "Energy Plant",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Soldier",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Summoner",
+       "lv": 84,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Magician",
+       "lv": 83,
+       "n": 3
+      },
+      {
+       "name": "Tanta Lizardman Warrior",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Scout",
+       "lv": 82,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 1000,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27140",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27140,
+     "name": "Breka Overlord Haka",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27141,
+     "name": "Breka Overlord Jaka",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27142,
+     "name": "Breka Overlord Marka",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27143,
+     "name": "Windsus Aleph",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27144,
+     "name": "Tarlk Raider Athu",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27145,
+     "name": "Tarlk Raider Lanka",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27146,
+     "name": "Tarlk Raider Triska",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27147,
+     "name": "Tarlk Raider Motura",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27148,
+     "name": "Tarlk Raider Kalath",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27149,
+     "name": "Gremlin Filcher",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27156,
+     "name": "Leto Shaman Ketz",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27157,
+     "name": "Leto Chief Narak",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27158,
+     "name": "Timak Raider Kaikee",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27159,
+     "name": "Timak Overlord Okun",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27160,
+     "name": "Gok Magok",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27161,
+     "name": "Taik Overlord Kakran",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27162,
+     "name": "Hatar Chieftain Kubel",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27163,
+     "name": "Vanor Elder Kerunos",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27164,
+     "name": "Karul Chief Orooto",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3699,
+     "name": "Blood Crystal: Purity 2",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3700,
+     "name": "Blood Crystal: Purity 3",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3701,
+     "name": "Blood Crystal: Purity 4",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3702,
+     "name": "Blood Crystal: Purity 5",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3703,
+     "name": "Blood Crystal: Purity 6",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3704,
+     "name": "Blood Crystal: Purity 7",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3705,
+     "name": "Blood Crystal: Purity 8",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3706,
+     "name": "Blood Crystal: Purity 9",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3707,
+     "name": "Blood Crystal: Purity 10",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 60
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 60
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 60
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 60
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 60
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3708,
+     "name": "Broken Blood Crystal",
+     "n": 20,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      },
+      {
+       "id": 20578,
+       "name": "Leto Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20579,
+       "name": "Leto Lizardman Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20641,
+       "name": "Harit Lizardman Grunt",
+       "chance": 100
+      },
+      {
+       "id": 20642,
+       "name": "Harit Lizardman Archer",
+       "chance": 100
+      },
+      {
+       "id": 20643,
+       "name": "Harit Lizardman Warrior",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3794,
+     "name": "Coin of Old Empire",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3796,
+     "name": "Tempest Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3797,
+     "name": "Tsunami Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3799,
+     "name": "Hamadryad Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3804,
+     "name": "Narcissus's Soulstone",
+     "n": 20,
+     "from": [
+      {
+       "id": 27149,
+       "name": "Gremlin Filcher",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20271
+    ]
+   },
+   "text": "Make Breka Overlord Haka, Breka Overlord Jaka, Breka Overlord Marka, Windsus Aleph, Tarlk Raider Athu, Tarlk Raider Lanka, Tarlk Raider Triska, Tarlk Raider Motura, Tarlk Raider Kalath, Gremlin Filcher, Leto Shaman Ketz, Leto Chief Narak, Timak Raider Kaikee, Timak Overlord Okun, Gok Magok, Taik Overlord Kakran, Hatar Chieftain Kubel, Vanor Elder Kerunos, Karul Chief Orooto appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "brekas-stronghold-1",
+    "name": "Brekas Stronghold 1: Breka Orc Shaman area (east)",
+    "at": [
+     89032,
+     131912,
+     -3664
+    ],
+    "radius": 2818,
+    "levels": [
+     33,
+     35
+    ],
+    "count": 1,
+    "region": "Brekas Stronghold",
+    "atlasKey": "area:brekas-stronghold-1",
+    "status": "ok",
+    "sec": 188,
+    "danger": 35,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -2.8666666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dragon-valley-12",
+      "name": "Dragon Valley 12: Breka Orc Warrior area (north-west)",
+      "at": [
+       79272,
+       121784,
+       -2256
+      ],
+      "count": 3,
+      "status": "unverified"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-7",
+      "name": "Brekas Stronghold 7: Breka Orc Shaman area (north-east)",
+      "at": [
+       93624,
+       124968,
+       -2448
+      ],
+      "count": 2,
+      "status": "unverified"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-8",
+      "name": "Brekas Stronghold 8: Breka Orc Overlord area (north-west)",
+      "at": [
+       80952,
+       123912,
+       -2256
+      ],
+      "count": 2,
+      "status": "unverified"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 20166,
+    "sec": 188,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 15248,
+      "how": "field-areas-gap",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 4918,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83551,
+      147945,
+      -3400
+     ],
+     [
+      84616,
+      133240,
+      -3648
+     ],
+     [
+      84632,
+      133208,
+      -3648
+     ],
+     [
+      85496,
+      132344,
+      -3648
+     ],
+     [
+      86280,
+      131960,
+      -3648
+     ],
+     [
+      86520,
+      131832,
+      -3648
+     ],
+     [
+      87192,
+      131864,
+      -3648
+     ],
+     [
+      88184,
+      131848,
+      -3656
+     ],
+     [
+      89032,
+      131912,
+      -3664
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 488,
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30744",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Leave"
+   ],
+   "npc": {
+    "id": 30744,
+    "name": "Grey",
+    "title": "Guild Member",
+    "town": "Hunters Village",
+    "at": [
+     117980,
+     76704,
+     -2597
+    ],
+    "alt": []
+   },
+   "text": "Talk to Grey",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30610@117866,76483",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 37,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1602,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ],
+     [
+      117576,
+      76408,
+      -2688
+     ],
+     [
+      117688,
+      76536,
+      -2656
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30610@117866,76483",
+     "name": "Cronos"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116760,
+      76328,
+      -2728
+     ],
+     [
+      117032,
+      76328,
+      -2720
+     ],
+     [
+      117304,
+      76312,
+      -2712
+     ],
+     [
+      117448,
+      76280,
+      -2696
+     ],
+     [
+      117704,
+      76264,
+      -2688
+     ],
+     [
+      117864,
+      76488,
+      -2688
+     ],
+     [
+      117576,
+      76408,
+      -2688
+     ],
+     [
+      117688,
+      76536,
+      -2656
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ]
+    ]
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30745",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Examine the request list"
+   ],
+   "npc": {
+    "id": 30745,
+    "name": "Tor",
+    "title": "Guild Member",
+    "town": "Hunters Village",
+    "at": [
+     115952,
+     76000,
+     -2721
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tor",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30655@115791,75867",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 965,
+    "sec": 28,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 965,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30655@115791,75867",
+     "name": "Isael Silvershadow"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ]
+   },
+   "expectedSec": 53,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:turnin:30746",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30746,
+    "name": "Cybellin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     116085,
+     74728,
+     -2582
+    ],
+    "alt": []
+   },
+   "text": "Hand in Blood Crystal: Purity 10 at Cybellin (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 3707,
+     "name": "Blood Crystal: Purity 10",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31576@116048,74716",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2701,
+    "sec": 43,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2701,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116536,
+      76120,
+      -2728
+     ],
+     [
+      116376,
+      75912,
+      -2728
+     ],
+     [
+      116200,
+      75720,
+      -2712
+     ],
+     [
+      116040,
+      75496,
+      -2624
+     ],
+     [
+      115864,
+      75304,
+      -2592
+     ],
+     [
+      115752,
+      75160,
+      -2592
+     ],
+     [
+      115800,
+      75208,
+      -2592
+     ],
+     [
+      115976,
+      75288,
+      -2592
+     ],
+     [
+      116248,
+      75256,
+      -2592
+     ],
+     [
+      116312,
+      75240,
+      -2592
+     ],
+     [
+      116392,
+      75080,
+      -2584
+     ],
+     [
+      116376,
+      75032,
+      -2584
+     ],
+     [
+      116280,
+      74856,
+      -2584
+     ],
+     [
+      116056,
+      74712,
+      -2584
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31576@116048,74716",
+     "name": "Berix"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116536,
+      76120,
+      -2728
+     ],
+     [
+      116376,
+      75912,
+      -2728
+     ],
+     [
+      116200,
+      75720,
+      -2712
+     ],
+     [
+      116040,
+      75496,
+      -2624
+     ],
+     [
+      115864,
+      75304,
+      -2592
+     ],
+     [
+      115752,
+      75160,
+      -2592
+     ],
+     [
+      115800,
+      75208,
+      -2592
+     ],
+     [
+      115976,
+      75288,
+      -2592
+     ],
+     [
+      116248,
+      75256,
+      -2592
+     ],
+     [
+      116312,
+      75240,
+      -2592
+     ],
+     [
+      116392,
+      75080,
+      -2584
+     ],
+     [
+      116376,
+      75032,
+      -2584
+     ],
+     [
+      116280,
+      74856,
+      -2584
+     ],
+     [
+      116056,
+      74712,
+      -2584
+     ]
+    ]
+   },
+   "expectedSec": 68,
+   "turnin": true,
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

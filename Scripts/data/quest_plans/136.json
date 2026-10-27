@@ -1,0 +1,1756 @@
+{
+ "id": 136,
+ "name": "More Than Meets the Eye",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.821Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 50,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 0
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 1
+  }
+ ],
+ "expectedMin": 35,
+ "refLevel": 50,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30832",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "It sounds interesting. Say that you will help."
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hardin – accept the quest",
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30832@105745,114255",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 22123,
+    "sec": 229,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22123,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      105745,
+      114255,
+      -3136
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": 17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 259,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30832",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Continue listening.",
+    "Does that mean the soul has to be transformed as well?",
+    "Is it even possible to transform the soul? Moreover, if the soul transforms, wouldn't there be a loss of identity?"
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Listen to Hardin",
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30832@105745,114255",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 22123,
+    "sec": 229,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22123,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      105745,
+      114255,
+      -3136
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": 17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 254,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    5,
+    9
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30701",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Can you get me Stabilized Ectoplasm? What will be the price?"
+   ],
+   "npc": {
+    "id": 30701,
+    "name": "Errickin",
+    "title": "Magister",
+    "town": "Hunters Village",
+    "at": [
+     120180,
+     75807,
+     -2260
+    ],
+    "alt": []
+   },
+   "text": "Talk to Errickin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30701@120180,75807",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 8960,
+    "sec": 95,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 8960,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      117000,
+      78968,
+      -2256
+     ],
+     [
+      117256,
+      78984,
+      -2256
+     ],
+     [
+      117528,
+      79000,
+      -2256
+     ],
+     [
+      117800,
+      79016,
+      -2256
+     ],
+     [
+      117976,
+      78808,
+      -2200
+     ],
+     [
+      117976,
+      78648,
+      -2168
+     ],
+     [
+      117976,
+      78664,
+      -2168
+     ],
+     [
+      118168,
+      78632,
+      -2176
+     ],
+     [
+      118344,
+      78424,
+      -2176
+     ],
+     [
+      118520,
+      78216,
+      -2176
+     ],
+     [
+      118696,
+      78024,
+      -2176
+     ],
+     [
+      118904,
+      77848,
+      -2200
+     ],
+     [
+      119016,
+      77720,
+      -2248
+     ],
+     [
+      119064,
+      77448,
+      -2272
+     ],
+     [
+      119112,
+      77208,
+      -2272
+     ],
+     [
+      119288,
+      77000,
+      -2272
+     ],
+     [
+      119352,
+      76920,
+      -2272
+     ],
+     [
+      119480,
+      76920,
+      -2272
+     ],
+     [
+      119720,
+      76792,
+      -2272
+     ],
+     [
+      119768,
+      76520,
+      -2272
+     ],
+     [
+      119640,
+      76280,
+      -2272
+     ],
+     [
+      119608,
+      76008,
+      -2272
+     ],
+     [
+      119704,
+      75912,
+      -2264
+     ],
+     [
+      119896,
+      76024,
+      -2264
+     ],
+     [
+      120024,
+      76024,
+      -2264
+     ],
+     [
+      120184,
+      75800,
+      -2264
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 120,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    4
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:hunt",
+   "cond": 3,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20636,
+     "name": "Forest of Mirrors Ghost",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20637,
+     "name": "Forest of Mirrors Ghost",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 20638,
+     "name": "Forest of Mirrors Ghost",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20639,
+     "name": "Mirror",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9787,
+     "name": "Ectoplasm",
+     "n": 35,
+     "from": [
+      {
+       "id": 20636,
+       "name": "Forest of Mirrors Ghost",
+       "chance": 100
+      },
+      {
+       "id": 20637,
+       "name": "Forest of Mirrors Ghost",
+       "chance": 100
+      },
+      {
+       "id": 20638,
+       "name": "Forest of Mirrors Ghost",
+       "chance": 100
+      },
+      {
+       "id": 20639,
+       "name": "Mirror",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Collect 35 Ectoplasm from the Forest of Mirrors ghosts",
+   "places": [
+    {
+     "mobs": [
+      20636,
+      20637,
+      20638,
+      20639
+     ],
+     "items": [
+      9787
+     ],
+     "kills": null,
+     "area": {
+      "kind": "override",
+      "id": "override",
+      "name": "Forest of Mirrors 3: Mirror area (west)",
+      "radius": 3790,
+      "count": 0,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "silent-valley-5",
+        "name": "Silent Valley 5: Forest of Mirrors Ghost area (south-west)",
+        "at": [
+         157192,
+         66472,
+         -3616
+        ]
+       }
+      ],
+      "at": [
+       135688,
+       81864,
+       -3520
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:forest-of-mirrors-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6625,
+      "sec": 100,
+      "via": ".hunters > Hunters -> Entrance to the Forest of Mirrors",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Entrance to the Forest of Mirrors",
+        "link": "forest of mirrors",
+        "price": 2000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6625,
+        "how": "field-areas",
+        "danger": 49
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Entrance to the Forest of Mirrors"
+      },
+      "simple": true,
+      "pv": [
+       [
+        142072,
+        81304,
+        -3000
+       ],
+       [
+        141576,
+        81112,
+        -3080
+       ],
+       [
+        140840,
+        81160,
+        -3296
+       ],
+       [
+        139848,
+        81160,
+        -3416
+       ],
+       [
+        138856,
+        81160,
+        -3136
+       ],
+       [
+        137864,
+        81160,
+        -3352
+       ],
+       [
+        136872,
+        81160,
+        -3648
+       ],
+       [
+        135880,
+        81672,
+        -3560
+       ],
+       [
+        135688,
+        81864,
+        -3520
+       ]
+      ],
+      "maxDanger": 49,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 49,
+       "dangerVsLevel": -1,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:forest-of-mirrors-3",
+       "name": "Forest of Mirrors 3: Mirror area (west)"
+      },
+      "points": [
+       [
+        142072,
+        81304,
+        -3000
+       ],
+       [
+        141576,
+        81112,
+        -3080
+       ],
+       [
+        140840,
+        81160,
+        -3296
+       ],
+       [
+        139848,
+        81160,
+        -3416
+       ],
+       [
+        138856,
+        81160,
+        -3136
+       ],
+       [
+        137864,
+        81160,
+        -3352
+       ],
+       [
+        136872,
+        81160,
+        -3648
+       ],
+       [
+        135880,
+        81672,
+        -3560
+       ],
+       [
+        135688,
+        81864,
+        -3520
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "override",
+    "id": "override",
+    "name": "Forest of Mirrors 3: Mirror area (west)",
+    "radius": 3790,
+    "count": 0,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "silent-valley-5",
+      "name": "Silent Valley 5: Forest of Mirrors Ghost area (south-west)",
+      "at": [
+       157192,
+       66472,
+       -3616
+      ]
+     }
+    ],
+    "at": [
+     135688,
+     81864,
+     -3520
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:forest-of-mirrors-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 6625,
+    "sec": 100,
+    "via": ".hunters > Hunters -> Entrance to the Forest of Mirrors",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Entrance to the Forest of Mirrors",
+      "link": "forest of mirrors",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6625,
+      "how": "field-areas",
+      "danger": 49
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Entrance to the Forest of Mirrors"
+    },
+    "simple": true,
+    "pv": [
+     [
+      142072,
+      81304,
+      -3000
+     ],
+     [
+      141576,
+      81112,
+      -3080
+     ],
+     [
+      140840,
+      81160,
+      -3296
+     ],
+     [
+      139848,
+      81160,
+      -3416
+     ],
+     [
+      138856,
+      81160,
+      -3136
+     ],
+     [
+      137864,
+      81160,
+      -3352
+     ],
+     [
+      136872,
+      81160,
+      -3648
+     ],
+     [
+      135880,
+      81672,
+      -3560
+     ],
+     [
+      135688,
+      81864,
+      -3520
+     ]
+    ],
+    "maxDanger": 49,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 49,
+     "dangerVsLevel": -1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:forest-of-mirrors-3",
+     "name": "Forest of Mirrors 3: Mirror area (west)"
+    },
+    "points": [
+     [
+      142072,
+      81304,
+      -3000
+     ],
+     [
+      141576,
+      81112,
+      -3080
+     ],
+     [
+      140840,
+      81160,
+      -3296
+     ],
+     [
+      139848,
+      81160,
+      -3416
+     ],
+     [
+      138856,
+      81160,
+      -3136
+     ],
+     [
+      137864,
+      81160,
+      -3352
+     ],
+     [
+      136872,
+      81160,
+      -3648
+     ],
+     [
+      135880,
+      81672,
+      -3560
+     ],
+     [
+      135688,
+      81864,
+      -3520
+     ]
+    ]
+   },
+   "expectedSec": 1130,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    3
+   ],
+   "override": {
+    "area": {
+     "at": [
+      135688,
+      81864,
+      -3520
+     ],
+     "radius": 3790,
+     "name": "Forest of Mirrors 3: Mirror area (west)"
+    },
+    "route": [
+     [
+      141528,
+      80872,
+      -3168
+     ],
+     [
+      140792,
+      81064,
+      -3328
+     ],
+     [
+      140472,
+      81272,
+      -3352
+     ],
+     [
+      139480,
+      81864,
+      -3208
+     ],
+     [
+      138488,
+      81720,
+      -3040
+     ],
+     [
+      137496,
+      81864,
+      -3352
+     ],
+     [
+      136824,
+      81688,
+      -3560
+     ],
+     [
+      135832,
+      81864,
+      -3536
+     ],
+     [
+      135688,
+      81864,
+      -3520
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Entrance to the Forest of Mirrors"
+    },
+    "note": "The planned place (Silent Valley 5) needs a 2.8 km swim (over one breath). New place: field area forest-of-mirrors-3 \"Forest of Mirrors 3: Mirror area (west)\" (field_areas.json: Mirror x3 L49 A, Forest of Mirrors Ghost x2 L46 A, Forest of Mirrors Ghost x2 L47 A, Forest of Mirrors Ghost x2 L48 A). Route: Hunters -> Entrance to the Forest of Mirrors (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 6148 long, swim 0, aggressive monsters lv >= 56 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:27:51.251Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Entrance to the Forest of Mirrors"
+    },
+    "points": [
+     [
+      141528,
+      80872,
+      -3168
+     ],
+     [
+      140792,
+      81064,
+      -3328
+     ],
+     [
+      140472,
+      81272,
+      -3352
+     ],
+     [
+      139480,
+      81864,
+      -3208
+     ],
+     [
+      138488,
+      81720,
+      -3040
+     ],
+     [
+      137496,
+      81864,
+      -3352
+     ],
+     [
+      136824,
+      81688,
+      -3560
+     ],
+     [
+      135832,
+      81864,
+      -3536
+     ],
+     [
+      135688,
+      81864,
+      -3520
+     ]
+    ],
+    "pv": [
+     [
+      141528,
+      80872,
+      -3168
+     ],
+     [
+      140792,
+      81064,
+      -3328
+     ],
+     [
+      140472,
+      81272,
+      -3352
+     ],
+     [
+      139480,
+      81864,
+      -3208
+     ],
+     [
+      138488,
+      81720,
+      -3040
+     ],
+     [
+      137496,
+      81864,
+      -3352
+     ],
+     [
+      136824,
+      81688,
+      -3560
+     ],
+     [
+      135832,
+      81864,
+      -3536
+     ],
+     [
+      135688,
+      81864,
+      -3520
+     ]
+    ],
+    "length": 6148,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 4,
+   "key": "c6:talk:30464",
+   "cond": 6,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "Hand him Hardin's order form."
+   ],
+   "npc": {
+    "id": 30464,
+    "name": "Clayton",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     17280,
+     146944,
+     -3085
+    ],
+    "alt": []
+   },
+   "text": "Hand the order to Clayton",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30464@17280,146944",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5822,
+    "sec": 69,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5822,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17240,
+      146872,
+      -3080
+     ],
+     [
+      17288,
+      146952,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -28,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6,
+    8
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c7:hunt",
+   "cond": 7,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20250,
+     "name": "Glass Jaguar",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9789,
+     "name": "Glass Jaguar Crystal",
+     "n": 5,
+     "from": [
+      {
+       "id": 20250,
+       "name": "Glass Jaguar",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Collect 5 Glass Jaguar Crystals",
+   "places": [
+    {
+     "mobs": [
+      20250
+     ],
+     "items": [
+      9789
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-dion-3",
+      "name": "Plains of Dion 3: Glass Jaguar area (south-east)",
+      "at": [
+       3336,
+       184072,
+       -3440
+      ],
+      "radius": 4851,
+      "levels": [
+       25,
+       28
+      ],
+      "count": 7,
+      "region": "Plains of Dion",
+      "atlasKey": "area:plains-of-dion-3",
+      "status": "ok",
+      "sec": 95,
+      "danger": 28,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -40.416666666666664,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-dion-17",
+        "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+        "at": [
+         3720,
+         166904,
+         -3464
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-1",
+        "name": "Plains of Dion 1: Glass Jaguar area (south-east)",
+        "at": [
+         2056,
+         179816,
+         -3704
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-13",
+        "name": "Plains of Dion 13: Delu Lizardman area (north-east)",
+        "at": [
+         5592,
+         169304,
+         -3448
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-dion-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 5951,
+      "sec": 95,
+      "via": ".dion > Dion -> Plains of Dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Plains of Dion",
+        "link": "plains of dion",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5951,
+        "how": "field-areas",
+        "danger": 28
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Plains of Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        632,
+        179192,
+        -3720
+       ],
+       [
+        632,
+        180184,
+        -3720
+       ],
+       [
+        632,
+        181176,
+        -3696
+       ],
+       [
+        1432,
+        182168,
+        -3632
+       ],
+       [
+        2424,
+        183160,
+        -3624
+       ],
+       [
+        3336,
+        184072,
+        -3440
+       ]
+      ],
+      "maxDanger": 28,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 28,
+       "dangerVsLevel": -22,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plains-of-dion-3",
+    "name": "Plains of Dion 3: Glass Jaguar area (south-east)",
+    "at": [
+     3336,
+     184072,
+     -3440
+    ],
+    "radius": 4851,
+    "levels": [
+     25,
+     28
+    ],
+    "count": 7,
+    "region": "Plains of Dion",
+    "atlasKey": "area:plains-of-dion-3",
+    "status": "ok",
+    "sec": 95,
+    "danger": 28,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -40.416666666666664,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plains-of-dion-17",
+      "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+      "at": [
+       3720,
+       166904,
+       -3464
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-1",
+      "name": "Plains of Dion 1: Glass Jaguar area (south-east)",
+      "at": [
+       2056,
+       179816,
+       -3704
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-13",
+      "name": "Plains of Dion 13: Delu Lizardman area (north-east)",
+      "at": [
+       5592,
+       169304,
+       -3448
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-dion-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5951,
+    "sec": 95,
+    "via": ".dion > Dion -> Plains of Dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Plains of Dion",
+      "link": "plains of dion",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5951,
+      "how": "field-areas",
+      "danger": 28
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Plains of Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      632,
+      179192,
+      -3720
+     ],
+     [
+      632,
+      180184,
+      -3720
+     ],
+     [
+      632,
+      181176,
+      -3696
+     ],
+     [
+      1432,
+      182168,
+      -3632
+     ],
+     [
+      2424,
+      183160,
+      -3624
+     ],
+     [
+      3336,
+      184072,
+      -3440
+     ]
+    ],
+    "maxDanger": 28,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 28,
+     "dangerVsLevel": -22,
+     "aggro": []
+    }
+   },
+   "expectedSec": 220,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c3:hunt": {
+    "area": {
+     "at": [
+      135688,
+      81864,
+      -3520
+     ],
+     "radius": 3790,
+     "name": "Forest of Mirrors 3: Mirror area (west)"
+    },
+    "route": [
+     [
+      141528,
+      80872,
+      -3168
+     ],
+     [
+      140792,
+      81064,
+      -3328
+     ],
+     [
+      140472,
+      81272,
+      -3352
+     ],
+     [
+      139480,
+      81864,
+      -3208
+     ],
+     [
+      138488,
+      81720,
+      -3040
+     ],
+     [
+      137496,
+      81864,
+      -3352
+     ],
+     [
+      136824,
+      81688,
+      -3560
+     ],
+     [
+      135832,
+      81864,
+      -3536
+     ],
+     [
+      135688,
+      81864,
+      -3520
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Entrance to the Forest of Mirrors"
+    },
+    "note": "The planned place (Silent Valley 5) needs a 2.8 km swim (over one breath). New place: field area forest-of-mirrors-3 \"Forest of Mirrors 3: Mirror area (west)\" (field_areas.json: Mirror x3 L49 A, Forest of Mirrors Ghost x2 L46 A, Forest of Mirrors Ghost x2 L47 A, Forest of Mirrors Ghost x2 L48 A). Route: Hunters -> Entrance to the Forest of Mirrors (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 6148 long, swim 0, aggressive monsters lv >= 56 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:27:51.251Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T10:27:51.251Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ }
+}

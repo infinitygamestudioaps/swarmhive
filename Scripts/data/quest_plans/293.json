@@ -1,0 +1,1122 @@
+{
+ "id": 293,
+ "name": "The Hidden Veins",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.834Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 6,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {
+  "races": [
+   "DWARF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DWARF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 44,
+ "refLevel": 6,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30535",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30535,
+    "name": "Filaur",
+    "title": "Gray Pillar Member",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178407,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Filaur – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20446,
+     "name": "Utuku Orc",
+     "level": 6,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20447,
+     "name": "Utuku Orc Archer",
+     "level": 8,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20448,
+     "name": "Utuku Orc Grunt",
+     "level": 7,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1488,
+     "name": "Chrysolite Ore",
+     "n": 4,
+     "from": [
+      {
+       "id": 20446,
+       "name": "Utuku Orc",
+       "chance": 100
+      },
+      {
+       "id": 20447,
+       "name": "Utuku Orc Archer",
+       "chance": 100
+      },
+      {
+       "id": 20448,
+       "name": "Utuku Orc Grunt",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1489,
+     "name": "Torn Map Fragment",
+     "n": 4,
+     "from": [
+      {
+       "id": 20446,
+       "name": "Utuku Orc",
+       "chance": 5
+      },
+      {
+       "id": 20447,
+       "name": "Utuku Orc Archer",
+       "chance": 5
+      },
+      {
+       "id": 20448,
+       "name": "Utuku Orc Grunt",
+       "chance": 5
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Utuku Orc, Utuku Orc Archer, Utuku Orc Grunt for Chrysolite Ore x4, Torn Map Fragment x4",
+   "places": [
+    {
+     "mobs": [
+      20446,
+      20447,
+      20448
+     ],
+     "items": [
+      1488,
+      1489
+     ],
+     "kills": null,
+     "area": {
+      "kind": "override",
+      "id": "override",
+      "name": "Dwarven Village outskirts 3: Black Wolf area (north-east)",
+      "radius": 2700,
+      "count": 0,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dwarven-village-outskirts-7",
+        "name": "Dwarven Village outskirts 7: Garum Werewolf area (north)",
+        "at": [
+         116152,
+         -196392,
+         -3376
+        ]
+       }
+      ],
+      "at": [
+       119128,
+       -185656,
+       -3168
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:dwarven-village-outskirts-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 9069,
+      "sec": 121,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6356,
+        "how": "field-areas-gap",
+        "danger": 6
+       },
+       {
+        "do": "walk",
+        "len": 2713,
+        "how": "field-areas",
+        "danger": 6
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": true,
+      "pv": [
+       [
+        115120,
+        -178224,
+        -880
+       ],
+       [
+        117864,
+        -183448,
+        -2464
+       ],
+       [
+        117912,
+        -184440,
+        -2576
+       ],
+       [
+        118904,
+        -185432,
+        -3088
+       ],
+       [
+        119128,
+        -185656,
+        -3168
+       ]
+      ],
+      "maxDanger": 6,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 6,
+       "dangerVsLevel": 0,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:dwarven-village-outskirts-3",
+       "name": "Dwarven Village outskirts 3: Black Wolf area (north-east)"
+      },
+      "points": [
+       [
+        115120,
+        -178224,
+        -880
+       ],
+       [
+        117864,
+        -183448,
+        -2464
+       ],
+       [
+        117912,
+        -184440,
+        -2576
+       ],
+       [
+        118904,
+        -185432,
+        -3088
+       ],
+       [
+        119128,
+        -185656,
+        -3168
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "override",
+    "id": "override",
+    "name": "Dwarven Village outskirts 3: Black Wolf area (north-east)",
+    "radius": 2700,
+    "count": 0,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dwarven-village-outskirts-7",
+      "name": "Dwarven Village outskirts 7: Garum Werewolf area (north)",
+      "at": [
+       116152,
+       -196392,
+       -3376
+      ]
+     }
+    ],
+    "at": [
+     119128,
+     -185656,
+     -3168
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:dwarven-village-outskirts-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 9069,
+    "sec": 121,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6356,
+      "how": "field-areas-gap",
+      "danger": 6
+     },
+     {
+      "do": "walk",
+      "len": 2713,
+      "how": "field-areas",
+      "danger": 6
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      117864,
+      -183448,
+      -2464
+     ],
+     [
+      117912,
+      -184440,
+      -2576
+     ],
+     [
+      118904,
+      -185432,
+      -3088
+     ],
+     [
+      119128,
+      -185656,
+      -3168
+     ]
+    ],
+    "maxDanger": 6,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 6,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:dwarven-village-outskirts-3",
+     "name": "Dwarven Village outskirts 3: Black Wolf area (north-east)"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      117864,
+      -183448,
+      -2464
+     ],
+     [
+      117912,
+      -184440,
+      -2576
+     ],
+     [
+      118904,
+      -185432,
+      -3088
+     ],
+     [
+      119128,
+      -185656,
+      -3168
+     ]
+    ]
+   },
+   "expectedSec": 2465,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "area": {
+     "at": [
+      119128,
+      -185656,
+      -3168
+     ],
+     "radius": 2700,
+     "name": "Dwarven Village outskirts 3: Black Wolf area (north-east)"
+    },
+    "route": [
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115848,
+      -178952,
+      -976
+     ],
+     [
+      116184,
+      -179016,
+      -1008
+     ],
+     [
+      116856,
+      -178888,
+      -1120
+     ],
+     [
+      116952,
+      -179880,
+      -1160
+     ],
+     [
+      116824,
+      -180312,
+      -1192
+     ],
+     [
+      116920,
+      -181192,
+      -1312
+     ],
+     [
+      116952,
+      -181192,
+      -1304
+     ],
+     [
+      116984,
+      -182136,
+      -1504
+     ],
+     [
+      117448,
+      -182408,
+      -1528
+     ],
+     [
+      117928,
+      -182472,
+      -1536
+     ],
+     [
+      118120,
+      -182424,
+      -1560
+     ],
+     [
+      118536,
+      -183128,
+      -2440
+     ],
+     [
+      118616,
+      -184120,
+      -2896
+     ],
+     [
+      118568,
+      -184376,
+      -2896
+     ],
+     [
+      118616,
+      -184648,
+      -2944
+     ],
+     [
+      119128,
+      -185640,
+      -3168
+     ],
+     [
+      119128,
+      -185656,
+      -3168
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "note": "The planned place (Dwarven Village outskirts 7) needs a 12 km swim and passes Goblin Lord 13 / Barbed Bat 12 / Puma 12 (aggressive, quest level 6 + 6). Utuku Orc 20446 (the item dropper) spawns here. New place: field area dwarven-village-outskirts-3 \"Dwarven Village outskirts 3: Black Wolf area (north-east)\" (field_areas.json: Black Wolf x2 L4 A, Goblin Snooper x2 L5 A, Utuku Orc x2 L6 A). Route: Schuttgart -> Dwarven Village (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 10067 long, swim 0, aggressive monsters lv >= 12 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:27:51.258Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "points": [
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115848,
+      -178952,
+      -976
+     ],
+     [
+      116184,
+      -179016,
+      -1008
+     ],
+     [
+      116856,
+      -178888,
+      -1120
+     ],
+     [
+      116952,
+      -179880,
+      -1160
+     ],
+     [
+      116824,
+      -180312,
+      -1192
+     ],
+     [
+      116920,
+      -181192,
+      -1312
+     ],
+     [
+      116952,
+      -181192,
+      -1304
+     ],
+     [
+      116984,
+      -182136,
+      -1504
+     ],
+     [
+      117448,
+      -182408,
+      -1528
+     ],
+     [
+      117928,
+      -182472,
+      -1536
+     ],
+     [
+      118120,
+      -182424,
+      -1560
+     ],
+     [
+      118536,
+      -183128,
+      -2440
+     ],
+     [
+      118616,
+      -184120,
+      -2896
+     ],
+     [
+      118568,
+      -184376,
+      -2896
+     ],
+     [
+      118616,
+      -184648,
+      -2944
+     ],
+     [
+      119128,
+      -185640,
+      -3168
+     ],
+     [
+      119128,
+      -185656,
+      -3168
+     ]
+    ],
+    "pv": [
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115848,
+      -178952,
+      -976
+     ],
+     [
+      116184,
+      -179016,
+      -1008
+     ],
+     [
+      116856,
+      -178888,
+      -1120
+     ],
+     [
+      116952,
+      -179880,
+      -1160
+     ],
+     [
+      116824,
+      -180312,
+      -1192
+     ],
+     [
+      116920,
+      -181192,
+      -1312
+     ],
+     [
+      116952,
+      -181192,
+      -1304
+     ],
+     [
+      116984,
+      -182136,
+      -1504
+     ],
+     [
+      117448,
+      -182408,
+      -1528
+     ],
+     [
+      117928,
+      -182472,
+      -1536
+     ],
+     [
+      118120,
+      -182424,
+      -1560
+     ],
+     [
+      118536,
+      -183128,
+      -2440
+     ],
+     [
+      118616,
+      -184120,
+      -2896
+     ],
+     [
+      118568,
+      -184376,
+      -2896
+     ],
+     [
+      118616,
+      -184648,
+      -2944
+     ],
+     [
+      119128,
+      -185640,
+      -3168
+     ],
+     [
+      119128,
+      -185656,
+      -3168
+     ]
+    ],
+    "length": 10067,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30535",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30535,
+    "name": "Filaur",
+    "title": "Gray Pillar Member",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178407,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Hand in Chrysolite Ore, Hidden Ore Map at Filaur (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 1488,
+     "name": "Chrysolite Ore",
+     "n": 4
+    },
+    {
+     "id": 1490,
+     "name": "Hidden Ore Map",
+     "n": 4
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "area": {
+     "at": [
+      119128,
+      -185656,
+      -3168
+     ],
+     "radius": 2700,
+     "name": "Dwarven Village outskirts 3: Black Wolf area (north-east)"
+    },
+    "route": [
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115848,
+      -178952,
+      -976
+     ],
+     [
+      116184,
+      -179016,
+      -1008
+     ],
+     [
+      116856,
+      -178888,
+      -1120
+     ],
+     [
+      116952,
+      -179880,
+      -1160
+     ],
+     [
+      116824,
+      -180312,
+      -1192
+     ],
+     [
+      116920,
+      -181192,
+      -1312
+     ],
+     [
+      116952,
+      -181192,
+      -1304
+     ],
+     [
+      116984,
+      -182136,
+      -1504
+     ],
+     [
+      117448,
+      -182408,
+      -1528
+     ],
+     [
+      117928,
+      -182472,
+      -1536
+     ],
+     [
+      118120,
+      -182424,
+      -1560
+     ],
+     [
+      118536,
+      -183128,
+      -2440
+     ],
+     [
+      118616,
+      -184120,
+      -2896
+     ],
+     [
+      118568,
+      -184376,
+      -2896
+     ],
+     [
+      118616,
+      -184648,
+      -2944
+     ],
+     [
+      119128,
+      -185640,
+      -3168
+     ],
+     [
+      119128,
+      -185656,
+      -3168
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "note": "The planned place (Dwarven Village outskirts 7) needs a 12 km swim and passes Goblin Lord 13 / Barbed Bat 12 / Puma 12 (aggressive, quest level 6 + 6). Utuku Orc 20446 (the item dropper) spawns here. New place: field area dwarven-village-outskirts-3 \"Dwarven Village outskirts 3: Black Wolf area (north-east)\" (field_areas.json: Black Wolf x2 L4 A, Goblin Snooper x2 L5 A, Utuku Orc x2 L6 A). Route: Schuttgart -> Dwarven Village (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 10067 long, swim 0, aggressive monsters lv >= 12 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:27:51.258Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T10:27:51.258Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.840Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing",
+   "area-partial",
+   "area-thin"
+  ]
+ }
+}

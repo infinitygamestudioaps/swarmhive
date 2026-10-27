@@ -1,0 +1,5577 @@
+{
+ "id": 233,
+ "name": "Test Of The War Spirit",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.418Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dion",
+ "requirements": {
+  "races": [
+   "ORC"
+  ],
+  "classes": [
+   "Orc Shaman"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ORC"
+  },
+  {
+   "code": "class-only",
+   "text": "classes: Orc Shaman"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 24,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30510",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will challenge the trial"
+   ],
+   "npc": {
+    "id": 30510,
+    "name": "Somak",
+    "title": "Seer",
+    "town": "Dion",
+    "at": [
+     19924,
+     143196,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Talk to Somak – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30510@19924,143196",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6584,
+    "sec": 75,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6584,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17416,
+      144088,
+      -3032
+     ],
+     [
+      17608,
+      143896,
+      -3032
+     ],
+     [
+      17608,
+      143736,
+      -3032
+     ],
+     [
+      17736,
+      143496,
+      -3040
+     ],
+     [
+      17960,
+      143336,
+      -3032
+     ],
+     [
+      18200,
+      143208,
+      -3016
+     ],
+     [
+      18392,
+      143016,
+      -3016
+     ],
+     [
+      18616,
+      142856,
+      -3024
+     ],
+     [
+      18808,
+      142808,
+      -3024
+     ],
+     [
+      19080,
+      142760,
+      -3048
+     ],
+     [
+      19336,
+      142696,
+      -3032
+     ],
+     [
+      19608,
+      142680,
+      -3032
+     ],
+     [
+      19688,
+      142680,
+      -3032
+     ],
+     [
+      19944,
+      142744,
+      -3040
+     ],
+     [
+      20088,
+      142968,
+      -3056
+     ],
+     [
+      20008,
+      143112,
+      -3040
+     ],
+     [
+      20008,
+      143208,
+      -3040
+     ],
+     [
+      19928,
+      143192,
+      -3040
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 105,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20601,
+     "name": "Tamlin Orc",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20602,
+     "name": "Tamlin Orc Archer",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20213,
+     "name": "Porta",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20214,
+     "name": "Excuro",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20215,
+     "name": "Mordeo",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20089,
+     "name": "Noble Ant",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 20090,
+     "name": "Noble Ant Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20158,
+     "name": "Medusa",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20581,
+     "name": "Leto Lizardman Shaman",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 27108,
+     "name": "Stenoa Gorgon Queen",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2881,
+     "name": "Tamlin Orc Head",
+     "n": 13,
+     "from": [
+      {
+       "id": 20601,
+       "name": "Tamlin Orc",
+       "chance": 100
+      },
+      {
+       "id": 20602,
+       "name": "Tamlin Orc Archer",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2884,
+     "name": "Porta's Eye",
+     "n": 10,
+     "from": [
+      {
+       "id": 20213,
+       "name": "Porta",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2885,
+     "name": "Excuro's Scale",
+     "n": 10,
+     "from": [
+      {
+       "id": 20214,
+       "name": "Excuro",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2886,
+     "name": "Mordeos Talon",
+     "n": 10,
+     "from": [
+      {
+       "id": 20215,
+       "name": "Mordeo",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2889,
+     "name": "Tonar's Skull",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2890,
+     "name": "Tonar's Rib Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2891,
+     "name": "Tonar's Spine",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2892,
+     "name": "Tonar's Arm Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2893,
+     "name": "Tonar's Thigh Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2896,
+     "name": "Hermodt's Skull",
+     "n": 1,
+     "from": [
+      {
+       "id": 27108,
+       "name": "Stenoa Gorgon Queen",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2897,
+     "name": "Hermodt's Rib Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2898,
+     "name": "Hermodt's Spine",
+     "n": 1,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2899,
+     "name": "Hermodt's Arm Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2900,
+     "name": "Hermodt's Thigh Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2905,
+     "name": "Kiruna's Skull",
+     "n": 1,
+     "from": [
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2906,
+     "name": "Kiruna's Rib Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2907,
+     "name": "Kiruna's Spine",
+     "n": 1,
+     "from": [
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2908,
+     "name": "Kiruna's Arm Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2909,
+     "name": "Kiruna's Thigh Bone",
+     "n": 1,
+     "from": [
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 100
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way",
+    "owner-manual"
+   ],
+   "text": "Hunt Tamlin Orc, Tamlin Orc Archer, Porta for Tamlin Orc Head x13, Porta's Eye x10, Excuro's Scale x10, Mordeos Talon x10, Tonar's Skull x1, Tonar's Rib Bone x1, Tonar's Spine x1, Tonar's Arm Bone x1, Tonar's Thigh Bone x1, Hermodt's Skull x1, Hermodt's Rib Bone x1, Hermodt's Spine x1, Hermodt's Arm Bone x1, Hermodt's Thigh Bone x1, Kiruna's Skull x1, Kiruna's Rib Bone x1, Kiruna's Spine x1, Kiruna's Arm Bone x1, Kiruna's Thigh Bone x1",
+   "places": [
+    {
+     "mobs": [
+      20601,
+      20602
+     ],
+     "items": [
+      2881
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-31",
+      "name": "Plains of Lizardmen 31: Karul Bugbear area (east)",
+      "at": [
+       105784,
+       82104,
+       -2984
+      ],
+      "radius": 4259,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 13,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-31",
+      "status": "ok",
+      "sec": 286,
+      "danger": 42,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": -13.233333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-24",
+        "name": "Forest of Mirrors 24: Karul Bugbear area (west)",
+        "at": [
+         126024,
+         80568,
+         -2248
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-32",
+        "name": "Plains of Lizardmen 32: Karul Bugbear area (east)",
+        "at": [
+         106792,
+         87880,
+         -3144
+        ],
+        "count": 8,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-25",
+        "name": "Forest of Mirrors 25: Karul Bugbear area (west)",
+        "at": [
+         127368,
+         83480,
+         -1992
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-31",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 28861,
+      "sec": 286,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 23430,
+        "how": "geodata",
+        "danger": 85
+       },
+       {
+        "do": "walk",
+        "len": 5431,
+        "how": "field-areas",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        87750,
+        85273,
+        -3064
+       ],
+       [
+        88248,
+        85032,
+        -3072
+       ],
+       [
+        88472,
+        85032,
+        -3072
+       ],
+       [
+        88696,
+        84824,
+        -3072
+       ],
+       [
+        89192,
+        84384,
+        -3240
+       ],
+       [
+        89688,
+        83944,
+        -3408
+       ],
+       [
+        90184,
+        83448,
+        -3500
+       ],
+       [
+        90680,
+        82952,
+        -3592
+       ],
+       [
+        91176,
+        82456,
+        -3564
+       ],
+       [
+        91672,
+        81960,
+        -3536
+       ],
+       [
+        92168,
+        81464,
+        -3480
+       ],
+       [
+        92664,
+        80968,
+        -3424
+       ],
+       [
+        93160,
+        80472,
+        -3376
+       ],
+       [
+        93656,
+        79976,
+        -3328
+       ],
+       [
+        94152,
+        79480,
+        -3316
+       ],
+       [
+        94648,
+        78984,
+        -3304
+       ],
+       [
+        94680,
+        78984,
+        -3304
+       ],
+       [
+        95176,
+        78488,
+        -3424
+       ],
+       [
+        95672,
+        77992,
+        -3544
+       ],
+       [
+        96232,
+        77416,
+        -3584
+       ],
+       [
+        97048,
+        76840,
+        -3552
+       ],
+       [
+        97544,
+        76760,
+        -3552
+       ],
+       [
+        98040,
+        76680,
+        -3552
+       ],
+       [
+        99032,
+        76680,
+        -3544
+       ],
+       [
+        100024,
+        76680,
+        -3464
+       ],
+       [
+        100536,
+        76984,
+        -3472
+       ],
+       [
+        100728,
+        77192,
+        -3344
+       ],
+       [
+        100760,
+        77192,
+        -3320
+       ],
+       [
+        101224,
+        76936,
+        -2936
+       ],
+       [
+        101256,
+        76936,
+        -2912
+       ],
+       [
+        101944,
+        76296,
+        -2480
+       ],
+       [
+        102024,
+        76280,
+        -2456
+       ],
+       [
+        102440,
+        76328,
+        -2408
+       ],
+       [
+        103240,
+        76520,
+        -2224
+       ],
+       [
+        103784,
+        76216,
+        -2088
+       ],
+       [
+        104552,
+        75784,
+        -1872
+       ],
+       [
+        105144,
+        75704,
+        -1712
+       ],
+       [
+        105336,
+        75720,
+        -1640
+       ],
+       [
+        105560,
+        75800,
+        -1576
+       ],
+       [
+        105848,
+        76280,
+        -1480
+       ],
+       [
+        105848,
+        76680,
+        -1464
+       ],
+       [
+        105864,
+        77672,
+        -1648
+       ],
+       [
+        105864,
+        78664,
+        -1912
+       ],
+       [
+        105864,
+        79656,
+        -2264
+       ],
+       [
+        105864,
+        80648,
+        -2576
+       ],
+       [
+        105864,
+        81640,
+        -2848
+       ],
+       [
+        105784,
+        82104,
+        -2984
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [
+       "the nearest gatekeeper landing on foot (Oren -> Plains of Lizardmen) is a 28.7k walk — more than the 25k walk limit"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 85,
+       "dangerVsLevel": 46,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 2
+        },
+        {
+         "name": "Sticky Mushroom",
+         "lv": 85,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20213
+     ],
+     "items": [
+      2884
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "cruma-1-left-c",
+      "name": "Cruma Tower: 1st floor, left: Porta room",
+      "at": [
+       14306,
+       120464,
+       -12085
+      ],
+      "radius": 748,
+      "levels": [
+       40,
+       40
+      ],
+      "count": 5,
+      "region": "Cruma Tower",
+      "atlasKey": "room:cruma-1-left-c",
+      "status": "conditional",
+      "sec": 146,
+      "danger": 0,
+      "reachable": true,
+      "score": 22.433333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "cruma-1-left-e",
+        "name": "Cruma Tower: 1st floor, left: Catherok room",
+        "at": [
+         11705,
+         117857,
+         -12085
+        ],
+        "count": 5,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-right-c",
+        "name": "Cruma Tower: 1st floor, right: Porta room",
+        "at": [
+         23374,
+         119639,
+         -12130
+        ],
+        "count": 4,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-right-a",
+        "name": "Cruma Tower: 1st floor, right: Excuro room",
+        "at": [
+         21051,
+         117263,
+         -12085
+        ],
+        "count": 2,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:cruma-1-left-c",
+      "status": "conditional",
+      "flags": [
+       "conditions"
+      ],
+      "from": ".dion",
+      "length": 10263,
+      "sec": 146,
+      "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 71,
+        "how": "adjacent",
+        "danger": 34
+       },
+       {
+        "do": "floor",
+        "npc": "Mozella",
+        "link": "Teleport into the Tower.",
+        "floor": "1st floor"
+       },
+       {
+        "do": "walk",
+        "len": 10192,
+        "how": "dungeon-rooms",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": false,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        17296,
+        114176,
+        -3439
+       ],
+       [
+        17592,
+        114984,
+        -11728
+       ],
+       [
+        17576,
+        115928,
+        -11848
+       ],
+       [
+        17560,
+        116920,
+        -12032
+       ],
+       [
+        17560,
+        117160,
+        -12072
+       ],
+       [
+        16568,
+        117160,
+        -12160
+       ],
+       [
+        16264,
+        117096,
+        -12160
+       ],
+       [
+        15448,
+        117080,
+        -12080
+       ],
+       [
+        14456,
+        118072,
+        -12080
+       ],
+       [
+        14184,
+        118232,
+        -12080
+       ],
+       [
+        14248,
+        119224,
+        -12080
+       ],
+       [
+        14248,
+        119672,
+        -12080
+       ],
+       [
+        14952,
+        120056,
+        -12080
+       ],
+       [
+        15016,
+        120104,
+        -12080
+       ],
+       [
+        15016,
+        120152,
+        -12080
+       ],
+       [
+        14552,
+        120472,
+        -12088
+       ],
+       [
+        14312,
+        120472,
+        -12088
+       ]
+      ],
+      "maxDanger": 42,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 42,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20214
+     ],
+     "items": [
+      2885
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "cruma-1-left-e",
+      "name": "Cruma Tower: 1st floor, left: Catherok room",
+      "at": [
+       11705,
+       117857,
+       -12085
+      ],
+      "radius": 1929,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 8,
+      "region": "Cruma Tower",
+      "atlasKey": "room:cruma-1-left-e",
+      "status": "conditional",
+      "sec": 175,
+      "danger": 42,
+      "reachable": true,
+      "score": 4.916666666666666,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "cruma-1-left-a",
+        "name": "Cruma Tower: 1st floor, left: Catherok room",
+        "at": [
+         14560,
+         117039,
+         -12085
+        ],
+        "count": 4,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-right-a",
+        "name": "Cruma Tower: 1st floor, right: Excuro room",
+        "at": [
+         21051,
+         117263,
+         -12085
+        ],
+        "count": 4,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-right-d",
+        "name": "Cruma Tower: 1st floor, right: Catherok room",
+        "at": [
+         23670,
+         117155,
+         -12130
+        ],
+        "count": 4,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:cruma-1-left-e",
+      "status": "conditional",
+      "flags": [
+       "conditions"
+      ],
+      "from": ".dion",
+      "length": 13817,
+      "sec": 175,
+      "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 71,
+        "how": "adjacent",
+        "danger": 34
+       },
+       {
+        "do": "floor",
+        "npc": "Mozella",
+        "link": "Teleport into the Tower.",
+        "floor": "1st floor"
+       },
+       {
+        "do": "walk",
+        "len": 13746,
+        "how": "dungeon-rooms",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": false,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        17296,
+        114176,
+        -3439
+       ],
+       [
+        17608,
+        114936,
+        -11720
+       ],
+       [
+        17576,
+        115928,
+        -11848
+       ],
+       [
+        17560,
+        116920,
+        -12032
+       ],
+       [
+        17560,
+        117160,
+        -12072
+       ],
+       [
+        16568,
+        117160,
+        -12160
+       ],
+       [
+        16264,
+        117096,
+        -12160
+       ],
+       [
+        15448,
+        117080,
+        -12080
+       ],
+       [
+        14456,
+        117960,
+        -12080
+       ],
+       [
+        13912,
+        118520,
+        -12080
+       ],
+       [
+        13912,
+        119512,
+        -12080
+       ],
+       [
+        13912,
+        119672,
+        -12080
+       ],
+       [
+        13160,
+        119736,
+        -12080
+       ],
+       [
+        13032,
+        119640,
+        -12080
+       ],
+       [
+        12472,
+        118648,
+        -12080
+       ],
+       [
+        12472,
+        117656,
+        -12080
+       ],
+       [
+        12472,
+        117368,
+        -12080
+       ],
+       [
+        12296,
+        116904,
+        -12080
+       ],
+       [
+        12184,
+        116824,
+        -12080
+       ],
+       [
+        12136,
+        116824,
+        -12080
+       ],
+       [
+        11704,
+        117448,
+        -12088
+       ],
+       [
+        11704,
+        117864,
+        -12080
+       ]
+      ],
+      "maxDanger": 42,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 42,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20215
+     ],
+     "items": [
+      2886
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "cruma-1-left-e",
+      "name": "Cruma Tower: 1st floor, left: Catherok room",
+      "at": [
+       11705,
+       117857,
+       -12085
+      ],
+      "radius": 1929,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 7,
+      "region": "Cruma Tower",
+      "atlasKey": "room:cruma-1-left-e",
+      "status": "conditional",
+      "sec": 175,
+      "danger": 42,
+      "reachable": true,
+      "score": 10.916666666666666,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "cruma-1-right-c",
+        "name": "Cruma Tower: 1st floor, right: Porta room",
+        "at": [
+         23374,
+         119639,
+         -12130
+        ],
+        "count": 4,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-right-d",
+        "name": "Cruma Tower: 1st floor, right: Catherok room",
+        "at": [
+         23670,
+         117155,
+         -12130
+        ],
+        "count": 3,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "cruma-1-behind-a",
+        "name": "Cruma Tower: 1st floor, behind: Excuro room",
+        "at": [
+         20479,
+         119925,
+         -12131
+        ],
+        "count": 2,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:cruma-1-left-e",
+      "status": "conditional",
+      "flags": [
+       "conditions"
+      ],
+      "from": ".dion",
+      "length": 13817,
+      "sec": 175,
+      "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 71,
+        "how": "adjacent",
+        "danger": 34
+       },
+       {
+        "do": "floor",
+        "npc": "Mozella",
+        "link": "Teleport into the Tower.",
+        "floor": "1st floor"
+       },
+       {
+        "do": "walk",
+        "len": 13746,
+        "how": "dungeon-rooms",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": false,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        17296,
+        114176,
+        -3439
+       ],
+       [
+        17608,
+        114936,
+        -11720
+       ],
+       [
+        17576,
+        115928,
+        -11848
+       ],
+       [
+        17560,
+        116920,
+        -12032
+       ],
+       [
+        17560,
+        117160,
+        -12072
+       ],
+       [
+        16568,
+        117160,
+        -12160
+       ],
+       [
+        16264,
+        117096,
+        -12160
+       ],
+       [
+        15448,
+        117080,
+        -12080
+       ],
+       [
+        14456,
+        117960,
+        -12080
+       ],
+       [
+        13912,
+        118520,
+        -12080
+       ],
+       [
+        13912,
+        119512,
+        -12080
+       ],
+       [
+        13912,
+        119672,
+        -12080
+       ],
+       [
+        13160,
+        119736,
+        -12080
+       ],
+       [
+        13032,
+        119640,
+        -12080
+       ],
+       [
+        12472,
+        118648,
+        -12080
+       ],
+       [
+        12472,
+        117656,
+        -12080
+       ],
+       [
+        12472,
+        117368,
+        -12080
+       ],
+       [
+        12296,
+        116904,
+        -12080
+       ],
+       [
+        12184,
+        116824,
+        -12080
+       ],
+       [
+        12136,
+        116824,
+        -12080
+       ],
+       [
+        11704,
+        117448,
+        -12088
+       ],
+       [
+        11704,
+        117864,
+        -12080
+       ]
+      ],
+      "maxDanger": 42,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 42,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20581,
+      20582
+     ],
+     "items": [
+      2889,
+      2890,
+      2891,
+      2892,
+      2893
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.5,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 45,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    },
+    {
+     "mobs": [
+      27108
+     ],
+     "items": [
+      2896
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 2,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -7.933333333333334,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20158
+     ],
+     "items": [
+      2897,
+      2898,
+      2899,
+      2900
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "antharas-lair-10",
+        "name": "Antharas Lair 10: Medusa area (south-west)",
+        "at": [
+         123160,
+         129928,
+         -3232
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-14",
+        "name": "Brekas Stronghold 14: Turak Bugbear area (east)",
+        "at": [
+         104904,
+         136328,
+         -3560
+        ],
+        "count": 1,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20089,
+      20090
+     ],
+     "items": [
+      2905,
+      2906,
+      2907,
+      2908,
+      2909
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-straight-p",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -28065,
+       182298,
+       -5365
+      ],
+      "radius": 1460,
+      "levels": [
+       35,
+       38
+      ],
+      "count": 24,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-straight-p",
+      "status": "ok",
+      "sec": 282,
+      "danger": 38,
+      "reachable": true,
+      "score": -139.3,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-u",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28856,
+         182968,
+         -5312
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-e",
+        "name": "Ant Nest: Nest tunnels, straight: Ant Warrior Captain room",
+        "at": [
+         -17792,
+         180659,
+         -5518
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-straight-p",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".gludio",
+      "length": 28397,
+      "sec": 282,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 28397,
+        "how": "dungeon-rooms",
+        "danger": 38
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13576,
+        177544,
+        -5304
+       ],
+       [
+        -13560,
+        177624,
+        -5304
+       ],
+       [
+        -13560,
+        177704,
+        -5304
+       ],
+       [
+        -13608,
+        177800,
+        -5304
+       ],
+       [
+        -14632,
+        178472,
+        -5304
+       ],
+       [
+        -15240,
+        178984,
+        -5304
+       ],
+       [
+        -16232,
+        179976,
+        -5384
+       ],
+       [
+        -16744,
+        180104,
+        -5424
+       ],
+       [
+        -17992,
+        181176,
+        -5520
+       ],
+       [
+        -18984,
+        182152,
+        -5536
+       ],
+       [
+        -19528,
+        182760,
+        -5528
+       ],
+       [
+        -19528,
+        183544,
+        -5600
+       ],
+       [
+        -19624,
+        183672,
+        -5600
+       ],
+       [
+        -19864,
+        183784,
+        -5600
+       ],
+       [
+        -20856,
+        183784,
+        -5712
+       ],
+       [
+        -21848,
+        183784,
+        -5712
+       ],
+       [
+        -22952,
+        183944,
+        -5696
+       ],
+       [
+        -23224,
+        184024,
+        -5664
+       ],
+       [
+        -23320,
+        183992,
+        -5640
+       ],
+       [
+        -23464,
+        183896,
+        -5600
+       ],
+       [
+        -23960,
+        183224,
+        -5600
+       ],
+       [
+        -23960,
+        182232,
+        -5600
+       ],
+       [
+        -23960,
+        181496,
+        -5592
+       ],
+       [
+        -23992,
+        181400,
+        -5592
+       ],
+       [
+        -24552,
+        181048,
+        -5536
+       ],
+       [
+        -24952,
+        180856,
+        -5400
+       ],
+       [
+        -24968,
+        180888,
+        -5368
+       ],
+       [
+        -25080,
+        180888,
+        -5408
+       ],
+       [
+        -25800,
+        181592,
+        -5408
+       ],
+       [
+        -25800,
+        181752,
+        -5408
+       ],
+       [
+        -25848,
+        181816,
+        -5408
+       ],
+       [
+        -26280,
+        182376,
+        -5408
+       ],
+       [
+        -26856,
+        182552,
+        -5408
+       ],
+       [
+        -27336,
+        182440,
+        -5360
+       ],
+       [
+        -28072,
+        182296,
+        -5312
+       ]
+      ],
+      "maxDanger": 38,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 38,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plains-of-lizardmen-31",
+    "name": "Plains of Lizardmen 31: Karul Bugbear area (east)",
+    "at": [
+     105784,
+     82104,
+     -2984
+    ],
+    "radius": 4259,
+    "levels": [
+     40,
+     42
+    ],
+    "count": 13,
+    "region": "Plains of Lizardmen",
+    "atlasKey": "area:plains-of-lizardmen-31",
+    "status": "ok",
+    "sec": 286,
+    "danger": 42,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": -13.233333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-24",
+      "name": "Forest of Mirrors 24: Karul Bugbear area (west)",
+      "at": [
+       126024,
+       80568,
+       -2248
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-lizardmen-32",
+      "name": "Plains of Lizardmen 32: Karul Bugbear area (east)",
+      "at": [
+       106792,
+       87880,
+       -3144
+      ],
+      "count": 8,
+      "status": "unverified"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-25",
+      "name": "Forest of Mirrors 25: Karul Bugbear area (west)",
+      "at": [
+       127368,
+       83480,
+       -1992
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:cruma-1-left-c",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".dion",
+    "length": 10263,
+    "sec": 146,
+    "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 71,
+      "how": "adjacent",
+      "danger": 34
+     },
+     {
+      "do": "floor",
+      "npc": "Mozella",
+      "link": "Teleport into the Tower.",
+      "floor": "1st floor"
+     },
+     {
+      "do": "walk",
+      "len": 10192,
+      "how": "dungeon-rooms",
+      "danger": 42
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      17296,
+      114176,
+      -3439
+     ],
+     [
+      17592,
+      114984,
+      -11728
+     ],
+     [
+      17576,
+      115928,
+      -11848
+     ],
+     [
+      17560,
+      116920,
+      -12032
+     ],
+     [
+      17560,
+      117160,
+      -12072
+     ],
+     [
+      16568,
+      117160,
+      -12160
+     ],
+     [
+      16264,
+      117096,
+      -12160
+     ],
+     [
+      15448,
+      117080,
+      -12080
+     ],
+     [
+      14456,
+      118072,
+      -12080
+     ],
+     [
+      14184,
+      118232,
+      -12080
+     ],
+     [
+      14248,
+      119224,
+      -12080
+     ],
+     [
+      14248,
+      119672,
+      -12080
+     ],
+     [
+      14952,
+      120056,
+      -12080
+     ],
+     [
+      15016,
+      120104,
+      -12080
+     ],
+     [
+      15016,
+      120152,
+      -12080
+     ],
+     [
+      14552,
+      120472,
+      -12088
+     ],
+     [
+      14312,
+      120472,
+      -12088
+     ]
+    ],
+    "maxDanger": 42,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 42,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 471,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "BLOCKED: one place of this step needs Leto Lizardman Shaman / Overlord 20581 / 20582: their only spawns (spawns_h5, 2-4 each, ~96000,77000) sit inside the Tanta Lizardman camp (431 spawns, level 82-85, aggro 300; nearest 905 from a Leto); no route avoids them (danger-weighted geodata search, weight 500, b2 leg lizard>leto:w500). Needs a high-level escort. conditional only because of the Cruma Tower floor teleport: Mozella 30483 \"Teleport into the Tower.\" (atlas step verified: true) with the condition level <= 55 (nav_atlas needs.level.max 55); quest level 39 fits. The engine walks atlas routes with floor steps itself (normal travel / ROUTESM FLOOR_TELEPORT).",
+    "manual": true,
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30649",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Say you want to take the Ritual of War Spirit.\""
+   ],
+   "npc": {
+    "id": 30649,
+    "name": "Ancestor Martankus",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "alt": []
+   },
+   "text": "Bring Tonar's Remains to Ancestor Martankus",
+   "needs": [
+    {
+     "id": 2912,
+     "name": "Tonar's Remains",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30649@21420,-107787",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".schuttgart",
+    "length": 12970,
+    "sec": 178,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Cave of Trials",
+      "link": "cave of trials",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 12970,
+      "how": "straight",
+      "danger": 19
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      21420,
+      -107787,
+      -2926
+     ]
+    ],
+    "maxDanger": 19,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 9340,-112509 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 19,
+     "dangerVsLevel": -20,
+     "aggro": []
+    }
+   },
+   "expectedSec": 203,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "override": {
+    "route": [
+     [
+      9336,
+      -112504,
+      -2536
+     ],
+     [
+      10328,
+      -112504,
+      -2536
+     ],
+     [
+      11320,
+      -112504,
+      -2792
+     ],
+     [
+      11736,
+      -112504,
+      -2920
+     ],
+     [
+      12280,
+      -112248,
+      -2976
+     ],
+     [
+      12472,
+      -112072,
+      -2976
+     ],
+     [
+      12920,
+      -112264,
+      -2976
+     ],
+     [
+      13272,
+      -112216,
+      -2976
+     ],
+     [
+      13896,
+      -112264,
+      -2976
+     ],
+     [
+      14856,
+      -112296,
+      -3320
+     ],
+     [
+      14920,
+      -112184,
+      -3320
+     ],
+     [
+      14920,
+      -111784,
+      -3320
+     ],
+     [
+      14872,
+      -110840,
+      -3336
+     ],
+     [
+      14664,
+      -110648,
+      -3336
+     ],
+     [
+      13672,
+      -110520,
+      -3480
+     ],
+     [
+      13560,
+      -110248,
+      -3448
+     ],
+     [
+      14040,
+      -109896,
+      -3448
+     ],
+     [
+      14120,
+      -109896,
+      -3448
+     ],
+     [
+      14392,
+      -109752,
+      -3432
+     ],
+     [
+      14920,
+      -109960,
+      -3304
+     ],
+     [
+      15224,
+      -109880,
+      -3232
+     ],
+     [
+      15832,
+      -110008,
+      -3080
+     ],
+     [
+      16344,
+      -109976,
+      -3040
+     ],
+     [
+      16328,
+      -109704,
+      -3040
+     ],
+     [
+      17112,
+      -108792,
+      -3040
+     ],
+     [
+      17432,
+      -108808,
+      -3040
+     ],
+     [
+      17688,
+      -108904,
+      -3040
+     ],
+     [
+      17688,
+      -109048,
+      -3040
+     ],
+     [
+      18408,
+      -109128,
+      -3040
+     ],
+     [
+      18520,
+      -109048,
+      -3040
+     ],
+     [
+      18520,
+      -108680,
+      -3040
+     ],
+     [
+      18392,
+      -108472,
+      -3040
+     ],
+     [
+      18520,
+      -107576,
+      -3056
+     ],
+     [
+      19512,
+      -107496,
+      -3040
+     ],
+     [
+      19800,
+      -107496,
+      -3016
+     ],
+     [
+      19976,
+      -107544,
+      -3024
+     ],
+     [
+      20056,
+      -107464,
+      -3040
+     ],
+     [
+      20440,
+      -107640,
+      -3040
+     ],
+     [
+      20776,
+      -107720,
+      -3040
+     ],
+     [
+      21064,
+      -108024,
+      -3032
+     ],
+     [
+      21368,
+      -108008,
+      -3040
+     ],
+     [
+      21416,
+      -107960,
+      -3024
+     ],
+     [
+      21432,
+      -107928,
+      -3008
+     ],
+     [
+      21528,
+      -107880,
+      -3016
+     ],
+     [
+      21528,
+      -107784,
+      -3016
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc Village",
+     "desc": "Orc Village -> Cave of Trials"
+    },
+    "note": "Ancestor Martankus 30649 (21420,-107787) stands on a spot nobody can walk onto (geopath_fast.pocketIn = 69 cells); the route ends 112 east of him (21532,-107787), inside talk range; gk link \"Cave of Trials\" on the live menu Scripts/data/gk_live/Tamil.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Orc Village",
+     "desc": "Orc Village -> Cave of Trials"
+    },
+    "points": [
+     [
+      9336,
+      -112504,
+      -2536
+     ],
+     [
+      10328,
+      -112504,
+      -2536
+     ],
+     [
+      11320,
+      -112504,
+      -2792
+     ],
+     [
+      11736,
+      -112504,
+      -2920
+     ],
+     [
+      12280,
+      -112248,
+      -2976
+     ],
+     [
+      12472,
+      -112072,
+      -2976
+     ],
+     [
+      12920,
+      -112264,
+      -2976
+     ],
+     [
+      13272,
+      -112216,
+      -2976
+     ],
+     [
+      13896,
+      -112264,
+      -2976
+     ],
+     [
+      14856,
+      -112296,
+      -3320
+     ],
+     [
+      14920,
+      -112184,
+      -3320
+     ],
+     [
+      14920,
+      -111784,
+      -3320
+     ],
+     [
+      14872,
+      -110840,
+      -3336
+     ],
+     [
+      14664,
+      -110648,
+      -3336
+     ],
+     [
+      13672,
+      -110520,
+      -3480
+     ],
+     [
+      13560,
+      -110248,
+      -3448
+     ],
+     [
+      14040,
+      -109896,
+      -3448
+     ],
+     [
+      14120,
+      -109896,
+      -3448
+     ],
+     [
+      14392,
+      -109752,
+      -3432
+     ],
+     [
+      14920,
+      -109960,
+      -3304
+     ],
+     [
+      15224,
+      -109880,
+      -3232
+     ],
+     [
+      15832,
+      -110008,
+      -3080
+     ],
+     [
+      16344,
+      -109976,
+      -3040
+     ],
+     [
+      16328,
+      -109704,
+      -3040
+     ],
+     [
+      17112,
+      -108792,
+      -3040
+     ],
+     [
+      17432,
+      -108808,
+      -3040
+     ],
+     [
+      17688,
+      -108904,
+      -3040
+     ],
+     [
+      17688,
+      -109048,
+      -3040
+     ],
+     [
+      18408,
+      -109128,
+      -3040
+     ],
+     [
+      18520,
+      -109048,
+      -3040
+     ],
+     [
+      18520,
+      -108680,
+      -3040
+     ],
+     [
+      18392,
+      -108472,
+      -3040
+     ],
+     [
+      18520,
+      -107576,
+      -3056
+     ],
+     [
+      19512,
+      -107496,
+      -3040
+     ],
+     [
+      19800,
+      -107496,
+      -3016
+     ],
+     [
+      19976,
+      -107544,
+      -3024
+     ],
+     [
+      20056,
+      -107464,
+      -3040
+     ],
+     [
+      20440,
+      -107640,
+      -3040
+     ],
+     [
+      20776,
+      -107720,
+      -3040
+     ],
+     [
+      21064,
+      -108024,
+      -3032
+     ],
+     [
+      21368,
+      -108008,
+      -3040
+     ],
+     [
+      21416,
+      -107960,
+      -3024
+     ],
+     [
+      21432,
+      -107928,
+      -3008
+     ],
+     [
+      21528,
+      -107880,
+      -3016
+     ],
+     [
+      21528,
+      -107784,
+      -3016
+     ]
+    ],
+    "pv": [
+     [
+      9336,
+      -112504,
+      -2536
+     ],
+     [
+      10328,
+      -112504,
+      -2536
+     ],
+     [
+      11320,
+      -112504,
+      -2792
+     ],
+     [
+      11736,
+      -112504,
+      -2920
+     ],
+     [
+      12280,
+      -112248,
+      -2976
+     ],
+     [
+      12472,
+      -112072,
+      -2976
+     ],
+     [
+      12920,
+      -112264,
+      -2976
+     ],
+     [
+      13272,
+      -112216,
+      -2976
+     ],
+     [
+      13896,
+      -112264,
+      -2976
+     ],
+     [
+      14856,
+      -112296,
+      -3320
+     ],
+     [
+      14920,
+      -112184,
+      -3320
+     ],
+     [
+      14920,
+      -111784,
+      -3320
+     ],
+     [
+      14872,
+      -110840,
+      -3336
+     ],
+     [
+      14664,
+      -110648,
+      -3336
+     ],
+     [
+      13672,
+      -110520,
+      -3480
+     ],
+     [
+      13560,
+      -110248,
+      -3448
+     ],
+     [
+      14040,
+      -109896,
+      -3448
+     ],
+     [
+      14120,
+      -109896,
+      -3448
+     ],
+     [
+      14392,
+      -109752,
+      -3432
+     ],
+     [
+      14920,
+      -109960,
+      -3304
+     ],
+     [
+      15224,
+      -109880,
+      -3232
+     ],
+     [
+      15832,
+      -110008,
+      -3080
+     ],
+     [
+      16344,
+      -109976,
+      -3040
+     ],
+     [
+      16328,
+      -109704,
+      -3040
+     ],
+     [
+      17112,
+      -108792,
+      -3040
+     ],
+     [
+      17432,
+      -108808,
+      -3040
+     ],
+     [
+      17688,
+      -108904,
+      -3040
+     ],
+     [
+      17688,
+      -109048,
+      -3040
+     ],
+     [
+      18408,
+      -109128,
+      -3040
+     ],
+     [
+      18520,
+      -109048,
+      -3040
+     ],
+     [
+      18520,
+      -108680,
+      -3040
+     ],
+     [
+      18392,
+      -108472,
+      -3040
+     ],
+     [
+      18520,
+      -107576,
+      -3056
+     ],
+     [
+      19512,
+      -107496,
+      -3040
+     ],
+     [
+      19800,
+      -107496,
+      -3016
+     ],
+     [
+      19976,
+      -107544,
+      -3024
+     ],
+     [
+      20056,
+      -107464,
+      -3040
+     ],
+     [
+      20440,
+      -107640,
+      -3040
+     ],
+     [
+      20776,
+      -107720,
+      -3040
+     ],
+     [
+      21064,
+      -108024,
+      -3032
+     ],
+     [
+      21368,
+      -108008,
+      -3040
+     ],
+     [
+      21416,
+      -107960,
+      -3024
+     ],
+     [
+      21432,
+      -107928,
+      -3008
+     ],
+     [
+      21528,
+      -107880,
+      -3016
+     ],
+     [
+      21528,
+      -107784,
+      -3016
+     ]
+    ],
+    "length": 19711,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30510",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30510,
+    "name": "Somak",
+    "title": "Seer",
+    "town": "Dion",
+    "at": [
+     19924,
+     143196,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Bring Vendetta Totem, Warspirit Totem to Somak",
+   "needs": [
+    {
+     "id": 2880,
+     "name": "Vendetta Totem",
+     "n": 1
+    },
+    {
+     "id": 2882,
+     "name": "Warspirit Totem",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30510@19924,143196",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6584,
+    "sec": 75,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6584,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17416,
+      144088,
+      -3032
+     ],
+     [
+      17608,
+      143896,
+      -3032
+     ],
+     [
+      17608,
+      143736,
+      -3032
+     ],
+     [
+      17736,
+      143496,
+      -3040
+     ],
+     [
+      17960,
+      143336,
+      -3032
+     ],
+     [
+      18200,
+      143208,
+      -3016
+     ],
+     [
+      18392,
+      143016,
+      -3016
+     ],
+     [
+      18616,
+      142856,
+      -3024
+     ],
+     [
+      18808,
+      142808,
+      -3024
+     ],
+     [
+      19080,
+      142760,
+      -3048
+     ],
+     [
+      19336,
+      142696,
+      -3032
+     ],
+     [
+      19608,
+      142680,
+      -3032
+     ],
+     [
+      19688,
+      142680,
+      -3032
+     ],
+     [
+      19944,
+      142744,
+      -3040
+     ],
+     [
+      20088,
+      142968,
+      -3056
+     ],
+     [
+      20008,
+      143112,
+      -3040
+     ],
+     [
+      20008,
+      143208,
+      -3040
+     ],
+     [
+      19928,
+      143192,
+      -3040
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 100,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30507",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30507,
+    "name": "Racoy",
+    "title": "Seer",
+    "town": "Gludio",
+    "at": [
+     -12788,
+     124976,
+     -3117
+    ],
+    "alt": []
+   },
+   "text": "Bring Racoy's Totem, Kiruna's Remains, Kiruna's Remains, Vendetta Totem, Insect Diagram Book, Kiruna's Skull, Kiruna's Rib Bone, Kiruna's Spine, Kiruna's Arm Bone, Kiruna's Thigh Bone, Braki's Remains, Hermodt's Remains, Tonar's Remains to Racoy",
+   "needs": [
+    {
+     "id": 2902,
+     "name": "Racoy's Totem",
+     "n": 1
+    },
+    {
+     "id": 2910,
+     "name": "Kiruna's Remains",
+     "n": 1
+    },
+    {
+     "id": 2914,
+     "name": "Kiruna's Remains",
+     "n": 1
+    },
+    {
+     "id": 2880,
+     "name": "Vendetta Totem",
+     "n": 1
+    },
+    {
+     "id": 2904,
+     "name": "Insect Diagram Book",
+     "n": 1
+    },
+    {
+     "id": 2905,
+     "name": "Kiruna's Skull",
+     "n": 1
+    },
+    {
+     "id": 2906,
+     "name": "Kiruna's Rib Bone",
+     "n": 1
+    },
+    {
+     "id": 2907,
+     "name": "Kiruna's Spine",
+     "n": 1
+    },
+    {
+     "id": 2908,
+     "name": "Kiruna's Arm Bone",
+     "n": 1
+    },
+    {
+     "id": 2909,
+     "name": "Kiruna's Thigh Bone",
+     "n": 1
+    },
+    {
+     "id": 2887,
+     "name": "Braki's Remains",
+     "n": 1
+    },
+    {
+     "id": 2901,
+     "name": "Hermodt's Remains",
+     "n": 1
+    },
+    {
+     "id": 2894,
+     "name": "Tonar's Remains",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30507@-12788,124976",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7885,
+    "sec": 86,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7885,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13144,
+      125384,
+      -3128
+     ],
+     [
+      -12872,
+      125368,
+      -3128
+     ],
+     [
+      -12712,
+      125160,
+      -3128
+     ],
+     [
+      -12712,
+      124984,
+      -3128
+     ],
+     [
+      -12792,
+      124968,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 111,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30515",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30515,
+    "name": "Manakia",
+    "title": "Seer",
+    "town": "Giran",
+    "at": [
+     80464,
+     144592,
+     -3529
+    ],
+    "alt": []
+   },
+   "text": "Bring Manakia's Totem, Hermodt's Remains, Vendetta Totem, Hermodt's Remains, Hermodt's Skull, Hermodt's Rib Bone, Hermodt's Spine, Hermodt's Arm Bone, Hermodt's Thigh Bone, Braki's Remains, Kiruna's Remains, Tonar's Remains to Manakia",
+   "needs": [
+    {
+     "id": 2895,
+     "name": "Manakia's Totem",
+     "n": 1
+    },
+    {
+     "id": 2913,
+     "name": "Hermodt's Remains",
+     "n": 1
+    },
+    {
+     "id": 2880,
+     "name": "Vendetta Totem",
+     "n": 1
+    },
+    {
+     "id": 2901,
+     "name": "Hermodt's Remains",
+     "n": 1
+    },
+    {
+     "id": 2896,
+     "name": "Hermodt's Skull",
+     "n": 1
+    },
+    {
+     "id": 2897,
+     "name": "Hermodt's Rib Bone",
+     "n": 1
+    },
+    {
+     "id": 2898,
+     "name": "Hermodt's Spine",
+     "n": 1
+    },
+    {
+     "id": 2899,
+     "name": "Hermodt's Arm Bone",
+     "n": 1
+    },
+    {
+     "id": 2900,
+     "name": "Hermodt's Thigh Bone",
+     "n": 1
+    },
+    {
+     "id": 2887,
+     "name": "Braki's Remains",
+     "n": 1
+    },
+    {
+     "id": 2910,
+     "name": "Kiruna's Remains",
+     "n": 1
+    },
+    {
+     "id": 2894,
+     "name": "Tonar's Remains",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30515@80464,144592",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6851,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6851,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81528,
+      145720,
+      -3528
+     ],
+     [
+      81528,
+      145448,
+      -3528
+     ],
+     [
+      81512,
+      145176,
+      -3528
+     ],
+     [
+      81496,
+      145000,
+      -3528
+     ],
+     [
+      81512,
+      144968,
+      -3528
+     ],
+     [
+      81544,
+      144696,
+      -3528
+     ],
+     [
+      81400,
+      144488,
+      -3528
+     ],
+     [
+      81192,
+      144440,
+      -3528
+     ],
+     [
+      80920,
+      144440,
+      -3528
+     ],
+     [
+      80648,
+      144504,
+      -3528
+     ],
+     [
+      80472,
+      144600,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30630",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30630,
+    "name": "Orim",
+    "title": "Shadow",
+    "town": "Giran",
+    "at": [
+     69976,
+     109692,
+     -3702
+    ],
+    "alt": []
+   },
+   "text": "Bring Orim's Contract, Braki's Remains, Braki's Remains, Vendetta Totem, Hermodt's Remains, Kiruna's Remains, Tonar's Remains to Orim",
+   "needs": [
+    {
+     "id": 2883,
+     "name": "Orim's Contract",
+     "n": 1
+    },
+    {
+     "id": 2887,
+     "name": "Braki's Remains",
+     "n": 1
+    },
+    {
+     "id": 2911,
+     "name": "Braki's Remains",
+     "n": 1
+    },
+    {
+     "id": 2880,
+     "name": "Vendetta Totem",
+     "n": 1
+    },
+    {
+     "id": 2901,
+     "name": "Hermodt's Remains",
+     "n": 1
+    },
+    {
+     "id": 2910,
+     "name": "Kiruna's Remains",
+     "n": 1
+    },
+    {
+     "id": 2894,
+     "name": "Tonar's Remains",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30630@69976,109692",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 10332,
+    "sec": 131,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10332,
+      "how": "geodata",
+      "danger": 37
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      72532,
+      117991,
+      -3684
+     ],
+     [
+      72040,
+      117496,
+      -3672
+     ],
+     [
+      71544,
+      117000,
+      -3608
+     ],
+     [
+      71048,
+      116504,
+      -3544
+     ],
+     [
+      70552,
+      116008,
+      -3468
+     ],
+     [
+      70056,
+      115512,
+      -3392
+     ],
+     [
+      69976,
+      114520,
+      -3576
+     ],
+     [
+      69976,
+      113528,
+      -3728
+     ],
+     [
+      69976,
+      112536,
+      -3712
+     ],
+     [
+      70392,
+      111768,
+      -3704
+     ],
+     [
+      70456,
+      111576,
+      -3688
+     ],
+     [
+      70552,
+      110696,
+      -3704
+     ],
+     [
+      70552,
+      110520,
+      -3712
+     ],
+     [
+      70184,
+      109928,
+      -3712
+     ],
+     [
+      69976,
+      109688,
+      -3704
+     ]
+    ],
+    "maxDanger": 37,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 37,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 156,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30682",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30682,
+    "name": "Pekiron",
+    "title": "Seer",
+    "town": "Oren",
+    "at": [
+     83712,
+     56000,
+     -1523
+    ],
+    "alt": []
+   },
+   "text": "Bring Pekiron's Totem, Tonar's Remains, Tonar's Remains, Vendetta Totem, Tonar's Skull, Tonar's Rib Bone, Tonar's Spine, Tonar's Arm Bone, Tonar's Thigh Bone, Braki's Remains, Hermodt's Remains, Kiruna's Remains to Pekiron",
+   "needs": [
+    {
+     "id": 2888,
+     "name": "Pekiron's Totem",
+     "n": 1
+    },
+    {
+     "id": 2894,
+     "name": "Tonar's Remains",
+     "n": 1
+    },
+    {
+     "id": 2912,
+     "name": "Tonar's Remains",
+     "n": 1
+    },
+    {
+     "id": 2880,
+     "name": "Vendetta Totem",
+     "n": 1
+    },
+    {
+     "id": 2889,
+     "name": "Tonar's Skull",
+     "n": 1
+    },
+    {
+     "id": 2890,
+     "name": "Tonar's Rib Bone",
+     "n": 1
+    },
+    {
+     "id": 2891,
+     "name": "Tonar's Spine",
+     "n": 1
+    },
+    {
+     "id": 2892,
+     "name": "Tonar's Arm Bone",
+     "n": 1
+    },
+    {
+     "id": 2893,
+     "name": "Tonar's Thigh Bone",
+     "n": 1
+    },
+    {
+     "id": 2887,
+     "name": "Braki's Remains",
+     "n": 1
+    },
+    {
+     "id": 2901,
+     "name": "Hermodt's Remains",
+     "n": 1
+    },
+    {
+     "id": 2910,
+     "name": "Kiruna's Remains",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30682@83712,56000",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 3672,
+    "sec": 51,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 3672,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      55064,
+      -1520
+     ],
+     [
+      82312,
+      55336,
+      -1520
+     ],
+     [
+      82472,
+      55544,
+      -1520
+     ],
+     [
+      82680,
+      55720,
+      -1520
+     ],
+     [
+      82952,
+      55752,
+      -1520
+     ],
+     [
+      82984,
+      55784,
+      -1520
+     ],
+     [
+      83192,
+      55944,
+      -1520
+     ],
+     [
+      83432,
+      56072,
+      -1520
+     ],
+     [
+      83704,
+      56008,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c5:deliver:30510",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30510,
+    "name": "Somak",
+    "title": "Seer",
+    "town": "Dion",
+    "at": [
+     19924,
+     143196,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Bring Braki's Remains, Hermodt's Remains, Kiruna's Remains, Tonar's Remains to Somak",
+   "needs": [
+    {
+     "id": 2887,
+     "name": "Braki's Remains",
+     "n": 1
+    },
+    {
+     "id": 2901,
+     "name": "Hermodt's Remains",
+     "n": 1
+    },
+    {
+     "id": 2910,
+     "name": "Kiruna's Remains",
+     "n": 1
+    },
+    {
+     "id": 2894,
+     "name": "Tonar's Remains",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30510@19924,143196",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6584,
+    "sec": 75,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6584,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17416,
+      144088,
+      -3032
+     ],
+     [
+      17608,
+      143896,
+      -3032
+     ],
+     [
+      17608,
+      143736,
+      -3032
+     ],
+     [
+      17736,
+      143496,
+      -3040
+     ],
+     [
+      17960,
+      143336,
+      -3032
+     ],
+     [
+      18200,
+      143208,
+      -3016
+     ],
+     [
+      18392,
+      143016,
+      -3016
+     ],
+     [
+      18616,
+      142856,
+      -3024
+     ],
+     [
+      18808,
+      142808,
+      -3024
+     ],
+     [
+      19080,
+      142760,
+      -3048
+     ],
+     [
+      19336,
+      142696,
+      -3032
+     ],
+     [
+      19608,
+      142680,
+      -3032
+     ],
+     [
+      19688,
+      142680,
+      -3032
+     ],
+     [
+      19944,
+      142744,
+      -3040
+     ],
+     [
+      20088,
+      142968,
+      -3056
+     ],
+     [
+      20008,
+      143112,
+      -3040
+     ],
+     [
+      20008,
+      143208,
+      -3040
+     ],
+     [
+      19928,
+      143192,
+      -3040
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 100,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:deliver:30649": {
+    "route": [
+     [
+      9336,
+      -112504,
+      -2536
+     ],
+     [
+      10328,
+      -112504,
+      -2536
+     ],
+     [
+      11320,
+      -112504,
+      -2792
+     ],
+     [
+      11736,
+      -112504,
+      -2920
+     ],
+     [
+      12280,
+      -112248,
+      -2976
+     ],
+     [
+      12472,
+      -112072,
+      -2976
+     ],
+     [
+      12920,
+      -112264,
+      -2976
+     ],
+     [
+      13272,
+      -112216,
+      -2976
+     ],
+     [
+      13896,
+      -112264,
+      -2976
+     ],
+     [
+      14856,
+      -112296,
+      -3320
+     ],
+     [
+      14920,
+      -112184,
+      -3320
+     ],
+     [
+      14920,
+      -111784,
+      -3320
+     ],
+     [
+      14872,
+      -110840,
+      -3336
+     ],
+     [
+      14664,
+      -110648,
+      -3336
+     ],
+     [
+      13672,
+      -110520,
+      -3480
+     ],
+     [
+      13560,
+      -110248,
+      -3448
+     ],
+     [
+      14040,
+      -109896,
+      -3448
+     ],
+     [
+      14120,
+      -109896,
+      -3448
+     ],
+     [
+      14392,
+      -109752,
+      -3432
+     ],
+     [
+      14920,
+      -109960,
+      -3304
+     ],
+     [
+      15224,
+      -109880,
+      -3232
+     ],
+     [
+      15832,
+      -110008,
+      -3080
+     ],
+     [
+      16344,
+      -109976,
+      -3040
+     ],
+     [
+      16328,
+      -109704,
+      -3040
+     ],
+     [
+      17112,
+      -108792,
+      -3040
+     ],
+     [
+      17432,
+      -108808,
+      -3040
+     ],
+     [
+      17688,
+      -108904,
+      -3040
+     ],
+     [
+      17688,
+      -109048,
+      -3040
+     ],
+     [
+      18408,
+      -109128,
+      -3040
+     ],
+     [
+      18520,
+      -109048,
+      -3040
+     ],
+     [
+      18520,
+      -108680,
+      -3040
+     ],
+     [
+      18392,
+      -108472,
+      -3040
+     ],
+     [
+      18520,
+      -107576,
+      -3056
+     ],
+     [
+      19512,
+      -107496,
+      -3040
+     ],
+     [
+      19800,
+      -107496,
+      -3016
+     ],
+     [
+      19976,
+      -107544,
+      -3024
+     ],
+     [
+      20056,
+      -107464,
+      -3040
+     ],
+     [
+      20440,
+      -107640,
+      -3040
+     ],
+     [
+      20776,
+      -107720,
+      -3040
+     ],
+     [
+      21064,
+      -108024,
+      -3032
+     ],
+     [
+      21368,
+      -108008,
+      -3040
+     ],
+     [
+      21416,
+      -107960,
+      -3024
+     ],
+     [
+      21432,
+      -107928,
+      -3008
+     ],
+     [
+      21528,
+      -107880,
+      -3016
+     ],
+     [
+      21528,
+      -107784,
+      -3016
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc Village",
+     "desc": "Orc Village -> Cave of Trials"
+    },
+    "note": "Ancestor Martankus 30649 (21420,-107787) stands on a spot nobody can walk onto (geopath_fast.pocketIn = 69 cells); the route ends 112 east of him (21532,-107787), inside talk range; gk link \"Cave of Trials\" on the live menu Scripts/data/gk_live/Tamil.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:hunt": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "BLOCKED: one place of this step needs Leto Lizardman Shaman / Overlord 20581 / 20582: their only spawns (spawns_h5, 2-4 each, ~96000,77000) sit inside the Tanta Lizardman camp (431 spawns, level 82-85, aggro 300; nearest 905 from a Leto); no route avoids them (danger-weighted geodata search, weight 500, b2 leg lizard>leto:w500). Needs a high-level escort. conditional only because of the Cruma Tower floor teleport: Mozella 30483 \"Teleport into the Tower.\" (atlas step verified: true) with the condition level <= 55 (nav_atlas needs.level.max 55); quest level 39 fits. The engine walks atlas routes with floor steps itself (normal travel / ROUTESM FLOOR_TELEPORT).",
+    "manual": true,
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:23:12.174Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

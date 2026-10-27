@@ -1,0 +1,736 @@
+{
+ "id": 645,
+ "name": "Ghosts of Batur",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.088Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Schuttgart",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: hunt-too-long"
+  },
+  {
+   "code": "dryrun:hunt-too-long",
+   "text": "step 2 (c1:hunt): ~1019 kills (~425 min) > the engine's 4 x 45 min hunt cap"
+  }
+ ],
+ "expectedMin": 429,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32017",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What should I do?\""
+   ],
+   "npc": {
+    "id": 32017,
+    "name": "Karuda",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     47674,
+     -115928,
+     -3749
+    ],
+    "alt": []
+   },
+   "text": "Talk to Karuda – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32017@47674,-115928",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 184,
+    "sec": 47,
+    "via": ".schuttgart > Schuttgart -> Crypt of Disgrace",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Crypt of Disgrace",
+      "link": "crypts of disgrace",
+      "price": 9600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 81
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 81
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Crypt of Disgrace"
+    },
+    "simple": true,
+    "pv": [
+     [
+      47692,
+      -115745,
+      -3744
+     ],
+     [
+      47692,
+      -115745,
+      -3744
+     ],
+     [
+      47672,
+      -115928,
+      -3744
+     ]
+    ],
+    "maxDanger": 81,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 81,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 22703,
+     "name": "Contaminated Morek Warrior",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 87,
+     "questSpawned": false
+    },
+    {
+     "id": 22704,
+     "name": "Contaminated Batur Warrior",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 65,
+     "questSpawned": false
+    },
+    {
+     "id": 22705,
+     "name": "Contaminated Batur Commander",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14861,
+     "name": "Cursed Burial Items",
+     "n": 500,
+     "from": [
+      {
+       "id": 22703,
+       "name": "Contaminated Morek Warrior",
+       "chance": 51.6
+      },
+      {
+       "id": 22704,
+       "name": "Contaminated Batur Warrior",
+       "chance": 66.4
+      },
+      {
+       "id": 22705,
+       "name": "Contaminated Batur Commander",
+       "chance": 68.6
+      }
+     ]
+    }
+   ],
+   "kills": 1019,
+   "reasons": [],
+   "text": "Hunt Contaminated Morek Warrior, Contaminated Batur Warrior, Contaminated Batur Commander for Cursed Burial Items x500",
+   "places": [
+    {
+     "mobs": [
+      22703,
+      22704,
+      22705
+     ],
+     "items": [
+      14861
+     ],
+     "kills": 1019,
+     "area": {
+      "kind": "room",
+      "id": "crypts-1-straight-c",
+      "name": "Crypts of Disgrace: Crypts, straight: Contaminated Batur Warrior room",
+      "at": [
+       47303,
+       -121804,
+       -3847
+      ],
+      "radius": 1518,
+      "levels": [
+       81,
+       82
+      ],
+      "count": 26,
+      "region": "Crypts of Disgrace",
+      "atlasKey": "room:crypts-1-straight-c",
+      "status": "ok",
+      "sec": 104,
+      "danger": 82,
+      "reachable": true,
+      "score": -154.26666666666668,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "crypts-1-left-b",
+        "name": "Crypts of Disgrace: Crypts, left: Contaminated Morek Warrior room",
+        "at": [
+         44573,
+         -119905,
+         -3443
+        ],
+        "count": 23,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "crypts-1-straight-f",
+        "name": "Crypts of Disgrace: Crypts, straight: Contaminated Batur Warrior room",
+        "at": [
+         50846,
+         -125016,
+         -3526
+        ],
+        "count": 23,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "crypts-1-straight-d",
+        "name": "Crypts of Disgrace: Crypts, straight: Contaminated Batur Warrior room",
+        "at": [
+         51961,
+         -122677,
+         -3740
+        ],
+        "count": 19,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:crypts-1-straight-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 7098,
+      "sec": 104,
+      "via": ".schuttgart > Schuttgart -> Crypt of Disgrace",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Crypt of Disgrace",
+        "link": "crypts of disgrace",
+        "price": 9600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 81
+       },
+       {
+        "do": "walk",
+        "len": 7098,
+        "how": "dungeon-rooms",
+        "danger": 82
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Crypt of Disgrace"
+      },
+      "simple": true,
+      "pv": [
+       [
+        47692,
+        -115745,
+        -3744
+       ],
+       [
+        47692,
+        -115745,
+        -3744
+       ],
+       [
+        47336,
+        -115880,
+        -3824
+       ],
+       [
+        47112,
+        -116088,
+        -3816
+       ],
+       [
+        46584,
+        -116600,
+        -3616
+       ],
+       [
+        46520,
+        -116792,
+        -3472
+       ],
+       [
+        46328,
+        -116888,
+        -3456
+       ],
+       [
+        46216,
+        -117096,
+        -3480
+       ],
+       [
+        46216,
+        -117176,
+        -3488
+       ],
+       [
+        46536,
+        -118040,
+        -3624
+       ],
+       [
+        46536,
+        -118120,
+        -3640
+       ],
+       [
+        46568,
+        -118216,
+        -3656
+       ],
+       [
+        46568,
+        -118248,
+        -3672
+       ],
+       [
+        47304,
+        -119176,
+        -4000
+       ],
+       [
+        47304,
+        -120168,
+        -4032
+       ],
+       [
+        47304,
+        -121160,
+        -3880
+       ],
+       [
+        47304,
+        -121800,
+        -3840
+       ]
+      ],
+      "maxDanger": 82,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 82,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "crypts-1-straight-c",
+    "name": "Crypts of Disgrace: Crypts, straight: Contaminated Batur Warrior room",
+    "at": [
+     47303,
+     -121804,
+     -3847
+    ],
+    "radius": 1518,
+    "levels": [
+     81,
+     82
+    ],
+    "count": 26,
+    "region": "Crypts of Disgrace",
+    "atlasKey": "room:crypts-1-straight-c",
+    "status": "ok",
+    "sec": 104,
+    "danger": 82,
+    "reachable": true,
+    "score": -154.26666666666668,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "crypts-1-left-b",
+      "name": "Crypts of Disgrace: Crypts, left: Contaminated Morek Warrior room",
+      "at": [
+       44573,
+       -119905,
+       -3443
+      ],
+      "count": 23,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "crypts-1-straight-f",
+      "name": "Crypts of Disgrace: Crypts, straight: Contaminated Batur Warrior room",
+      "at": [
+       50846,
+       -125016,
+       -3526
+      ],
+      "count": 23,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "crypts-1-straight-d",
+      "name": "Crypts of Disgrace: Crypts, straight: Contaminated Batur Warrior room",
+      "at": [
+       51961,
+       -122677,
+       -3740
+      ],
+      "count": 19,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:crypts-1-straight-c",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7098,
+    "sec": 104,
+    "via": ".schuttgart > Schuttgart -> Crypt of Disgrace",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Crypt of Disgrace",
+      "link": "crypts of disgrace",
+      "price": 9600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 81
+     },
+     {
+      "do": "walk",
+      "len": 7098,
+      "how": "dungeon-rooms",
+      "danger": 82
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Crypt of Disgrace"
+    },
+    "simple": true,
+    "pv": [
+     [
+      47692,
+      -115745,
+      -3744
+     ],
+     [
+      47692,
+      -115745,
+      -3744
+     ],
+     [
+      47336,
+      -115880,
+      -3824
+     ],
+     [
+      47112,
+      -116088,
+      -3816
+     ],
+     [
+      46584,
+      -116600,
+      -3616
+     ],
+     [
+      46520,
+      -116792,
+      -3472
+     ],
+     [
+      46328,
+      -116888,
+      -3456
+     ],
+     [
+      46216,
+      -117096,
+      -3480
+     ],
+     [
+      46216,
+      -117176,
+      -3488
+     ],
+     [
+      46536,
+      -118040,
+      -3624
+     ],
+     [
+      46536,
+      -118120,
+      -3640
+     ],
+     [
+      46568,
+      -118216,
+      -3656
+     ],
+     [
+      46568,
+      -118248,
+      -3672
+     ],
+     [
+      47304,
+      -119176,
+      -4000
+     ],
+     [
+      47304,
+      -120168,
+      -4032
+     ],
+     [
+      47304,
+      -121160,
+      -3880
+     ],
+     [
+      47304,
+      -121800,
+      -3840
+     ]
+    ],
+    "maxDanger": 82,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 82,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 25579,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32017",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "End the mission."
+   ],
+   "npc": {
+    "id": 32017,
+    "name": "Karuda",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     47674,
+     -115928,
+     -3749
+    ],
+    "alt": []
+   },
+   "text": "Talk to Karuda",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32017@47674,-115928",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 184,
+    "sec": 47,
+    "via": ".schuttgart > Schuttgart -> Crypt of Disgrace",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Crypt of Disgrace",
+      "link": "crypts of disgrace",
+      "price": 9600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 81
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 81
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Crypt of Disgrace"
+    },
+    "simple": true,
+    "pv": [
+     [
+      47692,
+      -115745,
+      -3744
+     ],
+     [
+      47692,
+      -115745,
+      -3744
+     ],
+     [
+      47672,
+      -115928,
+      -3744
+     ]
+    ],
+    "maxDanger": 81,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 81,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:15.095Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "hunt-too-long",
+    "t": "step 2 (c1:hunt): ~1019 kills (~425 min) > the engine's 4 x 45 min hunt cap"
+   }
+  ],
+  "warns": []
+ }
+}

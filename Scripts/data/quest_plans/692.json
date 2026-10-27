@@ -1,0 +1,1170 @@
+{
+ "id": 692,
+ "name": "How to Oppose Evil",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.163Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 4
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 5
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 5
+  }
+ ],
+ "expectedMin": 26,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32549",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'm prepared to prove my worth.\""
+   ],
+   "npc": {
+    "id": 32549,
+    "name": "Dilios",
+    "title": "General",
+    "town": "Talking Island",
+    "at": [
+     -185615,
+     240748,
+     1568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dilios – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32549@-185615,240748",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 10130,
+    "sec": 569,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 7818,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186296,
+      242392,
+      1672
+     ],
+     [
+      -186184,
+      242376,
+      1672
+     ],
+     [
+      -185608,
+      241752,
+      1648
+     ],
+     [
+      -185608,
+      240760,
+      1568
+     ],
+     [
+      -185608,
+      240744,
+      1568
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 599,
+   "conds": [
+    0
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32550",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Say you understand."
+   ],
+   "npc": {
+    "id": 32550,
+    "name": "Kirklan",
+    "title": "Special Product Broker",
+    "town": "Talking Island",
+    "at": [
+     -184460,
+     242848,
+     1584
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kirklan",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ],
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -185032,
+      242536,
+      1672
+     ],
+     [
+      -184568,
+      242664,
+      1576
+     ],
+     [
+      -184456,
+      242856,
+      1584
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Kirklan; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -185032,
+      242536,
+      1672
+     ],
+     [
+      -184568,
+      242664,
+      1576
+     ],
+     [
+      -184456,
+      242856,
+      1584
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -185032,
+      242536,
+      1672
+     ],
+     [
+      -184568,
+      242664,
+      1576
+     ],
+     [
+      -184456,
+      242856,
+      1584
+     ]
+    ],
+    "length": 2712,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32549",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 32549,
+    "name": "Dilios",
+    "title": "General",
+    "town": "Talking Island",
+    "at": [
+     -185615,
+     240748,
+     1568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dilios",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32549@-185615,240748",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 10130,
+    "sec": 569,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 7818,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186296,
+      242392,
+      1672
+     ],
+     [
+      -186184,
+      242376,
+      1672
+     ],
+     [
+      -185608,
+      241752,
+      1648
+     ],
+     [
+      -185608,
+      240760,
+      1568
+     ],
+     [
+      -185608,
+      240744,
+      1568
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 594,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:hunt",
+   "cond": 3,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22757,
+     "name": "Elite Turtlelian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 22758,
+     "name": "Elite Krajian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 22759,
+     "name": "Elite Tardyon",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 22763,
+     "name": "Elite Kanibi",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 22764,
+     "name": "Elite Kiriona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 22765,
+     "name": "Elite Kaiona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Elite Turtlelian, Elite Krajian, Elite Tardyon",
+   "places": [
+    {
+     "mobs": [
+      22757,
+      22758,
+      22759,
+      22763,
+      22764,
+      22765
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22757@-185302,179573",
+      "name": "Elite Turtlelian (Seed of Annihilation)",
+      "at": [
+       -185302,
+       179573,
+       -15410
+      ],
+      "radius": 1500,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 7,
+      "region": "Seed of Annihilation",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 48,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22758@-185893,180875",
+        "name": "Elite Krajian (Seed of Annihilation)",
+        "at": [
+         -185893,
+         180875,
+         -15483
+        ],
+        "count": 6,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22757@-185401,183891",
+        "name": "Elite Turtlelian (Seed of Annihilation)",
+        "at": [
+         -185401,
+         183891,
+         -15650
+        ],
+        "count": 5,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22757@-175271,181068",
+        "name": "Elite Turtlelian (Seed of Annihilation)",
+        "at": [
+         -175271,
+         181068,
+         -15659
+        ],
+        "count": 5,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22757@-185302,179573",
+    "name": "Elite Turtlelian (Seed of Annihilation)",
+    "at": [
+     -185302,
+     179573,
+     -15410
+    ],
+    "radius": 1500,
+    "levels": [
+     85,
+     85
+    ],
+    "count": 7,
+    "region": "Seed of Annihilation",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 48,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22758@-185893,180875",
+      "name": "Elite Krajian (Seed of Annihilation)",
+      "at": [
+       -185893,
+       180875,
+       -15483
+      ],
+      "count": 6,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22757@-185401,183891",
+      "name": "Elite Turtlelian (Seed of Annihilation)",
+      "at": [
+       -185401,
+       183891,
+       -15650
+      ],
+      "count": 5,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22757@-175271,181068",
+      "name": "Elite Turtlelian (Seed of Annihilation)",
+      "at": [
+       -175271,
+       181068,
+       -15659
+      ],
+      "count": 5,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c3:spawn:22509",
+   "cond": 3,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22509,
+     "name": "Fanatic of Infinity",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22510,
+     "name": "Rotten Messenger",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22511,
+     "name": "Zealot of Infinity",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22512,
+     "name": "Body Severer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22513,
+     "name": "Body Harvester",
+     "level": 79,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22514,
+     "name": "Soul Exploiter",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22515,
+     "name": "Soul Devourer",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22547,
+     "name": "Dragon Steed Troop Healer",
+     "level": 79,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22548,
+     "name": "Dragon Steed Troop Javelin Thrower",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22549,
+     "name": "Dragon Steed Troop Javelin Thrower",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22550,
+     "name": "Savage Warrior",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22551,
+     "name": "Priest of Darkness",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22552,
+     "name": "Mutated Drake",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22593,
+     "name": "Dragon Steed Troop Magic Soldier",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22596,
+     "name": "White Dragon Leader",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22597,
+     "name": "Dragon Steed Troop Infantry",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22756,
+     "name": "Tardyon",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22760,
+     "name": "Kanibi",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22761,
+     "name": "Kiriona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22762,
+     "name": "Kaiona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (22509, 22510, 22511, 22512, 22513, 22514, 22515, 22547, 22548, 22549, 22550, 22551, 22552, 22593, 22596, 22597, 22756, 22760, 22761, 22762) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Fanatic of Infinity, Rotten Messenger, Zealot of Infinity, Body Severer, Body Harvester, Soul Exploiter, Soul Devourer, Dragon Steed Troop Healer, Dragon Steed Troop Javelin Thrower, Dragon Steed Troop Javelin Thrower, Savage Warrior, Priest of Darkness, Mutated Drake, Dragon Steed Troop Magic Soldier, White Dragon Leader, Dragon Steed Troop Infantry, Tardyon, Kanibi, Kiriona, Kaiona appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "no automatic step at cond 3",
+   "conds": [
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32550": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -185032,
+      242536,
+      1672
+     ],
+     [
+      -184568,
+      242664,
+      1576
+     ],
+     [
+      -184456,
+      242856,
+      1584
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Kirklan; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c0:start:32549": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32549": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

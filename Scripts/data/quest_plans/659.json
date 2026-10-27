@@ -1,0 +1,737 @@
+{
+ "id": 659,
+ "name": "I'd Rather Be Collecting Fairy Breath",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.254Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 26,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Gludin",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 9,
+ "refLevel": 26,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30634",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it.\""
+   ],
+   "npc": {
+    "id": 30634,
+    "name": "Galatea",
+    "title": "High Summoner",
+    "town": "Gludin",
+    "at": [
+     -81199,
+     151904,
+     -3118
+    ],
+    "alt": []
+   },
+   "text": "Talk to Galatea – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30634@-81199,151904",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3579,
+    "sec": 50,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 3579,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81336,
+      150344,
+      -3120
+     ],
+     [
+      -81528,
+      150536,
+      -3120
+     ],
+     [
+      -81704,
+      150744,
+      -3120
+     ],
+     [
+      -81832,
+      150872,
+      -3120
+     ],
+     [
+      -81752,
+      151032,
+      -3120
+     ],
+     [
+      -81736,
+      151304,
+      -3120
+     ],
+     [
+      -81736,
+      151576,
+      -3120
+     ],
+     [
+      -81736,
+      151848,
+      -3120
+     ],
+     [
+      -81656,
+      152024,
+      -3120
+     ],
+     [
+      -81416,
+      152072,
+      -3120
+     ],
+     [
+      -81192,
+      151912,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20078,
+     "name": "Whispering Wind",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21023,
+     "name": "Sobbing Wind",
+     "level": 26,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 21024,
+     "name": "Babbling Wind",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 42,
+     "questSpawned": false
+    },
+    {
+     "id": 21025,
+     "name": "Giggling Wind",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 21026,
+     "name": "Singing Wind",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8286,
+     "name": "Fairy Breath",
+     "n": 10,
+     "from": [
+      {
+       "id": 20078,
+       "name": "Whispering Wind",
+       "chance": 98
+      },
+      {
+       "id": 21023,
+       "name": "Sobbing Wind",
+       "chance": 82
+      },
+      {
+       "id": 21024,
+       "name": "Babbling Wind",
+       "chance": 86
+      },
+      {
+       "id": 21025,
+       "name": "Giggling Wind",
+       "chance": 90
+      },
+      {
+       "id": 21026,
+       "name": "Singing Wind",
+       "chance": 96
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Whispering Wind, Sobbing Wind, Babbling Wind for Fairy Breath x10",
+   "places": [
+    {
+     "mobs": [
+      20078,
+      21023,
+      21024,
+      21025,
+      21026
+     ],
+     "items": [
+      8286
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "windy-hill-2",
+      "name": "Windy Hill 2: Singing Wind area (east)",
+      "at": [
+       -84392,
+       82920,
+       -3328
+      ],
+      "radius": 5086,
+      "levels": [
+       28,
+       30
+      ],
+      "count": 34,
+      "region": "Windy Hill",
+      "atlasKey": "area:windy-hill-2",
+      "status": "ok",
+      "sec": 80,
+      "danger": 30,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -178.66666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "windy-hill-1",
+        "name": "Windy Hill 1: Giggling Wind area (south)",
+        "at": [
+         -87896,
+         86984,
+         -3416
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windy-hill-6",
+        "name": "Windy Hill 6: Sobbing Wind area (south-east)",
+        "at": [
+         -80504,
+         88888,
+         -3616
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windy-hill-5",
+        "name": "Windy Hill 5: Babbling Wind area (south-east)",
+        "at": [
+         -83112,
+         87144,
+         -3480
+        ],
+        "count": 14,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:windy-hill-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 4258,
+      "sec": 80,
+      "via": ".gludin > Gludin -> Windy Hill",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Windy Hill",
+        "link": "windy hill",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4258,
+        "how": "field-areas",
+        "danger": 30
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Windy Hill"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -88536,
+        83384,
+        -2872
+       ],
+       [
+        -87544,
+        83384,
+        -3008
+       ],
+       [
+        -86552,
+        83384,
+        -3168
+       ],
+       [
+        -85560,
+        83384,
+        -3280
+       ],
+       [
+        -84568,
+        83096,
+        -3320
+       ],
+       [
+        -84392,
+        82920,
+        -3328
+       ]
+      ],
+      "maxDanger": 30,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 30,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "windy-hill-2",
+    "name": "Windy Hill 2: Singing Wind area (east)",
+    "at": [
+     -84392,
+     82920,
+     -3328
+    ],
+    "radius": 5086,
+    "levels": [
+     28,
+     30
+    ],
+    "count": 34,
+    "region": "Windy Hill",
+    "atlasKey": "area:windy-hill-2",
+    "status": "ok",
+    "sec": 80,
+    "danger": 30,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -178.66666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "windy-hill-1",
+      "name": "Windy Hill 1: Giggling Wind area (south)",
+      "at": [
+       -87896,
+       86984,
+       -3416
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "windy-hill-6",
+      "name": "Windy Hill 6: Sobbing Wind area (south-east)",
+      "at": [
+       -80504,
+       88888,
+       -3616
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "windy-hill-5",
+      "name": "Windy Hill 5: Babbling Wind area (south-east)",
+      "at": [
+       -83112,
+       87144,
+       -3480
+      ],
+      "count": 14,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:windy-hill-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4258,
+    "sec": 80,
+    "via": ".gludin > Gludin -> Windy Hill",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Windy Hill",
+      "link": "windy hill",
+      "price": 2600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4258,
+      "how": "field-areas",
+      "danger": 30
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Windy Hill"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -88536,
+      83384,
+      -2872
+     ],
+     [
+      -87544,
+      83384,
+      -3008
+     ],
+     [
+      -86552,
+      83384,
+      -3168
+     ],
+     [
+      -85560,
+      83384,
+      -3280
+     ],
+     [
+      -84568,
+      83096,
+      -3320
+     ],
+     [
+      -84392,
+      82920,
+      -3328
+     ]
+    ],
+    "maxDanger": 30,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 30,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 355,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30634",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "\"Here's the bottle.\""
+   ],
+   "npc": {
+    "id": 30634,
+    "name": "Galatea",
+    "title": "High Summoner",
+    "town": "Gludin",
+    "at": [
+     -81199,
+     151904,
+     -3118
+    ],
+    "alt": []
+   },
+   "text": "Hand in Fairy Breath at Galatea (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 8286,
+     "name": "Fairy Breath",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30634@-81199,151904",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3579,
+    "sec": 50,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 3579,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81336,
+      150344,
+      -3120
+     ],
+     [
+      -81528,
+      150536,
+      -3120
+     ],
+     [
+      -81704,
+      150744,
+      -3120
+     ],
+     [
+      -81832,
+      150872,
+      -3120
+     ],
+     [
+      -81752,
+      151032,
+      -3120
+     ],
+     [
+      -81736,
+      151304,
+      -3120
+     ],
+     [
+      -81736,
+      151576,
+      -3120
+     ],
+     [
+      -81736,
+      151848,
+      -3120
+     ],
+     [
+      -81656,
+      152024,
+      -3120
+     ],
+     [
+      -81416,
+      152072,
+      -3120
+     ],
+     [
+      -81192,
+      151912,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:15.264Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

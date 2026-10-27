@@ -1,0 +1,1854 @@
+{
+ "id": 330,
+ "name": "Adept Of Taste",
+ "version": 1,
+ "generated": "2026-10-27T11:15:22.542Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 24,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dion",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 245,
+ "refLevel": 24,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30469",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30469,
+    "name": "Jonas",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     21040,
+     144608,
+     -3069
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jonas – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30594@21017,144481",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6259,
+    "sec": 72,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6259,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17272,
+      144344,
+      -3008
+     ],
+     [
+      17896,
+      144456,
+      -3048
+     ],
+     [
+      17928,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144392,
+      -3048
+     ],
+     [
+      18056,
+      144232,
+      -3048
+     ],
+     [
+      18088,
+      144200,
+      -3056
+     ],
+     [
+      18584,
+      144320,
+      -3076
+     ],
+     [
+      19080,
+      144440,
+      -3096
+     ],
+     [
+      19272,
+      144248,
+      -3088
+     ],
+     [
+      19800,
+      144248,
+      -3088
+     ],
+     [
+      20568,
+      144680,
+      -3072
+     ],
+     [
+      20632,
+      144680,
+      -3064
+     ],
+     [
+      21016,
+      144488,
+      -3064
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30594@21017,144481",
+     "name": "Ranspo"
+    },
+    "points": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17272,
+      144344,
+      -3008
+     ],
+     [
+      17896,
+      144456,
+      -3048
+     ],
+     [
+      17928,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144392,
+      -3048
+     ],
+     [
+      18056,
+      144232,
+      -3048
+     ],
+     [
+      18088,
+      144200,
+      -3056
+     ],
+     [
+      18584,
+      144320,
+      -3076
+     ],
+     [
+      19080,
+      144440,
+      -3096
+     ],
+     [
+      19272,
+      144248,
+      -3088
+     ],
+     [
+      19800,
+      144248,
+      -3088
+     ],
+     [
+      20568,
+      144680,
+      -3072
+     ],
+     [
+      20632,
+      144680,
+      -3064
+     ],
+     [
+      21016,
+      144488,
+      -3064
+     ]
+    ]
+   },
+   "expectedSec": 102,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20147,
+     "name": "Hobgoblin",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20154,
+     "name": "Mandragora Sprout",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20223,
+     "name": "Mandragora Sprout",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20155,
+     "name": "Mandragora Sapling",
+     "level": 23,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20156,
+     "name": "Mandragora Blossom",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20204,
+     "name": "Bloody Bee",
+     "level": 23,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20226,
+     "name": "Gray Ant",
+     "level": 26,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20228,
+     "name": "Giant Crimson Ant",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20229,
+     "name": "Stinger Wasp",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20265,
+     "name": "Monster Eye Searcher",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20266,
+     "name": "Monster Eye Gazer",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1422,
+     "name": "Red Mandragora Root",
+     "n": 40,
+     "from": [
+      {
+       "id": 20154,
+       "name": "Mandragora Sprout",
+       "chance": 70
+      },
+      {
+       "id": 20223,
+       "name": "Mandragora Sprout",
+       "chance": 70
+      },
+      {
+       "id": 20155,
+       "name": "Mandragora Sapling",
+       "chance": 77
+      },
+      {
+       "id": 20156,
+       "name": "Mandragora Blossom",
+       "chance": 87
+      }
+     ]
+    },
+    {
+     "id": 1423,
+     "name": "White Mandragora Root",
+     "n": 40,
+     "from": [
+      {
+       "id": 20154,
+       "name": "Mandragora Sprout",
+       "chance": 7
+      },
+      {
+       "id": 20223,
+       "name": "Mandragora Sprout",
+       "chance": 7
+      },
+      {
+       "id": 20155,
+       "name": "Mandragora Sapling",
+       "chance": 8
+      },
+      {
+       "id": 20156,
+       "name": "Mandragora Blossom",
+       "chance": 9
+      }
+     ]
+    },
+    {
+     "id": 1427,
+     "name": "Nectar",
+     "n": 20,
+     "from": [
+      {
+       "id": 20204,
+       "name": "Bloody Bee",
+       "chance": 80
+      },
+      {
+       "id": 20229,
+       "name": "Stinger Wasp",
+       "chance": 92
+      }
+     ]
+    },
+    {
+     "id": 1428,
+     "name": "Royal Jelly",
+     "n": 10,
+     "from": [
+      {
+       "id": 20204,
+       "name": "Bloody Bee",
+       "chance": 15
+      },
+      {
+       "id": 20229,
+       "name": "Stinger Wasp",
+       "chance": 8
+      }
+     ]
+    },
+    {
+     "id": 1432,
+     "name": "Hobgoblin Amulet",
+     "n": 30,
+     "from": [
+      {
+       "id": 20147,
+       "name": "Hobgoblin",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1435,
+     "name": "Green Marsh Moss",
+     "n": 20,
+     "from": [
+      {
+       "id": 20226,
+       "name": "Gray Ant",
+       "chance": 87
+      },
+      {
+       "id": 20228,
+       "name": "Giant Crimson Ant",
+       "chance": 90
+      }
+     ]
+    },
+    {
+     "id": 1436,
+     "name": "Brown Marsh Moss",
+     "n": 29,
+     "from": [
+      {
+       "id": 20226,
+       "name": "Gray Ant",
+       "chance": 9
+      },
+      {
+       "id": 20228,
+       "name": "Giant Crimson Ant",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 1440,
+     "name": "Body of Monster Eye",
+     "n": 30,
+     "from": [
+      {
+       "id": 20265,
+       "name": "Monster Eye Searcher",
+       "chance": 77
+      },
+      {
+       "id": 20265,
+       "name": "Monster Eye Searcher",
+       "chance": 77
+      },
+      {
+       "id": 20265,
+       "name": "Monster Eye Searcher",
+       "chance": 20
+      },
+      {
+       "id": 20265,
+       "name": "Monster Eye Searcher",
+       "chance": 20
+      },
+      {
+       "id": 20265,
+       "name": "Monster Eye Searcher",
+       "chance": 20
+      },
+      {
+       "id": 20266,
+       "name": "Monster Eye Gazer",
+       "chance": 70
+      },
+      {
+       "id": 20266,
+       "name": "Monster Eye Gazer",
+       "chance": 30
+      },
+      {
+       "id": 20266,
+       "name": "Monster Eye Gazer",
+       "chance": 30
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Hobgoblin, Mandragora Sprout, Mandragora Sprout for Red Mandragora Root x40, White Mandragora Root x40, Nectar x20, Royal Jelly x10, Hobgoblin Amulet x30, Green Marsh Moss x20, Brown Marsh Moss x29, Body of Monster Eye x30",
+   "places": [
+    {
+     "mobs": [
+      20154,
+      20223,
+      20155,
+      20156
+     ],
+     "items": [
+      1422,
+      1423
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-6",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 6: Mandragora Sprout area (north-west)",
+      "at": [
+       38120,
+       145112,
+       -3680
+      ],
+      "radius": 2310,
+      "levels": [
+       20,
+       21
+      ],
+      "count": 4,
+      "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+      "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+      "status": "ok",
+      "sec": 220,
+      "danger": 21,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.333333333333332,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-2",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 2: Mandragora Sapling area (north-west)",
+        "at": [
+         37960,
+         148648,
+         -3728
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-4",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 4: Mandragora Blossom area (north-west)",
+        "at": [
+         39688,
+         146664,
+         -3888
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-7",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 7: Specter area (north)",
+        "at": [
+         53608,
+         141784,
+         -2992
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 23952,
+      "sec": 220,
+      "via": ".dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "walk",
+        "len": 23545,
+        "how": "field-areas-gap",
+        "danger": 21
+       },
+       {
+        "do": "walk",
+        "len": 407,
+        "how": "field-areas",
+        "danger": 21
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        15472,
+        142880,
+        -2688
+       ],
+       [
+        37832,
+        144824,
+        -3608
+       ],
+       [
+        38120,
+        145112,
+        -3680
+       ]
+      ],
+      "maxDanger": 21,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 21,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20204,
+      20229
+     ],
+     "items": [
+      1427,
+      1428
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-marshlands-12",
+      "name": "Cruma Marshlands 12: Stinger Wasp area (north)",
+      "at": [
+       10664,
+       107816,
+       -3736
+      ],
+      "radius": 4832,
+      "levels": [
+       30,
+       32
+      ],
+      "count": 7,
+      "region": "Cruma Marshlands",
+      "atlasKey": "area:cruma-marshlands-12",
+      "status": "ok",
+      "sec": 123,
+      "danger": 33,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -35.95,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-33",
+        "name": "Fortress of Resistance 33: Marsh Stakato Worker area (west)",
+        "at": [
+         27032,
+         114104,
+         -3696
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-4",
+        "name": "Plains of Dion 4: Kadif Werewolf area (north-east)",
+        "at": [
+         4568,
+         173592,
+         -3264
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-marshlands-12",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9408,
+      "sec": 123,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 931,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8477,
+        "how": "field-areas",
+        "danger": 33
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16280,
+        113624,
+        -3576
+       ],
+       [
+        15288,
+        112632,
+        -3672
+       ],
+       [
+        14920,
+        112264,
+        -3680
+       ],
+       [
+        14120,
+        111272,
+        -3656
+       ],
+       [
+        13128,
+        110280,
+        -3696
+       ],
+       [
+        12136,
+        109288,
+        -3712
+       ],
+       [
+        11144,
+        108296,
+        -3728
+       ],
+       [
+        10664,
+        107816,
+        -3736
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Toad Lord",
+         "lv": 32,
+         "n": 3
+        },
+        {
+         "name": "Marsh Stakato Worker",
+         "lv": 31,
+         "n": 7
+        },
+        {
+         "name": "Stinger Wasp",
+         "lv": 30,
+         "n": 3
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Toad Lord",
+       "lv": 32
+      },
+      {
+       "name": "Toad Lord",
+       "lv": 32
+      },
+      {
+       "name": "Marsh Stakato Soldier",
+       "lv": 33
+      },
+      {
+       "name": "Marsh Stakato Soldier",
+       "lv": 33
+      },
+      {
+       "name": "Toad Lord",
+       "lv": 32
+      },
+      {
+       "name": "Toad Lord",
+       "lv": 32
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20147
+     ],
+     "items": [
+      1432
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dion-outskirts-9",
+      "name": "Dion outskirts 9: Tumran Bugbear area (east)",
+      "at": [
+       24472,
+       140920,
+       -3232
+      ],
+      "radius": 6054,
+      "levels": [
+       20,
+       23
+      ],
+      "count": 3,
+      "region": "Dion outskirts",
+      "atlasKey": "area:dion-outskirts-9",
+      "status": "ok",
+      "sec": 102,
+      "danger": 23,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -16.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dion-outskirts-4",
+        "name": "Dion outskirts 4: Hobgoblin area (south-east)",
+        "at": [
+         18968,
+         147896,
+         -3408
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dion-outskirts-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9818,
+      "sec": 102,
+      "via": ".dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "walk",
+        "len": 5727,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 4091,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        15472,
+        142880,
+        -2688
+       ],
+       [
+        20936,
+        142408,
+        -3328
+       ],
+       [
+        21928,
+        142408,
+        -3416
+       ],
+       [
+        22920,
+        142328,
+        -3280
+       ],
+       [
+        23912,
+        141336,
+        -3288
+       ],
+       [
+        24056,
+        141192,
+        -3272
+       ],
+       [
+        24472,
+        140920,
+        -3232
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20226,
+      20228
+     ],
+     "items": [
+      1435,
+      1436
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-marshlands-3",
+      "name": "Cruma Marshlands 3: Giant Mist Leech area (north)",
+      "at": [
+       5304,
+       114792,
+       -3744
+      ],
+      "radius": 5445,
+      "levels": [
+       25,
+       27
+      ],
+      "count": 10,
+      "region": "Cruma Marshlands",
+      "atlasKey": "area:cruma-marshlands-3",
+      "status": "ok",
+      "sec": 146,
+      "danger": 27,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -57.56666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-11",
+        "name": "Cruma Marshlands 11: Giant Crimson Ant area (north)",
+        "at": [
+         7544,
+         106760,
+         -3744
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-6",
+        "name": "Cruma Marshlands 6: Marsh Stakato area (north-east)",
+        "at": [
+         12904,
+         114696,
+         -3680
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-9",
+        "name": "Cruma Marshlands 9: Marsh Stakato area (north-east)",
+        "at": [
+         20376,
+         120184,
+         -3648
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-marshlands-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 12081,
+      "sec": 146,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12081,
+        "how": "field-areas",
+        "danger": 34
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17224,
+        114168,
+        -3440
+       ],
+       [
+        16232,
+        114168,
+        -3560
+       ],
+       [
+        15240,
+        114168,
+        -3576
+       ],
+       [
+        14248,
+        114168,
+        -3608
+       ],
+       [
+        13256,
+        114168,
+        -3680
+       ],
+       [
+        12264,
+        114168,
+        -3752
+       ],
+       [
+        11272,
+        114168,
+        -3680
+       ],
+       [
+        10280,
+        114168,
+        -3688
+       ],
+       [
+        9288,
+        114168,
+        -3640
+       ],
+       [
+        8296,
+        114168,
+        -3752
+       ],
+       [
+        7304,
+        114168,
+        -3648
+       ],
+       [
+        6328,
+        114200,
+        -3720
+       ],
+       [
+        5336,
+        114760,
+        -3736
+       ],
+       [
+        5304,
+        114792,
+        -3744
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Toad Lord",
+         "lv": 32,
+         "n": 1
+        },
+        {
+         "name": "Marsh Stakato Worker",
+         "lv": 31,
+         "n": 2
+        },
+        {
+         "name": "Stinger Wasp",
+         "lv": 30,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20265,
+      20266
+     ],
+     "items": [
+      1440
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dion-outskirts-26",
+      "name": "Dion outskirts 26: Dire Wolf area (east)",
+      "at": [
+       33176,
+       136424,
+       -3112
+      ],
+      "radius": 5093,
+      "levels": [
+       23,
+       25
+      ],
+      "count": 6,
+      "region": "Dion outskirts",
+      "atlasKey": "area:dion-outskirts-26",
+      "status": "ok",
+      "sec": 189,
+      "danger": 25,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -32.85,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dion-outskirts-9",
+        "name": "Dion outskirts 9: Tumran Bugbear area (east)",
+        "at": [
+         24472,
+         140920,
+         -3232
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dion-outskirts-21",
+        "name": "Dion outskirts 21: Monster Eye Gazer area (east)",
+        "at": [
+         31976,
+         140600,
+         -3192
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dion-outskirts-14",
+        "name": "Dion outskirts 14: Monster Eye Searcher area (north-east)",
+        "at": [
+         24744,
+         135048,
+         -2872
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dion-outskirts-26",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 20320,
+      "sec": 189,
+      "via": ".dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "walk",
+        "len": 5763,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 14557,
+        "how": "field-areas",
+        "danger": 25
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        15472,
+        142880,
+        -2688
+       ],
+       [
+        20936,
+        142408,
+        -3328
+       ],
+       [
+        21928,
+        142408,
+        -3416
+       ],
+       [
+        22920,
+        142408,
+        -3272
+       ],
+       [
+        23912,
+        142408,
+        -3208
+       ],
+       [
+        24904,
+        142408,
+        -2976
+       ],
+       [
+        25896,
+        142408,
+        -2888
+       ],
+       [
+        26632,
+        142328,
+        -2872
+       ],
+       [
+        27624,
+        141800,
+        -2816
+       ],
+       [
+        27768,
+        141656,
+        -2816
+       ],
+       [
+        28760,
+        140840,
+        -2888
+       ],
+       [
+        29752,
+        139848,
+        -3072
+       ],
+       [
+        30744,
+        138856,
+        -3136
+       ],
+       [
+        31736,
+        137864,
+        -3136
+       ],
+       [
+        32728,
+        136872,
+        -3120
+       ],
+       [
+        33176,
+        136424,
+        -3112
+       ]
+      ],
+      "maxDanger": 25,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 25,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-cruma-tower-tanor-fortress-far-6",
+    "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 6: Mandragora Sprout area (north-west)",
+    "at": [
+     38120,
+     145112,
+     -3680
+    ],
+    "radius": 2310,
+    "levels": [
+     20,
+     21
+    ],
+    "count": 4,
+    "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+    "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+    "status": "ok",
+    "sec": 220,
+    "danger": 21,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -20.333333333333332,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-2",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 2: Mandragora Sapling area (north-west)",
+      "at": [
+       37960,
+       148648,
+       -3728
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-4",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 4: Mandragora Blossom area (north-west)",
+      "at": [
+       39688,
+       146664,
+       -3888
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-7",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 7: Specter area (north)",
+      "at": [
+       53608,
+       141784,
+       -2992
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 23952,
+    "sec": 220,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 23545,
+      "how": "field-areas-gap",
+      "danger": 21
+     },
+     {
+      "do": "walk",
+      "len": 407,
+      "how": "field-areas",
+      "danger": 21
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15472,
+      142880,
+      -2688
+     ],
+     [
+      37832,
+      144824,
+      -3608
+     ],
+     [
+      38120,
+      145112,
+      -3680
+     ]
+    ],
+    "maxDanger": 21,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 21,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 14520,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30469",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30469,
+    "name": "Jonas",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     21040,
+     144608,
+     -3069
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jonas",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30594@21017,144481",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6259,
+    "sec": 72,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6259,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17272,
+      144344,
+      -3008
+     ],
+     [
+      17896,
+      144456,
+      -3048
+     ],
+     [
+      17928,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144392,
+      -3048
+     ],
+     [
+      18056,
+      144232,
+      -3048
+     ],
+     [
+      18088,
+      144200,
+      -3056
+     ],
+     [
+      18584,
+      144320,
+      -3076
+     ],
+     [
+      19080,
+      144440,
+      -3096
+     ],
+     [
+      19272,
+      144248,
+      -3088
+     ],
+     [
+      19800,
+      144248,
+      -3088
+     ],
+     [
+      20568,
+      144680,
+      -3072
+     ],
+     [
+      20632,
+      144680,
+      -3064
+     ],
+     [
+      21016,
+      144488,
+      -3064
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30594@21017,144481",
+     "name": "Ranspo"
+    },
+    "points": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17272,
+      144344,
+      -3008
+     ],
+     [
+      17896,
+      144456,
+      -3048
+     ],
+     [
+      17928,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144424,
+      -3048
+     ],
+     [
+      17944,
+      144392,
+      -3048
+     ],
+     [
+      18056,
+      144232,
+      -3048
+     ],
+     [
+      18088,
+      144200,
+      -3056
+     ],
+     [
+      18584,
+      144320,
+      -3076
+     ],
+     [
+      19080,
+      144440,
+      -3096
+     ],
+     [
+      19272,
+      144248,
+      -3088
+     ],
+     [
+      19800,
+      144248,
+      -3088
+     ],
+     [
+      20568,
+      144680,
+      -3072
+     ],
+     [
+      20632,
+      144680,
+      -3064
+     ],
+     [
+      21016,
+      144488,
+      -3064
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

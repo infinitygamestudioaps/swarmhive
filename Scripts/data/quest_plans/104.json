@@ -1,0 +1,2411 @@
+{
+ "id": 104,
+ "name": "Spirit of Mirrors",
+ "version": 1,
+ "generated": "2026-10-27T11:14:57.786Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 10,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {
+  "races": [
+   "HUMAN"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: HUMAN"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 9,
+ "refLevel": 10,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30017",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30017,
+    "name": "Gallint",
+    "title": "Grand Magister",
+    "town": "Talking Island",
+    "at": [
+     -91008,
+     248016,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Accept the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30017@-91008,248016",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludin",
+    "length": 7660,
+    "sec": 109,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7660,
+      "how": "straight",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -91008,
+      248016,
+      -3560
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -84141,244623 (gave up after 15000 ms)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -9,
+     "aggro": []
+    }
+   },
+   "expectedSec": 139,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "note": "Gallint (-91008,248016,-3560); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the TI Village landing (replaces the unchecked straight walk)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "points": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "pv": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "length": 14311,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 27003,
+     "name": "Spirit Of Mirrors",
+     "level": 9,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 27004,
+     "name": "Spirit Of Mirrors",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 27005,
+     "name": "Spirit Of Mirrors",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1135,
+     "name": "Spiritbound Wand",
+     "n": 1,
+     "from": [
+      {
+       "id": 27003,
+       "name": "Spirit Of Mirrors",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1136,
+     "name": "Spiritbound Wand",
+     "n": 1,
+     "from": [
+      {
+       "id": 27004,
+       "name": "Spirit Of Mirrors",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1137,
+     "name": "Spiritbound Wand",
+     "n": 1,
+     "from": [
+      {
+       "id": 27005,
+       "name": "Spirit Of Mirrors",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "text": "Talk to the Guards",
+   "places": [
+    {
+     "mobs": [
+      27003
+     ],
+     "items": [
+      1135
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "obelisk-of-victory-7",
+      "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+      "at": [
+       -96328,
+       244552,
+       -3576
+      ],
+      "radius": 5230,
+      "levels": [
+       5,
+       7
+      ],
+      "count": 1,
+      "region": "Obelisk of Victory",
+      "atlasKey": "area:obelisk-of-victory-7",
+      "status": "ok",
+      "sec": 138,
+      "danger": 9,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -3.7,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:obelisk-of-victory-7",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 8135,
+      "sec": 138,
+      "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Obelisk of Victory",
+        "link": "Obelisk of Victory",
+        "price": 470,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 8135,
+        "how": "field-areas",
+        "danger": 10
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -99592,
+        237640,
+        -3568
+       ],
+       [
+        -99592,
+        238632,
+        -3568
+       ],
+       [
+        -99592,
+        239624,
+        -3624
+       ],
+       [
+        -99592,
+        240616,
+        -3720
+       ],
+       [
+        -99064,
+        241608,
+        -3696
+       ],
+       [
+        -98072,
+        242600,
+        -3640
+       ],
+       [
+        -97080,
+        243592,
+        -3576
+       ],
+       [
+        -96632,
+        244040,
+        -3568
+       ],
+       [
+        -96328,
+        244552,
+        -3576
+       ]
+      ],
+      "maxDanger": 10,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 10,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27004
+     ],
+     "items": [
+      1136
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "obelisk-of-victory-2",
+      "name": "Obelisk of Victory 2: Werewolf area (north-east)",
+      "at": [
+       -97112,
+       234056,
+       -3560
+      ],
+      "radius": 4217,
+      "levels": [
+       7,
+       9
+      ],
+      "count": 1,
+      "region": "Obelisk of Victory",
+      "atlasKey": "area:obelisk-of-victory-2",
+      "status": "ok",
+      "sec": 108,
+      "danger": 10,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -4.2,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:obelisk-of-victory-2",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 4581,
+      "sec": 108,
+      "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Obelisk of Victory",
+        "link": "Obelisk of Victory",
+        "price": 470,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 4581,
+        "how": "field-areas",
+        "danger": 10
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -99592,
+        237640,
+        -3568
+       ],
+       [
+        -99592,
+        236648,
+        -3496
+       ],
+       [
+        -98712,
+        235656,
+        -3344
+       ],
+       [
+        -97720,
+        234664,
+        -3472
+       ],
+       [
+        -97112,
+        234056,
+        -3560
+       ]
+      ],
+      "maxDanger": 10,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 10,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27005
+     ],
+     "items": [
+      1137
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "elven-ruins-8",
+      "name": "Elven Ruins 8: Blade Spider area (west)",
+      "at": [
+       -119976,
+       235864,
+       -2840
+      ],
+      "radius": 2596,
+      "levels": [
+       11,
+       17
+      ],
+      "count": 1,
+      "region": "Elven Ruins",
+      "atlasKey": "area:elven-ruins-8",
+      "status": "ok",
+      "sec": 164,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -3.2666666666666666,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:elven-ruins-8",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 11245,
+      "sec": 164,
+      "via": ".gludin > Gludin -> TI Village > TI -> Elven Ruins",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Elven Ruins",
+        "link": "Elven Ruins",
+        "price": 830,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 7009,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 4236,
+        "how": "field-areas",
+        "danger": 38
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -112367,
+        234703,
+        -3688
+       ],
+       [
+        -116840,
+        233080,
+        -2744
+       ],
+       [
+        -117368,
+        233640,
+        -2896
+       ],
+       [
+        -117864,
+        233912,
+        -2912
+       ],
+       [
+        -118104,
+        233992,
+        -2912
+       ],
+       [
+        -119096,
+        234984,
+        -2896
+       ],
+       [
+        -119976,
+        235864,
+        -2840
+       ]
+      ],
+      "maxDanger": 38,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 38,
+       "dangerVsLevel": 28,
+       "aggro": [
+        {
+         "name": "Pako the Cat",
+         "lv": 38,
+         "n": 1
+        },
+        {
+         "name": "Blade Spider",
+         "lv": 17,
+         "n": 1
+        },
+        {
+         "name": "Talon Spider",
+         "lv": 16,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      27003,
+      27004,
+      27005
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "obelisk-of-victory-2",
+      "name": "Obelisk of Victory 2: Werewolf area (north-east)",
+      "at": [
+       -97112,
+       234056,
+       -3560
+      ],
+      "radius": 4217,
+      "levels": [
+       7,
+       9
+      ],
+      "count": 1,
+      "region": "Obelisk of Victory",
+      "atlasKey": "area:obelisk-of-victory-2",
+      "status": "ok",
+      "sec": 108,
+      "danger": 10,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -4.2,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-7",
+        "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+        "at": [
+         -96328,
+         244552,
+         -3576
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-ruins-8",
+        "name": "Elven Ruins 8: Blade Spider area (west)",
+        "at": [
+         -119976,
+         235864,
+         -2840
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:obelisk-of-victory-2",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 4581,
+      "sec": 108,
+      "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Obelisk of Victory",
+        "link": "Obelisk of Victory",
+        "price": 470,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 4581,
+        "how": "field-areas",
+        "danger": 10
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -99592,
+        237640,
+        -3568
+       ],
+       [
+        -99592,
+        236648,
+        -3496
+       ],
+       [
+        -98712,
+        235656,
+        -3344
+       ],
+       [
+        -97720,
+        234664,
+        -3472
+       ],
+       [
+        -97112,
+        234056,
+        -3560
+       ]
+      ],
+      "maxDanger": 10,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 10,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "obelisk-of-victory-7",
+    "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+    "at": [
+     -96328,
+     244552,
+     -3576
+    ],
+    "radius": 5230,
+    "levels": [
+     5,
+     7
+    ],
+    "count": 1,
+    "region": "Obelisk of Victory",
+    "atlasKey": "area:obelisk-of-victory-7",
+    "status": "ok",
+    "sec": 138,
+    "danger": 9,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -3.7,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:obelisk-of-victory-7",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 8135,
+    "sec": 138,
+    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Obelisk of Victory",
+      "link": "Obelisk of Victory",
+      "price": 470,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 8135,
+      "how": "field-areas",
+      "danger": 10
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -99592,
+      237640,
+      -3568
+     ],
+     [
+      -99592,
+      238632,
+      -3568
+     ],
+     [
+      -99592,
+      239624,
+      -3624
+     ],
+     [
+      -99592,
+      240616,
+      -3720
+     ],
+     [
+      -99064,
+      241608,
+      -3696
+     ],
+     [
+      -98072,
+      242600,
+      -3640
+     ],
+     [
+      -97080,
+      243592,
+      -3576
+     ],
+     [
+      -96632,
+      244040,
+      -3568
+     ],
+     [
+      -96328,
+      244552,
+      -3576
+     ]
+    ],
+    "maxDanger": 10,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 10,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 163,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30041",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30041,
+    "name": "Arnold",
+    "title": "Guard",
+    "town": "Talking Island",
+    "at": [
+     -82319,
+     244709,
+     -3728
+    ],
+    "alt": []
+   },
+   "text": "Talk to the Guards",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31031@-82795,243147",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4264,
+    "sec": 80,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3143,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83704,
+      244776,
+      -3728
+     ],
+     [
+      -83480,
+      244728,
+      -3728
+     ],
+     [
+      -83288,
+      244536,
+      -3728
+     ],
+     [
+      -83240,
+      244264,
+      -3728
+     ],
+     [
+      -83256,
+      244040,
+      -3728
+     ],
+     [
+      -83064,
+      243896,
+      -3728
+     ],
+     [
+      -82824,
+      243752,
+      -3728
+     ],
+     [
+      -82616,
+      243592,
+      -3728
+     ],
+     [
+      -82600,
+      243336,
+      -3728
+     ],
+     [
+      -82792,
+      243144,
+      -3728
+     ],
+     [
+      -82904,
+      243992,
+      -3728
+     ],
+     [
+      -82824,
+      244424,
+      -3728
+     ],
+     [
+      -82424,
+      244792,
+      -3720
+     ],
+     [
+      -82312,
+      244712,
+      -3728
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31031@-82795,243147",
+     "name": "Broadcasting Tower"
+    },
+    "points": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83704,
+      244776,
+      -3728
+     ],
+     [
+      -83480,
+      244728,
+      -3728
+     ],
+     [
+      -83288,
+      244536,
+      -3728
+     ],
+     [
+      -83240,
+      244264,
+      -3728
+     ],
+     [
+      -83256,
+      244040,
+      -3728
+     ],
+     [
+      -83064,
+      243896,
+      -3728
+     ],
+     [
+      -82824,
+      243752,
+      -3728
+     ],
+     [
+      -82616,
+      243592,
+      -3728
+     ],
+     [
+      -82600,
+      243336,
+      -3728
+     ],
+     [
+      -82792,
+      243144,
+      -3728
+     ],
+     [
+      -82904,
+      243992,
+      -3728
+     ],
+     [
+      -82824,
+      244424,
+      -3728
+     ],
+     [
+      -82424,
+      244792,
+      -3720
+     ],
+     [
+      -82312,
+      244712,
+      -3728
+     ]
+    ]
+   },
+   "expectedSec": 105,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:30017",
+   "cond": 3,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30017,
+    "name": "Gallint",
+    "title": "Grand Magister",
+    "town": "Talking Island",
+    "at": [
+     -91008,
+     248016,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Claim Reward",
+   "needs": [
+    {
+     "id": 1136,
+     "name": "Spiritbound Wand",
+     "n": 1
+    },
+    {
+     "id": 1137,
+     "name": "Spiritbound Wand",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30017@-91008,248016",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludin",
+    "length": 7660,
+    "sec": 109,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7660,
+      "how": "straight",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -91008,
+      248016,
+      -3560
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -84141,244623 (gave up after 15000 ms)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -9,
+     "aggro": []
+    }
+   },
+   "expectedSec": 134,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ],
+   "override": {
+    "route": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "note": "Gallint; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "points": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "pv": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "length": 14311,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:30017": {
+    "route": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "note": "Gallint (-91008,248016,-3560); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the TI Village landing (replaces the unchecked straight walk)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c3:deliver:30017": {
+    "route": [
+     [
+      -84136,
+      244616,
+      -3728
+     ],
+     [
+      -83912,
+      244632,
+      -3728
+     ],
+     [
+      -83672,
+      244744,
+      -3728
+     ],
+     [
+      -82696,
+      244728,
+      -3728
+     ],
+     [
+      -82552,
+      244904,
+      -3720
+     ],
+     [
+      -82616,
+      245064,
+      -3712
+     ],
+     [
+      -82952,
+      245192,
+      -3712
+     ],
+     [
+      -83848,
+      246088,
+      -3688
+     ],
+     [
+      -84248,
+      246296,
+      -3680
+     ],
+     [
+      -84408,
+      247288,
+      -3232
+     ],
+     [
+      -84488,
+      248280,
+      -3216
+     ],
+     [
+      -84488,
+      248456,
+      -3248
+     ],
+     [
+      -85432,
+      249448,
+      -3352
+     ],
+     [
+      -85624,
+      249720,
+      -3368
+     ],
+     [
+      -86584,
+      249656,
+      -3400
+     ],
+     [
+      -86856,
+      249928,
+      -3552
+     ],
+     [
+      -87368,
+      249976,
+      -3600
+     ],
+     [
+      -87640,
+      249720,
+      -3608
+     ],
+     [
+      -87576,
+      249272,
+      -3592
+     ],
+     [
+      -88216,
+      248952,
+      -3568
+     ],
+     [
+      -88440,
+      248744,
+      -3568
+     ],
+     [
+      -88696,
+      248744,
+      -3568
+     ],
+     [
+      -89064,
+      248360,
+      -3568
+     ],
+     [
+      -90024,
+      248360,
+      -3568
+     ],
+     [
+      -90184,
+      248328,
+      -3568
+     ],
+     [
+      -91000,
+      248024,
+      -3560
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "note": "Gallint; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

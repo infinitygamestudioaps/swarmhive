@@ -1,0 +1,650 @@
+{
+ "id": 286,
+ "name": "Fabulous Feathers",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.758Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 17,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Kamael Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 48,
+ "refLevel": 17,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32164",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Ask what it is."
+   ],
+   "npc": {
+    "id": 32164,
+    "name": "Erinu",
+    "title": "Weapon Merchant",
+    "town": "Kamael Village",
+    "at": [
+     -115888,
+     43568,
+     524
+    ],
+    "alt": []
+   },
+   "text": "Talk to Erinu – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32164@-115888,43568",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3939,
+    "sec": 78,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3939,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117032,
+      45928,
+      360
+     ],
+     [
+      -116984,
+      45704,
+      360
+     ],
+     [
+      -116856,
+      45464,
+      360
+     ],
+     [
+      -116664,
+      45272,
+      360
+     ],
+     [
+      -116456,
+      45096,
+      360
+     ],
+     [
+      -116184,
+      45096,
+      480
+     ],
+     [
+      -115976,
+      44936,
+      504
+     ],
+     [
+      -115784,
+      44744,
+      496
+     ],
+     [
+      -115752,
+      44568,
+      496
+     ],
+     [
+      -115864,
+      44456,
+      496
+     ],
+     [
+      -115896,
+      44184,
+      496
+     ],
+     [
+      -115896,
+      43912,
+      512
+     ],
+     [
+      -115864,
+      43768,
+      512
+     ],
+     [
+      -115832,
+      43608,
+      512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 108,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 22251,
+     "name": "Shady Muertos Captain",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22253,
+     "name": "Shady Muertos Warrior",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 22254,
+     "name": "Shady Muertos Archer",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 22255,
+     "name": "Shady Muertos Commander",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22256,
+     "name": "Shady Muertos Wizard",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9746,
+     "name": "Commander's Feather",
+     "n": 80,
+     "from": [
+      {
+       "id": 22251,
+       "name": "Shady Muertos Captain",
+       "chance": 74.8
+      },
+      {
+       "id": 22253,
+       "name": "Shady Muertos Warrior",
+       "chance": 77.2
+      },
+      {
+       "id": 22254,
+       "name": "Shady Muertos Archer",
+       "chance": 77.2
+      },
+      {
+       "id": 22255,
+       "name": "Shady Muertos Commander",
+       "chance": 79.6
+      },
+      {
+       "id": 22256,
+       "name": "Shady Muertos Wizard",
+       "chance": 95.2
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Shady Muertos Captain, Shady Muertos Warrior, Shady Muertos Archer for Commander's Feather x80",
+   "places": [
+    {
+     "mobs": [
+      22251,
+      22253,
+      22254,
+      22255,
+      22256
+     ],
+     "items": [
+      9746
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22251@-83914,53880",
+      "name": "Shady Muertos Captain",
+      "at": [
+       -83914,
+       53880,
+       -4627
+      ],
+      "radius": 1500,
+      "levels": [
+       17,
+       17
+      ],
+      "count": 14,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 6,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22253@-83818,49956",
+        "name": "Shady Muertos Warrior",
+        "at": [
+         -83818,
+         49956,
+         -4407
+        ],
+        "count": 10,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22253@-83756,51867",
+        "name": "Shady Muertos Warrior",
+        "at": [
+         -83756,
+         51867,
+         -4496
+        ],
+        "count": 8,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22255@-82211,51298",
+        "name": "Shady Muertos Commander",
+        "at": [
+         -82211,
+         51298,
+         -4664
+        ],
+        "count": 4,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22251@-83914,53880",
+    "name": "Shady Muertos Captain",
+    "at": [
+     -83914,
+     53880,
+     -4627
+    ],
+    "radius": 1500,
+    "levels": [
+     17,
+     17
+    ],
+    "count": 14,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 6,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22253@-83818,49956",
+      "name": "Shady Muertos Warrior",
+      "at": [
+       -83818,
+       49956,
+       -4407
+      ],
+      "count": 10,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22253@-83756,51867",
+      "name": "Shady Muertos Warrior",
+      "at": [
+       -83756,
+       51867,
+       -4496
+      ],
+      "count": 8,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22255@-82211,51298",
+      "name": "Shady Muertos Commander",
+      "at": [
+       -82211,
+       51298,
+       -4664
+      ],
+      "count": 4,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 2675,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32164",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Accept"
+   ],
+   "npc": {
+    "id": 32164,
+    "name": "Erinu",
+    "title": "Weapon Merchant",
+    "town": "Kamael Village",
+    "at": [
+     -115888,
+     43568,
+     524
+    ],
+    "alt": []
+   },
+   "text": "Talk to Erinu",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32164@-115888,43568",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3939,
+    "sec": 78,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3939,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117032,
+      45928,
+      360
+     ],
+     [
+      -116984,
+      45704,
+      360
+     ],
+     [
+      -116856,
+      45464,
+      360
+     ],
+     [
+      -116664,
+      45272,
+      360
+     ],
+     [
+      -116456,
+      45096,
+      360
+     ],
+     [
+      -116184,
+      45096,
+      480
+     ],
+     [
+      -115976,
+      44936,
+      504
+     ],
+     [
+      -115784,
+      44744,
+      496
+     ],
+     [
+      -115752,
+      44568,
+      496
+     ],
+     [
+      -115864,
+      44456,
+      496
+     ],
+     [
+      -115896,
+      44184,
+      496
+     ],
+     [
+      -115896,
+      43912,
+      512
+     ],
+     [
+      -115864,
+      43768,
+      512
+     ],
+     [
+      -115832,
+      43608,
+      512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

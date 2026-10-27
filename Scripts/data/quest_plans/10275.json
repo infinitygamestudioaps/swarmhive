@@ -1,0 +1,1754 @@
+{
+ "id": 10275,
+ "name": "Containing the Attribute Power",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.410Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 76,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  }
+ ],
+ "expectedMin": 36,
+ "refLevel": 76,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30839",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What is it?\""
+   ],
+   "npc": {
+    "id": 30839,
+    "name": "Holly",
+    "title": "Grocer",
+    "town": "Aden",
+    "at": [
+     146054,
+     27988,
+     -2250
+    ],
+    "alt": []
+   },
+   "text": "Talk to Holly / Weber – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30839@146054,27988",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 4062,
+    "sec": 54,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 4062,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147288,
+      26824,
+      -2200
+     ],
+     [
+      147080,
+      27000,
+      -2200
+     ],
+     [
+      146904,
+      27064,
+      -2200
+     ],
+     [
+      146808,
+      27160,
+      -2200
+     ],
+     [
+      146808,
+      27176,
+      -2200
+     ],
+     [
+      146808,
+      27448,
+      -2208
+     ],
+     [
+      146824,
+      27720,
+      -2264
+     ],
+     [
+      146856,
+      27992,
+      -2264
+     ],
+     [
+      146776,
+      28072,
+      -2264
+     ],
+     [
+      146552,
+      28216,
+      -2264
+     ],
+     [
+      146280,
+      28232,
+      -2248
+     ],
+     [
+      146104,
+      28152,
+      -2248
+     ],
+     [
+      146056,
+      27992,
+      -2248
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 27380,
+     "name": "Reckless Sprite of Water",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13861,
+     "name": "Reckless Soul Piece - Water",
+     "n": 6,
+     "from": [
+      {
+       "id": 27380,
+       "name": "Reckless Sprite of Water",
+       "chance": 30
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Reckless Sprite of Water for Reckless Soul Piece - Water x6",
+   "places": [
+    {
+     "mobs": [
+      27380
+     ],
+     "items": [
+      13861
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "aden-outskirts-5",
+      "name": "Aden outskirts 5: Reckless Sprite of Water area (north-east)",
+      "at": [
+       157992,
+       20856,
+       -4168
+      ],
+      "radius": 2455,
+      "levels": [
+       76,
+       76
+      ],
+      "count": 16,
+      "region": "Aden outskirts",
+      "atlasKey": "area:aden-outskirts-5",
+      "status": "ok",
+      "sec": 229,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -92.18333333333334,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:aden-outskirts-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 22090,
+      "sec": 229,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 21117,
+        "how": "field-areas-gap",
+        "danger": 76
+       },
+       {
+        "do": "walk",
+        "len": 973,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168217,
+        37990,
+        -4072
+       ],
+       [
+        158680,
+        21544,
+        -4128
+       ],
+       [
+        157992,
+        20856,
+        -4168
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "aden-outskirts-5",
+    "name": "Aden outskirts 5: Reckless Sprite of Water area (north-east)",
+    "at": [
+     157992,
+     20856,
+     -4168
+    ],
+    "radius": 2455,
+    "levels": [
+     76,
+     76
+    ],
+    "count": 16,
+    "region": "Aden outskirts",
+    "atlasKey": "area:aden-outskirts-5",
+    "status": "ok",
+    "sec": 229,
+    "danger": 76,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -92.18333333333334,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:aden-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 22090,
+    "sec": 229,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 21117,
+      "how": "field-areas-gap",
+      "danger": 76
+     },
+     {
+      "do": "walk",
+      "len": 973,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      158680,
+      21544,
+      -4128
+     ],
+     [
+      157992,
+      20856,
+      -4168
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 729,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    7,
+    10
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32326",
+   "cond": 1,
+   "kind": "talk",
+   "to": 10,
+   "links": [
+    "\"I never like leaving a job half-finished.\""
+   ],
+   "npc": {
+    "id": 32326,
+    "name": "Yang",
+    "title": "Attribute Master",
+    "town": "Rune",
+    "at": [
+     44480,
+     -49536,
+     -792
+    ],
+    "alt": []
+   },
+   "text": "Talk to Yang",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32612@44267,-49213",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1517,
+    "sec": 33,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1424,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48136,
+      -792
+     ],
+     [
+      43880,
+      -48408,
+      -792
+     ],
+     [
+      43880,
+      -48680,
+      -792
+     ],
+     [
+      43896,
+      -48952,
+      -792
+     ],
+     [
+      44072,
+      -49160,
+      -792
+     ],
+     [
+      44264,
+      -49208,
+      -792
+     ],
+     [
+      44408,
+      -49576,
+      -792
+     ],
+     [
+      44488,
+      -49528,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32612@44267,-49213",
+     "name": "Olf Adams"
+    },
+    "points": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48136,
+      -792
+     ],
+     [
+      43880,
+      -48408,
+      -792
+     ],
+     [
+      43880,
+      -48680,
+      -792
+     ],
+     [
+      43896,
+      -48952,
+      -792
+     ],
+     [
+      44072,
+      -49160,
+      -792
+     ],
+     [
+      44264,
+      -49208,
+      -792
+     ],
+     [
+      44408,
+      -49576,
+      -792
+     ],
+     [
+      44488,
+      -49528,
+      -792
+     ]
+    ]
+   },
+   "expectedSec": 58,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:31307",
+   "cond": 1,
+   "kind": "talk",
+   "to": 7,
+   "links": [
+    "\"I understand.\""
+   ],
+   "npc": {
+    "id": 31307,
+    "name": "Weber",
+    "title": "Grocer",
+    "town": "Rune",
+    "at": [
+     45120,
+     -47452,
+     -796
+    ],
+    "alt": []
+   },
+   "text": "Talk to Weber",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31307@45120,-47452",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1693,
+    "sec": 34,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1693,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      44152,
+      -48072,
+      -792
+     ],
+     [
+      44424,
+      -48008,
+      -792
+     ],
+     [
+      44440,
+      -48008,
+      -792
+     ],
+     [
+      44696,
+      -48008,
+      -792
+     ],
+     [
+      44872,
+      -47896,
+      -792
+     ],
+     [
+      45064,
+      -47704,
+      -792
+     ],
+     [
+      45128,
+      -47448,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 59,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    8,
+    10
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:32325",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"I never like leaving a job half-finished.\""
+   ],
+   "npc": {
+    "id": 32325,
+    "name": "Yin",
+    "title": "Attribute Master",
+    "town": "Aden",
+    "at": [
+     150276,
+     27849,
+     -2274
+    ],
+    "alt": []
+   },
+   "text": "Talk to Yin",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32025@150279,28136",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6543,
+    "sec": 75,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6223,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150520,
+      28184,
+      -2248
+     ],
+     [
+      150280,
+      28136,
+      -2248
+     ],
+     [
+      150536,
+      27944,
+      -2264
+     ],
+     [
+      150344,
+      27800,
+      -2264
+     ],
+     [
+      150280,
+      27848,
+      -2264
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32025@150279,28136",
+     "name": "Ilia"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150520,
+      28184,
+      -2248
+     ],
+     [
+      150280,
+      28136,
+      -2248
+     ],
+     [
+      150536,
+      27944,
+      -2264
+     ],
+     [
+      150344,
+      27800,
+      -2264
+     ],
+     [
+      150280,
+      27848,
+      -2264
+     ]
+    ]
+   },
+   "expectedSec": 100,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:30839",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"I understand.\""
+   ],
+   "npc": {
+    "id": 30839,
+    "name": "Holly",
+    "title": "Grocer",
+    "town": "Aden",
+    "at": [
+     146054,
+     27988,
+     -2250
+    ],
+    "alt": []
+   },
+   "text": "Talk to Holly",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30839@146054,27988",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 4062,
+    "sec": 54,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 4062,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147288,
+      26824,
+      -2200
+     ],
+     [
+      147080,
+      27000,
+      -2200
+     ],
+     [
+      146904,
+      27064,
+      -2200
+     ],
+     [
+      146808,
+      27160,
+      -2200
+     ],
+     [
+      146808,
+      27176,
+      -2200
+     ],
+     [
+      146808,
+      27448,
+      -2208
+     ],
+     [
+      146824,
+      27720,
+      -2264
+     ],
+     [
+      146856,
+      27992,
+      -2264
+     ],
+     [
+      146776,
+      28072,
+      -2264
+     ],
+     [
+      146552,
+      28216,
+      -2264
+     ],
+     [
+      146280,
+      28232,
+      -2248
+     ],
+     [
+      146104,
+      28152,
+      -2248
+     ],
+     [
+      146056,
+      27992,
+      -2248
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    5,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c8:hunt",
+   "cond": 8,
+   "kind": "hunt",
+   "to": {
+    "raw": "st.getCond() + 1"
+   },
+   "monsters": [
+    {
+     "id": 27381,
+     "name": "Reckless Sprite of Air",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 27380,
+     "name": "Reckless Sprite of Water",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13861,
+     "name": "Reckless Soul Piece - Water",
+     "n": 6,
+     "from": [
+      {
+       "id": 27380,
+       "name": "Reckless Sprite of Water",
+       "chance": 30
+      }
+     ]
+    },
+    {
+     "id": 13862,
+     "name": "Reckless Soul Piece - Air",
+     "n": 6,
+     "from": [
+      {
+       "id": 27381,
+       "name": "Reckless Sprite of Air",
+       "chance": 30
+      }
+     ]
+    }
+   ],
+   "kills": 32,
+   "reasons": [],
+   "text": "Hunt Reckless Sprite of Air, Reckless Sprite of Water for Reckless Soul Piece - Water x6, Reckless Soul Piece - Air x6",
+   "places": [
+    {
+     "mobs": [
+      27380
+     ],
+     "items": [
+      13861
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "aden-outskirts-5",
+      "name": "Aden outskirts 5: Reckless Sprite of Water area (north-east)",
+      "at": [
+       157992,
+       20856,
+       -4168
+      ],
+      "radius": 2455,
+      "levels": [
+       76,
+       76
+      ],
+      "count": 16,
+      "region": "Aden outskirts",
+      "atlasKey": "area:aden-outskirts-5",
+      "status": "ok",
+      "sec": 229,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -92.18333333333334,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:aden-outskirts-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 22090,
+      "sec": 229,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 21117,
+        "how": "field-areas-gap",
+        "danger": 76
+       },
+       {
+        "do": "walk",
+        "len": 973,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168217,
+        37990,
+        -4072
+       ],
+       [
+        158680,
+        21544,
+        -4128
+       ],
+       [
+        157992,
+        20856,
+        -4168
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27381
+     ],
+     "items": [
+      13862
+     ],
+     "kills": 32,
+     "area": {
+      "kind": "field",
+      "id": "forest-of-the-dead-29",
+      "name": "Forest of the Dead 29: Reckless Sprite of Air area (north-west)",
+      "at": [
+       41096,
+       -65064,
+       -2432
+      ],
+      "radius": 1844,
+      "levels": [
+       76,
+       76
+      ],
+      "count": 15,
+      "region": "Forest of the Dead",
+      "atlasKey": "area:forest-of-the-dead-29",
+      "status": "ok",
+      "sec": 179,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.01666666666667,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forest-of-the-dead-29",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 16109,
+      "sec": 179,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9512,
+        "how": "field-areas-gap",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 6597,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        46312,
+        -61128,
+        -3016
+       ],
+       [
+        45928,
+        -61224,
+        -2976
+       ],
+       [
+        45320,
+        -61832,
+        -2920
+       ],
+       [
+        44328,
+        -62680,
+        -3056
+       ],
+       [
+        44040,
+        -62968,
+        -2968
+       ],
+       [
+        44024,
+        -62984,
+        -2960
+       ],
+       [
+        43032,
+        -63864,
+        -2512
+       ],
+       [
+        42136,
+        -64376,
+        -2288
+       ],
+       [
+        41144,
+        -65016,
+        -2432
+       ],
+       [
+        41096,
+        -65064,
+        -2432
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "aden-outskirts-5",
+    "name": "Aden outskirts 5: Reckless Sprite of Water area (north-east)",
+    "at": [
+     157992,
+     20856,
+     -4168
+    ],
+    "radius": 2455,
+    "levels": [
+     76,
+     76
+    ],
+    "count": 16,
+    "region": "Aden outskirts",
+    "atlasKey": "area:aden-outskirts-5",
+    "status": "ok",
+    "sec": 229,
+    "danger": 76,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -92.18333333333334,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:aden-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 22090,
+    "sec": 229,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 21117,
+      "how": "field-areas-gap",
+      "danger": 76
+     },
+     {
+      "do": "walk",
+      "len": 973,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      158680,
+      21544,
+      -4128
+     ],
+     [
+      157992,
+      20856,
+      -4168
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1029,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

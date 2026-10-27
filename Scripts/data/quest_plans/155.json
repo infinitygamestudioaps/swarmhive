@@ -1,0 +1,285 @@
+{
+ "id": 155,
+ "name": "Find Sir Windawood",
+ "version": 1,
+ "generated": "2026-10-27T11:15:13.181Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 3,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30042",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will help him."
+   ],
+   "npc": {
+    "id": 30042,
+    "name": "Abellos",
+    "title": "Guard",
+    "town": "Talking Island",
+    "at": [
+     -82659,
+     244992,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Abellos – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30006@-84108,244604",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1673,
+    "sec": 59,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 384,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ],
+     [
+      -83624,
+      244760,
+      -3728
+     ],
+     [
+      -82712,
+      244712,
+      -3728
+     ],
+     [
+      -82568,
+      244872,
+      -3720
+     ],
+     [
+      -82664,
+      245000,
+      -3712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30006@-84108,244604",
+     "name": "Roxxy"
+    },
+    "points": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ],
+     [
+      -83624,
+      244760,
+      -3728
+     ],
+     [
+      -82712,
+      244712,
+      -3728
+     ],
+     [
+      -82568,
+      244872,
+      -3720
+     ],
+     [
+      -82664,
+      245000,
+      -3712
+     ]
+    ]
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30311",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30311,
+    "name": "Sir Collin Windawood",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -100332,
+     238019,
+     -3568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Collin Windawood",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30311@-100332,238019",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 837,
+    "sec": 77,
+    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Obelisk of Victory",
+      "link": "Obelisk of Victory",
+      "price": 470,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 837,
+      "how": "geodata",
+      "danger": 9
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -99586,
+      237637,
+      -3568
+     ],
+     [
+      -100328,
+      238024,
+      -3568
+     ]
+    ],
+    "maxDanger": 9,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 9,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:13.185Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

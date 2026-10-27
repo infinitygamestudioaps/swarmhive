@@ -1,0 +1,419 @@
+{
+ "id": 5,
+ "name": "Miner's Favor",
+ "version": 1,
+ "generated": "2026-10-27T11:14:35.505Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 2,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 4,
+ "refLevel": 2,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30554",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30554,
+    "name": "Bolter",
+    "title": "Miner",
+    "town": "Dwarven Village",
+    "at": [
+     112656,
+     -174864,
+     -608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bolter – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30650@114990,-177294",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2887,
+    "sec": 69,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1077,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115176,
+      -178168,
+      -912
+     ],
+     [
+      115240,
+      -177992,
+      -920
+     ],
+     [
+      115240,
+      -177720,
+      -920
+     ],
+     [
+      115192,
+      -177448,
+      -904
+     ],
+     [
+      114984,
+      -177288,
+      -856
+     ],
+     [
+      114056,
+      -175896,
+      -760
+     ],
+     [
+      113080,
+      -174904,
+      -608
+     ],
+     [
+      112664,
+      -174856,
+      -608
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": 1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30650@114990,-177294",
+     "name": "Gerald"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115176,
+      -178168,
+      -912
+     ],
+     [
+      115240,
+      -177992,
+      -920
+     ],
+     [
+      115240,
+      -177720,
+      -920
+     ],
+     [
+      115192,
+      -177448,
+      -904
+     ],
+     [
+      114984,
+      -177288,
+      -856
+     ],
+     [
+      114056,
+      -175896,
+      -760
+     ],
+     [
+      113080,
+      -174904,
+      -608
+     ],
+     [
+      112664,
+      -174856,
+      -608
+     ]
+    ]
+   },
+   "expectedSec": 99,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:manual",
+   "cond": 1,
+   "kind": "special",
+   "text": "Collect supplies from Shari, Garita, Reed and Brunon",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "no automatic step at cond 1 (Collect supplies from Shari, Garita, Reed and Brunon)",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30554",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30554,
+    "name": "Bolter",
+    "title": "Miner",
+    "town": "Dwarven Village",
+    "at": [
+     112656,
+     -174864,
+     -608
+    ],
+    "alt": []
+   },
+   "text": "Return to Bolter – Complete the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30650@114990,-177294",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2887,
+    "sec": 69,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1077,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115176,
+      -178168,
+      -912
+     ],
+     [
+      115240,
+      -177992,
+      -920
+     ],
+     [
+      115240,
+      -177720,
+      -920
+     ],
+     [
+      115192,
+      -177448,
+      -904
+     ],
+     [
+      114984,
+      -177288,
+      -856
+     ],
+     [
+      114056,
+      -175896,
+      -760
+     ],
+     [
+      113080,
+      -174904,
+      -608
+     ],
+     [
+      112664,
+      -174856,
+      -608
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": 1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30650@114990,-177294",
+     "name": "Gerald"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115176,
+      -178168,
+      -912
+     ],
+     [
+      115240,
+      -177992,
+      -920
+     ],
+     [
+      115240,
+      -177720,
+      -920
+     ],
+     [
+      115192,
+      -177448,
+      -904
+     ],
+     [
+      114984,
+      -177288,
+      -856
+     ],
+     [
+      114056,
+      -175896,
+      -760
+     ],
+     [
+      113080,
+      -174904,
+      -608
+     ],
+     [
+      112664,
+      -174856,
+      -608
+     ]
+    ]
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

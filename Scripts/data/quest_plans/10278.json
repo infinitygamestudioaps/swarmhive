@@ -1,0 +1,505 @@
+{
+ "id": 10278,
+ "name": "Mutated Kaneus - Heine",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.426Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 38,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Heine",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "spawn-script",
+   "text": "a monster / NPC is spawned by a timer / event / other script hook the engine does not do",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 8,
+ "refLevel": 38,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30916",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30916,
+    "name": "Gosta",
+    "title": "Captain",
+    "town": "Heine",
+    "at": [
+     108384,
+     221563,
+     -3592
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gosta – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30896@109625,220238",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 5053,
+    "sec": 62,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2518,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109928,
+      219560,
+      -3472
+     ],
+     [
+      109880,
+      219800,
+      -3472
+     ],
+     [
+      109880,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220232,
+      -3512
+     ],
+     [
+      109896,
+      220760,
+      -3472
+     ],
+     [
+      110168,
+      221064,
+      -3472
+     ],
+     [
+      110152,
+      221368,
+      -3536
+     ],
+     [
+      109160,
+      221400,
+      -3456
+     ],
+     [
+      108472,
+      221448,
+      -3568
+     ],
+     [
+      108392,
+      221544,
+      -3592
+     ],
+     [
+      108392,
+      221560,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30896@109625,220238",
+     "name": "Mia"
+    },
+    "points": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109928,
+      219560,
+      -3472
+     ],
+     [
+      109880,
+      219800,
+      -3472
+     ],
+     [
+      109880,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220232,
+      -3512
+     ],
+     [
+      109896,
+      220760,
+      -3472
+     ],
+     [
+      110168,
+      221064,
+      -3472
+     ],
+     [
+      110152,
+      221368,
+      -3536
+     ],
+     [
+      109160,
+      221400,
+      -3456
+     ],
+     [
+      108472,
+      221448,
+      -3568
+     ],
+     [
+      108392,
+      221544,
+      -3592
+     ],
+     [
+      108392,
+      221560,
+      -3592
+     ]
+    ]
+   },
+   "expectedSec": 92,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18562",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18562,
+     "name": "Blade Otis",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18564,
+     "name": "Weird Bunei",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13834,
+     "name": "Blade Otis' Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18562,
+       "name": "Blade Otis",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13835,
+     "name": "Weird Bunei's Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18564,
+       "name": "Weird Bunei",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "spawn-script"
+   ],
+   "engine": {
+    "manual": "spawn of Blade Otis by \"other\" is not automated"
+   },
+   "text": "Kill Blade Otis (Kamaloka Hall lv 43) and Weird Bunei (Kamaloka Hall lv 46), then report",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30907",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Beginning of a journey?\""
+   ],
+   "npc": {
+    "id": 30907,
+    "name": "Minevia",
+    "title": "Magister",
+    "town": "Heine",
+    "at": [
+     111221,
+     217236,
+     -3458
+    ],
+    "alt": []
+   },
+   "text": "Kill Blade Otis (Kamaloka Hall lv 43) and Weird Bunei (Kamaloka Hall lv 46), then report",
+   "needs": [
+    {
+     "id": 13834,
+     "name": "Blade Otis' Cellular Tissue",
+     "n": 1
+    },
+    {
+     "id": 13835,
+     "name": "Weird Bunei's Cellular Tissue",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30907@111221,217236",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1793,
+    "sec": 35,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 1793,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111384,
+      218712,
+      -3464
+     ],
+     [
+      111384,
+      218440,
+      -3448
+     ],
+     [
+      111384,
+      218392,
+      -3448
+     ],
+     [
+      111384,
+      218120,
+      -3448
+     ],
+     [
+      111384,
+      218008,
+      -3456
+     ],
+     [
+      111384,
+      217736,
+      -3456
+     ],
+     [
+      111384,
+      217464,
+      -3456
+     ],
+     [
+      111224,
+      217240,
+      -3456
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 60,
+   "engineWhy": "spawn of Blade Otis by \"other\" is not automated",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {},
+  "note": "Steps written from Q10278_MutatedKaneusHeine.java. The two kills happen INSIDE Kamaloka (Hall of the Abyss lv 43 / 46, party instance, once a day): engine need, see docs/plan/quest_engine_needs/batch4.md",
+  "editedAt": "2026-10-27T10:10:55.598Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ }
+}

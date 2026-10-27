@@ -1,0 +1,844 @@
+{
+ "id": 294,
+ "name": "Covert Business",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.845Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 10,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {
+  "races": [
+   "DWARF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DWARF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 47,
+ "refLevel": 10,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30534",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the task"
+   ],
+   "npc": {
+    "id": 30534,
+    "name": "Keef",
+    "title": "Bronze Key's",
+    "town": "Dwarven Village",
+    "at": [
+     116190,
+     -178615,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Keef – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30531@116226,-178529",
+     "name": "Lockirin"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ]
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20370,
+     "name": "Barbed Bat",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 20480,
+     "name": "Blade Bat",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1491,
+     "name": "Bat Fang",
+     "n": 100,
+     "from": [
+      {
+       "id": 20370,
+       "name": "Barbed Bat",
+       "chance": 100
+      },
+      {
+       "id": 20480,
+       "name": "Blade Bat",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Barbed Bat, Blade Bat for Bat Fang x100",
+   "places": [
+    {
+     "mobs": [
+      20370,
+      20480
+     ],
+     "items": [
+      1491
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-9",
+      "name": "Western Mining Zone (Central Shore) 9: Goblin Lord area (west)",
+      "at": [
+       127288,
+       -206744,
+       -3584
+      ],
+      "radius": 4409,
+      "levels": [
+       12,
+       13
+      ],
+      "count": 4,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-9",
+      "status": "ok",
+      "sec": 168,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -21.2,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-26",
+        "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+        "at": [
+         117208,
+         -210552,
+         -3520
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-24",
+        "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+        "at": [
+         120728,
+         -212552,
+         -3480
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-4",
+        "name": "Western Mining Zone (Central Shore) 4: Barbed Bat area (south-west)",
+        "at": [
+         132424,
+         -202120,
+         -3560
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-9",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 10301,
+      "sec": 168,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10301,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        135912,
+        -205080,
+        -3816
+       ],
+       [
+        134920,
+        -205080,
+        -3680
+       ],
+       [
+        133928,
+        -205080,
+        -3696
+       ],
+       [
+        132936,
+        -205080,
+        -3560
+       ],
+       [
+        131944,
+        -205080,
+        -3496
+       ],
+       [
+        130952,
+        -205080,
+        -3488
+       ],
+       [
+        129960,
+        -205080,
+        -3632
+       ],
+       [
+        128968,
+        -205080,
+        -3640
+       ],
+       [
+        127976,
+        -206056,
+        -3656
+       ],
+       [
+        127288,
+        -206744,
+        -3584
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1004,
+        "maxSwim": 1004,
+        "overBreath": false
+       },
+       "danger": 13,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "western-mining-zone-central-shore-9",
+    "name": "Western Mining Zone (Central Shore) 9: Goblin Lord area (west)",
+    "at": [
+     127288,
+     -206744,
+     -3584
+    ],
+    "radius": 4409,
+    "levels": [
+     12,
+     13
+    ],
+    "count": 4,
+    "region": "Western Mining Zone (Central Shore)",
+    "atlasKey": "area:western-mining-zone-central-shore-9",
+    "status": "ok",
+    "sec": 168,
+    "danger": 13,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -21.2,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-26",
+      "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+      "at": [
+       117208,
+       -210552,
+       -3520
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-24",
+      "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+      "at": [
+       120728,
+       -212552,
+       -3480
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-4",
+      "name": "Western Mining Zone (Central Shore) 4: Barbed Bat area (south-west)",
+      "at": [
+       132424,
+       -202120,
+       -3560
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:western-mining-zone-central-shore-9",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".schuttgart",
+    "length": 10301,
+    "sec": 168,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+      "link": "western mining zone (central shore)",
+      "price": 970,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10301,
+      "how": "field-areas",
+      "danger": 13
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      136904,
+      -205080,
+      -3664
+     ],
+     [
+      135912,
+      -205080,
+      -3816
+     ],
+     [
+      134920,
+      -205080,
+      -3680
+     ],
+     [
+      133928,
+      -205080,
+      -3696
+     ],
+     [
+      132936,
+      -205080,
+      -3560
+     ],
+     [
+      131944,
+      -205080,
+      -3496
+     ],
+     [
+      130952,
+      -205080,
+      -3488
+     ],
+     [
+      129960,
+      -205080,
+      -3632
+     ],
+     [
+      128968,
+      -205080,
+      -3640
+     ],
+     [
+      127976,
+      -206056,
+      -3656
+     ],
+     [
+      127288,
+      -206744,
+      -3584
+     ]
+    ],
+    "maxDanger": 13,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1004,
+      "maxSwim": 1004,
+      "overBreath": false
+     },
+     "danger": 13,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 2668,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30534",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30534,
+    "name": "Keef",
+    "title": "Bronze Key's",
+    "town": "Dwarven Village",
+    "at": [
+     116190,
+     -178615,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Keef",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30531@116226,-178529",
+     "name": "Lockirin"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.854Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial",
+   "route-detour"
+  ]
+ }
+}

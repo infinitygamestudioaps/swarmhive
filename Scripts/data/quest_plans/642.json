@@ -1,0 +1,1068 @@
+{
+ "id": 642,
+ "name": "A Powerful Primeval Creature",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.022Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dark Elf Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 15,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32105",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you would like to help."
+   ],
+   "npc": {
+    "id": 32105,
+    "name": "Dinn",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     11952,
+     -24016,
+     -3644
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dinn – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32105@11952,-24016",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 725,
+    "sec": 51,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 725,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      11960,
+      -24008,
+      -3640
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22196,
+     "name": "Velociraptor",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 22198,
+     "name": "Velociraptor",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 22199,
+     "name": "Pterosaur",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 22218,
+     "name": "Velociraptor",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22223,
+     "name": "Velociraptor",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 22215,
+     "name": "Tyrannosaurus",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 22216,
+     "name": "Tyrannosaurus",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 22217,
+     "name": "Tyrannosaurus",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 18344,
+     "name": "Ancient Egg",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 23,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8774,
+     "name": "Dinosaur Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 22196,
+       "name": "Velociraptor",
+       "chance": 30.9
+      },
+      {
+       "id": 22198,
+       "name": "Velociraptor",
+       "chance": 30.9
+      },
+      {
+       "id": 22199,
+       "name": "Pterosaur",
+       "chance": 30.9
+      },
+      {
+       "id": 22218,
+       "name": "Velociraptor",
+       "chance": 30.9
+      },
+      {
+       "id": 22223,
+       "name": "Velociraptor",
+       "chance": 30.9
+      },
+      {
+       "id": 22215,
+       "name": "Tyrannosaurus",
+       "chance": 98.8
+      },
+      {
+       "id": 22216,
+       "name": "Tyrannosaurus",
+       "chance": 98.8
+      },
+      {
+       "id": 22217,
+       "name": "Tyrannosaurus",
+       "chance": 98.8
+      }
+     ]
+    },
+    {
+     "id": 8775,
+     "name": "Dinosaur Egg",
+     "n": 20,
+     "from": [
+      {
+       "id": 18344,
+       "name": "Ancient Egg",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Velociraptor, Velociraptor, Pterosaur for Dinosaur Tissue x1, Dinosaur Egg x20",
+   "places": [
+    {
+     "mobs": [
+      22196,
+      22198,
+      22199,
+      22218,
+      22223,
+      22215,
+      22216,
+      22217
+     ],
+     "items": [
+      8774
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "primeval-isle-26",
+      "name": "Primeval Isle 26: Velociraptor area (south-east)",
+      "at": [
+       25336,
+       -12824,
+       -2552
+      ],
+      "radius": 3769,
+      "levels": [
+       78,
+       80
+      ],
+      "count": 17,
+      "region": "Primeval Isle",
+      "atlasKey": "area:primeval-isle-26",
+      "status": "ok",
+      "sec": 216,
+      "danger": 80,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -98.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "primeval-isle-20",
+        "name": "Primeval Isle 20: Velociraptor area (south-east)",
+        "at": [
+         21448,
+         -10728,
+         -2824
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-8",
+        "name": "Primeval Isle 8: Velociraptor area (south-east)",
+        "at": [
+         19112,
+         -17880,
+         -3216
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-12",
+        "name": "Primeval Isle 12: Velociraptor area (south-east)",
+        "at": [
+         19784,
+         -15768,
+         -3080
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:primeval-isle-26",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 20477,
+      "sec": 216,
+      "via": ".rune > Rune Township -> Primeval Isle",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune Township -> Primeval Isle",
+        "link": "primeval isle wharf",
+        "price": 6400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3605,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 16872,
+        "how": "field-areas",
+        "danger": 80
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune Township -> Primeval Isle"
+      },
+      "simple": true,
+      "pv": [
+       [
+        11235,
+        -24026,
+        -3640
+       ],
+       [
+        12088,
+        -21112,
+        -3392
+       ],
+       [
+        12600,
+        -20120,
+        -3344
+       ],
+       [
+        13048,
+        -19672,
+        -3200
+       ],
+       [
+        13720,
+        -18888,
+        -3032
+       ],
+       [
+        13864,
+        -18744,
+        -3064
+       ],
+       [
+        13976,
+        -18728,
+        -3080
+       ],
+       [
+        14968,
+        -18728,
+        -3168
+       ],
+       [
+        15960,
+        -18728,
+        -3192
+       ],
+       [
+        16760,
+        -18312,
+        -3176
+       ],
+       [
+        16776,
+        -18296,
+        -3176
+       ],
+       [
+        17560,
+        -18136,
+        -3216
+       ],
+       [
+        18552,
+        -17992,
+        -3200
+       ],
+       [
+        19544,
+        -17000,
+        -3144
+       ],
+       [
+        20536,
+        -16008,
+        -3040
+       ],
+       [
+        20664,
+        -15880,
+        -3040
+       ],
+       [
+        21336,
+        -15848,
+        -3040
+       ],
+       [
+        22328,
+        -15848,
+        -3016
+       ],
+       [
+        23320,
+        -15352,
+        -3016
+       ],
+       [
+        24312,
+        -14360,
+        -2896
+       ],
+       [
+        25096,
+        -13576,
+        -2712
+       ],
+       [
+        25336,
+        -12824,
+        -2552
+       ]
+      ],
+      "maxDanger": 80,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 80,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      18344
+     ],
+     "items": [
+      8775
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "primeval-isle-18",
+      "name": "Primeval Isle 18: Sprigant area (south-east)",
+      "at": [
+       22360,
+       -15112,
+       -3048
+      ],
+      "radius": 2900,
+      "levels": [
+       78,
+       80
+      ],
+      "count": 3,
+      "region": "Primeval Isle",
+      "atlasKey": "area:primeval-isle-18",
+      "status": "ok",
+      "sec": 181,
+      "danger": 80,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -14.983333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "primeval-isle-24",
+        "name": "Primeval Isle 24: Ancient Egg area (south-east)",
+        "at": [
+         26840,
+         -17192,
+         -2728
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-26",
+        "name": "Primeval Isle 26: Velociraptor area (south-east)",
+        "at": [
+         25336,
+         -12824,
+         -2552
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-8",
+        "name": "Primeval Isle 8: Velociraptor area (south-east)",
+        "at": [
+         19112,
+         -17880,
+         -3216
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:primeval-isle-18",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 16278,
+      "sec": 181,
+      "via": ".rune > Rune Township -> Primeval Isle",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune Township -> Primeval Isle",
+        "link": "primeval isle wharf",
+        "price": 6400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3491,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 12787,
+        "how": "field-areas",
+        "danger": 80
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune Township -> Primeval Isle"
+      },
+      "simple": true,
+      "pv": [
+       [
+        11235,
+        -24026,
+        -3640
+       ],
+       [
+        12088,
+        -21112,
+        -3392
+       ],
+       [
+        12600,
+        -20120,
+        -3344
+       ],
+       [
+        13048,
+        -19672,
+        -3200
+       ],
+       [
+        13720,
+        -18888,
+        -3032
+       ],
+       [
+        13864,
+        -18744,
+        -3064
+       ],
+       [
+        13976,
+        -18728,
+        -3080
+       ],
+       [
+        14968,
+        -18728,
+        -3168
+       ],
+       [
+        15960,
+        -18728,
+        -3192
+       ],
+       [
+        16760,
+        -18312,
+        -3176
+       ],
+       [
+        16776,
+        -18296,
+        -3176
+       ],
+       [
+        17560,
+        -18136,
+        -3216
+       ],
+       [
+        18552,
+        -17992,
+        -3200
+       ],
+       [
+        19544,
+        -17000,
+        -3144
+       ],
+       [
+        20536,
+        -16008,
+        -3040
+       ],
+       [
+        20664,
+        -15880,
+        -3040
+       ],
+       [
+        21656,
+        -15816,
+        -3032
+       ],
+       [
+        22360,
+        -15112,
+        -3048
+       ]
+      ],
+      "maxDanger": 80,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 80,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "primeval-isle-26",
+    "name": "Primeval Isle 26: Velociraptor area (south-east)",
+    "at": [
+     25336,
+     -12824,
+     -2552
+    ],
+    "radius": 3769,
+    "levels": [
+     78,
+     80
+    ],
+    "count": 17,
+    "region": "Primeval Isle",
+    "atlasKey": "area:primeval-isle-26",
+    "status": "ok",
+    "sec": 216,
+    "danger": 80,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -98.4,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "primeval-isle-20",
+      "name": "Primeval Isle 20: Velociraptor area (south-east)",
+      "at": [
+       21448,
+       -10728,
+       -2824
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "primeval-isle-8",
+      "name": "Primeval Isle 8: Velociraptor area (south-east)",
+      "at": [
+       19112,
+       -17880,
+       -3216
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "primeval-isle-12",
+      "name": "Primeval Isle 12: Velociraptor area (south-east)",
+      "at": [
+       19784,
+       -15768,
+       -3080
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:primeval-isle-26",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 20477,
+    "sec": 216,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3605,
+      "how": "field-areas-gap",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 16872,
+      "how": "field-areas",
+      "danger": 80
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      12088,
+      -21112,
+      -3392
+     ],
+     [
+      12600,
+      -20120,
+      -3344
+     ],
+     [
+      13048,
+      -19672,
+      -3200
+     ],
+     [
+      13720,
+      -18888,
+      -3032
+     ],
+     [
+      13864,
+      -18744,
+      -3064
+     ],
+     [
+      13976,
+      -18728,
+      -3080
+     ],
+     [
+      14968,
+      -18728,
+      -3168
+     ],
+     [
+      15960,
+      -18728,
+      -3192
+     ],
+     [
+      16760,
+      -18312,
+      -3176
+     ],
+     [
+      16776,
+      -18296,
+      -3176
+     ],
+     [
+      17560,
+      -18136,
+      -3216
+     ],
+     [
+      18552,
+      -17992,
+      -3200
+     ],
+     [
+      19544,
+      -17000,
+      -3144
+     ],
+     [
+      20536,
+      -16008,
+      -3040
+     ],
+     [
+      20664,
+      -15880,
+      -3040
+     ],
+     [
+      21336,
+      -15848,
+      -3040
+     ],
+     [
+      22328,
+      -15848,
+      -3016
+     ],
+     [
+      23320,
+      -15352,
+      -3016
+     ],
+     [
+      24312,
+      -14360,
+      -2896
+     ],
+     [
+      25096,
+      -13576,
+      -2712
+     ],
+     [
+      25336,
+      -12824,
+      -2552
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 716,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32105",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say you are not interested."
+   ],
+   "npc": {
+    "id": 32105,
+    "name": "Dinn",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     11952,
+     -24016,
+     -3644
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dinn",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32105@11952,-24016",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 725,
+    "sec": 51,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 725,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      11960,
+      -24008,
+      -3640
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {},
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:15.053Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

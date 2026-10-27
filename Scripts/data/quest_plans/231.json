@@ -1,0 +1,1967 @@
+{
+ "id": 231,
+ "name": "Test Of The Maestro",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.361Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dwarven Village",
+ "requirements": {
+  "classes": [
+   "Dwarven Artisan"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: Dwarven Artisan"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "spawn-script",
+   "text": "quest monsters / NPCs spawned by a timer"
+  }
+ ],
+ "expectedMin": 17,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30531",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "I shall take the challenge"
+   ],
+   "npc": {
+    "id": 30531,
+    "name": "Lockirin",
+    "title": "Iron Gate's",
+    "town": "Dwarven Village",
+    "at": [
+     116226,
+     -178529,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lockirin – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20225,
+     "name": "Giant Mist Leech",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20229,
+     "name": "Stinger Wasp",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 27133,
+     "name": "Evil Eye Lord",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2876,
+     "name": "Stinger Wasp Needle",
+     "n": 10,
+     "from": [
+      {
+       "id": 20229,
+       "name": "Stinger Wasp",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2877,
+     "name": "Marsh Spider's Web",
+     "n": 10,
+     "from": [
+      {
+       "id": 20233,
+       "name": "Marsh Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2878,
+     "name": "Leech Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20225,
+       "name": "Giant Mist Leech",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Giant Mist Leech, Stinger Wasp, Marsh Spider for Stinger Wasp Needle x10, Marsh Spider's Web x10, Leech Blood x10",
+   "places": [
+    {
+     "mobs": [
+      20229
+     ],
+     "items": [
+      2876
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-marshlands-12",
+      "name": "Cruma Marshlands 12: Stinger Wasp area (north)",
+      "at": [
+       10664,
+       107816,
+       -3736
+      ],
+      "radius": 4832,
+      "levels": [
+       30,
+       32
+      ],
+      "count": 7,
+      "region": "Cruma Marshlands",
+      "atlasKey": "area:cruma-marshlands-12",
+      "status": "ok",
+      "sec": 123,
+      "danger": 33,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -39.95,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-33",
+        "name": "Fortress of Resistance 33: Marsh Stakato Worker area (west)",
+        "at": [
+         27032,
+         114104,
+         -3696
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-2",
+        "name": "Cruma Tower 2: Toad Lord area (north-east)",
+        "at": [
+         23720,
+         113256,
+         -3760
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-marshlands-12",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9408,
+      "sec": 123,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 931,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8477,
+        "how": "field-areas",
+        "danger": 33
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16280,
+        113624,
+        -3576
+       ],
+       [
+        15288,
+        112632,
+        -3672
+       ],
+       [
+        14920,
+        112264,
+        -3680
+       ],
+       [
+        14120,
+        111272,
+        -3656
+       ],
+       [
+        13128,
+        110280,
+        -3696
+       ],
+       [
+        12136,
+        109288,
+        -3712
+       ],
+       [
+        11144,
+        108296,
+        -3728
+       ],
+       [
+        10664,
+        107816,
+        -3736
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": -5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20233
+     ],
+     "items": [
+      2877
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.88333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-8",
+        "name": "Cruma Tower 8: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         24552,
+         102888,
+         -3688
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20225
+     ],
+     "items": [
+      2878
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-marshlands-3",
+      "name": "Cruma Marshlands 3: Giant Mist Leech area (north)",
+      "at": [
+       5304,
+       114792,
+       -3744
+      ],
+      "radius": 5445,
+      "levels": [
+       25,
+       27
+      ],
+      "count": 12,
+      "region": "Cruma Marshlands",
+      "atlasKey": "area:cruma-marshlands-3",
+      "status": "ok",
+      "sec": 146,
+      "danger": 27,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.56666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-2",
+        "name": "Cruma Marshlands 2: Gray Ant area (north-east)",
+        "at": [
+         12088,
+         120296,
+         -3680
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-8",
+        "name": "Cruma Marshlands 8: Stinger Wasp area (north)",
+        "at": [
+         7032,
+         110072,
+         -3696
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-marshlands-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 12081,
+      "sec": 146,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12081,
+        "how": "field-areas",
+        "danger": 34
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17224,
+        114168,
+        -3440
+       ],
+       [
+        16232,
+        114168,
+        -3560
+       ],
+       [
+        15240,
+        114168,
+        -3576
+       ],
+       [
+        14248,
+        114168,
+        -3608
+       ],
+       [
+        13256,
+        114168,
+        -3680
+       ],
+       [
+        12264,
+        114168,
+        -3752
+       ],
+       [
+        11272,
+        114168,
+        -3680
+       ],
+       [
+        10280,
+        114168,
+        -3688
+       ],
+       [
+        9288,
+        114168,
+        -3640
+       ],
+       [
+        8296,
+        114168,
+        -3752
+       ],
+       [
+        7304,
+        114168,
+        -3648
+       ],
+       [
+        6328,
+        114200,
+        -3720
+       ],
+       [
+        5336,
+        114760,
+        -3736
+       ],
+       [
+        5304,
+        114792,
+        -3744
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": -5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "cruma-marshlands-12",
+    "name": "Cruma Marshlands 12: Stinger Wasp area (north)",
+    "at": [
+     10664,
+     107816,
+     -3736
+    ],
+    "radius": 4832,
+    "levels": [
+     30,
+     32
+    ],
+    "count": 7,
+    "region": "Cruma Marshlands",
+    "atlasKey": "area:cruma-marshlands-12",
+    "status": "ok",
+    "sec": 123,
+    "danger": 33,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -39.95,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fortress-of-resistance-33",
+      "name": "Fortress of Resistance 33: Marsh Stakato Worker area (west)",
+      "at": [
+       27032,
+       114104,
+       -3696
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "cruma-tower-far-2",
+      "name": "Cruma Tower 2: Toad Lord area (north-east)",
+      "at": [
+       23720,
+       113256,
+       -3760
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "cruma-tower-far-4",
+      "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+      "at": [
+       12488,
+       103176,
+       -3736
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:cruma-marshlands-12",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 9408,
+    "sec": 123,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 931,
+      "how": "field-areas-gap",
+      "danger": 34
+     },
+     {
+      "do": "walk",
+      "len": 8477,
+      "how": "field-areas",
+      "danger": 33
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114008,
+      -3576
+     ],
+     [
+      16280,
+      113624,
+      -3576
+     ],
+     [
+      15288,
+      112632,
+      -3672
+     ],
+     [
+      14920,
+      112264,
+      -3680
+     ],
+     [
+      14120,
+      111272,
+      -3656
+     ],
+     [
+      13128,
+      110280,
+      -3696
+     ],
+     [
+      12136,
+      109288,
+      -3712
+     ],
+     [
+      11144,
+      108296,
+      -3728
+     ],
+     [
+      10664,
+      107816,
+      -3736
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 373,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30531",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30531,
+    "name": "Lockirin",
+    "title": "Iron Gate's",
+    "town": "Dwarven Village",
+    "at": [
+     116226,
+     -178529,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Bring Recommendation of Balanki, Recommendation of Filaur, Recommendation of Arin to Lockirin",
+   "needs": [
+    {
+     "id": 2864,
+     "name": "Recommendation of Balanki",
+     "n": 1
+    },
+    {
+     "id": 2865,
+     "name": "Recommendation of Filaur",
+     "n": 1
+    },
+    {
+     "id": 2866,
+     "name": "Recommendation of Arin",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30533",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30533,
+    "name": "Balanki",
+    "title": "Silver Scale's",
+    "town": "Dwarven Village",
+    "at": [
+     116016,
+     -178615,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Bring Letter of Solder Detachment, Recommendation of Arin, Recommendation of Filaur to Balanki",
+   "needs": [
+    {
+     "id": 2868,
+     "name": "Letter of Solder Detachment",
+     "n": 1
+    },
+    {
+     "id": 2866,
+     "name": "Recommendation of Arin",
+     "n": 1
+    },
+    {
+     "id": 2865,
+     "name": "Recommendation of Filaur",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30533@116016,-178615",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1529,
+    "sec": 58,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1529,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116024,
+      -178600,
+      -944
+     ],
+     [
+      116024,
+      -178616,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30535",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30535,
+    "name": "Filaur",
+    "title": "Gray Pillar Member",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178407,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Bring Report of Cruma, Recommendation of Balanki, Recommendation of Arin to Filaur",
+   "needs": [
+    {
+     "id": 2874,
+     "name": "Report of Cruma",
+     "n": 1
+    },
+    {
+     "id": 2864,
+     "name": "Recommendation of Balanki",
+     "n": 1
+    },
+    {
+     "id": 2866,
+     "name": "Recommendation of Arin",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30536",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30536,
+    "name": "Arin",
+    "title": "Black Anvil's",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178653,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Bring Teleport Device x5, Recommendation of Balanki, Recommendation of Filaur to Arin",
+   "needs": [
+    {
+     "id": 2872,
+     "name": "Teleport Device",
+     "n": 5
+    },
+    {
+     "id": 2864,
+     "name": "Recommendation of Balanki",
+     "n": 1
+    },
+    {
+     "id": 2865,
+     "name": "Recommendation of Filaur",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30536@116103,-178653",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1624,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1624,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178584,
+      -944
+     ],
+     [
+      116104,
+      -178648,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c2:talk:30533",
+   "cond": 2,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "\"Is there a problem?\""
+   ],
+   "npc": {
+    "id": 30533,
+    "name": "Balanki",
+    "title": "Silver Scale's",
+    "town": "Dwarven Village",
+    "at": [
+     116016,
+     -178615,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Balanki",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30533@116016,-178615",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1529,
+    "sec": 58,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1529,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116024,
+      -178600,
+      -944
+     ],
+     [
+      116024,
+      -178616,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c2:talk:30535",
+   "cond": 2,
+   "kind": "talk",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30535,
+    "name": "Filaur",
+    "title": "Gray Pillar Member",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178407,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Filaur",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c2:talk:30536",
+   "cond": 2,
+   "kind": "talk",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30536,
+    "name": "Arin",
+    "title": "Black Anvil's",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178653,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Arin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30536@116103,-178653",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1624,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1624,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178584,
+      -944
+     ],
+     [
+      116104,
+      -178648,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,6114 @@
+{
+ "id": 220,
+ "name": "Testimony Of Glory",
+ "version": 1,
+ "generated": "2026-10-27T11:15:15.880Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 37,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Giran",
+ "requirements": {
+  "races": [
+   "ORC"
+  ],
+  "categories": [
+   "ORC_2ND_GROUP"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ORC"
+  },
+  {
+   "code": "class-only",
+   "text": "classes: ORC_2ND_GROUP"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 57,
+ "refLevel": 37,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30514",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I am ready!\""
+   ],
+   "npc": {
+    "id": 30514,
+    "name": "Vokian",
+    "title": "Prefect",
+    "town": "Giran",
+    "at": [
+     80464,
+     144368,
+     -3533
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vokian – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30514@80464,144368",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6811,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6811,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81512,
+      145720,
+      -3528
+     ],
+     [
+      81512,
+      145544,
+      -3528
+     ],
+     [
+      81528,
+      145272,
+      -3528
+     ],
+     [
+      81512,
+      145000,
+      -3528
+     ],
+     [
+      81544,
+      144728,
+      -3528
+     ],
+     [
+      81384,
+      144504,
+      -3528
+     ],
+     [
+      81128,
+      144424,
+      -3528
+     ],
+     [
+      80936,
+      144408,
+      -3528
+     ],
+     [
+      80744,
+      144344,
+      -3528
+     ],
+     [
+      80472,
+      144376,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20192,
+     "name": "Tyrant",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    },
+    {
+     "id": 20193,
+     "name": "Tyrant Kingpin",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20550,
+     "name": "Guardian Basilisk",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20583,
+     "name": "Timak Orc",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20584,
+     "name": "Timak Orc Archer",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20585,
+     "name": "Timak Orc Soldier",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 53,
+     "questSpawned": false
+    },
+    {
+     "id": 20586,
+     "name": "Timak Orc Warrior",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 51,
+     "questSpawned": false
+    },
+    {
+     "id": 20587,
+     "name": "Timak Orc Shaman",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20588,
+     "name": "Timak Orc Overlord",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20601,
+     "name": "Tamlin Orc",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20602,
+     "name": "Tamlin Orc Archer",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3205,
+     "name": "Manashen Shard",
+     "n": 19,
+     "from": [
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3206,
+     "name": "Tyrant Talon",
+     "n": 10,
+     "from": [
+      {
+       "id": 20192,
+       "name": "Tyrant",
+       "chance": 100
+      },
+      {
+       "id": 20193,
+       "name": "Tyrant Kingpin",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3207,
+     "name": "Guardian Basilisk Fang",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3218,
+     "name": "Tamlin Orc Skull",
+     "n": 20,
+     "from": [
+      {
+       "id": 20601,
+       "name": "Tamlin Orc",
+       "chance": 100
+      },
+      {
+       "id": 20602,
+       "name": "Tamlin Orc Archer",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3219,
+     "name": "Timak Orc Head",
+     "n": 20,
+     "from": [
+      {
+       "id": 20583,
+       "name": "Timak Orc",
+       "chance": 100
+      },
+      {
+       "id": 20584,
+       "name": "Timak Orc Archer",
+       "chance": 100
+      },
+      {
+       "id": 20585,
+       "name": "Timak Orc Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20586,
+       "name": "Timak Orc Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20587,
+       "name": "Timak Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20588,
+       "name": "Timak Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3221,
+     "name": "Pashika's Head",
+     "n": 1,
+     "from": [
+      {
+       "id": 27080,
+       "name": "Pashika Son Of Voltar",
+       "chance": 100
+      },
+      {
+       "id": 27080,
+       "name": "Pashika Son Of Voltar",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3222,
+     "name": "Vultus' Head",
+     "n": 1,
+     "from": [
+      {
+       "id": 27081,
+       "name": "Vultus Son Of Voltar",
+       "chance": 100
+      },
+      {
+       "id": 27081,
+       "name": "Vultus Son Of Voltar",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3224,
+     "name": "Enku Overlord Head",
+     "n": 4,
+     "from": [
+      {
+       "id": 27082,
+       "name": "Enku Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3226,
+     "name": "Makum Bugbear Head",
+     "n": 2,
+     "from": [
+      {
+       "id": 27083,
+       "name": "Makum Bugbear Thug",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3234,
+     "name": "Stakato Drone Husk",
+     "n": 30,
+     "from": [
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3236,
+     "name": "Scepter of Tantos",
+     "n": 1,
+     "from": [
+      {
+       "id": 27086,
+       "name": "Revenant of Tantos Chief",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger"
+   ],
+   "text": "Hunt Tyrant, Tyrant Kingpin, Marsh Stakato Drone for Manashen Shard x19, Tyrant Talon x10, Guardian Basilisk Fang x10, Tamlin Orc Skull x20, Timak Orc Head x20, Pashika's Head x1, Vultus' Head x1, Enku Overlord Head x4, Makum Bugbear Head x2, Stakato Drone Husk x30, Scepter of Tantos x1",
+   "places": [
+    {
+     "mobs": [
+      20563
+     ],
+     "items": [
+      3205
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-4",
+      "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+      "at": [
+       85624,
+       11208,
+       -5288
+      ],
+      "radius": 2307,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-4",
+      "status": "ok",
+      "sec": 233,
+      "danger": 42,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.116666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 22576,
+      "sec": 233,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9717,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 12859,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85768,
+        20008,
+        -5272
+       ],
+       [
+        86760,
+        19016,
+        -5264
+       ],
+       [
+        87448,
+        18328,
+        -5256
+       ],
+       [
+        87688,
+        18056,
+        -5256
+       ],
+       [
+        87672,
+        17768,
+        -5256
+       ],
+       [
+        87576,
+        17672,
+        -5256
+       ],
+       [
+        87640,
+        17080,
+        -5248
+       ],
+       [
+        87688,
+        17032,
+        -5256
+       ],
+       [
+        87816,
+        16488,
+        -5256
+       ],
+       [
+        87880,
+        15624,
+        -5256
+       ],
+       [
+        87720,
+        14984,
+        -5256
+       ],
+       [
+        87688,
+        14952,
+        -5256
+       ],
+       [
+        87576,
+        14760,
+        -5256
+       ],
+       [
+        87576,
+        13768,
+        -5288
+       ],
+       [
+        87192,
+        12776,
+        -5280
+       ],
+       [
+        86200,
+        11784,
+        -5288
+       ],
+       [
+        85624,
+        11208,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        },
+        {
+         "name": "Enchanted Gargoyle",
+         "lv": 44,
+         "n": 1
+        },
+        {
+         "name": "Enchanted Iron Golem",
+         "lv": 43,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20192,
+      20193
+     ],
+     "items": [
+      3206
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "red-rock-ridge-24",
+      "name": "Red Rock Ridge 24: Tyrant Kingpin area (north-east)",
+      "at": [
+       -30840,
+       181208,
+       -4312
+      ],
+      "radius": 5516,
+      "levels": [
+       34,
+       36
+      ],
+      "count": 16,
+      "region": "Red Rock Ridge",
+      "atlasKey": "area:red-rock-ridge-24",
+      "status": "ok",
+      "sec": 226,
+      "danger": 36,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -92.23333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "red-rock-ridge-22",
+        "name": "Red Rock Ridge 22: Tyrant area (north-east)",
+        "at": [
+         -26072,
+         185640,
+         -4168
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wastelands-17",
+        "name": "Wastelands 17: Tyrant area (north-west)",
+        "at": [
+         -24456,
+         192808,
+         -4168
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-15",
+        "name": "Windawood Manor 15: Granite Golem area (south)",
+        "at": [
+         -27608,
+         174616,
+         -4112
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:red-rock-ridge-24",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 21683,
+      "sec": 226,
+      "via": ".gludin > Gludin -> Red Rock Ridge",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Red Rock Ridge",
+        "link": "red rock ridge",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15253,
+        "how": "field-areas-gap",
+        "danger": 35
+       },
+       {
+        "do": "walk",
+        "len": 6430,
+        "how": "field-areas",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Red Rock Ridge"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -42256,
+        198333,
+        -2800
+       ],
+       [
+        -34296,
+        186504,
+        -4032
+       ],
+       [
+        -33944,
+        185752,
+        -4040
+       ],
+       [
+        -33176,
+        184776,
+        -4224
+       ],
+       [
+        -32184,
+        183784,
+        -4208
+       ],
+       [
+        -32120,
+        183704,
+        -4208
+       ],
+       [
+        -31704,
+        182712,
+        -4208
+       ],
+       [
+        -31496,
+        182504,
+        -4208
+       ],
+       [
+        -31144,
+        181512,
+        -4312
+       ],
+       [
+        -30840,
+        181208,
+        -4312
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20550
+     ],
+     "items": [
+      3207
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-2",
+      "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+      "at": [
+       69032,
+       113624,
+       -3664
+      ],
+      "radius": 4241,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 5,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-2",
+      "status": "ok",
+      "sec": 98,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.366666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-6",
+        "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+        "at": [
+         67912,
+         109816,
+         -3640
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6389,
+      "sec": 98,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6389,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72664,
+        117496,
+        -3672
+       ],
+       [
+        71672,
+        116504,
+        -3616
+       ],
+       [
+        71416,
+        116248,
+        -3584
+       ],
+       [
+        71128,
+        115720,
+        -3560
+       ],
+       [
+        70136,
+        114728,
+        -3560
+       ],
+       [
+        69144,
+        113736,
+        -3648
+       ],
+       [
+        69032,
+        113624,
+        -3664
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20601,
+      20602
+     ],
+     "items": [
+      3218
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-31",
+      "name": "Plains of Lizardmen 31: Karul Bugbear area (east)",
+      "at": [
+       105784,
+       82104,
+       -2984
+      ],
+      "radius": 4259,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 13,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-31",
+      "status": "ok",
+      "sec": 286,
+      "danger": 42,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": -13.233333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-24",
+        "name": "Forest of Mirrors 24: Karul Bugbear area (west)",
+        "at": [
+         126024,
+         80568,
+         -2248
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-32",
+        "name": "Plains of Lizardmen 32: Karul Bugbear area (east)",
+        "at": [
+         106792,
+         87880,
+         -3144
+        ],
+        "count": 8,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-25",
+        "name": "Forest of Mirrors 25: Karul Bugbear area (west)",
+        "at": [
+         127368,
+         83480,
+         -1992
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-31",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 28861,
+      "sec": 286,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 23430,
+        "how": "geodata",
+        "danger": 85
+       },
+       {
+        "do": "walk",
+        "len": 5431,
+        "how": "field-areas",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        87750,
+        85273,
+        -3064
+       ],
+       [
+        88248,
+        85032,
+        -3072
+       ],
+       [
+        88472,
+        85032,
+        -3072
+       ],
+       [
+        88696,
+        84824,
+        -3072
+       ],
+       [
+        89192,
+        84384,
+        -3240
+       ],
+       [
+        89688,
+        83944,
+        -3408
+       ],
+       [
+        90184,
+        83448,
+        -3500
+       ],
+       [
+        90680,
+        82952,
+        -3592
+       ],
+       [
+        91176,
+        82456,
+        -3564
+       ],
+       [
+        91672,
+        81960,
+        -3536
+       ],
+       [
+        92168,
+        81464,
+        -3480
+       ],
+       [
+        92664,
+        80968,
+        -3424
+       ],
+       [
+        93160,
+        80472,
+        -3376
+       ],
+       [
+        93656,
+        79976,
+        -3328
+       ],
+       [
+        94152,
+        79480,
+        -3316
+       ],
+       [
+        94648,
+        78984,
+        -3304
+       ],
+       [
+        94680,
+        78984,
+        -3304
+       ],
+       [
+        95176,
+        78488,
+        -3424
+       ],
+       [
+        95672,
+        77992,
+        -3544
+       ],
+       [
+        96232,
+        77416,
+        -3584
+       ],
+       [
+        97048,
+        76840,
+        -3552
+       ],
+       [
+        97544,
+        76760,
+        -3552
+       ],
+       [
+        98040,
+        76680,
+        -3552
+       ],
+       [
+        99032,
+        76680,
+        -3544
+       ],
+       [
+        100024,
+        76680,
+        -3464
+       ],
+       [
+        100536,
+        76984,
+        -3472
+       ],
+       [
+        100728,
+        77192,
+        -3344
+       ],
+       [
+        100760,
+        77192,
+        -3320
+       ],
+       [
+        101224,
+        76936,
+        -2936
+       ],
+       [
+        101256,
+        76936,
+        -2912
+       ],
+       [
+        101944,
+        76296,
+        -2480
+       ],
+       [
+        102024,
+        76280,
+        -2456
+       ],
+       [
+        102440,
+        76328,
+        -2408
+       ],
+       [
+        103240,
+        76520,
+        -2224
+       ],
+       [
+        103784,
+        76216,
+        -2088
+       ],
+       [
+        104552,
+        75784,
+        -1872
+       ],
+       [
+        105144,
+        75704,
+        -1712
+       ],
+       [
+        105336,
+        75720,
+        -1640
+       ],
+       [
+        105560,
+        75800,
+        -1576
+       ],
+       [
+        105848,
+        76280,
+        -1480
+       ],
+       [
+        105848,
+        76680,
+        -1464
+       ],
+       [
+        105864,
+        77672,
+        -1648
+       ],
+       [
+        105864,
+        78664,
+        -1912
+       ],
+       [
+        105864,
+        79656,
+        -2264
+       ],
+       [
+        105864,
+        80648,
+        -2576
+       ],
+       [
+        105864,
+        81640,
+        -2848
+       ],
+       [
+        105784,
+        82104,
+        -2984
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [
+       "the nearest gatekeeper landing on foot (Oren -> Plains of Lizardmen) is a 28.7k walk — more than the 25k walk limit"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 85,
+       "dangerVsLevel": 48,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 2
+        },
+        {
+         "name": "Sticky Mushroom",
+         "lv": 85,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20583,
+      20584,
+      20585,
+      20586,
+      20587,
+      20588
+     ],
+     "items": [
+      3219
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "sel-mahum-training-grounds-south-gate-1",
+      "name": "Sel Mahum Training Grounds (South Gate) 1: Timak Orc Soldier area (west)",
+      "at": [
+       73336,
+       71848,
+       -3560
+      ],
+      "radius": 4397,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 23,
+      "region": "Sel Mahum Training Grounds (South Gate)",
+      "atlasKey": "area:sel-mahum-training-grounds-south-gate-1",
+      "status": "ok",
+      "sec": 97,
+      "danger": 45,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -136.38333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sel-mahum-training-grounds-west-gate-1",
+        "name": "Sel Mahum Training Grounds (West Gate) 1: Timak Orc Troop Leader area (west)",
+        "at": [
+         72392,
+         62552,
+         -3352
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sel-mahum-training-grounds-south-gate-7",
+        "name": "Sel Mahum Training Grounds (South Gate) 7: Timak Orc Soldier area (south-west)",
+        "at": [
+         71176,
+         79576,
+         -3632
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sel-mahum-training-grounds-west-gate-5",
+        "name": "Sel Mahum Training Grounds (West Gate) 5: Timak Orc Warrior area (north-west)",
+        "at": [
+         69224,
+         55912,
+         -3592
+        ],
+        "count": 12,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:sel-mahum-training-grounds-south-gate-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 6219,
+      "sec": 97,
+      "via": ".oren > Oren -> Sel Mahum Training Grounds (South Gate)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sel Mahum Training Grounds (South Gate)",
+        "link": "sel mahum training grounds (south gate)",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6219,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sel Mahum Training Grounds (South Gate)"
+      },
+      "simple": true,
+      "pv": [
+       [
+        79416,
+        71496,
+        -3464
+       ],
+       [
+        78424,
+        71496,
+        -3576
+       ],
+       [
+        77432,
+        71496,
+        -3656
+       ],
+       [
+        76440,
+        71496,
+        -3704
+       ],
+       [
+        75448,
+        71496,
+        -3672
+       ],
+       [
+        74456,
+        71496,
+        -3648
+       ],
+       [
+        73672,
+        71512,
+        -3616
+       ],
+       [
+        73336,
+        71848,
+        -3560
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Timak Orc Warrior",
+         "lv": 43,
+         "n": 3
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Timak Orc Troop Leader",
+       "lv": 45
+      },
+      {
+       "name": "Timak Orc Troop Leader",
+       "lv": 45
+      },
+      {
+       "name": "Timak Orc Troop Leader",
+       "lv": 45
+      },
+      {
+       "name": "Timak Orc Troop Leader",
+       "lv": 45
+      },
+      {
+       "name": "Timak Orc Troop Leader",
+       "lv": 45
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20234
+     ],
+     "items": [
+      3234
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fortress-of-resistance-34",
+      "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+      "at": [
+       28920,
+       108584,
+       -3704
+      ],
+      "radius": 5521,
+      "levels": [
+       32,
+       35
+      ],
+      "count": 12,
+      "region": "Fortress of Resistance",
+      "atlasKey": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "sec": 177,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-3",
+        "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         19400,
+         106312,
+         -3672
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-6",
+        "name": "Cruma Tower 6: Marsh Stakato Drone area (north-east)",
+        "at": [
+         24120,
+         107832,
+         -3712
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-8",
+        "name": "Cruma Tower 8: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         24552,
+         102888,
+         -3688
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 15821,
+      "sec": 177,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5351,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 10470,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        20184,
+        113064,
+        -3752
+       ],
+       [
+        21176,
+        113064,
+        -3752
+       ],
+       [
+        22168,
+        113064,
+        -3680
+       ],
+       [
+        23080,
+        112968,
+        -3744
+       ],
+       [
+        24072,
+        112968,
+        -3728
+       ],
+       [
+        25064,
+        112440,
+        -3704
+       ],
+       [
+        26056,
+        111448,
+        -3720
+       ],
+       [
+        27048,
+        110456,
+        -3720
+       ],
+       [
+        28040,
+        109464,
+        -3728
+       ],
+       [
+        28920,
+        108584,
+        -3704
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ivory-tower-area-far-4",
+    "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+    "at": [
+     85624,
+     11208,
+     -5288
+    ],
+    "radius": 2307,
+    "levels": [
+     40,
+     42
+    ],
+    "count": 5,
+    "region": "Ivory Tower area",
+    "atlasKey": "area:ivory-tower-area-far-4",
+    "status": "ok",
+    "sec": 233,
+    "danger": 42,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -26.116666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ivory-tower-area-far-1",
+      "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+      "at": [
+       82888,
+       12520,
+       -5288
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ivory-tower-area-far-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 22576,
+    "sec": 233,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9717,
+      "how": "field-areas-gap",
+      "danger": 45
+     },
+     {
+      "do": "walk",
+      "len": 12859,
+      "how": "field-areas",
+      "danger": 45
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85560,
+      22392,
+      -5272
+     ],
+     [
+      85688,
+      21992,
+      -5288
+     ],
+     [
+      85688,
+      21000,
+      -5288
+     ],
+     [
+      85768,
+      20008,
+      -5272
+     ],
+     [
+      86760,
+      19016,
+      -5264
+     ],
+     [
+      87448,
+      18328,
+      -5256
+     ],
+     [
+      87688,
+      18056,
+      -5256
+     ],
+     [
+      87672,
+      17768,
+      -5256
+     ],
+     [
+      87576,
+      17672,
+      -5256
+     ],
+     [
+      87640,
+      17080,
+      -5248
+     ],
+     [
+      87688,
+      17032,
+      -5256
+     ],
+     [
+      87816,
+      16488,
+      -5256
+     ],
+     [
+      87880,
+      15624,
+      -5256
+     ],
+     [
+      87720,
+      14984,
+      -5256
+     ],
+     [
+      87688,
+      14952,
+      -5256
+     ],
+     [
+      87576,
+      14760,
+      -5256
+     ],
+     [
+      87576,
+      13768,
+      -5288
+     ],
+     [
+      87192,
+      12776,
+      -5280
+     ],
+     [
+      86200,
+      11784,
+      -5288
+     ],
+     [
+      85624,
+      11208,
+      -5288
+     ]
+    ],
+    "maxDanger": 45,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 45,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Shackle",
+       "lv": 45,
+       "n": 2
+      },
+      {
+       "name": "Enchanted Gargoyle",
+       "lv": 44,
+       "n": 1
+      },
+      {
+       "name": "Enchanted Iron Golem",
+       "lv": 43,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 983,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "override": {
+    "route": [
+     [
+      85336,
+      15240,
+      -3568
+     ],
+     [
+      85336,
+      14248,
+      -3568
+     ],
+     [
+      85336,
+      13256,
+      -3760
+     ],
+     [
+      85336,
+      12264,
+      -3784
+     ],
+     [
+      85336,
+      11272,
+      -3672
+     ],
+     [
+      85336,
+      10280,
+      -3512
+     ],
+     [
+      85224,
+      9784,
+      -3512
+     ],
+     [
+      85256,
+      8792,
+      -3560
+     ],
+     [
+      85176,
+      8440,
+      -3616
+     ],
+     [
+      85160,
+      8424,
+      -3608
+     ],
+     [
+      85080,
+      8392,
+      -3600
+     ],
+     [
+      85032,
+      8472,
+      -3616
+     ],
+     [
+      84920,
+      9032,
+      -3640
+     ],
+     [
+      85016,
+      9320,
+      -3680
+     ],
+     [
+      85032,
+      9336,
+      -3736
+     ],
+     [
+      85048,
+      9352,
+      -3784
+     ],
+     [
+      85064,
+      9352,
+      -3832
+     ],
+     [
+      85112,
+      9464,
+      -4000
+     ],
+     [
+      85112,
+      9640,
+      -4472
+     ],
+     [
+      85096,
+      9640,
+      -4496
+     ],
+     [
+      85128,
+      10072,
+      -5264
+     ],
+     [
+      85784,
+      10328,
+      -5280
+     ],
+     [
+      85992,
+      10472,
+      -5288
+     ],
+     [
+      86072,
+      10616,
+      -5288
+     ],
+     [
+      85624,
+      11208,
+      -5288
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "note": "Route: Oren -> Ivory Tower landing -> 85624,11208,-5288, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 43 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 11920 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "points": [
+     [
+      85336,
+      15240,
+      -3568
+     ],
+     [
+      85336,
+      14248,
+      -3568
+     ],
+     [
+      85336,
+      13256,
+      -3760
+     ],
+     [
+      85336,
+      12264,
+      -3784
+     ],
+     [
+      85336,
+      11272,
+      -3672
+     ],
+     [
+      85336,
+      10280,
+      -3512
+     ],
+     [
+      85224,
+      9784,
+      -3512
+     ],
+     [
+      85256,
+      8792,
+      -3560
+     ],
+     [
+      85176,
+      8440,
+      -3616
+     ],
+     [
+      85160,
+      8424,
+      -3608
+     ],
+     [
+      85080,
+      8392,
+      -3600
+     ],
+     [
+      85032,
+      8472,
+      -3616
+     ],
+     [
+      84920,
+      9032,
+      -3640
+     ],
+     [
+      85016,
+      9320,
+      -3680
+     ],
+     [
+      85032,
+      9336,
+      -3736
+     ],
+     [
+      85048,
+      9352,
+      -3784
+     ],
+     [
+      85064,
+      9352,
+      -3832
+     ],
+     [
+      85112,
+      9464,
+      -4000
+     ],
+     [
+      85112,
+      9640,
+      -4472
+     ],
+     [
+      85096,
+      9640,
+      -4496
+     ],
+     [
+      85128,
+      10072,
+      -5264
+     ],
+     [
+      85784,
+      10328,
+      -5280
+     ],
+     [
+      85992,
+      10472,
+      -5288
+     ],
+     [
+      86072,
+      10616,
+      -5288
+     ],
+     [
+      85624,
+      11208,
+      -5288
+     ]
+    ],
+    "pv": [
+     [
+      85336,
+      15240,
+      -3568
+     ],
+     [
+      85336,
+      14248,
+      -3568
+     ],
+     [
+      85336,
+      13256,
+      -3760
+     ],
+     [
+      85336,
+      12264,
+      -3784
+     ],
+     [
+      85336,
+      11272,
+      -3672
+     ],
+     [
+      85336,
+      10280,
+      -3512
+     ],
+     [
+      85224,
+      9784,
+      -3512
+     ],
+     [
+      85256,
+      8792,
+      -3560
+     ],
+     [
+      85176,
+      8440,
+      -3616
+     ],
+     [
+      85160,
+      8424,
+      -3608
+     ],
+     [
+      85080,
+      8392,
+      -3600
+     ],
+     [
+      85032,
+      8472,
+      -3616
+     ],
+     [
+      84920,
+      9032,
+      -3640
+     ],
+     [
+      85016,
+      9320,
+      -3680
+     ],
+     [
+      85032,
+      9336,
+      -3736
+     ],
+     [
+      85048,
+      9352,
+      -3784
+     ],
+     [
+      85064,
+      9352,
+      -3832
+     ],
+     [
+      85112,
+      9464,
+      -4000
+     ],
+     [
+      85112,
+      9640,
+      -4472
+     ],
+     [
+      85096,
+      9640,
+      -4496
+     ],
+     [
+      85128,
+      10072,
+      -5264
+     ],
+     [
+      85784,
+      10328,
+      -5280
+     ],
+     [
+      85992,
+      10472,
+      -5288
+     ],
+     [
+      86072,
+      10616,
+      -5288
+     ],
+     [
+      85624,
+      11208,
+      -5288
+     ]
+    ],
+    "length": 10571,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27080",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27080,
+     "name": "Pashika Son Of Voltar",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27081,
+     "name": "Vultus Son Of Voltar",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27082,
+     "name": "Enku Orc Overlord",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27083,
+     "name": "Makum Bugbear Thug",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27086,
+     "name": "Revenant of Tantos Chief",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3205,
+     "name": "Manashen Shard",
+     "n": 19,
+     "from": [
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3206,
+     "name": "Tyrant Talon",
+     "n": 10,
+     "from": [
+      {
+       "id": 20192,
+       "name": "Tyrant",
+       "chance": 100
+      },
+      {
+       "id": 20193,
+       "name": "Tyrant Kingpin",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3207,
+     "name": "Guardian Basilisk Fang",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3218,
+     "name": "Tamlin Orc Skull",
+     "n": 20,
+     "from": [
+      {
+       "id": 20601,
+       "name": "Tamlin Orc",
+       "chance": 100
+      },
+      {
+       "id": 20602,
+       "name": "Tamlin Orc Archer",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3219,
+     "name": "Timak Orc Head",
+     "n": 20,
+     "from": [
+      {
+       "id": 20583,
+       "name": "Timak Orc",
+       "chance": 100
+      },
+      {
+       "id": 20584,
+       "name": "Timak Orc Archer",
+       "chance": 100
+      },
+      {
+       "id": 20585,
+       "name": "Timak Orc Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20586,
+       "name": "Timak Orc Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20587,
+       "name": "Timak Orc Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20588,
+       "name": "Timak Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3221,
+     "name": "Pashika's Head",
+     "n": 1,
+     "from": [
+      {
+       "id": 27080,
+       "name": "Pashika Son Of Voltar",
+       "chance": 100
+      },
+      {
+       "id": 27080,
+       "name": "Pashika Son Of Voltar",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3222,
+     "name": "Vultus' Head",
+     "n": 1,
+     "from": [
+      {
+       "id": 27081,
+       "name": "Vultus Son Of Voltar",
+       "chance": 100
+      },
+      {
+       "id": 27081,
+       "name": "Vultus Son Of Voltar",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3224,
+     "name": "Enku Overlord Head",
+     "n": 4,
+     "from": [
+      {
+       "id": 27082,
+       "name": "Enku Orc Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3226,
+     "name": "Makum Bugbear Head",
+     "n": 2,
+     "from": [
+      {
+       "id": 27083,
+       "name": "Makum Bugbear Thug",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3234,
+     "name": "Stakato Drone Husk",
+     "n": 30,
+     "from": [
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3236,
+     "name": "Scepter of Tantos",
+     "n": 1,
+     "from": [
+      {
+       "id": 27086,
+       "name": "Revenant of Tantos Chief",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20778,
+     20779
+    ]
+   },
+   "text": "Make Pashika Son Of Voltar, Vultus Son Of Voltar, Enku Orc Overlord, Makum Bugbear Thug, Revenant of Tantos Chief appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "immortal-plateau-southern-region-15",
+    "name": "Immortal Plateau,Southern Region 15: Ragna Orc Overlord area (north-east)",
+    "at": [
+     10296,
+     -90760,
+     -2872
+    ],
+    "radius": 2421,
+    "levels": [
+     39,
+     39
+    ],
+    "count": 8,
+    "region": "Immortal Plateau,Southern Region",
+    "atlasKey": "area:immortal-plateau-southern-region-15",
+    "status": "ok",
+    "sec": 228,
+    "danger": 39,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -44.2,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:immortal-plateau-southern-region-15",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 19018,
+    "sec": 228,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Immortal Plateau,Southern Region",
+      "link": "immortal plateau, southern region",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 16630,
+      "how": "field-areas-gap",
+      "danger": 39
+     },
+     {
+      "do": "walk",
+      "len": 2388,
+      "how": "field-areas",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      8584,
+      -89096,
+      -2344
+     ],
+     [
+      9576,
+      -90040,
+      -2816
+     ],
+     [
+      10296,
+      -90760,
+      -2872
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 528,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30565",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30565,
+    "name": "Kakai",
+    "title": "Flame Lord",
+    "town": "Orc Village",
+    "at": [
+     -46768,
+     -113610,
+     -3
+    ],
+    "alt": []
+   },
+   "text": "Bring Ritual Box to Kakai",
+   "needs": [
+    {
+     "id": 3237,
+     "name": "Ritual Box",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30565@-46768,-113610",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 10122,
+    "sec": 129,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10122,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46344,
+      -109512,
+      -280
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47896,
+      -110456,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47880,
+      -112744,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -34,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30571",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30571,
+    "name": "Tanapi",
+    "title": "Seer",
+    "town": "Orc Village",
+    "at": [
+     -45863,
+     -112621,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Bring Tanapi's Order, Scepter of Tantos to Tanapi",
+   "needs": [
+    {
+     "id": 3235,
+     "name": "Tanapi's Order",
+     "n": 1
+    },
+    {
+     "id": 3236,
+     "name": "Scepter of Tantos",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30571@-45863,-112621",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 11922,
+    "sec": 144,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11922,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ],
+     [
+      -46696,
+      -113464,
+      -200
+     ],
+     [
+      -46472,
+      -113464,
+      -200
+     ],
+     [
+      -46392,
+      -113208,
+      -200
+     ],
+     [
+      -46360,
+      -113144,
+      -200
+     ],
+     [
+      -46392,
+      -112936,
+      -200
+     ],
+     [
+      -46200,
+      -112744,
+      -200
+     ],
+     [
+      -46008,
+      -112552,
+      -200
+     ],
+     [
+      -45864,
+      -112536,
+      -200
+     ],
+     [
+      -45864,
+      -112616,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -34,
+     "aggro": []
+    }
+   },
+   "expectedSec": 169,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30642",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30642,
+    "name": "Chianta",
+    "title": "Gandi Chief",
+    "town": "Dion",
+    "at": [
+     20000,
+     143108,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Bring Tamlin Orc Skull x20, Timak Orc Head x20, Necklace of Authority, Chianta's 3rd Order to Chianta",
+   "needs": [
+    {
+     "id": 3218,
+     "name": "Tamlin Orc Skull",
+     "n": 20
+    },
+    {
+     "id": 3219,
+     "name": "Timak Orc Head",
+     "n": 20
+    },
+    {
+     "id": 3209,
+     "name": "Necklace of Authority",
+     "n": 1
+    },
+    {
+     "id": 3217,
+     "name": "Chianta's 3rd Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30642@20000,143108",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6407,
+    "sec": 73,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6407,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17416,
+      144088,
+      -3032
+     ],
+     [
+      17608,
+      143896,
+      -3032
+     ],
+     [
+      17608,
+      143736,
+      -3032
+     ],
+     [
+      17736,
+      143496,
+      -3040
+     ],
+     [
+      17960,
+      143336,
+      -3032
+     ],
+     [
+      18200,
+      143208,
+      -3016
+     ],
+     [
+      18392,
+      143016,
+      -3016
+     ],
+     [
+      18616,
+      142856,
+      -3024
+     ],
+     [
+      18808,
+      142808,
+      -3024
+     ],
+     [
+      19080,
+      142760,
+      -3048
+     ],
+     [
+      19336,
+      142696,
+      -3032
+     ],
+     [
+      19608,
+      142680,
+      -3032
+     ],
+     [
+      19688,
+      142680,
+      -3032
+     ],
+     [
+      19944,
+      142744,
+      -3040
+     ],
+     [
+      20088,
+      142968,
+      -3056
+     ],
+     [
+      20008,
+      143112,
+      -3040
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30618",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "\"I am here to collect your Oath of Loyalty and the Scepter of Flame.\""
+   ],
+   "npc": {
+    "id": 30618,
+    "name": "Harak",
+    "title": "Leunt Chief",
+    "town": "Talking Island",
+    "at": [
+     -55217,
+     200628,
+     -3724
+    ],
+    "alt": []
+   },
+   "text": "Bring Kasman's 3rd Letter, Scepter of Turek, Scepter of Enku, Scepter of Breka, Scepter of Vuku to Harak",
+   "needs": [
+    {
+     "id": 3232,
+     "name": "Kasman's 3rd Letter",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3212,
+     "name": "Scepter of Enku",
+     "n": 1
+    },
+    {
+     "id": 3211,
+     "name": "Scepter of Breka",
+     "n": 1
+    },
+    {
+     "id": 3213,
+     "name": "Scepter of Vuku",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30618@-55217,200628",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 11617,
+    "sec": 142,
+    "via": ".gludin > Gludin -> Langk Lizardman Dwelling",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Langk Lizardman Dwelling",
+      "link": "langk lizardman dwellings",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11617,
+      "how": "geodata",
+      "danger": 25
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Langk Lizardman Dwelling"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -44763,
+      203497,
+      -3592
+     ],
+     [
+      -45257,
+      203001,
+      -3628
+     ],
+     [
+      -45752,
+      202504,
+      -3664
+     ],
+     [
+      -46248,
+      202032,
+      -3688
+     ],
+     [
+      -46744,
+      201560,
+      -3712
+     ],
+     [
+      -47240,
+      201096,
+      -3704
+     ],
+     [
+      -47736,
+      200632,
+      -3696
+     ],
+     [
+      -48728,
+      200632,
+      -3544
+     ],
+     [
+      -49720,
+      200632,
+      -3360
+     ],
+     [
+      -50712,
+      200632,
+      -3344
+     ],
+     [
+      -51704,
+      200632,
+      -3448
+     ],
+     [
+      -52696,
+      200632,
+      -3464
+     ],
+     [
+      -53688,
+      200632,
+      -3648
+     ],
+     [
+      -54680,
+      200632,
+      -3704
+     ],
+     [
+      -55224,
+      200632,
+      -3720
+     ]
+    ],
+    "maxDanger": 25,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 25,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 167,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30615",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30615,
+    "name": "Voltar",
+    "title": "Breka Chief",
+    "town": "Giran",
+    "at": [
+     80100,
+     119991,
+     -2264
+    ],
+    "alt": []
+   },
+   "text": "Bring Necklace of Authority, Chianta's 1st Order, Scepter of Breka, Manakia's 1st Letter, Glove of Voltar, Pashika's Head, Vultus' Head, Scepter of Enku, Scepter of Vuku, Scepter of Turek, Scepter of Tunath to Voltar",
+   "needs": [
+    {
+     "id": 3209,
+     "name": "Necklace of Authority",
+     "n": 1
+    },
+    {
+     "id": 3210,
+     "name": "Chianta's 1st Order",
+     "n": 1
+    },
+    {
+     "id": 3211,
+     "name": "Scepter of Breka",
+     "n": 1
+    },
+    {
+     "id": 3228,
+     "name": "Manakia's 1st Letter",
+     "n": 1
+    },
+    {
+     "id": 3223,
+     "name": "Glove of Voltar",
+     "n": 1
+    },
+    {
+     "id": 3221,
+     "name": "Pashika's Head",
+     "n": 1
+    },
+    {
+     "id": 3222,
+     "name": "Vultus' Head",
+     "n": 1
+    },
+    {
+     "id": 3212,
+     "name": "Scepter of Enku",
+     "n": 1
+    },
+    {
+     "id": 3213,
+     "name": "Scepter of Vuku",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3215,
+     "name": "Scepter of Tunath",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30615@80100,119991",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".giran",
+    "length": 35949,
+    "sec": 320,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 35949,
+      "how": "geodata",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83144,
+      148200,
+      -3440
+     ],
+     [
+      82152,
+      147560,
+      -3464
+     ],
+     [
+      81608,
+      147512,
+      -3464
+     ],
+     [
+      81424,
+      147016,
+      -3496
+     ],
+     [
+      81256,
+      146296,
+      -3528
+     ],
+     [
+      81272,
+      145400,
+      -3528
+     ],
+     [
+      81256,
+      144744,
+      -3528
+     ],
+     [
+      81480,
+      143752,
+      -3528
+     ],
+     [
+      81496,
+      143528,
+      -3528
+     ],
+     [
+      81336,
+      143400,
+      -3528
+     ],
+     [
+      80344,
+      142408,
+      -3536
+     ],
+     [
+      80224,
+      141912,
+      -3536
+     ],
+     [
+      80472,
+      140920,
+      -3520
+     ],
+     [
+      80840,
+      140424,
+      -3504
+     ],
+     [
+      81336,
+      139928,
+      -3548
+     ],
+     [
+      82040,
+      139208,
+      -3600
+     ],
+     [
+      82392,
+      138712,
+      -3548
+     ],
+     [
+      82744,
+      138216,
+      -3496
+     ],
+     [
+      83448,
+      137496,
+      -3512
+     ],
+     [
+      83632,
+      137000,
+      -3488
+     ],
+     [
+      83816,
+      136504,
+      -3464
+     ],
+     [
+      84216,
+      135960,
+      -3520
+     ],
+     [
+      84488,
+      135448,
+      -3464
+     ],
+     [
+      84488,
+      135192,
+      -3328
+     ],
+     [
+      84616,
+      134904,
+      -3480
+     ],
+     [
+      84360,
+      134136,
+      -3544
+     ],
+     [
+      84232,
+      133496,
+      -3624
+     ],
+     [
+      84360,
+      132472,
+      -3584
+     ],
+     [
+      83864,
+      131976,
+      -3624
+     ],
+     [
+      83368,
+      131480,
+      -3664
+     ],
+     [
+      82376,
+      130488,
+      -3648
+     ],
+     [
+      81880,
+      129992,
+      -3612
+     ],
+     [
+      81384,
+      129496,
+      -3576
+     ],
+     [
+      80464,
+      128360,
+      -3484
+     ],
+     [
+      80104,
+      127864,
+      -3456
+     ],
+     [
+      79736,
+      127256,
+      -3376
+     ],
+     [
+      79752,
+      127240,
+      -3360
+     ],
+     [
+      79352,
+      126440,
+      -3168
+     ],
+     [
+      79224,
+      125944,
+      -2960
+     ],
+     [
+      79320,
+      124952,
+      -2784
+     ],
+     [
+      78824,
+      124456,
+      -2788
+     ],
+     [
+      77984,
+      123464,
+      -2792
+     ],
+     [
+      77640,
+      122968,
+      -2792
+     ],
+     [
+      77304,
+      122632,
+      -2640
+     ],
+     [
+      77816,
+      122104,
+      -2448
+     ],
+     [
+      78312,
+      121608,
+      -2264
+     ],
+     [
+      78808,
+      121112,
+      -2256
+     ],
+     [
+      79704,
+      120304,
+      -2256
+     ],
+     [
+      80104,
+      119992,
+      -2264
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 345,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30616",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30616,
+    "name": "Kepra",
+    "title": "Enku Chief",
+    "town": "Floran",
+    "at": [
+     19509,
+     192096,
+     -3724
+    ],
+    "alt": []
+   },
+   "text": "Bring Enku Overlord Head x4, Necklace of Authority, Chianta's 1st Order, Scepter of Breka, Scepter of Vuku, Scepter of Turek, Scepter of Tunath to Kepra",
+   "needs": [
+    {
+     "id": 3224,
+     "name": "Enku Overlord Head",
+     "n": 4
+    },
+    {
+     "id": 3209,
+     "name": "Necklace of Authority",
+     "n": 1
+    },
+    {
+     "id": 3210,
+     "name": "Chianta's 1st Order",
+     "n": 1
+    },
+    {
+     "id": 3211,
+     "name": "Scepter of Breka",
+     "n": 1
+    },
+    {
+     "id": 3213,
+     "name": "Scepter of Vuku",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3215,
+     "name": "Scepter of Tunath",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30616@19509,192096",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 16555,
+    "sec": 183,
+    "via": ".dion > Dion -> Bee Hive",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Bee Hive",
+      "link": "bee hive",
+      "price": 2900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 16555,
+      "how": "geodata",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Bee Hive"
+    },
+    "simple": true,
+    "pv": [
+     [
+      34475,
+      188095,
+      -2976
+     ],
+     [
+      33978,
+      188588,
+      -3132
+     ],
+     [
+      33480,
+      189080,
+      -3288
+     ],
+     [
+      33136,
+      189448,
+      -3436
+     ],
+     [
+      32792,
+      189816,
+      -3584
+     ],
+     [
+      32296,
+      190312,
+      -3624
+     ],
+     [
+      31800,
+      190808,
+      -3664
+     ],
+     [
+      31304,
+      191304,
+      -3684
+     ],
+     [
+      30808,
+      191800,
+      -3704
+     ],
+     [
+      30312,
+      191952,
+      -3712
+     ],
+     [
+      29816,
+      192104,
+      -3720
+     ],
+     [
+      28824,
+      192104,
+      -3640
+     ],
+     [
+      27832,
+      192104,
+      -3632
+     ],
+     [
+      26840,
+      192104,
+      -3680
+     ],
+     [
+      25848,
+      192104,
+      -3648
+     ],
+     [
+      24856,
+      192104,
+      -3632
+     ],
+     [
+      23864,
+      192104,
+      -3688
+     ],
+     [
+      22872,
+      192104,
+      -3696
+     ],
+     [
+      21880,
+      192104,
+      -3704
+     ],
+     [
+      20888,
+      192104,
+      -3704
+     ],
+     [
+      19896,
+      192104,
+      -3720
+     ],
+     [
+      19512,
+      192104,
+      -3720
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 40,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 208,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:deliver:30617",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30617,
+    "name": "Burai",
+    "title": "Turek Chief",
+    "town": "Gludin",
+    "at": [
+     -94294,
+     110818,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Bring Makum Bugbear Head x2, Necklace of Authority, Chianta's 1st Order, Scepter of Turek, Kasman's 2nd Letter, Glove of Burai, Makum Bugbear Head, Scepter of Enku, Scepter of Breka, Scepter of Vuku, Scepter of Tunath to Burai",
+   "needs": [
+    {
+     "id": 3226,
+     "name": "Makum Bugbear Head",
+     "n": 2
+    },
+    {
+     "id": 3209,
+     "name": "Necklace of Authority",
+     "n": 1
+    },
+    {
+     "id": 3210,
+     "name": "Chianta's 1st Order",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3231,
+     "name": "Kasman's 2nd Letter",
+     "n": 1
+    },
+    {
+     "id": 3227,
+     "name": "Glove of Burai",
+     "n": 1
+    },
+    {
+     "id": 3226,
+     "name": "Makum Bugbear Head",
+     "n": 1
+    },
+    {
+     "id": 3212,
+     "name": "Scepter of Enku",
+     "n": 1
+    },
+    {
+     "id": 3211,
+     "name": "Scepter of Breka",
+     "n": 1
+    },
+    {
+     "id": 3213,
+     "name": "Scepter of Vuku",
+     "n": 1
+    },
+    {
+     "id": 3215,
+     "name": "Scepter of Tunath",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30617@-94294,110818",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 7287,
+    "sec": 106,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7287,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -90261,
+      105852,
+      -3672
+     ],
+     [
+      -90760,
+      106344,
+      -3768
+     ],
+     [
+      -91256,
+      106840,
+      -3788
+     ],
+     [
+      -91752,
+      107336,
+      -3808
+     ],
+     [
+      -92248,
+      107832,
+      -3840
+     ],
+     [
+      -92744,
+      108328,
+      -3872
+     ],
+     [
+      -93016,
+      108616,
+      -3872
+     ],
+     [
+      -93512,
+      109112,
+      -3836
+     ],
+     [
+      -94008,
+      109608,
+      -3800
+     ],
+     [
+      -94296,
+      110216,
+      -3696
+     ],
+     [
+      -94296,
+      110824,
+      -3696
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 131,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c1:deliver:30619",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30619,
+    "name": "Driko",
+    "title": "Vuku Chief",
+    "town": "Gludio",
+    "at": [
+     -2150,
+     124443,
+     -3724
+    ],
+    "alt": []
+   },
+   "text": "Bring Necklace of Authority, Chianta's 1st Order, Scepter of Vuku, Kasman's 1st Letter, Driko's Contract, Scepter of Turek, Scepter of Enku, Scepter of Breka, Scepter of Tunath to Driko",
+   "needs": [
+    {
+     "id": 3209,
+     "name": "Necklace of Authority",
+     "n": 1
+    },
+    {
+     "id": 3210,
+     "name": "Chianta's 1st Order",
+     "n": 1
+    },
+    {
+     "id": 3213,
+     "name": "Scepter of Vuku",
+     "n": 1
+    },
+    {
+     "id": 3230,
+     "name": "Kasman's 1st Letter",
+     "n": 1
+    },
+    {
+     "id": 3233,
+     "name": "Driko's Contract",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3212,
+     "name": "Scepter of Enku",
+     "n": 1
+    },
+    {
+     "id": 3211,
+     "name": "Scepter of Breka",
+     "n": 1
+    },
+    {
+     "id": 3215,
+     "name": "Scepter of Tunath",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30619@-2150,124443",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 9204,
+    "sec": 122,
+    "via": ".dion > Dion -> Cruma Marshlands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Marshlands",
+      "link": "cruma marshland",
+      "price": 760,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9204,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Marshlands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      5106,
+      126916,
+      -3664
+     ],
+     [
+      4312,
+      126920,
+      -3656
+     ],
+     [
+      3816,
+      127416,
+      -3640
+     ],
+     [
+      3320,
+      127912,
+      -3624
+     ],
+     [
+      3224,
+      128008,
+      -3608
+     ],
+     [
+      2952,
+      128136,
+      -3584
+     ],
+     [
+      2024,
+      128136,
+      -3520
+     ],
+     [
+      1528,
+      127640,
+      -3452
+     ],
+     [
+      1032,
+      127144,
+      -3384
+     ],
+     [
+      536,
+      126648,
+      -3320
+     ],
+     [
+      40,
+      126152,
+      -3256
+     ],
+     [
+      -456,
+      125656,
+      -3464
+     ],
+     [
+      -952,
+      125160,
+      -3672
+     ],
+     [
+      -1448,
+      124800,
+      -3696
+     ],
+     [
+      -1944,
+      124440,
+      -3720
+     ],
+     [
+      -2152,
+      124440,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 147,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c1:deliver:30514",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30514,
+    "name": "Vokian",
+    "title": "Prefect",
+    "town": "Giran",
+    "at": [
+     80464,
+     144368,
+     -3533
+    ],
+    "alt": []
+   },
+   "text": "Bring Manashen Shard x10, Tyrant Talon x10, Guardian Basilisk Fang x10, Vokian's Order to Vokian",
+   "needs": [
+    {
+     "id": 3205,
+     "name": "Manashen Shard",
+     "n": 10
+    },
+    {
+     "id": 3206,
+     "name": "Tyrant Talon",
+     "n": 10
+    },
+    {
+     "id": 3207,
+     "name": "Guardian Basilisk Fang",
+     "n": 10
+    },
+    {
+     "id": 3204,
+     "name": "Vokian's Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30514@80464,144368",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6811,
+    "sec": 77,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6811,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146536,
+      -3528
+     ],
+     [
+      81528,
+      146264,
+      -3528
+     ],
+     [
+      81544,
+      145992,
+      -3528
+     ],
+     [
+      81512,
+      145720,
+      -3528
+     ],
+     [
+      81512,
+      145544,
+      -3528
+     ],
+     [
+      81528,
+      145272,
+      -3528
+     ],
+     [
+      81512,
+      145000,
+      -3528
+     ],
+     [
+      81544,
+      144728,
+      -3528
+     ],
+     [
+      81384,
+      144504,
+      -3528
+     ],
+     [
+      81128,
+      144424,
+      -3528
+     ],
+     [
+      80936,
+      144408,
+      -3528
+     ],
+     [
+      80744,
+      144344,
+      -3528
+     ],
+     [
+      80472,
+      144376,
+      -3528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c8:deliver:30642",
+   "cond": 8,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "\"I shall participate in the battle!\""
+   ],
+   "npc": {
+    "id": 30642,
+    "name": "Chianta",
+    "title": "Gandi Chief",
+    "town": "Dion",
+    "at": [
+     20000,
+     143108,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Bring Chianta's 1st Order, Scepter of Breka, Scepter of Vuku, Scepter of Turek, Scepter of Tunath, Scepter of Enku to Chianta",
+   "needs": [
+    {
+     "id": 3210,
+     "name": "Chianta's 1st Order",
+     "n": 1
+    },
+    {
+     "id": 3211,
+     "name": "Scepter of Breka",
+     "n": 1
+    },
+    {
+     "id": 3213,
+     "name": "Scepter of Vuku",
+     "n": 1
+    },
+    {
+     "id": 3214,
+     "name": "Scepter of Turek",
+     "n": 1
+    },
+    {
+     "id": 3215,
+     "name": "Scepter of Tunath",
+     "n": 1
+    },
+    {
+     "id": 3212,
+     "name": "Scepter of Enku",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30642@20000,143108",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6407,
+    "sec": 73,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6407,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17416,
+      144088,
+      -3032
+     ],
+     [
+      17608,
+      143896,
+      -3032
+     ],
+     [
+      17608,
+      143736,
+      -3032
+     ],
+     [
+      17736,
+      143496,
+      -3040
+     ],
+     [
+      17960,
+      143336,
+      -3032
+     ],
+     [
+      18200,
+      143208,
+      -3016
+     ],
+     [
+      18392,
+      143016,
+      -3016
+     ],
+     [
+      18616,
+      142856,
+      -3024
+     ],
+     [
+      18808,
+      142808,
+      -3024
+     ],
+     [
+      19080,
+      142760,
+      -3048
+     ],
+     [
+      19336,
+      142696,
+      -3032
+     ],
+     [
+      19608,
+      142680,
+      -3032
+     ],
+     [
+      19688,
+      142680,
+      -3032
+     ],
+     [
+      19944,
+      142744,
+      -3040
+     ],
+     [
+      20088,
+      142968,
+      -3056
+     ],
+     [
+      20008,
+      143112,
+      -3040
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c11:deliver:30571",
+   "cond": 11,
+   "kind": "deliver",
+   "to": 9,
+   "links": [
+    "\"I shall bring back the Scepter of Tantos!\""
+   ],
+   "npc": {
+    "id": 30571,
+    "name": "Tanapi",
+    "title": "Seer",
+    "town": "Orc Village",
+    "at": [
+     -45863,
+     -112621,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Bring Scepter Box to Tanapi",
+   "needs": [
+    {
+     "id": 3220,
+     "name": "Scepter Box",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30571@-45863,-112621",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 11922,
+    "sec": 144,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11922,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ],
+     [
+      -46696,
+      -113464,
+      -200
+     ],
+     [
+      -46472,
+      -113464,
+      -200
+     ],
+     [
+      -46392,
+      -113208,
+      -200
+     ],
+     [
+      -46360,
+      -113144,
+      -200
+     ],
+     [
+      -46392,
+      -112936,
+      -200
+     ],
+     [
+      -46200,
+      -112744,
+      -200
+     ],
+     [
+      -46008,
+      -112552,
+      -200
+     ],
+     [
+      -45864,
+      -112536,
+      -200
+     ],
+     [
+      -45864,
+      -112616,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -34,
+     "aggro": []
+    }
+   },
+   "expectedSec": 169,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "route": [
+     [
+      85336,
+      15240,
+      -3568
+     ],
+     [
+      85336,
+      14248,
+      -3568
+     ],
+     [
+      85336,
+      13256,
+      -3760
+     ],
+     [
+      85336,
+      12264,
+      -3784
+     ],
+     [
+      85336,
+      11272,
+      -3672
+     ],
+     [
+      85336,
+      10280,
+      -3512
+     ],
+     [
+      85224,
+      9784,
+      -3512
+     ],
+     [
+      85256,
+      8792,
+      -3560
+     ],
+     [
+      85176,
+      8440,
+      -3616
+     ],
+     [
+      85160,
+      8424,
+      -3608
+     ],
+     [
+      85080,
+      8392,
+      -3600
+     ],
+     [
+      85032,
+      8472,
+      -3616
+     ],
+     [
+      84920,
+      9032,
+      -3640
+     ],
+     [
+      85016,
+      9320,
+      -3680
+     ],
+     [
+      85032,
+      9336,
+      -3736
+     ],
+     [
+      85048,
+      9352,
+      -3784
+     ],
+     [
+      85064,
+      9352,
+      -3832
+     ],
+     [
+      85112,
+      9464,
+      -4000
+     ],
+     [
+      85112,
+      9640,
+      -4472
+     ],
+     [
+      85096,
+      9640,
+      -4496
+     ],
+     [
+      85128,
+      10072,
+      -5264
+     ],
+     [
+      85784,
+      10328,
+      -5280
+     ],
+     [
+      85992,
+      10472,
+      -5288
+     ],
+     [
+      86072,
+      10616,
+      -5288
+     ],
+     [
+      85624,
+      11208,
+      -5288
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "note": "Route: Oren -> Ivory Tower landing -> 85624,11208,-5288, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 43 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 11920 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   }
+  },
+  "editedAt": "2026-10-27T11:05:18.265Z",
+  "by": "quest fixer batch 3"
+ }
+}

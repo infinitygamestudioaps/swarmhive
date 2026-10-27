@@ -1,0 +1,1985 @@
+{
+ "id": 336,
+ "name": "Coins of Magic",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.735Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 40,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 12,
+ "refLevel": 40,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30232",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will bring back the coin.\""
+   ],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 68,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20644,
+     "name": "Harit Lizardman Shaman",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20645,
+     "name": "Harit Lizardman Matriarch",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 20235,
+     "name": "Shackle",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20146,
+     "name": "Headless Knight",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20583,
+     "name": "Timak Orc",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20240,
+     "name": "Royal Cave Servant",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20245,
+     "name": "Maluk Succubus Turen",
+     "level": 56,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 21276,
+     "name": "Kookaburra",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21278,
+     "name": "Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21279,
+     "name": "Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 21280,
+     "name": "Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21286,
+     "name": "Buffalo",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21287,
+     "name": "Buffalo",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 21288,
+     "name": "Buffalo",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 21274,
+     "name": "Kookaburra",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21275,
+     "name": "Kookaburra",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21006,
+     "name": "Doom Servant",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 20674,
+     "name": "Doom Knight",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 71,
+     "questSpawned": false
+    },
+    {
+     "id": 20685,
+     "name": "Vanor Silenos Shaman",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20572,
+     "name": "Tarlk Bugbear High Warrior",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20161,
+     "name": "Oel Mahum",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 20575,
+     "name": "Oel Mahum Warrior",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20568,
+     "name": "Formor",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20569,
+     "name": "Formor Elder",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 73,
+     "questSpawned": false
+    },
+    {
+     "id": 20959,
+     "name": "Dark Guard",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21521,
+     "name": "Claws of Splendor",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20576,
+     "name": "Oel Mahum Witch Doctor",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    },
+    {
+     "id": 21539,
+     "name": "Wailing of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20604,
+     "name": "Lakin",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20663,
+     "name": "Hatar Hanishee",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 20678,
+     "name": "Tortured Undead",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 21003,
+     "name": "Grave Lich",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 38,
+     "questSpawned": false
+    },
+    {
+     "id": 21283,
+     "name": "Bandersnatch",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 21284,
+     "name": "Bandersnatch",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 21282,
+     "name": "Bandersnatch",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20587,
+     "name": "Timak Orc Shaman",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20584,
+     "name": "Timak Orc Archer",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20585,
+     "name": "Timak Orc Soldier",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 53,
+     "questSpawned": false
+    },
+    {
+     "id": 21008,
+     "name": "Doom Archer",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21526,
+     "name": "Wisdom of Splendor",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 21531,
+     "name": "Punishment of Splendor",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3472,
+     "name": "Blood Medusa",
+     "n": 1,
+     "from": [
+      {
+       "id": 20604,
+       "name": "Lakin",
+       "chance": 6
+      },
+      {
+       "id": 20663,
+       "name": "Hatar Hanishee",
+       "chance": 7
+      },
+      {
+       "id": 20678,
+       "name": "Tortured Undead",
+       "chance": 8
+      },
+      {
+       "id": 21003,
+       "name": "Grave Lich",
+       "chance": 9
+      },
+      {
+       "id": 21283,
+       "name": "Bandersnatch",
+       "chance": 9
+      },
+      {
+       "id": 21284,
+       "name": "Bandersnatch",
+       "chance": 9
+      },
+      {
+       "id": 21282,
+       "name": "Bandersnatch",
+       "chance": 10
+      },
+      {
+       "id": 20587,
+       "name": "Timak Orc Shaman",
+       "chance": 13
+      }
+     ]
+    },
+    {
+     "id": 3482,
+     "name": "Gold Wyvern",
+     "n": 1,
+     "from": [
+      {
+       "id": 20235,
+       "name": "Shackle",
+       "chance": 7
+      },
+      {
+       "id": 20146,
+       "name": "Headless Knight",
+       "chance": 8
+      },
+      {
+       "id": 20583,
+       "name": "Timak Orc",
+       "chance": 8
+      },
+      {
+       "id": 20240,
+       "name": "Royal Cave Servant",
+       "chance": 10
+      },
+      {
+       "id": 20245,
+       "name": "Maluk Succubus Turen",
+       "chance": 10
+      },
+      {
+       "id": 21276,
+       "name": "Kookaburra",
+       "chance": 10
+      },
+      {
+       "id": 21278,
+       "name": "Antelope",
+       "chance": 10
+      },
+      {
+       "id": 21279,
+       "name": "Antelope",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 3490,
+     "name": "Silver Unicorn",
+     "n": 1,
+     "from": [
+      {
+       "id": 20685,
+       "name": "Vanor Silenos Shaman",
+       "chance": 7
+      },
+      {
+       "id": 20572,
+       "name": "Tarlk Bugbear High Warrior",
+       "chance": 8
+      },
+      {
+       "id": 20161,
+       "name": "Oel Mahum",
+       "chance": 8
+      },
+      {
+       "id": 20575,
+       "name": "Oel Mahum Warrior",
+       "chance": 9
+      },
+      {
+       "id": 20568,
+       "name": "Formor",
+       "chance": 11
+      },
+      {
+       "id": 20569,
+       "name": "Formor Elder",
+       "chance": 12
+      },
+      {
+       "id": 20959,
+       "name": "Dark Guard",
+       "chance": 15
+      },
+      {
+       "id": 21521,
+       "name": "Claws of Splendor",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3812,
+     "name": "Kaldis Gold Dragon",
+     "n": 1,
+     "from": [
+      {
+       "id": 20644,
+       "name": "Harit Lizardman Shaman",
+       "chance": 63
+      },
+      {
+       "id": 20645,
+       "name": "Harit Lizardman Matriarch",
+       "chance": 63
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Harit Lizardman Shaman, Harit Lizardman Matriarch, Shackle for Blood Medusa x1, Gold Wyvern x1, Silver Unicorn x1, Kaldis Gold Dragon x1",
+   "places": [
+    {
+     "mobs": [
+      20604,
+      20663,
+      20678,
+      21003,
+      21283,
+      21284,
+      21282,
+      20587
+     ],
+     "items": [
+      3472
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "sel-mahum-training-grounds-west-gate-1",
+      "name": "Sel Mahum Training Grounds (West Gate) 1: Timak Orc Troop Leader area (west)",
+      "at": [
+       72392,
+       62552,
+       -3352
+      ],
+      "radius": 4937,
+      "levels": [
+       42,
+       45
+      ],
+      "count": 4,
+      "region": "Sel Mahum Training Grounds (West Gate)",
+      "atlasKey": "area:sel-mahum-training-grounds-west-gate-1",
+      "status": "ok",
+      "sec": 86,
+      "danger": 45,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -22.566666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "seal-of-shilen-15",
+        "name": "Seal of Shilen 15: Tortured Undead area (west)",
+        "at": [
+         173096,
+         21128,
+         -3248
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "aden-outskirts-13",
+        "name": "Aden outskirts 13: Hatar Ratman Boss area (north-east)",
+        "at": [
+         160008,
+         11976,
+         -3912
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sel-mahum-training-grounds-west-gate-5",
+        "name": "Sel Mahum Training Grounds (West Gate) 5: Timak Orc Warrior area (north-west)",
+        "at": [
+         69224,
+         55912,
+         -3592
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:sel-mahum-training-grounds-west-gate-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 4929,
+      "sec": 86,
+      "via": ".oren > Oren -> Sel Mahum Training Grounds (West Gate)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sel Mahum Training Grounds (West Gate)",
+        "link": "sel mahum training grounds (west gate)",
+        "price": 2400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4929,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sel Mahum Training Grounds (West Gate)"
+      },
+      "simple": true,
+      "pv": [
+       [
+        76840,
+        63848,
+        -3656
+       ],
+       [
+        75848,
+        63848,
+        -3704
+       ],
+       [
+        74856,
+        63832,
+        -3640
+       ],
+       [
+        73864,
+        63832,
+        -3544
+       ],
+       [
+        72872,
+        63032,
+        -3464
+       ],
+       [
+        72392,
+        62552,
+        -3352
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20235,
+      20146,
+      20583,
+      20240,
+      20245,
+      21276,
+      21278,
+      21279
+     ],
+     "items": [
+      3482
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "sea-of-spores-25",
+      "name": "Sea of Spores 25: Shackle area (north-east)",
+      "at": [
+       81624,
+       16968,
+       -5288
+      ],
+      "radius": 4068,
+      "levels": [
+       41,
+       45
+      ],
+      "count": 8,
+      "region": "Sea of Spores",
+      "atlasKey": "area:sea-of-spores-25",
+      "status": "ok",
+      "sec": 194,
+      "danger": 45,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -44.766666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sel-mahum-training-grounds-south-gate-7",
+        "name": "Sel Mahum Training Grounds (South Gate) 7: Timak Orc Soldier area (south-west)",
+        "at": [
+         71176,
+         79576,
+         -3632
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sel-mahum-training-grounds-south-gate-8",
+        "name": "Sel Mahum Training Grounds (South Gate) 8: Timak Orc area (south-west)",
+        "at": [
+         71848,
+         82760,
+         -3472
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-26",
+        "name": "Plains of Lizardmen 26: Timak Orc area (west)",
+        "at": [
+         70056,
+         87032,
+         -3424
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:sea-of-spores-25",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 17834,
+      "sec": 194,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 16133,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 1701,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        82632,
+        15608,
+        -5256
+       ],
+       [
+        81992,
+        16600,
+        -5280
+       ],
+       [
+        81624,
+        16968,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20685,
+      20572,
+      20161,
+      20575,
+      20568,
+      20569,
+      20959,
+      21521
+     ],
+     "items": [
+      3490
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "outlaw-forest-12",
+      "name": "Outlaw Forest 12: Oel Mahum Warrior area (north-east)",
+      "at": [
+       98696,
+       -19656,
+       -3016
+      ],
+      "radius": 4686,
+      "levels": [
+       50,
+       55
+      ],
+      "count": 18,
+      "region": "Outlaw Forest",
+      "atlasKey": "area:outlaw-forest-12",
+      "status": "ok",
+      "sec": 131,
+      "danger": 55,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -77.81666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sea-of-spores-19",
+        "name": "Sea of Spores 19: Formor Elder area (east)",
+        "at": [
+         80984,
+         24344,
+         -3544
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "northern-pathway-of-enchanted-valley-3",
+        "name": "Northern Pathway of Enchanted Valley 3: Formor area (north-west)",
+        "at": [
+         92200,
+         27832,
+         -3672
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "outlaw-forest-24",
+        "name": "Outlaw Forest 24: Formor Elder area (south-west)",
+        "at": [
+         79976,
+         3736,
+         -2936
+        ],
+        "count": 12,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:outlaw-forest-12",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 10340,
+      "sec": 131,
+      "via": ".oren > Oren -> Outlaw Forest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Outlaw Forest",
+        "link": "outlaw forest",
+        "price": 5200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7106,
+        "how": "field-areas-gap",
+        "danger": 55
+       },
+       {
+        "do": "walk",
+        "len": 3234,
+        "how": "field-areas",
+        "danger": 55
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Outlaw Forest"
+      },
+      "simple": true,
+      "pv": [
+       [
+        91539,
+        -12204,
+        -2440
+       ],
+       [
+        96536,
+        -17256,
+        -2584
+       ],
+       [
+        97240,
+        -17960,
+        -2752
+       ],
+       [
+        98136,
+        -18952,
+        -2776
+       ],
+       [
+        98312,
+        -19128,
+        -2832
+       ],
+       [
+        98696,
+        -19656,
+        -3016
+       ]
+      ],
+      "maxDanger": 55,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 55,
+       "dangerVsLevel": 15,
+       "aggro": [
+        {
+         "name": "Oel Mahum Witch Doctor",
+         "lv": 55,
+         "n": 4
+        },
+        {
+         "name": "Oel Mahum Warrior",
+         "lv": 54,
+         "n": 4
+        },
+        {
+         "name": "Oel Mahum",
+         "lv": 53,
+         "n": 3
+        },
+        {
+         "name": "Elder Tarlk Basilisk",
+         "lv": 51,
+         "n": 3
+        },
+        {
+         "name": "Ol Mahum Transcender",
+         "lv": 50,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Oel Mahum Witch Doctor",
+       "lv": 55
+      },
+      {
+       "name": "Ol Mahum Transcender",
+       "lv": 50
+      },
+      {
+       "name": "Oel Mahum Witch Doctor",
+       "lv": 55
+      },
+      {
+       "name": "Oel Mahum Witch Doctor",
+       "lv": 55
+      },
+      {
+       "name": "Oel Mahum Witch Doctor",
+       "lv": 55
+      },
+      {
+       "name": "Ol Mahum Transcender",
+       "lv": 50
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20644,
+      20645
+     ],
+     "items": [
+      3812
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forest-of-mirrors-20",
+      "name": "Forest of Mirrors 20: Harit Lizardman Shaman area (east)",
+      "at": [
+       158664,
+       74936,
+       -3424
+      ],
+      "radius": 4910,
+      "levels": [
+       51,
+       55
+      ],
+      "count": 12,
+      "region": "Forest of Mirrors",
+      "atlasKey": "area:forest-of-mirrors-20",
+      "status": "ok",
+      "sec": 237,
+      "danger": 55,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -40.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-17",
+        "name": "Forest of Mirrors 17: Harit Lizardman Matriarch area (south-east)",
+        "at": [
+         154792,
+         92216,
+         -3688
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-14",
+        "name": "Forest of Mirrors 14: Harit Lizardman Shaman area (south-east)",
+        "at": [
+         151336,
+         92152,
+         -3552
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-12",
+        "name": "Forest of Mirrors 12: Harit Lizardman Warrior area (south)",
+        "at": [
+         144760,
+         92136,
+         -3568
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forest-of-mirrors-20",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "over-breath"
+      ],
+      "from": ".hunters",
+      "length": 19139,
+      "sec": 237,
+      "via": ".hunters > Hunters -> Entrance to the Forest of Mirrors",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Entrance to the Forest of Mirrors",
+        "link": "forest of mirrors",
+        "price": 2000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4417,
+        "how": "field-areas-gap",
+        "danger": 51
+       },
+       {
+        "do": "walk",
+        "len": 14722,
+        "how": "field-areas",
+        "danger": 55
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Entrance to the Forest of Mirrors"
+      },
+      "simple": true,
+      "pv": [
+       [
+        142065,
+        81300,
+        -3000
+       ],
+       [
+        146360,
+        81224,
+        -3776
+       ],
+       [
+        147352,
+        81224,
+        -3776
+       ],
+       [
+        148344,
+        81224,
+        -3600
+       ],
+       [
+        149336,
+        81224,
+        -3536
+       ],
+       [
+        150328,
+        81224,
+        -3480
+       ],
+       [
+        150984,
+        80840,
+        -3480
+       ],
+       [
+        151048,
+        80776,
+        -3480
+       ],
+       [
+        152040,
+        80008,
+        -3544
+       ],
+       [
+        153032,
+        79016,
+        -3728
+       ],
+       [
+        154024,
+        78024,
+        -3792
+       ],
+       [
+        155016,
+        77032,
+        -3792
+       ],
+       [
+        155640,
+        76408,
+        -3768
+       ],
+       [
+        156184,
+        76280,
+        -3528
+       ],
+       [
+        157176,
+        76280,
+        -3360
+       ],
+       [
+        158168,
+        75432,
+        -3424
+       ],
+       [
+        158664,
+        74936,
+        -3424
+       ]
+      ],
+      "maxDanger": 55,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 2807,
+        "maxSwim": 2807,
+        "overBreath": true
+       },
+       "danger": 55,
+       "dangerVsLevel": 15,
+       "aggro": [
+        {
+         "name": "Harit Lizardman Matriarch",
+         "lv": 55,
+         "n": 3
+        },
+        {
+         "name": "Harit Lizardman Shaman",
+         "lv": 54,
+         "n": 2
+        },
+        {
+         "name": "Harit Lizardman Warrior",
+         "lv": 53,
+         "n": 3
+        },
+        {
+         "name": "Harit Lizardman Archer",
+         "lv": 52,
+         "n": 4
+        },
+        {
+         "name": "Harit Lizardman Grunt",
+         "lv": 51,
+         "n": 6
+        },
+        {
+         "name": "Harit Lizardman",
+         "lv": 50,
+         "n": 4
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Harit Lizardman",
+       "lv": 50
+      },
+      {
+       "name": "Harit Lizardman",
+       "lv": 50
+      },
+      {
+       "name": "Harit Lizardman",
+       "lv": 50
+      },
+      {
+       "name": "Harit Lizardman Grunt",
+       "lv": 51
+      },
+      {
+       "name": "Harit Lizardman Archer",
+       "lv": 52
+      },
+      {
+       "name": "Harit Lizardman Archer",
+       "lv": 52
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "sel-mahum-training-grounds-west-gate-1",
+    "name": "Sel Mahum Training Grounds (West Gate) 1: Timak Orc Troop Leader area (west)",
+    "at": [
+     72392,
+     62552,
+     -3352
+    ],
+    "radius": 4937,
+    "levels": [
+     42,
+     45
+    ],
+    "count": 4,
+    "region": "Sel Mahum Training Grounds (West Gate)",
+    "atlasKey": "area:sel-mahum-training-grounds-west-gate-1",
+    "status": "ok",
+    "sec": 86,
+    "danger": 45,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -22.566666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "seal-of-shilen-15",
+      "name": "Seal of Shilen 15: Tortured Undead area (west)",
+      "at": [
+       173096,
+       21128,
+       -3248
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "aden-outskirts-13",
+      "name": "Aden outskirts 13: Hatar Ratman Boss area (north-east)",
+      "at": [
+       160008,
+       11976,
+       -3912
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "sel-mahum-training-grounds-west-gate-5",
+      "name": "Sel Mahum Training Grounds (West Gate) 5: Timak Orc Warrior area (north-west)",
+      "at": [
+       69224,
+       55912,
+       -3592
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:sel-mahum-training-grounds-west-gate-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 4929,
+    "sec": 86,
+    "via": ".oren > Oren -> Sel Mahum Training Grounds (West Gate)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Sel Mahum Training Grounds (West Gate)",
+      "link": "sel mahum training grounds (west gate)",
+      "price": 2400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4929,
+      "how": "field-areas",
+      "danger": 45
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Sel Mahum Training Grounds (West Gate)"
+    },
+    "simple": true,
+    "pv": [
+     [
+      76840,
+      63848,
+      -3656
+     ],
+     [
+      75848,
+      63848,
+      -3704
+     ],
+     [
+      74856,
+      63832,
+      -3640
+     ],
+     [
+      73864,
+      63832,
+      -3544
+     ],
+     [
+      72872,
+      63032,
+      -3464
+     ],
+     [
+      72392,
+      62552,
+      -3352
+     ]
+    ],
+    "maxDanger": 45,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 45,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 511,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "override": {
+    "note": "Monsters 20279,20280,20276,20284,20960,20954,21522,21540,20957,21658 have no spawn: removed from the drop / kill lists of quests/336.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; 21522 Claws of Splendor comes from ai/group_template/PolymorphingOnAttack.java (attacking 21521); the others are spawned by nothing in the datapack. Every coin also drops from spawned monsters of the same drop group (same-name ids 20235/20146/20240/20245/21521/21539/21531)",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.986Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30232",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30232,
+    "name": "Sorint",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115271,
+     76705,
+     -2650
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorint",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30232@115271,76705",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2110,
+    "sec": 38,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2110,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76792,
+      -2648
+     ],
+     [
+      115336,
+      76680,
+      -2648
+     ],
+     [
+      115272,
+      76712,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30702",
+   "cond": 1,
+   "kind": "talk",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30702,
+    "name": "Bernard",
+    "title": "Guild President",
+    "town": "Hunters Village",
+    "at": [
+     117598,
+     77264,
+     -2585
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bernard",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30702@117598,77264",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2427,
+    "sec": 40,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2427,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116584,
+      76168,
+      -2728
+     ],
+     [
+      116776,
+      76360,
+      -2728
+     ],
+     [
+      116984,
+      76408,
+      -2728
+     ],
+     [
+      117256,
+      76408,
+      -2704
+     ],
+     [
+      117528,
+      76424,
+      -2688
+     ],
+     [
+      117752,
+      76584,
+      -2624
+     ],
+     [
+      117976,
+      76712,
+      -2592
+     ],
+     [
+      117832,
+      76792,
+      -2584
+     ],
+     [
+      117816,
+      76792,
+      -2584
+     ],
+     [
+      117656,
+      77000,
+      -2584
+     ],
+     [
+      117592,
+      77224,
+      -2584
+     ],
+     [
+      117592,
+      77272,
+      -2584
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 65,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "note": "Monsters 20279,20280,20276,20284,20960,20954,21522,21540,20957,21658 have no spawn: removed from the drop / kill lists of quests/336.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; 21522 Claws of Splendor comes from ai/group_template/PolymorphingOnAttack.java (attacking 21521); the others are spawned by nothing in the datapack. Every coin also drops from spawned monsters of the same drop group (same-name ids 20235/20146/20240/20245/21521/21539/21531)",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.986Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T09:55:32.986Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ }
+}

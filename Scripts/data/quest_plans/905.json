@@ -1,0 +1,1282 @@
+{
+ "id": 905,
+ "name": "Refined Dragon Blood",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.306Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 83,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 9,
+ "refLevel": 83,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32864",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will collect them.\""
+   ],
+   "npc": {
+    "id": 32864,
+    "name": "Separated Soul",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117168,
+     76834,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32864@117168,76834",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1038,
+    "sec": 29,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1038,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116648,
+      76232,
+      -2728
+     ],
+     [
+      116824,
+      76424,
+      -2728
+     ],
+     [
+      116984,
+      76648,
+      -2720
+     ],
+     [
+      117176,
+      76840,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 59,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22844,
+     "name": "Dragon Knight",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 22852,
+     "name": "Dragon Guard",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 22853,
+     "name": "Dragon Mage",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 22848,
+     "name": "Drake Leader",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 22849,
+     "name": "Drake Warrior",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 22850,
+     "name": "Drake Scout",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22851,
+     "name": "Drake Mage",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21913,
+     "name": "Strange Red Liquid",
+     "n": 10,
+     "from": [
+      {
+       "id": 22848,
+       "name": "Drake Leader",
+       "chance": 100
+      },
+      {
+       "id": 22849,
+       "name": "Drake Warrior",
+       "chance": 100
+      },
+      {
+       "id": 22850,
+       "name": "Drake Scout",
+       "chance": 100
+      },
+      {
+       "id": 22851,
+       "name": "Drake Mage",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 21914,
+     "name": "Strange Blue Liquid",
+     "n": 10,
+     "from": [
+      {
+       "id": 22844,
+       "name": "Dragon Knight",
+       "chance": 100
+      },
+      {
+       "id": 22852,
+       "name": "Dragon Guard",
+       "chance": 100
+      },
+      {
+       "id": 22853,
+       "name": "Dragon Mage",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Dragon Knight, Dragon Guard, Dragon Mage for Strange Red Liquid x10, Strange Blue Liquid x10",
+   "places": [
+    {
+     "mobs": [
+      22848,
+      22849,
+      22850,
+      22851
+     ],
+     "items": [
+      21913
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antharas-1-straight-g",
+      "name": "Antharas' Lair: Main lair, straight: Drake Warrior room",
+      "at": [
+       146538,
+       112709,
+       -3725
+      ],
+      "radius": 824,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 71,
+      "region": "Antharas' Lair",
+      "atlasKey": "room:antharas-1-straight-g",
+      "status": "ok",
+      "sec": 177,
+      "danger": 85,
+      "reachable": true,
+      "score": -177.05,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antharas-1-straight-m",
+        "name": "Antharas' Lair: Main lair, straight: Maluk Warlord room",
+        "at": [
+         152760,
+         119216,
+         -3784
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antharas-2-left-a",
+        "name": "Antharas' Lair: Lower dens, left: Bloody Karik room",
+        "at": [
+         149001,
+         120671,
+         -4864
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antharas-1-straight-n",
+        "name": "Antharas' Lair: Main lair, straight: Maluk Warlord room",
+        "at": [
+         152138,
+         120823,
+         -3808
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antharas-1-straight-g",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 15841,
+      "sec": 177,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 15841,
+        "how": "dungeon-rooms",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        132552,
+        114504,
+        -3712
+       ],
+       [
+        133544,
+        114568,
+        -3720
+       ],
+       [
+        134536,
+        114600,
+        -3720
+       ],
+       [
+        135528,
+        114600,
+        -3720
+       ],
+       [
+        135976,
+        114904,
+        -3720
+       ],
+       [
+        136024,
+        114904,
+        -3720
+       ],
+       [
+        136216,
+        114808,
+        -3720
+       ],
+       [
+        137208,
+        114328,
+        -3720
+       ],
+       [
+        138200,
+        114328,
+        -3720
+       ],
+       [
+        139192,
+        114328,
+        -3720
+       ],
+       [
+        140184,
+        114328,
+        -3720
+       ],
+       [
+        140664,
+        114328,
+        -3720
+       ],
+       [
+        141656,
+        114264,
+        -3720
+       ],
+       [
+        141880,
+        114264,
+        -3720
+       ],
+       [
+        142632,
+        113928,
+        -3720
+       ],
+       [
+        143288,
+        113992,
+        -3720
+       ],
+       [
+        143416,
+        114120,
+        -3720
+       ],
+       [
+        143464,
+        114136,
+        -3720
+       ],
+       [
+        144056,
+        114184,
+        -3720
+       ],
+       [
+        144776,
+        113928,
+        -3720
+       ],
+       [
+        144840,
+        113912,
+        -3720
+       ],
+       [
+        144936,
+        113832,
+        -3720
+       ],
+       [
+        145928,
+        112840,
+        -3720
+       ],
+       [
+        146536,
+        112712,
+        -3720
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 85,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      22844,
+      22852,
+      22853
+     ],
+     "items": [
+      21914
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antharas-2-left-b",
+      "name": "Antharas' Lair: Lower dens, left: Dragon Guard room",
+      "at": [
+       151819,
+       117431,
+       -5242
+      ],
+      "radius": 754,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 20,
+      "region": "Antharas' Lair",
+      "atlasKey": "room:antharas-2-left-b",
+      "status": "ok",
+      "sec": 633,
+      "danger": 85,
+      "reachable": true,
+      "score": -109.45,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antharas-2-left-a",
+        "name": "Antharas' Lair: Lower dens, left: Bloody Karik room",
+        "at": [
+         149001,
+         120671,
+         -4864
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antharas-2-left-h",
+        "name": "Antharas' Lair: Lower dens, left: Dragon Guard room",
+        "at": [
+         152120,
+         113800,
+         -5520
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antharas-1-straight-j",
+        "name": "Antharas' Lair: Main lair, straight: Dragon Guard room",
+        "at": [
+         146603,
+         118115,
+         -3926
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antharas-2-left-b",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".hunters",
+      "length": 70616,
+      "sec": 633,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 21500,
+        "how": "geodata",
+        "danger": 85
+       },
+       {
+        "do": "walk",
+        "len": 20993,
+        "how": "geodata",
+        "danger": 85
+       },
+       {
+        "do": "walk",
+        "len": 28123,
+        "how": "dungeon-rooms",
+        "danger": 86
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        133400,
+        114664,
+        -3720
+       ],
+       [
+        135144,
+        114728,
+        -3720
+       ],
+       [
+        136560,
+        115064,
+        -3672
+       ],
+       [
+        137432,
+        114616,
+        -3720
+       ],
+       [
+        139224,
+        114616,
+        -3720
+       ],
+       [
+        139544,
+        114552,
+        -3720
+       ],
+       [
+        140416,
+        115768,
+        -3796
+       ],
+       [
+        140504,
+        117272,
+        -3912
+       ],
+       [
+        141496,
+        117832,
+        -3912
+       ],
+       [
+        142200,
+        117672,
+        -3912
+       ],
+       [
+        142472,
+        117800,
+        -3912
+       ],
+       [
+        142760,
+        118840,
+        -3912
+       ],
+       [
+        142904,
+        119752,
+        -3912
+       ],
+       [
+        143272,
+        119896,
+        -3912
+       ],
+       [
+        143976,
+        119576,
+        -3912
+       ],
+       [
+        145064,
+        118504,
+        -3912
+       ],
+       [
+        145752,
+        117976,
+        -3880
+       ],
+       [
+        146832,
+        118664,
+        -4084
+       ],
+       [
+        146808,
+        118632,
+        -4056
+       ],
+       [
+        145560,
+        117976,
+        -3904
+       ],
+       [
+        144072,
+        119496,
+        -3912
+       ],
+       [
+        143368,
+        119880,
+        -3912
+       ],
+       [
+        142952,
+        119784,
+        -3912
+       ],
+       [
+        141864,
+        118712,
+        -3896
+       ],
+       [
+        141448,
+        118888,
+        -3912
+       ],
+       [
+        140784,
+        118328,
+        -3912
+       ],
+       [
+        140376,
+        115848,
+        -3792
+       ],
+       [
+        139920,
+        114888,
+        -3720
+       ],
+       [
+        137512,
+        114504,
+        -3720
+       ],
+       [
+        136200,
+        114776,
+        -3696
+       ],
+       [
+        135672,
+        114504,
+        -3720
+       ],
+       [
+        132696,
+        114504,
+        -3704
+       ],
+       [
+        132488,
+        114584,
+        -3720
+       ],
+       [
+        134888,
+        114648,
+        -3720
+       ],
+       [
+        136872,
+        114872,
+        -3704
+       ],
+       [
+        137432,
+        114616,
+        -3720
+       ],
+       [
+        139496,
+        114520,
+        -3720
+       ],
+       [
+        140488,
+        115560,
+        -3728
+       ],
+       [
+        141016,
+        118264,
+        -3912
+       ],
+       [
+        141240,
+        118856,
+        -3912
+       ],
+       [
+        142904,
+        119752,
+        -3912
+       ],
+       [
+        143272,
+        119896,
+        -3912
+       ],
+       [
+        144072,
+        119496,
+        -3912
+       ],
+       [
+        146296,
+        117992,
+        -3888
+       ],
+       [
+        147160,
+        119240,
+        -4264
+       ],
+       [
+        147464,
+        120776,
+        -4736
+       ],
+       [
+        147752,
+        120920,
+        -4784
+       ],
+       [
+        148952,
+        119880,
+        -4864
+       ],
+       [
+        151816,
+        117432,
+        -5240
+       ]
+      ],
+      "maxDanger": 86,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 86,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "antharas-1-straight-g",
+    "name": "Antharas' Lair: Main lair, straight: Drake Warrior room",
+    "at": [
+     146538,
+     112709,
+     -3725
+    ],
+    "radius": 824,
+    "levels": [
+     85,
+     85
+    ],
+    "count": 71,
+    "region": "Antharas' Lair",
+    "atlasKey": "room:antharas-1-straight-g",
+    "status": "ok",
+    "sec": 177,
+    "danger": 85,
+    "reachable": true,
+    "score": -177.05,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "antharas-1-straight-m",
+      "name": "Antharas' Lair: Main lair, straight: Maluk Warlord room",
+      "at": [
+       152760,
+       119216,
+       -3784
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antharas-2-left-a",
+      "name": "Antharas' Lair: Lower dens, left: Bloody Karik room",
+      "at": [
+       149001,
+       120671,
+       -4864
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antharas-1-straight-n",
+      "name": "Antharas' Lair: Main lair, straight: Maluk Warlord room",
+      "at": [
+       152138,
+       120823,
+       -3808
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:antharas-1-straight-g",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 15841,
+    "sec": 177,
+    "via": ".hunters > Hunters -> Antharas Lair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Antharas Lair",
+      "link": "antharas lair",
+      "price": 7000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 15841,
+      "how": "dungeon-rooms",
+      "danger": 85
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Antharas Lair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      131557,
+      114509,
+      -3712
+     ],
+     [
+      132552,
+      114504,
+      -3712
+     ],
+     [
+      133544,
+      114568,
+      -3720
+     ],
+     [
+      134536,
+      114600,
+      -3720
+     ],
+     [
+      135528,
+      114600,
+      -3720
+     ],
+     [
+      135976,
+      114904,
+      -3720
+     ],
+     [
+      136024,
+      114904,
+      -3720
+     ],
+     [
+      136216,
+      114808,
+      -3720
+     ],
+     [
+      137208,
+      114328,
+      -3720
+     ],
+     [
+      138200,
+      114328,
+      -3720
+     ],
+     [
+      139192,
+      114328,
+      -3720
+     ],
+     [
+      140184,
+      114328,
+      -3720
+     ],
+     [
+      140664,
+      114328,
+      -3720
+     ],
+     [
+      141656,
+      114264,
+      -3720
+     ],
+     [
+      141880,
+      114264,
+      -3720
+     ],
+     [
+      142632,
+      113928,
+      -3720
+     ],
+     [
+      143288,
+      113992,
+      -3720
+     ],
+     [
+      143416,
+      114120,
+      -3720
+     ],
+     [
+      143464,
+      114136,
+      -3720
+     ],
+     [
+      144056,
+      114184,
+      -3720
+     ],
+     [
+      144776,
+      113928,
+      -3720
+     ],
+     [
+      144840,
+      113912,
+      -3720
+     ],
+     [
+      144936,
+      113832,
+      -3720
+     ],
+     [
+      145928,
+      112840,
+      -3720
+     ],
+     [
+      146536,
+      112712,
+      -3720
+     ]
+    ],
+    "maxDanger": 85,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 85,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 427,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:32864",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Just give me the Refined Red Dragon Blood.\""
+   ],
+   "npc": {
+    "id": 32864,
+    "name": "Separated Soul",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117168,
+     76834,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Bring Strange Red Liquid x10, Strange Blue Liquid x10 to Separated Soul",
+   "needs": [
+    {
+     "id": 21913,
+     "name": "Strange Red Liquid",
+     "n": 10
+    },
+    {
+     "id": 21914,
+     "name": "Strange Blue Liquid",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32864@117168,76834",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1038,
+    "sec": 29,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1038,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116648,
+      76232,
+      -2728
+     ],
+     [
+      116824,
+      76424,
+      -2728
+     ],
+     [
+      116984,
+      76648,
+      -2720
+     ],
+     [
+      117176,
+      76840,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 54,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:38.330Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial",
+   "route-detour"
+  ]
+ }
+}

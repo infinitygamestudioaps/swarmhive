@@ -1,0 +1,963 @@
+{
+ "id": 385,
+ "name": "Yoke of the Past",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.947Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 20,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: npc-no-spawn, route-status"
+  },
+  {
+   "code": "dryrun:npc-no-spawn",
+   "text": "cond 1: engine talks to  — no spawn"
+  },
+  {
+   "code": "dryrun:route-status",
+   "text": "step 2 (c1:hunt): route room:sacrifice-1-straight-d status conditional"
+  }
+ ],
+ "expectedMin": 30,
+ "refLevel": 20,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31095",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it.\""
+   ],
+   "npc": {
+    "id": 31095,
+    "name": "Gatekeeper Ziggurat",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -41568,
+     209344,
+     -5085
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat / Gatekeeper Ziggurat – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31095@-41568,209344",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 705,
+    "sec": 51,
+    "via": ".gludio > Gludio -> Necropolis of Sacrifice",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Necropolis of Sacrifice",
+      "link": "necropolis of sacrifice",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 705,
+      "how": "geodata",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Necropolis of Sacrifice"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41641,
+      208652,
+      -5088
+     ],
+     [
+      -41560,
+      209352,
+      -5080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21144,
+     "name": "Catacomb Shadow",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 50,
+     "questSpawned": false
+    },
+    {
+     "id": 21156,
+     "name": "Purgatory Shadow",
+     "level": 61,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 21208,
+     "name": "Hallowed Watchman",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21209,
+     "name": "Hallowed Seer",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21210,
+     "name": "Vault Guardian",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21226,
+     "name": "Sepulcher Guardian",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 21211,
+     "name": "Vault Seer",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21213,
+     "name": "Hallowed Monk",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 21237,
+     "name": "Barrow Monk",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21214,
+     "name": "Vault Sentinel",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 21238,
+     "name": "Grave Sentinel",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21215,
+     "name": "Vault Monk",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 21239,
+     "name": "Grave Monk",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21217,
+     "name": "Hallowed Priest",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21241,
+     "name": "Barrow Priest",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21218,
+     "name": "Vault Overlord",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21242,
+     "name": "Grave Overlord",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21219,
+     "name": "Vault Priest",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21243,
+     "name": "Grave Priest",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21221,
+     "name": "Sepulcher Inquisitor",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21251,
+     "name": "Tomb Sage",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21222,
+     "name": "Sepulcher Archon",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21246,
+     "name": "Tomb Archon",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21223,
+     "name": "Sepulcher Inquisitor",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21247,
+     "name": "Tomb Inquisitor",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21224,
+     "name": "Sepulcher Guardian",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21248,
+     "name": "Crypt Guardian",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21225,
+     "name": "Sepulcher Sage",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21249,
+     "name": "Crypt Sage",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 21227,
+     "name": "Sepulcher Sage",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21228,
+     "name": "Sepulcher Guard",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 21229,
+     "name": "Sepulcher Preacher",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21230,
+     "name": "Sepulcher Guard",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 21231,
+     "name": "Sepulcher Preacher",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 21236,
+     "name": "Barrow Sentinel",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21240,
+     "name": "Barrow Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21244,
+     "name": "Crypt Archon",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21245,
+     "name": "Crypt Inquisitor",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21250,
+     "name": "Tomb Guardian",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21252,
+     "name": "Crypt Guard",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21253,
+     "name": "Crypt Preacher",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21254,
+     "name": "Tomb Guard",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 21255,
+     "name": "Tomb Preacher",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5902,
+     "name": "Scroll of Ancient Magic",
+     "n": 20,
+     "from": [
+      {
+       "id": 21144,
+       "name": "Catacomb Shadow",
+       "chance": 30.6
+      },
+      {
+       "id": 21156,
+       "name": "Purgatory Shadow",
+       "chance": 99.4
+      },
+      {
+       "id": 21208,
+       "name": "Hallowed Watchman",
+       "chance": 14.6
+      },
+      {
+       "id": 21209,
+       "name": "Hallowed Seer",
+       "chance": 16.6
+      },
+      {
+       "id": 21210,
+       "name": "Vault Guardian",
+       "chance": 20.2
+      },
+      {
+       "id": 21226,
+       "name": "Sepulcher Guardian",
+       "chance": 20.2
+      },
+      {
+       "id": 21211,
+       "name": "Vault Seer",
+       "chance": 21.2
+      },
+      {
+       "id": 21213,
+       "name": "Hallowed Monk",
+       "chance": 27.4
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Catacomb Shadow, Purgatory Shadow, Hallowed Watchman for Scroll of Ancient Magic x20",
+   "places": [
+    {
+     "mobs": [
+      21144,
+      21156,
+      21208,
+      21209,
+      21210,
+      21226,
+      21211,
+      21213
+     ],
+     "items": [
+      5902
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "sacrifice-1-straight-d",
+      "name": "Necropolis of Sacrifice: Inside, straight: Lith Scout room",
+      "at": [
+       -42936,
+       210984,
+       -5080
+      ],
+      "radius": 836,
+      "levels": [
+       20,
+       22
+      ],
+      "count": 6,
+      "region": "Necropolis of Sacrifice",
+      "atlasKey": "room:sacrifice-1-straight-d",
+      "status": "conditional",
+      "sec": 86,
+      "danger": 22,
+      "reachable": true,
+      "score": 15.433333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "sacrifice-1-straight-c",
+        "name": "Necropolis of Sacrifice: Inside, straight: Lith Scout room",
+        "at": [
+         -44424,
+         210984,
+         -5080
+        ],
+        "count": 6,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "sacrifice-1-left-a",
+        "name": "Necropolis of Sacrifice: Inside, left: Lith Witch room",
+        "at": [
+         -43608,
+         218536,
+         -5080
+        ],
+        "count": 6,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "sacrifice-1-left-b",
+        "name": "Necropolis of Sacrifice: Inside, left: Lith Scout room",
+        "at": [
+         -41704,
+         213496,
+         -5080
+        ],
+        "count": 4,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:sacrifice-1-straight-d",
+      "status": "conditional",
+      "flags": [
+       "conditions"
+      ],
+      "from": ".gludio",
+      "length": 3089,
+      "sec": 86,
+      "via": ".gludio > Gludio -> Necropolis of Sacrifice > enter Gatekeeper Ziggurat",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Necropolis of Sacrifice",
+        "link": "necropolis of sacrifice",
+        "price": 5000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 705,
+        "how": "geodata",
+        "danger": 22
+       },
+       {
+        "do": "enter",
+        "how": "ziggurat",
+        "npc": "Gatekeeper Ziggurat",
+        "link": "Teleport"
+       },
+       {
+        "do": "walk",
+        "len": 2384,
+        "how": "dungeon-rooms",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Necropolis of Sacrifice"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -41641,
+        208652,
+        -5088
+       ],
+       [
+        -41560,
+        209352,
+        -5080
+       ],
+       [
+        -41640,
+        210568,
+        -5080
+       ],
+       [
+        -41672,
+        210872,
+        -5080
+       ],
+       [
+        -41880,
+        210984,
+        -5080
+       ],
+       [
+        -42872,
+        210984,
+        -5080
+       ],
+       [
+        -42936,
+        210984,
+        -5080
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [
+       "necropolis"
+      ],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "sacrifice-1-straight-d",
+    "name": "Necropolis of Sacrifice: Inside, straight: Lith Scout room",
+    "at": [
+     -42936,
+     210984,
+     -5080
+    ],
+    "radius": 836,
+    "levels": [
+     20,
+     22
+    ],
+    "count": 6,
+    "region": "Necropolis of Sacrifice",
+    "atlasKey": "room:sacrifice-1-straight-d",
+    "status": "conditional",
+    "sec": 86,
+    "danger": 22,
+    "reachable": true,
+    "score": 15.433333333333334,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "sacrifice-1-straight-c",
+      "name": "Necropolis of Sacrifice: Inside, straight: Lith Scout room",
+      "at": [
+       -44424,
+       210984,
+       -5080
+      ],
+      "count": 6,
+      "status": "conditional"
+     },
+     {
+      "kind": "room",
+      "id": "sacrifice-1-left-a",
+      "name": "Necropolis of Sacrifice: Inside, left: Lith Witch room",
+      "at": [
+       -43608,
+       218536,
+       -5080
+      ],
+      "count": 6,
+      "status": "conditional"
+     },
+     {
+      "kind": "room",
+      "id": "sacrifice-1-left-b",
+      "name": "Necropolis of Sacrifice: Inside, left: Lith Scout room",
+      "at": [
+       -41704,
+       213496,
+       -5080
+      ],
+      "count": 4,
+      "status": "conditional"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:sacrifice-1-straight-d",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 3089,
+    "sec": 86,
+    "via": ".gludio > Gludio -> Necropolis of Sacrifice > enter Gatekeeper Ziggurat",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Necropolis of Sacrifice",
+      "link": "necropolis of sacrifice",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 705,
+      "how": "geodata",
+      "danger": 22
+     },
+     {
+      "do": "enter",
+      "how": "ziggurat",
+      "npc": "Gatekeeper Ziggurat",
+      "link": "Teleport"
+     },
+     {
+      "do": "walk",
+      "len": 2384,
+      "how": "dungeon-rooms",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Necropolis of Sacrifice"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -41641,
+      208652,
+      -5088
+     ],
+     [
+      -41560,
+      209352,
+      -5080
+     ],
+     [
+      -41640,
+      210568,
+      -5080
+     ],
+     [
+      -41672,
+      210872,
+      -5080
+     ],
+     [
+      -41880,
+      210984,
+      -5080
+     ],
+     [
+      -42872,
+      210984,
+      -5080
+     ],
+     [
+      -42936,
+      210984,
+      -5080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [
+     "necropolis"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1736,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route enters through the Gatekeeper Ziggurat (condition necropolis = Seven Signs registration): swarm.js SEVEN SIGNS GATE (ssGateTrip: signs everyone up with the Priest of Dawn in the competition period, refuses in a closed validation period) + enterDungeon for how \"ziggurat\"",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route enters through the Gatekeeper Ziggurat (condition necropolis = Seven Signs registration): swarm.js SEVEN SIGNS GATE (ssGateTrip: signs everyone up with the Priest of Dawn in the competition period, refuses in a closed validation period) + enterDungeon for how \"ziggurat\"",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:38.959Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "npc-no-spawn",
+    "t": "cond 1: engine talks to  — no spawn"
+   },
+   {
+    "code": "route-status",
+    "t": "step 2 (c1:hunt): route room:sacrifice-1-straight-d status conditional"
+   }
+  ],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

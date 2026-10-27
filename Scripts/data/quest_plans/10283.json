@@ -1,0 +1,1089 @@
+{
+ "id": 10283,
+ "name": "Request of Ice Merchant",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.456Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Schuttgart",
+ "requirements": {
+  "quests": [
+   {
+    "id": 115,
+    "name": "Q00115_TheOtherSideOfTruth",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "115 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: npc-no-spawn"
+  },
+  {
+   "code": "dryrun:npc-no-spawn",
+   "text": "step 4 (c3:talk:32760): Jinia 32760 has no spawn at 104476,-107535,-3688"
+  }
+ ],
+ "expectedMin": 9,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32020",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Ask about that information.",
+    "\"I swear I will not betray you!\""
+   ],
+   "npc": {
+    "id": 32020,
+    "name": "Rafforty",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     113808,
+     -109344,
+     -846
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rafforty – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32020@113808,-109344",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 590,
+    "sec": 50,
+    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Iceman's Hut",
+      "link": "iceman hut",
+      "price": 3500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 590,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Iceman's Hut"
+    },
+    "simple": true,
+    "pv": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113816,
+      -109336,
+      -840
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32020",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Continue listening.",
+    "Ask what that secret is.",
+    "Say you will."
+   ],
+   "npc": {
+    "id": 32020,
+    "name": "Rafforty",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     113808,
+     -109344,
+     -846
+    ],
+    "alt": []
+   },
+   "text": "Listen to Rafforty",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32020@113808,-109344",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 590,
+    "sec": 50,
+    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Iceman's Hut",
+      "link": "iceman hut",
+      "price": 3500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 590,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Iceman's Hut"
+    },
+    "simple": true,
+    "pv": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113816,
+      -109336,
+      -840
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32022",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Look around."
+   ],
+   "npc": {
+    "id": 32022,
+    "name": "Kier",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     104512,
+     -107648,
+     -3688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kier and look around",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "room:frozen-1-left-g",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 13783,
+    "sec": 160,
+    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Iceman's Hut",
+      "link": "iceman hut",
+      "price": 3500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 12096,
+      "how": "dungeon-rooms",
+      "danger": 56
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Iceman's Hut"
+    },
+    "simple": true,
+    "pv": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113320,
+      -108600,
+      -864
+     ],
+     [
+      112472,
+      -107928,
+      -872
+     ],
+     [
+      111496,
+      -107176,
+      -1296
+     ],
+     [
+      110760,
+      -106360,
+      -1720
+     ],
+     [
+      110728,
+      -106344,
+      -1720
+     ],
+     [
+      110696,
+      -106312,
+      -1752
+     ],
+     [
+      110696,
+      -106264,
+      -1792
+     ],
+     [
+      109704,
+      -105272,
+      -2424
+     ],
+     [
+      109384,
+      -104280,
+      -2864
+     ],
+     [
+      109384,
+      -103512,
+      -3088
+     ],
+     [
+      109352,
+      -103464,
+      -3104
+     ],
+     [
+      109080,
+      -103320,
+      -3128
+     ],
+     [
+      109000,
+      -103304,
+      -3120
+     ],
+     [
+      108728,
+      -103288,
+      -3080
+     ],
+     [
+      108504,
+      -103480,
+      -3080
+     ],
+     [
+      108424,
+      -103560,
+      -3064
+     ],
+     [
+      108248,
+      -103560,
+      -3248
+     ],
+     [
+      107992,
+      -103688,
+      -3408
+     ],
+     [
+      107912,
+      -103768,
+      -3432
+     ],
+     [
+      107800,
+      -103768,
+      -3536
+     ],
+     [
+      107480,
+      -103944,
+      -3576
+     ],
+     [
+      107272,
+      -104152,
+      -3488
+     ],
+     [
+      107160,
+      -104152,
+      -3600
+     ],
+     [
+      106168,
+      -104536,
+      -3680
+     ],
+     [
+      105176,
+      -104536,
+      -3680
+     ],
+     [
+      105080,
+      -104536,
+      -3680
+     ],
+     [
+      103736,
+      -106216,
+      -3656
+     ],
+     [
+      103752,
+      -106568,
+      -3688
+     ],
+     [
+      104520,
+      -107560,
+      -3688
+     ],
+     [
+      104520,
+      -107640,
+      -3688
+     ]
+    ],
+    "maxDanger": 56,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 56,
+     "dangerVsLevel": -26,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "room:frozen-1-left-g",
+     "name": "Frozen Labyrinth (open area by the Ice Merchant Cabin): Frost lake + labyrinth, left: Panthera room"
+    },
+    "points": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113320,
+      -108600,
+      -864
+     ],
+     [
+      112472,
+      -107928,
+      -872
+     ],
+     [
+      111496,
+      -107176,
+      -1296
+     ],
+     [
+      110760,
+      -106360,
+      -1720
+     ],
+     [
+      110728,
+      -106344,
+      -1720
+     ],
+     [
+      110696,
+      -106312,
+      -1752
+     ],
+     [
+      110696,
+      -106264,
+      -1792
+     ],
+     [
+      109704,
+      -105272,
+      -2424
+     ],
+     [
+      109384,
+      -104280,
+      -2864
+     ],
+     [
+      109384,
+      -103512,
+      -3088
+     ],
+     [
+      109352,
+      -103464,
+      -3104
+     ],
+     [
+      109080,
+      -103320,
+      -3128
+     ],
+     [
+      109000,
+      -103304,
+      -3120
+     ],
+     [
+      108728,
+      -103288,
+      -3080
+     ],
+     [
+      108504,
+      -103480,
+      -3080
+     ],
+     [
+      108424,
+      -103560,
+      -3064
+     ],
+     [
+      108248,
+      -103560,
+      -3248
+     ],
+     [
+      107992,
+      -103688,
+      -3408
+     ],
+     [
+      107912,
+      -103768,
+      -3432
+     ],
+     [
+      107800,
+      -103768,
+      -3536
+     ],
+     [
+      107480,
+      -103944,
+      -3576
+     ],
+     [
+      107272,
+      -104152,
+      -3488
+     ],
+     [
+      107160,
+      -104152,
+      -3600
+     ],
+     [
+      106168,
+      -104536,
+      -3680
+     ],
+     [
+      105176,
+      -104536,
+      -3680
+     ],
+     [
+      105080,
+      -104536,
+      -3680
+     ],
+     [
+      103736,
+      -106216,
+      -3656
+     ],
+     [
+      103752,
+      -106568,
+      -3688
+     ],
+     [
+      104520,
+      -107560,
+      -3688
+     ],
+     [
+      104520,
+      -107640,
+      -3688
+     ]
+    ]
+   },
+   "expectedSec": 185,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32760",
+   "cond": 3,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I apologize. You have nothing to fear.\"",
+    "\"Rafforty sent me here\"",
+    "\"I'm telling the truth. Rafforty sent me to look for clues about the Divine Sword.\""
+   ],
+   "npc": {
+    "id": 32760,
+    "name": "Jinia",
+    "title": "",
+    "town": "",
+    "at": [
+     104476,
+     -107535,
+     -3688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jinia (appears next to Kier for 45 s)",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "room:frozen-1-left-g",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 13648,
+    "sec": 159,
+    "via": ".schuttgart > Schuttgart -> Iceman's Hut",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Iceman's Hut",
+      "link": "iceman hut",
+      "price": 3500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 12096,
+      "how": "dungeon-rooms",
+      "danger": 56
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Iceman's Hut"
+    },
+    "simple": true,
+    "pv": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113320,
+      -108600,
+      -864
+     ],
+     [
+      112472,
+      -107928,
+      -872
+     ],
+     [
+      111496,
+      -107176,
+      -1296
+     ],
+     [
+      110760,
+      -106360,
+      -1720
+     ],
+     [
+      110728,
+      -106344,
+      -1720
+     ],
+     [
+      110696,
+      -106312,
+      -1752
+     ],
+     [
+      110696,
+      -106264,
+      -1792
+     ],
+     [
+      109704,
+      -105272,
+      -2424
+     ],
+     [
+      109384,
+      -104280,
+      -2864
+     ],
+     [
+      109384,
+      -103512,
+      -3088
+     ],
+     [
+      109352,
+      -103464,
+      -3104
+     ],
+     [
+      109080,
+      -103320,
+      -3128
+     ],
+     [
+      109000,
+      -103304,
+      -3120
+     ],
+     [
+      108728,
+      -103288,
+      -3080
+     ],
+     [
+      108504,
+      -103480,
+      -3080
+     ],
+     [
+      108424,
+      -103560,
+      -3064
+     ],
+     [
+      108248,
+      -103560,
+      -3248
+     ],
+     [
+      107992,
+      -103688,
+      -3408
+     ],
+     [
+      107912,
+      -103768,
+      -3432
+     ],
+     [
+      107800,
+      -103768,
+      -3536
+     ],
+     [
+      107480,
+      -103944,
+      -3576
+     ],
+     [
+      107272,
+      -104152,
+      -3488
+     ],
+     [
+      107160,
+      -104152,
+      -3600
+     ],
+     [
+      106168,
+      -104536,
+      -3680
+     ],
+     [
+      105176,
+      -104536,
+      -3680
+     ],
+     [
+      105080,
+      -104536,
+      -3680
+     ],
+     [
+      103736,
+      -106216,
+      -3656
+     ],
+     [
+      103752,
+      -106568,
+      -3688
+     ],
+     [
+      104472,
+      -107528,
+      -3688
+     ]
+    ],
+    "maxDanger": 56,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 56,
+     "dangerVsLevel": -26,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "room:frozen-1-left-g",
+     "name": "Frozen Labyrinth (open area by the Ice Merchant Cabin): Frost lake + labyrinth, left: Panthera room"
+    },
+    "points": [
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113903,
+      -108752,
+      -856
+     ],
+     [
+      113320,
+      -108600,
+      -864
+     ],
+     [
+      112472,
+      -107928,
+      -872
+     ],
+     [
+      111496,
+      -107176,
+      -1296
+     ],
+     [
+      110760,
+      -106360,
+      -1720
+     ],
+     [
+      110728,
+      -106344,
+      -1720
+     ],
+     [
+      110696,
+      -106312,
+      -1752
+     ],
+     [
+      110696,
+      -106264,
+      -1792
+     ],
+     [
+      109704,
+      -105272,
+      -2424
+     ],
+     [
+      109384,
+      -104280,
+      -2864
+     ],
+     [
+      109384,
+      -103512,
+      -3088
+     ],
+     [
+      109352,
+      -103464,
+      -3104
+     ],
+     [
+      109080,
+      -103320,
+      -3128
+     ],
+     [
+      109000,
+      -103304,
+      -3120
+     ],
+     [
+      108728,
+      -103288,
+      -3080
+     ],
+     [
+      108504,
+      -103480,
+      -3080
+     ],
+     [
+      108424,
+      -103560,
+      -3064
+     ],
+     [
+      108248,
+      -103560,
+      -3248
+     ],
+     [
+      107992,
+      -103688,
+      -3408
+     ],
+     [
+      107912,
+      -103768,
+      -3432
+     ],
+     [
+      107800,
+      -103768,
+      -3536
+     ],
+     [
+      107480,
+      -103944,
+      -3576
+     ],
+     [
+      107272,
+      -104152,
+      -3488
+     ],
+     [
+      107160,
+      -104152,
+      -3600
+     ],
+     [
+      106168,
+      -104536,
+      -3680
+     ],
+     [
+      105176,
+      -104536,
+      -3680
+     ],
+     [
+      105080,
+      -104536,
+      -3680
+     ],
+     [
+      103736,
+      -106216,
+      -3656
+     ],
+     [
+      103752,
+      -106568,
+      -3688
+     ],
+     [
+      104472,
+      -107528,
+      -3688
+     ]
+    ]
+   },
+   "expectedSec": 184,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:38.464Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "npc-no-spawn",
+    "t": "step 4 (c3:talk:32760): Jinia 32760 has no spawn at 104476,-107535,-3688"
+   },
+   {
+    "code": "npc-no-spawn",
+    "t": "cond 3: engine talks to 32760 — no spawn"
+   }
+  ],
+  "warns": [
+   "script-flow-far"
+  ]
+ }
+}

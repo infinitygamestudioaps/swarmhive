@@ -1,0 +1,706 @@
+{
+ "id": 654,
+ "name": "Journey to a Settlement",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.248Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 74,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {
+  "quests": [
+   {
+    "id": 119,
+    "name": "Q00119_LastImperialPrince",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "119 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 0
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 74,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31453",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll help you.\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit – accept the quest",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31453",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Unless...?\"",
+    "\"Here it is.\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 21294,
+     "name": "Canyon Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21295,
+     "name": "Canyon Antelope Slave",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8072,
+     "name": "Antelope Skin",
+     "n": 1,
+     "from": [
+      {
+       "id": 21294,
+       "name": "Canyon Antelope",
+       "chance": 84
+      },
+      {
+       "id": 21295,
+       "name": "Canyon Antelope Slave",
+       "chance": 89.3
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Canyon Antelope, Canyon Antelope Slave for Antelope Skin x1",
+   "places": [
+    {
+     "mobs": [
+      21294,
+      21295
+     ],
+     "items": [
+      8072
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "wall-of-argos-1",
+      "name": "Wall of Argos 1: Canyon Antelope area (east)",
+      "at": [
+       167544,
+       -48856,
+       -3568
+      ],
+      "radius": 2414,
+      "levels": [
+       68,
+       69
+      ],
+      "count": 6,
+      "region": "Wall of Argos",
+      "atlasKey": "area:wall-of-argos-1",
+      "status": "ok",
+      "sec": 72,
+      "danger": 69,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -34.8,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "wall-of-argos-4",
+        "name": "Wall of Argos 4: Canyon Antelope area (north-east)",
+        "at": [
+         169848,
+         -53752,
+         -3448
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wall-of-argos-7",
+        "name": "Wall of Argos 7: Canyon Antelope area (north)",
+        "at": [
+         168552,
+         -60248,
+         -3896
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wall-of-argos-11",
+        "name": "Wall of Argos 11: Canyon Antelope area (north-east)",
+        "at": [
+         173432,
+         -63272,
+         -3128
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:wall-of-argos-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 3232,
+      "sec": 72,
+      "via": ".goddard > Goddard -> Wall of Argos",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Wall of Argos",
+        "link": "wall of argos",
+        "price": 2200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3232,
+        "how": "field-areas",
+        "danger": 69
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Wall of Argos"
+      },
+      "simple": true,
+      "pv": [
+       [
+        165048,
+        -47864,
+        -3560
+       ],
+       [
+        165752,
+        -47448,
+        -3576
+       ],
+       [
+        165832,
+        -47432,
+        -3568
+       ],
+       [
+        166344,
+        -47496,
+        -3520
+       ],
+       [
+        167224,
+        -48488,
+        -3608
+       ],
+       [
+        167448,
+        -48712,
+        -3584
+       ],
+       [
+        167464,
+        -48728,
+        -3576
+       ],
+       [
+        167544,
+        -48856,
+        -3568
+       ]
+      ],
+      "maxDanger": 69,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 69,
+       "dangerVsLevel": -5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "wall-of-argos-1",
+    "name": "Wall of Argos 1: Canyon Antelope area (east)",
+    "at": [
+     167544,
+     -48856,
+     -3568
+    ],
+    "radius": 2414,
+    "levels": [
+     68,
+     69
+    ],
+    "count": 6,
+    "region": "Wall of Argos",
+    "atlasKey": "area:wall-of-argos-1",
+    "status": "ok",
+    "sec": 72,
+    "danger": 69,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -34.8,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "wall-of-argos-4",
+      "name": "Wall of Argos 4: Canyon Antelope area (north-east)",
+      "at": [
+       169848,
+       -53752,
+       -3448
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "wall-of-argos-7",
+      "name": "Wall of Argos 7: Canyon Antelope area (north)",
+      "at": [
+       168552,
+       -60248,
+       -3896
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "wall-of-argos-11",
+      "name": "Wall of Argos 11: Canyon Antelope area (north-east)",
+      "at": [
+       173432,
+       -63272,
+       -3128
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:wall-of-argos-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 3232,
+    "sec": 72,
+    "via": ".goddard > Goddard -> Wall of Argos",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3232,
+      "how": "field-areas",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": true,
+    "pv": [
+     [
+      165048,
+      -47864,
+      -3560
+     ],
+     [
+      165752,
+      -47448,
+      -3576
+     ],
+     [
+      165832,
+      -47432,
+      -3568
+     ],
+     [
+      166344,
+      -47496,
+      -3520
+     ],
+     [
+      167224,
+      -48488,
+      -3608
+     ],
+     [
+      167448,
+      -48712,
+      -3584
+     ],
+     [
+      167464,
+      -48728,
+      -3576
+     ],
+     [
+      167544,
+      -48856,
+      -3568
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 122,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

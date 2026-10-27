@@ -1,0 +1,2634 @@
+{
+ "id": 292,
+ "name": "Brigands Sweep",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.821Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 5,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {
+  "races": [
+   "DWARF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DWARF"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  }
+ ],
+ "expectedMin": 14,
+ "refLevel": 5,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30532",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you want to be a talented Dwarf."
+   ],
+   "npc": {
+    "id": 30532,
+    "name": "Spiron",
+    "title": "Golden Wheel's",
+    "town": "Dwarven Village",
+    "at": [
+     116190,
+     -178441,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Spiron – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30535@116103,-178407",
+     "name": "Filaur"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ]
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20322,
+     "name": "Goblin Brigand",
+     "level": 8,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20323,
+     "name": "Goblin Brigand Leader",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20324,
+     "name": "Goblin Brigand Lieutenant",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20327,
+     "name": "Goblin Snooper",
+     "level": 5,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20528,
+     "name": "Goblin Lord",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1483,
+     "name": "Goblin Necklace",
+     "n": 3,
+     "from": [
+      {
+       "id": 20322,
+       "name": "Goblin Brigand",
+       "chance": 100
+      },
+      {
+       "id": 20324,
+       "name": "Goblin Brigand Lieutenant",
+       "chance": 100
+      },
+      {
+       "id": 20327,
+       "name": "Goblin Snooper",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1484,
+     "name": "Goblin Pendant",
+     "n": 3,
+     "from": [
+      {
+       "id": 20323,
+       "name": "Goblin Brigand Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1485,
+     "name": "Goblin Lord Pendant",
+     "n": 3,
+     "from": [
+      {
+       "id": 20528,
+       "name": "Goblin Lord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1486,
+     "name": "Suspicious Memo",
+     "n": 3,
+     "from": [
+      {
+       "id": 20322,
+       "name": "Goblin Brigand",
+       "chance": 100
+      },
+      {
+       "id": 20323,
+       "name": "Goblin Brigand Leader",
+       "chance": 100
+      },
+      {
+       "id": 20324,
+       "name": "Goblin Brigand Lieutenant",
+       "chance": 100
+      },
+      {
+       "id": 20327,
+       "name": "Goblin Snooper",
+       "chance": 100
+      },
+      {
+       "id": 20528,
+       "name": "Goblin Lord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1487,
+     "name": "Suspicious Contract",
+     "n": 3,
+     "from": [
+      {
+       "id": 20322,
+       "name": "Goblin Brigand",
+       "chance": 100
+      },
+      {
+       "id": 20323,
+       "name": "Goblin Brigand Leader",
+       "chance": 100
+      },
+      {
+       "id": 20324,
+       "name": "Goblin Brigand Lieutenant",
+       "chance": 100
+      },
+      {
+       "id": 20327,
+       "name": "Goblin Snooper",
+       "chance": 100
+      },
+      {
+       "id": 20528,
+       "name": "Goblin Lord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Goblin Brigand, Goblin Brigand Leader, Goblin Brigand Lieutenant for Goblin Necklace x3, Goblin Pendant x3, Goblin Lord Pendant x3, Suspicious Memo x3, Suspicious Contract x3",
+   "places": [
+    {
+     "mobs": [
+      20322,
+      20324,
+      20327
+     ],
+     "items": [
+      1483
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-24",
+      "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+      "at": [
+       120728,
+       -212552,
+       -3480
+      ],
+      "radius": 5470,
+      "levels": [
+       10,
+       11
+      ],
+      "count": 7,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-24",
+      "status": "ok",
+      "sec": 244,
+      "danger": 11,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -37.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-26",
+        "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+        "at": [
+         117208,
+         -210552,
+         -3520
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-22",
+        "name": "Western Mining Zone (Central Shore) 22: Garum Werewolf area (west)",
+        "at": [
+         119800,
+         -203128,
+         -3344
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dwarven-village-outskirts-7",
+        "name": "Dwarven Village outskirts 7: Garum Werewolf area (north)",
+        "at": [
+         116152,
+         -196392,
+         -3376
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-24",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 19165,
+      "sec": 244,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14886,
+        "how": "field-areas-gap",
+        "danger": 13
+       },
+       {
+        "do": "walk",
+        "len": 4279,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136910,
+        -205082,
+        -3664
+       ],
+       [
+        123880,
+        -209672,
+        -3656
+       ],
+       [
+        122888,
+        -210408,
+        -3816
+       ],
+       [
+        121896,
+        -211400,
+        -3720
+       ],
+       [
+        121608,
+        -211688,
+        -3656
+       ],
+       [
+        121592,
+        -211704,
+        -3648
+       ],
+       [
+        121576,
+        -211720,
+        -3624
+       ],
+       [
+        120728,
+        -212552,
+        -3480
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1246,
+        "maxSwim": 1246,
+        "overBreath": false
+       },
+       "danger": 13,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Goblin Lord",
+         "lv": 13,
+         "n": 1
+        },
+        {
+         "name": "Barbed Bat",
+         "lv": 12,
+         "n": 3
+        },
+        {
+         "name": "Puma",
+         "lv": 12,
+         "n": 2
+        },
+        {
+         "name": "Magical Weaver",
+         "lv": 11,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20323
+     ],
+     "items": [
+      1484
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-10",
+      "name": "Western Mining Zone (Central Shore) 10: Goblin Brigand Leader area (south)",
+      "at": [
+       133096,
+       -195832,
+       -3584
+      ],
+      "radius": 5004,
+      "levels": [
+       14,
+       15
+      ],
+      "count": 7,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-10",
+      "status": "ok",
+      "sec": 181,
+      "danger": 15,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -30.983333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-16",
+        "name": "Western Mining Zone (Central Shore) 16: Whinstone Golem area (south-west)",
+        "at": [
+         128120,
+         -191928,
+         -3360
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-12",
+        "name": "Western Mining Zone (Central Shore) 12: Obsidian Golem area (south-west)",
+        "at": [
+         129208,
+         -195256,
+         -3560
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-1-right-b",
+        "name": "Abandoned Coal Mines: Lower pit, right: Goblin Brigand Leader room",
+        "at": [
+         136578,
+         -184125,
+         -2344
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-10",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 10461,
+      "sec": 181,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10461,
+        "how": "field-areas",
+        "danger": 15
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        136712,
+        -204568,
+        -3672
+       ],
+       [
+        136408,
+        -203640,
+        -3784
+       ],
+       [
+        136280,
+        -203416,
+        -3816
+       ],
+       [
+        135976,
+        -202664,
+        -3816
+       ],
+       [
+        135816,
+        -202248,
+        -3776
+       ],
+       [
+        135784,
+        -201400,
+        -3600
+       ],
+       [
+        135784,
+        -200408,
+        -3696
+       ],
+       [
+        135784,
+        -199416,
+        -3584
+       ],
+       [
+        135688,
+        -198760,
+        -3600
+       ],
+       [
+        134696,
+        -197768,
+        -3776
+       ],
+       [
+        134504,
+        -197576,
+        -3688
+       ],
+       [
+        133848,
+        -196584,
+        -3616
+       ],
+       [
+        133096,
+        -195832,
+        -3584
+       ]
+      ],
+      "maxDanger": 15,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 2054,
+        "maxSwim": 2054,
+        "overBreath": false
+       },
+       "danger": 15,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Obsidian Golem",
+         "lv": 15,
+         "n": 2
+        },
+        {
+         "name": "Hunter Bear",
+         "lv": 14,
+         "n": 14
+        },
+        {
+         "name": "Goblin Brigand Leader",
+         "lv": 14,
+         "n": 3
+        },
+        {
+         "name": "Whinstone Golem",
+         "lv": 14,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Whinstone Golem",
+       "lv": 14
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      },
+      {
+       "name": "Whinstone Golem",
+       "lv": 14
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20528
+     ],
+     "items": [
+      1485
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-9",
+      "name": "Western Mining Zone (Central Shore) 9: Goblin Lord area (west)",
+      "at": [
+       127288,
+       -206744,
+       -3584
+      ],
+      "radius": 4409,
+      "levels": [
+       12,
+       13
+      ],
+      "count": 6,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-9",
+      "status": "ok",
+      "sec": 168,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.2,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-4",
+        "name": "Western Mining Zone (Central Shore) 4: Barbed Bat area (south-west)",
+        "at": [
+         132424,
+         -202120,
+         -3560
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-11",
+        "name": "Western Mining Zone (Central Shore) 11: Puma area (west)",
+        "at": [
+         127464,
+         -201672,
+         -3720
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-9",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 10301,
+      "sec": 168,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10301,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        135912,
+        -205080,
+        -3816
+       ],
+       [
+        134920,
+        -205080,
+        -3680
+       ],
+       [
+        133928,
+        -205080,
+        -3696
+       ],
+       [
+        132936,
+        -205080,
+        -3560
+       ],
+       [
+        131944,
+        -205080,
+        -3496
+       ],
+       [
+        130952,
+        -205080,
+        -3488
+       ],
+       [
+        129960,
+        -205080,
+        -3632
+       ],
+       [
+        128968,
+        -205080,
+        -3640
+       ],
+       [
+        127976,
+        -206056,
+        -3656
+       ],
+       [
+        127288,
+        -206744,
+        -3584
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1004,
+        "maxSwim": 1004,
+        "overBreath": false
+       },
+       "danger": 13,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Goblin Lord",
+         "lv": 13,
+         "n": 4
+        },
+        {
+         "name": "Barbed Bat",
+         "lv": 12,
+         "n": 3
+        },
+        {
+         "name": "Puma",
+         "lv": 12,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20322,
+      20323,
+      20324,
+      20327,
+      20528
+     ],
+     "items": [
+      1486,
+      1487
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-24",
+      "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+      "at": [
+       120728,
+       -212552,
+       -3480
+      ],
+      "radius": 5470,
+      "levels": [
+       10,
+       11
+      ],
+      "count": 7,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-24",
+      "status": "ok",
+      "sec": 244,
+      "danger": 11,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -37.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-9",
+        "name": "Western Mining Zone (Central Shore) 9: Goblin Lord area (west)",
+        "at": [
+         127288,
+         -206744,
+         -3584
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-10",
+        "name": "Western Mining Zone (Central Shore) 10: Goblin Brigand Leader area (south)",
+        "at": [
+         133096,
+         -195832,
+         -3584
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-26",
+        "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+        "at": [
+         117208,
+         -210552,
+         -3520
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-24",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 19165,
+      "sec": 244,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14886,
+        "how": "field-areas-gap",
+        "danger": 13
+       },
+       {
+        "do": "walk",
+        "len": 4279,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136910,
+        -205082,
+        -3664
+       ],
+       [
+        123880,
+        -209672,
+        -3656
+       ],
+       [
+        122888,
+        -210408,
+        -3816
+       ],
+       [
+        121896,
+        -211400,
+        -3720
+       ],
+       [
+        121608,
+        -211688,
+        -3656
+       ],
+       [
+        121592,
+        -211704,
+        -3648
+       ],
+       [
+        121576,
+        -211720,
+        -3624
+       ],
+       [
+        120728,
+        -212552,
+        -3480
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1246,
+        "maxSwim": 1246,
+        "overBreath": false
+       },
+       "danger": 13,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Goblin Lord",
+         "lv": 13,
+         "n": 1
+        },
+        {
+         "name": "Barbed Bat",
+         "lv": 12,
+         "n": 3
+        },
+        {
+         "name": "Puma",
+         "lv": 12,
+         "n": 2
+        },
+        {
+         "name": "Magical Weaver",
+         "lv": 11,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "western-mining-zone-central-shore-24",
+    "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+    "at": [
+     120728,
+     -212552,
+     -3480
+    ],
+    "radius": 5470,
+    "levels": [
+     10,
+     11
+    ],
+    "count": 7,
+    "region": "Western Mining Zone (Central Shore)",
+    "atlasKey": "area:western-mining-zone-central-shore-24",
+    "status": "ok",
+    "sec": 244,
+    "danger": 11,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -37.93333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-26",
+      "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+      "at": [
+       117208,
+       -210552,
+       -3520
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-22",
+      "name": "Western Mining Zone (Central Shore) 22: Garum Werewolf area (west)",
+      "at": [
+       119800,
+       -203128,
+       -3344
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dwarven-village-outskirts-7",
+      "name": "Dwarven Village outskirts 7: Garum Werewolf area (north)",
+      "at": [
+       116152,
+       -196392,
+       -3376
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:western-mining-zone-central-shore-24",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".schuttgart",
+    "length": 19165,
+    "sec": 244,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+      "link": "western mining zone (central shore)",
+      "price": 970,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14886,
+      "how": "field-areas-gap",
+      "danger": 13
+     },
+     {
+      "do": "walk",
+      "len": 4279,
+      "how": "field-areas",
+      "danger": 13
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      136910,
+      -205082,
+      -3664
+     ],
+     [
+      123880,
+      -209672,
+      -3656
+     ],
+     [
+      122888,
+      -210408,
+      -3816
+     ],
+     [
+      121896,
+      -211400,
+      -3720
+     ],
+     [
+      121608,
+      -211688,
+      -3656
+     ],
+     [
+      121592,
+      -211704,
+      -3648
+     ],
+     [
+      121576,
+      -211720,
+      -3624
+     ],
+     [
+      120728,
+      -212552,
+      -3480
+     ]
+    ],
+    "maxDanger": 13,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1246,
+      "maxSwim": 1246,
+      "overBreath": false
+     },
+     "danger": 13,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Goblin Lord",
+       "lv": 13,
+       "n": 1
+      },
+      {
+       "name": "Barbed Bat",
+       "lv": 12,
+       "n": 3
+      },
+      {
+       "name": "Puma",
+       "lv": 12,
+       "n": 2
+      },
+      {
+       "name": "Magical Weaver",
+       "lv": 11,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 319,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20322,
+     "name": "Goblin Brigand",
+     "level": 8,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20324,
+     "name": "Goblin Brigand Lieutenant",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20327,
+     "name": "Goblin Snooper",
+     "level": 5,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20323,
+     "name": "Goblin Brigand Leader",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20528,
+     "name": "Goblin Lord",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1483,
+     "name": "Goblin Necklace",
+     "n": 3,
+     "from": [
+      {
+       "id": 20322,
+       "name": "Goblin Brigand",
+       "chance": 100
+      },
+      {
+       "id": 20324,
+       "name": "Goblin Brigand Lieutenant",
+       "chance": 100
+      },
+      {
+       "id": 20327,
+       "name": "Goblin Snooper",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1484,
+     "name": "Goblin Pendant",
+     "n": 3,
+     "from": [
+      {
+       "id": 20323,
+       "name": "Goblin Brigand Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1485,
+     "name": "Goblin Lord Pendant",
+     "n": 3,
+     "from": [
+      {
+       "id": 20528,
+       "name": "Goblin Lord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Goblin Brigand, Goblin Brigand Lieutenant, Goblin Snooper for Goblin Necklace x3, Goblin Pendant x3, Goblin Lord Pendant x3",
+   "places": [
+    {
+     "mobs": [
+      20322,
+      20324,
+      20327
+     ],
+     "items": [
+      1483
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-24",
+      "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+      "at": [
+       120728,
+       -212552,
+       -3480
+      ],
+      "radius": 5470,
+      "levels": [
+       10,
+       11
+      ],
+      "count": 7,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-24",
+      "status": "ok",
+      "sec": 244,
+      "danger": 11,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -37.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-26",
+        "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+        "at": [
+         117208,
+         -210552,
+         -3520
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-22",
+        "name": "Western Mining Zone (Central Shore) 22: Garum Werewolf area (west)",
+        "at": [
+         119800,
+         -203128,
+         -3344
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dwarven-village-outskirts-7",
+        "name": "Dwarven Village outskirts 7: Garum Werewolf area (north)",
+        "at": [
+         116152,
+         -196392,
+         -3376
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-24",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 19165,
+      "sec": 244,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14886,
+        "how": "field-areas-gap",
+        "danger": 13
+       },
+       {
+        "do": "walk",
+        "len": 4279,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136910,
+        -205082,
+        -3664
+       ],
+       [
+        123880,
+        -209672,
+        -3656
+       ],
+       [
+        122888,
+        -210408,
+        -3816
+       ],
+       [
+        121896,
+        -211400,
+        -3720
+       ],
+       [
+        121608,
+        -211688,
+        -3656
+       ],
+       [
+        121592,
+        -211704,
+        -3648
+       ],
+       [
+        121576,
+        -211720,
+        -3624
+       ],
+       [
+        120728,
+        -212552,
+        -3480
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1246,
+        "maxSwim": 1246,
+        "overBreath": false
+       },
+       "danger": 13,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Goblin Lord",
+         "lv": 13,
+         "n": 1
+        },
+        {
+         "name": "Barbed Bat",
+         "lv": 12,
+         "n": 3
+        },
+        {
+         "name": "Puma",
+         "lv": 12,
+         "n": 2
+        },
+        {
+         "name": "Magical Weaver",
+         "lv": 11,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20323
+     ],
+     "items": [
+      1484
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-10",
+      "name": "Western Mining Zone (Central Shore) 10: Goblin Brigand Leader area (south)",
+      "at": [
+       133096,
+       -195832,
+       -3584
+      ],
+      "radius": 5004,
+      "levels": [
+       14,
+       15
+      ],
+      "count": 7,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-10",
+      "status": "ok",
+      "sec": 181,
+      "danger": 15,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -30.983333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-16",
+        "name": "Western Mining Zone (Central Shore) 16: Whinstone Golem area (south-west)",
+        "at": [
+         128120,
+         -191928,
+         -3360
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-12",
+        "name": "Western Mining Zone (Central Shore) 12: Obsidian Golem area (south-west)",
+        "at": [
+         129208,
+         -195256,
+         -3560
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-1-right-b",
+        "name": "Abandoned Coal Mines: Lower pit, right: Goblin Brigand Leader room",
+        "at": [
+         136578,
+         -184125,
+         -2344
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-10",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 10461,
+      "sec": 181,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10461,
+        "how": "field-areas",
+        "danger": 15
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        136712,
+        -204568,
+        -3672
+       ],
+       [
+        136408,
+        -203640,
+        -3784
+       ],
+       [
+        136280,
+        -203416,
+        -3816
+       ],
+       [
+        135976,
+        -202664,
+        -3816
+       ],
+       [
+        135816,
+        -202248,
+        -3776
+       ],
+       [
+        135784,
+        -201400,
+        -3600
+       ],
+       [
+        135784,
+        -200408,
+        -3696
+       ],
+       [
+        135784,
+        -199416,
+        -3584
+       ],
+       [
+        135688,
+        -198760,
+        -3600
+       ],
+       [
+        134696,
+        -197768,
+        -3776
+       ],
+       [
+        134504,
+        -197576,
+        -3688
+       ],
+       [
+        133848,
+        -196584,
+        -3616
+       ],
+       [
+        133096,
+        -195832,
+        -3584
+       ]
+      ],
+      "maxDanger": 15,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 2054,
+        "maxSwim": 2054,
+        "overBreath": false
+       },
+       "danger": 15,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Obsidian Golem",
+         "lv": 15,
+         "n": 2
+        },
+        {
+         "name": "Hunter Bear",
+         "lv": 14,
+         "n": 14
+        },
+        {
+         "name": "Goblin Brigand Leader",
+         "lv": 14,
+         "n": 3
+        },
+        {
+         "name": "Whinstone Golem",
+         "lv": 14,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Whinstone Golem",
+       "lv": 14
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      },
+      {
+       "name": "Whinstone Golem",
+       "lv": 14
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      },
+      {
+       "name": "Obsidian Golem",
+       "lv": 15
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20528
+     ],
+     "items": [
+      1485
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-9",
+      "name": "Western Mining Zone (Central Shore) 9: Goblin Lord area (west)",
+      "at": [
+       127288,
+       -206744,
+       -3584
+      ],
+      "radius": 4409,
+      "levels": [
+       12,
+       13
+      ],
+      "count": 6,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-9",
+      "status": "ok",
+      "sec": 168,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.2,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-4",
+        "name": "Western Mining Zone (Central Shore) 4: Barbed Bat area (south-west)",
+        "at": [
+         132424,
+         -202120,
+         -3560
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-11",
+        "name": "Western Mining Zone (Central Shore) 11: Puma area (west)",
+        "at": [
+         127464,
+         -201672,
+         -3720
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-9",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 10301,
+      "sec": 168,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10301,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        135912,
+        -205080,
+        -3816
+       ],
+       [
+        134920,
+        -205080,
+        -3680
+       ],
+       [
+        133928,
+        -205080,
+        -3696
+       ],
+       [
+        132936,
+        -205080,
+        -3560
+       ],
+       [
+        131944,
+        -205080,
+        -3496
+       ],
+       [
+        130952,
+        -205080,
+        -3488
+       ],
+       [
+        129960,
+        -205080,
+        -3632
+       ],
+       [
+        128968,
+        -205080,
+        -3640
+       ],
+       [
+        127976,
+        -206056,
+        -3656
+       ],
+       [
+        127288,
+        -206744,
+        -3584
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1004,
+        "maxSwim": 1004,
+        "overBreath": false
+       },
+       "danger": 13,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Goblin Lord",
+         "lv": 13,
+         "n": 4
+        },
+        {
+         "name": "Barbed Bat",
+         "lv": 12,
+         "n": 3
+        },
+        {
+         "name": "Puma",
+         "lv": 12,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "western-mining-zone-central-shore-24",
+    "name": "Western Mining Zone (Central Shore) 24: Magical Weaver area (north-west)",
+    "at": [
+     120728,
+     -212552,
+     -3480
+    ],
+    "radius": 5470,
+    "levels": [
+     10,
+     11
+    ],
+    "count": 7,
+    "region": "Western Mining Zone (Central Shore)",
+    "atlasKey": "area:western-mining-zone-central-shore-24",
+    "status": "ok",
+    "sec": 244,
+    "danger": 11,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -37.93333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-26",
+      "name": "Western Mining Zone (Central Shore) 26: Magical Weaver area (west)",
+      "at": [
+       117208,
+       -210552,
+       -3520
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-22",
+      "name": "Western Mining Zone (Central Shore) 22: Garum Werewolf area (west)",
+      "at": [
+       119800,
+       -203128,
+       -3344
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dwarven-village-outskirts-7",
+      "name": "Dwarven Village outskirts 7: Garum Werewolf area (north)",
+      "at": [
+       116152,
+       -196392,
+       -3376
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:western-mining-zone-central-shore-24",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".schuttgart",
+    "length": 19165,
+    "sec": 244,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+      "link": "western mining zone (central shore)",
+      "price": 970,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14886,
+      "how": "field-areas-gap",
+      "danger": 13
+     },
+     {
+      "do": "walk",
+      "len": 4279,
+      "how": "field-areas",
+      "danger": 13
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      136910,
+      -205082,
+      -3664
+     ],
+     [
+      123880,
+      -209672,
+      -3656
+     ],
+     [
+      122888,
+      -210408,
+      -3816
+     ],
+     [
+      121896,
+      -211400,
+      -3720
+     ],
+     [
+      121608,
+      -211688,
+      -3656
+     ],
+     [
+      121592,
+      -211704,
+      -3648
+     ],
+     [
+      121576,
+      -211720,
+      -3624
+     ],
+     [
+      120728,
+      -212552,
+      -3480
+     ]
+    ],
+    "maxDanger": 13,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1246,
+      "maxSwim": 1246,
+      "overBreath": false
+     },
+     "danger": 13,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Goblin Lord",
+       "lv": 13,
+       "n": 1
+      },
+      {
+       "name": "Barbed Bat",
+       "lv": 12,
+       "n": 3
+      },
+      {
+       "name": "Puma",
+       "lv": 12,
+       "n": 2
+      },
+      {
+       "name": "Magical Weaver",
+       "lv": 11,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 319,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:turnin:30532",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30532,
+    "name": "Spiron",
+    "title": "Golden Wheel's",
+    "town": "Dwarven Village",
+    "at": [
+     116190,
+     -178441,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Hand in Goblin Necklace, Goblin Pendant, Goblin Lord Pendant at Spiron (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 1483,
+     "name": "Goblin Necklace",
+     "n": 3
+    },
+    {
+     "id": 1484,
+     "name": "Goblin Pendant",
+     "n": 3
+    },
+    {
+     "id": 1485,
+     "name": "Goblin Lord Pendant",
+     "n": 3
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30535@116103,-178407",
+     "name": "Filaur"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "turnin": true,
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

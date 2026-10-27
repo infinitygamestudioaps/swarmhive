@@ -1,0 +1,384 @@
+{
+ "id": 254,
+ "name": "Legendary Tales",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.852Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Giran",
+ "requirements": {
+  "items": [
+   {
+    "id": 17248,
+    "name": "Large Dragon Bone",
+    "n": 7,
+    "why": "one per boss summon at a Dragon Vortex 32871; not dropped / sold in the L2J datapack"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Large Dragon Bone"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 1
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 1
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  }
+ ],
+ "expectedMin": 7,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30754",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"And I will.\""
+   ],
+   "npc": {
+    "id": 30754,
+    "name": "Gilmore",
+    "title": "Antharas Watchman",
+    "town": "Giran",
+    "at": [
+     73211,
+     118492,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gilmore – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30754@73211,118492",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 184,
+    "sec": 47,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73208,
+      118488,
+      -3696
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:25718",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25718,
+     "name": "Emerald Horn",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 25719,
+     "name": "Dust Rider",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 25720,
+     "name": "Bleeding Fly",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 25721,
+     "name": "Blackdagger Wing",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 25722,
+     "name": "Shadow Summoner",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 25723,
+     "name": "Spike Slasher",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 25724,
+     "name": "Muscle Bomber",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 17249,
+     "name": "Large Dragon Skull",
+     "n": 7,
+     "from": [
+      {
+       "id": 25718,
+       "name": "Emerald Horn",
+       "chance": 100
+      },
+      {
+       "id": 25719,
+       "name": "Dust Rider",
+       "chance": 100
+      },
+      {
+       "id": 25720,
+       "name": "Bleeding Fly",
+       "chance": 100
+      },
+      {
+       "id": 25721,
+       "name": "Blackdagger Wing",
+       "chance": 100
+      },
+      {
+       "id": 25722,
+       "name": "Shadow Summoner",
+       "chance": 100
+      },
+      {
+       "id": 25723,
+       "name": "Spike Slasher",
+       "chance": 100
+      },
+      {
+       "id": 25724,
+       "name": "Muscle Bomber",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 7,
+   "reasons": [
+    "item-from-quest-mob",
+    "npc-no-spawn",
+    "needs-party"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     32871
+    ]
+   },
+   "text": "Make Emerald Horn, Dust Rider, Bleeding Fly, Blackdagger Wing, Shadow Summoner, Spike Slasher, Muscle Bomber appear and kill it",
+   "npc": {
+    "id": 32871,
+    "name": "Dragon Vortex",
+    "at": null,
+    "why": "npc-no-spawn"
+   },
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:30754",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Vesper Thrower",
+    "Vesper Singer",
+    "Vesper Caster",
+    "Vesper Retributer",
+    "Vesper Avenger",
+    "Vesper Cutter"
+   ],
+   "npc": {
+    "id": 30754,
+    "name": "Gilmore",
+    "title": "Antharas Watchman",
+    "town": "Giran",
+    "at": [
+     73211,
+     118492,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Bring Large Dragon Skull x7 to Gilmore",
+   "needs": [
+    {
+     "id": 17249,
+     "name": "Large Dragon Skull",
+     "n": 7
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30754@73211,118492",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 184,
+    "sec": 47,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73208,
+      118488,
+      -3696
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

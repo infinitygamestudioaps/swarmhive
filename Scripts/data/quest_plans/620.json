@@ -1,0 +1,1384 @@
+{
+ "id": 620,
+ "name": "Four Goblets",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.510Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 74,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 0
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 2
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 2
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 5
+  }
+ ],
+ "expectedMin": 10,
+ "refLevel": 74,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31453",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it!\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit – accept the quest",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18141",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18141,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18142,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18143,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18144,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18145,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18146,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18147,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18148,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18149,
+     "name": "Beetle of Grave",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18230,
+     "name": "Signet of Emperor",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18120,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18123,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18126,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18129,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18221,
+     "name": "Shaman of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18121,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18124,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18127,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18130,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18224,
+     "name": "Assassin of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18122,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18125,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18128,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18131,
+     "name": "Halisha's Officer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18168,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18175,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18178,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18181,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18184,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18133,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18135,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18136,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18187,
+     "name": "Knight of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18189,
+     "name": "Knight of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18190,
+     "name": "Knight of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18132,
+     "name": "Imperial Healer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18134,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18167,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18170,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18188,
+     "name": "Knight of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18223,
+     "name": "Assassin of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18137,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18169,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18172,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18191,
+     "name": "Witch of dust",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18226,
+     "name": "Caster of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18138,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18140,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18192,
+     "name": "Witch of dust",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18194,
+     "name": "Witch of dust",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18229,
+     "name": "Caster of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18139,
+     "name": "Imperial Mosaic",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18193,
+     "name": "Witch of dust",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18166,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18195,
+     "name": "Signet of Emperor",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18171,
+     "name": "Imperial Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18173,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18176,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18179,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18182,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18174,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18177,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18180,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18183,
+     "name": "Halisha's Foreman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18185,
+     "name": "Evil Astrologer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18186,
+     "name": "Evil Astrologer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18220,
+     "name": "Shaman of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18222,
+     "name": "Assassin of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18225,
+     "name": "Assassin of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18227,
+     "name": "Caster of Darkness",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18212,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18213,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18214,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18215,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18216,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18217,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18218,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18219,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25339,
+     "name": "Shadow of Halisha",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25342,
+     "name": "Shadow of Halisha",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25346,
+     "name": "Shadow of Halisha",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25349,
+     "name": "Shadow of Halisha",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7255,
+     "name": "Sealed Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 18141,
+       "name": "Beetle of Grave",
+       "chance": 90
+      },
+      {
+       "id": 18142,
+       "name": "Beetle of Grave",
+       "chance": 90
+      },
+      {
+       "id": 18143,
+       "name": "Beetle of Grave",
+       "chance": 90
+      },
+      {
+       "id": 18144,
+       "name": "Beetle of Grave",
+       "chance": 90
+      },
+      {
+       "id": 18145,
+       "name": "Beetle of Grave",
+       "chance": 76
+      },
+      {
+       "id": 18146,
+       "name": "Beetle of Grave",
+       "chance": 78
+      },
+      {
+       "id": 18147,
+       "name": "Beetle of Grave",
+       "chance": 73
+      },
+      {
+       "id": 18148,
+       "name": "Beetle of Grave",
+       "chance": 85
+      }
+     ]
+    },
+    {
+     "id": 7256,
+     "name": "Goblet of Alectia",
+     "n": 1,
+     "from": [
+      {
+       "id": 25339,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25342,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25346,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25349,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7257,
+     "name": "Goblet of Tishas",
+     "n": 1,
+     "from": [
+      {
+       "id": 25339,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25342,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25346,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25349,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7258,
+     "name": "Goblet of Mekara",
+     "n": 1,
+     "from": [
+      {
+       "id": 25339,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25342,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25346,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25349,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 7259,
+     "name": "Goblet of Morigul",
+     "n": 1,
+     "from": [
+      {
+       "id": 25339,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25342,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25346,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      },
+      {
+       "id": 25349,
+       "name": "Shadow of Halisha",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (18141, 18142, 18143, 18144, 18145, 18146, 18147, 18148, 18149, 18230, 18120, 18123, 18126, 18129, 18221, 18121, 18124, 18127, 18130, 18224, 18122, 18125, 18128, 18131, 18168, 18175, 18178, 18181, 18184, 18133, 18135, 18136, 18187, 18189, 18190, 18132, 18134, 18167, 18170, 18188, 18223, 18137, 18169, 18172, 18191, 18226, 18138, 18140, 18192, 18194, 18229, 18139, 18193, 18166, 18195, 18171, 18173, 18176, 18179, 18182, 18174, 18177, 18180, 18183, 18185, 18186, 18220, 18222, 18225, 18227, 18212, 18213, 18214, 18215, 18216, 18217, 18218, 18219, 25339, 25342, 25346, 25349) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Beetle of Grave, Beetle of Grave, Beetle of Grave, Beetle of Grave, Beetle of Grave, Beetle of Grave, Beetle of Grave, Beetle of Grave, Beetle of Grave, Signet of Emperor, Halisha's Officer, Halisha's Officer, Halisha's Officer, Halisha's Officer, Shaman of Darkness, Halisha's Officer, Halisha's Officer, Halisha's Officer, Halisha's Officer, Assassin of Darkness, Halisha's Officer, Halisha's Officer, Halisha's Officer, Halisha's Officer, Imperial Guard, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Imperial Mosaic, Imperial Mosaic, Imperial Mosaic, Knight of Darkness, Knight of Darkness, Knight of Darkness, Imperial Healer, Imperial Mosaic, Imperial Guard, Imperial Guard, Knight of Darkness, Assassin of Darkness, Imperial Mosaic, Imperial Guard, Imperial Guard, Witch of dust, Caster of Darkness, Imperial Mosaic, Imperial Mosaic, Witch of dust, Witch of dust, Caster of Darkness, Imperial Mosaic, Witch of dust, Imperial Guard, Signet of Emperor, Imperial Guard, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Halisha's Foreman, Evil Astrologer, Evil Astrologer, Shaman of Darkness, Assassin of Darkness, Assassin of Darkness, Caster of Darkness, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Shadow of Halisha, Shadow of Halisha, Shadow of Halisha, Shadow of Halisha appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31453",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I want to stop.\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit",
+   "reasons": [
+    "engine-manual",
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engineWhy": "the monsters (18141, 18142, 18143, 18144, 18145, 18146, 18147, 18148, 18149, 18230, 18120, 18123, 18126, 18129, 18221, 18121, 18124, 18127, 18130, 18224, 18122, 18125, 18128, 18131, 18168, 18175, 18178, 18181, 18184, 18133, 18135, 18136, 18187, 18189, 18190, 18132, 18134, 18167, 18170, 18188, 18223, 18137, 18169, 18172, 18191, 18226, 18138, 18140, 18192, 18194, 18229, 18139, 18193, 18166, 18195, 18171, 18173, 18176, 18179, 18182, 18174, 18177, 18180, 18183, 18185, 18186, 18220, 18222, 18225, 18227, 18212, 18213, 18214, 18215, 18216, 18217, 18218, 18219, 25339, 25342, 25346, 25349) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:turnin:31454",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "\"Please open the boxes.\""
+   ],
+   "npc": {
+    "id": 31454,
+    "name": "Ghost of Wigoth",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     169589,
+     -91293,
+     -2896
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Ghost of Wigoth (repeatable: then hunt again)",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31454@169589,-91293",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 1167,
+    "sec": 70,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain > needs: Q620 Four Goblets: enter a sepulcher (Sepulcher Managers 31921-31924, entry phase of the hourly cycle, party), clear it; Ghost of Wigoth 31452 'Escape' -> EXIT_LOC",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "need",
+      "text": "Q620 Four Goblets: enter a sepulcher (Sepulcher Managers 31921-31924, entry phase of the hourly cycle, party), clear it; Ghost of Wigoth 31452 'Escape' -> EXIT_LOC"
+     },
+     {
+      "do": "walk",
+      "len": 280,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      169592,
+      -91288,
+      -2912
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers",
+     "four-sepulchers-exit",
+     "four-sepulchers-exit",
+     "four-sepulchers-exit",
+     "four-sepulchers-exit"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "turnin": true,
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

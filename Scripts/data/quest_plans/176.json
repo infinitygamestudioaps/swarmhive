@@ -1,0 +1,305 @@
+{
+ "id": 176,
+ "name": "Steps for Honor",
+ "version": 1,
+ "generated": "2026-10-27T11:15:14.309Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 3,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:36479",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 36479,
+    "name": "Rapidus",
+    "title": "Reputation Manager",
+    "town": "Aden",
+    "at": [
+     147617,
+     27410,
+     -2200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rapidus – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:36479@147617,27410",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2212,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2212,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26376,
+      -2144
+     ],
+     [
+      147448,
+      26648,
+      -2200
+     ],
+     [
+      147464,
+      26920,
+      -2200
+     ],
+     [
+      147464,
+      27192,
+      -2200
+     ],
+     [
+      147624,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 68,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:manual",
+   "cond": 1,
+   "kind": "special",
+   "text": "step 1",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "no automatic step at cond 1",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1,
+    3,
+    5,
+    7
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:36479",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 36479,
+    "name": "Rapidus",
+    "title": "Reputation Manager",
+    "town": "Aden",
+    "at": [
+     147617,
+     27410,
+     -2200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rapidus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:36479@147617,27410",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2212,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2212,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26376,
+      -2144
+     ],
+     [
+      147448,
+      26648,
+      -2200
+     ],
+     [
+      147464,
+      26920,
+      -2200
+     ],
+     [
+      147464,
+      27192,
+      -2200
+     ],
+     [
+      147624,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    4,
+    6,
+    8
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

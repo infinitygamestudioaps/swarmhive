@@ -1,0 +1,1073 @@
+{
+ "id": 455,
+ "name": "Wings of Sand",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.055Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 2
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 14,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32864",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Sure. Worth a go.\""
+   ],
+   "npc": {
+    "id": 32864,
+    "name": "Separated Soul",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117168,
+     76834,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul / Separated Soul – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32864@117168,76834",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1038,
+    "sec": 29,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1038,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116648,
+      76232,
+      -2728
+     ],
+     [
+      116824,
+      76424,
+      -2728
+     ],
+     [
+      116984,
+      76648,
+      -2720
+     ],
+     [
+      117176,
+      76840,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 59,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 25721,
+     "name": "Blackdagger Wing",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 1,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 17250,
+     "name": "Large Baby Dragon",
+     "n": 1,
+     "from": [
+      {
+       "id": 25718,
+       "name": "Emerald Horn",
+       "chance": 35
+      },
+      {
+       "id": 25719,
+       "name": "Dust Rider",
+       "chance": 35
+      },
+      {
+       "id": 25720,
+       "name": "Bleeding Fly",
+       "chance": 35
+      },
+      {
+       "id": 25721,
+       "name": "Blackdagger Wing",
+       "chance": 35
+      },
+      {
+       "id": 25722,
+       "name": "Shadow Summoner",
+       "chance": 35
+      },
+      {
+       "id": 25723,
+       "name": "Spike Slasher",
+       "chance": 35
+      },
+      {
+       "id": 25724,
+       "name": "Muscle Bomber",
+       "chance": 35
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "needs-party"
+   ],
+   "text": "Kill Dragon Valley raid bosses (spawned at a Dragon Vortex with a Large Dragon Bone) until a Large Baby Dragon drops",
+   "places": [
+    {
+     "mobs": [
+      25721
+     ],
+     "items": [
+      17250
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "25721@121876,114727",
+      "name": "Blackdagger Wing (Hardin's Private Academy / Valley Fortress)",
+      "at": [
+       121876,
+       114727,
+       -3728
+      ],
+      "radius": 1500,
+      "levels": [
+       84,
+       84
+      ],
+      "count": 1,
+      "region": "Hardin's Private Academy / Valley Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 84,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:antharas-lair-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 9007,
+      "sec": 120,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9007,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131560,
+        114504,
+        -3712
+       ],
+       [
+        130568,
+        114504,
+        -3744
+       ],
+       [
+        129576,
+        114504,
+        -3792
+       ],
+       [
+        128584,
+        114888,
+        -3728
+       ],
+       [
+        128008,
+        115160,
+        -3712
+       ],
+       [
+        127016,
+        115160,
+        -3720
+       ],
+       [
+        126024,
+        115160,
+        -3720
+       ],
+       [
+        125032,
+        115160,
+        -3720
+       ],
+       [
+        124040,
+        115160,
+        -3664
+       ],
+       [
+        123048,
+        115464,
+        -3656
+       ],
+       [
+        122824,
+        115688,
+        -3632
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 4,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:antharas-lair-1",
+       "name": "Antharas Lair 1: Hungry Parasitic Leech area (west)"
+      },
+      "points": [
+       [
+        131560,
+        114504,
+        -3712
+       ],
+       [
+        130568,
+        114504,
+        -3744
+       ],
+       [
+        129576,
+        114504,
+        -3792
+       ],
+       [
+        128584,
+        114888,
+        -3728
+       ],
+       [
+        128008,
+        115160,
+        -3712
+       ],
+       [
+        127016,
+        115160,
+        -3720
+       ],
+       [
+        126024,
+        115160,
+        -3720
+       ],
+       [
+        125032,
+        115160,
+        -3720
+       ],
+       [
+        124040,
+        115160,
+        -3664
+       ],
+       [
+        123048,
+        115464,
+        -3656
+       ],
+       [
+        122824,
+        115688,
+        -3632
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "25721@121876,114727",
+    "name": "Blackdagger Wing (Hardin's Private Academy / Valley Fortress)",
+    "at": [
+     121876,
+     114727,
+     -3728
+    ],
+    "radius": 1500,
+    "levels": [
+     84,
+     84
+    ],
+    "count": 1,
+    "region": "Hardin's Private Academy / Valley Fortress",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 84,
+    "alt": []
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:antharas-lair-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 9007,
+    "sec": 120,
+    "via": ".hunters > Hunters -> Antharas Lair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Antharas Lair",
+      "link": "antharas lair",
+      "price": 7000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9007,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Antharas Lair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      131560,
+      114504,
+      -3712
+     ],
+     [
+      130568,
+      114504,
+      -3744
+     ],
+     [
+      129576,
+      114504,
+      -3792
+     ],
+     [
+      128584,
+      114888,
+      -3728
+     ],
+     [
+      128008,
+      115160,
+      -3712
+     ],
+     [
+      127016,
+      115160,
+      -3720
+     ],
+     [
+      126024,
+      115160,
+      -3720
+     ],
+     [
+      125032,
+      115160,
+      -3720
+     ],
+     [
+      124040,
+      115160,
+      -3664
+     ],
+     [
+      123048,
+      115464,
+      -3656
+     ],
+     [
+      122824,
+      115688,
+      -3632
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:antharas-lair-1",
+     "name": "Antharas Lair 1: Hungry Parasitic Leech area (west)"
+    },
+    "points": [
+     [
+      131560,
+      114504,
+      -3712
+     ],
+     [
+      130568,
+      114504,
+      -3744
+     ],
+     [
+      129576,
+      114504,
+      -3792
+     ],
+     [
+      128584,
+      114888,
+      -3728
+     ],
+     [
+      128008,
+      115160,
+      -3712
+     ],
+     [
+      127016,
+      115160,
+      -3720
+     ],
+     [
+      126024,
+      115160,
+      -3720
+     ],
+     [
+      125032,
+      115160,
+      -3720
+     ],
+     [
+      124040,
+      115160,
+      -3664
+     ],
+     [
+      123048,
+      115464,
+      -3656
+     ],
+     [
+      122824,
+      115688,
+      -3632
+     ]
+    ]
+   },
+   "expectedSec": 195,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:25718",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25718,
+     "name": "Emerald Horn",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25719,
+     "name": "Dust Rider",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25720,
+     "name": "Bleeding Fly",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25722,
+     "name": "Shadow Summoner",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25723,
+     "name": "Spike Slasher",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25724,
+     "name": "Muscle Bomber",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 17250,
+     "name": "Large Baby Dragon",
+     "n": 1,
+     "from": [
+      {
+       "id": 25718,
+       "name": "Emerald Horn",
+       "chance": 35
+      },
+      {
+       "id": 25719,
+       "name": "Dust Rider",
+       "chance": 35
+      },
+      {
+       "id": 25720,
+       "name": "Bleeding Fly",
+       "chance": 35
+      },
+      {
+       "id": 25721,
+       "name": "Blackdagger Wing",
+       "chance": 35
+      },
+      {
+       "id": 25722,
+       "name": "Shadow Summoner",
+       "chance": 35
+      },
+      {
+       "id": 25723,
+       "name": "Spike Slasher",
+       "chance": 35
+      },
+      {
+       "id": 25724,
+       "name": "Muscle Bomber",
+       "chance": 35
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob",
+    "needs-party",
+    "no-route"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     32871
+    ]
+   },
+   "text": "Kill Dragon Valley raid bosses (spawned at a Dragon Vortex with a Large Dragon Bone) until a Large Baby Dragon drops",
+   "npc": {
+    "id": 32871,
+    "name": "Dragon Vortex",
+    "title": "",
+    "town": "",
+    "at": [
+     92225,
+     113873,
+     -3062
+    ],
+    "alt": [
+     [
+      108924,
+      111992,
+      -3028
+     ],
+     [
+      110116,
+      125500,
+      -3664
+     ],
+     [
+      121172,
+      113348,
+      -3776
+     ]
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:brekas-stronghold-15",
+    "status": "unreachable",
+    "flags": [],
+    "from": ".hunters",
+    "length": 22682,
+    "sec": 234,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22682,
+      "how": "field-areas",
+      "danger": 82
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73672,
+      118152,
+      -3712
+     ],
+     [
+      74664,
+      118136,
+      -3656
+     ],
+     [
+      75128,
+      118104,
+      -3640
+     ],
+     [
+      76120,
+      118104,
+      -3704
+     ],
+     [
+      77048,
+      117672,
+      -3672
+     ],
+     [
+      77960,
+      117624,
+      -3632
+     ],
+     [
+      78952,
+      116712,
+      -3752
+     ],
+     [
+      79944,
+      115720,
+      -3688
+     ],
+     [
+      80936,
+      114728,
+      -3648
+     ],
+     [
+      81000,
+      114664,
+      -3624
+     ],
+     [
+      81144,
+      114600,
+      -3552
+     ],
+     [
+      82136,
+      114168,
+      -3152
+     ],
+     [
+      82696,
+      113608,
+      -3064
+     ],
+     [
+      82744,
+      113576,
+      -3056
+     ],
+     [
+      82952,
+      113528,
+      -3056
+     ],
+     [
+      83944,
+      113160,
+      -2976
+     ],
+     [
+      84216,
+      112888,
+      -3040
+     ],
+     [
+      84936,
+      112472,
+      -3056
+     ],
+     [
+      85176,
+      112424,
+      -3056
+     ],
+     [
+      85416,
+      112408,
+      -3056
+     ],
+     [
+      86408,
+      112408,
+      -3208
+     ],
+     [
+      87400,
+      112408,
+      -3296
+     ],
+     [
+      88392,
+      112408,
+      -3280
+     ],
+     [
+      89384,
+      112408,
+      -3136
+     ],
+     [
+      90376,
+      112408,
+      -3000
+     ],
+     [
+      91368,
+      112408,
+      -2968
+     ],
+     [
+      92360,
+      113208,
+      -3072
+     ],
+     [
+      93096,
+      113944,
+      -3072
+     ]
+    ],
+    "maxDanger": 82,
+    "needs": [],
+    "why": [
+     "no walk on the geodata from Brekas Stronghold 15: Emerald Drake area (east): gave up after 447488 cells (too far or no way); no way through (flooded 605 cells, the goal side ran out); plain: no way through (searched 1378154 cells)"
+    ],
+    "checks": {
+     "reachable": false,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 82,
+     "dangerVsLevel": 2,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:brekas-stronghold-15",
+     "name": "Brekas Stronghold 15: Emerald Drake area (east)"
+    }
+   },
+   "expectedSec": 534,
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:deliver:32864",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32864,
+    "name": "Separated Soul",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117168,
+     76834,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Bring Large Baby Dragon to Separated Soul",
+   "needs": [
+    {
+     "id": 17250,
+     "name": "Large Baby Dragon",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32864@117168,76834",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1038,
+    "sec": 29,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1038,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116648,
+      76232,
+      -2728
+     ],
+     [
+      116824,
+      76424,
+      -2728
+     ],
+     [
+      116984,
+      76648,
+      -2720
+     ],
+     [
+      117176,
+      76840,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 54,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

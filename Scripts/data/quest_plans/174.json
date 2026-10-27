@@ -1,0 +1,902 @@
+{
+ "id": 174,
+ "name": "Supply Check",
+ "version": 1,
+ "generated": "2026-10-27T11:15:14.002Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 2,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Kamael Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 6,
+ "refLevel": 2,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32173",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 32173,
+    "name": "Marcela",
+    "title": "Zerstorer",
+    "town": "Kamael Village",
+    "at": [
+     -119378,
+     49242,
+     8
+    ],
+    "alt": []
+   },
+   "text": "Talk to Marcela – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32337@-119808,47760",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3258,
+    "sec": 72,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3258,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117512,
+      46776,
+      360
+     ],
+     [
+      -117720,
+      46952,
+      360
+     ],
+     [
+      -117992,
+      46952,
+      360
+     ],
+     [
+      -118088,
+      46952,
+      360
+     ],
+     [
+      -118136,
+      46952,
+      360
+     ],
+     [
+      -118392,
+      47064,
+      360
+     ],
+     [
+      -118584,
+      47256,
+      416
+     ],
+     [
+      -118856,
+      47208,
+      400
+     ],
+     [
+      -118872,
+      47064,
+      400
+     ],
+     [
+      -119016,
+      47064,
+      400
+     ],
+     [
+      -119288,
+      47064,
+      400
+     ],
+     [
+      -119304,
+      47112,
+      400
+     ],
+     [
+      -119528,
+      47272,
+      384
+     ],
+     [
+      -119624,
+      47400,
+      384
+     ],
+     [
+      -119624,
+      47560,
+      384
+     ],
+     [
+      -119800,
+      47768,
+      384
+     ],
+     [
+      -119384,
+      49240,
+      8
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32337@-119808,47760",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117512,
+      46776,
+      360
+     ],
+     [
+      -117720,
+      46952,
+      360
+     ],
+     [
+      -117992,
+      46952,
+      360
+     ],
+     [
+      -118088,
+      46952,
+      360
+     ],
+     [
+      -118136,
+      46952,
+      360
+     ],
+     [
+      -118392,
+      47064,
+      360
+     ],
+     [
+      -118584,
+      47256,
+      416
+     ],
+     [
+      -118856,
+      47208,
+      400
+     ],
+     [
+      -118872,
+      47064,
+      400
+     ],
+     [
+      -119016,
+      47064,
+      400
+     ],
+     [
+      -119288,
+      47064,
+      400
+     ],
+     [
+      -119304,
+      47112,
+      400
+     ],
+     [
+      -119528,
+      47272,
+      384
+     ],
+     [
+      -119624,
+      47400,
+      384
+     ],
+     [
+      -119624,
+      47560,
+      384
+     ],
+     [
+      -119800,
+      47768,
+      384
+     ],
+     [
+      -119384,
+      49240,
+      8
+     ]
+    ]
+   },
+   "expectedSec": 102,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32170",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 32170,
+    "name": "Benis",
+    "title": "Warehouse Keeper",
+    "town": "Kamael Village",
+    "at": [
+     -114975,
+     44658,
+     512
+    ],
+    "alt": []
+   },
+   "text": "Get the Warehouse Manifest from Benis",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32170@-114975,44658",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3557,
+    "sec": 75,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3557,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117032,
+      45928,
+      360
+     ],
+     [
+      -116984,
+      45704,
+      360
+     ],
+     [
+      -116856,
+      45464,
+      360
+     ],
+     [
+      -116664,
+      45272,
+      360
+     ],
+     [
+      -116456,
+      45096,
+      360
+     ],
+     [
+      -116392,
+      45080,
+      392
+     ],
+     [
+      -116120,
+      45048,
+      504
+     ],
+     [
+      -115880,
+      44904,
+      496
+     ],
+     [
+      -115688,
+      44712,
+      496
+     ],
+     [
+      -115512,
+      44664,
+      496
+     ],
+     [
+      -115240,
+      44664,
+      512
+     ],
+     [
+      -114968,
+      44664,
+      512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 100,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32173",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 32173,
+    "name": "Marcela",
+    "title": "Zerstorer",
+    "town": "Kamael Village",
+    "at": [
+     -119378,
+     49242,
+     8
+    ],
+    "alt": []
+   },
+   "text": "Bring the Warehouse Manifest to Marcela",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32337@-119808,47760",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3258,
+    "sec": 72,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3258,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117512,
+      46776,
+      360
+     ],
+     [
+      -117720,
+      46952,
+      360
+     ],
+     [
+      -117992,
+      46952,
+      360
+     ],
+     [
+      -118088,
+      46952,
+      360
+     ],
+     [
+      -118136,
+      46952,
+      360
+     ],
+     [
+      -118392,
+      47064,
+      360
+     ],
+     [
+      -118584,
+      47256,
+      416
+     ],
+     [
+      -118856,
+      47208,
+      400
+     ],
+     [
+      -118872,
+      47064,
+      400
+     ],
+     [
+      -119016,
+      47064,
+      400
+     ],
+     [
+      -119288,
+      47064,
+      400
+     ],
+     [
+      -119304,
+      47112,
+      400
+     ],
+     [
+      -119528,
+      47272,
+      384
+     ],
+     [
+      -119624,
+      47400,
+      384
+     ],
+     [
+      -119624,
+      47560,
+      384
+     ],
+     [
+      -119800,
+      47768,
+      384
+     ],
+     [
+      -119384,
+      49240,
+      8
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32337@-119808,47760",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117512,
+      46776,
+      360
+     ],
+     [
+      -117720,
+      46952,
+      360
+     ],
+     [
+      -117992,
+      46952,
+      360
+     ],
+     [
+      -118088,
+      46952,
+      360
+     ],
+     [
+      -118136,
+      46952,
+      360
+     ],
+     [
+      -118392,
+      47064,
+      360
+     ],
+     [
+      -118584,
+      47256,
+      416
+     ],
+     [
+      -118856,
+      47208,
+      400
+     ],
+     [
+      -118872,
+      47064,
+      400
+     ],
+     [
+      -119016,
+      47064,
+      400
+     ],
+     [
+      -119288,
+      47064,
+      400
+     ],
+     [
+      -119304,
+      47112,
+      400
+     ],
+     [
+      -119528,
+      47272,
+      384
+     ],
+     [
+      -119624,
+      47400,
+      384
+     ],
+     [
+      -119624,
+      47560,
+      384
+     ],
+     [
+      -119800,
+      47768,
+      384
+     ],
+     [
+      -119384,
+      49240,
+      8
+     ]
+    ]
+   },
+   "expectedSec": 97,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2,
+    4
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:32167",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 32167,
+    "name": "Nika",
+    "title": "Grocer",
+    "town": "Kamael Village",
+    "at": [
+     -117153,
+     48075,
+     456
+    ],
+    "alt": []
+   },
+   "text": "Get the Grocery Store Manifest from Nika",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32167@-117153,48075",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2308,
+    "sec": 64,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2308,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117352,
+      46760,
+      360
+     ],
+     [
+      -117576,
+      46920,
+      360
+     ],
+     [
+      -117576,
+      47192,
+      384
+     ],
+     [
+      -117480,
+      47368,
+      448
+     ],
+     [
+      -117304,
+      47448,
+      448
+     ],
+     [
+      -117128,
+      47384,
+      448
+     ],
+     [
+      -117080,
+      47176,
+      440
+     ],
+     [
+      -117080,
+      47272,
+      440
+     ],
+     [
+      -117160,
+      47448,
+      448
+     ],
+     [
+      -117176,
+      47720,
+      456
+     ],
+     [
+      -117112,
+      47880,
+      456
+     ],
+     [
+      -117112,
+      48008,
+      456
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:14.060Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

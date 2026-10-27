@@ -185,7 +185,14 @@ has(/if \(!hiveHealsOn\(\)\) \{ HSH\.xml = 'player'; hshXmlRestore\('Hive heals 
   const W2 = mk(heals, files); W2.auto[0].IsEnabled = false; heals.v = false; W2.tick();   // a reload: memory empty, the file remembers
   check(W2.auto[0].IsEnabled === true && W2.auto[1].IsEnabled === false && W2.env.HSH.xml === 'player' && W2.notes.some(m => /switched back ON/.test(m)), 'HSH stubs: Hive heals OFF (after a reload) -> Self Heal back ON, the player-disabled Heal stays off');
   W2.auto[0].IsEnabled = false; W2.tick();
-  check(W2.auto[0].IsEnabled === false, 'HSH stubs: ... and then never touched again (the player may switch it off himself)'); }
+  check(W2.auto[0].IsEnabled === false, 'HSH stubs: ... and then never touched again (the player may switch it off himself)');
+  // INSTRUMENT-2026-10-27: L2Swarm 3.10.x rows expose Instrument (no Skill property); Self Heal must still be found and switched off
+  const files3 = {}, W3 = mk({ v: true }, files3);
+  W3.auto.forEach(a => { a.Instrument = a.Skill; delete a.Skill; });
+  W3.tick();
+  check(W3.auto[0].IsEnabled === false && /"1216":true/.test(files3['X\\Logs\\hsh_xml_off_Saint.json'] || '') && W3.notes.some(m => /Self Heal/.test(m)), 'HSH stubs (3.10.x rows: Instrument, no Skill): Self Heal still switched off + named in the note');
+  const W4 = mk({ v: false }, files3); W4.auto.forEach(a => { a.Instrument = a.Skill; delete a.Skill; }); W4.auto[0].IsEnabled = false; W4.tick();
+  check(W4.auto[0].IsEnabled === true, 'HSH stubs (3.10.x rows): Hive heals OFF gives Self Heal back'); }
 has(/a\.IsEnabled = false; rec\[id\] = true;/, 'HSH: what it switches off is recorded (Logs/hsh_xml_off_<name>.json) so a reload can still give it back');
 gate('function hshXmlRestore(why)', /if \(!ids\[id\]\) return;/, 'HSH restore: only what the script switched off (never one the player disabled)');
 has(/!isLeader\(\) \|\| isHealerRole\(\)\) return;\n\s+if \(!hiveSkillsOn\(\)\) return;\s+\/\/ HIVESW-2026-10-15: skills OFF = the player owns/, 'caster-leader safeguard: never force-enables Combat Skills with skills OFF');

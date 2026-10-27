@@ -1,0 +1,6495 @@
+{
+ "id": 416,
+ "name": "Path of the Orc Shaman",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.672Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Orc Village",
+ "requirements": {
+  "classes": [
+   "orcMage"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: orcMage"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 61
+  }
+ ],
+ "expectedMin": 41,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30585",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you want to become a true Orc Shaman."
+   ],
+   "npc": {
+    "id": 30585,
+    "name": "Tataru Zu Hestui",
+    "title": "",
+    "town": "Orc Village",
+    "at": [
+     -45328,
+     -114736,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tataru Zu Hestui – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30585@-45328,-114736",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 3014,
+    "sec": 70,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3014,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44664,
+      -112920,
+      -240
+     ],
+     [
+      -44472,
+      -113112,
+      -240
+     ],
+     [
+      -44424,
+      -113352,
+      -240
+     ],
+     [
+      -44504,
+      -113608,
+      -208
+     ],
+     [
+      -44392,
+      -113816,
+      -240
+     ],
+     [
+      -44440,
+      -114024,
+      -240
+     ],
+     [
+      -44632,
+      -114216,
+      -240
+     ],
+     [
+      -44712,
+      -114296,
+      -240
+     ],
+     [
+      -44904,
+      -114488,
+      -240
+     ],
+     [
+      -45096,
+      -114680,
+      -240
+     ],
+     [
+      -45320,
+      -114728,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 100,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20415,
+     "name": "Scarlet Salamander",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20478,
+     "name": "Kasha Blade Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 20479,
+     "name": "Kasha Bear",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 70,
+     "questSpawned": false
+    },
+    {
+     "id": 20335,
+     "name": "Grizzly Bear",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 20038,
+     "name": "Venomous Spider",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 81,
+     "questSpawned": false
+    },
+    {
+     "id": 20043,
+     "name": "Arachnid Tracker",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 94,
+     "questSpawned": false
+    },
+    {
+     "id": 27319,
+     "name": "Black Leopard",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1617,
+     "name": "Kasha Bear Pelt",
+     "n": 1,
+     "from": [
+      {
+       "id": 20479,
+       "name": "Kasha Bear",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1618,
+     "name": "Kasha Blade Spider Husk",
+     "n": 1,
+     "from": [
+      {
+       "id": 20478,
+       "name": "Kasha Blade Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1619,
+     "name": "1st Fiery Egg",
+     "n": 1,
+     "from": [
+      {
+       "id": 20415,
+       "name": "Scarlet Salamander",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1625,
+     "name": "Grizzly Blood",
+     "n": 3,
+     "from": [
+      {
+       "id": 20335,
+       "name": "Grizzly Bear",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Scarlet Salamander, Kasha Blade Spider, Kasha Bear for Kasha Bear Pelt x1, Kasha Blade Spider Husk x1, 1st Fiery Egg x1, Grizzly Blood x3",
+   "places": [
+    {
+     "mobs": [
+      20479
+     ],
+     "items": [
+      1617
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "frozen-waterfall-9",
+      "name": "Frozen Waterfall 9: Kasha Bear area (south)",
+      "at": [
+       5320,
+       -126600,
+       -2960
+      ],
+      "radius": 4670,
+      "levels": [
+       14,
+       17
+      ],
+      "count": 7,
+      "region": "Frozen Waterfall",
+      "atlasKey": "area:frozen-waterfall-9",
+      "status": "ok",
+      "sec": 192,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -38.8,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-8",
+        "name": "Frozen Waterfall 8: Kasha Spider area (south)",
+        "at": [
+         12728,
+         -129208,
+         -1368
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-20",
+        "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+        "at": [
+         -2952,
+         -123320,
+         -2536
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-14",
+        "name": "Frozen Waterfall 14: Kasha Bear area (south-east)",
+        "at": [
+         21016,
+         -130184,
+         -1688
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:frozen-waterfall-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 14675,
+      "sec": 192,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Frozen Waterfall",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Frozen Waterfall",
+        "link": "frozen waterfall",
+        "price": 1600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7233,
+        "how": "field-areas-gap",
+        "danger": 14
+       },
+       {
+        "do": "walk",
+        "len": 7442,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        8652,
+        -139941,
+        -1144
+       ],
+       [
+        8312,
+        -132872,
+        -2664
+       ],
+       [
+        8312,
+        -131880,
+        -2712
+       ],
+       [
+        8312,
+        -130888,
+        -2752
+       ],
+       [
+        8312,
+        -129896,
+        -2760
+       ],
+       [
+        7624,
+        -128904,
+        -2880
+       ],
+       [
+        6632,
+        -127912,
+        -2912
+       ],
+       [
+        5640,
+        -126920,
+        -2944
+       ],
+       [
+        5320,
+        -126600,
+        -2960
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20478
+     ],
+     "items": [
+      1618
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-the-lords-far-2",
+      "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+      "at": [
+       26408,
+       -125144,
+       -712
+      ],
+      "radius": 3013,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 7,
+      "region": "Valley of the Lords",
+      "atlasKey": "area:valley-of-the-lords-far-2",
+      "status": "ok",
+      "sec": 264,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -37.6,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-20",
+        "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+        "at": [
+         -2952,
+         -123320,
+         -2536
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-11",
+        "name": "Frozen Waterfall 11: Kasha Fang Spider area (south)",
+        "at": [
+         12792,
+         -125192,
+         -1312
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "immortal-plateau-southern-region-17",
+        "name": "Immortal Plateau,Southern Region 17: Kasha Fang Spider area (north-west)",
+        "at": [
+         -21640,
+         -89672,
+         -2784
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-the-lords-far-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 23290,
+      "sec": 264,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Cave of Trials",
+        "link": "cave of trials",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3149,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 20141,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        9340,
+        -112509,
+        -2536
+       ],
+       [
+        9864,
+        -115336,
+        -2952
+       ],
+       [
+        9880,
+        -115336,
+        -2928
+       ],
+       [
+        9896,
+        -115336,
+        -2896
+       ],
+       [
+        9912,
+        -115336,
+        -2872
+       ],
+       [
+        9944,
+        -115336,
+        -2816
+       ],
+       [
+        9960,
+        -115336,
+        -2792
+       ],
+       [
+        9976,
+        -115336,
+        -2760
+       ],
+       [
+        9992,
+        -115336,
+        -2736
+       ],
+       [
+        10008,
+        -115336,
+        -2712
+       ],
+       [
+        10024,
+        -115336,
+        -2680
+       ],
+       [
+        10040,
+        -115336,
+        -2648
+       ],
+       [
+        10056,
+        -115336,
+        -2616
+       ],
+       [
+        10088,
+        -115336,
+        -2560
+       ],
+       [
+        10104,
+        -115336,
+        -2528
+       ],
+       [
+        10120,
+        -115336,
+        -2504
+       ],
+       [
+        10136,
+        -115336,
+        -2488
+       ],
+       [
+        10152,
+        -115336,
+        -2464
+       ],
+       [
+        10168,
+        -115336,
+        -2448
+       ],
+       [
+        10184,
+        -115336,
+        -2432
+       ],
+       [
+        10200,
+        -115336,
+        -2416
+       ],
+       [
+        10232,
+        -115336,
+        -2376
+       ],
+       [
+        11112,
+        -116216,
+        -2272
+       ],
+       [
+        12104,
+        -117080,
+        -2016
+       ],
+       [
+        12136,
+        -117112,
+        -2008
+       ],
+       [
+        12408,
+        -117240,
+        -1952
+       ],
+       [
+        13352,
+        -117704,
+        -1736
+       ],
+       [
+        14072,
+        -118280,
+        -1496
+       ],
+       [
+        14344,
+        -118408,
+        -1264
+       ],
+       [
+        14376,
+        -118440,
+        -1232
+       ],
+       [
+        14392,
+        -118456,
+        -1216
+       ],
+       [
+        14408,
+        -118472,
+        -1200
+       ],
+       [
+        14424,
+        -118488,
+        -1184
+       ],
+       [
+        14440,
+        -118504,
+        -1168
+       ],
+       [
+        14456,
+        -118520,
+        -1152
+       ],
+       [
+        15448,
+        -118520,
+        -888
+       ],
+       [
+        16440,
+        -118584,
+        -768
+       ],
+       [
+        16776,
+        -118920,
+        -672
+       ],
+       [
+        17320,
+        -119192,
+        -440
+       ],
+       [
+        17384,
+        -119256,
+        -432
+       ],
+       [
+        18376,
+        -119896,
+        -536
+       ],
+       [
+        18968,
+        -119976,
+        -624
+       ],
+       [
+        19064,
+        -120072,
+        -640
+       ],
+       [
+        20056,
+        -120072,
+        -496
+       ],
+       [
+        20648,
+        -120088,
+        -416
+       ],
+       [
+        22632,
+        -121368,
+        -656
+       ],
+       [
+        23624,
+        -122360,
+        -688
+       ],
+       [
+        24616,
+        -123352,
+        -704
+       ],
+       [
+        25608,
+        -124344,
+        -696
+       ],
+       [
+        26408,
+        -125144,
+        -712
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20415
+     ],
+     "items": [
+      1619
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "caveoftrials-1-straight-a",
+      "name": "Cave of Trials: Cave, straight: Scarlet Salamander room",
+      "at": [
+       16595,
+       -112612,
+       -3196
+      ],
+      "radius": 737,
+      "levels": [
+       17,
+       18
+      ],
+      "count": 4,
+      "region": "Cave of Trials",
+      "atlasKey": "room:caveoftrials-1-straight-a",
+      "status": "ok",
+      "sec": 132,
+      "danger": 0,
+      "reachable": true,
+      "score": -21.8,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "caveoftrials-1-straight-d",
+        "name": "Cave of Trials: Cave, straight: Scarlet Salamander Elder room",
+        "at": [
+         21452,
+         -116219,
+         -3344
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:caveoftrials-1-straight-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 7494,
+      "sec": 132,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Cave of Trials",
+        "link": "cave of trials",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 7494,
+        "how": "dungeon-rooms",
+        "danger": 18
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        9340,
+        -112509,
+        -2536
+       ],
+       [
+        9340,
+        -112509,
+        -2536
+       ],
+       [
+        10328,
+        -112504,
+        -2536
+       ],
+       [
+        11320,
+        -112504,
+        -2792
+       ],
+       [
+        12312,
+        -112504,
+        -2976
+       ],
+       [
+        12808,
+        -112504,
+        -2944
+       ],
+       [
+        12840,
+        -112568,
+        -2952
+       ],
+       [
+        13832,
+        -112568,
+        -2976
+       ],
+       [
+        14824,
+        -112568,
+        -3128
+       ],
+       [
+        15816,
+        -112568,
+        -3136
+       ],
+       [
+        16280,
+        -112488,
+        -3112
+       ],
+       [
+        16312,
+        -112488,
+        -3120
+       ],
+       [
+        16312,
+        -112472,
+        -3120
+       ],
+       [
+        16408,
+        -112440,
+        -3104
+       ],
+       [
+        16456,
+        -112440,
+        -3112
+       ],
+       [
+        16456,
+        -112424,
+        -3120
+       ],
+       [
+        16552,
+        -112424,
+        -3120
+       ],
+       [
+        16600,
+        -112616,
+        -3184
+       ]
+      ],
+      "maxDanger": 18,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 18,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20335
+     ],
+     "items": [
+      1625
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-8",
+      "name": "Fellmere Harvest Grounds 8: Grizzly Bear area (west)",
+      "at": [
+       -71560,
+       99864,
+       -3632
+      ],
+      "radius": 2942,
+      "levels": [
+       16,
+       18
+      ],
+      "count": 2,
+      "region": "Fellmere Harvest Grounds",
+      "atlasKey": "area:fellmere-harvest-grounds-8",
+      "status": "ok",
+      "sec": 215,
+      "danger": 18,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -8.416666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-6",
+        "name": "Fellmere Harvest Grounds 6: Felim Lizardman Scout area (west)",
+        "at": [
+         -69224,
+         99768,
+         -3800
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fellmere-harvest-grounds-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 20403,
+      "sec": 215,
+      "via": ".gludin > Gludin -> Orc Barracks",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Orc Barracks",
+        "link": "orc barracks",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12059,
+        "how": "field-areas-gap",
+        "danger": 21
+       },
+       {
+        "do": "walk",
+        "len": 8344,
+        "how": "field-areas",
+        "danger": 26
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Orc Barracks"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -89763,
+        105359,
+        -3576
+       ],
+       [
+        -78376,
+        103800,
+        -3840
+       ],
+       [
+        -77384,
+        103800,
+        -3840
+       ],
+       [
+        -76392,
+        103800,
+        -3832
+       ],
+       [
+        -75400,
+        103576,
+        -3856
+       ],
+       [
+        -74616,
+        102792,
+        -3880
+       ],
+       [
+        -73624,
+        101928,
+        -3872
+       ],
+       [
+        -72632,
+        100936,
+        -3800
+       ],
+       [
+        -71640,
+        99944,
+        -3632
+       ],
+       [
+        -71560,
+        99864,
+        -3632
+       ]
+      ],
+      "maxDanger": 26,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 26,
+       "dangerVsLevel": 8,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20415,
+      20478,
+      20479,
+      20335,
+      20038,
+      20043,
+      27319
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-the-lords-far-2",
+      "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+      "at": [
+       26408,
+       -125144,
+       -712
+      ],
+      "radius": 3013,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 13,
+      "region": "Valley of the Lords",
+      "atlasKey": "area:valley-of-the-lords-far-2",
+      "status": "ok",
+      "sec": 264,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -73.6,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "windmill-hill-1",
+        "name": "Windmill Hill 1: Vuku Orc Fighter area (east)",
+        "at": [
+         -73192,
+         168232,
+         -3688
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-20",
+        "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+        "at": [
+         -2952,
+         -123320,
+         -2536
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-9",
+        "name": "Frozen Waterfall 9: Kasha Bear area (south)",
+        "at": [
+         5320,
+         -126600,
+         -2960
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-the-lords-far-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 23290,
+      "sec": 264,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Cave of Trials",
+        "link": "cave of trials",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3149,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 20141,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        9340,
+        -112509,
+        -2536
+       ],
+       [
+        9864,
+        -115336,
+        -2952
+       ],
+       [
+        9880,
+        -115336,
+        -2928
+       ],
+       [
+        9896,
+        -115336,
+        -2896
+       ],
+       [
+        9912,
+        -115336,
+        -2872
+       ],
+       [
+        9944,
+        -115336,
+        -2816
+       ],
+       [
+        9960,
+        -115336,
+        -2792
+       ],
+       [
+        9976,
+        -115336,
+        -2760
+       ],
+       [
+        9992,
+        -115336,
+        -2736
+       ],
+       [
+        10008,
+        -115336,
+        -2712
+       ],
+       [
+        10024,
+        -115336,
+        -2680
+       ],
+       [
+        10040,
+        -115336,
+        -2648
+       ],
+       [
+        10056,
+        -115336,
+        -2616
+       ],
+       [
+        10088,
+        -115336,
+        -2560
+       ],
+       [
+        10104,
+        -115336,
+        -2528
+       ],
+       [
+        10120,
+        -115336,
+        -2504
+       ],
+       [
+        10136,
+        -115336,
+        -2488
+       ],
+       [
+        10152,
+        -115336,
+        -2464
+       ],
+       [
+        10168,
+        -115336,
+        -2448
+       ],
+       [
+        10184,
+        -115336,
+        -2432
+       ],
+       [
+        10200,
+        -115336,
+        -2416
+       ],
+       [
+        10232,
+        -115336,
+        -2376
+       ],
+       [
+        11112,
+        -116216,
+        -2272
+       ],
+       [
+        12104,
+        -117080,
+        -2016
+       ],
+       [
+        12136,
+        -117112,
+        -2008
+       ],
+       [
+        12408,
+        -117240,
+        -1952
+       ],
+       [
+        13352,
+        -117704,
+        -1736
+       ],
+       [
+        14072,
+        -118280,
+        -1496
+       ],
+       [
+        14344,
+        -118408,
+        -1264
+       ],
+       [
+        14376,
+        -118440,
+        -1232
+       ],
+       [
+        14392,
+        -118456,
+        -1216
+       ],
+       [
+        14408,
+        -118472,
+        -1200
+       ],
+       [
+        14424,
+        -118488,
+        -1184
+       ],
+       [
+        14440,
+        -118504,
+        -1168
+       ],
+       [
+        14456,
+        -118520,
+        -1152
+       ],
+       [
+        15448,
+        -118520,
+        -888
+       ],
+       [
+        16440,
+        -118584,
+        -768
+       ],
+       [
+        16776,
+        -118920,
+        -672
+       ],
+       [
+        17320,
+        -119192,
+        -440
+       ],
+       [
+        17384,
+        -119256,
+        -432
+       ],
+       [
+        18376,
+        -119896,
+        -536
+       ],
+       [
+        18968,
+        -119976,
+        -624
+       ],
+       [
+        19064,
+        -120072,
+        -640
+       ],
+       [
+        20056,
+        -120072,
+        -496
+       ],
+       [
+        20648,
+        -120088,
+        -416
+       ],
+       [
+        22632,
+        -121368,
+        -656
+       ],
+       [
+        23624,
+        -122360,
+        -688
+       ],
+       [
+        24616,
+        -123352,
+        -704
+       ],
+       [
+        25608,
+        -124344,
+        -696
+       ],
+       [
+        26408,
+        -125144,
+        -712
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "frozen-waterfall-9",
+    "name": "Frozen Waterfall 9: Kasha Bear area (south)",
+    "at": [
+     5320,
+     -126600,
+     -2960
+    ],
+    "radius": 4670,
+    "levels": [
+     14,
+     17
+    ],
+    "count": 7,
+    "region": "Frozen Waterfall",
+    "atlasKey": "area:frozen-waterfall-9",
+    "status": "ok",
+    "sec": 192,
+    "danger": 17,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -38.8,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-8",
+      "name": "Frozen Waterfall 8: Kasha Spider area (south)",
+      "at": [
+       12728,
+       -129208,
+       -1368
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-20",
+      "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+      "at": [
+       -2952,
+       -123320,
+       -2536
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-14",
+      "name": "Frozen Waterfall 14: Kasha Bear area (south-east)",
+      "at": [
+       21016,
+       -130184,
+       -1688
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:frozen-waterfall-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 14675,
+    "sec": 192,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Frozen Waterfall",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Frozen Waterfall",
+      "link": "frozen waterfall",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7233,
+      "how": "field-areas-gap",
+      "danger": 14
+     },
+     {
+      "do": "walk",
+      "len": 7442,
+      "how": "field-areas",
+      "danger": 17
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      8652,
+      -139941,
+      -1144
+     ],
+     [
+      8312,
+      -132872,
+      -2664
+     ],
+     [
+      8312,
+      -131880,
+      -2712
+     ],
+     [
+      8312,
+      -130888,
+      -2752
+     ],
+     [
+      8312,
+      -129896,
+      -2760
+     ],
+     [
+      7624,
+      -128904,
+      -2880
+     ],
+     [
+      6632,
+      -127912,
+      -2912
+     ],
+     [
+      5640,
+      -126920,
+      -2944
+     ],
+     [
+      5320,
+      -126600,
+      -2960
+     ]
+    ],
+    "maxDanger": 17,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 17,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 267,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    6
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27056",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27056,
+     "name": "Durka Spirit",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 1617,
+     "name": "Kasha Bear Pelt",
+     "n": 1,
+     "from": [
+      {
+       "id": 20479,
+       "name": "Kasha Bear",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1618,
+     "name": "Kasha Blade Spider Husk",
+     "n": 1,
+     "from": [
+      {
+       "id": 20478,
+       "name": "Kasha Blade Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1619,
+     "name": "1st Fiery Egg",
+     "n": 1,
+     "from": [
+      {
+       "id": 20415,
+       "name": "Scarlet Salamander",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1625,
+     "name": "Grizzly Blood",
+     "n": 3,
+     "from": [
+      {
+       "id": 20335,
+       "name": "Grizzly Bear",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20038,
+     20043
+    ]
+   },
+   "text": "Make Durka Spirit appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "windmill-hill-1",
+    "name": "Windmill Hill 1: Vuku Orc Fighter area (east)",
+    "at": [
+     -73192,
+     168232,
+     -3688
+    ],
+    "radius": 5676,
+    "levels": [
+     17,
+     19
+    ],
+    "count": 12,
+    "region": "Windmill Hill",
+    "atlasKey": "area:windmill-hill-1",
+    "status": "ok",
+    "sec": 65,
+    "danger": 20,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -70.91666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "windmill-hill-4",
+      "name": "Windmill Hill 4: Vuku Orc Fighter area (north-east)",
+      "at": [
+       -73128,
+       163656,
+       -3672
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-4",
+      "name": "Spider Nest 4: Venomous Spider area (north-west)",
+      "at": [
+       -64328,
+       72296,
+       -3248
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-15",
+      "name": "Spider Nest 15: Tumran Orc Brigand area (east)",
+      "at": [
+       -50088,
+       77416,
+       -3288
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:windmill-hill-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 2396,
+    "sec": 65,
+    "via": ".gludin > Gludin -> Windmill Hill",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Windmill Hill",
+      "link": "windmill hill",
+      "price": 550,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2396,
+      "how": "field-areas",
+      "danger": 19
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Windmill Hill"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -75432,
+      168808,
+      -3632
+     ],
+     [
+      -74440,
+      168808,
+      -3504
+     ],
+     [
+      -73448,
+      168488,
+      -3624
+     ],
+     [
+      -73192,
+      168232,
+      -3688
+     ]
+    ],
+    "maxDanger": 19,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 19,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 365,
+   "conds": [
+    1,
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30502",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Perform the ritual"
+   ],
+   "npc": {
+    "id": 30502,
+    "name": "Umos",
+    "title": "Seer",
+    "town": "Gludin",
+    "at": [
+     -80448,
+     153208,
+     -3176
+    ],
+    "alt": []
+   },
+   "text": "Bring Totem Spirit Blood to Umos",
+   "needs": [
+    {
+     "id": 1630,
+     "name": "Totem Spirit Blood",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30502@-80448,153208",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 7299,
+    "sec": 81,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 7299,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -82984,
+      152680,
+      -3168
+     ],
+     [
+      -82712,
+      152728,
+      -3168
+     ],
+     [
+      -82552,
+      152728,
+      -3168
+     ],
+     [
+      -82344,
+      152744,
+      -3168
+     ],
+     [
+      -82072,
+      152744,
+      -3168
+     ],
+     [
+      -81800,
+      152744,
+      -3168
+     ],
+     [
+      -81528,
+      152744,
+      -3168
+     ],
+     [
+      -81256,
+      152744,
+      -3168
+     ],
+     [
+      -80984,
+      152744,
+      -3168
+     ],
+     [
+      -80824,
+      152744,
+      -3168
+     ],
+     [
+      -80760,
+      152840,
+      -3168
+     ],
+     [
+      -80760,
+      153112,
+      -3168
+     ],
+     [
+      -80600,
+      153304,
+      -3168
+     ],
+     [
+      -80440,
+      153240,
+      -3168
+     ],
+     [
+      -80440,
+      153208,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:31979",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31979,
+    "name": "Moira",
+    "title": "Seer",
+    "town": "Schuttgart",
+    "at": [
+     89986,
+     -143186,
+     -1527
+    ],
+    "alt": []
+   },
+   "text": "Talk to Moira",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31979@89986,-143186",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5498,
+    "sec": 66,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 5498,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141928,
+      -1536
+     ],
+     [
+      89912,
+      -142024,
+      -1536
+     ],
+     [
+      90040,
+      -142264,
+      -1536
+     ],
+     [
+      90152,
+      -142520,
+      -1536
+     ],
+     [
+      90360,
+      -142680,
+      -1536
+     ],
+     [
+      90552,
+      -142872,
+      -1536
+     ],
+     [
+      90568,
+      -143080,
+      -1536
+     ],
+     [
+      90360,
+      -143192,
+      -1520
+     ],
+     [
+      90136,
+      -143272,
+      -1520
+     ],
+     [
+      89944,
+      -143448,
+      -1520
+     ],
+     [
+      90056,
+      -143352,
+      -1520
+     ],
+     [
+      90088,
+      -143320,
+      -1520
+     ],
+     [
+      89992,
+      -143192,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 91,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:32057",
+   "cond": 1,
+   "kind": "talk",
+   "to": 21,
+   "links": [
+    "......"
+   ],
+   "npc": {
+    "id": 32057,
+    "name": "Totem Spirit of Gandi",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     90088,
+     -143223,
+     -1527
+    ],
+    "alt": []
+   },
+   "text": "Talk to Totem Spirit of Gandi",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31978@90000,-143286",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5386,
+    "sec": 65,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 5386,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141928,
+      -1536
+     ],
+     [
+      89912,
+      -142024,
+      -1536
+     ],
+     [
+      90040,
+      -142264,
+      -1536
+     ],
+     [
+      90152,
+      -142520,
+      -1536
+     ],
+     [
+      90360,
+      -142680,
+      -1536
+     ],
+     [
+      90552,
+      -142872,
+      -1536
+     ],
+     [
+      90568,
+      -143080,
+      -1536
+     ],
+     [
+      90360,
+      -143192,
+      -1520
+     ],
+     [
+      90136,
+      -143272,
+      -1520
+     ],
+     [
+      89944,
+      -143448,
+      -1520
+     ],
+     [
+      90056,
+      -143352,
+      -1520
+     ],
+     [
+      90024,
+      -143320,
+      -1520
+     ],
+     [
+      90024,
+      -143288,
+      -1520
+     ],
+     [
+      90008,
+      -143288,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31978@90000,-143286",
+     "name": "Tazeer"
+    },
+    "points": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141928,
+      -1536
+     ],
+     [
+      89912,
+      -142024,
+      -1536
+     ],
+     [
+      90040,
+      -142264,
+      -1536
+     ],
+     [
+      90152,
+      -142520,
+      -1536
+     ],
+     [
+      90360,
+      -142680,
+      -1536
+     ],
+     [
+      90552,
+      -142872,
+      -1536
+     ],
+     [
+      90568,
+      -143080,
+      -1536
+     ],
+     [
+      90360,
+      -143192,
+      -1520
+     ],
+     [
+      90136,
+      -143272,
+      -1520
+     ],
+     [
+      89944,
+      -143448,
+      -1520
+     ],
+     [
+      90056,
+      -143352,
+      -1520
+     ],
+     [
+      90024,
+      -143320,
+      -1520
+     ],
+     [
+      90024,
+      -143288,
+      -1520
+     ],
+     [
+      90008,
+      -143288,
+      -1520
+     ]
+    ]
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:talk:32090",
+   "cond": 1,
+   "kind": "talk",
+   "to": 20,
+   "links": [],
+   "npc": {
+    "id": 32090,
+    "name": "Dead Leopard's Carcass",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     35652,
+     -117571,
+     -1272
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dead Leopard's Carcass",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:crypts-of-disgrace-far-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 15400,
+    "sec": 173,
+    "via": ".schuttgart > Schuttgart -> Crypt of Disgrace",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Crypt of Disgrace",
+      "link": "crypts of disgrace",
+      "price": 9600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8754,
+      "how": "field-areas",
+      "danger": 81
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Crypt of Disgrace"
+    },
+    "simple": true,
+    "pv": [
+     [
+      47688,
+      -115752,
+      -3744
+     ],
+     [
+      46696,
+      -115752,
+      -3800
+     ],
+     [
+      45704,
+      -115752,
+      -3544
+     ],
+     [
+      44712,
+      -115752,
+      -3224
+     ],
+     [
+      43848,
+      -115304,
+      -2952
+     ],
+     [
+      42856,
+      -114568,
+      -2704
+     ],
+     [
+      42312,
+      -114024,
+      -2568
+     ],
+     [
+      41960,
+      -113768,
+      -2384
+     ],
+     [
+      41864,
+      -113672,
+      -2264
+     ],
+     [
+      41848,
+      -113656,
+      -2248
+     ],
+     [
+      40856,
+      -112680,
+      -2048
+     ],
+     [
+      40280,
+      -112104,
+      -1856
+     ],
+     [
+      40424,
+      -113848,
+      -2096
+     ],
+     [
+      40328,
+      -114040,
+      -2144
+     ],
+     [
+      39336,
+      -115032,
+      -2016
+     ],
+     [
+      38936,
+      -115928,
+      -1864
+     ],
+     [
+      37944,
+      -116920,
+      -1584
+     ],
+     [
+      37336,
+      -117576,
+      -1488
+     ],
+     [
+      36792,
+      -117624,
+      -1384
+     ],
+     [
+      35944,
+      -117736,
+      -1280
+     ],
+     [
+      35800,
+      -117720,
+      -1280
+     ],
+     [
+      35656,
+      -117576,
+      -1272
+     ]
+    ],
+    "maxDanger": 81,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 81,
+     "dangerVsLevel": 63,
+     "aggro": [
+      {
+       "name": "Contaminated Morek Warrior",
+       "lv": 81,
+       "n": 6
+      },
+      {
+       "name": "Grave Robber Scout",
+       "lv": 27,
+       "n": 5
+      },
+      {
+       "name": "Grave Robber Lookout",
+       "lv": 27,
+       "n": 3
+      },
+      {
+       "name": "Grim Grizzly",
+       "lv": 26,
+       "n": 3
+      },
+      {
+       "name": "Grim Wolf",
+       "lv": 25,
+       "n": 4
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:crypts-of-disgrace-far-1",
+     "name": "Crypts of Disgrace 1: Grim Grizzly area (west)"
+    },
+    "points": [
+     [
+      47688,
+      -115752,
+      -3744
+     ],
+     [
+      46696,
+      -115752,
+      -3800
+     ],
+     [
+      45704,
+      -115752,
+      -3544
+     ],
+     [
+      44712,
+      -115752,
+      -3224
+     ],
+     [
+      43848,
+      -115304,
+      -2952
+     ],
+     [
+      42856,
+      -114568,
+      -2704
+     ],
+     [
+      42312,
+      -114024,
+      -2568
+     ],
+     [
+      41960,
+      -113768,
+      -2384
+     ],
+     [
+      41864,
+      -113672,
+      -2264
+     ],
+     [
+      41848,
+      -113656,
+      -2248
+     ],
+     [
+      40856,
+      -112680,
+      -2048
+     ],
+     [
+      40280,
+      -112104,
+      -1856
+     ],
+     [
+      40424,
+      -113848,
+      -2096
+     ],
+     [
+      40328,
+      -114040,
+      -2144
+     ],
+     [
+      39336,
+      -115032,
+      -2016
+     ],
+     [
+      38936,
+      -115928,
+      -1864
+     ],
+     [
+      37944,
+      -116920,
+      -1584
+     ],
+     [
+      37336,
+      -117576,
+      -1488
+     ],
+     [
+      36792,
+      -117624,
+      -1384
+     ],
+     [
+      35944,
+      -117736,
+      -1280
+     ],
+     [
+      35800,
+      -117720,
+      -1280
+     ],
+     [
+      35656,
+      -117576,
+      -1272
+     ]
+    ]
+   },
+   "expectedSec": 198,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ],
+   "override": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9864,
+      -115336,
+      -2952
+     ],
+     [
+      9880,
+      -115336,
+      -2928
+     ],
+     [
+      9912,
+      -115336,
+      -2872
+     ],
+     [
+      9928,
+      -115336,
+      -2848
+     ],
+     [
+      9944,
+      -115336,
+      -2816
+     ],
+     [
+      9960,
+      -115336,
+      -2792
+     ],
+     [
+      9976,
+      -115336,
+      -2760
+     ],
+     [
+      9992,
+      -115336,
+      -2736
+     ],
+     [
+      10024,
+      -115336,
+      -2680
+     ],
+     [
+      10040,
+      -115336,
+      -2648
+     ],
+     [
+      10056,
+      -115336,
+      -2616
+     ],
+     [
+      10072,
+      -115336,
+      -2592
+     ],
+     [
+      10088,
+      -115336,
+      -2560
+     ],
+     [
+      10120,
+      -115336,
+      -2504
+     ],
+     [
+      10136,
+      -115336,
+      -2488
+     ],
+     [
+      10152,
+      -115336,
+      -2464
+     ],
+     [
+      10168,
+      -115336,
+      -2448
+     ],
+     [
+      10184,
+      -115336,
+      -2432
+     ],
+     [
+      10216,
+      -115336,
+      -2392
+     ],
+     [
+      10232,
+      -115336,
+      -2376
+     ],
+     [
+      11112,
+      -116216,
+      -2272
+     ],
+     [
+      12104,
+      -117080,
+      -2016
+     ],
+     [
+      12136,
+      -117112,
+      -2008
+     ],
+     [
+      12408,
+      -117240,
+      -1952
+     ],
+     [
+      14072,
+      -118280,
+      -1496
+     ],
+     [
+      14344,
+      -118408,
+      -1264
+     ],
+     [
+      14360,
+      -118424,
+      -1248
+     ],
+     [
+      14376,
+      -118440,
+      -1232
+     ],
+     [
+      14392,
+      -118456,
+      -1216
+     ],
+     [
+      14424,
+      -118488,
+      -1184
+     ],
+     [
+      14440,
+      -118504,
+      -1168
+     ],
+     [
+      14456,
+      -118520,
+      -1152
+     ],
+     [
+      15448,
+      -118520,
+      -888
+     ],
+     [
+      16440,
+      -118584,
+      -768
+     ],
+     [
+      16776,
+      -118920,
+      -672
+     ],
+     [
+      17320,
+      -119192,
+      -440
+     ],
+     [
+      17384,
+      -119256,
+      -432
+     ],
+     [
+      18376,
+      -119896,
+      -536
+     ],
+     [
+      18968,
+      -119976,
+      -624
+     ],
+     [
+      19064,
+      -120072,
+      -640
+     ],
+     [
+      20648,
+      -120088,
+      -416
+     ],
+     [
+      21640,
+      -120376,
+      -528
+     ],
+     [
+      22632,
+      -121368,
+      -656
+     ],
+     [
+      23624,
+      -122360,
+      -688
+     ],
+     [
+      24616,
+      -123352,
+      -704
+     ],
+     [
+      26408,
+      -125144,
+      -712
+     ],
+     [
+      27400,
+      -124152,
+      -728
+     ],
+     [
+      28376,
+      -124040,
+      -856
+     ],
+     [
+      29096,
+      -124040,
+      -944
+     ],
+     [
+      30088,
+      -123768,
+      -952
+     ],
+     [
+      31640,
+      -123128,
+      -816
+     ],
+     [
+      32232,
+      -122776,
+      -792
+     ],
+     [
+      33176,
+      -122216,
+      -944
+     ],
+     [
+      33864,
+      -121896,
+      -1040
+     ],
+     [
+      34856,
+      -120904,
+      -1096
+     ],
+     [
+      35656,
+      -119912,
+      -1160
+     ],
+     [
+      35688,
+      -118072,
+      -1272
+     ],
+     [
+      35688,
+      -117656,
+      -1280
+     ],
+     [
+      35656,
+      -117576,
+      -1272
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "note": "Dead Leopard's Carcass (35652,-117571,-1272): the old computed way from the Crypt of Disgrace passed Contaminated Morek Warriors lv81; new way = nav atlas walk to Valley of the Lords 2 + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "points": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9864,
+      -115336,
+      -2952
+     ],
+     [
+      9880,
+      -115336,
+      -2928
+     ],
+     [
+      9912,
+      -115336,
+      -2872
+     ],
+     [
+      9928,
+      -115336,
+      -2848
+     ],
+     [
+      9944,
+      -115336,
+      -2816
+     ],
+     [
+      9960,
+      -115336,
+      -2792
+     ],
+     [
+      9976,
+      -115336,
+      -2760
+     ],
+     [
+      9992,
+      -115336,
+      -2736
+     ],
+     [
+      10024,
+      -115336,
+      -2680
+     ],
+     [
+      10040,
+      -115336,
+      -2648
+     ],
+     [
+      10056,
+      -115336,
+      -2616
+     ],
+     [
+      10072,
+      -115336,
+      -2592
+     ],
+     [
+      10088,
+      -115336,
+      -2560
+     ],
+     [
+      10120,
+      -115336,
+      -2504
+     ],
+     [
+      10136,
+      -115336,
+      -2488
+     ],
+     [
+      10152,
+      -115336,
+      -2464
+     ],
+     [
+      10168,
+      -115336,
+      -2448
+     ],
+     [
+      10184,
+      -115336,
+      -2432
+     ],
+     [
+      10216,
+      -115336,
+      -2392
+     ],
+     [
+      10232,
+      -115336,
+      -2376
+     ],
+     [
+      11112,
+      -116216,
+      -2272
+     ],
+     [
+      12104,
+      -117080,
+      -2016
+     ],
+     [
+      12136,
+      -117112,
+      -2008
+     ],
+     [
+      12408,
+      -117240,
+      -1952
+     ],
+     [
+      14072,
+      -118280,
+      -1496
+     ],
+     [
+      14344,
+      -118408,
+      -1264
+     ],
+     [
+      14360,
+      -118424,
+      -1248
+     ],
+     [
+      14376,
+      -118440,
+      -1232
+     ],
+     [
+      14392,
+      -118456,
+      -1216
+     ],
+     [
+      14424,
+      -118488,
+      -1184
+     ],
+     [
+      14440,
+      -118504,
+      -1168
+     ],
+     [
+      14456,
+      -118520,
+      -1152
+     ],
+     [
+      15448,
+      -118520,
+      -888
+     ],
+     [
+      16440,
+      -118584,
+      -768
+     ],
+     [
+      16776,
+      -118920,
+      -672
+     ],
+     [
+      17320,
+      -119192,
+      -440
+     ],
+     [
+      17384,
+      -119256,
+      -432
+     ],
+     [
+      18376,
+      -119896,
+      -536
+     ],
+     [
+      18968,
+      -119976,
+      -624
+     ],
+     [
+      19064,
+      -120072,
+      -640
+     ],
+     [
+      20648,
+      -120088,
+      -416
+     ],
+     [
+      21640,
+      -120376,
+      -528
+     ],
+     [
+      22632,
+      -121368,
+      -656
+     ],
+     [
+      23624,
+      -122360,
+      -688
+     ],
+     [
+      24616,
+      -123352,
+      -704
+     ],
+     [
+      26408,
+      -125144,
+      -712
+     ],
+     [
+      27400,
+      -124152,
+      -728
+     ],
+     [
+      28376,
+      -124040,
+      -856
+     ],
+     [
+      29096,
+      -124040,
+      -944
+     ],
+     [
+      30088,
+      -123768,
+      -952
+     ],
+     [
+      31640,
+      -123128,
+      -816
+     ],
+     [
+      32232,
+      -122776,
+      -792
+     ],
+     [
+      33176,
+      -122216,
+      -944
+     ],
+     [
+      33864,
+      -121896,
+      -1040
+     ],
+     [
+      34856,
+      -120904,
+      -1096
+     ],
+     [
+      35656,
+      -119912,
+      -1160
+     ],
+     [
+      35688,
+      -118072,
+      -1272
+     ],
+     [
+      35688,
+      -117656,
+      -1280
+     ],
+     [
+      35656,
+      -117576,
+      -1272
+     ]
+    ],
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9864,
+      -115336,
+      -2952
+     ],
+     [
+      9880,
+      -115336,
+      -2928
+     ],
+     [
+      9928,
+      -115336,
+      -2848
+     ],
+     [
+      9944,
+      -115336,
+      -2816
+     ],
+     [
+      9960,
+      -115336,
+      -2792
+     ],
+     [
+      9976,
+      -115336,
+      -2760
+     ],
+     [
+      9992,
+      -115336,
+      -2736
+     ],
+     [
+      10040,
+      -115336,
+      -2648
+     ],
+     [
+      10056,
+      -115336,
+      -2616
+     ],
+     [
+      10072,
+      -115336,
+      -2592
+     ],
+     [
+      10088,
+      -115336,
+      -2560
+     ],
+     [
+      10120,
+      -115336,
+      -2504
+     ],
+     [
+      10152,
+      -115336,
+      -2464
+     ],
+     [
+      10168,
+      -115336,
+      -2448
+     ],
+     [
+      10184,
+      -115336,
+      -2432
+     ],
+     [
+      10216,
+      -115336,
+      -2392
+     ],
+     [
+      10232,
+      -115336,
+      -2376
+     ],
+     [
+      12104,
+      -117080,
+      -2016
+     ],
+     [
+      12136,
+      -117112,
+      -2008
+     ],
+     [
+      12408,
+      -117240,
+      -1952
+     ],
+     [
+      14072,
+      -118280,
+      -1496
+     ],
+     [
+      14344,
+      -118408,
+      -1264
+     ],
+     [
+      14376,
+      -118440,
+      -1232
+     ],
+     [
+      14392,
+      -118456,
+      -1216
+     ],
+     [
+      14424,
+      -118488,
+      -1184
+     ],
+     [
+      14440,
+      -118504,
+      -1168
+     ],
+     [
+      15448,
+      -118520,
+      -888
+     ],
+     [
+      16440,
+      -118584,
+      -768
+     ],
+     [
+      16776,
+      -118920,
+      -672
+     ],
+     [
+      17320,
+      -119192,
+      -440
+     ],
+     [
+      17384,
+      -119256,
+      -432
+     ],
+     [
+      18968,
+      -119976,
+      -624
+     ],
+     [
+      19064,
+      -120072,
+      -640
+     ],
+     [
+      20648,
+      -120088,
+      -416
+     ],
+     [
+      21640,
+      -120376,
+      -528
+     ],
+     [
+      22632,
+      -121368,
+      -656
+     ],
+     [
+      24616,
+      -123352,
+      -704
+     ],
+     [
+      26408,
+      -125144,
+      -712
+     ],
+     [
+      27400,
+      -124152,
+      -728
+     ],
+     [
+      28376,
+      -124040,
+      -856
+     ],
+     [
+      29096,
+      -124040,
+      -944
+     ],
+     [
+      31640,
+      -123128,
+      -816
+     ],
+     [
+      32232,
+      -122776,
+      -792
+     ],
+     [
+      33176,
+      -122216,
+      -944
+     ],
+     [
+      33864,
+      -121896,
+      -1040
+     ],
+     [
+      34856,
+      -120904,
+      -1096
+     ],
+     [
+      35688,
+      -118072,
+      -1272
+     ],
+     [
+      35688,
+      -117656,
+      -1280
+     ],
+     [
+      35656,
+      -117576,
+      -1272
+     ]
+    ],
+    "length": 36382,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30585",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 12,
+   "links": [
+    "Acquire the Wisdom of the 99 Spirits."
+   ],
+   "npc": {
+    "id": 30585,
+    "name": "Tataru Zu Hestui",
+    "title": "",
+    "town": "Orc Village",
+    "at": [
+     -45328,
+     -114736,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Bring Totem Spirit Claw to Tataru Zu Hestui",
+   "needs": [
+    {
+     "id": 1622,
+     "name": "Totem Spirit Claw",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30585@-45328,-114736",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 3014,
+    "sec": 70,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3014,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44664,
+      -112920,
+      -240
+     ],
+     [
+      -44472,
+      -113112,
+      -240
+     ],
+     [
+      -44424,
+      -113352,
+      -240
+     ],
+     [
+      -44504,
+      -113608,
+      -208
+     ],
+     [
+      -44392,
+      -113816,
+      -240
+     ],
+     [
+      -44440,
+      -114024,
+      -240
+     ],
+     [
+      -44632,
+      -114216,
+      -240
+     ],
+     [
+      -44712,
+      -114296,
+      -240
+     ],
+     [
+      -44904,
+      -114488,
+      -240
+     ],
+     [
+      -45096,
+      -114680,
+      -240
+     ],
+     [
+      -45320,
+      -114728,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30593",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30593,
+    "name": "Duda-Mara Totem Spirit",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -85923,
+     136496,
+     -3170
+    ],
+    "alt": []
+   },
+   "text": "Bring Bound Durka Spirit to Duda-Mara Totem Spirit",
+   "needs": [
+    {
+     "id": 1628,
+     "name": "Bound Durka Spirit",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30593@-85923,136496",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 17149,
+    "sec": 163,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 17149,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      147768,
+      -3252
+     ],
+     [
+      -85480,
+      147272,
+      -3296
+     ],
+     [
+      -85928,
+      146600,
+      -3304
+     ],
+     [
+      -86200,
+      146104,
+      -3304
+     ],
+     [
+      -86472,
+      145608,
+      -3304
+     ],
+     [
+      -86520,
+      145560,
+      -3312
+     ],
+     [
+      -86520,
+      145528,
+      -3312
+     ],
+     [
+      -86216,
+      145224,
+      -3152
+     ],
+     [
+      -86216,
+      144952,
+      -3296
+     ],
+     [
+      -86072,
+      144456,
+      -3388
+     ],
+     [
+      -85928,
+      143960,
+      -3480
+     ],
+     [
+      -85928,
+      142968,
+      -3464
+     ],
+     [
+      -85928,
+      141976,
+      -3344
+     ],
+     [
+      -85928,
+      140984,
+      -3344
+     ],
+     [
+      -85928,
+      139992,
+      -3368
+     ],
+     [
+      -85928,
+      139000,
+      -3336
+     ],
+     [
+      -85928,
+      138008,
+      -3264
+     ],
+     [
+      -85928,
+      137016,
+      -3200
+     ],
+     [
+      -85928,
+      136504,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 188,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:deliver:30592",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "Give fiery egg"
+   ],
+   "npc": {
+    "id": 30592,
+    "name": "Hestui Totem Spirit",
+    "title": "",
+    "town": "Orc Village",
+    "at": [
+     -49542,
+     -109564,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Bring Hestui Mask, 2nd Fiery Egg to Hestui Totem Spirit",
+   "needs": [
+    {
+     "id": 1620,
+     "name": "Hestui Mask",
+     "n": 1
+    },
+    {
+     "id": 1621,
+     "name": "2nd Fiery Egg",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30592@-49542,-109564",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7628,
+    "sec": 109,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7628,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46344,
+      -109512,
+      -280
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47592,
+      -109384,
+      -232
+     ],
+     [
+      -47736,
+      -109144,
+      -176
+     ],
+     [
+      -47912,
+      -109080,
+      -264
+     ],
+     [
+      -48184,
+      -109080,
+      -272
+     ],
+     [
+      -48408,
+      -109128,
+      -264
+     ],
+     [
+      -48472,
+      -109192,
+      -256
+     ],
+     [
+      -48504,
+      -109224,
+      -256
+     ],
+     [
+      -48680,
+      -109432,
+      -240
+     ],
+     [
+      -48872,
+      -109624,
+      -240
+     ],
+     [
+      -49096,
+      -109784,
+      -240
+     ],
+     [
+      -49368,
+      -109768,
+      -240
+     ],
+     [
+      -49544,
+      -109560,
+      -240
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 134,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c9:hunt",
+   "cond": 9,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20038,
+     "name": "Venomous Spider",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 81,
+     "questSpawned": false
+    },
+    {
+     "id": 20043,
+     "name": "Arachnid Tracker",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 94,
+     "questSpawned": false
+    },
+    {
+     "id": 20415,
+     "name": "Scarlet Salamander",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20478,
+     "name": "Kasha Blade Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 20479,
+     "name": "Kasha Bear",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 70,
+     "questSpawned": false
+    },
+    {
+     "id": 20335,
+     "name": "Grizzly Bear",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 27319,
+     "name": "Black Leopard",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1628,
+     "name": "Bound Durka Spirit",
+     "n": 1,
+     "from": [
+      {
+       "id": 20415,
+       "name": "Scarlet Salamander",
+       "chance": 100
+      },
+      {
+       "id": 20478,
+       "name": "Kasha Blade Spider",
+       "chance": 100
+      },
+      {
+       "id": 20479,
+       "name": "Kasha Bear",
+       "chance": 100
+      },
+      {
+       "id": 20335,
+       "name": "Grizzly Bear",
+       "chance": 100
+      },
+      {
+       "id": 20038,
+       "name": "Venomous Spider",
+       "chance": 100
+      },
+      {
+       "id": 20043,
+       "name": "Arachnid Tracker",
+       "chance": 100
+      },
+      {
+       "id": 27056,
+       "name": "Durka Spirit",
+       "chance": 100
+      },
+      {
+       "id": 27319,
+       "name": "Black Leopard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Venomous Spider, Arachnid Tracker, Scarlet Salamander for Bound Durka Spirit x1",
+   "places": [
+    {
+     "mobs": [
+      20415,
+      20478,
+      20479,
+      20335,
+      20038,
+      20043,
+      27319
+     ],
+     "items": [
+      1628
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-the-lords-far-2",
+      "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+      "at": [
+       26408,
+       -125144,
+       -712
+      ],
+      "radius": 3013,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 13,
+      "region": "Valley of the Lords",
+      "atlasKey": "area:valley-of-the-lords-far-2",
+      "status": "ok",
+      "sec": 264,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -73.6,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "windmill-hill-1",
+        "name": "Windmill Hill 1: Vuku Orc Fighter area (east)",
+        "at": [
+         -73192,
+         168232,
+         -3688
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-20",
+        "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+        "at": [
+         -2952,
+         -123320,
+         -2536
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-9",
+        "name": "Frozen Waterfall 9: Kasha Bear area (south)",
+        "at": [
+         5320,
+         -126600,
+         -2960
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-the-lords-far-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 23290,
+      "sec": 264,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Cave of Trials",
+        "link": "cave of trials",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3149,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 20141,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        9340,
+        -112509,
+        -2536
+       ],
+       [
+        9864,
+        -115336,
+        -2952
+       ],
+       [
+        9880,
+        -115336,
+        -2928
+       ],
+       [
+        9896,
+        -115336,
+        -2896
+       ],
+       [
+        9912,
+        -115336,
+        -2872
+       ],
+       [
+        9944,
+        -115336,
+        -2816
+       ],
+       [
+        9960,
+        -115336,
+        -2792
+       ],
+       [
+        9976,
+        -115336,
+        -2760
+       ],
+       [
+        9992,
+        -115336,
+        -2736
+       ],
+       [
+        10008,
+        -115336,
+        -2712
+       ],
+       [
+        10024,
+        -115336,
+        -2680
+       ],
+       [
+        10040,
+        -115336,
+        -2648
+       ],
+       [
+        10056,
+        -115336,
+        -2616
+       ],
+       [
+        10088,
+        -115336,
+        -2560
+       ],
+       [
+        10104,
+        -115336,
+        -2528
+       ],
+       [
+        10120,
+        -115336,
+        -2504
+       ],
+       [
+        10136,
+        -115336,
+        -2488
+       ],
+       [
+        10152,
+        -115336,
+        -2464
+       ],
+       [
+        10168,
+        -115336,
+        -2448
+       ],
+       [
+        10184,
+        -115336,
+        -2432
+       ],
+       [
+        10200,
+        -115336,
+        -2416
+       ],
+       [
+        10232,
+        -115336,
+        -2376
+       ],
+       [
+        11112,
+        -116216,
+        -2272
+       ],
+       [
+        12104,
+        -117080,
+        -2016
+       ],
+       [
+        12136,
+        -117112,
+        -2008
+       ],
+       [
+        12408,
+        -117240,
+        -1952
+       ],
+       [
+        13352,
+        -117704,
+        -1736
+       ],
+       [
+        14072,
+        -118280,
+        -1496
+       ],
+       [
+        14344,
+        -118408,
+        -1264
+       ],
+       [
+        14376,
+        -118440,
+        -1232
+       ],
+       [
+        14392,
+        -118456,
+        -1216
+       ],
+       [
+        14408,
+        -118472,
+        -1200
+       ],
+       [
+        14424,
+        -118488,
+        -1184
+       ],
+       [
+        14440,
+        -118504,
+        -1168
+       ],
+       [
+        14456,
+        -118520,
+        -1152
+       ],
+       [
+        15448,
+        -118520,
+        -888
+       ],
+       [
+        16440,
+        -118584,
+        -768
+       ],
+       [
+        16776,
+        -118920,
+        -672
+       ],
+       [
+        17320,
+        -119192,
+        -440
+       ],
+       [
+        17384,
+        -119256,
+        -432
+       ],
+       [
+        18376,
+        -119896,
+        -536
+       ],
+       [
+        18968,
+        -119976,
+        -624
+       ],
+       [
+        19064,
+        -120072,
+        -640
+       ],
+       [
+        20056,
+        -120072,
+        -496
+       ],
+       [
+        20648,
+        -120088,
+        -416
+       ],
+       [
+        22632,
+        -121368,
+        -656
+       ],
+       [
+        23624,
+        -122360,
+        -688
+       ],
+       [
+        24616,
+        -123352,
+        -704
+       ],
+       [
+        25608,
+        -124344,
+        -696
+       ],
+       [
+        26408,
+        -125144,
+        -712
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "valley-of-the-lords-far-2",
+    "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+    "at": [
+     26408,
+     -125144,
+     -712
+    ],
+    "radius": 3013,
+    "levels": [
+     15,
+     17
+    ],
+    "count": 13,
+    "region": "Valley of the Lords",
+    "atlasKey": "area:valley-of-the-lords-far-2",
+    "status": "ok",
+    "sec": 264,
+    "danger": 17,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -73.6,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "windmill-hill-1",
+      "name": "Windmill Hill 1: Vuku Orc Fighter area (east)",
+      "at": [
+       -73192,
+       168232,
+       -3688
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-20",
+      "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+      "at": [
+       -2952,
+       -123320,
+       -2536
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-9",
+      "name": "Frozen Waterfall 9: Kasha Bear area (south)",
+      "at": [
+       5320,
+       -126600,
+       -2960
+      ],
+      "count": 10,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:valley-of-the-lords-far-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 23290,
+    "sec": 264,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Cave of Trials",
+      "link": "cave of trials",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3149,
+      "how": "field-areas-gap",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 20141,
+      "how": "field-areas",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9864,
+      -115336,
+      -2952
+     ],
+     [
+      9880,
+      -115336,
+      -2928
+     ],
+     [
+      9896,
+      -115336,
+      -2896
+     ],
+     [
+      9912,
+      -115336,
+      -2872
+     ],
+     [
+      9944,
+      -115336,
+      -2816
+     ],
+     [
+      9960,
+      -115336,
+      -2792
+     ],
+     [
+      9976,
+      -115336,
+      -2760
+     ],
+     [
+      9992,
+      -115336,
+      -2736
+     ],
+     [
+      10008,
+      -115336,
+      -2712
+     ],
+     [
+      10024,
+      -115336,
+      -2680
+     ],
+     [
+      10040,
+      -115336,
+      -2648
+     ],
+     [
+      10056,
+      -115336,
+      -2616
+     ],
+     [
+      10088,
+      -115336,
+      -2560
+     ],
+     [
+      10104,
+      -115336,
+      -2528
+     ],
+     [
+      10120,
+      -115336,
+      -2504
+     ],
+     [
+      10136,
+      -115336,
+      -2488
+     ],
+     [
+      10152,
+      -115336,
+      -2464
+     ],
+     [
+      10168,
+      -115336,
+      -2448
+     ],
+     [
+      10184,
+      -115336,
+      -2432
+     ],
+     [
+      10200,
+      -115336,
+      -2416
+     ],
+     [
+      10232,
+      -115336,
+      -2376
+     ],
+     [
+      11112,
+      -116216,
+      -2272
+     ],
+     [
+      12104,
+      -117080,
+      -2016
+     ],
+     [
+      12136,
+      -117112,
+      -2008
+     ],
+     [
+      12408,
+      -117240,
+      -1952
+     ],
+     [
+      13352,
+      -117704,
+      -1736
+     ],
+     [
+      14072,
+      -118280,
+      -1496
+     ],
+     [
+      14344,
+      -118408,
+      -1264
+     ],
+     [
+      14376,
+      -118440,
+      -1232
+     ],
+     [
+      14392,
+      -118456,
+      -1216
+     ],
+     [
+      14408,
+      -118472,
+      -1200
+     ],
+     [
+      14424,
+      -118488,
+      -1184
+     ],
+     [
+      14440,
+      -118504,
+      -1168
+     ],
+     [
+      14456,
+      -118520,
+      -1152
+     ],
+     [
+      15448,
+      -118520,
+      -888
+     ],
+     [
+      16440,
+      -118584,
+      -768
+     ],
+     [
+      16776,
+      -118920,
+      -672
+     ],
+     [
+      17320,
+      -119192,
+      -440
+     ],
+     [
+      17384,
+      -119256,
+      -432
+     ],
+     [
+      18376,
+      -119896,
+      -536
+     ],
+     [
+      18968,
+      -119976,
+      -624
+     ],
+     [
+      19064,
+      -120072,
+      -640
+     ],
+     [
+      20056,
+      -120072,
+      -496
+     ],
+     [
+      20648,
+      -120088,
+      -416
+     ],
+     [
+      22632,
+      -121368,
+      -656
+     ],
+     [
+      23624,
+      -122360,
+      -688
+     ],
+     [
+      24616,
+      -123352,
+      -704
+     ],
+     [
+      25608,
+      -124344,
+      -696
+     ],
+     [
+      26408,
+      -125144,
+      -712
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 289,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c9:spawn:27056",
+   "cond": 9,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27056,
+     "name": "Durka Spirit",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 1628,
+     "name": "Bound Durka Spirit",
+     "n": 1,
+     "from": [
+      {
+       "id": 20415,
+       "name": "Scarlet Salamander",
+       "chance": 100
+      },
+      {
+       "id": 20478,
+       "name": "Kasha Blade Spider",
+       "chance": 100
+      },
+      {
+       "id": 20479,
+       "name": "Kasha Bear",
+       "chance": 100
+      },
+      {
+       "id": 20335,
+       "name": "Grizzly Bear",
+       "chance": 100
+      },
+      {
+       "id": 20038,
+       "name": "Venomous Spider",
+       "chance": 100
+      },
+      {
+       "id": 20043,
+       "name": "Arachnid Tracker",
+       "chance": 100
+      },
+      {
+       "id": 27056,
+       "name": "Durka Spirit",
+       "chance": 100
+      },
+      {
+       "id": 27319,
+       "name": "Black Leopard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20038,
+     20043
+    ]
+   },
+   "text": "Make Durka Spirit appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "windmill-hill-1",
+    "name": "Windmill Hill 1: Vuku Orc Fighter area (east)",
+    "at": [
+     -73192,
+     168232,
+     -3688
+    ],
+    "radius": 5676,
+    "levels": [
+     17,
+     19
+    ],
+    "count": 12,
+    "region": "Windmill Hill",
+    "atlasKey": "area:windmill-hill-1",
+    "status": "ok",
+    "sec": 65,
+    "danger": 20,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -70.91666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "windmill-hill-4",
+      "name": "Windmill Hill 4: Vuku Orc Fighter area (north-east)",
+      "at": [
+       -73128,
+       163656,
+       -3672
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-4",
+      "name": "Spider Nest 4: Venomous Spider area (north-west)",
+      "at": [
+       -64328,
+       72296,
+       -3248
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-15",
+      "name": "Spider Nest 15: Tumran Orc Brigand area (east)",
+      "at": [
+       -50088,
+       77416,
+       -3288
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:windmill-hill-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 2396,
+    "sec": 65,
+    "via": ".gludin > Gludin -> Windmill Hill",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Windmill Hill",
+      "link": "windmill hill",
+      "price": 550,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2396,
+      "how": "field-areas",
+      "danger": 19
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Windmill Hill"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -75432,
+      168808,
+      -3632
+     ],
+     [
+      -74440,
+      168808,
+      -3504
+     ],
+     [
+      -73448,
+      168488,
+      -3624
+     ],
+     [
+      -73192,
+      168232,
+      -3688
+     ]
+    ],
+    "maxDanger": 19,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 19,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 365,
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c11:deliver:30593",
+   "cond": 11,
+   "kind": "deliver",
+   "to": 9,
+   "links": [
+    "Say you want to learn the names of the spirits"
+   ],
+   "npc": {
+    "id": 30593,
+    "name": "Duda-Mara Totem Spirit",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -85923,
+     136496,
+     -3170
+    ],
+    "alt": []
+   },
+   "text": "Bring Blood Cauldron to Duda-Mara Totem Spirit",
+   "needs": [
+    {
+     "id": 1626,
+     "name": "Blood Cauldron",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30593@-85923,136496",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 17149,
+    "sec": 163,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 17149,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      147768,
+      -3252
+     ],
+     [
+      -85480,
+      147272,
+      -3296
+     ],
+     [
+      -85928,
+      146600,
+      -3304
+     ],
+     [
+      -86200,
+      146104,
+      -3304
+     ],
+     [
+      -86472,
+      145608,
+      -3304
+     ],
+     [
+      -86520,
+      145560,
+      -3312
+     ],
+     [
+      -86520,
+      145528,
+      -3312
+     ],
+     [
+      -86216,
+      145224,
+      -3152
+     ],
+     [
+      -86216,
+      144952,
+      -3296
+     ],
+     [
+      -86072,
+      144456,
+      -3388
+     ],
+     [
+      -85928,
+      143960,
+      -3480
+     ],
+     [
+      -85928,
+      142968,
+      -3464
+     ],
+     [
+      -85928,
+      141976,
+      -3344
+     ],
+     [
+      -85928,
+      140984,
+      -3344
+     ],
+     [
+      -85928,
+      139992,
+      -3368
+     ],
+     [
+      -85928,
+      139000,
+      -3336
+     ],
+     [
+      -85928,
+      138008,
+      -3264
+     ],
+     [
+      -85928,
+      137016,
+      -3200
+     ],
+     [
+      -85928,
+      136504,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 188,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32090": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9864,
+      -115336,
+      -2952
+     ],
+     [
+      9880,
+      -115336,
+      -2928
+     ],
+     [
+      9912,
+      -115336,
+      -2872
+     ],
+     [
+      9928,
+      -115336,
+      -2848
+     ],
+     [
+      9944,
+      -115336,
+      -2816
+     ],
+     [
+      9960,
+      -115336,
+      -2792
+     ],
+     [
+      9976,
+      -115336,
+      -2760
+     ],
+     [
+      9992,
+      -115336,
+      -2736
+     ],
+     [
+      10024,
+      -115336,
+      -2680
+     ],
+     [
+      10040,
+      -115336,
+      -2648
+     ],
+     [
+      10056,
+      -115336,
+      -2616
+     ],
+     [
+      10072,
+      -115336,
+      -2592
+     ],
+     [
+      10088,
+      -115336,
+      -2560
+     ],
+     [
+      10120,
+      -115336,
+      -2504
+     ],
+     [
+      10136,
+      -115336,
+      -2488
+     ],
+     [
+      10152,
+      -115336,
+      -2464
+     ],
+     [
+      10168,
+      -115336,
+      -2448
+     ],
+     [
+      10184,
+      -115336,
+      -2432
+     ],
+     [
+      10216,
+      -115336,
+      -2392
+     ],
+     [
+      10232,
+      -115336,
+      -2376
+     ],
+     [
+      11112,
+      -116216,
+      -2272
+     ],
+     [
+      12104,
+      -117080,
+      -2016
+     ],
+     [
+      12136,
+      -117112,
+      -2008
+     ],
+     [
+      12408,
+      -117240,
+      -1952
+     ],
+     [
+      14072,
+      -118280,
+      -1496
+     ],
+     [
+      14344,
+      -118408,
+      -1264
+     ],
+     [
+      14360,
+      -118424,
+      -1248
+     ],
+     [
+      14376,
+      -118440,
+      -1232
+     ],
+     [
+      14392,
+      -118456,
+      -1216
+     ],
+     [
+      14424,
+      -118488,
+      -1184
+     ],
+     [
+      14440,
+      -118504,
+      -1168
+     ],
+     [
+      14456,
+      -118520,
+      -1152
+     ],
+     [
+      15448,
+      -118520,
+      -888
+     ],
+     [
+      16440,
+      -118584,
+      -768
+     ],
+     [
+      16776,
+      -118920,
+      -672
+     ],
+     [
+      17320,
+      -119192,
+      -440
+     ],
+     [
+      17384,
+      -119256,
+      -432
+     ],
+     [
+      18376,
+      -119896,
+      -536
+     ],
+     [
+      18968,
+      -119976,
+      -624
+     ],
+     [
+      19064,
+      -120072,
+      -640
+     ],
+     [
+      20648,
+      -120088,
+      -416
+     ],
+     [
+      21640,
+      -120376,
+      -528
+     ],
+     [
+      22632,
+      -121368,
+      -656
+     ],
+     [
+      23624,
+      -122360,
+      -688
+     ],
+     [
+      24616,
+      -123352,
+      -704
+     ],
+     [
+      26408,
+      -125144,
+      -712
+     ],
+     [
+      27400,
+      -124152,
+      -728
+     ],
+     [
+      28376,
+      -124040,
+      -856
+     ],
+     [
+      29096,
+      -124040,
+      -944
+     ],
+     [
+      30088,
+      -123768,
+      -952
+     ],
+     [
+      31640,
+      -123128,
+      -816
+     ],
+     [
+      32232,
+      -122776,
+      -792
+     ],
+     [
+      33176,
+      -122216,
+      -944
+     ],
+     [
+      33864,
+      -121896,
+      -1040
+     ],
+     [
+      34856,
+      -120904,
+      -1096
+     ],
+     [
+      35656,
+      -119912,
+      -1160
+     ],
+     [
+      35688,
+      -118072,
+      -1272
+     ],
+     [
+      35688,
+      -117656,
+      -1280
+     ],
+     [
+      35656,
+      -117576,
+      -1272
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "note": "Dead Leopard's Carcass (35652,-117571,-1272): the old computed way from the Crypt of Disgrace passed Contaminated Morek Warriors lv81; new way = nav atlas walk to Valley of the Lords 2 + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

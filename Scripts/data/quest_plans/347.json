@@ -1,0 +1,1729 @@
+{
+ "id": 347,
+ "name": "Go Get the Calculator",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.923Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 12,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 24,
+ "refLevel": 12,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30526",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will bring you the Calculator.\""
+   ],
+   "npc": {
+    "id": 30526,
+    "name": "Brunon",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115315,
+     -182155,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Talk to Brunon – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30526@115315,-182155",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6583,
+    "sec": 100,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6583,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115416,
+      -182664,
+      -1440
+     ],
+     [
+      115336,
+      -182424,
+      -1440
+     ],
+     [
+      115320,
+      -182152,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 130,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:30526",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30526,
+    "name": "Brunon",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115315,
+     -182155,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Bring Calculator to Brunon",
+   "needs": [
+    {
+     "id": 4393,
+     "name": "Calculator",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30526@115315,-182155",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6583,
+    "sec": 100,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6583,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115416,
+      -182664,
+      -1440
+     ],
+     [
+      115336,
+      -182424,
+      -1440
+     ],
+     [
+      115320,
+      -182152,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 125,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30532",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Golden Wheel"
+   ],
+   "npc": {
+    "id": 30532,
+    "name": "Spiron",
+    "title": "Golden Wheel's",
+    "town": "Dwarven Village",
+    "at": [
+     116190,
+     -178441,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Spiron",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30535@116103,-178407",
+     "name": "Filaur"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ]
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:30533",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Give him 100 Adena."
+   ],
+   "npc": {
+    "id": 30533,
+    "name": "Balanki",
+    "title": "Silver Scale's",
+    "town": "Dwarven Village",
+    "at": [
+     116016,
+     -178615,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Balanki",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30533@116016,-178615",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1529,
+    "sec": 58,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1529,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116024,
+      -178600,
+      -944
+     ],
+     [
+      116024,
+      -178616,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c3:talk:30527",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30527,
+    "name": "Silvera",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115271,
+     -182692,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Talk to Silvera",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30527@115271,-182692",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6201,
+    "sec": 97,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6201,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115272,
+      -182696,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 122,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3,
+    5
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c4:hunt",
+   "cond": 4,
+   "kind": "hunt",
+   "to": 5,
+   "monsters": [
+    {
+     "id": 20540,
+     "name": "Gemstone Beast",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 4286,
+     "name": "Gemstone Beast's Crystal",
+     "n": 10,
+     "from": [
+      {
+       "id": 20540,
+       "name": "Gemstone Beast",
+       "chance": 40
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Gemstone Beast for Gemstone Beast's Crystal x10",
+   "places": [
+    {
+     "mobs": [
+      20540
+     ],
+     "items": [
+      4286
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "room",
+      "id": "coalmines-1-right-a",
+      "name": "Abandoned Coal Mines: Lower pit, right: Mineshaft Bat room",
+      "at": [
+       136288,
+       -173530,
+       -1777
+      ],
+      "radius": 1035,
+      "levels": [
+       10,
+       14
+      ],
+      "count": 2,
+      "region": "Abandoned Coal Mines",
+      "atlasKey": "room:coalmines-1-right-a",
+      "status": "ok",
+      "sec": 121,
+      "danger": 12,
+      "reachable": true,
+      "score": -9.983333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "coalmines-1-left-b",
+        "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+        "at": [
+         141442,
+         -172185,
+         -1776
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-1-left-c",
+        "name": "Abandoned Coal Mines: Lower pit, left: Akaste Bone Warlord room",
+        "at": [
+         143705,
+         -170626,
+         -1777
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "coalmines-1-left-a",
+        "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+        "at": [
+         141485,
+         -170368,
+         -1777
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:coalmines-1-right-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 6093,
+      "sec": 121,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Abandoned Coal Mines",
+        "link": "abandoned coal mines",
+        "price": 690,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 6093,
+        "how": "dungeon-rooms",
+        "danger": 14
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        139714,
+        -177456,
+        -1536
+       ],
+       [
+        139714,
+        -177456,
+        -1536
+       ],
+       [
+        139624,
+        -176456,
+        -1536
+       ],
+       [
+        139624,
+        -175848,
+        -1592
+       ],
+       [
+        139560,
+        -175480,
+        -1632
+       ],
+       [
+        139560,
+        -175400,
+        -1648
+       ],
+       [
+        139400,
+        -175016,
+        -1704
+       ],
+       [
+        139320,
+        -174872,
+        -1728
+       ],
+       [
+        139144,
+        -174680,
+        -1728
+       ],
+       [
+        138152,
+        -173896,
+        -1752
+       ],
+       [
+        137832,
+        -173896,
+        -1776
+       ],
+       [
+        136840,
+        -173528,
+        -1752
+       ],
+       [
+        136296,
+        -173528,
+        -1776
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 14,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "coalmines-1-right-a",
+    "name": "Abandoned Coal Mines: Lower pit, right: Mineshaft Bat room",
+    "at": [
+     136288,
+     -173530,
+     -1777
+    ],
+    "radius": 1035,
+    "levels": [
+     10,
+     14
+    ],
+    "count": 2,
+    "region": "Abandoned Coal Mines",
+    "atlasKey": "room:coalmines-1-right-a",
+    "status": "ok",
+    "sec": 121,
+    "danger": 12,
+    "reachable": true,
+    "score": -9.983333333333334,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "coalmines-1-left-b",
+      "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+      "at": [
+       141442,
+       -172185,
+       -1776
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "coalmines-1-left-c",
+      "name": "Abandoned Coal Mines: Lower pit, left: Akaste Bone Warlord room",
+      "at": [
+       143705,
+       -170626,
+       -1777
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "coalmines-1-left-a",
+      "name": "Abandoned Coal Mines: Lower pit, left: Mineshaft Bat room",
+      "at": [
+       141485,
+       -170368,
+       -1777
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:coalmines-1-right-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6093,
+    "sec": 121,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Abandoned Coal Mines",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Abandoned Coal Mines",
+      "link": "abandoned coal mines",
+      "price": 690,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 6093,
+      "how": "dungeon-rooms",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      139714,
+      -177456,
+      -1536
+     ],
+     [
+      139714,
+      -177456,
+      -1536
+     ],
+     [
+      139624,
+      -176456,
+      -1536
+     ],
+     [
+      139624,
+      -175848,
+      -1592
+     ],
+     [
+      139560,
+      -175480,
+      -1632
+     ],
+     [
+      139560,
+      -175400,
+      -1648
+     ],
+     [
+      139400,
+      -175016,
+      -1704
+     ],
+     [
+      139320,
+      -174872,
+      -1728
+     ],
+     [
+      139144,
+      -174680,
+      -1728
+     ],
+     [
+      138152,
+      -173896,
+      -1752
+     ],
+     [
+      137832,
+      -173896,
+      -1776
+     ],
+     [
+      136840,
+      -173528,
+      -1752
+     ],
+     [
+      136296,
+      -173528,
+      -1776
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 746,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c6:talk:30526",
+   "cond": 6,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Take the calculator."
+   ],
+   "npc": {
+    "id": 30526,
+    "name": "Brunon",
+    "title": "Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115315,
+     -182155,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Talk to Brunon",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30526@115315,-182155",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6583,
+    "sec": 100,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6583,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115416,
+      -182664,
+      -1440
+     ],
+     [
+      115336,
+      -182424,
+      -1440
+     ],
+     [
+      115320,
+      -182152,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 125,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:27.931Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-thin"
+  ]
+ }
+}

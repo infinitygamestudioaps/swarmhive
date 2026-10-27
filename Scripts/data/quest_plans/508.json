@@ -1,0 +1,476 @@
+{
+ "id": 508,
+ "name": "A Clan's Reputation",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.161Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 5,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {
+  "clan": {
+   "leader": true,
+   "minLevel": null
+  }
+ },
+ "restrictions": [],
+ "status": "not-for-bots",
+ "reasons": [
+  {
+   "code": "clan",
+   "text": "clan quest (clan leader only)"
+  },
+  {
+   "code": "drop-unresolved",
+   "text": "a quest drop (item / chance) was not resolved"
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  }
+ ],
+ "expectedMin": 7,
+ "refLevel": 5,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30868",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it.\""
+   ],
+   "npc": {
+    "id": 30868,
+    "name": "Sir Eric Rodemai",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     147456,
+     27488,
+     -2204
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Eric Rodemai – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@147504,27408",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2165,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2165,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@147504,27408",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ]
+   },
+   "expectedSec": 68,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:25252",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25252,
+     "name": "Palibati Queen Themis",
+     "level": 70,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25478,
+     "name": "Shilen's Priest Hisilrome",
+     "level": 65,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25255,
+     "name": "Gargoyle Lord Tiphon",
+     "level": 65,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25245,
+     "name": "Last Lesser Giant Glaki",
+     "level": 78,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25051,
+     "name": "Rahha",
+     "level": 65,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25524,
+     "name": "Flamestone Giant",
+     "level": 76,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "engine": {
+    "manual": "the monsters (25252, 25478, 25255, 25245, 25051, 25524) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Palibati Queen Themis, Shilen's Priest Hisilrome, Gargoyle Lord Tiphon, Last Lesser Giant Glaki, Rahha, Flamestone Giant appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30868",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30868,
+    "name": "Sir Eric Rodemai",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     147456,
+     27488,
+     -2204
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Eric Rodemai",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@147504,27408",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2165,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2165,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@147504,27408",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ]
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

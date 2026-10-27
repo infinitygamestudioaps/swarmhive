@@ -1,0 +1,2632 @@
+{
+ "id": 412,
+ "name": "Path Of The Dark Wizard",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.246Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "items": [
+   {
+    "id": 1261,
+    "name": "Dark Jewel"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Dark Jewel"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 10,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30421",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Want to obtain power"
+   ],
+   "npc": {
+    "id": 30421,
+    "name": "Varika",
+    "title": "Witch",
+    "town": "Gludio",
+    "at": [
+     -44225,
+     79721,
+     -3648
+    ],
+    "alt": []
+   },
+   "text": "Talk to Varika – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30421@-44225,79721",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".oren",
+    "length": 8521,
+    "sec": 116,
+    "via": ".oren > Oren -> Necropolis of Devotion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Necropolis of Devotion",
+      "link": "necropolis of devotion",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8521,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Necropolis of Devotion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -52724,
+      79104,
+      -4739
+     ],
+     [
+      -44225,
+      79721,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -52724,79104 (the start is a closed pocket of 5280 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Sepulcher Sage",
+       "lv": 62,
+       "n": 2
+      },
+      {
+       "name": "Sepulcher Guardian",
+       "lv": 60,
+       "n": 2
+      },
+      {
+       "name": "Nephilim Bishop",
+       "lv": 60,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 146,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Spider Nest",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "note": "Varika (-44225,79721,-3648): the atlas way from Oren / Necropolis of Devotion started in a closed pocket and passed Sepulcher monsters lv60; new way = nav atlas geodata walk to npc 30663 (Spider Nest) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Spider Nest",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "points": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "length": 22400,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20015,
+     "name": "Marsh Zombie",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20022,
+     "name": "Misery Skeleton",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 20517,
+     "name": "Skeleton Hunter",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20518,
+     "name": "Skeleton Hunter Archer",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 20045,
+     "name": "Skeleton Scout",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1257,
+     "name": "Family's Remains",
+     "n": 3,
+     "from": [
+      {
+       "id": 20015,
+       "name": "Marsh Zombie",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 1259,
+     "name": "Knee Bone",
+     "n": 2,
+     "from": [
+      {
+       "id": 20022,
+       "name": "Misery Skeleton",
+       "chance": 50
+      },
+      {
+       "id": 20517,
+       "name": "Skeleton Hunter",
+       "chance": 50
+      },
+      {
+       "id": 20518,
+       "name": "Skeleton Hunter Archer",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 1260,
+     "name": "Heart of Lunacy",
+     "n": 3,
+     "from": [
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Marsh Zombie, Misery Skeleton, Skeleton Hunter for Family's Remains x3, Knee Bone x2, Heart of Lunacy x3",
+   "places": [
+    {
+     "mobs": [
+      20015
+     ],
+     "items": [
+      1257
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swampland-12",
+      "name": "Swampland 12: Festering Bat area (north-east)",
+      "at": [
+       -16664,
+       33160,
+       -3600
+      ],
+      "radius": 4601,
+      "levels": [
+       13,
+       13
+      ],
+      "count": 8,
+      "region": "Swampland",
+      "atlasKey": "area:swampland-12",
+      "status": "ok",
+      "sec": 150,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -45.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "swampland-4",
+        "name": "Swampland 4: Festering Bat area (north-east)",
+        "at": [
+         -19240,
+         34728,
+         -3168
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-1",
+        "name": "Swampland 1: Marsh Zombie area (east)",
+        "at": [
+         -19400,
+         40856,
+         -3776
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-2",
+        "name": "Swampland 2: Marsh Zombie area (north-east)",
+        "at": [
+         -19592,
+         38312,
+         -3144
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swampland-12",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 9555,
+      "sec": 150,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Swampland",
+        "link": "swampland",
+        "price": 1100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9555,
+        "how": "field-areas",
+        "danger": 14
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -21960,
+        40552,
+        -3192
+       ],
+       [
+        -21960,
+        39560,
+        -2992
+       ],
+       [
+        -21960,
+        38568,
+        -2736
+       ],
+       [
+        -21080,
+        37576,
+        -2704
+       ],
+       [
+        -20088,
+        36584,
+        -2856
+       ],
+       [
+        -19096,
+        35592,
+        -3056
+       ],
+       [
+        -18104,
+        34600,
+        -3296
+       ],
+       [
+        -17112,
+        33608,
+        -3600
+       ],
+       [
+        -16664,
+        33160,
+        -3600
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 14,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20022,
+      20517,
+      20518
+     ],
+     "items": [
+      1259
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "school-of-dark-arts-far-11",
+      "name": "School of Dark Arts (unreachable) 11: Vaiss Orc Warrior Leader area (south-west)",
+      "at": [
+       -49112,
+       55224,
+       -4888
+      ],
+      "radius": 2002,
+      "levels": [
+       10,
+       12
+      ],
+      "count": 4,
+      "region": "School of Dark Arts (unreachable)",
+      "atlasKey": "area:school-of-dark-arts-far-11",
+      "status": "ok",
+      "sec": 331,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": 41.516666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "school-of-dark-arts-far-9",
+        "name": "School of Dark Arts (unreachable) 9: Misery Skeleton area (south-west)",
+        "at": [
+         -48680,
+         53160,
+         -4888
+        ],
+        "count": 6,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "school-of-dark-arts-far-6",
+        "name": "School of Dark Arts (unreachable) 6: Doom Soldier area (south-west)",
+        "at": [
+         -45528,
+         53656,
+         -4888
+        ],
+        "count": 5,
+        "status": "unverified"
+       },
+       {
+        "kind": "field",
+        "id": "school-of-dark-arts-far-10",
+        "name": "School of Dark Arts (unreachable) 10: Cave Spider area (west)",
+        "at": [
+         -50600,
+         48888,
+         -5912
+        ],
+        "count": 2,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:school-of-dark-arts-far-11",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".gludio",
+      "length": 31277,
+      "sec": 331,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Spider Nest",
+        "link": "spider nest",
+        "price": 3600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 31277,
+        "how": "geodata",
+        "danger": 18
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -61095,
+        75104,
+        -3352
+       ],
+       [
+        -60599,
+        74612,
+        -3304
+       ],
+       [
+        -60104,
+        74120,
+        -3256
+       ],
+       [
+        -59608,
+        73624,
+        -3232
+       ],
+       [
+        -59112,
+        73128,
+        -3208
+       ],
+       [
+        -58664,
+        72552,
+        -3280
+       ],
+       [
+        -58168,
+        72056,
+        -3212
+       ],
+       [
+        -57672,
+        71560,
+        -3144
+       ],
+       [
+        -57176,
+        71064,
+        -3136
+       ],
+       [
+        -56680,
+        70568,
+        -3128
+       ],
+       [
+        -56184,
+        70072,
+        -3120
+       ],
+       [
+        -55688,
+        69576,
+        -3112
+       ],
+       [
+        -55192,
+        69080,
+        -3076
+       ],
+       [
+        -54696,
+        68584,
+        -3040
+       ],
+       [
+        -54200,
+        68336,
+        -2980
+       ],
+       [
+        -53448,
+        68008,
+        -3000
+       ],
+       [
+        -52952,
+        67512,
+        -3100
+       ],
+       [
+        -52456,
+        67016,
+        -3200
+       ],
+       [
+        -51960,
+        66520,
+        -3256
+       ],
+       [
+        -51464,
+        66024,
+        -3312
+       ],
+       [
+        -50968,
+        65552,
+        -3336
+       ],
+       [
+        -50472,
+        65080,
+        -3360
+       ],
+       [
+        -49976,
+        64584,
+        -3352
+       ],
+       [
+        -49480,
+        64088,
+        -3344
+       ],
+       [
+        -49296,
+        63592,
+        -3308
+       ],
+       [
+        -49112,
+        62104,
+        -3344
+       ],
+       [
+        -49112,
+        61112,
+        -3272
+       ],
+       [
+        -48760,
+        60616,
+        -3272
+       ],
+       [
+        -48408,
+        60120,
+        -3272
+       ],
+       [
+        -47936,
+        59624,
+        -3300
+       ],
+       [
+        -47464,
+        59128,
+        -3328
+       ],
+       [
+        -47224,
+        58840,
+        -3352
+       ],
+       [
+        -47224,
+        57848,
+        -3608
+       ],
+       [
+        -47224,
+        56856,
+        -3704
+       ],
+       [
+        -47224,
+        56376,
+        -3864
+       ],
+       [
+        -47384,
+        55672,
+        -3864
+       ],
+       [
+        -47416,
+        55688,
+        -3920
+       ],
+       [
+        -47512,
+        56184,
+        -4084
+       ],
+       [
+        -47608,
+        56680,
+        -4248
+       ],
+       [
+        -47608,
+        57000,
+        -4360
+       ],
+       [
+        -47704,
+        57192,
+        -4376
+       ],
+       [
+        -47896,
+        57464,
+        -4376
+       ],
+       [
+        -48008,
+        57576,
+        -4376
+       ],
+       [
+        -48504,
+        57720,
+        -4376
+       ],
+       [
+        -48792,
+        57704,
+        -4376
+       ],
+       [
+        -49480,
+        57384,
+        -4376
+       ],
+       [
+        -49464,
+        56408,
+        -4608
+       ],
+       [
+        -49464,
+        55544,
+        -4888
+       ],
+       [
+        -49128,
+        55224,
+        -4888
+       ],
+       [
+        -49112,
+        55224,
+        -4888
+       ]
+      ],
+      "maxDanger": 18,
+      "needs": [],
+      "why": [
+       "field_areas.json: no walkable way from any gatekeeper landing (Spider Nest, Swampland — walls, cliffs or water) — tried the nearest landings on the geodata"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 18,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20045
+     ],
+     "items": [
+      1260
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-17",
+      "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+      "at": [
+       -54760,
+       112264,
+       -3240
+      ],
+      "radius": 3673,
+      "levels": [
+       18,
+       21
+      ],
+      "count": 5,
+      "region": "Fellmere Harvest Grounds",
+      "atlasKey": "area:fellmere-harvest-grounds-17",
+      "status": "ok",
+      "sec": 193,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.78333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-11",
+        "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+        "at": [
+         -50456,
+         115016,
+         -3288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-4",
+        "name": "Ruins of Agony 4: Skeleton Scout area (north-west)",
+        "at": [
+         -45672,
+         117128,
+         -3552
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fellmere-harvest-grounds-17",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 17700,
+      "sec": 193,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17700,
+        "how": "field-areas",
+        "danger": 24
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122856,
+        -2672
+       ],
+       [
+        -44216,
+        122296,
+        -2736
+       ],
+       [
+        -45208,
+        121304,
+        -3040
+       ],
+       [
+        -46200,
+        120312,
+        -3392
+       ],
+       [
+        -47192,
+        119320,
+        -3176
+       ],
+       [
+        -47608,
+        118904,
+        -3168
+       ],
+       [
+        -48600,
+        118200,
+        -3168
+       ],
+       [
+        -49592,
+        117208,
+        -3288
+       ],
+       [
+        -50584,
+        116216,
+        -3232
+       ],
+       [
+        -51576,
+        115224,
+        -3272
+       ],
+       [
+        -52568,
+        114232,
+        -3432
+       ],
+       [
+        -53048,
+        113752,
+        -3328
+       ],
+       [
+        -53064,
+        113736,
+        -3328
+       ],
+       [
+        -54056,
+        112968,
+        -3288
+       ],
+       [
+        -54760,
+        112264,
+        -3240
+       ]
+      ],
+      "maxDanger": 24,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 24,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Tumran Bugbear Warrior",
+         "lv": 24,
+         "n": 1
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swampland-12",
+    "name": "Swampland 12: Festering Bat area (north-east)",
+    "at": [
+     -16664,
+     33160,
+     -3600
+    ],
+    "radius": 4601,
+    "levels": [
+     13,
+     13
+    ],
+    "count": 8,
+    "region": "Swampland",
+    "atlasKey": "area:swampland-12",
+    "status": "ok",
+    "sec": 150,
+    "danger": 13,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -45.5,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "swampland-4",
+      "name": "Swampland 4: Festering Bat area (north-east)",
+      "at": [
+       -19240,
+       34728,
+       -3168
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swampland-1",
+      "name": "Swampland 1: Marsh Zombie area (east)",
+      "at": [
+       -19400,
+       40856,
+       -3776
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swampland-2",
+      "name": "Swampland 2: Marsh Zombie area (north-east)",
+      "at": [
+       -19592,
+       38312,
+       -3144
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swampland-12",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 9555,
+    "sec": 150,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9555,
+      "how": "field-areas",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -21960,
+      39560,
+      -2992
+     ],
+     [
+      -21960,
+      38568,
+      -2736
+     ],
+     [
+      -21080,
+      37576,
+      -2704
+     ],
+     [
+      -20088,
+      36584,
+      -2856
+     ],
+     [
+      -19096,
+      35592,
+      -3056
+     ],
+     [
+      -18104,
+      34600,
+      -3296
+     ],
+     [
+      -17112,
+      33608,
+      -3600
+     ],
+     [
+      -16664,
+      33160,
+      -3600
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 300,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30421",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30421,
+    "name": "Varika",
+    "title": "Witch",
+    "town": "Gludio",
+    "at": [
+     -44225,
+     79721,
+     -3648
+    ],
+    "alt": []
+   },
+   "text": "Bring Seed of Despair, Seed of Horror, Seed of Lunacy, Seed of Anger to Varika",
+   "needs": [
+    {
+     "id": 1254,
+     "name": "Seed of Despair",
+     "n": 1
+    },
+    {
+     "id": 1255,
+     "name": "Seed of Horror",
+     "n": 1
+    },
+    {
+     "id": 1256,
+     "name": "Seed of Lunacy",
+     "n": 1
+    },
+    {
+     "id": 1253,
+     "name": "Seed of Anger",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30421@-44225,79721",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".oren",
+    "length": 8521,
+    "sec": 116,
+    "via": ".oren > Oren -> Necropolis of Devotion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Necropolis of Devotion",
+      "link": "necropolis of devotion",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8521,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Necropolis of Devotion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -52724,
+      79104,
+      -4739
+     ],
+     [
+      -44225,
+      79721,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -52724,79104 (the start is a closed pocket of 5280 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Sepulcher Sage",
+       "lv": 62,
+       "n": 2
+      },
+      {
+       "name": "Sepulcher Guardian",
+       "lv": 60,
+       "n": 2
+      },
+      {
+       "name": "Nephilim Bishop",
+       "lv": 60,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 141,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Spider Nest",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "note": "Varika; same way",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Spider Nest",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "points": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "length": 22400,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified",
+    "aggro-on-way"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:30421": {
+    "route": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Spider Nest",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "note": "Varika (-44225,79721,-3648): the atlas way from Oren / Necropolis of Devotion started in a closed pocket and passed Sepulcher monsters lv60; new way = nav atlas geodata walk to npc 30663 (Spider Nest) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:deliver:30421": {
+    "route": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ],
+     [
+      -42872,
+      79720,
+      -3800
+     ],
+     [
+      -43592,
+      79704,
+      -3704
+     ],
+     [
+      -43912,
+      79736,
+      -3648
+     ],
+     [
+      -44232,
+      79720,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Spider Nest",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "note": "Varika; same way",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

@@ -1,0 +1,1426 @@
+{
+ "id": 628,
+ "name": "Hunt of the Golden Ram Mercenary Force",
+ "version": 1,
+ "generated": "2026-10-27T11:16:13.919Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 66,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {
+  "items": [
+   {
+    "id": 7247,
+    "name": "Golden Ram Badge - Soldier"
+   },
+   {
+    "id": 7246,
+    "name": "Golden Ram Badge - Recruit"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Golden Ram Badge - Soldier, Golden Ram Badge - Recruit"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 3
+  }
+ ],
+ "expectedMin": 173,
+ "refLevel": 66,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31554",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Accept quest.\""
+   ],
+   "npc": {
+    "id": 31554,
+    "name": "Kahman",
+    "title": "Mercenary",
+    "town": "Rune",
+    "at": [
+     70000,
+     -50064,
+     -3264
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kahman – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31554@70000,-50064",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 684,
+    "sec": 51,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 684,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69340,
+      -50203,
+      -3288
+     ],
+     [
+      70008,
+      -50056,
+      -3256
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21508,
+     "name": "Splinter Stakato",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 21509,
+     "name": "Splinter Stakato Worker",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 58,
+     "questSpawned": false
+    },
+    {
+     "id": 21510,
+     "name": "Splinter Stakato Soldier",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 68,
+     "questSpawned": false
+    },
+    {
+     "id": 21511,
+     "name": "Splinter Stakato Drone",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 50,
+     "questSpawned": false
+    },
+    {
+     "id": 21512,
+     "name": "Splinter Stakato Drone",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7248,
+     "name": "Splinter Stakato Chitin",
+     "n": 100,
+     "from": [
+      {
+       "id": 21508,
+       "name": "Splinter Stakato",
+       "chance": 50
+      },
+      {
+       "id": 21509,
+       "name": "Splinter Stakato Worker",
+       "chance": 43
+      },
+      {
+       "id": 21510,
+       "name": "Splinter Stakato Soldier",
+       "chance": 52.1
+      },
+      {
+       "id": 21511,
+       "name": "Splinter Stakato Drone",
+       "chance": 57.5
+      },
+      {
+       "id": 21512,
+       "name": "Splinter Stakato Drone",
+       "chance": 74.6
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Splinter Stakato, Splinter Stakato Worker, Splinter Stakato Soldier for Splinter Stakato Chitin x100",
+   "places": [
+    {
+     "mobs": [
+      21508,
+      21509,
+      21510,
+      21511,
+      21512
+     ],
+     "items": [
+      7248
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swamp-of-screams-4",
+      "name": "Swamp of Screams 4: Splinter Stakato Soldier area (south-east)",
+      "at": [
+       75160,
+       -46616,
+       -3224
+      ],
+      "radius": 4973,
+      "levels": [
+       66,
+       69
+      ],
+      "count": 31,
+      "region": "Swamp of Screams",
+      "atlasKey": "area:swamp-of-screams-4",
+      "status": "ok",
+      "sec": 105,
+      "danger": 69,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -178.25,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stakato-nest-1",
+        "name": "Stakato Nest 1: Splinter Stakato Worker area (west)",
+        "at": [
+         82104,
+         -45688,
+         -3208
+        ],
+        "count": 22,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-2",
+        "name": "Swamp of Screams 2: Splinter Stakato Drone area (north-east)",
+        "at": [
+         73096,
+         -52024,
+         -3120
+        ],
+        "count": 21,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-3",
+        "name": "Swamp of Screams 3: Splinter Stakato Worker area (north-east)",
+        "at": [
+         71432,
+         -55016,
+         -3136
+        ],
+        "count": 19,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swamp-of-screams-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 7240,
+      "sec": 105,
+      "via": ".rune > Rune -> Swamp of Screams",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Swamp of Screams",
+        "link": "swamp of screams",
+        "price": 3000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7240,
+        "how": "field-areas",
+        "danger": 69
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Swamp of Screams"
+      },
+      "simple": true,
+      "pv": [
+       [
+        69336,
+        -50200,
+        -3288
+       ],
+       [
+        70328,
+        -50200,
+        -3248
+       ],
+       [
+        71320,
+        -50200,
+        -3024
+       ],
+       [
+        72184,
+        -49448,
+        -3184
+       ],
+       [
+        73176,
+        -48520,
+        -3184
+       ],
+       [
+        74168,
+        -47528,
+        -3160
+       ],
+       [
+        74728,
+        -46968,
+        -3224
+       ],
+       [
+        75160,
+        -46616,
+        -3224
+       ]
+      ],
+      "maxDanger": 69,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 69,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swamp-of-screams-4",
+    "name": "Swamp of Screams 4: Splinter Stakato Soldier area (south-east)",
+    "at": [
+     75160,
+     -46616,
+     -3224
+    ],
+    "radius": 4973,
+    "levels": [
+     66,
+     69
+    ],
+    "count": 31,
+    "region": "Swamp of Screams",
+    "atlasKey": "area:swamp-of-screams-4",
+    "status": "ok",
+    "sec": 105,
+    "danger": 69,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -178.25,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stakato-nest-1",
+      "name": "Stakato Nest 1: Splinter Stakato Worker area (west)",
+      "at": [
+       82104,
+       -45688,
+       -3208
+      ],
+      "count": 22,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swamp-of-screams-2",
+      "name": "Swamp of Screams 2: Splinter Stakato Drone area (north-east)",
+      "at": [
+       73096,
+       -52024,
+       -3120
+      ],
+      "count": 21,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swamp-of-screams-3",
+      "name": "Swamp of Screams 3: Splinter Stakato Worker area (north-east)",
+      "at": [
+       71432,
+       -55016,
+       -3136
+      ],
+      "count": 19,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swamp-of-screams-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7240,
+    "sec": 105,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7240,
+      "how": "field-areas",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69336,
+      -50200,
+      -3288
+     ],
+     [
+      70328,
+      -50200,
+      -3248
+     ],
+     [
+      71320,
+      -50200,
+      -3024
+     ],
+     [
+      72184,
+      -49448,
+      -3184
+     ],
+     [
+      73176,
+      -48520,
+      -3184
+     ],
+     [
+      74168,
+      -47528,
+      -3160
+     ],
+     [
+      74728,
+      -46968,
+      -3224
+     ],
+     [
+      75160,
+      -46616,
+      -3224
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 5105,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31554",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I'm sure.\""
+   ],
+   "npc": {
+    "id": 31554,
+    "name": "Kahman",
+    "title": "Mercenary",
+    "town": "Rune",
+    "at": [
+     70000,
+     -50064,
+     -3264
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kahman",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31554@70000,-50064",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 684,
+    "sec": 51,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 684,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69340,
+      -50203,
+      -3288
+     ],
+     [
+      70008,
+      -50056,
+      -3256
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21508,
+     "name": "Splinter Stakato",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 21509,
+     "name": "Splinter Stakato Worker",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 58,
+     "questSpawned": false
+    },
+    {
+     "id": 21510,
+     "name": "Splinter Stakato Soldier",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 68,
+     "questSpawned": false
+    },
+    {
+     "id": 21511,
+     "name": "Splinter Stakato Drone",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 50,
+     "questSpawned": false
+    },
+    {
+     "id": 21512,
+     "name": "Splinter Stakato Drone",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21513,
+     "name": "Needle Stakato",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 66,
+     "questSpawned": false
+    },
+    {
+     "id": 21514,
+     "name": "Needle Stakato Worker",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 88,
+     "questSpawned": false
+    },
+    {
+     "id": 21515,
+     "name": "Needle Stakato Soldier",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 81,
+     "questSpawned": false
+    },
+    {
+     "id": 21516,
+     "name": "Needle Stakato Drone",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 89,
+     "questSpawned": false
+    },
+    {
+     "id": 21517,
+     "name": "Needle Stakato Drone",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7248,
+     "name": "Splinter Stakato Chitin",
+     "n": 100,
+     "from": [
+      {
+       "id": 21508,
+       "name": "Splinter Stakato",
+       "chance": 50
+      },
+      {
+       "id": 21509,
+       "name": "Splinter Stakato Worker",
+       "chance": 43
+      },
+      {
+       "id": 21510,
+       "name": "Splinter Stakato Soldier",
+       "chance": 52.1
+      },
+      {
+       "id": 21511,
+       "name": "Splinter Stakato Drone",
+       "chance": 57.5
+      },
+      {
+       "id": 21512,
+       "name": "Splinter Stakato Drone",
+       "chance": 74.6
+      }
+     ]
+    },
+    {
+     "id": 7249,
+     "name": "Needle Stakato Chitin",
+     "n": 100,
+     "from": [
+      {
+       "id": 21513,
+       "name": "Needle Stakato",
+       "chance": 50
+      },
+      {
+       "id": 21514,
+       "name": "Needle Stakato Worker",
+       "chance": 43
+      },
+      {
+       "id": 21515,
+       "name": "Needle Stakato Soldier",
+       "chance": 52
+      },
+      {
+       "id": 21516,
+       "name": "Needle Stakato Drone",
+       "chance": 53.1
+      },
+      {
+       "id": 21517,
+       "name": "Needle Stakato Drone",
+       "chance": 74.4
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Splinter Stakato, Splinter Stakato Worker, Splinter Stakato Soldier for Splinter Stakato Chitin x100, Needle Stakato Chitin x100",
+   "places": [
+    {
+     "mobs": [
+      21508,
+      21509,
+      21510,
+      21511,
+      21512
+     ],
+     "items": [
+      7248
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swamp-of-screams-4",
+      "name": "Swamp of Screams 4: Splinter Stakato Soldier area (south-east)",
+      "at": [
+       75160,
+       -46616,
+       -3224
+      ],
+      "radius": 4973,
+      "levels": [
+       66,
+       69
+      ],
+      "count": 31,
+      "region": "Swamp of Screams",
+      "atlasKey": "area:swamp-of-screams-4",
+      "status": "ok",
+      "sec": 105,
+      "danger": 69,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -178.25,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stakato-nest-1",
+        "name": "Stakato Nest 1: Splinter Stakato Worker area (west)",
+        "at": [
+         82104,
+         -45688,
+         -3208
+        ],
+        "count": 22,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-2",
+        "name": "Swamp of Screams 2: Splinter Stakato Drone area (north-east)",
+        "at": [
+         73096,
+         -52024,
+         -3120
+        ],
+        "count": 21,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-3",
+        "name": "Swamp of Screams 3: Splinter Stakato Worker area (north-east)",
+        "at": [
+         71432,
+         -55016,
+         -3136
+        ],
+        "count": 19,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swamp-of-screams-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 7240,
+      "sec": 105,
+      "via": ".rune > Rune -> Swamp of Screams",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Swamp of Screams",
+        "link": "swamp of screams",
+        "price": 3000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7240,
+        "how": "field-areas",
+        "danger": 69
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Swamp of Screams"
+      },
+      "simple": true,
+      "pv": [
+       [
+        69336,
+        -50200,
+        -3288
+       ],
+       [
+        70328,
+        -50200,
+        -3248
+       ],
+       [
+        71320,
+        -50200,
+        -3024
+       ],
+       [
+        72184,
+        -49448,
+        -3184
+       ],
+       [
+        73176,
+        -48520,
+        -3184
+       ],
+       [
+        74168,
+        -47528,
+        -3160
+       ],
+       [
+        74728,
+        -46968,
+        -3224
+       ],
+       [
+        75160,
+        -46616,
+        -3224
+       ]
+      ],
+      "maxDanger": 69,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 69,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21513,
+      21514,
+      21515,
+      21516,
+      21517
+     ],
+     "items": [
+      7249
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "stakato-nest-13",
+      "name": "Stakato Nest 13: Needle Stakato Worker area (north)",
+      "at": [
+       88280,
+       -60552,
+       -2336
+      ],
+      "radius": 3091,
+      "levels": [
+       70,
+       73
+      ],
+      "count": 22,
+      "region": "Stakato Nest",
+      "atlasKey": "area:stakato-nest-13",
+      "status": "ok",
+      "sec": 193,
+      "danger": 74,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -128.78333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stakato-nest-9",
+        "name": "Stakato Nest 9: Needle Stakato Worker area (north-east)",
+        "at": [
+         94472,
+         -52440,
+         -2624
+        ],
+        "count": 21,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stakato-nest-5",
+        "name": "Stakato Nest 5: Needle Stakato Soldier area (north-west)",
+        "at": [
+         82392,
+         -52120,
+         -2208
+        ],
+        "count": 20,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stakato-nest-14",
+        "name": "Stakato Nest 14: Needle Stakato Soldier area (north)",
+        "at": [
+         84584,
+         -60472,
+         -2296
+        ],
+        "count": 20,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stakato-nest-13",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 17763,
+      "sec": 193,
+      "via": ".rune > Rune -> Stakato Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Stakato Nest",
+        "link": "stakato nest",
+        "price": 9100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4723,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 13040,
+        "how": "field-areas",
+        "danger": 74
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Stakato Nest"
+      },
+      "simple": true,
+      "pv": [
+       [
+        89513,
+        -44800,
+        -2136
+       ],
+       [
+        87672,
+        -48584,
+        -3000
+       ],
+       [
+        88056,
+        -48904,
+        -3088
+       ],
+       [
+        88200,
+        -48984,
+        -3080
+       ],
+       [
+        88216,
+        -49000,
+        -3064
+       ],
+       [
+        88232,
+        -49016,
+        -3048
+       ],
+       [
+        88248,
+        -49032,
+        -3032
+       ],
+       [
+        88264,
+        -49048,
+        -3000
+       ],
+       [
+        88328,
+        -49176,
+        -2968
+       ],
+       [
+        88424,
+        -49272,
+        -2920
+       ],
+       [
+        88440,
+        -49288,
+        -2912
+       ],
+       [
+        88456,
+        -49304,
+        -2888
+       ],
+       [
+        88456,
+        -50296,
+        -2584
+       ],
+       [
+        88200,
+        -50712,
+        -2584
+       ],
+       [
+        88200,
+        -51704,
+        -2592
+       ],
+       [
+        88200,
+        -52696,
+        -2592
+       ],
+       [
+        88200,
+        -53688,
+        -2608
+       ],
+       [
+        88200,
+        -54680,
+        -2560
+       ],
+       [
+        87432,
+        -55544,
+        -2456
+       ],
+       [
+        87416,
+        -55560,
+        -2440
+       ],
+       [
+        87464,
+        -56552,
+        -2320
+       ],
+       [
+        87496,
+        -56600,
+        -2320
+       ],
+       [
+        87496,
+        -57592,
+        -2304
+       ],
+       [
+        87624,
+        -58584,
+        -2288
+       ],
+       [
+        88376,
+        -59336,
+        -2328
+       ],
+       [
+        88360,
+        -59592,
+        -2336
+       ],
+       [
+        88328,
+        -59640,
+        -2336
+       ],
+       [
+        88280,
+        -60552,
+        -2336
+       ]
+      ],
+      "maxDanger": 74,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 74,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Needle Stakato Drone",
+         "lv": 73,
+         "n": 2
+        },
+        {
+         "name": "Needle Stakato Soldier",
+         "lv": 72,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swamp-of-screams-4",
+    "name": "Swamp of Screams 4: Splinter Stakato Soldier area (south-east)",
+    "at": [
+     75160,
+     -46616,
+     -3224
+    ],
+    "radius": 4973,
+    "levels": [
+     66,
+     69
+    ],
+    "count": 31,
+    "region": "Swamp of Screams",
+    "atlasKey": "area:swamp-of-screams-4",
+    "status": "ok",
+    "sec": 105,
+    "danger": 69,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -178.25,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stakato-nest-1",
+      "name": "Stakato Nest 1: Splinter Stakato Worker area (west)",
+      "at": [
+       82104,
+       -45688,
+       -3208
+      ],
+      "count": 22,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swamp-of-screams-2",
+      "name": "Swamp of Screams 2: Splinter Stakato Drone area (north-east)",
+      "at": [
+       73096,
+       -52024,
+       -3120
+      ],
+      "count": 21,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swamp-of-screams-3",
+      "name": "Swamp of Screams 3: Splinter Stakato Worker area (north-east)",
+      "at": [
+       71432,
+       -55016,
+       -3136
+      ],
+      "count": 19,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swamp-of-screams-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7240,
+    "sec": 105,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7240,
+      "how": "field-areas",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69336,
+      -50200,
+      -3288
+     ],
+     [
+      70328,
+      -50200,
+      -3248
+     ],
+     [
+      71320,
+      -50200,
+      -3024
+     ],
+     [
+      72184,
+      -49448,
+      -3184
+     ],
+     [
+      73176,
+      -48520,
+      -3184
+     ],
+     [
+      74168,
+      -47528,
+      -3160
+     ],
+     [
+      74728,
+      -46968,
+      -3224
+     ],
+     [
+      75160,
+      -46616,
+      -3224
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 5105,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,2661 @@
+{
+ "id": 325,
+ "name": "Grim Collector",
+ "version": 1,
+ "generated": "2026-10-27T11:15:22.483Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Gludio",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 171,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30336",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the job"
+   ],
+   "npc": {
+    "id": 30336,
+    "name": "Curtis",
+    "title": "Guard",
+    "town": "Gludio",
+    "at": [
+     -14005,
+     126542,
+     -3148
+    ],
+    "alt": []
+   },
+   "text": "Talk to Curtis – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31794@-13944,126384",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6352,
+    "sec": 73,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 6352,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12680,
+      123592,
+      -3112
+     ],
+     [
+      -12936,
+      123656,
+      -3112
+     ],
+     [
+      -13208,
+      123688,
+      -3112
+     ],
+     [
+      -13448,
+      123736,
+      -3112
+     ],
+     [
+      -13544,
+      123688,
+      -3112
+     ],
+     [
+      -13816,
+      123624,
+      -3112
+     ],
+     [
+      -14088,
+      123624,
+      -3112
+     ],
+     [
+      -14296,
+      123768,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14312,
+      124280,
+      -3112
+     ],
+     [
+      -14136,
+      124344,
+      -3112
+     ],
+     [
+      -14312,
+      124424,
+      -3112
+     ],
+     [
+      -14328,
+      124696,
+      -3120
+     ],
+     [
+      -14328,
+      124968,
+      -3120
+     ],
+     [
+      -14328,
+      125240,
+      -3128
+     ],
+     [
+      -14392,
+      125512,
+      -3136
+     ],
+     [
+      -14376,
+      125784,
+      -3136
+     ],
+     [
+      -14232,
+      126024,
+      -3136
+     ],
+     [
+      -14168,
+      126120,
+      -3136
+     ],
+     [
+      -14104,
+      126184,
+      -3136
+     ],
+     [
+      -13944,
+      126392,
+      -3144
+     ],
+     [
+      -14008,
+      126536,
+      -3144
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31794@-13944,126384",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12680,
+      123592,
+      -3112
+     ],
+     [
+      -12936,
+      123656,
+      -3112
+     ],
+     [
+      -13208,
+      123688,
+      -3112
+     ],
+     [
+      -13448,
+      123736,
+      -3112
+     ],
+     [
+      -13544,
+      123688,
+      -3112
+     ],
+     [
+      -13816,
+      123624,
+      -3112
+     ],
+     [
+      -14088,
+      123624,
+      -3112
+     ],
+     [
+      -14296,
+      123768,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14312,
+      124280,
+      -3112
+     ],
+     [
+      -14136,
+      124344,
+      -3112
+     ],
+     [
+      -14312,
+      124424,
+      -3112
+     ],
+     [
+      -14328,
+      124696,
+      -3120
+     ],
+     [
+      -14328,
+      124968,
+      -3120
+     ],
+     [
+      -14328,
+      125240,
+      -3128
+     ],
+     [
+      -14392,
+      125512,
+      -3136
+     ],
+     [
+      -14376,
+      125784,
+      -3136
+     ],
+     [
+      -14232,
+      126024,
+      -3136
+     ],
+     [
+      -14168,
+      126120,
+      -3136
+     ],
+     [
+      -14104,
+      126184,
+      -3136
+     ],
+     [
+      -13944,
+      126392,
+      -3144
+     ],
+     [
+      -14008,
+      126536,
+      -3144
+     ]
+    ]
+   },
+   "expectedSec": 103,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20026,
+     "name": "Ruin Zombie",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20029,
+     "name": "Ruin Zombie Leader",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 20457,
+     "name": "Zombie Soldier",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20035,
+     "name": "Skeleton Tracker",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 20515,
+     "name": "Skeleton Infantryman",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20042,
+     "name": "Skeleton Tracker Leader",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20045,
+     "name": "Skeleton Scout",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20051,
+     "name": "Skeleton Bowman",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20458,
+     "name": "Zombie Warrior",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20514,
+     "name": "Shield Skeleton",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1350,
+     "name": "Zombie Head",
+     "n": 20,
+     "from": [
+      {
+       "id": 20026,
+       "name": "Ruin Zombie",
+       "chance": 30
+      },
+      {
+       "id": 20029,
+       "name": "Ruin Zombie Leader",
+       "chance": 30
+      },
+      {
+       "id": 20457,
+       "name": "Zombie Soldier",
+       "chance": 40
+      },
+      {
+       "id": 20458,
+       "name": "Zombie Warrior",
+       "chance": 40
+      }
+     ]
+    },
+    {
+     "id": 1351,
+     "name": "Zombie Heart",
+     "n": 20,
+     "from": [
+      {
+       "id": 20026,
+       "name": "Ruin Zombie",
+       "chance": 20
+      },
+      {
+       "id": 20457,
+       "name": "Zombie Soldier",
+       "chance": 20
+      },
+      {
+       "id": 20029,
+       "name": "Ruin Zombie Leader",
+       "chance": 22
+      },
+      {
+       "id": 20458,
+       "name": "Zombie Warrior",
+       "chance": 30
+      }
+     ]
+    },
+    {
+     "id": 1352,
+     "name": "Zombie Liver",
+     "n": 20,
+     "from": [
+      {
+       "id": 20026,
+       "name": "Ruin Zombie",
+       "chance": 25
+      },
+      {
+       "id": 20029,
+       "name": "Ruin Zombie Leader",
+       "chance": 23
+      },
+      {
+       "id": 20457,
+       "name": "Zombie Soldier",
+       "chance": 20
+      },
+      {
+       "id": 20458,
+       "name": "Zombie Warrior",
+       "chance": 30
+      }
+     ]
+    },
+    {
+     "id": 1353,
+     "name": "Skull",
+     "n": 20,
+     "from": [
+      {
+       "id": 20035,
+       "name": "Skeleton Tracker",
+       "chance": 5
+      },
+      {
+       "id": 20515,
+       "name": "Skeleton Infantryman",
+       "chance": 5
+      },
+      {
+       "id": 20042,
+       "name": "Skeleton Tracker Leader",
+       "chance": 5.99
+      },
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 9
+      },
+      {
+       "id": 20051,
+       "name": "Skeleton Bowman",
+       "chance": 9
+      },
+      {
+       "id": 20514,
+       "name": "Shield Skeleton",
+       "chance": 6
+      }
+     ]
+    },
+    {
+     "id": 1354,
+     "name": "Rib Bone",
+     "n": 20,
+     "from": [
+      {
+       "id": 20035,
+       "name": "Skeleton Tracker",
+       "chance": 9.99
+      },
+      {
+       "id": 20042,
+       "name": "Skeleton Tracker Leader",
+       "chance": 13
+      },
+      {
+       "id": 20051,
+       "name": "Skeleton Bowman",
+       "chance": 50
+      },
+      {
+       "id": 20514,
+       "name": "Shield Skeleton",
+       "chance": 15
+      },
+      {
+       "id": 20515,
+       "name": "Skeleton Infantryman",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 1355,
+     "name": "Spine",
+     "n": 20,
+     "from": [
+      {
+       "id": 20035,
+       "name": "Skeleton Tracker",
+       "chance": 14
+      },
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 50
+      },
+      {
+       "id": 20051,
+       "name": "Skeleton Bowman",
+       "chance": 20
+      },
+      {
+       "id": 20514,
+       "name": "Shield Skeleton",
+       "chance": 9
+      },
+      {
+       "id": 20515,
+       "name": "Skeleton Infantryman",
+       "chance": 11
+      }
+     ]
+    },
+    {
+     "id": 1356,
+     "name": "Arm Bone",
+     "n": 20,
+     "from": [
+      {
+       "id": 20042,
+       "name": "Skeleton Tracker Leader",
+       "chance": 50.01
+      },
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 17.99
+      },
+      {
+       "id": 20051,
+       "name": "Skeleton Bowman",
+       "chance": 21
+      },
+      {
+       "id": 20514,
+       "name": "Shield Skeleton",
+       "chance": 1
+      },
+      {
+       "id": 20515,
+       "name": "Skeleton Infantryman",
+       "chance": 2
+      }
+     ]
+    },
+    {
+     "id": 1357,
+     "name": "Thigh Bone",
+     "n": 20,
+     "from": [
+      {
+       "id": 20035,
+       "name": "Skeleton Tracker",
+       "chance": 50.01
+      },
+      {
+       "id": 20042,
+       "name": "Skeleton Tracker Leader",
+       "chance": 16.99
+      },
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 20
+      },
+      {
+       "id": 20514,
+       "name": "Shield Skeleton",
+       "chance": 33
+      },
+      {
+       "id": 20515,
+       "name": "Skeleton Infantryman",
+       "chance": 36
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "engine-manual"
+   ],
+   "text": "Hunt Ruin Zombie, Ruin Zombie Leader, Zombie Soldier for Zombie Head x20, Zombie Heart x20, Zombie Liver x20, Skull x20, Rib Bone x20, Spine x20, Arm Bone x20, Thigh Bone x20",
+   "places": [
+    {
+     "mobs": [
+      20026,
+      20029,
+      20457,
+      20458
+     ],
+     "items": [
+      1350,
+      1351,
+      1352
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-despair-1",
+      "name": "Ruins of Despair 1: Zombie Soldier area (south-east)",
+      "at": [
+       -17224,
+       140920,
+       -3872
+      ],
+      "radius": 3958,
+      "levels": [
+       19,
+       23
+      ],
+      "count": 13,
+      "region": "Ruins of Despair",
+      "atlasKey": "area:ruins-of-despair-1",
+      "status": "ok",
+      "sec": 86,
+      "danger": 23,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -76.56666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-despair-2",
+        "name": "Ruins of Despair 2: Zombie Soldier area (south-west)",
+        "at": [
+         -22104,
+         141256,
+         -3896
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-despair-5",
+        "name": "Ruins of Despair 5: Zombie Soldier area (south)",
+        "at": [
+         -19720,
+         145272,
+         -3792
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-despair-4",
+        "name": "Ruins of Despair 4: Zombie Warrior area (south-east)",
+        "at": [
+         -14296,
+         143320,
+         -3688
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-despair-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 4899,
+      "sec": 86,
+      "via": ".gludio > Gludio -> Ruins of Despair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Despair",
+        "link": "ruins of despair",
+        "price": 610,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4286,
+        "how": "field-areas-gap",
+        "danger": 23
+       },
+       {
+        "do": "walk",
+        "len": 613,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Despair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -19120,
+        136816,
+        -3752
+       ],
+       [
+        -17624,
+        140456,
+        -3872
+       ],
+       [
+        -17224,
+        140920,
+        -3872
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Veelan Bugbear",
+         "lv": 23,
+         "n": 1
+        },
+        {
+         "name": "Zombie Warrior",
+         "lv": 22,
+         "n": 1
+        },
+        {
+         "name": "Ruin Imp Elder",
+         "lv": 21,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Veelan Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Veelan Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Veelan Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Veelan Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Veelan Bugbear",
+       "lv": 23
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20035,
+      20515,
+      20042,
+      20045,
+      20051,
+      20514
+     ],
+     "items": [
+      1353
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "radius": 5846,
+      "levels": [
+       17,
+       23
+      ],
+      "count": 19,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-11",
+      "status": "ok",
+      "sec": 148,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -107.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-12",
+        "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+        "at": [
+         -58232,
+         110552,
+         -3336
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-17",
+        "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+        "at": [
+         -54760,
+         112264,
+         -3240
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 12362,
+      "sec": 148,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12362,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122024,
+        -2736
+       ],
+       [
+        -44216,
+        121080,
+        -3000
+       ],
+       [
+        -44568,
+        120728,
+        -3072
+       ],
+       [
+        -45560,
+        119912,
+        -3424
+       ],
+       [
+        -46552,
+        118920,
+        -3208
+       ],
+       [
+        -47544,
+        117928,
+        -3216
+       ],
+       [
+        -48536,
+        116936,
+        -3552
+       ],
+       [
+        -49528,
+        115944,
+        -3360
+       ],
+       [
+        -50456,
+        115016,
+        -3288
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Raging Spartoi",
+         "lv": 22,
+         "n": 1
+        },
+        {
+         "name": "Ruin Spartoi",
+         "lv": 21,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20035,
+      20042,
+      20051,
+      20514,
+      20515
+     ],
+     "items": [
+      1354
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "radius": 5846,
+      "levels": [
+       17,
+       23
+      ],
+      "count": 15,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-11",
+      "status": "ok",
+      "sec": 148,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -83.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-12",
+        "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+        "at": [
+         -58232,
+         110552,
+         -3336
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-7",
+        "name": "Windawood Manor 7: Skeleton Infantryman area (north-east)",
+        "at": [
+         -25080,
+         148744,
+         -3264
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 12362,
+      "sec": 148,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12362,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122024,
+        -2736
+       ],
+       [
+        -44216,
+        121080,
+        -3000
+       ],
+       [
+        -44568,
+        120728,
+        -3072
+       ],
+       [
+        -45560,
+        119912,
+        -3424
+       ],
+       [
+        -46552,
+        118920,
+        -3208
+       ],
+       [
+        -47544,
+        117928,
+        -3216
+       ],
+       [
+        -48536,
+        116936,
+        -3552
+       ],
+       [
+        -49528,
+        115944,
+        -3360
+       ],
+       [
+        -50456,
+        115016,
+        -3288
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Raging Spartoi",
+         "lv": 22,
+         "n": 1
+        },
+        {
+         "name": "Ruin Spartoi",
+         "lv": 21,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20035,
+      20045,
+      20051,
+      20514,
+      20515
+     ],
+     "items": [
+      1355
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-12",
+      "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+      "at": [
+       -58232,
+       110552,
+       -3336
+      ],
+      "radius": 3375,
+      "levels": [
+       16,
+       21
+      ],
+      "count": 13,
+      "region": "Fellmere Harvest Grounds",
+      "atlasKey": "area:fellmere-harvest-grounds-12",
+      "status": "ok",
+      "sec": 227,
+      "danger": 21,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -74.21666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-11",
+        "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+        "at": [
+         -50456,
+         115016,
+         -3288
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-7",
+        "name": "Windawood Manor 7: Skeleton Infantryman area (north-east)",
+        "at": [
+         -25080,
+         148744,
+         -3264
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-17",
+        "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+        "at": [
+         -54760,
+         112264,
+         -3240
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fellmere-harvest-grounds-12",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 21823,
+      "sec": 227,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 21823,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122856,
+        -2672
+       ],
+       [
+        -44216,
+        122856,
+        -2664
+       ],
+       [
+        -45208,
+        122488,
+        -2848
+       ],
+       [
+        -46200,
+        121496,
+        -3064
+       ],
+       [
+        -47192,
+        120504,
+        -3280
+       ],
+       [
+        -47800,
+        119896,
+        -3192
+       ],
+       [
+        -48792,
+        118952,
+        -3112
+       ],
+       [
+        -49784,
+        117960,
+        -3152
+       ],
+       [
+        -50776,
+        116968,
+        -3144
+       ],
+       [
+        -51768,
+        115976,
+        -3168
+       ],
+       [
+        -52760,
+        114984,
+        -3344
+       ],
+       [
+        -52968,
+        114776,
+        -3328
+       ],
+       [
+        -53960,
+        113944,
+        -3280
+       ],
+       [
+        -54296,
+        113608,
+        -3272
+       ],
+       [
+        -55288,
+        112792,
+        -3200
+       ],
+       [
+        -56280,
+        111800,
+        -3152
+       ],
+       [
+        -56296,
+        111784,
+        -3152
+       ],
+       [
+        -57288,
+        111496,
+        -3200
+       ],
+       [
+        -58232,
+        110552,
+        -3336
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 7,
+       "aggro": [
+        {
+         "name": "Ruin Spartoi",
+         "lv": 21,
+         "n": 5
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20042,
+      20045,
+      20051,
+      20514,
+      20515
+     ],
+     "items": [
+      1356
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "radius": 5846,
+      "levels": [
+       17,
+       23
+      ],
+      "count": 14,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-11",
+      "status": "ok",
+      "sec": 148,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -77.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-17",
+        "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+        "at": [
+         -54760,
+         112264,
+         -3240
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-7",
+        "name": "Windawood Manor 7: Skeleton Infantryman area (north-east)",
+        "at": [
+         -25080,
+         148744,
+         -3264
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 12362,
+      "sec": 148,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12362,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122024,
+        -2736
+       ],
+       [
+        -44216,
+        121080,
+        -3000
+       ],
+       [
+        -44568,
+        120728,
+        -3072
+       ],
+       [
+        -45560,
+        119912,
+        -3424
+       ],
+       [
+        -46552,
+        118920,
+        -3208
+       ],
+       [
+        -47544,
+        117928,
+        -3216
+       ],
+       [
+        -48536,
+        116936,
+        -3552
+       ],
+       [
+        -49528,
+        115944,
+        -3360
+       ],
+       [
+        -50456,
+        115016,
+        -3288
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Raging Spartoi",
+         "lv": 22,
+         "n": 1
+        },
+        {
+         "name": "Ruin Spartoi",
+         "lv": 21,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20035,
+      20042,
+      20045,
+      20514,
+      20515
+     ],
+     "items": [
+      1357
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "radius": 5846,
+      "levels": [
+       17,
+       23
+      ],
+      "count": 15,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-11",
+      "status": "ok",
+      "sec": 148,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -83.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-12",
+        "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+        "at": [
+         -58232,
+         110552,
+         -3336
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-7",
+        "name": "Windawood Manor 7: Skeleton Infantryman area (north-east)",
+        "at": [
+         -25080,
+         148744,
+         -3264
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 12362,
+      "sec": 148,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12362,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122024,
+        -2736
+       ],
+       [
+        -44216,
+        121080,
+        -3000
+       ],
+       [
+        -44568,
+        120728,
+        -3072
+       ],
+       [
+        -45560,
+        119912,
+        -3424
+       ],
+       [
+        -46552,
+        118920,
+        -3208
+       ],
+       [
+        -47544,
+        117928,
+        -3216
+       ],
+       [
+        -48536,
+        116936,
+        -3552
+       ],
+       [
+        -49528,
+        115944,
+        -3360
+       ],
+       [
+        -50456,
+        115016,
+        -3288
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Raging Spartoi",
+         "lv": 22,
+         "n": 1
+        },
+        {
+         "name": "Ruin Spartoi",
+         "lv": 21,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear Warrior",
+       "lv": 24
+      },
+      {
+       "name": "Tumran Bugbear",
+       "lv": 23
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ruins-of-despair-1",
+    "name": "Ruins of Despair 1: Zombie Soldier area (south-east)",
+    "at": [
+     -17224,
+     140920,
+     -3872
+    ],
+    "radius": 3958,
+    "levels": [
+     19,
+     23
+    ],
+    "count": 13,
+    "region": "Ruins of Despair",
+    "atlasKey": "area:ruins-of-despair-1",
+    "status": "ok",
+    "sec": 86,
+    "danger": 23,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -76.56666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ruins-of-despair-2",
+      "name": "Ruins of Despair 2: Zombie Soldier area (south-west)",
+      "at": [
+       -22104,
+       141256,
+       -3896
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-despair-5",
+      "name": "Ruins of Despair 5: Zombie Soldier area (south)",
+      "at": [
+       -19720,
+       145272,
+       -3792
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-despair-4",
+      "name": "Ruins of Despair 4: Zombie Warrior area (south-east)",
+      "at": [
+       -14296,
+       143320,
+       -3688
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ruins-of-despair-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4899,
+    "sec": 86,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4286,
+      "how": "field-areas-gap",
+      "danger": 23
+     },
+     {
+      "do": "walk",
+      "len": 613,
+      "how": "field-areas",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -17624,
+      140456,
+      -3872
+     ],
+     [
+      -17224,
+      140920,
+      -3872
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Veelan Bugbear",
+       "lv": 23,
+       "n": 1
+      },
+      {
+       "name": "Zombie Warrior",
+       "lv": 22,
+       "n": 1
+      },
+      {
+       "name": "Ruin Imp Elder",
+       "lv": 21,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 10086,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "note": "LEVEL NOTE: Ruins of Despair 1 / Ruins of Agony 11 / Fellmere 12: Ruin Imp Elder 21, Zombie Warrior 22 (one of the quest monsters), Veelan Bugbear 23, Ruin / Raging Spartoi 21-22, Tumran Bugbear Warrior 24 stand AT the hunting places (danger-weighted searches b2 legs despair>zombie, ag:-41240,122856>-50456,115016 / >-58232,110552 still cross them) -> run it at level 20+ or as a party (quest min level 15).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way",
+    "aggro-on-way",
+    "aggro-on-way",
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30434",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Say you will continue."
+   ],
+   "npc": {
+    "id": 30434,
+    "name": "Samed",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -14977,
+     126035,
+     -3143
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Samed (repeatable: then hunt again)",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:35387@-14731,125630",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6129,
+    "sec": 71,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5771,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12680,
+      123592,
+      -3112
+     ],
+     [
+      -12936,
+      123656,
+      -3112
+     ],
+     [
+      -13208,
+      123688,
+      -3112
+     ],
+     [
+      -13448,
+      123736,
+      -3112
+     ],
+     [
+      -13480,
+      123720,
+      -3112
+     ],
+     [
+      -13752,
+      123688,
+      -3112
+     ],
+     [
+      -13944,
+      123816,
+      -3112
+     ],
+     [
+      -13960,
+      123768,
+      -3112
+     ],
+     [
+      -14136,
+      123688,
+      -3112
+     ],
+     [
+      -14344,
+      123864,
+      -3112
+     ],
+     [
+      -14344,
+      124136,
+      -3112
+     ],
+     [
+      -14360,
+      124408,
+      -3112
+     ],
+     [
+      -14328,
+      124680,
+      -3120
+     ],
+     [
+      -14344,
+      124952,
+      -3120
+     ],
+     [
+      -14568,
+      125096,
+      -3128
+     ],
+     [
+      -14568,
+      125128,
+      -3128
+     ],
+     [
+      -14568,
+      125096,
+      -3128
+     ],
+     [
+      -14424,
+      125096,
+      -3128
+     ],
+     [
+      -14360,
+      125272,
+      -3128
+     ],
+     [
+      -14456,
+      125448,
+      -3136
+     ],
+     [
+      -14664,
+      125624,
+      -3136
+     ],
+     [
+      -14728,
+      125624,
+      -3136
+     ],
+     [
+      -14744,
+      125848,
+      -3136
+     ],
+     [
+      -14920,
+      125896,
+      -3136
+     ],
+     [
+      -15000,
+      125992,
+      -3136
+     ],
+     [
+      -14984,
+      126040,
+      -3136
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:35387@-14731,125630",
+     "name": "Baback"
+    },
+    "points": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12680,
+      123592,
+      -3112
+     ],
+     [
+      -12936,
+      123656,
+      -3112
+     ],
+     [
+      -13208,
+      123688,
+      -3112
+     ],
+     [
+      -13448,
+      123736,
+      -3112
+     ],
+     [
+      -13480,
+      123720,
+      -3112
+     ],
+     [
+      -13752,
+      123688,
+      -3112
+     ],
+     [
+      -13944,
+      123816,
+      -3112
+     ],
+     [
+      -13960,
+      123768,
+      -3112
+     ],
+     [
+      -14136,
+      123688,
+      -3112
+     ],
+     [
+      -14344,
+      123864,
+      -3112
+     ],
+     [
+      -14344,
+      124136,
+      -3112
+     ],
+     [
+      -14360,
+      124408,
+      -3112
+     ],
+     [
+      -14328,
+      124680,
+      -3120
+     ],
+     [
+      -14344,
+      124952,
+      -3120
+     ],
+     [
+      -14568,
+      125096,
+      -3128
+     ],
+     [
+      -14568,
+      125128,
+      -3128
+     ],
+     [
+      -14568,
+      125096,
+      -3128
+     ],
+     [
+      -14424,
+      125096,
+      -3128
+     ],
+     [
+      -14360,
+      125272,
+      -3128
+     ],
+     [
+      -14456,
+      125448,
+      -3136
+     ],
+     [
+      -14664,
+      125624,
+      -3136
+     ],
+     [
+      -14728,
+      125624,
+      -3136
+     ],
+     [
+      -14744,
+      125848,
+      -3136
+     ],
+     [
+      -14920,
+      125896,
+      -3136
+     ],
+     [
+      -15000,
+      125992,
+      -3136
+     ],
+     [
+      -14984,
+      126040,
+      -3136
+     ]
+    ]
+   },
+   "expectedSec": 96,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "note": "LEVEL NOTE: Ruins of Despair 1 / Ruins of Agony 11 / Fellmere 12: Ruin Imp Elder 21, Zombie Warrior 22 (one of the quest monsters), Veelan Bugbear 23, Ruin / Raging Spartoi 21-22, Tumran Bugbear Warrior 24 stand AT the hunting places (danger-weighted searches b2 legs despair>zombie, ag:-41240,122856>-50456,115016 / >-58232,110552 still cross them) -> run it at level 20+ or as a party (quest min level 15).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

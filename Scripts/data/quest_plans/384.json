@@ -1,0 +1,1077 @@
+{
+ "id": 384,
+ "name": "Warehouse Keeper's Pastime",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.939Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 40,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Oren",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 133,
+ "refLevel": 40,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30182",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will help."
+   ],
+   "npc": {
+    "id": 30182,
+    "name": "Cliff",
+    "title": "Warehouse Keeper",
+    "town": "Oren",
+    "at": [
+     81318,
+     54995,
+     -1508
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cliff – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30182@81318,54995",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 4144,
+    "sec": 55,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 4144,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82360,
+      53672,
+      -1488
+     ],
+     [
+      82120,
+      53528,
+      -1488
+     ],
+     [
+      81848,
+      53512,
+      -1488
+     ],
+     [
+      81576,
+      53480,
+      -1488
+     ],
+     [
+      81304,
+      53480,
+      -1536
+     ],
+     [
+      81144,
+      53480,
+      -1552
+     ],
+     [
+      80952,
+      53608,
+      -1552
+     ],
+     [
+      80968,
+      53880,
+      -1552
+     ],
+     [
+      81000,
+      54152,
+      -1544
+     ],
+     [
+      80952,
+      54424,
+      -1520
+     ],
+     [
+      80808,
+      54648,
+      -1520
+     ],
+     [
+      80680,
+      54776,
+      -1536
+     ],
+     [
+      80696,
+      54760,
+      -1536
+     ],
+     [
+      80920,
+      54712,
+      -1520
+     ],
+     [
+      81192,
+      54712,
+      -1504
+     ],
+     [
+      81208,
+      54712,
+      -1504
+     ],
+     [
+      81352,
+      54776,
+      -1504
+     ],
+     [
+      81320,
+      55000,
+      -1504
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 85,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20241,
+     "name": "Hunter Gargoyle",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 76,
+     "questSpawned": false
+    },
+    {
+     "id": 20242,
+     "name": "Dustwind Gargoyle",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 20243,
+     "name": "Thunder Wyrm",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20668,
+     "name": "Grave Guard",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20556,
+     "name": "Giant Monstereye",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20559,
+     "name": "Rotting Golem",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20605,
+     "name": "Weird Drake",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20635,
+     "name": "Carinkain",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20677,
+     "name": "Tulben",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20773,
+     "name": "Conjurer Bat Lord",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20944,
+     "name": "Nightmare Lord",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5964,
+     "name": "Warehouse Keeper's Medal",
+     "n": 100,
+     "from": [
+      {
+       "id": 20241,
+       "name": "Hunter Gargoyle",
+       "chance": 32.8
+      },
+      {
+       "id": 20242,
+       "name": "Dustwind Gargoyle",
+       "chance": 35
+      },
+      {
+       "id": 20243,
+       "name": "Thunder Wyrm",
+       "chance": 31.2
+      },
+      {
+       "id": 20668,
+       "name": "Grave Guard",
+       "chance": 31.2
+      },
+      {
+       "id": 20556,
+       "name": "Giant Monstereye",
+       "chance": 17.6
+      },
+      {
+       "id": 20559,
+       "name": "Rotting Golem",
+       "chance": 22.6
+      },
+      {
+       "id": 20605,
+       "name": "Weird Drake",
+       "chance": 21.8
+      },
+      {
+       "id": 20635,
+       "name": "Carinkain",
+       "chance": 21.6
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Hunter Gargoyle, Dustwind Gargoyle, Thunder Wyrm for Warehouse Keeper's Medal x100",
+   "places": [
+    {
+     "mobs": [
+      20241,
+      20242,
+      20243,
+      20668,
+      20556,
+      20559,
+      20605,
+      20635
+     ],
+     "items": [
+      5964
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "sea-of-spores-7",
+      "name": "Sea of Spores 7: Giant Monstereye area (north)",
+      "at": [
+       61240,
+       17480,
+       -3960
+      ],
+      "radius": 5815,
+      "levels": [
+       40,
+       42
+      ],
+      "count": 9,
+      "region": "Sea of Spores",
+      "atlasKey": "area:sea-of-spores-7",
+      "status": "ok",
+      "sec": 135,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -51.75,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sea-of-spores-1",
+        "name": "Sea of Spores 1: Giant Monstereye area (west)",
+        "at": [
+         60984,
+         26856,
+         -3816
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-21",
+        "name": "Sea of Spores 21: Giant Monstereye area (north)",
+        "at": [
+         59784,
+         11128,
+         -3776
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "outlaw-forest-4",
+        "name": "Outlaw Forest 4: Hunter Gargoyle area (south)",
+        "at": [
+         89704,
+         -6232,
+         -3104
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:sea-of-spores-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 10842,
+      "sec": 135,
+      "via": ".oren > Oren -> Sea of Spores",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sea of Spores",
+        "link": "sea of spores",
+        "price": 2500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3993,
+        "how": "field-areas-gap",
+        "danger": 42
+       },
+       {
+        "do": "walk",
+        "len": 6849,
+        "how": "field-areas",
+        "danger": 42
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sea of Spores"
+      },
+      "simple": true,
+      "pv": [
+       [
+        64328,
+        26803,
+        -3768
+       ],
+       [
+        64376,
+        22968,
+        -3784
+       ],
+       [
+        64312,
+        22840,
+        -3768
+       ],
+       [
+        63368,
+        22296,
+        -3752
+       ],
+       [
+        63320,
+        22152,
+        -3752
+       ],
+       [
+        63320,
+        21160,
+        -3760
+       ],
+       [
+        63320,
+        20168,
+        -3752
+       ],
+       [
+        63064,
+        19304,
+        -3600
+       ],
+       [
+        63048,
+        19288,
+        -3584
+       ],
+       [
+        63032,
+        19272,
+        -3568
+       ],
+       [
+        63016,
+        19256,
+        -3552
+       ],
+       [
+        63000,
+        19240,
+        -3536
+       ],
+       [
+        62984,
+        19224,
+        -3512
+       ],
+       [
+        62968,
+        19208,
+        -3496
+       ],
+       [
+        61976,
+        18216,
+        -3808
+       ],
+       [
+        61240,
+        17480,
+        -3960
+       ]
+      ],
+      "maxDanger": 42,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 42,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "sea-of-spores-7",
+    "name": "Sea of Spores 7: Giant Monstereye area (north)",
+    "at": [
+     61240,
+     17480,
+     -3960
+    ],
+    "radius": 5815,
+    "levels": [
+     40,
+     42
+    ],
+    "count": 9,
+    "region": "Sea of Spores",
+    "atlasKey": "area:sea-of-spores-7",
+    "status": "ok",
+    "sec": 135,
+    "danger": 43,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -51.75,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "sea-of-spores-1",
+      "name": "Sea of Spores 1: Giant Monstereye area (west)",
+      "at": [
+       60984,
+       26856,
+       -3816
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "sea-of-spores-21",
+      "name": "Sea of Spores 21: Giant Monstereye area (north)",
+      "at": [
+       59784,
+       11128,
+       -3776
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "outlaw-forest-4",
+      "name": "Outlaw Forest 4: Hunter Gargoyle area (south)",
+      "at": [
+       89704,
+       -6232,
+       -3104
+      ],
+      "count": 10,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:sea-of-spores-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 10842,
+    "sec": 135,
+    "via": ".oren > Oren -> Sea of Spores",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Sea of Spores",
+      "link": "sea of spores",
+      "price": 2500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3993,
+      "how": "field-areas-gap",
+      "danger": 42
+     },
+     {
+      "do": "walk",
+      "len": 6849,
+      "how": "field-areas",
+      "danger": 42
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Sea of Spores"
+    },
+    "simple": true,
+    "pv": [
+     [
+      64328,
+      26803,
+      -3768
+     ],
+     [
+      64376,
+      22968,
+      -3784
+     ],
+     [
+      64312,
+      22840,
+      -3768
+     ],
+     [
+      63368,
+      22296,
+      -3752
+     ],
+     [
+      63320,
+      22152,
+      -3752
+     ],
+     [
+      63320,
+      21160,
+      -3760
+     ],
+     [
+      63320,
+      20168,
+      -3752
+     ],
+     [
+      63064,
+      19304,
+      -3600
+     ],
+     [
+      63048,
+      19288,
+      -3584
+     ],
+     [
+      63032,
+      19272,
+      -3568
+     ],
+     [
+      63016,
+      19256,
+      -3552
+     ],
+     [
+      63000,
+      19240,
+      -3536
+     ],
+     [
+      62984,
+      19224,
+      -3512
+     ],
+     [
+      62968,
+      19208,
+      -3496
+     ],
+     [
+      61976,
+      18216,
+      -3808
+     ],
+     [
+      61240,
+      17480,
+      -3960
+     ]
+    ],
+    "maxDanger": 42,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 42,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 7760,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30182",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30182,
+    "name": "Cliff",
+    "title": "Warehouse Keeper",
+    "town": "Oren",
+    "at": [
+     81318,
+     54995,
+     -1508
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cliff",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30182@81318,54995",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 4144,
+    "sec": 55,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 4144,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82360,
+      53672,
+      -1488
+     ],
+     [
+      82120,
+      53528,
+      -1488
+     ],
+     [
+      81848,
+      53512,
+      -1488
+     ],
+     [
+      81576,
+      53480,
+      -1488
+     ],
+     [
+      81304,
+      53480,
+      -1536
+     ],
+     [
+      81144,
+      53480,
+      -1552
+     ],
+     [
+      80952,
+      53608,
+      -1552
+     ],
+     [
+      80968,
+      53880,
+      -1552
+     ],
+     [
+      81000,
+      54152,
+      -1544
+     ],
+     [
+      80952,
+      54424,
+      -1520
+     ],
+     [
+      80808,
+      54648,
+      -1520
+     ],
+     [
+      80680,
+      54776,
+      -1536
+     ],
+     [
+      80696,
+      54760,
+      -1536
+     ],
+     [
+      80920,
+      54712,
+      -1520
+     ],
+     [
+      81192,
+      54712,
+      -1504
+     ],
+     [
+      81208,
+      54712,
+      -1504
+     ],
+     [
+      81352,
+      54776,
+      -1504
+     ],
+     [
+      81320,
+      55000,
+      -1504
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30685",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30685,
+    "name": "Baxt",
+    "title": "Warehouse Chief",
+    "town": "Hunters Village",
+    "at": [
+     115647,
+     77114,
+     -2649
+    ],
+    "alt": []
+   },
+   "text": "Talk to Baxt",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30685@115647,77114",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2080,
+    "sec": 37,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2080,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115576,
+      76872,
+      -2648
+     ],
+     [
+      115640,
+      77112,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

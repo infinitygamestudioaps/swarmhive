@@ -1,0 +1,1510 @@
+{
+ "id": 137,
+ "name": "Temple Champion - 1",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.832Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 41,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dion",
+ "requirements": {
+  "items": [
+   {
+    "id": 10334,
+    "name": "Badge - Temple Executor"
+   },
+   {
+    "id": 10339,
+    "name": "Badge - Temple Missionary"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Badge - Temple Executor, Badge - Temple Missionary"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: route-aggro"
+  },
+  {
+   "code": "dryrun:route-aggro",
+   "text": "step 3 (c2:hunt): override c2:hunt: aggressive Tanor Silenos Chieftain 50 x2 on the walk (character 41)"
+  }
+ ],
+ "expectedMin": 18,
+ "refLevel": 41,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30070",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Begin the oral exam."
+   ],
+   "npc": {
+    "id": 30070,
+    "name": "Sylvain",
+    "title": "High Priest",
+    "town": "Dion",
+    "at": [
+     15795,
+     142347,
+     -2680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sylvain – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30070@15795,142347",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1484,
+    "sec": 32,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1484,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      15896,
+      142344,
+      -2688
+     ],
+     [
+      15800,
+      142344,
+      -2680
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30070",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Listen."
+   ],
+   "npc": {
+    "id": 30070,
+    "name": "Sylvain",
+    "title": "High Priest",
+    "town": "Dion",
+    "at": [
+     15795,
+     142347,
+     -2680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sylvain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30070@15795,142347",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1484,
+    "sec": 32,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1484,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      15896,
+      142344,
+      -2688
+     ],
+     [
+      15800,
+      142344,
+      -2680
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 57,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 20083,
+     "name": "Granite Golem",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 84,
+     "questSpawned": false
+    },
+    {
+     "id": 20144,
+     "name": "Hangman Tree",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20199,
+     "name": "Amber Basilisk",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20200,
+     "name": "Strain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20201,
+     "name": "Ghoul",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20202,
+     "name": "Dead Seeker",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10340,
+     "name": "Report Fragment",
+     "n": 30,
+     "from": [
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 100
+      },
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 100
+      },
+      {
+       "id": 20199,
+       "name": "Amber Basilisk",
+       "chance": 100
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 100
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 100
+      },
+      {
+       "id": 20202,
+       "name": "Dead Seeker",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Granite Golem, Hangman Tree, Amber Basilisk for Report Fragment x30",
+   "places": [
+    {
+     "mobs": [
+      20083,
+      20144,
+      20199,
+      20200,
+      20201,
+      20202
+     ],
+     "items": [
+      10340
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-8",
+      "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+      "at": [
+       46776,
+       150968,
+       -2808
+      ],
+      "radius": 5224,
+      "levels": [
+       28,
+       35
+      ],
+      "count": 23,
+      "region": "Tanor Canyon",
+      "atlasKey": "area:tanor-canyon-8",
+      "status": "ok",
+      "sec": 236,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -134.06666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "wastelands-15",
+        "name": "Wastelands 15: Granite Golem area (north)",
+        "at": [
+         -20600,
+         194280,
+         -4176
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+        "at": [
+         48008,
+         144920,
+         -3608
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-5",
+        "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+        "at": [
+         94856,
+         130600,
+         -3440
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 22934,
+      "sec": 236,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18144,
+        "how": "field-areas-gap",
+        "danger": 47
+       },
+       {
+        "do": "walk",
+        "len": 4790,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        48504,
+        155128,
+        -2528
+       ],
+       [
+        48504,
+        154136,
+        -2720
+       ],
+       [
+        48504,
+        153144,
+        -2736
+       ],
+       [
+        47960,
+        152152,
+        -2760
+       ],
+       [
+        46968,
+        151160,
+        -2808
+       ],
+       [
+        46776,
+        150968,
+        -2808
+       ]
+      ],
+      "maxDanger": 47,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 47,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-8",
+    "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+    "at": [
+     46776,
+     150968,
+     -2808
+    ],
+    "radius": 5224,
+    "levels": [
+     28,
+     35
+    ],
+    "count": 23,
+    "region": "Tanor Canyon",
+    "atlasKey": "area:tanor-canyon-8",
+    "status": "ok",
+    "sec": 236,
+    "danger": 35,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -134.06666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "wastelands-15",
+      "name": "Wastelands 15: Granite Golem area (north)",
+      "at": [
+       -20600,
+       194280,
+       -4176
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+      "at": [
+       48008,
+       144920,
+       -3608
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "brekas-stronghold-5",
+      "name": "Brekas Stronghold 5: Amber Basilisk area (east)",
+      "at": [
+       94856,
+       130600,
+       -3440
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-8",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 22934,
+    "sec": 236,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18144,
+      "how": "field-areas-gap",
+      "danger": 47
+     },
+     {
+      "do": "walk",
+      "len": 4790,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      48504,
+      155128,
+      -2528
+     ],
+     [
+      48504,
+      154136,
+      -2720
+     ],
+     [
+      48504,
+      153144,
+      -2736
+     ],
+     [
+      47960,
+      152152,
+      -2760
+     ],
+     [
+      46968,
+      151160,
+      -2808
+     ],
+     [
+      46776,
+      150968,
+      -2808
+     ]
+    ],
+    "maxDanger": 47,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 47,
+     "dangerVsLevel": 6,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 7
+      }
+     ]
+    }
+   },
+   "expectedSec": 986,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    2
+   ],
+   "override": {
+    "route": [
+     [
+      60184,
+      165048,
+      -2960
+     ],
+     [
+      60232,
+      165224,
+      -2968
+     ],
+     [
+      60488,
+      165208,
+      -2984
+     ],
+     [
+      61480,
+      164856,
+      -3080
+     ],
+     [
+      62024,
+      164520,
+      -2976
+     ],
+     [
+      62248,
+      163528,
+      -2712
+     ],
+     [
+      63240,
+      162536,
+      -2944
+     ],
+     [
+      63288,
+      162488,
+      -2952
+     ],
+     [
+      63624,
+      161496,
+      -3376
+     ],
+     [
+      64440,
+      160504,
+      -3512
+     ],
+     [
+      63480,
+      159512,
+      -3296
+     ],
+     [
+      63160,
+      158520,
+      -3096
+     ],
+     [
+      62568,
+      158024,
+      -2832
+     ],
+     [
+      62040,
+      157032,
+      -2432
+     ],
+     [
+      61896,
+      156488,
+      -2240
+     ],
+     [
+      61704,
+      156184,
+      -2216
+     ],
+     [
+      60840,
+      155832,
+      -1792
+     ],
+     [
+      60440,
+      155560,
+      -1760
+     ],
+     [
+      59544,
+      155048,
+      -1800
+     ],
+     [
+      58552,
+      154808,
+      -1896
+     ],
+     [
+      57720,
+      154600,
+      -2248
+     ],
+     [
+      56872,
+      153656,
+      -2448
+     ],
+     [
+      55880,
+      152664,
+      -2456
+     ],
+     [
+      54984,
+      152120,
+      -2440
+     ],
+     [
+      53992,
+      151128,
+      -2464
+     ],
+     [
+      53000,
+      151048,
+      -2472
+     ],
+     [
+      52008,
+      151192,
+      -2424
+     ],
+     [
+      51224,
+      151944,
+      -2416
+     ],
+     [
+      50232,
+      152584,
+      -2672
+     ],
+     [
+      49912,
+      152760,
+      -2832
+     ],
+     [
+      49624,
+      152520,
+      -2832
+     ],
+     [
+      48840,
+      151528,
+      -2832
+     ],
+     [
+      48680,
+      150808,
+      -2848
+     ],
+     [
+      47688,
+      150856,
+      -2808
+     ],
+     [
+      46776,
+      150968,
+      -2808
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "note": "Tanor Canyon 8 (Dead Seeker area): gk link \"Tanor Canyon\" on the live menu Scripts/data/gk_live/Trisha.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Tanor Silenos Chieftain 50 x2 (aggro_h5 + spawns_h5) -> run it at level 44+ or as a party (quest min level 41).",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "points": [
+     [
+      60184,
+      165048,
+      -2960
+     ],
+     [
+      60232,
+      165224,
+      -2968
+     ],
+     [
+      60488,
+      165208,
+      -2984
+     ],
+     [
+      61480,
+      164856,
+      -3080
+     ],
+     [
+      62024,
+      164520,
+      -2976
+     ],
+     [
+      62248,
+      163528,
+      -2712
+     ],
+     [
+      63240,
+      162536,
+      -2944
+     ],
+     [
+      63288,
+      162488,
+      -2952
+     ],
+     [
+      63624,
+      161496,
+      -3376
+     ],
+     [
+      64440,
+      160504,
+      -3512
+     ],
+     [
+      63480,
+      159512,
+      -3296
+     ],
+     [
+      63160,
+      158520,
+      -3096
+     ],
+     [
+      62568,
+      158024,
+      -2832
+     ],
+     [
+      62040,
+      157032,
+      -2432
+     ],
+     [
+      61896,
+      156488,
+      -2240
+     ],
+     [
+      61704,
+      156184,
+      -2216
+     ],
+     [
+      60840,
+      155832,
+      -1792
+     ],
+     [
+      60440,
+      155560,
+      -1760
+     ],
+     [
+      59544,
+      155048,
+      -1800
+     ],
+     [
+      58552,
+      154808,
+      -1896
+     ],
+     [
+      57720,
+      154600,
+      -2248
+     ],
+     [
+      56872,
+      153656,
+      -2448
+     ],
+     [
+      55880,
+      152664,
+      -2456
+     ],
+     [
+      54984,
+      152120,
+      -2440
+     ],
+     [
+      53992,
+      151128,
+      -2464
+     ],
+     [
+      53000,
+      151048,
+      -2472
+     ],
+     [
+      52008,
+      151192,
+      -2424
+     ],
+     [
+      51224,
+      151944,
+      -2416
+     ],
+     [
+      50232,
+      152584,
+      -2672
+     ],
+     [
+      49912,
+      152760,
+      -2832
+     ],
+     [
+      49624,
+      152520,
+      -2832
+     ],
+     [
+      48840,
+      151528,
+      -2832
+     ],
+     [
+      48680,
+      150808,
+      -2848
+     ],
+     [
+      47688,
+      150856,
+      -2808
+     ],
+     [
+      46776,
+      150968,
+      -2808
+     ]
+    ],
+    "pv": [
+     [
+      60184,
+      165048,
+      -2960
+     ],
+     [
+      60232,
+      165224,
+      -2968
+     ],
+     [
+      60488,
+      165208,
+      -2984
+     ],
+     [
+      61480,
+      164856,
+      -3080
+     ],
+     [
+      62024,
+      164520,
+      -2976
+     ],
+     [
+      62248,
+      163528,
+      -2712
+     ],
+     [
+      63240,
+      162536,
+      -2944
+     ],
+     [
+      63288,
+      162488,
+      -2952
+     ],
+     [
+      63624,
+      161496,
+      -3376
+     ],
+     [
+      64440,
+      160504,
+      -3512
+     ],
+     [
+      63480,
+      159512,
+      -3296
+     ],
+     [
+      63160,
+      158520,
+      -3096
+     ],
+     [
+      62568,
+      158024,
+      -2832
+     ],
+     [
+      62040,
+      157032,
+      -2432
+     ],
+     [
+      61896,
+      156488,
+      -2240
+     ],
+     [
+      61704,
+      156184,
+      -2216
+     ],
+     [
+      60840,
+      155832,
+      -1792
+     ],
+     [
+      60440,
+      155560,
+      -1760
+     ],
+     [
+      59544,
+      155048,
+      -1800
+     ],
+     [
+      58552,
+      154808,
+      -1896
+     ],
+     [
+      57720,
+      154600,
+      -2248
+     ],
+     [
+      56872,
+      153656,
+      -2448
+     ],
+     [
+      55880,
+      152664,
+      -2456
+     ],
+     [
+      54984,
+      152120,
+      -2440
+     ],
+     [
+      53992,
+      151128,
+      -2464
+     ],
+     [
+      53000,
+      151048,
+      -2472
+     ],
+     [
+      52008,
+      151192,
+      -2424
+     ],
+     [
+      51224,
+      151944,
+      -2416
+     ],
+     [
+      50232,
+      152584,
+      -2672
+     ],
+     [
+      49912,
+      152760,
+      -2832
+     ],
+     [
+      49624,
+      152520,
+      -2832
+     ],
+     [
+      48840,
+      151528,
+      -2832
+     ],
+     [
+      48680,
+      150808,
+      -2848
+     ],
+     [
+      47688,
+      150856,
+      -2808
+     ],
+     [
+      46776,
+      150968,
+      -2808
+     ]
+    ],
+    "length": 30560,
+    "checks": {
+     "aggro": [
+      {
+       "name": "Tanor Silenos Chieftain",
+       "lv": 50,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c2:hunt": {
+    "route": [
+     [
+      60184,
+      165048,
+      -2960
+     ],
+     [
+      60232,
+      165224,
+      -2968
+     ],
+     [
+      60488,
+      165208,
+      -2984
+     ],
+     [
+      61480,
+      164856,
+      -3080
+     ],
+     [
+      62024,
+      164520,
+      -2976
+     ],
+     [
+      62248,
+      163528,
+      -2712
+     ],
+     [
+      63240,
+      162536,
+      -2944
+     ],
+     [
+      63288,
+      162488,
+      -2952
+     ],
+     [
+      63624,
+      161496,
+      -3376
+     ],
+     [
+      64440,
+      160504,
+      -3512
+     ],
+     [
+      63480,
+      159512,
+      -3296
+     ],
+     [
+      63160,
+      158520,
+      -3096
+     ],
+     [
+      62568,
+      158024,
+      -2832
+     ],
+     [
+      62040,
+      157032,
+      -2432
+     ],
+     [
+      61896,
+      156488,
+      -2240
+     ],
+     [
+      61704,
+      156184,
+      -2216
+     ],
+     [
+      60840,
+      155832,
+      -1792
+     ],
+     [
+      60440,
+      155560,
+      -1760
+     ],
+     [
+      59544,
+      155048,
+      -1800
+     ],
+     [
+      58552,
+      154808,
+      -1896
+     ],
+     [
+      57720,
+      154600,
+      -2248
+     ],
+     [
+      56872,
+      153656,
+      -2448
+     ],
+     [
+      55880,
+      152664,
+      -2456
+     ],
+     [
+      54984,
+      152120,
+      -2440
+     ],
+     [
+      53992,
+      151128,
+      -2464
+     ],
+     [
+      53000,
+      151048,
+      -2472
+     ],
+     [
+      52008,
+      151192,
+      -2424
+     ],
+     [
+      51224,
+      151944,
+      -2416
+     ],
+     [
+      50232,
+      152584,
+      -2672
+     ],
+     [
+      49912,
+      152760,
+      -2832
+     ],
+     [
+      49624,
+      152520,
+      -2832
+     ],
+     [
+      48840,
+      151528,
+      -2832
+     ],
+     [
+      48680,
+      150808,
+      -2848
+     ],
+     [
+      47688,
+      150856,
+      -2808
+     ],
+     [
+      46776,
+      150968,
+      -2808
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "note": "Tanor Canyon 8 (Dead Seeker area): gk link \"Tanor Canyon\" on the live menu Scripts/data/gk_live/Trisha.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Tanor Silenos Chieftain 50 x2 (aggro_h5 + spawns_h5) -> run it at level 44+ or as a party (quest min level 41).",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.892Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "route-aggro",
+    "t": "step 3 (c2:hunt): override c2:hunt: aggressive Tanor Silenos Chieftain 50 x2 on the walk (character 41)"
+   }
+  ],
+  "warns": []
+ }
+}

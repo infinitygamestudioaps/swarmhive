@@ -1,0 +1,1342 @@
+{
+ "id": 357,
+ "name": "Warehouse Keeper's Ambition",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.202Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 47,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 21,
+ "refLevel": 47,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30686",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Hey, be careful! Sorint might hear you...\""
+   ],
+   "npc": {
+    "id": 30686,
+    "name": "Silva",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115435,
+     76541,
+     -2649
+    ],
+    "alt": []
+   },
+   "text": "Talk to Silva – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30686@115435,76541",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2090,
+    "sec": 37,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2090,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76776,
+      -2648
+     ],
+     [
+      115416,
+      76600,
+      -2648
+     ],
+     [
+      115432,
+      76536,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 67,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20594,
+     "name": "Forest Runner",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20595,
+     "name": "Fline Elder",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20596,
+     "name": "Liele Elder",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20597,
+     "name": "Valley Treant Elder",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5867,
+     "name": "Jade Crystal",
+     "n": 20,
+     "from": [
+      {
+       "id": 20594,
+       "name": "Forest Runner",
+       "chance": 57.7
+      },
+      {
+       "id": 20595,
+       "name": "Fline Elder",
+       "chance": 60
+      },
+      {
+       "id": 20596,
+       "name": "Liele Elder",
+       "chance": 63.8
+      },
+      {
+       "id": 20597,
+       "name": "Valley Treant Elder",
+       "chance": 62
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Forest Runner, Fline Elder, Liele Elder for Jade Crystal x20",
+   "places": [
+    {
+     "mobs": [
+      20594,
+      20595,
+      20596,
+      20597
+     ],
+     "items": [
+      5867
+     ],
+     "kills": null,
+     "area": {
+      "kind": "override",
+      "id": "override",
+      "name": "Southern Pathway of Enchanted Valley 1: Unicorn area (north)",
+      "radius": 3200,
+      "count": 0,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "southern-pathway-of-enchanted-valley-14",
+        "name": "Southern Pathway of Enchanted Valley 14: Liele Elder area (north-west)",
+        "at": [
+         110888,
+         53736,
+         -3720
+        ]
+       }
+      ],
+      "at": [
+       124008,
+       55336,
+       -3424
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:southern-pathway-of-enchanted-valley-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 8058,
+      "sec": 112,
+      "via": ".hunters > Hunters -> Southern Pathway of Enchanted Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Southern Pathway of Enchanted Valley",
+        "link": "enchanted valley, southern region",
+        "price": 1300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2112,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 5946,
+        "how": "field-areas",
+        "danger": 50
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Southern Pathway of Enchanted Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        124904,
+        61992,
+        -3920
+       ],
+       [
+        125688,
+        60408,
+        -3896
+       ],
+       [
+        125688,
+        60152,
+        -3896
+       ],
+       [
+        125704,
+        60136,
+        -3872
+       ],
+       [
+        125688,
+        59496,
+        -3696
+       ],
+       [
+        124856,
+        58664,
+        -3720
+       ],
+       [
+        124808,
+        58648,
+        -3720
+       ],
+       [
+        124392,
+        58632,
+        -3704
+       ],
+       [
+        124280,
+        58520,
+        -3624
+       ],
+       [
+        124216,
+        57976,
+        -3432
+       ],
+       [
+        124216,
+        56984,
+        -3696
+       ],
+       [
+        124216,
+        55992,
+        -3640
+       ],
+       [
+        124040,
+        55368,
+        -3432
+       ],
+       [
+        124008,
+        55336,
+        -3424
+       ]
+      ],
+      "maxDanger": 50,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 50,
+       "dangerVsLevel": 3,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:southern-pathway-of-enchanted-valley-1",
+       "name": "Southern Pathway of Enchanted Valley 1: Unicorn area (north)"
+      },
+      "points": [
+       [
+        124904,
+        61992,
+        -3920
+       ],
+       [
+        125688,
+        60408,
+        -3896
+       ],
+       [
+        125688,
+        60152,
+        -3896
+       ],
+       [
+        125704,
+        60136,
+        -3872
+       ],
+       [
+        125688,
+        59496,
+        -3696
+       ],
+       [
+        124856,
+        58664,
+        -3720
+       ],
+       [
+        124808,
+        58648,
+        -3720
+       ],
+       [
+        124392,
+        58632,
+        -3704
+       ],
+       [
+        124280,
+        58520,
+        -3624
+       ],
+       [
+        124216,
+        57976,
+        -3432
+       ],
+       [
+        124216,
+        56984,
+        -3696
+       ],
+       [
+        124216,
+        55992,
+        -3640
+       ],
+       [
+        124040,
+        55368,
+        -3432
+       ],
+       [
+        124008,
+        55336,
+        -3424
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "override",
+    "id": "override",
+    "name": "Southern Pathway of Enchanted Valley 1: Unicorn area (north)",
+    "radius": 3200,
+    "count": 0,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "southern-pathway-of-enchanted-valley-14",
+      "name": "Southern Pathway of Enchanted Valley 14: Liele Elder area (north-west)",
+      "at": [
+       110888,
+       53736,
+       -3720
+      ]
+     }
+    ],
+    "at": [
+     124008,
+     55336,
+     -3424
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:southern-pathway-of-enchanted-valley-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 8058,
+    "sec": 112,
+    "via": ".hunters > Hunters -> Southern Pathway of Enchanted Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Southern Pathway of Enchanted Valley",
+      "link": "enchanted valley, southern region",
+      "price": 1300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2112,
+      "how": "field-areas-gap",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 5946,
+      "how": "field-areas",
+      "danger": 50
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Southern Pathway of Enchanted Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      124904,
+      61992,
+      -3920
+     ],
+     [
+      125688,
+      60408,
+      -3896
+     ],
+     [
+      125688,
+      60152,
+      -3896
+     ],
+     [
+      125704,
+      60136,
+      -3872
+     ],
+     [
+      125688,
+      59496,
+      -3696
+     ],
+     [
+      124856,
+      58664,
+      -3720
+     ],
+     [
+      124808,
+      58648,
+      -3720
+     ],
+     [
+      124392,
+      58632,
+      -3704
+     ],
+     [
+      124280,
+      58520,
+      -3624
+     ],
+     [
+      124216,
+      57976,
+      -3432
+     ],
+     [
+      124216,
+      56984,
+      -3696
+     ],
+     [
+      124216,
+      55992,
+      -3640
+     ],
+     [
+      124040,
+      55368,
+      -3432
+     ],
+     [
+      124008,
+      55336,
+      -3424
+     ]
+    ],
+    "maxDanger": 50,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 50,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:southern-pathway-of-enchanted-valley-1",
+     "name": "Southern Pathway of Enchanted Valley 1: Unicorn area (north)"
+    },
+    "points": [
+     [
+      124904,
+      61992,
+      -3920
+     ],
+     [
+      125688,
+      60408,
+      -3896
+     ],
+     [
+      125688,
+      60152,
+      -3896
+     ],
+     [
+      125704,
+      60136,
+      -3872
+     ],
+     [
+      125688,
+      59496,
+      -3696
+     ],
+     [
+      124856,
+      58664,
+      -3720
+     ],
+     [
+      124808,
+      58648,
+      -3720
+     ],
+     [
+      124392,
+      58632,
+      -3704
+     ],
+     [
+      124280,
+      58520,
+      -3624
+     ],
+     [
+      124216,
+      57976,
+      -3432
+     ],
+     [
+      124216,
+      56984,
+      -3696
+     ],
+     [
+      124216,
+      55992,
+      -3640
+     ],
+     [
+      124040,
+      55368,
+      -3432
+     ],
+     [
+      124008,
+      55336,
+      -3424
+     ]
+    ]
+   },
+   "expectedSec": 1104,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "area": {
+     "at": [
+      124008,
+      55336,
+      -3424
+     ],
+     "radius": 3200,
+     "name": "Southern Pathway of Enchanted Valley 1: Unicorn area (north)"
+    },
+    "route": [
+     [
+      124904,
+      61992,
+      -3944
+     ],
+     [
+      125288,
+      61720,
+      -4008
+     ],
+     [
+      125464,
+      61560,
+      -3912
+     ],
+     [
+      125528,
+      61608,
+      -3920
+     ],
+     [
+      125608,
+      61512,
+      -3872
+     ],
+     [
+      125816,
+      60520,
+      -3760
+     ],
+     [
+      125704,
+      60392,
+      -3872
+     ],
+     [
+      125704,
+      59896,
+      -3800
+     ],
+     [
+      125064,
+      58920,
+      -3744
+     ],
+     [
+      124920,
+      58776,
+      -3728
+     ],
+     [
+      124904,
+      58696,
+      -3720
+     ],
+     [
+      124824,
+      58648,
+      -3720
+     ],
+     [
+      124280,
+      58632,
+      -3720
+     ],
+     [
+      124232,
+      58552,
+      -3672
+     ],
+     [
+      124248,
+      58200,
+      -3464
+     ],
+     [
+      124376,
+      58024,
+      -3400
+     ],
+     [
+      124216,
+      57080,
+      -3672
+     ],
+     [
+      124136,
+      56088,
+      -3680
+     ],
+     [
+      124216,
+      55976,
+      -3632
+     ],
+     [
+      124216,
+      55848,
+      -3552
+     ],
+     [
+      124008,
+      55336,
+      -3424
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Enchanted Valley, Southern Region"
+    },
+    "note": "The planned place holds Valley Treant Elder 53 (aggressive, quest level 47 + 6); Forest Runner 20594 also drops the item there. New place: field area southern-pathway-of-enchanted-valley-1 \"Southern Pathway of Enchanted Valley 1: Unicorn area (north)\" (field_areas.json: Unicorn x4 L49 A, Forest Runner x4 L50 A, Satyr x3 L48 A). Route: Hunters -> Southern Pathway of Enchanted Valley (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 8117 long, swim 0, aggressive monsters lv >= 53 on it: none. Gatekeeper link name as on the live menu of Esmeralda (gk_live/Esmeralda.json: \"Enchanted Valley, Southern Region\" = datapack \"Southern Pathway of Enchanted Valley\").",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:25:24.777Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Enchanted Valley, Southern Region"
+    },
+    "points": [
+     [
+      124904,
+      61992,
+      -3944
+     ],
+     [
+      125288,
+      61720,
+      -4008
+     ],
+     [
+      125464,
+      61560,
+      -3912
+     ],
+     [
+      125528,
+      61608,
+      -3920
+     ],
+     [
+      125608,
+      61512,
+      -3872
+     ],
+     [
+      125816,
+      60520,
+      -3760
+     ],
+     [
+      125704,
+      60392,
+      -3872
+     ],
+     [
+      125704,
+      59896,
+      -3800
+     ],
+     [
+      125064,
+      58920,
+      -3744
+     ],
+     [
+      124920,
+      58776,
+      -3728
+     ],
+     [
+      124904,
+      58696,
+      -3720
+     ],
+     [
+      124824,
+      58648,
+      -3720
+     ],
+     [
+      124280,
+      58632,
+      -3720
+     ],
+     [
+      124232,
+      58552,
+      -3672
+     ],
+     [
+      124248,
+      58200,
+      -3464
+     ],
+     [
+      124376,
+      58024,
+      -3400
+     ],
+     [
+      124216,
+      57080,
+      -3672
+     ],
+     [
+      124136,
+      56088,
+      -3680
+     ],
+     [
+      124216,
+      55976,
+      -3632
+     ],
+     [
+      124216,
+      55848,
+      -3552
+     ],
+     [
+      124008,
+      55336,
+      -3424
+     ]
+    ],
+    "pv": [
+     [
+      124904,
+      61992,
+      -3944
+     ],
+     [
+      125288,
+      61720,
+      -4008
+     ],
+     [
+      125464,
+      61560,
+      -3912
+     ],
+     [
+      125528,
+      61608,
+      -3920
+     ],
+     [
+      125608,
+      61512,
+      -3872
+     ],
+     [
+      125816,
+      60520,
+      -3760
+     ],
+     [
+      125704,
+      60392,
+      -3872
+     ],
+     [
+      125704,
+      59896,
+      -3800
+     ],
+     [
+      125064,
+      58920,
+      -3744
+     ],
+     [
+      124920,
+      58776,
+      -3728
+     ],
+     [
+      124904,
+      58696,
+      -3720
+     ],
+     [
+      124824,
+      58648,
+      -3720
+     ],
+     [
+      124280,
+      58632,
+      -3720
+     ],
+     [
+      124232,
+      58552,
+      -3672
+     ],
+     [
+      124248,
+      58200,
+      -3464
+     ],
+     [
+      124376,
+      58024,
+      -3400
+     ],
+     [
+      124216,
+      57080,
+      -3672
+     ],
+     [
+      124136,
+      56088,
+      -3680
+     ],
+     [
+      124216,
+      55976,
+      -3632
+     ],
+     [
+      124216,
+      55848,
+      -3552
+     ],
+     [
+      124008,
+      55336,
+      -3424
+     ]
+    ],
+    "length": 8117,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30686",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Receive reward."
+   ],
+   "npc": {
+    "id": 30686,
+    "name": "Silva",
+    "title": "Warehouse Keeper",
+    "town": "Hunters Village",
+    "at": [
+     115435,
+     76541,
+     -2649
+    ],
+    "alt": []
+   },
+   "text": "Hand in Jade Crystal at Silva (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 5867,
+     "name": "Jade Crystal",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30686@115435,76541",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 2090,
+    "sec": 37,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 2090,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76344,
+      -2728
+     ],
+     [
+      116520,
+      76520,
+      -2728
+     ],
+     [
+      116328,
+      76696,
+      -2728
+     ],
+     [
+      116120,
+      76872,
+      -2664
+     ],
+     [
+      116008,
+      76856,
+      -2664
+     ],
+     [
+      115816,
+      76680,
+      -2664
+     ],
+     [
+      115688,
+      76712,
+      -2648
+     ],
+     [
+      115512,
+      76776,
+      -2648
+     ],
+     [
+      115416,
+      76600,
+      -2648
+     ],
+     [
+      115432,
+      76536,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "area": {
+     "at": [
+      124008,
+      55336,
+      -3424
+     ],
+     "radius": 3200,
+     "name": "Southern Pathway of Enchanted Valley 1: Unicorn area (north)"
+    },
+    "route": [
+     [
+      124904,
+      61992,
+      -3944
+     ],
+     [
+      125288,
+      61720,
+      -4008
+     ],
+     [
+      125464,
+      61560,
+      -3912
+     ],
+     [
+      125528,
+      61608,
+      -3920
+     ],
+     [
+      125608,
+      61512,
+      -3872
+     ],
+     [
+      125816,
+      60520,
+      -3760
+     ],
+     [
+      125704,
+      60392,
+      -3872
+     ],
+     [
+      125704,
+      59896,
+      -3800
+     ],
+     [
+      125064,
+      58920,
+      -3744
+     ],
+     [
+      124920,
+      58776,
+      -3728
+     ],
+     [
+      124904,
+      58696,
+      -3720
+     ],
+     [
+      124824,
+      58648,
+      -3720
+     ],
+     [
+      124280,
+      58632,
+      -3720
+     ],
+     [
+      124232,
+      58552,
+      -3672
+     ],
+     [
+      124248,
+      58200,
+      -3464
+     ],
+     [
+      124376,
+      58024,
+      -3400
+     ],
+     [
+      124216,
+      57080,
+      -3672
+     ],
+     [
+      124136,
+      56088,
+      -3680
+     ],
+     [
+      124216,
+      55976,
+      -3632
+     ],
+     [
+      124216,
+      55848,
+      -3552
+     ],
+     [
+      124008,
+      55336,
+      -3424
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Enchanted Valley, Southern Region"
+    },
+    "note": "The planned place holds Valley Treant Elder 53 (aggressive, quest level 47 + 6); Forest Runner 20594 also drops the item there. New place: field area southern-pathway-of-enchanted-valley-1 \"Southern Pathway of Enchanted Valley 1: Unicorn area (north)\" (field_areas.json: Unicorn x4 L49 A, Forest Runner x4 L50 A, Satyr x3 L48 A). Route: Hunters -> Southern Pathway of Enchanted Valley (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 8117 long, swim 0, aggressive monsters lv >= 53 on it: none. Gatekeeper link name as on the live menu of Esmeralda (gk_live/Esmeralda.json: \"Enchanted Valley, Southern Region\" = datapack \"Southern Pathway of Enchanted Valley\").",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:25:24.777Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T10:29:51.590Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:38.207Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

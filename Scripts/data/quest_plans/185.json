@@ -1,0 +1,708 @@
+{
+ "id": 185,
+ "name": "Nikola's Cooperation",
+ "version": 1,
+ "generated": "2026-10-27T11:15:14.345Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 40,
+  "max": 46
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "quests": [
+   {
+    "id": 183,
+    "name": "Q00183_RelicExploration",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "183 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 5,
+ "refLevel": 40,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30621",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Why not work with her? I can help you contact her.\""
+   ],
+   "npc": {
+    "id": 30621,
+    "name": "Nikola",
+    "title": "Maestro",
+    "town": "Gludio",
+    "at": [
+     10580,
+     118027,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nikola – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30621@10580,118027",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 8062,
+    "sec": 112,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8062,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114328,
+      -3528
+     ],
+     [
+      15912,
+      114488,
+      -3576
+     ],
+     [
+      15416,
+      114984,
+      -3596
+     ],
+     [
+      14920,
+      115480,
+      -3616
+     ],
+     [
+      14424,
+      115976,
+      -3664
+     ],
+     [
+      13928,
+      116472,
+      -3712
+     ],
+     [
+      13432,
+      116968,
+      -3708
+     ],
+     [
+      12936,
+      117464,
+      -3704
+     ],
+     [
+      12440,
+      117744,
+      -3720
+     ],
+     [
+      11944,
+      118024,
+      -3736
+     ],
+     [
+      10952,
+      118024,
+      -3688
+     ],
+     [
+      10584,
+      118024,
+      -3672
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 142,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:30673",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Give it to Lorain."
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Bring Metallograph to Lorain",
+   "needs": [
+    {
+     "id": 10363,
+     "name": "Metallograph",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32366",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Examine it."
+   ],
+   "npc": {
+    "id": 32366,
+    "name": "Destroyed Device",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     16411,
+     113498,
+     -9064
+    ],
+    "alt": []
+   },
+   "text": "Talk to Destroyed Device",
+   "reasons": [
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30673@16460,113488",
+    "status": "unreachable",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [
+     "no walk on the geodata from Lorain: gave up after 402352 cells (too far or no way); no way through (flooded 315836 cells, the goal side ran out); plain: no way through (searched 724374 cells)"
+    ],
+    "checks": {
+     "reachable": false,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30673@16460,113488",
+     "name": "Lorain"
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "override": {
+    "route": [
+     [
+      17768,
+      109288,
+      -9184
+     ],
+     [
+      17832,
+      110264,
+      -9312
+     ],
+     [
+      17640,
+      111256,
+      -9312
+     ],
+     [
+      17640,
+      112248,
+      -9144
+     ],
+     [
+      17576,
+      112696,
+      -9064
+     ],
+     [
+      16584,
+      112984,
+      -9064
+     ],
+     [
+      16504,
+      113128,
+      -9064
+     ],
+     [
+      16408,
+      113496,
+      -9064
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "manual": true,
+    "routeSteps": [
+     {
+      "do": "town",
+      "town": "Dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "live": true
+     },
+     {
+      "do": "floor",
+      "npc": 30483,
+      "name": "Mozella",
+      "link": "Teleport into the Tower.",
+      "landing": [
+       17781,
+       113999,
+       -11672
+      ]
+     },
+     {
+      "do": "floor",
+      "npc": 30487,
+      "name": "Penelope",
+      "link": "Teleport to the 2nd floor.",
+      "landing": [
+       17776,
+       108288,
+       -9056
+      ]
+     },
+     {
+      "do": "walk",
+      "points": "override.route"
+     }
+    ],
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): Destroyed Device 32366 stands on Cruma Tower floor 2 (16411,113498,-9064). Way: .dion -> Trisha \"Cruma Tower\" -> Mozella \"Teleport into the Tower.\" -> Penelope \"Teleport to the 2nd floor.\" (landing 17776,108288,-9056; nav_atlas room:cruma-2-right-c, both floor steps verified live) -> walk override.route (6.2 km, geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27). The plan route cannot carry floor steps (qePlanRoute keeps only [x,y,z] points); the engine must run override.routeSteps (or travel by the nav atlas room route and then this walk). Level <= 55 for Cruma.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "points": [
+     [
+      17768,
+      109288,
+      -9184
+     ],
+     [
+      17832,
+      110264,
+      -9312
+     ],
+     [
+      17640,
+      111256,
+      -9312
+     ],
+     [
+      17640,
+      112248,
+      -9144
+     ],
+     [
+      17576,
+      112696,
+      -9064
+     ],
+     [
+      16584,
+      112984,
+      -9064
+     ],
+     [
+      16504,
+      113128,
+      -9064
+     ],
+     [
+      16408,
+      113496,
+      -9064
+     ]
+    ],
+    "pv": [
+     [
+      17768,
+      109288,
+      -9184
+     ],
+     [
+      17832,
+      110264,
+      -9312
+     ],
+     [
+      17640,
+      111256,
+      -9312
+     ],
+     [
+      17640,
+      112248,
+      -9144
+     ],
+     [
+      17576,
+      112696,
+      -9064
+     ],
+     [
+      16584,
+      112984,
+      -9064
+     ],
+     [
+      16504,
+      113128,
+      -9064
+     ],
+     [
+      16408,
+      113496,
+      -9064
+     ]
+    ],
+    "length": 5011,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32366": {
+    "route": [
+     [
+      17768,
+      109288,
+      -9184
+     ],
+     [
+      17832,
+      110264,
+      -9312
+     ],
+     [
+      17640,
+      111256,
+      -9312
+     ],
+     [
+      17640,
+      112248,
+      -9144
+     ],
+     [
+      17576,
+      112696,
+      -9064
+     ],
+     [
+      16584,
+      112984,
+      -9064
+     ],
+     [
+      16504,
+      113128,
+      -9064
+     ],
+     [
+      16408,
+      113496,
+      -9064
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "manual": true,
+    "routeSteps": [
+     {
+      "do": "town",
+      "town": "Dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "live": true
+     },
+     {
+      "do": "floor",
+      "npc": 30483,
+      "name": "Mozella",
+      "link": "Teleport into the Tower.",
+      "landing": [
+       17781,
+       113999,
+       -11672
+      ]
+     },
+     {
+      "do": "floor",
+      "npc": 30487,
+      "name": "Penelope",
+      "link": "Teleport to the 2nd floor.",
+      "landing": [
+       17776,
+       108288,
+       -9056
+      ]
+     },
+     {
+      "do": "walk",
+      "points": "override.route"
+     }
+    ],
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): Destroyed Device 32366 stands on Cruma Tower floor 2 (16411,113498,-9064). Way: .dion -> Trisha \"Cruma Tower\" -> Mozella \"Teleport into the Tower.\" -> Penelope \"Teleport to the 2nd floor.\" (landing 17776,108288,-9056; nav_atlas room:cruma-2-right-c, both floor steps verified live) -> walk override.route (6.2 km, geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27). The plan route cannot carry floor steps (qePlanRoute keeps only [x,y,z] points); the engine must run override.routeSteps (or travel by the nav atlas room route and then this walk). Level <= 55 for Cruma.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

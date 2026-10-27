@@ -1,0 +1,1170 @@
+{
+ "id": 10292,
+ "name": "Seven Signs, Girl of Doubt",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.526Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 81,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Aden",
+ "requirements": {
+  "quests": [
+   {
+    "id": 198,
+    "name": "Q00198_SevenSignsEmbryo",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "198 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "drop-unresolved",
+   "text": "a quest drop (item / chance) was not resolved"
+  },
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 3
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 5
+  }
+ ],
+ "expectedMin": 19,
+ "refLevel": 81,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32593",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Yes, right now.\""
+   ],
+   "npc": {
+    "id": 32593,
+    "name": "Wood",
+    "title": "Priest",
+    "town": "Aden",
+    "at": [
+     147004,
+     23754,
+     -2000
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wood – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32593@147004,23754",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3169,
+    "sec": 46,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3169,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147400,
+      23848,
+      -1984
+     ],
+     [
+      147224,
+      23736,
+      -1984
+     ],
+     [
+      147000,
+      23752,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22804,
+     "name": "Horrifying Jackhammer Golem",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 17226,
+     "name": "Elcadia's Mark",
+     "n": 10,
+     "from": [
+      {
+       "id": 22804,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 70
+      },
+      {
+       "id": 22805,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 70
+      },
+      {
+       "id": 22806,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 70
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Horrifying Jackhammer Golem for Elcadia's Mark x10",
+   "places": [
+    {
+     "mobs": [
+      22804
+     ],
+     "items": [
+      17226
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "pavel-ruins-7",
+      "name": "Pavel Ruins 7: Scout-type Golem No. 28 area (north-west)",
+      "at": [
+       86008,
+       -121704,
+       -4392
+      ],
+      "radius": 2831,
+      "levels": [
+       72,
+       73
+      ],
+      "count": 12,
+      "region": "Pavel Ruins",
+      "atlasKey": "area:pavel-ruins-7",
+      "status": "ok",
+      "sec": 104,
+      "danger": 73,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -70.26666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "pavel-ruins-10",
+        "name": "Pavel Ruins 10: Scout-type Golem No. 28 area (north)",
+        "at": [
+         91736,
+         -127464,
+         -4264
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "pavel-ruins-5",
+        "name": "Pavel Ruins 5: Scout-type Golem No. 28 area (north-east)",
+        "at": [
+         94936,
+         -120840,
+         -4552
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "pavel-ruins-3",
+        "name": "Pavel Ruins 3: Scout-type Golem No. 28 area (north-east)",
+        "at": [
+         93448,
+         -120216,
+         -4552
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:pavel-ruins-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 7104,
+      "sec": 104,
+      "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Pavel Ruins",
+        "link": "pavel ruins",
+        "price": 5300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4932,
+        "how": "field-areas-gap",
+        "danger": 73
+       },
+       {
+        "do": "walk",
+        "len": 2172,
+        "how": "field-areas",
+        "danger": 73
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Pavel Ruins"
+      },
+      "simple": true,
+      "pv": [
+       [
+        91280,
+        -117152,
+        -3928
+       ],
+       [
+        87736,
+        -120424,
+        -4360
+       ],
+       [
+        86744,
+        -120968,
+        -4384
+       ],
+       [
+        86008,
+        -121704,
+        -4392
+       ]
+      ],
+      "maxDanger": 73,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 73,
+       "dangerVsLevel": -8,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "pavel-ruins-7",
+    "name": "Pavel Ruins 7: Scout-type Golem No. 28 area (north-west)",
+    "at": [
+     86008,
+     -121704,
+     -4392
+    ],
+    "radius": 2831,
+    "levels": [
+     72,
+     73
+    ],
+    "count": 12,
+    "region": "Pavel Ruins",
+    "atlasKey": "area:pavel-ruins-7",
+    "status": "ok",
+    "sec": 104,
+    "danger": 73,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -70.26666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "pavel-ruins-10",
+      "name": "Pavel Ruins 10: Scout-type Golem No. 28 area (north)",
+      "at": [
+       91736,
+       -127464,
+       -4264
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "pavel-ruins-5",
+      "name": "Pavel Ruins 5: Scout-type Golem No. 28 area (north-east)",
+      "at": [
+       94936,
+       -120840,
+       -4552
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "pavel-ruins-3",
+      "name": "Pavel Ruins 3: Scout-type Golem No. 28 area (north-east)",
+      "at": [
+       93448,
+       -120216,
+       -4552
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:pavel-ruins-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7104,
+    "sec": 104,
+    "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Pavel Ruins",
+      "link": "pavel ruins",
+      "price": 5300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4932,
+      "how": "field-areas-gap",
+      "danger": 73
+     },
+     {
+      "do": "walk",
+      "len": 2172,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Pavel Ruins"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91280,
+      -117152,
+      -3928
+     ],
+     [
+      87736,
+      -120424,
+      -4360
+     ],
+     [
+      86744,
+      -120968,
+      -4384
+     ],
+     [
+      86008,
+      -121704,
+      -4392
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 479,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:22805",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22805,
+     "name": "Horrifying Jackhammer Golem",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22806,
+     "name": "Horrifying Jackhammer Golem",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27422,
+     "name": "Creature of the Dusk",
+     "level": 79,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27424,
+     "name": "Creature of the Dusk",
+     "level": 79,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 17226,
+     "name": "Elcadia's Mark",
+     "n": 10,
+     "from": [
+      {
+       "id": 22804,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 70
+      },
+      {
+       "id": 22805,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 70
+      },
+      {
+       "id": 22806,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 70
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob",
+    "npc-no-spawn"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     32784
+    ]
+   },
+   "text": "Make Horrifying Jackhammer Golem, Horrifying Jackhammer Golem, Creature of the Dusk, Creature of the Dusk appear and kill it",
+   "npc": {
+    "id": 32784,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "area": {
+    "kind": "spawn",
+    "id": "spawn",
+    "name": "quest spawn",
+    "at": [
+     89440,
+     -238016,
+     -9632
+    ],
+    "radius": 800,
+    "count": 1
+   },
+   "expectedSec": 300,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:32784",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32784,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30832",
+   "cond": 1,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "\"Tell me more.\""
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hardin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30832@105745,114255",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 22123,
+    "sec": 229,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22123,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      105745,
+      114255,
+      -3136
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 254,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "override": {
+    "route": [
+     [
+      105688,
+      110616,
+      -3064
+     ],
+     [
+      105704,
+      110696,
+      -3056
+     ],
+     [
+      105688,
+      110824,
+      -3064
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Hardin's Private Academy"
+    },
+    "note": "route: Giran gatekeeper Clarissa (live menu \"Hardin's Private Academy\") -> landing 105918,109759,-3192 (l2j_teleport.sql 'Giran -> Hardin's Private Academy'), one geodata leg by raid_policy.policyLeg (dry, walls block) to Hardin (30832 at 105745,114255,-3136): 4417 units (the atlas walk from the Necropolis of Martyrdom landing starts in a closed pocket). Aggressive max: none.",
+    "editedAt": "2026-10-27T10:00:54.806Z",
+    "by": "quest-fixer batch 5"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Hardin's Private Academy"
+    },
+    "points": [
+     [
+      105688,
+      110616,
+      -3064
+     ],
+     [
+      105704,
+      110696,
+      -3056
+     ],
+     [
+      105688,
+      110824,
+      -3064
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "pv": [
+     [
+      105688,
+      110616,
+      -3064
+     ],
+     [
+      105704,
+      110696,
+      -3056
+     ],
+     [
+      105688,
+      110824,
+      -3064
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "length": 4417,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:32597",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Sure.\""
+   ],
+   "npc": {
+    "id": 32597,
+    "name": "Franz",
+    "title": "Witness of Dawn",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Franz",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:30832": {
+    "route": [
+     [
+      105688,
+      110616,
+      -3064
+     ],
+     [
+      105704,
+      110696,
+      -3056
+     ],
+     [
+      105688,
+      110824,
+      -3064
+     ],
+     [
+      105560,
+      111048,
+      -3064
+     ],
+     [
+      105352,
+      111160,
+      -3064
+     ],
+     [
+      105320,
+      111160,
+      -3064
+     ],
+     [
+      105032,
+      111368,
+      -3064
+     ],
+     [
+      105064,
+      111640,
+      -3064
+     ],
+     [
+      105304,
+      111736,
+      -3064
+     ],
+     [
+      105576,
+      111752,
+      -3064
+     ],
+     [
+      105704,
+      112104,
+      -3096
+     ],
+     [
+      105752,
+      113096,
+      -3176
+     ],
+     [
+      105752,
+      114088,
+      -3136
+     ],
+     [
+      105752,
+      114248,
+      -3136
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Hardin's Private Academy"
+    },
+    "note": "route: Giran gatekeeper Clarissa (live menu \"Hardin's Private Academy\") -> landing 105918,109759,-3192 (l2j_teleport.sql 'Giran -> Hardin's Private Academy'), one geodata leg by raid_policy.policyLeg (dry, walls block) to Hardin (30832 at 105745,114255,-3136): 4417 units (the atlas walk from the Necropolis of Martyrdom landing starts in a closed pocket). Aggressive max: none.",
+    "editedAt": "2026-10-27T10:00:54.806Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:00:54.806Z",
+  "by": "quest-fixer batch 5"
+ }
+}

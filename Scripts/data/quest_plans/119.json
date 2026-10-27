@@ -1,0 +1,1237 @@
+{
+ "id": 119,
+ "name": "Last Imperial Prince",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.275Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 74,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Goddard",
+ "requirements": {
+  "items": [
+   {
+    "id": 7262,
+    "name": "Antique Brooch"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Antique Brooch"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 0
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 7,
+ "refLevel": 74,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31453",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll go.\""
+   ],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit – accept the quest",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31453",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31453,
+    "name": "Nameless Spirit",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     178292,
+     -85577,
+     -7200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nameless Spirit",
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31453@178292,-85577",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".goddard",
+    "length": 2042,
+    "sec": 77,
+    "via": ".goddard > Goddard -> Wall of Argos > enter Elmoreden's Ghost Chamberlain",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 887,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Elmoreden's Ghost Chamberlain",
+      "link": "I want to visit the Four Sepulchers."
+     },
+     {
+      "do": "walk",
+      "len": 1155,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": false,
+    "pv": [
+     [
+      165054,
+      -47861,
+      -3560
+     ],
+     [
+      164520,
+      -47800,
+      -3528
+     ],
+     [
+      164472,
+      -47816,
+      -3528
+     ],
+     [
+      164424,
+      -47816,
+      -3528
+     ],
+     [
+      164312,
+      -47592,
+      -3504
+     ],
+     [
+      178212,
+      -84933,
+      -7215
+     ],
+     [
+      178296,
+      -85432,
+      -7216
+     ],
+     [
+      178296,
+      -85576,
+      -7216
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "four-sepulchers",
+     "four-sepulchers"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32009",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Explain the situation."
+   ],
+   "npc": {
+    "id": 32009,
+    "name": "Devorin",
+    "title": "Nurse",
+    "town": "Rune",
+    "at": [
+     36006,
+     -48748,
+     891
+    ],
+    "alt": []
+   },
+   "text": "Talk to Devorin",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31349@35408,-48368",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".rune",
+    "length": 13362,
+    "sec": 156,
+    "via": ".rune > Rune -> Rune Castle Town Guild",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Rune Castle Town Guild",
+      "link": "Rune Castle Town Guild",
+      "price": 150,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 13362,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Rune Castle Town Guild"
+    },
+    "simple": true,
+    "pv": [
+     [
+      38316,
+      -48216,
+      -1152
+     ],
+     [
+      39304,
+      -48280,
+      -856
+     ],
+     [
+      40232,
+      -48280,
+      -768
+     ],
+     [
+      40248,
+      -48296,
+      -768
+     ],
+     [
+      40232,
+      -48664,
+      -720
+     ],
+     [
+      40136,
+      -49656,
+      -376
+     ],
+     [
+      39768,
+      -50248,
+      -264
+     ],
+     [
+      39096,
+      -50680,
+      -96
+     ],
+     [
+      38664,
+      -50888,
+      32
+     ],
+     [
+      37976,
+      -51144,
+      296
+     ],
+     [
+      36984,
+      -51144,
+      672
+     ],
+     [
+      36712,
+      -51064,
+      712
+     ],
+     [
+      36712,
+      -50408,
+      896
+     ],
+     [
+      37208,
+      -49912,
+      896
+     ],
+     [
+      37704,
+      -49416,
+      896
+     ],
+     [
+      37736,
+      -49384,
+      896
+     ],
+     [
+      37960,
+      -49048,
+      896
+     ],
+     [
+      38248,
+      -48456,
+      896
+     ],
+     [
+      38248,
+      -48392,
+      896
+     ],
+     [
+      37848,
+      -48328,
+      896
+     ],
+     [
+      36856,
+      -48280,
+      896
+     ],
+     [
+      36728,
+      -48280,
+      896
+     ],
+     [
+      35736,
+      -48360,
+      896
+     ],
+     [
+      35416,
+      -48360,
+      896
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31349@35408,-48368",
+     "name": "Benedict"
+    },
+    "points": [
+     [
+      38316,
+      -48216,
+      -1152
+     ],
+     [
+      39304,
+      -48280,
+      -856
+     ],
+     [
+      40232,
+      -48280,
+      -768
+     ],
+     [
+      40248,
+      -48296,
+      -768
+     ],
+     [
+      40232,
+      -48664,
+      -720
+     ],
+     [
+      40136,
+      -49656,
+      -376
+     ],
+     [
+      39768,
+      -50248,
+      -264
+     ],
+     [
+      39096,
+      -50680,
+      -96
+     ],
+     [
+      38664,
+      -50888,
+      32
+     ],
+     [
+      37976,
+      -51144,
+      296
+     ],
+     [
+      36984,
+      -51144,
+      672
+     ],
+     [
+      36712,
+      -51064,
+      712
+     ],
+     [
+      36712,
+      -50408,
+      896
+     ],
+     [
+      37208,
+      -49912,
+      896
+     ],
+     [
+      37704,
+      -49416,
+      896
+     ],
+     [
+      37736,
+      -49384,
+      896
+     ],
+     [
+      37960,
+      -49048,
+      896
+     ],
+     [
+      38248,
+      -48456,
+      896
+     ],
+     [
+      38248,
+      -48392,
+      896
+     ],
+     [
+      37848,
+      -48328,
+      896
+     ],
+     [
+      36856,
+      -48280,
+      896
+     ],
+     [
+      36728,
+      -48280,
+      896
+     ],
+     [
+      35736,
+      -48360,
+      896
+     ],
+     [
+      35416,
+      -48360,
+      896
+     ]
+    ]
+   },
+   "expectedSec": 181,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40392,
+      -47848,
+      -736
+     ],
+     [
+      40344,
+      -46856,
+      -392
+     ],
+     [
+      40392,
+      -46680,
+      -336
+     ],
+     [
+      39416,
+      -45784,
+      -176
+     ],
+     [
+      39192,
+      -45496,
+      -120
+     ],
+     [
+      39192,
+      -45480,
+      -120
+     ],
+     [
+      38200,
+      -45368,
+      208
+     ],
+     [
+      37960,
+      -45240,
+      296
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36696,
+      -48232,
+      896
+     ],
+     [
+      36216,
+      -48744,
+      896
+     ],
+     [
+      36008,
+      -48744,
+      896
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "note": "route: .rune (town landing 43759,-48122,-800, docs/plan/town_commands.md) and one geodata leg by raid_policy.policyLeg (dry, walls block) to Devorin (32009 at 36006,-48748,891, spawns_h5): 14990 units. Replaces the gatekeeper link \"Rune -> Rune Castle Town Guild\" that is NOT on the live Rune menu (gk_live). No aggressive monsters on it.",
+    "editedAt": "2026-10-27T09:58:58.300Z",
+    "by": "quest-fixer batch 5"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "points": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40392,
+      -47848,
+      -736
+     ],
+     [
+      40344,
+      -46856,
+      -392
+     ],
+     [
+      40392,
+      -46680,
+      -336
+     ],
+     [
+      39416,
+      -45784,
+      -176
+     ],
+     [
+      39192,
+      -45496,
+      -120
+     ],
+     [
+      39192,
+      -45480,
+      -120
+     ],
+     [
+      38200,
+      -45368,
+      208
+     ],
+     [
+      37960,
+      -45240,
+      296
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36696,
+      -48232,
+      896
+     ],
+     [
+      36216,
+      -48744,
+      896
+     ],
+     [
+      36008,
+      -48744,
+      896
+     ]
+    ],
+    "pv": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40392,
+      -47848,
+      -736
+     ],
+     [
+      40344,
+      -46856,
+      -392
+     ],
+     [
+      40392,
+      -46680,
+      -336
+     ],
+     [
+      39416,
+      -45784,
+      -176
+     ],
+     [
+      39192,
+      -45496,
+      -120
+     ],
+     [
+      39192,
+      -45480,
+      -120
+     ],
+     [
+      38200,
+      -45368,
+      208
+     ],
+     [
+      37960,
+      -45240,
+      296
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36696,
+      -48232,
+      896
+     ],
+     [
+      36216,
+      -48744,
+      896
+     ],
+     [
+      36008,
+      -48744,
+      896
+     ]
+    ],
+    "length": 14990,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32009": {
+    "route": [
+     [
+      43752,
+      -48120,
+      -792
+     ],
+     [
+      42760,
+      -48120,
+      -792
+     ],
+     [
+      41768,
+      -48120,
+      -800
+     ],
+     [
+      41352,
+      -48120,
+      -800
+     ],
+     [
+      40472,
+      -48040,
+      -768
+     ],
+     [
+      40392,
+      -47848,
+      -736
+     ],
+     [
+      40344,
+      -46856,
+      -392
+     ],
+     [
+      40392,
+      -46680,
+      -336
+     ],
+     [
+      39416,
+      -45784,
+      -176
+     ],
+     [
+      39192,
+      -45496,
+      -120
+     ],
+     [
+      39192,
+      -45480,
+      -120
+     ],
+     [
+      38200,
+      -45368,
+      208
+     ],
+     [
+      37960,
+      -45240,
+      296
+     ],
+     [
+      37384,
+      -45272,
+      520
+     ],
+     [
+      37016,
+      -45416,
+      664
+     ],
+     [
+      36872,
+      -45336,
+      712
+     ],
+     [
+      36680,
+      -45384,
+      712
+     ],
+     [
+      36680,
+      -45912,
+      896
+     ],
+     [
+      37384,
+      -46840,
+      896
+     ],
+     [
+      37640,
+      -46856,
+      896
+     ],
+     [
+      38152,
+      -47448,
+      896
+     ],
+     [
+      38328,
+      -48024,
+      896
+     ],
+     [
+      38152,
+      -48280,
+      896
+     ],
+     [
+      37160,
+      -48248,
+      896
+     ],
+     [
+      36696,
+      -48232,
+      896
+     ],
+     [
+      36216,
+      -48744,
+      896
+     ],
+     [
+      36008,
+      -48744,
+      896
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "note": "route: .rune (town landing 43759,-48122,-800, docs/plan/town_commands.md) and one geodata leg by raid_policy.policyLeg (dry, walls block) to Devorin (32009 at 36006,-48748,891, spawns_h5): 14990 units. Replaces the gatekeeper link \"Rune -> Rune Castle Town Guild\" that is NOT on the live Rune menu (gk_live). No aggressive monsters on it.",
+    "editedAt": "2026-10-27T09:58:58.300Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T09:58:58.300Z",
+  "by": "quest-fixer batch 5"
+ }
+}

@@ -1,0 +1,997 @@
+{
+ "id": 269,
+ "name": "Invention Ambition",
+ "version": 1,
+ "generated": "2026-10-27T11:15:17.151Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 16,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32486",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Okay. I'll help you gather the materials.\""
+   ],
+   "npc": {
+    "id": 32486,
+    "name": "Inventor Maru",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     117057,
+     -183091,
+     -1520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Inventor Maru – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31783@116640,-183952",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6271,
+    "sec": 97,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6271,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      117064,
+      -183096,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31783@116640,-183952",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      117064,
+      -183096,
+      -1520
+     ]
+    ]
+   },
+   "expectedSec": 127,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21124,
+     "name": "Red Eye Barbed Bat",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 21125,
+     "name": "Northern Trimden",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 21126,
+     "name": "Kerope Werewolf",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 21127,
+     "name": "Northern Goblin",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 21128,
+     "name": "Spine Golem",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 21129,
+     "name": "Kerope Werewolf Chief",
+     "level": 23,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21130,
+     "name": "Northern Goblin Leader",
+     "level": 24,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 21131,
+     "name": "Enchanted Spine Golem",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10866,
+     "name": "Energy Ore",
+     "n": 10,
+     "from": [
+      {
+       "id": 21124,
+       "name": "Red Eye Barbed Bat",
+       "chance": 46
+      },
+      {
+       "id": 21125,
+       "name": "Northern Trimden",
+       "chance": 48
+      },
+      {
+       "id": 21126,
+       "name": "Kerope Werewolf",
+       "chance": 50
+      },
+      {
+       "id": 21127,
+       "name": "Northern Goblin",
+       "chance": 64
+      },
+      {
+       "id": 21128,
+       "name": "Spine Golem",
+       "chance": 66
+      },
+      {
+       "id": 21129,
+       "name": "Kerope Werewolf Chief",
+       "chance": 68
+      },
+      {
+       "id": 21130,
+       "name": "Northern Goblin Leader",
+       "chance": 76
+      },
+      {
+       "id": 21131,
+       "name": "Enchanted Spine Golem",
+       "chance": 78
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Red Eye Barbed Bat, Northern Trimden, Kerope Werewolf for Energy Ore x10",
+   "places": [
+    {
+     "mobs": [
+      21124,
+      21125,
+      21126,
+      21127,
+      21128,
+      21129,
+      21130,
+      21131
+     ],
+     "items": [
+      10866
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "eastern-mining-zone-northeastern-shore-19",
+      "name": "Eastern Mining Zone (Northeastern Shore) 19: Spine Golem area (east)",
+      "at": [
+       183192,
+       -207720,
+       -3416
+      ],
+      "radius": 4477,
+      "levels": [
+       21,
+       23
+      ],
+      "count": 19,
+      "region": "Eastern Mining Zone (Northeastern Shore)",
+      "atlasKey": "area:eastern-mining-zone-northeastern-shore-19",
+      "status": "ok",
+      "sec": 189,
+      "danger": 23,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -110.85,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "eastern-mining-zone-northeastern-shore-4",
+        "name": "Eastern Mining Zone (Northeastern Shore) 4: Northern Trimden area (north-east)",
+        "at": [
+         171672,
+         -212664,
+         -3648
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "eastern-mining-zone-northeastern-shore-8",
+        "name": "Eastern Mining Zone (Northeastern Shore) 8: Northern Goblin area (north-east)",
+        "at": [
+         175544,
+         -211880,
+         -3704
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "eastern-mining-zone-northeastern-shore-15",
+        "name": "Eastern Mining Zone (Northeastern Shore) 15: Northern Goblin Leader area (south)",
+        "at": [
+         166232,
+         -196120,
+         -3504
+        ],
+        "count": 14,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:eastern-mining-zone-northeastern-shore-19",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 14248,
+      "sec": 189,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Eastern Mining Zone (Northeastern Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Eastern Mining Zone (Northeastern Shore)",
+        "link": "eastern mining zone (northeastern shore)",
+        "price": 2400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14248,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        169016,
+        -208264,
+        -3504
+       ],
+       [
+        169688,
+        -208072,
+        -3464
+       ],
+       [
+        170680,
+        -208072,
+        -3560
+       ],
+       [
+        171672,
+        -208072,
+        -3528
+       ],
+       [
+        172664,
+        -208072,
+        -3488
+       ],
+       [
+        173656,
+        -208072,
+        -3488
+       ],
+       [
+        174504,
+        -207864,
+        -3400
+       ],
+       [
+        175496,
+        -207864,
+        -3248
+       ],
+       [
+        176488,
+        -207864,
+        -3104
+       ],
+       [
+        177480,
+        -207816,
+        -3128
+       ],
+       [
+        178408,
+        -207848,
+        -3160
+       ],
+       [
+        179400,
+        -207848,
+        -2976
+       ],
+       [
+        180392,
+        -207848,
+        -3048
+       ],
+       [
+        181016,
+        -207800,
+        -3280
+       ],
+       [
+        182008,
+        -207800,
+        -3408
+       ],
+       [
+        183000,
+        -207800,
+        -3424
+       ],
+       [
+        183192,
+        -207720,
+        -3416
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "eastern-mining-zone-northeastern-shore-19",
+    "name": "Eastern Mining Zone (Northeastern Shore) 19: Spine Golem area (east)",
+    "at": [
+     183192,
+     -207720,
+     -3416
+    ],
+    "radius": 4477,
+    "levels": [
+     21,
+     23
+    ],
+    "count": 19,
+    "region": "Eastern Mining Zone (Northeastern Shore)",
+    "atlasKey": "area:eastern-mining-zone-northeastern-shore-19",
+    "status": "ok",
+    "sec": 189,
+    "danger": 23,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -110.85,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "eastern-mining-zone-northeastern-shore-4",
+      "name": "Eastern Mining Zone (Northeastern Shore) 4: Northern Trimden area (north-east)",
+      "at": [
+       171672,
+       -212664,
+       -3648
+      ],
+      "count": 16,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "eastern-mining-zone-northeastern-shore-8",
+      "name": "Eastern Mining Zone (Northeastern Shore) 8: Northern Goblin area (north-east)",
+      "at": [
+       175544,
+       -211880,
+       -3704
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "eastern-mining-zone-northeastern-shore-15",
+      "name": "Eastern Mining Zone (Northeastern Shore) 15: Northern Goblin Leader area (south)",
+      "at": [
+       166232,
+       -196120,
+       -3504
+      ],
+      "count": 14,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:eastern-mining-zone-northeastern-shore-19",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 14248,
+    "sec": 189,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Eastern Mining Zone (Northeastern Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Eastern Mining Zone (Northeastern Shore)",
+      "link": "eastern mining zone (northeastern shore)",
+      "price": 2400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14248,
+      "how": "field-areas",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      169016,
+      -208264,
+      -3504
+     ],
+     [
+      169688,
+      -208072,
+      -3464
+     ],
+     [
+      170680,
+      -208072,
+      -3560
+     ],
+     [
+      171672,
+      -208072,
+      -3528
+     ],
+     [
+      172664,
+      -208072,
+      -3488
+     ],
+     [
+      173656,
+      -208072,
+      -3488
+     ],
+     [
+      174504,
+      -207864,
+      -3400
+     ],
+     [
+      175496,
+      -207864,
+      -3248
+     ],
+     [
+      176488,
+      -207864,
+      -3104
+     ],
+     [
+      177480,
+      -207816,
+      -3128
+     ],
+     [
+      178408,
+      -207848,
+      -3160
+     ],
+     [
+      179400,
+      -207848,
+      -2976
+     ],
+     [
+      180392,
+      -207848,
+      -3048
+     ],
+     [
+      181016,
+      -207800,
+      -3280
+     ],
+     [
+      182008,
+      -207800,
+      -3408
+     ],
+     [
+      183000,
+      -207800,
+      -3424
+     ],
+     [
+      183192,
+      -207720,
+      -3416
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 739,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:32486",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 32486,
+    "name": "Inventor Maru",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     117057,
+     -183091,
+     -1520
+    ],
+    "alt": []
+   },
+   "text": "Hand in Energy Ore at Inventor Maru (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 10866,
+     "name": "Energy Ore",
+     "n": 10
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31783@116640,-183952",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6271,
+    "sec": 97,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6271,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      117064,
+      -183096,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31783@116640,-183952",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      117064,
+      -183096,
+      -1520
+     ]
+    ]
+   },
+   "expectedSec": 122,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:17.169Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial",
+   "route-detour"
+  ]
+ }
+}

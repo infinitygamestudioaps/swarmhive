@@ -1,0 +1,748 @@
+{
+ "id": 10273,
+ "name": "Good Day to Fly",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.398Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 22,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32557",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 32557,
+    "name": "Lekon",
+    "title": "Engineer",
+    "town": "Talking Island",
+    "at": [
+     -184545,
+     243120,
+     1576
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lekon – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32557@-184545,243120",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 10065,
+    "sec": 569,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 7753,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186616,
+      242392,
+      2560
+     ],
+     [
+      -186840,
+      242344,
+      2560
+     ],
+     [
+      -186888,
+      242344,
+      2560
+     ],
+     [
+      -187040,
+      242840,
+      2432
+     ],
+     [
+      -187192,
+      243336,
+      2304
+     ],
+     [
+      -187224,
+      243416,
+      2304
+     ],
+     [
+      -187432,
+      244120,
+      2144
+     ],
+     [
+      -187432,
+      244168,
+      2144
+     ],
+     [
+      -187416,
+      244184,
+      2144
+     ],
+     [
+      -187336,
+      244184,
+      2144
+     ],
+     [
+      -187320,
+      244168,
+      2144
+     ],
+     [
+      -187096,
+      243432,
+      1984
+     ],
+     [
+      -186920,
+      242936,
+      1868
+     ],
+     [
+      -186744,
+      242440,
+      1752
+     ],
+     [
+      -186696,
+      242392,
+      1744
+     ],
+     [
+      -186616,
+      242392,
+      1736
+     ],
+     [
+      -186312,
+      242488,
+      1672
+     ],
+     [
+      -185816,
+      242808,
+      1672
+     ],
+     [
+      -185320,
+      243128,
+      1672
+     ],
+     [
+      -184552,
+      243128,
+      1576
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 599,
+   "conds": [
+    0
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 22614,
+     "name": "Vulture Rider",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 22615,
+     "name": "Vulture Rider",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13856,
+     "name": "Rider's Mark",
+     "n": 5,
+     "from": [
+      {
+       "id": 22614,
+       "name": "Vulture Rider",
+       "chance": 100
+      },
+      {
+       "id": 22615,
+       "name": "Vulture Rider",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Vulture Rider, Vulture Rider for Rider's Mark x5",
+   "places": [
+    {
+     "mobs": [
+      22614,
+      22615
+     ],
+     "items": [
+      13856
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22614@-190142,254056",
+      "name": "Vulture Rider (Keucereus)",
+      "at": [
+       -190142,
+       254056,
+       2424
+      ],
+      "radius": 1500,
+      "levels": [
+       74,
+       74
+      ],
+      "count": 2,
+      "region": "Keucereus",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 78,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22614@-194262,255516",
+        "name": "Vulture Rider (Keucereus)",
+        "at": [
+         -194262,
+         255516,
+         4590
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22614@-192706,256272",
+        "name": "Vulture Rider (Keucereus)",
+        "at": [
+         -192706,
+         256272,
+         5476
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22615@-195545,252634",
+        "name": "Vulture Rider (Keucereus)",
+        "at": [
+         -195545,
+         252634,
+         1644
+        ],
+        "count": 2,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22614@-190142,254056",
+    "name": "Vulture Rider (Keucereus)",
+    "at": [
+     -190142,
+     254056,
+     2424
+    ],
+    "radius": 1500,
+    "levels": [
+     74,
+     74
+    ],
+    "count": 2,
+    "region": "Keucereus",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 78,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22614@-194262,255516",
+      "name": "Vulture Rider (Keucereus)",
+      "at": [
+       -194262,
+       255516,
+       4590
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22614@-192706,256272",
+      "name": "Vulture Rider (Keucereus)",
+      "at": [
+       -192706,
+       256272,
+       5476
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22615@-195545,252634",
+      "name": "Vulture Rider (Keucereus)",
+      "at": [
+       -195545,
+       252634,
+       1644
+      ],
+      "count": 2,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 125,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:32557",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32557,
+    "name": "Lekon",
+    "title": "Engineer",
+    "town": "Talking Island",
+    "at": [
+     -184545,
+     243120,
+     1576
+    ],
+    "alt": []
+   },
+   "text": "Bring Rider's Mark x5 to Lekon",
+   "needs": [
+    {
+     "id": 13856,
+     "name": "Rider's Mark",
+     "n": 5
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32557@-184545,243120",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 10065,
+    "sec": 569,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 7753,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186616,
+      242392,
+      2560
+     ],
+     [
+      -186840,
+      242344,
+      2560
+     ],
+     [
+      -186888,
+      242344,
+      2560
+     ],
+     [
+      -187040,
+      242840,
+      2432
+     ],
+     [
+      -187192,
+      243336,
+      2304
+     ],
+     [
+      -187224,
+      243416,
+      2304
+     ],
+     [
+      -187432,
+      244120,
+      2144
+     ],
+     [
+      -187432,
+      244168,
+      2144
+     ],
+     [
+      -187416,
+      244184,
+      2144
+     ],
+     [
+      -187336,
+      244184,
+      2144
+     ],
+     [
+      -187320,
+      244168,
+      2144
+     ],
+     [
+      -187096,
+      243432,
+      1984
+     ],
+     [
+      -186920,
+      242936,
+      1868
+     ],
+     [
+      -186744,
+      242440,
+      1752
+     ],
+     [
+      -186696,
+      242392,
+      1744
+     ],
+     [
+      -186616,
+      242392,
+      1736
+     ],
+     [
+      -186312,
+      242488,
+      1672
+     ],
+     [
+      -185816,
+      242808,
+      1672
+     ],
+     [
+      -185320,
+      243128,
+      1672
+     ],
+     [
+      -184552,
+      243128,
+      1576
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 594,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32557": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:deliver:32557": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

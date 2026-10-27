@@ -1,0 +1,849 @@
+{
+ "id": 258,
+ "name": "Bring Wolf Pelts",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.873Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 23,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30001",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you'll help."
+   ],
+   "npc": {
+    "id": 30001,
+    "name": "Lector",
+    "title": "Weapon Merchant",
+    "town": "Talking Island",
+    "at": [
+     -86385,
+     243267,
+     -3717
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lector – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30001@-86385,243267",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4332,
+    "sec": 81,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4332,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85160,
+      243656,
+      -3728
+     ],
+     [
+      -85128,
+      243384,
+      -3728
+     ],
+     [
+      -85304,
+      243176,
+      -3728
+     ],
+     [
+      -85512,
+      243000,
+      -3728
+     ],
+     [
+      -85768,
+      242904,
+      -3728
+     ],
+     [
+      -85960,
+      242712,
+      -3728
+     ],
+     [
+      -86136,
+      242504,
+      -3728
+     ],
+     [
+      -86200,
+      242440,
+      -3728
+     ],
+     [
+      -86312,
+      242504,
+      -3728
+     ],
+     [
+      -86504,
+      242696,
+      -3720
+     ],
+     [
+      -86536,
+      242808,
+      -3720
+     ],
+     [
+      -86424,
+      242984,
+      -3720
+     ],
+     [
+      -86424,
+      243224,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 111,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20120,
+     "name": "Wolf",
+     "level": 4,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20442,
+     "name": "Elder Wolf",
+     "level": 5,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 702,
+     "name": "Wolf Pelt",
+     "n": 40,
+     "from": [
+      {
+       "id": 20120,
+       "name": "Wolf",
+       "chance": 100
+      },
+      {
+       "id": 20442,
+       "name": "Elder Wolf",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Wolf, Elder Wolf for Wolf Pelt x40",
+   "places": [
+    {
+     "mobs": [
+      20120,
+      20442
+     ],
+     "items": [
+      702
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "talking-island-village-outskirts-2-2",
+      "name": "Talking Island Village outskirts 2: Wolf area (north-west)",
+      "at": [
+       -89208,
+       240440,
+       -3592
+      ],
+      "radius": 4098,
+      "levels": [
+       1,
+       5
+      ],
+      "count": 12,
+      "region": "Talking Island Village outskirts",
+      "atlasKey": "area:talking-island-village-outskirts-2-2",
+      "status": "ok",
+      "sec": 165,
+      "danger": 5,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.25,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-7",
+        "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+        "at": [
+         -96328,
+         244552,
+         -3576
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-6",
+        "name": "Obelisk of Victory 6: Wolf area (south-east)",
+        "at": [
+         -93512,
+         240536,
+         -3392
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-3",
+        "name": "Obelisk of Victory 3: Orc area (east)",
+        "at": [
+         -94728,
+         237160,
+         -3440
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:talking-island-village-outskirts-2-2",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 11436,
+      "sec": 165,
+      "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Obelisk of Victory",
+        "link": "Obelisk of Victory",
+        "price": 470,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 11436,
+        "how": "field-areas",
+        "danger": 9
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -99592,
+        237640,
+        -3568
+       ],
+       [
+        -98600,
+        237640,
+        -3560
+       ],
+       [
+        -97608,
+        237640,
+        -3552
+       ],
+       [
+        -96616,
+        237640,
+        -3488
+       ],
+       [
+        -95624,
+        237656,
+        -3400
+       ],
+       [
+        -94632,
+        237656,
+        -3448
+       ],
+       [
+        -93640,
+        237656,
+        -3488
+       ],
+       [
+        -92648,
+        237656,
+        -3648
+       ],
+       [
+        -91656,
+        238040,
+        -3696
+       ],
+       [
+        -90664,
+        239032,
+        -3680
+       ],
+       [
+        -90440,
+        239256,
+        -3632
+       ],
+       [
+        -90424,
+        239272,
+        -3632
+       ],
+       [
+        -89432,
+        240216,
+        -3600
+       ],
+       [
+        -89208,
+        240440,
+        -3592
+       ]
+      ],
+      "maxDanger": 9,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 9,
+       "dangerVsLevel": 6,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "talking-island-village-outskirts-2-2",
+    "name": "Talking Island Village outskirts 2: Wolf area (north-west)",
+    "at": [
+     -89208,
+     240440,
+     -3592
+    ],
+    "radius": 4098,
+    "levels": [
+     1,
+     5
+    ],
+    "count": 12,
+    "region": "Talking Island Village outskirts",
+    "atlasKey": "area:talking-island-village-outskirts-2-2",
+    "status": "ok",
+    "sec": 165,
+    "danger": 5,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -69.25,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "obelisk-of-victory-7",
+      "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+      "at": [
+       -96328,
+       244552,
+       -3576
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "obelisk-of-victory-6",
+      "name": "Obelisk of Victory 6: Wolf area (south-east)",
+      "at": [
+       -93512,
+       240536,
+       -3392
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "obelisk-of-victory-3",
+      "name": "Obelisk of Victory 3: Orc area (east)",
+      "at": [
+       -94728,
+       237160,
+       -3440
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:talking-island-village-outskirts-2-2",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 11436,
+    "sec": 165,
+    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Obelisk of Victory",
+      "link": "Obelisk of Victory",
+      "price": 470,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 11436,
+      "how": "field-areas",
+      "danger": 9
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -99592,
+      237640,
+      -3568
+     ],
+     [
+      -98600,
+      237640,
+      -3560
+     ],
+     [
+      -97608,
+      237640,
+      -3552
+     ],
+     [
+      -96616,
+      237640,
+      -3488
+     ],
+     [
+      -95624,
+      237656,
+      -3400
+     ],
+     [
+      -94632,
+      237656,
+      -3448
+     ],
+     [
+      -93640,
+      237656,
+      -3488
+     ],
+     [
+      -92648,
+      237656,
+      -3648
+     ],
+     [
+      -91656,
+      238040,
+      -3696
+     ],
+     [
+      -90664,
+      239032,
+      -3680
+     ],
+     [
+      -90440,
+      239256,
+      -3632
+     ],
+     [
+      -90424,
+      239272,
+      -3632
+     ],
+     [
+      -89432,
+      240216,
+      -3600
+     ],
+     [
+      -89208,
+      240440,
+      -3592
+     ]
+    ],
+    "maxDanger": 9,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 9,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1165,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:30001",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30001,
+    "name": "Lector",
+    "title": "Weapon Merchant",
+    "town": "Talking Island",
+    "at": [
+     -86385,
+     243267,
+     -3717
+    ],
+    "alt": []
+   },
+   "text": "Bring Wolf Pelt x40 to Lector",
+   "needs": [
+    {
+     "id": 702,
+     "name": "Wolf Pelt",
+     "n": 40
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30001@-86385,243267",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4332,
+    "sec": 81,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4332,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85160,
+      243656,
+      -3728
+     ],
+     [
+      -85128,
+      243384,
+      -3728
+     ],
+     [
+      -85304,
+      243176,
+      -3728
+     ],
+     [
+      -85512,
+      243000,
+      -3728
+     ],
+     [
+      -85768,
+      242904,
+      -3728
+     ],
+     [
+      -85960,
+      242712,
+      -3728
+     ],
+     [
+      -86136,
+      242504,
+      -3728
+     ],
+     [
+      -86200,
+      242440,
+      -3728
+     ],
+     [
+      -86312,
+      242504,
+      -3728
+     ],
+     [
+      -86504,
+      242696,
+      -3720
+     ],
+     [
+      -86536,
+      242808,
+      -3720
+     ],
+     [
+      -86424,
+      242984,
+      -3720
+     ],
+     [
+      -86424,
+      243224,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.879Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

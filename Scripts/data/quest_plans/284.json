@@ -1,0 +1,753 @@
+{
+ "id": 284,
+ "name": "Muertos Feather",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.735Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 11,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Kamael Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 22,
+ "refLevel": 11,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32166",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will take the job."
+   ],
+   "npc": {
+    "id": 32166,
+    "name": "Trevor",
+    "title": "Accessory Merchant",
+    "town": "Kamael Village",
+    "at": [
+     -116749,
+     48077,
+     462
+    ],
+    "alt": []
+   },
+   "text": "Talk to Trevor – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32166@-116749,48077",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2518,
+    "sec": 66,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2518,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117352,
+      46760,
+      360
+     ],
+     [
+      -117576,
+      46920,
+      360
+     ],
+     [
+      -117576,
+      47192,
+      384
+     ],
+     [
+      -117480,
+      47368,
+      448
+     ],
+     [
+      -117304,
+      47448,
+      448
+     ],
+     [
+      -117128,
+      47384,
+      448
+     ],
+     [
+      -117080,
+      47176,
+      440
+     ],
+     [
+      -117080,
+      47272,
+      440
+     ],
+     [
+      -117160,
+      47448,
+      448
+     ],
+     [
+      -117176,
+      47720,
+      456
+     ],
+     [
+      -117176,
+      47752,
+      456
+     ],
+     [
+      -117048,
+      47912,
+      456
+     ],
+     [
+      -116792,
+      48008,
+      456
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 96,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22239,
+     "name": "Muertos Guard",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 22240,
+     "name": "Muertos Scout",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 107,
+     "questSpawned": false
+    },
+    {
+     "id": 22242,
+     "name": "Muertos Warrior",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 98,
+     "questSpawned": false
+    },
+    {
+     "id": 22243,
+     "name": "Muertos Captain",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 22245,
+     "name": "Muertos Lieutenant",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9748,
+     "name": "Muertos Feather",
+     "n": 20,
+     "from": [
+      {
+       "id": 22239,
+       "name": "Muertos Guard",
+       "chance": 50
+      },
+      {
+       "id": 22240,
+       "name": "Muertos Scout",
+       "chance": 53.3
+      },
+      {
+       "id": 22242,
+       "name": "Muertos Warrior",
+       "chance": 56.6
+      },
+      {
+       "id": 22243,
+       "name": "Muertos Captain",
+       "chance": 60
+      },
+      {
+       "id": 22245,
+       "name": "Muertos Lieutenant",
+       "chance": 63.3
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Muertos Guard, Muertos Scout, Muertos Warrior for Muertos Feather x20",
+   "places": [
+    {
+     "mobs": [
+      22239,
+      22240,
+      22242,
+      22243,
+      22245
+     ],
+     "items": [
+      9748
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-iii-2",
+      "name": "Stronghold III 2: Colossus area (south-east)",
+      "at": [
+       -82568,
+       40088,
+       -2528
+      ],
+      "radius": 3242,
+      "levels": [
+       13,
+       15
+      ],
+      "count": 16,
+      "region": "Stronghold III",
+      "atlasKey": "area:stronghold-iii-2",
+      "status": "ok",
+      "sec": 109,
+      "danger": 15,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -94.18333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stronghold-iii-6",
+        "name": "Stronghold III 6: Muertos Warrior area (south-east)",
+        "at": [
+         -79576,
+         45768,
+         -2752
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "kamael-village-outskirts-14",
+        "name": "Kamael Village outskirts 14: Colossus area (east)",
+        "at": [
+         -105784,
+         44872,
+         -1472
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-iii-5",
+        "name": "Stronghold III 5: Muertos Captain area (south-east)",
+        "at": [
+         -77112,
+         42136,
+         -2656
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-iii-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 4685,
+      "sec": 109,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold III",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold III",
+        "link": "stronghold iii",
+        "price": 3200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2693,
+        "how": "field-areas-gap",
+        "danger": 15
+       },
+       {
+        "do": "walk",
+        "len": 1992,
+        "how": "field-areas",
+        "danger": 15
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -85928,
+        37095,
+        -2048
+       ],
+       [
+        -83944,
+        38648,
+        -2368
+       ],
+       [
+        -83016,
+        39640,
+        -2480
+       ],
+       [
+        -82568,
+        40088,
+        -2528
+       ]
+      ],
+      "maxDanger": 15,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 15,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "stronghold-iii-2",
+    "name": "Stronghold III 2: Colossus area (south-east)",
+    "at": [
+     -82568,
+     40088,
+     -2528
+    ],
+    "radius": 3242,
+    "levels": [
+     13,
+     15
+    ],
+    "count": 16,
+    "region": "Stronghold III",
+    "atlasKey": "area:stronghold-iii-2",
+    "status": "ok",
+    "sec": 109,
+    "danger": 15,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -94.18333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stronghold-iii-6",
+      "name": "Stronghold III 6: Muertos Warrior area (south-east)",
+      "at": [
+       -79576,
+       45768,
+       -2752
+      ],
+      "count": 15,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "kamael-village-outskirts-14",
+      "name": "Kamael Village outskirts 14: Colossus area (east)",
+      "at": [
+       -105784,
+       44872,
+       -1472
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-iii-5",
+      "name": "Stronghold III 5: Muertos Captain area (south-east)",
+      "at": [
+       -77112,
+       42136,
+       -2656
+      ],
+      "count": 13,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:stronghold-iii-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4685,
+    "sec": 109,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold III",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold III",
+      "link": "stronghold iii",
+      "price": 3200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2693,
+      "how": "field-areas-gap",
+      "danger": 15
+     },
+     {
+      "do": "walk",
+      "len": 1992,
+      "how": "field-areas",
+      "danger": 15
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -85928,
+      37095,
+      -2048
+     ],
+     [
+      -83944,
+      38648,
+      -2368
+     ],
+     [
+      -83016,
+      39640,
+      -2480
+     ],
+     [
+      -82568,
+      40088,
+      -2528
+     ]
+    ],
+    "maxDanger": 15,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 15,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:32166",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Show him the Muertos Feathers."
+   ],
+   "npc": {
+    "id": 32166,
+    "name": "Trevor",
+    "title": "Accessory Merchant",
+    "town": "Kamael Village",
+    "at": [
+     -116749,
+     48077,
+     462
+    ],
+    "alt": []
+   },
+   "text": "Hand in Muertos Feather at Trevor (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 9748,
+     "name": "Muertos Feather",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32166@-116749,48077",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2518,
+    "sec": 66,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2518,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117352,
+      46760,
+      360
+     ],
+     [
+      -117576,
+      46920,
+      360
+     ],
+     [
+      -117576,
+      47192,
+      384
+     ],
+     [
+      -117480,
+      47368,
+      448
+     ],
+     [
+      -117304,
+      47448,
+      448
+     ],
+     [
+      -117128,
+      47384,
+      448
+     ],
+     [
+      -117080,
+      47176,
+      440
+     ],
+     [
+      -117080,
+      47272,
+      440
+     ],
+     [
+      -117160,
+      47448,
+      448
+     ],
+     [
+      -117176,
+      47720,
+      456
+     ],
+     [
+      -117176,
+      47752,
+      456
+     ],
+     [
+      -117048,
+      47912,
+      456
+     ],
+     [
+      -116792,
+      48008,
+      456
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 91,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.753Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

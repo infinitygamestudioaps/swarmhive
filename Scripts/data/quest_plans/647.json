@@ -1,0 +1,708 @@
+{
+ "id": 647,
+ "name": "Influx of Machines",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.102Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 70,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Schuttgart",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: hunt-too-long"
+  },
+  {
+   "code": "dryrun:hunt-too-long",
+   "text": "step 2 (c1:hunt): ~589 kills (~245 min) > the engine's 4 x 45 min hunt cap"
+  }
+ ],
+ "expectedMin": 748,
+ "refLevel": 70,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32069",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What kind of work?\""
+   ],
+   "npc": {
+    "id": 32069,
+    "name": "Gutenhagen",
+    "title": "Collector",
+    "town": "Schuttgart",
+    "at": [
+     91316,
+     -116927,
+     -3928
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gutenhagen – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32069@91316,-116927",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 235,
+    "sec": 47,
+    "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Pavel Ruins",
+      "link": "pavel ruins",
+      "price": 5300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 235,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Pavel Ruins"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91280,
+      -117152,
+      -3928
+     ],
+     [
+      91320,
+      -116920,
+      -3928
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 22801,
+     "name": "Cruel Pincer Golem",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 22804,
+     "name": "Horrifying Jackhammer Golem",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 22807,
+     "name": "Scout-type Golem No. 28",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 93,
+     "questSpawned": false
+    },
+    {
+     "id": 22809,
+     "name": "Guard Golem",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 22810,
+     "name": "Micro Scout Golem",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 88,
+     "questSpawned": false
+    },
+    {
+     "id": 22811,
+     "name": "Great Chaos Golem",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 38,
+     "questSpawned": false
+    },
+    {
+     "id": 22812,
+     "name": "Boom Golem",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 15521,
+     "name": "Broken Golem Shard",
+     "n": 500,
+     "from": [
+      {
+       "id": 22801,
+       "name": "Cruel Pincer Golem",
+       "chance": 28
+      },
+      {
+       "id": 22804,
+       "name": "Horrifying Jackhammer Golem",
+       "chance": 28.8
+      },
+      {
+       "id": 22807,
+       "name": "Scout-type Golem No. 28",
+       "chance": 27.3
+      },
+      {
+       "id": 22809,
+       "name": "Guard Golem",
+       "chance": 62.9
+      },
+      {
+       "id": 22810,
+       "name": "Micro Scout Golem",
+       "chance": 46.5
+      },
+      {
+       "id": 22811,
+       "name": "Great Chaos Golem",
+       "chance": 84.9
+      },
+      {
+       "id": 22812,
+       "name": "Boom Golem",
+       "chance": 46.3
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Cruel Pincer Golem, Horrifying Jackhammer Golem, Scout-type Golem No. 28 for Broken Golem Shard x500",
+   "places": [
+    {
+     "mobs": [
+      22801,
+      22804,
+      22807,
+      22809,
+      22810,
+      22811,
+      22812
+     ],
+     "items": [
+      15521
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "pavel-ruins-4",
+      "name": "Pavel Ruins 4: Scout-type Golem No. 28 area (south-west)",
+      "at": [
+       87544,
+       -113720,
+       -3104
+      ],
+      "radius": 4431,
+      "levels": [
+       72,
+       73
+      ],
+      "count": 35,
+      "region": "Pavel Ruins",
+      "atlasKey": "area:pavel-ruins-4",
+      "status": "ok",
+      "sec": 88,
+      "danger": 73,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -178.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "pavel-ruins-7",
+        "name": "Pavel Ruins 7: Scout-type Golem No. 28 area (north-west)",
+        "at": [
+         86008,
+         -121704,
+         -4392
+        ],
+        "count": 41,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "pavel-ruins-10",
+        "name": "Pavel Ruins 10: Scout-type Golem No. 28 area (north)",
+        "at": [
+         91736,
+         -127464,
+         -4264
+        ],
+        "count": 42,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "pavel-ruins-5",
+        "name": "Pavel Ruins 5: Scout-type Golem No. 28 area (north-east)",
+        "at": [
+         94936,
+         -120840,
+         -4552
+        ],
+        "count": 24,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:pavel-ruins-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 5166,
+      "sec": 88,
+      "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Pavel Ruins",
+        "link": "pavel ruins",
+        "price": 5300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5166,
+        "how": "field-areas",
+        "danger": 73
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Pavel Ruins"
+      },
+      "simple": true,
+      "pv": [
+       [
+        91288,
+        -117144,
+        -3928
+       ],
+       [
+        90984,
+        -117144,
+        -3928
+       ],
+       [
+        90872,
+        -117016,
+        -3928
+       ],
+       [
+        90744,
+        -116936,
+        -3928
+       ],
+       [
+        90296,
+        -116392,
+        -3840
+       ],
+       [
+        89304,
+        -115400,
+        -3336
+       ],
+       [
+        89160,
+        -115256,
+        -3320
+       ],
+       [
+        88168,
+        -114344,
+        -3264
+       ],
+       [
+        87544,
+        -113720,
+        -3104
+       ]
+      ],
+      "maxDanger": 73,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 73,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "pavel-ruins-4",
+    "name": "Pavel Ruins 4: Scout-type Golem No. 28 area (south-west)",
+    "at": [
+     87544,
+     -113720,
+     -3104
+    ],
+    "radius": 4431,
+    "levels": [
+     72,
+     73
+    ],
+    "count": 35,
+    "region": "Pavel Ruins",
+    "atlasKey": "area:pavel-ruins-4",
+    "status": "ok",
+    "sec": 88,
+    "danger": 73,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -178.53333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "pavel-ruins-7",
+      "name": "Pavel Ruins 7: Scout-type Golem No. 28 area (north-west)",
+      "at": [
+       86008,
+       -121704,
+       -4392
+      ],
+      "count": 41,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "pavel-ruins-10",
+      "name": "Pavel Ruins 10: Scout-type Golem No. 28 area (north)",
+      "at": [
+       91736,
+       -127464,
+       -4264
+      ],
+      "count": 42,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "pavel-ruins-5",
+      "name": "Pavel Ruins 5: Scout-type Golem No. 28 area (north-east)",
+      "at": [
+       94936,
+       -120840,
+       -4552
+      ],
+      "count": 24,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:pavel-ruins-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5166,
+    "sec": 88,
+    "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Pavel Ruins",
+      "link": "pavel ruins",
+      "price": 5300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5166,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Pavel Ruins"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91288,
+      -117144,
+      -3928
+     ],
+     [
+      90984,
+      -117144,
+      -3928
+     ],
+     [
+      90872,
+      -117016,
+      -3928
+     ],
+     [
+      90744,
+      -116936,
+      -3928
+     ],
+     [
+      90296,
+      -116392,
+      -3840
+     ],
+     [
+      89304,
+      -115400,
+      -3336
+     ],
+     [
+      89160,
+      -115256,
+      -3320
+     ],
+     [
+      88168,
+      -114344,
+      -3264
+     ],
+     [
+      87544,
+      -113720,
+      -3104
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 44738,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "note": "Monsters 22802,22803,22805,22806,22808 have no spawn: removed from the drop / kill lists of quests/647.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; ai/group_template/PavelArchaic.java: killing 22801 spawns 22802 + 22803; 22805/22806/22808 spawned by nothing in the datapack. The item drops from the 7 spawned Pavel golems too",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.977Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:32069",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Here are the Shards.\""
+   ],
+   "npc": {
+    "id": 32069,
+    "name": "Gutenhagen",
+    "title": "Collector",
+    "town": "Schuttgart",
+    "at": [
+     91316,
+     -116927,
+     -3928
+    ],
+    "alt": []
+   },
+   "text": "Bring Broken Golem Shard x500 to Gutenhagen",
+   "needs": [
+    {
+     "id": 15521,
+     "name": "Broken Golem Shard",
+     "n": 500
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32069@91316,-116927",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 235,
+    "sec": 47,
+    "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Pavel Ruins",
+      "link": "pavel ruins",
+      "price": 5300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 235,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Pavel Ruins"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91280,
+      -117152,
+      -3928
+     ],
+     [
+      91320,
+      -116920,
+      -3928
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "note": "Monsters 22802,22803,22805,22806,22808 have no spawn: removed from the drop / kill lists of quests/647.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; ai/group_template/PavelArchaic.java: killing 22801 spawns 22802 + 22803; 22805/22806/22808 spawned by nothing in the datapack. The item drops from the 7 spawned Pavel golems too",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.977Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T09:55:32.977Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:15.119Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "hunt-too-long",
+    "t": "step 2 (c1:hunt): ~589 kills (~245 min) > the engine's 4 x 45 min hunt cap"
+   }
+  ],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

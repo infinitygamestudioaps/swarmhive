@@ -1,0 +1,897 @@
+{
+ "id": 291,
+ "name": "Revenge of the Redbonnet",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.807Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 4,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 24,
+ "refLevel": 4,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30553",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will grant the wish"
+   ],
+   "npc": {
+    "id": 30553,
+    "name": "Maryse Redbonnet",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     116852,
+     -183595,
+     -1568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Maryse Redbonnet – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31783@116640,-183952",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6351,
+    "sec": 98,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6271,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      116808,
+      -183656,
+      -1568
+     ],
+     [
+      116856,
+      -183592,
+      -1568
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31783@116640,-183952",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      116808,
+      -183656,
+      -1568
+     ],
+     [
+      116856,
+      -183592,
+      -1568
+     ]
+    ]
+   },
+   "expectedSec": 128,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20317,
+     "name": "Black Wolf",
+     "level": 4,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 135,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1482,
+     "name": "Black Wolf Pelt",
+     "n": 40,
+     "from": [
+      {
+       "id": 20317,
+       "name": "Black Wolf",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Black Wolf for Black Wolf Pelt x40",
+   "places": [
+    {
+     "mobs": [
+      20317
+     ],
+     "items": [
+      1482
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-i-7",
+      "name": "Stronghold I 7: Black Wolf area (north)",
+      "at": [
+       -122968,
+       63352,
+       -2608
+      ],
+      "radius": 2746,
+      "levels": [
+       4,
+       5
+      ],
+      "count": 31,
+      "region": "Stronghold I",
+      "atlasKey": "area:stronghold-i-7",
+      "status": "ok",
+      "sec": 159,
+      "danger": 5,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -177.35,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stronghold-i-8",
+        "name": "Stronghold I 8: Black Wolf area (north-west)",
+        "at": [
+         -127160,
+         62536,
+         -2680
+        ],
+        "count": 28,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-12",
+        "name": "Stronghold I 12: Black Wolf area (north)",
+        "at": [
+         -121880,
+         61032,
+         -2376
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-13",
+        "name": "Stronghold I 13: Black Wolf area (north)",
+        "at": [
+         -126152,
+         60792,
+         -2640
+        ],
+        "count": 18,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-i-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 10702,
+      "sec": 159,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold I",
+        "link": "stronghold i",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10702,
+        "how": "field-areas",
+        "danger": 5
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -122408,
+        73208,
+        -2872
+       ],
+       [
+        -122344,
+        72792,
+        -2872
+       ],
+       [
+        -122344,
+        71800,
+        -3000
+       ],
+       [
+        -122344,
+        70808,
+        -2872
+       ],
+       [
+        -122728,
+        69816,
+        -2976
+       ],
+       [
+        -123400,
+        69016,
+        -3032
+       ],
+       [
+        -123528,
+        68744,
+        -3016
+       ],
+       [
+        -123752,
+        68248,
+        -2968
+       ],
+       [
+        -123768,
+        68200,
+        -2960
+       ],
+       [
+        -123816,
+        67800,
+        -2888
+       ],
+       [
+        -123880,
+        67736,
+        -2880
+       ],
+       [
+        -124088,
+        66760,
+        -2744
+       ],
+       [
+        -124088,
+        65768,
+        -2688
+       ],
+       [
+        -124088,
+        64776,
+        -2704
+       ],
+       [
+        -123400,
+        63784,
+        -2648
+       ],
+       [
+        -122968,
+        63352,
+        -2608
+       ]
+      ],
+      "maxDanger": 5,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 5,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "stronghold-i-7",
+    "name": "Stronghold I 7: Black Wolf area (north)",
+    "at": [
+     -122968,
+     63352,
+     -2608
+    ],
+    "radius": 2746,
+    "levels": [
+     4,
+     5
+    ],
+    "count": 31,
+    "region": "Stronghold I",
+    "atlasKey": "area:stronghold-i-7",
+    "status": "ok",
+    "sec": 159,
+    "danger": 5,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -177.35,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stronghold-i-8",
+      "name": "Stronghold I 8: Black Wolf area (north-west)",
+      "at": [
+       -127160,
+       62536,
+       -2680
+      ],
+      "count": 28,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-i-12",
+      "name": "Stronghold I 12: Black Wolf area (north)",
+      "at": [
+       -121880,
+       61032,
+       -2376
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-i-13",
+      "name": "Stronghold I 13: Black Wolf area (north)",
+      "at": [
+       -126152,
+       60792,
+       -2640
+      ],
+      "count": 18,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:stronghold-i-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 10702,
+    "sec": 159,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold I",
+      "link": "stronghold i",
+      "price": 2600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10702,
+      "how": "field-areas",
+      "danger": 5
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -122408,
+      73208,
+      -2872
+     ],
+     [
+      -122344,
+      72792,
+      -2872
+     ],
+     [
+      -122344,
+      71800,
+      -3000
+     ],
+     [
+      -122344,
+      70808,
+      -2872
+     ],
+     [
+      -122728,
+      69816,
+      -2976
+     ],
+     [
+      -123400,
+      69016,
+      -3032
+     ],
+     [
+      -123528,
+      68744,
+      -3016
+     ],
+     [
+      -123752,
+      68248,
+      -2968
+     ],
+     [
+      -123768,
+      68200,
+      -2960
+     ],
+     [
+      -123816,
+      67800,
+      -2888
+     ],
+     [
+      -123880,
+      67736,
+      -2880
+     ],
+     [
+      -124088,
+      66760,
+      -2744
+     ],
+     [
+      -124088,
+      65768,
+      -2688
+     ],
+     [
+      -124088,
+      64776,
+      -2704
+     ],
+     [
+      -123400,
+      63784,
+      -2648
+     ],
+     [
+      -122968,
+      63352,
+      -2608
+     ]
+    ],
+    "maxDanger": 5,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 5,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1159,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30553",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30553,
+    "name": "Maryse Redbonnet",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     116852,
+     -183595,
+     -1568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Maryse Redbonnet",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31783@116640,-183952",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6351,
+    "sec": 98,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6271,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      116808,
+      -183656,
+      -1568
+     ],
+     [
+      116856,
+      -183592,
+      -1568
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31783@116640,-183952",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116384,
+      -179704,
+      -1120
+     ],
+     [
+      116648,
+      -180200,
+      -1184
+     ],
+     [
+      116648,
+      -181192,
+      -1360
+     ],
+     [
+      116648,
+      -182184,
+      -1512
+     ],
+     [
+      116648,
+      -183176,
+      -1568
+     ],
+     [
+      116632,
+      -183560,
+      -1560
+     ],
+     [
+      116648,
+      -183944,
+      -1560
+     ],
+     [
+      116808,
+      -183656,
+      -1568
+     ],
+     [
+      116856,
+      -183592,
+      -1568
+     ]
+    ]
+   },
+   "expectedSec": 123,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.813Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "route-detour"
+  ]
+ }
+}

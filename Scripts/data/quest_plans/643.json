@@ -1,0 +1,575 @@
+{
+ "id": 643,
+ "name": "Rise and Fall of the Elroki Tribe",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.068Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 12,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32106",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Doesn't sound that tough -- count me in.\""
+   ],
+   "npc": {
+    "id": 32106,
+    "name": "Singsing",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     10304,
+     -25024,
+     -3680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Singsing – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32106@10304,-25024",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1354,
+    "sec": 56,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1354,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      10774,
+      -24521,
+      -3660
+     ],
+     [
+      10312,
+      -25016,
+      -3680
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22213,
+     "name": "Wild Strider",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22222,
+     "name": "Wild Strider",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 66,
+     "questSpawned": false
+    },
+    {
+     "id": 22743,
+     "name": "Deinonychus",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8776,
+     "name": "Bones of a Plains Dinosaur",
+     "n": 20,
+     "from": [
+      {
+       "id": 22213,
+       "name": "Wild Strider",
+       "chance": 111.6
+      },
+      {
+       "id": 22222,
+       "name": "Wild Strider",
+       "chance": 111.6
+      },
+      {
+       "id": 22743,
+       "name": "Deinonychus",
+       "chance": 36
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Wild Strider, Wild Strider, Deinonychus for Bones of a Plains Dinosaur x20",
+   "places": [
+    {
+     "mobs": [
+      22213,
+      22222,
+      22743
+     ],
+     "items": [
+      8776
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "primeval-isle-5",
+      "name": "Primeval Isle 5: Wild Strider area (south)",
+      "at": [
+       7736,
+       -15208,
+       -3688
+      ],
+      "radius": 2488,
+      "levels": [
+       80,
+       80
+      ],
+      "count": 12,
+      "region": "Primeval Isle",
+      "atlasKey": "area:primeval-isle-5",
+      "status": "ok",
+      "sec": 130,
+      "danger": 80,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.83333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "primeval-isle-10",
+        "name": "Primeval Isle 10: Pachycephalosaurus area (south-west)",
+        "at": [
+         5720,
+         -13224,
+         -3744
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-2",
+        "name": "Primeval Isle 2: Pachycephalosaurus area (south-west)",
+        "at": [
+         7208,
+         -18200,
+         -3624
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-23",
+        "name": "Primeval Isle 23: Wild Strider area (south-west)",
+        "at": [
+         4072,
+         -7880,
+         -3480
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:primeval-isle-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 10218,
+      "sec": 130,
+      "via": ".rune > Rune Township -> Primeval Isle",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune Township -> Primeval Isle",
+        "link": "primeval isle wharf",
+        "price": 6400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9241,
+        "how": "field-areas-gap",
+        "danger": 80
+       },
+       {
+        "do": "walk",
+        "len": 977,
+        "how": "field-areas",
+        "danger": 80
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune Township -> Primeval Isle"
+      },
+      "simple": true,
+      "pv": [
+       [
+        11235,
+        -24026,
+        -3640
+       ],
+       [
+        8360,
+        -15960,
+        -3560
+       ],
+       [
+        7736,
+        -15208,
+        -3688
+       ]
+      ],
+      "maxDanger": 80,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 80,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "primeval-isle-5",
+    "name": "Primeval Isle 5: Wild Strider area (south)",
+    "at": [
+     7736,
+     -15208,
+     -3688
+    ],
+    "radius": 2488,
+    "levels": [
+     80,
+     80
+    ],
+    "count": 12,
+    "region": "Primeval Isle",
+    "atlasKey": "area:primeval-isle-5",
+    "status": "ok",
+    "sec": 130,
+    "danger": 80,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -69.83333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "primeval-isle-10",
+      "name": "Primeval Isle 10: Pachycephalosaurus area (south-west)",
+      "at": [
+       5720,
+       -13224,
+       -3744
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "primeval-isle-2",
+      "name": "Primeval Isle 2: Pachycephalosaurus area (south-west)",
+      "at": [
+       7208,
+       -18200,
+       -3624
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "primeval-isle-23",
+      "name": "Primeval Isle 23: Wild Strider area (south-west)",
+      "at": [
+       4072,
+       -7880,
+       -3480
+      ],
+      "count": 10,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:primeval-isle-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 10218,
+    "sec": 130,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9241,
+      "how": "field-areas-gap",
+      "danger": 80
+     },
+     {
+      "do": "walk",
+      "len": 977,
+      "how": "field-areas",
+      "danger": 80
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      8360,
+      -15960,
+      -3560
+     ],
+     [
+      7736,
+      -15208,
+      -3688
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 580,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32106",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Stop."
+   ],
+   "npc": {
+    "id": 32106,
+    "name": "Singsing",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     10304,
+     -25024,
+     -3680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Singsing",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32106@10304,-25024",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1354,
+    "sec": 56,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1354,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      10774,
+      -24521,
+      -3660
+     ],
+     [
+      10312,
+      -25016,
+      -3680
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {},
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:15.078Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "chance-garbled"
+  ]
+ }
+}

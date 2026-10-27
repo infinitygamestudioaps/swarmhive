@@ -1,0 +1,2920 @@
+{
+ "id": 417,
+ "name": "Path Of The Scavenger",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.749Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 6
+  }
+ ],
+ "expectedMin": 39,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30524",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you want to become a Scavenger"
+   ],
+   "npc": {
+    "id": 30524,
+    "name": "Pippi",
+    "title": "Collector",
+    "town": "Dwarven Village",
+    "at": [
+     115618,
+     -183265,
+     -1472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pippi – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30524@115618,-183265",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6559,
+    "sec": 100,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6559,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -180888,
+      -1304
+     ],
+     [
+      116648,
+      -181160,
+      -1360
+     ],
+     [
+      116648,
+      -181432,
+      -1408
+     ],
+     [
+      116616,
+      -181704,
+      -1448
+     ],
+     [
+      116584,
+      -181976,
+      -1488
+     ],
+     [
+      116584,
+      -182248,
+      -1504
+     ],
+     [
+      116536,
+      -182440,
+      -1512
+     ],
+     [
+      116488,
+      -182488,
+      -1512
+     ],
+     [
+      116472,
+      -182632,
+      -1528
+     ],
+     [
+      116472,
+      -182904,
+      -1544
+     ],
+     [
+      116344,
+      -183032,
+      -1536
+     ],
+     [
+      116088,
+      -183128,
+      -1496
+     ],
+     [
+      115880,
+      -183288,
+      -1472
+     ],
+     [
+      115624,
+      -183272,
+      -1472
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 130,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20403,
+     "name": "Hunter Tarantula",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 20508,
+     "name": "Plunder Tarantula",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1655,
+     "name": "Honey Jar",
+     "n": 5,
+     "from": [
+      {
+       "id": 27058,
+       "name": "Honey Bear",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1656,
+     "name": "Bead",
+     "n": 20,
+     "from": [
+      {
+       "id": 20403,
+       "name": "Hunter Tarantula",
+       "chance": 100
+      },
+      {
+       "id": 20508,
+       "name": "Plunder Tarantula",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Hunter Tarantula, Plunder Tarantula for Honey Jar x5, Bead x20",
+   "places": [
+    {
+     "mobs": [
+      20403,
+      20508
+     ],
+     "items": [
+      1656
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-13",
+      "name": "Western Mining Zone (Central Shore) 13: Plunder Tarantula area (north-east)",
+      "at": [
+       148200,
+       -212664,
+       -3384
+      ],
+      "radius": 5053,
+      "levels": [
+       15,
+       17
+      ],
+      "count": 19,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-13",
+      "status": "ok",
+      "sec": 201,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -110.65,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-6",
+        "name": "Western Mining Zone (Central Shore) 6: Plunder Tarantula area (north-east)",
+        "at": [
+         141752,
+         -210536,
+         -3192
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-19",
+        "name": "Western Mining Zone (Central Shore) 19: Twink Puma area (north-east)",
+        "at": [
+         147704,
+         -216776,
+         -3272
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-1",
+        "name": "Western Mining Zone (Central Shore) 1: Hunter Tarantula area (north)",
+        "at": [
+         136728,
+         -207304,
+         -3536
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-13",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 14364,
+      "sec": 201,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14364,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        137896,
+        -205080,
+        -3816
+       ],
+       [
+        138888,
+        -205080,
+        -3528
+       ],
+       [
+        139880,
+        -205080,
+        -3576
+       ],
+       [
+        140872,
+        -205336,
+        -3672
+       ],
+       [
+        141864,
+        -206328,
+        -3632
+       ],
+       [
+        142856,
+        -207320,
+        -3672
+       ],
+       [
+        143848,
+        -208312,
+        -3680
+       ],
+       [
+        144840,
+        -209304,
+        -3536
+       ],
+       [
+        145832,
+        -210296,
+        -3592
+       ],
+       [
+        146824,
+        -211288,
+        -3592
+       ],
+       [
+        147816,
+        -212280,
+        -3408
+       ],
+       [
+        148200,
+        -212664,
+        -3384
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 1004,
+        "maxSwim": 1004,
+        "overBreath": false
+       },
+       "danger": 17,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "western-mining-zone-central-shore-13",
+    "name": "Western Mining Zone (Central Shore) 13: Plunder Tarantula area (north-east)",
+    "at": [
+     148200,
+     -212664,
+     -3384
+    ],
+    "radius": 5053,
+    "levels": [
+     15,
+     17
+    ],
+    "count": 19,
+    "region": "Western Mining Zone (Central Shore)",
+    "atlasKey": "area:western-mining-zone-central-shore-13",
+    "status": "ok",
+    "sec": 201,
+    "danger": 17,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -110.65,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-6",
+      "name": "Western Mining Zone (Central Shore) 6: Plunder Tarantula area (north-east)",
+      "at": [
+       141752,
+       -210536,
+       -3192
+      ],
+      "count": 17,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-19",
+      "name": "Western Mining Zone (Central Shore) 19: Twink Puma area (north-east)",
+      "at": [
+       147704,
+       -216776,
+       -3272
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-1",
+      "name": "Western Mining Zone (Central Shore) 1: Hunter Tarantula area (north)",
+      "at": [
+       136728,
+       -207304,
+       -3536
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:western-mining-zone-central-shore-13",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".schuttgart",
+    "length": 14364,
+    "sec": 201,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+      "link": "western mining zone (central shore)",
+      "price": 970,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14364,
+      "how": "field-areas",
+      "danger": 17
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      136904,
+      -205080,
+      -3664
+     ],
+     [
+      137896,
+      -205080,
+      -3816
+     ],
+     [
+      138888,
+      -205080,
+      -3528
+     ],
+     [
+      139880,
+      -205080,
+      -3576
+     ],
+     [
+      140872,
+      -205336,
+      -3672
+     ],
+     [
+      141864,
+      -206328,
+      -3632
+     ],
+     [
+      142856,
+      -207320,
+      -3672
+     ],
+     [
+      143848,
+      -208312,
+      -3680
+     ],
+     [
+      144840,
+      -209304,
+      -3536
+     ],
+     [
+      145832,
+      -210296,
+      -3592
+     ],
+     [
+      146824,
+      -211288,
+      -3592
+     ],
+     [
+      147816,
+      -212280,
+      -3408
+     ],
+     [
+      148200,
+      -212664,
+      -3384
+     ]
+    ],
+    "maxDanger": 17,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1004,
+      "maxSwim": 1004,
+      "overBreath": false
+     },
+     "danger": 17,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 701,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27058",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27058,
+     "name": "Honey Bear",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 1655,
+     "name": "Honey Jar",
+     "n": 5,
+     "from": [
+      {
+       "id": 27058,
+       "name": "Honey Bear",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1656,
+     "name": "Bead",
+     "n": 20,
+     "from": [
+      {
+       "id": 20403,
+       "name": "Hunter Tarantula",
+       "chance": 100
+      },
+      {
+       "id": 20508,
+       "name": "Plunder Tarantula",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20777
+    ]
+   },
+   "text": "Make Honey Bear appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "western-mining-zone-central-shore-3",
+    "name": "Western Mining Zone (Central Shore) 3: Hunter Bear area (south)",
+    "at": [
+     136760,
+     -199976,
+     -3528
+    ],
+    "radius": 4997,
+    "levels": [
+     14,
+     14
+    ],
+    "count": 25,
+    "region": "Western Mining Zone (Central Shore)",
+    "atlasKey": "area:western-mining-zone-central-shore-3",
+    "status": "ok",
+    "sec": 113,
+    "danger": 14,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -148.11666666666667,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:western-mining-zone-central-shore-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5141,
+    "sec": 113,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+      "link": "western mining zone (central shore)",
+      "price": 970,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5141,
+      "how": "field-areas",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      136904,
+      -205080,
+      -3664
+     ],
+     [
+      136712,
+      -204568,
+      -3672
+     ],
+     [
+      136760,
+      -203576,
+      -3640
+     ],
+     [
+      136776,
+      -203464,
+      -3640
+     ],
+     [
+      136776,
+      -202472,
+      -3616
+     ],
+     [
+      136776,
+      -201480,
+      -3720
+     ],
+     [
+      136776,
+      -200488,
+      -3624
+     ],
+     [
+      136760,
+      -199976,
+      -3528
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 413,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:31958",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Look at her awkwardly"
+   ],
+   "npc": {
+    "id": 31958,
+    "name": "Yasheni",
+    "title": "Warehouse Chief",
+    "town": "Schuttgart",
+    "at": [
+     88552,
+     -140784,
+     -1527
+    ],
+    "alt": []
+   },
+   "text": "Bring Bead Parcel to Yasheni",
+   "needs": [
+    {
+     "id": 8543,
+     "name": "Bead Parcel",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31958@88552,-140784",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5147,
+    "sec": 63,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 5147,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141752,
+      -1536
+     ],
+     [
+      89736,
+      -141480,
+      -1536
+     ],
+     [
+      89688,
+      -141272,
+      -1536
+     ],
+     [
+      89608,
+      -141192,
+      -1536
+     ],
+     [
+      89592,
+      -141128,
+      -1536
+     ],
+     [
+      89528,
+      -140952,
+      -1536
+     ],
+     [
+      89336,
+      -140760,
+      -1536
+     ],
+     [
+      89112,
+      -140712,
+      -1536
+     ],
+     [
+      88936,
+      -140808,
+      -1536
+     ],
+     [
+      88856,
+      -140808,
+      -1528
+     ],
+     [
+      88840,
+      -140840,
+      -1520
+     ],
+     [
+      88808,
+      -140904,
+      -1520
+     ],
+     [
+      88648,
+      -140968,
+      -1520
+     ],
+     [
+      88552,
+      -140776,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30316",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30316,
+    "name": "Raut",
+    "title": "Warehouse Keeper",
+    "town": "Gludin",
+    "at": [
+     -81966,
+     153547,
+     -3170
+    ],
+    "alt": []
+   },
+   "text": "Bring Succubus Undies to Raut",
+   "needs": [
+    {
+     "id": 1645,
+     "name": "Succubus Undies",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30316@-81966,153547",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8037,
+    "sec": 87,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 8037,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -82984,
+      152168,
+      -3120
+     ],
+     [
+      -83032,
+      152424,
+      -3128
+     ],
+     [
+      -83032,
+      152696,
+      -3168
+     ],
+     [
+      -82904,
+      152888,
+      -3168
+     ],
+     [
+      -82904,
+      153000,
+      -3168
+     ],
+     [
+      -82904,
+      152888,
+      -3168
+     ],
+     [
+      -83032,
+      152888,
+      -3168
+     ],
+     [
+      -83080,
+      153160,
+      -3168
+     ],
+     [
+      -83208,
+      153320,
+      -3168
+     ],
+     [
+      -83368,
+      153480,
+      -3168
+     ],
+     [
+      -83336,
+      153752,
+      -3168
+     ],
+     [
+      -83336,
+      153880,
+      -3168
+     ],
+     [
+      -83128,
+      153944,
+      -3168
+     ],
+     [
+      -82856,
+      153928,
+      -3168
+     ],
+     [
+      -82856,
+      153864,
+      -3176
+     ],
+     [
+      -82856,
+      153896,
+      -3168
+     ],
+     [
+      -82584,
+      153944,
+      -3168
+     ],
+     [
+      -82376,
+      153768,
+      -3168
+     ],
+     [
+      -82360,
+      153672,
+      -3168
+     ],
+     [
+      -82328,
+      153688,
+      -3168
+     ],
+     [
+      -82280,
+      153608,
+      -3168
+     ],
+     [
+      -82248,
+      153336,
+      -3168
+     ],
+     [
+      -82040,
+      153320,
+      -3168
+     ],
+     [
+      -81960,
+      153496,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 112,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30556",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 12,
+   "links": [
+    "\"The closest one.\""
+   ],
+   "npc": {
+    "id": 30556,
+    "name": "Toma",
+    "title": "Master",
+    "town": "Dwarven Village",
+    "at": [
+     154132,
+     -220070,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Bring Tarantula Picture to Toma",
+   "needs": [
+    {
+     "id": 1654,
+     "name": "Tarantula Picture",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30556@154132,-220070",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".schuttgart",
+    "length": 19631,
+    "sec": 275,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Eastern Mining Zone (Northeastern Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Eastern Mining Zone (Northeastern Shore)",
+      "link": "eastern mining zone (northeastern shore)",
+      "price": 2400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19631,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      169008,
+      -208272,
+      -3504
+     ],
+     [
+      168516,
+      -208764,
+      -3632
+     ],
+     [
+      168024,
+      -209256,
+      -3760
+     ],
+     [
+      167528,
+      -209752,
+      -3820
+     ],
+     [
+      167032,
+      -210248,
+      -3880
+     ],
+     [
+      166656,
+      -210592,
+      -3852
+     ],
+     [
+      166280,
+      -210936,
+      -3824
+     ],
+     [
+      166280,
+      -210952,
+      -3824
+     ],
+     [
+      166248,
+      -210968,
+      -3784
+     ],
+     [
+      165752,
+      -211464,
+      -3692
+     ],
+     [
+      165256,
+      -211960,
+      -3600
+     ],
+     [
+      164760,
+      -212456,
+      -3616
+     ],
+     [
+      164264,
+      -212952,
+      -3632
+     ],
+     [
+      163784,
+      -213496,
+      -3624
+     ],
+     [
+      163288,
+      -213992,
+      -3608
+     ],
+     [
+      162792,
+      -214488,
+      -3592
+     ],
+     [
+      162296,
+      -214984,
+      -3632
+     ],
+     [
+      161800,
+      -215480,
+      -3672
+     ],
+     [
+      161000,
+      -215800,
+      -3704
+     ],
+     [
+      160504,
+      -216256,
+      -3552
+     ],
+     [
+      160008,
+      -216712,
+      -3400
+     ],
+     [
+      159752,
+      -216968,
+      -3512
+     ],
+     [
+      159720,
+      -216968,
+      -3544
+     ],
+     [
+      159224,
+      -217464,
+      -3632
+     ],
+     [
+      158728,
+      -217960,
+      -3720
+     ],
+     [
+      158232,
+      -218456,
+      -3720
+     ],
+     [
+      157736,
+      -218952,
+      -3720
+     ],
+     [
+      157240,
+      -219448,
+      -3664
+     ],
+     [
+      156744,
+      -219944,
+      -3608
+     ],
+     [
+      156248,
+      -220008,
+      -3572
+     ],
+     [
+      155752,
+      -220072,
+      -3536
+     ],
+     [
+      154760,
+      -220072,
+      -3808
+     ],
+     [
+      154136,
+      -220072,
+      -3400
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 3527,
+      "maxSwim": 2498,
+      "overBreath": false
+     },
+     "danger": 20,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 300,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30557",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 11,
+   "links": [
+    "Gratefully receive gift"
+   ],
+   "npc": {
+    "id": 30557,
+    "name": "Torai",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     70932,
+     124558,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Bring Raut's Teleport Scroll to Torai",
+   "needs": [
+    {
+     "id": 1644,
+     "name": "Raut's Teleport Scroll",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:dragon-valley-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 7516,
+    "sec": 108,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7516,
+      "how": "field-areas",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72728,
+      118856,
+      -3664
+     ],
+     [
+      72232,
+      119672,
+      -3648
+     ],
+     [
+      72216,
+      119752,
+      -3648
+     ],
+     [
+      72216,
+      120744,
+      -3608
+     ],
+     [
+      72184,
+      121528,
+      -3576
+     ],
+     [
+      72056,
+      122408,
+      -3624
+     ],
+     [
+      71928,
+      122888,
+      -3632
+     ],
+     [
+      71928,
+      123880,
+      -3624
+     ],
+     [
+      71928,
+      124872,
+      -3648
+     ],
+     [
+      71624,
+      125672,
+      -3624
+     ],
+     [
+      70936,
+      124552,
+      -3560
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 40,
+     "dangerVsLevel": 22,
+     "aggro": [
+      {
+       "name": "Grandis",
+       "lv": 40,
+       "n": 2
+      },
+      {
+       "name": "Windsus",
+       "lv": 39,
+       "n": 2
+      },
+      {
+       "name": "Fettered Soul",
+       "lv": 38,
+       "n": 5
+      },
+      {
+       "name": "Road Scavenger",
+       "lv": 37,
+       "n": 1
+      },
+      {
+       "name": "Guardian Basilisk",
+       "lv": 36,
+       "n": 2
+      },
+      {
+       "name": "Wyrm",
+       "lv": 35,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:dragon-valley-4",
+     "name": "Dragon Valley 4: Fettered Soul area (south)"
+    },
+    "points": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72728,
+      118856,
+      -3664
+     ],
+     [
+      72232,
+      119672,
+      -3648
+     ],
+     [
+      72216,
+      119752,
+      -3648
+     ],
+     [
+      72216,
+      120744,
+      -3608
+     ],
+     [
+      72184,
+      121528,
+      -3576
+     ],
+     [
+      72056,
+      122408,
+      -3624
+     ],
+     [
+      71928,
+      122888,
+      -3632
+     ],
+     [
+      71928,
+      123880,
+      -3624
+     ],
+     [
+      71928,
+      124872,
+      -3648
+     ],
+     [
+      71624,
+      125672,
+      -3624
+     ],
+     [
+      70936,
+      124552,
+      -3560
+     ]
+    ]
+   },
+   "expectedSec": 133,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:talk:30519",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "No!"
+   ],
+   "npc": {
+    "id": 30519,
+    "name": "Mion",
+    "title": "Grocer",
+    "town": "Dwarven Village",
+    "at": [
+     116268,
+     -177524,
+     -880
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mion",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30519@116268,-177524",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1694,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1694,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115384,
+      -178168,
+      -928
+     ],
+     [
+      115576,
+      -177976,
+      -912
+     ],
+     [
+      115624,
+      -177976,
+      -904
+     ],
+     [
+      115752,
+      -177800,
+      -888
+     ],
+     [
+      115768,
+      -177528,
+      -880
+     ],
+     [
+      115768,
+      -177448,
+      -880
+     ],
+     [
+      116024,
+      -177400,
+      -880
+     ],
+     [
+      116264,
+      -177528,
+      -880
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30517",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30517,
+    "name": "Shari",
+    "title": "Armor Merchant",
+    "town": "Dwarven Village",
+    "at": [
+     116192,
+     -181072,
+     -1336
+    ],
+    "alt": []
+   },
+   "text": "Bring Shari's Axe to Shari",
+   "needs": [
+    {
+     "id": 1648,
+     "name": "Shari's Axe",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30517@116192,-181072",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5363,
+    "sec": 90,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5363,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -180888,
+      -1304
+     ],
+     [
+      116648,
+      -181096,
+      -1344
+     ],
+     [
+      116584,
+      -181352,
+      -1392
+     ],
+     [
+      116360,
+      -181512,
+      -1384
+     ],
+     [
+      116184,
+      -181592,
+      -1360
+     ],
+     [
+      115960,
+      -181560,
+      -1336
+     ],
+     [
+      115976,
+      -181560,
+      -1344
+     ],
+     [
+      116152,
+      -181496,
+      -1352
+     ],
+     [
+      116168,
+      -181272,
+      -1336
+     ],
+     [
+      116136,
+      -181192,
+      -1336
+     ],
+     [
+      116200,
+      -181064,
+      -1336
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 115,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:deliver:30525",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30525,
+    "name": "Bronk",
+    "title": "Head Blacksmith",
+    "town": "Dwarven Village",
+    "at": [
+     115468,
+     -182446,
+     -1440
+    ],
+    "alt": []
+   },
+   "text": "Bring Bronk's Ingot to Bronk",
+   "needs": [
+    {
+     "id": 1647,
+     "name": "Bronk's Ingot",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30525@115468,-182446",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6319,
+    "sec": 98,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6319,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115992,
+      -182536,
+      -1472
+     ],
+     [
+      115768,
+      -182696,
+      -1448
+     ],
+     [
+      115496,
+      -182680,
+      -1440
+     ],
+     [
+      115432,
+      -182664,
+      -1440
+     ],
+     [
+      115368,
+      -182552,
+      -1440
+     ],
+     [
+      115464,
+      -182440,
+      -1440
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 123,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c1:deliver:30538",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30538,
+    "name": "Zimenf",
+    "title": "Priest of the Earth",
+    "town": "Dwarven Village",
+    "at": [
+     114426,
+     -178672,
+     -808
+    ],
+    "alt": []
+   },
+   "text": "Bring Zimenf's Potion to Zimenf",
+   "needs": [
+    {
+     "id": 1649,
+     "name": "Zimenf's Potion",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30538@114426,-178672",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1610,
+    "sec": 58,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1610,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115160,
+      -178712,
+      -904
+     ],
+     [
+      114952,
+      -178536,
+      -840
+     ],
+     [
+      114680,
+      -178536,
+      -808
+     ],
+     [
+      114616,
+      -178536,
+      -808
+     ],
+     [
+      114424,
+      -178664,
+      -808
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c4:deliver:30519",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30519,
+    "name": "Mion",
+    "title": "Grocer",
+    "town": "Dwarven Village",
+    "at": [
+     116268,
+     -177524,
+     -880
+    ],
+    "alt": []
+   },
+   "text": "Bring Pippi's Letter of Recommendation to Mion",
+   "needs": [
+    {
+     "id": 1643,
+     "name": "Pippi's Letter of Recommendation",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30519@116268,-177524",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1694,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1694,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115384,
+      -178168,
+      -928
+     ],
+     [
+      115576,
+      -177976,
+      -912
+     ],
+     [
+      115624,
+      -177976,
+      -904
+     ],
+     [
+      115752,
+      -177800,
+      -888
+     ],
+     [
+      115768,
+      -177528,
+      -880
+     ],
+     [
+      115768,
+      -177448,
+      -880
+     ],
+     [
+      116024,
+      -177400,
+      -880
+     ],
+     [
+      116264,
+      -177528,
+      -880
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

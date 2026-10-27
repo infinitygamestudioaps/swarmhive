@@ -1,0 +1,851 @@
+{
+ "id": 650,
+ "name": "A Broken Dream",
+ "version": 1,
+ "generated": "2026-10-27T11:16:15.174Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Schuttgart",
+ "requirements": {
+  "quests": [
+   {
+    "id": 117,
+    "name": "Q00117_TheOceanOfDistantStars",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "117 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "route-swim",
+   "text": "the way has a swim longer than one breath",
+   "step": 0
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  },
+  {
+   "code": "route-swim",
+   "text": "the way has a swim longer than one breath",
+   "step": 1
+  }
+ ],
+ "expectedMin": 12,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32054",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Agree to put them out of their misery."
+   ],
+   "npc": {
+    "id": 32054,
+    "name": "Ghost of a Railroad Engineer",
+    "title": "",
+    "town": "Schuttgart",
+    "at": [
+     122269,
+     -140689,
+     -1522
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ghost of a Railroad Engineer – accept the quest",
+   "reasons": [
+    "route-swim"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32054@122269,-140689",
+    "status": "ok",
+    "flags": [
+     "long-walk",
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".schuttgart",
+    "length": 40505,
+    "sec": 440,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 40505,
+      "how": "geodata",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      88088,
+      -142296,
+      -1336
+     ],
+     [
+      88136,
+      -142360,
+      -1336
+     ],
+     [
+      88968,
+      -142056,
+      -1328
+     ],
+     [
+      89032,
+      -142072,
+      -1384
+     ],
+     [
+      89496,
+      -141768,
+      -1536
+     ],
+     [
+      89880,
+      -141336,
+      -1536
+     ],
+     [
+      90616,
+      -140680,
+      -1640
+     ],
+     [
+      91096,
+      -140376,
+      -1832
+     ],
+     [
+      91592,
+      -140536,
+      -2048
+     ],
+     [
+      93080,
+      -140696,
+      -2224
+     ],
+     [
+      93576,
+      -140816,
+      -2300
+     ],
+     [
+      94456,
+      -141320,
+      -3016
+     ],
+     [
+      94840,
+      -141704,
+      -3656
+     ],
+     [
+      95832,
+      -142056,
+      -3952
+     ],
+     [
+      96872,
+      -142960,
+      -3648
+     ],
+     [
+      97368,
+      -143320,
+      -3384
+     ],
+     [
+      97400,
+      -143368,
+      -3352
+     ],
+     [
+      97432,
+      -143384,
+      -3320
+     ],
+     [
+      97800,
+      -144008,
+      -2816
+     ],
+     [
+      98296,
+      -143512,
+      -2768
+     ],
+     [
+      99288,
+      -142520,
+      -2892
+     ],
+     [
+      100280,
+      -141528,
+      -3108
+     ],
+     [
+      100776,
+      -141032,
+      -3152
+     ],
+     [
+      102392,
+      -140696,
+      -3288
+     ],
+     [
+      103384,
+      -140696,
+      -3384
+     ],
+     [
+      104424,
+      -140744,
+      -3344
+     ],
+     [
+      105240,
+      -140632,
+      -3320
+     ],
+     [
+      105736,
+      -140168,
+      -3208
+     ],
+     [
+      106120,
+      -140152,
+      -3096
+     ],
+     [
+      106616,
+      -140288,
+      -3028
+     ],
+     [
+      107608,
+      -139928,
+      -2948
+     ],
+     [
+      108104,
+      -139432,
+      -2936
+     ],
+     [
+      108824,
+      -139128,
+      -2960
+     ],
+     [
+      109336,
+      -139016,
+      -2960
+     ],
+     [
+      110472,
+      -138984,
+      -3072
+     ],
+     [
+      112024,
+      -139000,
+      -3920
+     ],
+     [
+      112648,
+      -139256,
+      -3888
+     ],
+     [
+      113416,
+      -139896,
+      -3908
+     ],
+     [
+      113912,
+      -140392,
+      -3912
+     ],
+     [
+      114904,
+      -140696,
+      -3912
+     ],
+     [
+      115400,
+      -140384,
+      -3848
+     ],
+     [
+      116072,
+      -139896,
+      -3720
+     ],
+     [
+      117128,
+      -139640,
+      -3128
+     ],
+     [
+      117624,
+      -140136,
+      -2960
+     ],
+     [
+      118952,
+      -140696,
+      -2456
+     ],
+     [
+      119000,
+      -140680,
+      -2424
+     ],
+     [
+      120008,
+      -140696,
+      -1976
+     ],
+     [
+      120712,
+      -140664,
+      -1672
+     ],
+     [
+      122264,
+      -140696,
+      -1520
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 7059,
+      "maxSwim": 5195,
+      "overBreath": true
+     },
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 470,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22028,
+     "name": "Vagabond of the Ruins",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "engine-manual",
+    "route-swim"
+   ],
+   "text": "Hunt Vagabond of the Ruins",
+   "places": [
+    {
+     "mobs": [
+      22028
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plunderous-plains-13",
+      "name": "Plunderous Plains 13: Frozen Wasteland Werewolf area (south-east)",
+      "at": [
+       117912,
+       -143016,
+       -2904
+      ],
+      "radius": 3844,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plunderous Plains",
+      "atlasKey": "area:plunderous-plains-13",
+      "status": "ok",
+      "sec": 248,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.866666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plunderous-plains-14",
+        "name": "Plunderous Plains 14: Frozen Wasteland Werewolf area (south-east)",
+        "at": [
+         125864,
+         -142648,
+         -3168
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plunderous-plains-13",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".schuttgart",
+      "length": 18544,
+      "sec": 248,
+      "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Plunderous Plains",
+        "link": "plunderous plains",
+        "price": 1600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8141,
+        "how": "field-areas-gap",
+        "danger": 37
+       },
+       {
+        "do": "walk",
+        "len": 10403,
+        "how": "field-areas",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Plunderous Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        111965,
+        -154172,
+        -1528
+       ],
+       [
+        111960,
+        -146248,
+        -3768
+       ],
+       [
+        111960,
+        -145256,
+        -3952
+       ],
+       [
+        111960,
+        -144264,
+        -3968
+       ],
+       [
+        112360,
+        -143272,
+        -3904
+       ],
+       [
+        113016,
+        -142616,
+        -3864
+       ],
+       [
+        113016,
+        -142472,
+        -3784
+       ],
+       [
+        113000,
+        -142456,
+        -3760
+       ],
+       [
+        112776,
+        -142456,
+        -3544
+       ],
+       [
+        112760,
+        -142440,
+        -3520
+       ],
+       [
+        112648,
+        -142216,
+        -3328
+       ],
+       [
+        112632,
+        -142200,
+        -3312
+       ],
+       [
+        112712,
+        -142040,
+        -3264
+       ],
+       [
+        112728,
+        -142024,
+        -3240
+       ],
+       [
+        113304,
+        -142088,
+        -3248
+       ],
+       [
+        113960,
+        -142744,
+        -3248
+       ],
+       [
+        114152,
+        -142920,
+        -3248
+       ],
+       [
+        115144,
+        -142920,
+        -3112
+       ],
+       [
+        116136,
+        -142920,
+        -3080
+       ],
+       [
+        117128,
+        -142920,
+        -3032
+       ],
+       [
+        117912,
+        -143016,
+        -2904
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 4166,
+        "maxSwim": 4166,
+        "overBreath": true
+       },
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plunderous-plains-13",
+    "name": "Plunderous Plains 13: Frozen Wasteland Werewolf area (south-east)",
+    "at": [
+     117912,
+     -143016,
+     -2904
+    ],
+    "radius": 3844,
+    "levels": [
+     38,
+     40
+    ],
+    "count": 6,
+    "region": "Plunderous Plains",
+    "atlasKey": "area:plunderous-plains-13",
+    "status": "ok",
+    "sec": 248,
+    "danger": 40,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -31.866666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plunderous-plains-14",
+      "name": "Plunderous Plains 14: Frozen Wasteland Werewolf area (south-east)",
+      "at": [
+       125864,
+       -142648,
+       -3168
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plunderous-plains-13",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".schuttgart",
+    "length": 18544,
+    "sec": 248,
+    "via": ".schuttgart > Schuttgart -> Plunderous Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Plunderous Plains",
+      "link": "plunderous plains",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8141,
+      "how": "field-areas-gap",
+      "danger": 37
+     },
+     {
+      "do": "walk",
+      "len": 10403,
+      "how": "field-areas",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Plunderous Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111965,
+      -154172,
+      -1528
+     ],
+     [
+      111960,
+      -146248,
+      -3768
+     ],
+     [
+      111960,
+      -145256,
+      -3952
+     ],
+     [
+      111960,
+      -144264,
+      -3968
+     ],
+     [
+      112360,
+      -143272,
+      -3904
+     ],
+     [
+      113016,
+      -142616,
+      -3864
+     ],
+     [
+      113016,
+      -142472,
+      -3784
+     ],
+     [
+      113000,
+      -142456,
+      -3760
+     ],
+     [
+      112776,
+      -142456,
+      -3544
+     ],
+     [
+      112760,
+      -142440,
+      -3520
+     ],
+     [
+      112648,
+      -142216,
+      -3328
+     ],
+     [
+      112632,
+      -142200,
+      -3312
+     ],
+     [
+      112712,
+      -142040,
+      -3264
+     ],
+     [
+      112728,
+      -142024,
+      -3240
+     ],
+     [
+      113304,
+      -142088,
+      -3248
+     ],
+     [
+      113960,
+      -142744,
+      -3248
+     ],
+     [
+      114152,
+      -142920,
+      -3248
+     ],
+     [
+      115144,
+      -142920,
+      -3112
+     ],
+     [
+      116136,
+      -142920,
+      -3080
+     ],
+     [
+      117128,
+      -142920,
+      -3032
+     ],
+     [
+      117912,
+      -143016,
+      -2904
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 4166,
+      "maxSwim": 4166,
+      "overBreath": true
+     },
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 273,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:22027": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "optional: these monster ids have no spawn in the datapack (spawnlist.sql, no minion entry in stats/npcs); item 8514 also drops from 1 spawned monster(s) of the hunt step at this cond (quest record drops), and the engine (qeHuntAction) hunts only the spawned ones.",
+    "editedAt": "2026-10-27T10:06:26.464Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.464Z",
+  "by": "quest-fixer batch 5"
+ }
+}

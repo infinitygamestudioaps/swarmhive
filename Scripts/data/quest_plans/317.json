@@ -1,0 +1,957 @@
+{
+ "id": 317,
+ "name": "Catch The Wind",
+ "version": 1,
+ "generated": "2026-10-27T11:15:19.688Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Elven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 24,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30361",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the task."
+   ],
+   "npc": {
+    "id": 30361,
+    "name": "Rizraell",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     45610,
+     49008,
+     -3056
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rizraell – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31780@45443,48357",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4209,
+    "sec": 80,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4209,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45448,
+      48360,
+      -3056
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31780@45443,48357",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45448,
+      48360,
+      -3056
+     ]
+    ]
+   },
+   "expectedSec": 110,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20036,
+     "name": "Lirein",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 20044,
+     "name": "Lirein Elder",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1078,
+     "name": "Wind Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 20036,
+       "name": "Lirein",
+       "chance": 50
+      },
+      {
+       "id": 20044,
+       "name": "Lirein Elder",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Lirein, Lirein Elder for Wind Shard x20",
+   "places": [
+    {
+     "mobs": [
+      20036,
+      20044
+     ],
+     "items": [
+      1078
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "neutral-zone-10",
+      "name": "Neutral Zone 10: Lirein area (east)",
+      "at": [
+       4248,
+       74344,
+       -3712
+      ],
+      "radius": 4539,
+      "levels": [
+       17,
+       19
+      ],
+      "count": 15,
+      "region": "Neutral Zone",
+      "atlasKey": "area:neutral-zone-10",
+      "status": "ok",
+      "sec": 199,
+      "danger": 19,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -86.68333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "neutral-zone-12",
+        "name": "Neutral Zone 12: Pincer Spider area (north-east)",
+        "at": [
+         2920,
+         64616,
+         -3600
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "neutral-zone-11",
+        "name": "Neutral Zone 11: Lirein Elder area (east)",
+        "at": [
+         4776,
+         81464,
+         -3576
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-forest-22",
+        "name": "Elven Forest 22: Lirein area (west)",
+        "at": [
+         4632,
+         55400,
+         -3536
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:neutral-zone-10",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 15478,
+      "sec": 199,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Neutral Zone",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Neutral Zone",
+        "link": "neutral zone",
+        "price": 1700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14166,
+        "how": "field-areas-gap",
+        "danger": 19
+       },
+       {
+        "do": "walk",
+        "len": 1312,
+        "how": "field-areas",
+        "danger": 19
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -10612,
+        75881,
+        -3592
+       ],
+       [
+        3320,
+        75272,
+        -3832
+       ],
+       [
+        4248,
+        74344,
+        -3712
+       ]
+      ],
+      "maxDanger": 19,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 19,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "neutral-zone-10",
+    "name": "Neutral Zone 10: Lirein area (east)",
+    "at": [
+     4248,
+     74344,
+     -3712
+    ],
+    "radius": 4539,
+    "levels": [
+     17,
+     19
+    ],
+    "count": 15,
+    "region": "Neutral Zone",
+    "atlasKey": "area:neutral-zone-10",
+    "status": "ok",
+    "sec": 199,
+    "danger": 19,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -86.68333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "neutral-zone-12",
+      "name": "Neutral Zone 12: Pincer Spider area (north-east)",
+      "at": [
+       2920,
+       64616,
+       -3600
+      ],
+      "count": 13,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "neutral-zone-11",
+      "name": "Neutral Zone 11: Lirein Elder area (east)",
+      "at": [
+       4776,
+       81464,
+       -3576
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-forest-22",
+      "name": "Elven Forest 22: Lirein area (west)",
+      "at": [
+       4632,
+       55400,
+       -3536
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:neutral-zone-10",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 15478,
+    "sec": 199,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Neutral Zone",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Neutral Zone",
+      "link": "neutral zone",
+      "price": 1700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14166,
+      "how": "field-areas-gap",
+      "danger": 19
+     },
+     {
+      "do": "walk",
+      "len": 1312,
+      "how": "field-areas",
+      "danger": 19
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -10612,
+      75881,
+      -3592
+     ],
+     [
+      3320,
+      75272,
+      -3832
+     ],
+     [
+      4248,
+      74344,
+      -3712
+     ]
+    ],
+    "maxDanger": 19,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 19,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1199,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30361",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say you will end the Contract",
+    "Say you will find them"
+   ],
+   "npc": {
+    "id": 30361,
+    "name": "Rizraell",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     45610,
+     49008,
+     -3056
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rizraell",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31780@45443,48357",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4209,
+    "sec": 80,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4209,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45448,
+      48360,
+      -3056
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31780@45443,48357",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45448,
+      48360,
+      -3056
+     ]
+    ]
+   },
+   "expectedSec": 105,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:22.317Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "script-flow-far"
+  ]
+ }
+}

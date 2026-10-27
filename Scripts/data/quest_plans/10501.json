@@ -1,0 +1,313 @@
+{
+ "id": 10501,
+ "name": "Zaken Embroidered Soul Cloak",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.546Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 78,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 7,
+ "refLevel": 78,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32612",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Of course!\""
+   ],
+   "npc": {
+    "id": 32612,
+    "name": "Olf Adams",
+    "title": "Weaver",
+    "town": "Rune",
+    "at": [
+     44267,
+     -49213,
+     -792
+    ],
+    "alt": []
+   },
+   "text": "Talk to Olf Adams – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32612@44267,-49213",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1424,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1424,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48136,
+      -792
+     ],
+     [
+      43880,
+      -48408,
+      -792
+     ],
+     [
+      43880,
+      -48680,
+      -792
+     ],
+     [
+      43896,
+      -48952,
+      -792
+     ],
+     [
+      44072,
+      -49160,
+      -792
+     ],
+     [
+      44264,
+      -49208,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:29181",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 29181,
+     "name": "Zaken",
+     "level": 83,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21722,
+     "name": "Zaken's Soul Fragment",
+     "n": 20,
+     "from": [
+      {
+       "id": 29181,
+       "name": "Zaken",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (29181) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Zaken appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (29181) only appear through the quest script and no trigger is known",
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:32612",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32612,
+    "name": "Olf Adams",
+    "title": "Weaver",
+    "town": "Rune",
+    "at": [
+     44267,
+     -49213,
+     -792
+    ],
+    "alt": []
+   },
+   "text": "Bring Zaken's Soul Fragment x20 to Olf Adams",
+   "needs": [
+    {
+     "id": 21722,
+     "name": "Zaken's Soul Fragment",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32612@44267,-49213",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1424,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1424,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48136,
+      -792
+     ],
+     [
+      43880,
+      -48408,
+      -792
+     ],
+     [
+      43880,
+      -48680,
+      -792
+     ],
+     [
+      43896,
+      -48952,
+      -792
+     ],
+     [
+      44072,
+      -49160,
+      -792
+     ],
+     [
+      44264,
+      -49208,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 57,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

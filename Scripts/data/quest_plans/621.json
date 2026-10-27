@@ -1,0 +1,1247 @@
+{
+ "id": 621,
+ "name": "Egg Delivery",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.516Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 68,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 0
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 4
+  }
+ ],
+ "expectedMin": 11,
+ "refLevel": 68,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31521",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll deliver your eggs.\""
+   ],
+   "npc": {
+    "id": 31521,
+    "name": "Jeremy",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149520,
+     -112704,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jeremy – accept the quest",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31697@149568,-112768",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4922,
+    "sec": 86,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4922,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:31697@149568,-112768",
+     "name": "Eindarkner"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ]
+   },
+   "expectedSec": 116,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:31543",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"I've got some Boiled Eggs for you.\""
+   ],
+   "npc": {
+    "id": 31543,
+    "name": "Pulin",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     157648,
+     -115360,
+     -1904
+    ],
+    "alt": []
+   },
+   "text": "Bring Boiled Eggs to Pulin",
+   "needs": [
+    {
+     "id": 7195,
+     "name": "Boiled Eggs",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:hot-springs-8",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 11955,
+    "sec": 145,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11955,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144888,
+      -113464,
+      -2568
+     ],
+     [
+      145448,
+      -113544,
+      -2240
+     ],
+     [
+      146440,
+      -113720,
+      -2080
+     ],
+     [
+      146632,
+      -113912,
+      -2144
+     ],
+     [
+      147400,
+      -114248,
+      -1984
+     ],
+     [
+      148024,
+      -114328,
+      -2024
+     ],
+     [
+      149016,
+      -114328,
+      -1936
+     ],
+     [
+      149352,
+      -114296,
+      -1904
+     ],
+     [
+      150344,
+      -114296,
+      -1872
+     ],
+     [
+      151016,
+      -114584,
+      -1560
+     ],
+     [
+      152008,
+      -114584,
+      -1584
+     ],
+     [
+      153000,
+      -114584,
+      -1608
+     ],
+     [
+      153992,
+      -114584,
+      -1544
+     ],
+     [
+      154984,
+      -114584,
+      -1560
+     ],
+     [
+      155976,
+      -114584,
+      -1680
+     ],
+     [
+      156552,
+      -114840,
+      -1784
+     ],
+     [
+      157656,
+      -115352,
+      -1904
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Hot Springs Bandersnatch",
+       "lv": 76,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Grendel",
+       "lv": 76,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 2
+      },
+      {
+       "name": "Hot Springs Nepenthes",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 3
+      },
+      {
+       "name": "Hot Springs Flava",
+       "lv": 74,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Atroxspawn",
+       "lv": 74,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:hot-springs-8",
+     "name": "Hot Springs 8: Hot Springs Antelope area (east)"
+    },
+    "points": [
+     [
+      144888,
+      -113464,
+      -2568
+     ],
+     [
+      145448,
+      -113544,
+      -2240
+     ],
+     [
+      146440,
+      -113720,
+      -2080
+     ],
+     [
+      146632,
+      -113912,
+      -2144
+     ],
+     [
+      147400,
+      -114248,
+      -1984
+     ],
+     [
+      148024,
+      -114328,
+      -2024
+     ],
+     [
+      149016,
+      -114328,
+      -1936
+     ],
+     [
+      149352,
+      -114296,
+      -1904
+     ],
+     [
+      150344,
+      -114296,
+      -1872
+     ],
+     [
+      151016,
+      -114584,
+      -1560
+     ],
+     [
+      152008,
+      -114584,
+      -1584
+     ],
+     [
+      153000,
+      -114584,
+      -1608
+     ],
+     [
+      153992,
+      -114584,
+      -1544
+     ],
+     [
+      154984,
+      -114584,
+      -1560
+     ],
+     [
+      155976,
+      -114584,
+      -1680
+     ],
+     [
+      156552,
+      -114840,
+      -1784
+     ],
+     [
+      157656,
+      -115352,
+      -1904
+     ]
+    ]
+   },
+   "expectedSec": 170,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:31544",
+   "cond": 1,
+   "kind": "deliver",
+   "to": {
+    "raw": "qs.getCond() + 1"
+   },
+   "links": [
+    "\"I have some Boiled Eggs for you!\"",
+    "I've got your eggs right here.",
+    "\"Egg delivery, sir!\""
+   ],
+   "npc": {
+    "id": 31544,
+    "name": "Naff",
+    "title": "",
+    "town": "Goddard",
+    "at": [
+     155616,
+     -105696,
+     -2755
+    ],
+    "alt": []
+   },
+   "text": "Bring Boiled Eggs to Naff",
+   "needs": [
+    {
+     "id": 7195,
+     "name": "Boiled Eggs",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:hot-springs-10",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 13559,
+    "sec": 158,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10437,
+      "how": "field-areas-gap",
+      "danger": 75
+     },
+     {
+      "do": "walk",
+      "len": 2715,
+      "how": "field-areas",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      151048,
+      -106488,
+      -2840
+     ],
+     [
+      152040,
+      -106488,
+      -2904
+     ],
+     [
+      153032,
+      -106488,
+      -2832
+     ],
+     [
+      153704,
+      -106200,
+      -2744
+     ],
+     [
+      155336,
+      -105976,
+      -2736
+     ],
+     [
+      155624,
+      -105688,
+      -2752
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Hot Springs Grendel",
+       "lv": 76,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Nepenthes",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:hot-springs-10",
+     "name": "Hot Springs 10: Hot Springs Bandersnatchling area (south-east)"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      151048,
+      -106488,
+      -2840
+     ],
+     [
+      152040,
+      -106488,
+      -2904
+     ],
+     [
+      153032,
+      -106488,
+      -2832
+     ],
+     [
+      153704,
+      -106200,
+      -2744
+     ],
+     [
+      155336,
+      -105976,
+      -2736
+     ],
+     [
+      155624,
+      -105688,
+      -2752
+     ]
+    ]
+   },
+   "expectedSec": 183,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c6:deliver:31521",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 7,
+   "links": [
+    "\"I completed the delivery.\""
+   ],
+   "npc": {
+    "id": 31521,
+    "name": "Jeremy",
+    "title": "Chef",
+    "town": "Goddard",
+    "at": [
+     149520,
+     -112704,
+     -2065
+    ],
+    "alt": []
+   },
+   "text": "Bring Fee of Boiled Egg x5 to Jeremy",
+   "needs": [
+    {
+     "id": 7196,
+     "name": "Fee of Boiled Egg",
+     "n": 5
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31697@149568,-112768",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 4922,
+    "sec": 86,
+    "via": ".goddard > Goddard -> Hot Springs",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Hot Springs",
+      "link": "hot springs",
+      "price": 9300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4922,
+      "how": "geodata",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Hot Springs"
+    },
+    "simple": true,
+    "pv": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Hot Springs Yeti",
+       "lv": 75,
+       "n": 1
+      },
+      {
+       "name": "Hot Springs Antelope",
+       "lv": 74,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "npc:31697@149568,-112768",
+     "name": "Eindarkner"
+    },
+    "points": [
+     [
+      144880,
+      -113468,
+      -2560
+     ],
+     [
+      145380,
+      -113114,
+      -2484
+     ],
+     [
+      145880,
+      -112760,
+      -2408
+     ],
+     [
+      146872,
+      -112760,
+      -2192
+     ],
+     [
+      147864,
+      -112760,
+      -2136
+     ],
+     [
+      148856,
+      -112760,
+      -2072
+     ],
+     [
+      149352,
+      -112744,
+      -2064
+     ],
+     [
+      149576,
+      -112760,
+      -2064
+     ]
+    ]
+   },
+   "expectedSec": 111,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c7:talk:31584",
+   "cond": 7,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Jeremy sent me.\""
+   ],
+   "npc": {
+    "id": 31584,
+    "name": "Valentine",
+    "title": "Brewer",
+    "town": "Goddard",
+    "at": [
+     149352,
+     -57452,
+     -2966
+    ],
+    "alt": []
+   },
+   "text": "Talk to Valentine",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31263@149312,-57360",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 5178,
+    "sec": 63,
+    "via": ".goddard",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "walk",
+      "len": 5178,
+      "how": "town-graph",
+      "danger": 68
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Goddard"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149560,
+      -58008,
+      -2976
+     ],
+     [
+      149288,
+      -58008,
+      -2976
+     ],
+     [
+      149144,
+      -57768,
+      -2968
+     ],
+     [
+      149144,
+      -57640,
+      -2968
+     ],
+     [
+      149320,
+      -57432,
+      -2968
+     ]
+    ],
+    "maxDanger": 68,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 68,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31263@149312,-57360",
+     "name": "Liesel"
+    },
+    "points": [
+     [
+      147732,
+      -56554,
+      -2776
+     ],
+     [
+      147704,
+      -56280,
+      -2776
+     ],
+     [
+      147704,
+      -56344,
+      -2776
+     ],
+     [
+      147704,
+      -56616,
+      -2776
+     ],
+     [
+      147720,
+      -56888,
+      -2776
+     ],
+     [
+      147720,
+      -57160,
+      -2776
+     ],
+     [
+      147720,
+      -57432,
+      -2824
+     ],
+     [
+      147720,
+      -57464,
+      -2832
+     ],
+     [
+      147720,
+      -57736,
+      -2888
+     ],
+     [
+      147736,
+      -58008,
+      -2976
+     ],
+     [
+      147832,
+      -58008,
+      -2976
+     ],
+     [
+      147800,
+      -58152,
+      -2976
+     ],
+     [
+      148024,
+      -58312,
+      -2976
+     ],
+     [
+      148296,
+      -58312,
+      -2976
+     ],
+     [
+      148568,
+      -58264,
+      -2976
+     ],
+     [
+      148680,
+      -58200,
+      -2976
+     ],
+     [
+      148808,
+      -58152,
+      -2976
+     ],
+     [
+      149080,
+      -58152,
+      -2976
+     ],
+     [
+      149352,
+      -58088,
+      -2976
+     ],
+     [
+      149608,
+      -57976,
+      -2976
+     ],
+     [
+      149560,
+      -58008,
+      -2976
+     ],
+     [
+      149288,
+      -58008,
+      -2976
+     ],
+     [
+      149144,
+      -57768,
+      -2968
+     ],
+     [
+      149144,
+      -57640,
+      -2968
+     ],
+     [
+      149320,
+      -57432,
+      -2968
+     ]
+    ]
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

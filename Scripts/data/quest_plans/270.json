@@ -1,0 +1,1699 @@
+{
+ "id": 270,
+ "name": "The One Who Ends Silence",
+ "version": 1,
+ "generated": "2026-10-27T11:15:17.175Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10288,
+    "name": "Q10288_SecretMission",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10288 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: script-flow, flow-no-end"
+  },
+  {
+   "code": "dryrun:script-flow",
+   "text": "event \"32757-08.html\" -> cond 1: the script never sets it"
+  },
+  {
+   "code": "dryrun:flow-no-end",
+   "text": "the simulation did not reach the end (last cond 1)"
+  }
+ ],
+ "expectedMin": 749,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32757",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Accept the mission."
+   ],
+   "npc": {
+    "id": 32757,
+    "name": "Greymore",
+    "title": "Priest",
+    "town": "Goddard",
+    "at": [
+     119120,
+     -80576,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Greymore – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32757@119120,-80576",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".goddard",
+    "length": 36411,
+    "sec": 348,
+    "via": ".goddard > Goddard -> Monastery of silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Monastery of silence",
+      "link": "monastery of silence",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 35080,
+      "how": "geodata",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 272,
+      "how": "dungeon-rooms",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 448,
+      "how": "geodata",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 611,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Monastery of silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      106408,
+      -87800,
+      -2920
+     ],
+     [
+      107400,
+      -87800,
+      -2936
+     ],
+     [
+      108808,
+      -87800,
+      -2880
+     ],
+     [
+      110248,
+      -87720,
+      -3264
+     ],
+     [
+      110600,
+      -87208,
+      -3264
+     ],
+     [
+      110584,
+      -87208,
+      -3264
+     ],
+     [
+      110488,
+      -86488,
+      -3328
+     ],
+     [
+      110408,
+      -85960,
+      -3392
+     ],
+     [
+      110040,
+      -84632,
+      -3392
+     ],
+     [
+      109816,
+      -83784,
+      -3392
+     ],
+     [
+      109880,
+      -82248,
+      -3392
+     ],
+     [
+      110872,
+      -81880,
+      -3392
+     ],
+     [
+      111912,
+      -81880,
+      -3392
+     ],
+     [
+      112456,
+      -81816,
+      -3392
+     ],
+     [
+      113000,
+      -82424,
+      -3392
+     ],
+     [
+      112600,
+      -82760,
+      -3392
+     ],
+     [
+      112568,
+      -82760,
+      -3392
+     ],
+     [
+      112168,
+      -83128,
+      -3392
+     ],
+     [
+      112008,
+      -83480,
+      -3392
+     ],
+     [
+      112072,
+      -84296,
+      -3392
+     ],
+     [
+      112376,
+      -84584,
+      -3392
+     ],
+     [
+      112872,
+      -85592,
+      -3392
+     ],
+     [
+      113640,
+      -85672,
+      -3392
+     ],
+     [
+      113832,
+      -85736,
+      -3392
+     ],
+     [
+      113880,
+      -85848,
+      -3392
+     ],
+     [
+      113768,
+      -86264,
+      -3392
+     ],
+     [
+      113608,
+      -86360,
+      -3392
+     ],
+     [
+      113528,
+      -87480,
+      -3392
+     ],
+     [
+      113528,
+      -88424,
+      -3520
+     ],
+     [
+      113688,
+      -88728,
+      -3520
+     ],
+     [
+      114920,
+      -88792,
+      -3528
+     ],
+     [
+      116552,
+      -88792,
+      -3520
+     ],
+     [
+      117064,
+      -88760,
+      -3520
+     ],
+     [
+      117304,
+      -88520,
+      -3520
+     ],
+     [
+      117320,
+      -87992,
+      -3520
+     ],
+     [
+      117320,
+      -87944,
+      -3520
+     ],
+     [
+      116248,
+      -87432,
+      -3392
+     ],
+     [
+      116088,
+      -87336,
+      -3392
+     ],
+     [
+      116088,
+      -86664,
+      -3392
+     ],
+     [
+      116344,
+      -85976,
+      -3392
+     ],
+     [
+      116664,
+      -85160,
+      -3392
+     ],
+     [
+      117656,
+      -84920,
+      -3288
+     ],
+     [
+      118584,
+      -84856,
+      -3088
+     ],
+     [
+      118648,
+      -84760,
+      -3088
+     ],
+     [
+      118696,
+      -84600,
+      -3088
+     ],
+     [
+      118696,
+      -82616,
+      -3088
+     ],
+     [
+      118696,
+      -81720,
+      -2888
+     ],
+     [
+      118696,
+      -81448,
+      -2800
+     ],
+     [
+      119128,
+      -80568,
+      -2688
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 378,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22790,
+     "name": "Seeker Solina",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22791,
+     "name": "Savior Solina",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 22793,
+     "name": "Ascetic Solina",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 22794,
+     "name": "Divinity Judge",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 22795,
+     "name": "Divinity Manager",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 22796,
+     "name": "Divinity Supervisor",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 22797,
+     "name": "Divinity Worshipper",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 22798,
+     "name": "Divinity Protector",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 22799,
+     "name": "Divinity Fighter",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 22800,
+     "name": "Divinity Magus",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 15526,
+     "name": "Tattered Monk Clothes",
+     "n": 100,
+     "from": [
+      {
+       "id": 22790,
+       "name": "Seeker Solina",
+       "chance": 5.7
+      },
+      {
+       "id": 22791,
+       "name": "Savior Solina",
+       "chance": 5.5
+      },
+      {
+       "id": 22793,
+       "name": "Ascetic Solina",
+       "chance": 5.9
+      },
+      {
+       "id": 22794,
+       "name": "Divinity Judge",
+       "chance": 69.8
+      },
+      {
+       "id": 22795,
+       "name": "Divinity Manager",
+       "chance": 73.5
+      },
+      {
+       "id": 22796,
+       "name": "Divinity Supervisor",
+       "chance": 90.3
+      },
+      {
+       "id": 22797,
+       "name": "Divinity Worshipper",
+       "chance": 81.1
+      },
+      {
+       "id": 22798,
+       "name": "Divinity Protector",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Seeker Solina, Savior Solina, Ascetic Solina for Tattered Monk Clothes x100",
+   "places": [
+    {
+     "mobs": [
+      22790,
+      22791,
+      22793,
+      22794,
+      22795,
+      22796,
+      22797,
+      22798
+     ],
+     "items": [
+      15526
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "monastery-1-left-i",
+      "name": "Monastery of Silence: Grounds (outside the building), left: Ascetic Solina room",
+      "at": [
+       115848,
+       -81412,
+       -3392
+      ],
+      "radius": 1435,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 14,
+      "region": "Monastery of Silence",
+      "atlasKey": "room:monastery-1-left-i",
+      "status": "ok",
+      "sec": 321,
+      "danger": 83,
+      "reachable": true,
+      "score": -78.65,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "monastery-1-left-a",
+        "name": "Monastery of Silence: Grounds (outside the building), left: Savior Solina room",
+        "at": [
+         112489,
+         -82673,
+         -3392
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "monastery-1-left-g",
+        "name": "Monastery of Silence: Grounds (outside the building), left: Ascetic Solina room",
+        "at": [
+         116077,
+         -84453,
+         -3392
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "monastery-1-straight-a",
+        "name": "Monastery of Silence: Grounds (outside the building), straight: Guide Solina room",
+        "at": [
+         109922,
+         -84439,
+         -3392
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:monastery-1-left-i",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".goddard",
+      "length": 33095,
+      "sec": 321,
+      "via": ".goddard > Goddard -> Monastery of silence",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Monastery of silence",
+        "link": "monastery of silence",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 33095,
+        "how": "dungeon-rooms",
+        "danger": 83
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Monastery of silence"
+      },
+      "simple": true,
+      "pv": [
+       [
+        106414,
+        -87799,
+        -2920
+       ],
+       [
+        106414,
+        -87799,
+        -2920
+       ],
+       [
+        107400,
+        -87768,
+        -2936
+       ],
+       [
+        109384,
+        -87720,
+        -3048
+       ],
+       [
+        110248,
+        -87720,
+        -3264
+       ],
+       [
+        110600,
+        -87384,
+        -3264
+       ],
+       [
+        110584,
+        -86392,
+        -3264
+       ],
+       [
+        110584,
+        -85400,
+        -3392
+       ],
+       [
+        110184,
+        -84712,
+        -3392
+       ],
+       [
+        109880,
+        -82792,
+        -3392
+       ],
+       [
+        109880,
+        -81880,
+        -3392
+       ],
+       [
+        110872,
+        -81816,
+        -3392
+       ],
+       [
+        111864,
+        -81816,
+        -3392
+       ],
+       [
+        112488,
+        -81816,
+        -3392
+       ],
+       [
+        112952,
+        -82904,
+        -3392
+       ],
+       [
+        112824,
+        -83032,
+        -3392
+       ],
+       [
+        112664,
+        -83160,
+        -3392
+       ],
+       [
+        112424,
+        -83416,
+        -3392
+       ],
+       [
+        112168,
+        -83624,
+        -3392
+       ],
+       [
+        112072,
+        -83624,
+        -3392
+       ],
+       [
+        112072,
+        -84296,
+        -3392
+       ],
+       [
+        112552,
+        -84760,
+        -3392
+       ],
+       [
+        112552,
+        -84936,
+        -3392
+       ],
+       [
+        112712,
+        -85048,
+        -3392
+       ],
+       [
+        112968,
+        -85320,
+        -3392
+       ],
+       [
+        113896,
+        -85880,
+        -3392
+       ],
+       [
+        113880,
+        -86088,
+        -3392
+       ],
+       [
+        113624,
+        -86344,
+        -3392
+       ],
+       [
+        113544,
+        -86456,
+        -3392
+       ],
+       [
+        113528,
+        -86952,
+        -3392
+       ],
+       [
+        113544,
+        -88456,
+        -3520
+       ],
+       [
+        113592,
+        -88600,
+        -3520
+       ],
+       [
+        113672,
+        -88712,
+        -3520
+       ],
+       [
+        113800,
+        -88760,
+        -3520
+       ],
+       [
+        114280,
+        -88792,
+        -3520
+       ],
+       [
+        115272,
+        -88792,
+        -3528
+       ],
+       [
+        116680,
+        -88792,
+        -3520
+       ],
+       [
+        117064,
+        -88760,
+        -3520
+       ],
+       [
+        117192,
+        -88696,
+        -3520
+       ],
+       [
+        117272,
+        -88568,
+        -3520
+       ],
+       [
+        117304,
+        -88392,
+        -3520
+       ],
+       [
+        116776,
+        -87432,
+        -3496
+       ],
+       [
+        116248,
+        -87432,
+        -3392
+       ],
+       [
+        116152,
+        -87400,
+        -3392
+       ],
+       [
+        115848,
+        -87048,
+        -3392
+       ],
+       [
+        115848,
+        -86056,
+        -3392
+       ],
+       [
+        115848,
+        -85064,
+        -3392
+       ],
+       [
+        115848,
+        -83080,
+        -3392
+       ],
+       [
+        115848,
+        -82088,
+        -3392
+       ],
+       [
+        115848,
+        -81416,
+        -3392
+       ]
+      ],
+      "maxDanger": 83,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 83,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "monastery-1-left-i",
+    "name": "Monastery of Silence: Grounds (outside the building), left: Ascetic Solina room",
+    "at": [
+     115848,
+     -81412,
+     -3392
+    ],
+    "radius": 1435,
+    "levels": [
+     83,
+     83
+    ],
+    "count": 14,
+    "region": "Monastery of Silence",
+    "atlasKey": "room:monastery-1-left-i",
+    "status": "ok",
+    "sec": 321,
+    "danger": 83,
+    "reachable": true,
+    "score": -78.65,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "monastery-1-left-a",
+      "name": "Monastery of Silence: Grounds (outside the building), left: Savior Solina room",
+      "at": [
+       112489,
+       -82673,
+       -3392
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "monastery-1-left-g",
+      "name": "Monastery of Silence: Grounds (outside the building), left: Ascetic Solina room",
+      "at": [
+       116077,
+       -84453,
+       -3392
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "monastery-1-straight-a",
+      "name": "Monastery of Silence: Grounds (outside the building), straight: Guide Solina room",
+      "at": [
+       109922,
+       -84439,
+       -3392
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:monastery-1-left-i",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".goddard",
+    "length": 33095,
+    "sec": 321,
+    "via": ".goddard > Goddard -> Monastery of silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Monastery of silence",
+      "link": "monastery of silence",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 33095,
+      "how": "dungeon-rooms",
+      "danger": 83
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Monastery of silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      107400,
+      -87768,
+      -2936
+     ],
+     [
+      109384,
+      -87720,
+      -3048
+     ],
+     [
+      110248,
+      -87720,
+      -3264
+     ],
+     [
+      110600,
+      -87384,
+      -3264
+     ],
+     [
+      110584,
+      -86392,
+      -3264
+     ],
+     [
+      110584,
+      -85400,
+      -3392
+     ],
+     [
+      110184,
+      -84712,
+      -3392
+     ],
+     [
+      109880,
+      -82792,
+      -3392
+     ],
+     [
+      109880,
+      -81880,
+      -3392
+     ],
+     [
+      110872,
+      -81816,
+      -3392
+     ],
+     [
+      111864,
+      -81816,
+      -3392
+     ],
+     [
+      112488,
+      -81816,
+      -3392
+     ],
+     [
+      112952,
+      -82904,
+      -3392
+     ],
+     [
+      112824,
+      -83032,
+      -3392
+     ],
+     [
+      112664,
+      -83160,
+      -3392
+     ],
+     [
+      112424,
+      -83416,
+      -3392
+     ],
+     [
+      112168,
+      -83624,
+      -3392
+     ],
+     [
+      112072,
+      -83624,
+      -3392
+     ],
+     [
+      112072,
+      -84296,
+      -3392
+     ],
+     [
+      112552,
+      -84760,
+      -3392
+     ],
+     [
+      112552,
+      -84936,
+      -3392
+     ],
+     [
+      112712,
+      -85048,
+      -3392
+     ],
+     [
+      112968,
+      -85320,
+      -3392
+     ],
+     [
+      113896,
+      -85880,
+      -3392
+     ],
+     [
+      113880,
+      -86088,
+      -3392
+     ],
+     [
+      113624,
+      -86344,
+      -3392
+     ],
+     [
+      113544,
+      -86456,
+      -3392
+     ],
+     [
+      113528,
+      -86952,
+      -3392
+     ],
+     [
+      113544,
+      -88456,
+      -3520
+     ],
+     [
+      113592,
+      -88600,
+      -3520
+     ],
+     [
+      113672,
+      -88712,
+      -3520
+     ],
+     [
+      113800,
+      -88760,
+      -3520
+     ],
+     [
+      114280,
+      -88792,
+      -3520
+     ],
+     [
+      115272,
+      -88792,
+      -3528
+     ],
+     [
+      116680,
+      -88792,
+      -3520
+     ],
+     [
+      117064,
+      -88760,
+      -3520
+     ],
+     [
+      117192,
+      -88696,
+      -3520
+     ],
+     [
+      117272,
+      -88568,
+      -3520
+     ],
+     [
+      117304,
+      -88392,
+      -3520
+     ],
+     [
+      116776,
+      -87432,
+      -3496
+     ],
+     [
+      116248,
+      -87432,
+      -3392
+     ],
+     [
+      116152,
+      -87400,
+      -3392
+     ],
+     [
+      115848,
+      -87048,
+      -3392
+     ],
+     [
+      115848,
+      -86056,
+      -3392
+     ],
+     [
+      115848,
+      -85064,
+      -3392
+     ],
+     [
+      115848,
+      -83080,
+      -3392
+     ],
+     [
+      115848,
+      -82088,
+      -3392
+     ],
+     [
+      115848,
+      -81416,
+      -3392
+     ]
+    ],
+    "maxDanger": 83,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 83,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 44196,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32757",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I tire of this. I am done with this mission.\""
+   ],
+   "npc": {
+    "id": 32757,
+    "name": "Greymore",
+    "title": "Priest",
+    "town": "Goddard",
+    "at": [
+     119120,
+     -80576,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Greymore",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32757@119120,-80576",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".goddard",
+    "length": 36411,
+    "sec": 348,
+    "via": ".goddard > Goddard -> Monastery of silence",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Monastery of silence",
+      "link": "monastery of silence",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 35080,
+      "how": "geodata",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 272,
+      "how": "dungeon-rooms",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 448,
+      "how": "geodata",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 611,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Monastery of silence"
+    },
+    "simple": true,
+    "pv": [
+     [
+      106414,
+      -87799,
+      -2920
+     ],
+     [
+      106408,
+      -87800,
+      -2920
+     ],
+     [
+      107400,
+      -87800,
+      -2936
+     ],
+     [
+      108808,
+      -87800,
+      -2880
+     ],
+     [
+      110248,
+      -87720,
+      -3264
+     ],
+     [
+      110600,
+      -87208,
+      -3264
+     ],
+     [
+      110584,
+      -87208,
+      -3264
+     ],
+     [
+      110488,
+      -86488,
+      -3328
+     ],
+     [
+      110408,
+      -85960,
+      -3392
+     ],
+     [
+      110040,
+      -84632,
+      -3392
+     ],
+     [
+      109816,
+      -83784,
+      -3392
+     ],
+     [
+      109880,
+      -82248,
+      -3392
+     ],
+     [
+      110872,
+      -81880,
+      -3392
+     ],
+     [
+      111912,
+      -81880,
+      -3392
+     ],
+     [
+      112456,
+      -81816,
+      -3392
+     ],
+     [
+      113000,
+      -82424,
+      -3392
+     ],
+     [
+      112600,
+      -82760,
+      -3392
+     ],
+     [
+      112568,
+      -82760,
+      -3392
+     ],
+     [
+      112168,
+      -83128,
+      -3392
+     ],
+     [
+      112008,
+      -83480,
+      -3392
+     ],
+     [
+      112072,
+      -84296,
+      -3392
+     ],
+     [
+      112376,
+      -84584,
+      -3392
+     ],
+     [
+      112872,
+      -85592,
+      -3392
+     ],
+     [
+      113640,
+      -85672,
+      -3392
+     ],
+     [
+      113832,
+      -85736,
+      -3392
+     ],
+     [
+      113880,
+      -85848,
+      -3392
+     ],
+     [
+      113768,
+      -86264,
+      -3392
+     ],
+     [
+      113608,
+      -86360,
+      -3392
+     ],
+     [
+      113528,
+      -87480,
+      -3392
+     ],
+     [
+      113528,
+      -88424,
+      -3520
+     ],
+     [
+      113688,
+      -88728,
+      -3520
+     ],
+     [
+      114920,
+      -88792,
+      -3528
+     ],
+     [
+      116552,
+      -88792,
+      -3520
+     ],
+     [
+      117064,
+      -88760,
+      -3520
+     ],
+     [
+      117304,
+      -88520,
+      -3520
+     ],
+     [
+      117320,
+      -87992,
+      -3520
+     ],
+     [
+      117320,
+      -87944,
+      -3520
+     ],
+     [
+      116248,
+      -87432,
+      -3392
+     ],
+     [
+      116088,
+      -87336,
+      -3392
+     ],
+     [
+      116088,
+      -86664,
+      -3392
+     ],
+     [
+      116344,
+      -85976,
+      -3392
+     ],
+     [
+      116664,
+      -85160,
+      -3392
+     ],
+     [
+      117656,
+      -84920,
+      -3288
+     ],
+     [
+      118584,
+      -84856,
+      -3088
+     ],
+     [
+      118648,
+      -84760,
+      -3088
+     ],
+     [
+      118696,
+      -84600,
+      -3088
+     ],
+     [
+      118696,
+      -82616,
+      -3088
+     ],
+     [
+      118696,
+      -81720,
+      -2888
+     ],
+     [
+      118696,
+      -81448,
+      -2800
+     ],
+     [
+      119128,
+      -80568,
+      -2688
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 373,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:17.188Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "script-flow",
+    "t": "event \"32757-08.html\" -> cond 1: the script never sets it"
+   },
+   {
+    "code": "script-flow",
+    "t": "event \"rags100\" -> cond 1: the script never sets it"
+   },
+   {
+    "code": "flow-no-end",
+    "t": "the simulation did not reach the end (last cond 1)"
+   }
+  ],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

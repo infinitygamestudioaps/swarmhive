@@ -1,0 +1,2005 @@
+{
+ "id": 234,
+ "name": "Fate's Whisper",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.490Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Oren",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 2
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 2
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 5
+  }
+ ],
+ "expectedMin": 42,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31002",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will save the soul of your wife!\""
+   ],
+   "npc": {
+    "id": 31002,
+    "name": "Reorin",
+    "title": "Maestro",
+    "town": "Oren",
+    "at": [
+     92743,
+     55523,
+     -3370
+    ],
+    "alt": []
+   },
+   "text": "Talk to Reorin – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31002@92743,55523",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 8044,
+    "sec": 112,
+    "via": ".oren > Oren -> Sel Mahum Training Grounds (Center)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Sel Mahum Training Grounds (Center)",
+      "link": "sel mahum training grounds (center)",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8044,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Sel Mahum Training Grounds (Center)"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87448,
+      61460,
+      -3664
+     ],
+     [
+      87944,
+      60966,
+      -3640
+     ],
+     [
+      88440,
+      60472,
+      -3616
+     ],
+     [
+      88936,
+      59976,
+      -3608
+     ],
+     [
+      89432,
+      59480,
+      -3600
+     ],
+     [
+      89928,
+      58984,
+      -3684
+     ],
+     [
+      90424,
+      58488,
+      -3768
+     ],
+     [
+      90920,
+      57992,
+      -3720
+     ],
+     [
+      91416,
+      57496,
+      -3672
+     ],
+     [
+      91912,
+      57000,
+      -3560
+     ],
+     [
+      92408,
+      56504,
+      -3448
+     ],
+     [
+      92576,
+      56016,
+      -3432
+     ],
+     [
+      92744,
+      55528,
+      -3416
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 142,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20823,
+     "name": "Platinum Tribe Soldier",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20826,
+     "name": "Platinum Tribe Archer",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 20827,
+     "name": "Platinum Tribe Warrior",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20828,
+     "name": "Platinum Tribe Shaman",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20829,
+     "name": "Platinum Tribe Overlord",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20830,
+     "name": "Guardian Angel",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20831,
+     "name": "Seal Angel",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14361,
+     "name": "Blood Stained Cloth",
+     "n": 29,
+     "from": [
+      {
+       "id": 20823,
+       "name": "Platinum Tribe Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20826,
+       "name": "Platinum Tribe Archer",
+       "chance": 100
+      },
+      {
+       "id": 20827,
+       "name": "Platinum Tribe Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20828,
+       "name": "Platinum Tribe Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20829,
+       "name": "Platinum Tribe Overlord",
+       "chance": 100
+      },
+      {
+       "id": 20830,
+       "name": "Guardian Angel",
+       "chance": 100
+      },
+      {
+       "id": 20831,
+       "name": "Seal Angel",
+       "chance": 100
+      },
+      {
+       "id": 20860,
+       "name": "Seal Angel",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Platinum Tribe Soldier, Platinum Tribe Archer, Platinum Tribe Warrior for Blood Stained Cloth x29",
+   "places": [
+    {
+     "mobs": [
+      20823,
+      20826,
+      20827,
+      20828,
+      20829,
+      20830,
+      20831
+     ],
+     "items": [
+      14361
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "toi-6-straight-a",
+      "name": "Tower of Insolence: 6th floor, straight: Platinum Tribe Soldier room",
+      "at": [
+       114258,
+       15880,
+       1951
+      ],
+      "radius": 1929,
+      "levels": [
+       67,
+       69
+      ],
+      "count": 37,
+      "region": "Tower of Insolence",
+      "atlasKey": "room:toi-6-straight-a",
+      "status": "ok",
+      "sec": 784,
+      "danger": 69,
+      "reachable": true,
+      "score": -166.93333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "toi-7-straight-a",
+        "name": "Tower of Insolence: 7th floor, straight: Guardian Angel room",
+        "at": [
+         114464,
+         15546,
+         2996
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "toi-7-left-a",
+        "name": "Tower of Insolence: 7th floor, left: Platinum Tribe Overlord room",
+        "at": [
+         113773,
+         17303,
+         2961
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "toi-9-straight-a",
+        "name": "Tower of Insolence: 9th floor, straight: Guardian Angel room",
+        "at": [
+         114967,
+         16696,
+         4981
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:toi-6-straight-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 88690,
+      "sec": 784,
+      "via": ".aden > Aden -> ToI",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> ToI",
+        "link": "tower of insolence",
+        "price": 4200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 8964,
+        "how": "geodata",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 8519,
+        "how": "dungeon-rooms",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 5408,
+        "how": "geodata",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 2669,
+        "how": "geodata",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 7188,
+        "how": "dungeon-rooms",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 4199,
+        "how": "geodata",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 1933,
+        "how": "geodata",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 8565,
+        "how": "dungeon-rooms",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 4200,
+        "how": "geodata",
+        "danger": 65
+       },
+       {
+        "do": "walk",
+        "len": 1819,
+        "how": "geodata",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 10390,
+        "how": "dungeon-rooms",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 3019,
+        "how": "geodata",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 11208,
+        "how": "geodata",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 711,
+        "how": "dungeon-rooms",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 6305,
+        "how": "geodata",
+        "danger": 72
+       },
+       {
+        "do": "walk",
+        "len": 3593,
+        "how": "dungeon-rooms",
+        "danger": 72
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> ToI"
+      },
+      "simple": true,
+      "pv": [
+       [
+        114649,
+        11115,
+        -5120
+       ],
+       [
+        115320,
+        12792,
+        -5108
+       ],
+       [
+        117976,
+        15096,
+        -5120
+       ],
+       [
+        118024,
+        16152,
+        -5120
+       ],
+       [
+        116520,
+        17784,
+        -4728
+       ],
+       [
+        115432,
+        18584,
+        -4472
+       ],
+       [
+        114208,
+        18192,
+        -4376
+       ],
+       [
+        113392,
+        17376,
+        -4376
+       ],
+       [
+        112440,
+        16424,
+        -4376
+       ],
+       [
+        111304,
+        16200,
+        -4376
+       ],
+       [
+        111112,
+        17016,
+        -4296
+       ],
+       [
+        112600,
+        19160,
+        -3976
+       ],
+       [
+        114648,
+        18728,
+        -3608
+       ],
+       [
+        112472,
+        17384,
+        -3200
+       ],
+       [
+        112136,
+        16552,
+        -2896
+       ],
+       [
+        112864,
+        16832,
+        -2896
+       ],
+       [
+        113816,
+        17784,
+        -2896
+       ],
+       [
+        114632,
+        18600,
+        -2896
+       ],
+       [
+        114792,
+        19720,
+        -2896
+       ],
+       [
+        115912,
+        19464,
+        -2728
+       ],
+       [
+        117704,
+        18152,
+        -2512
+       ],
+       [
+        117912,
+        16040,
+        -2120
+       ],
+       [
+        116400,
+        17936,
+        -1752
+       ],
+       [
+        115528,
+        18408,
+        -1552
+       ],
+       [
+        115080,
+        18264,
+        -1408
+       ],
+       [
+        115968,
+        17312,
+        -1408
+       ],
+       [
+        116784,
+        16496,
+        -1408
+       ],
+       [
+        117704,
+        15960,
+        -1408
+       ],
+       [
+        118232,
+        15200,
+        -1360
+       ],
+       [
+        117816,
+        14264,
+        -1104
+       ],
+       [
+        116168,
+        12760,
+        -864
+       ],
+       [
+        116072,
+        13880,
+        -280
+       ],
+       [
+        116808,
+        14600,
+        -272
+       ],
+       [
+        117176,
+        15496,
+        40
+       ],
+       [
+        116328,
+        15192,
+        64
+       ],
+       [
+        115512,
+        14376,
+        64
+       ],
+       [
+        114696,
+        13560,
+        64
+       ],
+       [
+        114232,
+        12408,
+        64
+       ],
+       [
+        113384,
+        12664,
+        232
+       ],
+       [
+        112312,
+        13256,
+        448
+       ],
+       [
+        111528,
+        14112,
+        492
+       ],
+       [
+        111000,
+        15944,
+        832
+       ],
+       [
+        112744,
+        14728,
+        928
+       ],
+       [
+        115528,
+        15864,
+        944
+       ],
+       [
+        114776,
+        18888,
+        928
+       ],
+       [
+        116776,
+        19128,
+        1432
+       ],
+       [
+        115304,
+        19800,
+        1944
+       ],
+       [
+        113560,
+        17880,
+        1944
+       ],
+       [
+        113400,
+        15352,
+        1944
+       ],
+       [
+        114264,
+        15880,
+        1944
+       ]
+      ],
+      "maxDanger": 72,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 72,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "toi-6-straight-a",
+    "name": "Tower of Insolence: 6th floor, straight: Platinum Tribe Soldier room",
+    "at": [
+     114258,
+     15880,
+     1951
+    ],
+    "radius": 1929,
+    "levels": [
+     67,
+     69
+    ],
+    "count": 37,
+    "region": "Tower of Insolence",
+    "atlasKey": "room:toi-6-straight-a",
+    "status": "ok",
+    "sec": 784,
+    "danger": 69,
+    "reachable": true,
+    "score": -166.93333333333334,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "toi-7-straight-a",
+      "name": "Tower of Insolence: 7th floor, straight: Guardian Angel room",
+      "at": [
+       114464,
+       15546,
+       2996
+      ],
+      "count": 13,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "toi-7-left-a",
+      "name": "Tower of Insolence: 7th floor, left: Platinum Tribe Overlord room",
+      "at": [
+       113773,
+       17303,
+       2961
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "toi-9-straight-a",
+      "name": "Tower of Insolence: 9th floor, straight: Guardian Angel room",
+      "at": [
+       114967,
+       16696,
+       4981
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:toi-6-straight-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 88690,
+    "sec": 784,
+    "via": ".aden > Aden -> ToI",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> ToI",
+      "link": "tower of insolence",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 8964,
+      "how": "geodata",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 8519,
+      "how": "dungeon-rooms",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 5408,
+      "how": "geodata",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 2669,
+      "how": "geodata",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 7188,
+      "how": "dungeon-rooms",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 4199,
+      "how": "geodata",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 1933,
+      "how": "geodata",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 8565,
+      "how": "dungeon-rooms",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 4200,
+      "how": "geodata",
+      "danger": 65
+     },
+     {
+      "do": "walk",
+      "len": 1819,
+      "how": "geodata",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 10390,
+      "how": "dungeon-rooms",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 3019,
+      "how": "geodata",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 11208,
+      "how": "geodata",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 711,
+      "how": "dungeon-rooms",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 6305,
+      "how": "geodata",
+      "danger": 72
+     },
+     {
+      "do": "walk",
+      "len": 3593,
+      "how": "dungeon-rooms",
+      "danger": 72
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> ToI"
+    },
+    "simple": true,
+    "pv": [
+     [
+      114649,
+      11115,
+      -5120
+     ],
+     [
+      115320,
+      12792,
+      -5108
+     ],
+     [
+      117976,
+      15096,
+      -5120
+     ],
+     [
+      118024,
+      16152,
+      -5120
+     ],
+     [
+      116520,
+      17784,
+      -4728
+     ],
+     [
+      115432,
+      18584,
+      -4472
+     ],
+     [
+      114208,
+      18192,
+      -4376
+     ],
+     [
+      113392,
+      17376,
+      -4376
+     ],
+     [
+      112440,
+      16424,
+      -4376
+     ],
+     [
+      111304,
+      16200,
+      -4376
+     ],
+     [
+      111112,
+      17016,
+      -4296
+     ],
+     [
+      112600,
+      19160,
+      -3976
+     ],
+     [
+      114648,
+      18728,
+      -3608
+     ],
+     [
+      112472,
+      17384,
+      -3200
+     ],
+     [
+      112136,
+      16552,
+      -2896
+     ],
+     [
+      112864,
+      16832,
+      -2896
+     ],
+     [
+      113816,
+      17784,
+      -2896
+     ],
+     [
+      114632,
+      18600,
+      -2896
+     ],
+     [
+      114792,
+      19720,
+      -2896
+     ],
+     [
+      115912,
+      19464,
+      -2728
+     ],
+     [
+      117704,
+      18152,
+      -2512
+     ],
+     [
+      117912,
+      16040,
+      -2120
+     ],
+     [
+      116400,
+      17936,
+      -1752
+     ],
+     [
+      115528,
+      18408,
+      -1552
+     ],
+     [
+      115080,
+      18264,
+      -1408
+     ],
+     [
+      115968,
+      17312,
+      -1408
+     ],
+     [
+      116784,
+      16496,
+      -1408
+     ],
+     [
+      117704,
+      15960,
+      -1408
+     ],
+     [
+      118232,
+      15200,
+      -1360
+     ],
+     [
+      117816,
+      14264,
+      -1104
+     ],
+     [
+      116168,
+      12760,
+      -864
+     ],
+     [
+      116072,
+      13880,
+      -280
+     ],
+     [
+      116808,
+      14600,
+      -272
+     ],
+     [
+      117176,
+      15496,
+      40
+     ],
+     [
+      116328,
+      15192,
+      64
+     ],
+     [
+      115512,
+      14376,
+      64
+     ],
+     [
+      114696,
+      13560,
+      64
+     ],
+     [
+      114232,
+      12408,
+      64
+     ],
+     [
+      113384,
+      12664,
+      232
+     ],
+     [
+      112312,
+      13256,
+      448
+     ],
+     [
+      111528,
+      14112,
+      492
+     ],
+     [
+      111000,
+      15944,
+      832
+     ],
+     [
+      112744,
+      14728,
+      928
+     ],
+     [
+      115528,
+      15864,
+      944
+     ],
+     [
+      114776,
+      18888,
+      928
+     ],
+     [
+      116776,
+      19128,
+      1432
+     ],
+     [
+      115304,
+      19800,
+      1944
+     ],
+     [
+      113560,
+      17880,
+      1944
+     ],
+     [
+      113400,
+      15352,
+      1944
+     ],
+     [
+      114264,
+      15880,
+      1944
+     ]
+    ],
+    "maxDanger": 72,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 72,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1509,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:20860",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 20860,
+     "name": "Seal Angel",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 29020,
+     "name": "Baium",
+     "level": 75,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14361,
+     "name": "Blood Stained Cloth",
+     "n": 29,
+     "from": [
+      {
+       "id": 20823,
+       "name": "Platinum Tribe Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20826,
+       "name": "Platinum Tribe Archer",
+       "chance": 100
+      },
+      {
+       "id": 20827,
+       "name": "Platinum Tribe Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20828,
+       "name": "Platinum Tribe Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20829,
+       "name": "Platinum Tribe Overlord",
+       "chance": 100
+      },
+      {
+       "id": 20830,
+       "name": "Guardian Angel",
+       "chance": 100
+      },
+      {
+       "id": 20831,
+       "name": "Seal Angel",
+       "chance": 100
+      },
+      {
+       "id": 20860,
+       "name": "Seal Angel",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party"
+   ],
+   "engine": {
+    "manual": "the monsters (20860, 29020) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Seal Angel, Baium appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:31002",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31002,
+    "name": "Reorin",
+    "title": "Maestro",
+    "town": "Oren",
+    "at": [
+     92743,
+     55523,
+     -3370
+    ],
+    "alt": []
+   },
+   "text": "Talk to Reorin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31002@92743,55523",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 8044,
+    "sec": 112,
+    "via": ".oren > Oren -> Sel Mahum Training Grounds (Center)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Sel Mahum Training Grounds (Center)",
+      "link": "sel mahum training grounds (center)",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8044,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Sel Mahum Training Grounds (Center)"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87448,
+      61460,
+      -3664
+     ],
+     [
+      87944,
+      60966,
+      -3640
+     ],
+     [
+      88440,
+      60472,
+      -3616
+     ],
+     [
+      88936,
+      59976,
+      -3608
+     ],
+     [
+      89432,
+      59480,
+      -3600
+     ],
+     [
+      89928,
+      58984,
+      -3684
+     ],
+     [
+      90424,
+      58488,
+      -3768
+     ],
+     [
+      90920,
+      57992,
+      -3720
+     ],
+     [
+      91416,
+      57496,
+      -3672
+     ],
+     [
+      91912,
+      57000,
+      -3560
+     ],
+     [
+      92408,
+      56504,
+      -3448
+     ],
+     [
+      92576,
+      56016,
+      -3432
+     ],
+     [
+      92744,
+      55528,
+      -3416
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 137,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30182",
+   "cond": 1,
+   "kind": "talk",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30182,
+    "name": "Cliff",
+    "title": "Warehouse Keeper",
+    "town": "Oren",
+    "at": [
+     81318,
+     54995,
+     -1508
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cliff",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30182@81318,54995",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 4144,
+    "sec": 55,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 4144,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82360,
+      53672,
+      -1488
+     ],
+     [
+      82120,
+      53528,
+      -1488
+     ],
+     [
+      81848,
+      53512,
+      -1488
+     ],
+     [
+      81576,
+      53480,
+      -1488
+     ],
+     [
+      81304,
+      53480,
+      -1536
+     ],
+     [
+      81144,
+      53480,
+      -1552
+     ],
+     [
+      80952,
+      53608,
+      -1552
+     ],
+     [
+      80968,
+      53880,
+      -1552
+     ],
+     [
+      81000,
+      54152,
+      -1544
+     ],
+     [
+      80952,
+      54424,
+      -1520
+     ],
+     [
+      80808,
+      54648,
+      -1520
+     ],
+     [
+      80680,
+      54776,
+      -1536
+     ],
+     [
+      80696,
+      54760,
+      -1536
+     ],
+     [
+      80920,
+      54712,
+      -1520
+     ],
+     [
+      81192,
+      54712,
+      -1504
+     ],
+     [
+      81208,
+      54712,
+      -1504
+     ],
+     [
+      81352,
+      54776,
+      -1504
+     ],
+     [
+      81320,
+      55000,
+      -1504
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:30833",
+   "cond": 1,
+   "kind": "talk",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30833,
+    "name": "Kaspar",
+    "title": "Magister",
+    "town": "Hunters Village",
+    "at": [
+     104870,
+     113221,
+     -3184
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kaspar",
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30833@104870,113221",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 23468,
+    "sec": 241,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 23468,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      104870,
+      113221,
+      -3184
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 266,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:talk:30178",
+   "cond": 1,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30178,
+    "name": "Zenkin",
+    "title": "Armor Merchant",
+    "town": "Oren",
+    "at": [
+     79111,
+     53657,
+     -1548
+    ],
+    "alt": []
+   },
+   "text": "Talk to Zenkin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30178@79111,53657",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5041,
+    "sec": 62,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5041,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82360,
+      53672,
+      -1488
+     ],
+     [
+      82120,
+      53528,
+      -1488
+     ],
+     [
+      81848,
+      53512,
+      -1488
+     ],
+     [
+      81576,
+      53480,
+      -1488
+     ],
+     [
+      81304,
+      53480,
+      -1536
+     ],
+     [
+      81032,
+      53528,
+      -1552
+     ],
+     [
+      80920,
+      53640,
+      -1552
+     ],
+     [
+      80872,
+      53784,
+      -1552
+     ],
+     [
+      80664,
+      53896,
+      -1552
+     ],
+     [
+      80488,
+      53816,
+      -1552
+     ],
+     [
+      80408,
+      53560,
+      -1552
+     ],
+     [
+      80248,
+      53336,
+      -1552
+     ],
+     [
+      80056,
+      53144,
+      -1552
+     ],
+     [
+      79816,
+      53096,
+      -1552
+     ],
+     [
+      79624,
+      53272,
+      -1552
+     ],
+     [
+      79624,
+      53544,
+      -1544
+     ],
+     [
+      79448,
+      53608,
+      -1544
+     ],
+     [
+      79224,
+      53496,
+      -1544
+     ],
+     [
+      79112,
+      53528,
+      -1544
+     ],
+     [
+      79208,
+      53496,
+      -1544
+     ],
+     [
+      79272,
+      53544,
+      -1544
+     ],
+     [
+      79192,
+      53656,
+      -1544
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 87,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

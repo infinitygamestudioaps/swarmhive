@@ -1,0 +1,85 @@
+{
+ "id": 255,
+ "name": "Tutorial",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.855Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 6,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "steps-unknown",
+   "text": "the quest script has no readable state machine (no transitions / no script): steps must be written by hand"
+  },
+  {
+   "code": "kill-parse",
+   "text": "kill NPCs registered but no drop / kill step parsed"
+  },
+  {
+   "code": "unresolved-ids",
+   "text": "NPC / monster ids from arrays the extractor could not resolve"
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 0
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 6,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30008",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30008,
+    "name": "Roien",
+    "title": "Grand Master",
+    "town": "Talking Island",
+    "at": [
+     -71384,
+     258304,
+     -3104
+    ],
+    "alt": []
+   },
+   "text": "Talk to Roien / Newbie Helper / Gallint / Newbie Helper / Mitraell / Newbie Helper / Nerupa / Newbie Helper / Laferon / Newbie Helper / Vulkus / Newbie Helper / Perwan / Newbie Helper – accept the quest",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

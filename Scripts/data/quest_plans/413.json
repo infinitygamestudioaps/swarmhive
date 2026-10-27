@@ -1,0 +1,1811 @@
+{
+ "id": 413,
+ "name": "Path of the Shillien Oracle",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.255Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "classes": [
+   "Dark Elven Mystic"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: Dark Elven Mystic"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 15,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30330",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Ask about the two tests"
+   ],
+   "npc": {
+    "id": 30330,
+    "name": "Sidra",
+    "title": "Magister",
+    "town": "Gludio",
+    "at": [
+     -12503,
+     123054,
+     -3102
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sidra – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30330@-12503,123054",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2061,
+    "sec": 37,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2061,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12648,
+      123464,
+      -3112
+     ],
+     [
+      -12712,
+      123288,
+      -3096
+     ],
+     [
+      -12632,
+      123160,
+      -3096
+     ],
+     [
+      -12504,
+      123048,
+      -3096
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 67,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20457,
+     "name": "Zombie Soldier",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20458,
+     "name": "Zombie Warrior",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20514,
+     "name": "Shield Skeleton",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20515,
+     "name": "Skeleton Infantryman",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20776,
+     "name": "Dark Succubus",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1264,
+     "name": "Bloody Rune",
+     "n": 5,
+     "from": [
+      {
+       "id": 20776,
+       "name": "Dark Succubus",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1268,
+     "name": "Ashen Bones",
+     "n": 10,
+     "from": [
+      {
+       "id": 20457,
+       "name": "Zombie Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20458,
+       "name": "Zombie Warrior",
+       "chance": 100
+      },
+      {
+       "id": 20514,
+       "name": "Shield Skeleton",
+       "chance": 100
+      },
+      {
+       "id": 20515,
+       "name": "Skeleton Infantryman",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Zombie Soldier, Zombie Warrior, Shield Skeleton for Bloody Rune x5, Ashen Bones x10",
+   "places": [
+    {
+     "mobs": [
+      20776
+     ],
+     "items": [
+      1264
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "spider-nest-14",
+      "name": "Spider Nest 14: Arachnid Tracker area (west)",
+      "at": [
+       -70984,
+       77736,
+       -3224
+      ],
+      "radius": 3066,
+      "levels": [
+       19,
+       20
+      ],
+      "count": 4,
+      "region": "Spider Nest",
+      "atlasKey": "area:spider-nest-14",
+      "status": "ok",
+      "sec": 161,
+      "danger": 20,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -21.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "spider-nest-10",
+        "name": "Spider Nest 10: Dark Succubus area (south-west)",
+        "at": [
+         -66920,
+         81752,
+         -3352
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "spider-nest-18",
+        "name": "Spider Nest 18: Arachnid Tracker area (south-west)",
+        "at": [
+         -68872,
+         86456,
+         -3472
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "spider-nest-17",
+        "name": "Spider Nest 17: Arachnid Tracker area (south-west)",
+        "at": [
+         -71576,
+         84264,
+         -3472
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:spider-nest-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 10898,
+      "sec": 161,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Spider Nest",
+        "link": "spider nest",
+        "price": 3600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10898,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -61096,
+        75112,
+        -3352
+       ],
+       [
+        -62088,
+        75112,
+        -3352
+       ],
+       [
+        -63080,
+        75112,
+        -3280
+       ],
+       [
+        -64072,
+        75112,
+        -3280
+       ],
+       [
+        -65064,
+        75112,
+        -3280
+       ],
+       [
+        -66056,
+        75112,
+        -3296
+       ],
+       [
+        -67048,
+        75112,
+        -3344
+       ],
+       [
+        -68040,
+        75112,
+        -3336
+       ],
+       [
+        -69032,
+        75832,
+        -3336
+       ],
+       [
+        -70024,
+        76824,
+        -3264
+       ],
+       [
+        -70760,
+        77560,
+        -3232
+       ],
+       [
+        -70984,
+        77736,
+        -3224
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20457,
+      20458,
+      20514,
+      20515
+     ],
+     "items": [
+      1268
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-despair-2",
+      "name": "Ruins of Despair 2: Zombie Soldier area (south-west)",
+      "at": [
+       -22104,
+       141256,
+       -3896
+      ],
+      "radius": 3768,
+      "levels": [
+       16,
+       22
+      ],
+      "count": 16,
+      "region": "Ruins of Despair",
+      "atlasKey": "area:ruins-of-despair-2",
+      "status": "ok",
+      "sec": 92,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -94.46666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-despair-1",
+        "name": "Ruins of Despair 1: Zombie Soldier area (south-east)",
+        "at": [
+         -17224,
+         140920,
+         -3872
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-7",
+        "name": "Windawood Manor 7: Skeleton Infantryman area (north-east)",
+        "at": [
+         -25080,
+         148744,
+         -3264
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-despair-5",
+        "name": "Ruins of Despair 5: Zombie Soldier area (south)",
+        "at": [
+         -19720,
+         145272,
+         -3792
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-despair-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 5667,
+      "sec": 92,
+      "via": ".gludio > Gludio -> Ruins of Despair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Despair",
+        "link": "ruins of despair",
+        "price": 610,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5667,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Despair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -19112,
+        136824,
+        -3760
+       ],
+       [
+        -19112,
+        137816,
+        -3784
+       ],
+       [
+        -19128,
+        137976,
+        -3800
+       ],
+       [
+        -19192,
+        138040,
+        -3808
+       ],
+       [
+        -19896,
+        139032,
+        -3896
+       ],
+       [
+        -20888,
+        140024,
+        -3896
+       ],
+       [
+        -21368,
+        140504,
+        -3896
+       ],
+       [
+        -21736,
+        141096,
+        -3896
+       ],
+       [
+        -21960,
+        141112,
+        -3896
+       ],
+       [
+        -22104,
+        141256,
+        -3896
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "spider-nest-14",
+    "name": "Spider Nest 14: Arachnid Tracker area (west)",
+    "at": [
+     -70984,
+     77736,
+     -3224
+    ],
+    "radius": 3066,
+    "levels": [
+     19,
+     20
+    ],
+    "count": 4,
+    "region": "Spider Nest",
+    "atlasKey": "area:spider-nest-14",
+    "status": "ok",
+    "sec": 161,
+    "danger": 20,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -21.316666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "spider-nest-10",
+      "name": "Spider Nest 10: Dark Succubus area (south-west)",
+      "at": [
+       -66920,
+       81752,
+       -3352
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-18",
+      "name": "Spider Nest 18: Arachnid Tracker area (south-west)",
+      "at": [
+       -68872,
+       86456,
+       -3472
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-17",
+      "name": "Spider Nest 17: Arachnid Tracker area (south-west)",
+      "at": [
+       -71576,
+       84264,
+       -3472
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:spider-nest-14",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 10898,
+    "sec": 161,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10898,
+      "how": "field-areas",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -62088,
+      75112,
+      -3352
+     ],
+     [
+      -63080,
+      75112,
+      -3280
+     ],
+     [
+      -64072,
+      75112,
+      -3280
+     ],
+     [
+      -65064,
+      75112,
+      -3280
+     ],
+     [
+      -66056,
+      75112,
+      -3296
+     ],
+     [
+      -67048,
+      75112,
+      -3344
+     ],
+     [
+      -68040,
+      75112,
+      -3336
+     ],
+     [
+      -69032,
+      75832,
+      -3336
+     ],
+     [
+      -70024,
+      76824,
+      -3264
+     ],
+     [
+      -70760,
+      77560,
+      -3232
+     ],
+     [
+      -70984,
+      77736,
+      -3224
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 411,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30330",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30330,
+    "name": "Sidra",
+    "title": "Magister",
+    "town": "Gludio",
+    "at": [
+     -12503,
+     123054,
+     -3102
+    ],
+    "alt": []
+   },
+   "text": "Bring Andariel Book, Garmiel's Book to Sidra",
+   "needs": [
+    {
+     "id": 1269,
+     "name": "Andariel Book",
+     "n": 1
+    },
+    {
+     "id": 1265,
+     "name": "Garmiel's Book",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30330@-12503,123054",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2061,
+    "sec": 37,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2061,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12648,
+      123464,
+      -3112
+     ],
+     [
+      -12712,
+      123288,
+      -3096
+     ],
+     [
+      -12632,
+      123160,
+      -3096
+     ],
+     [
+      -12504,
+      123048,
+      -3096
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30375",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30375,
+    "name": "Adonius",
+    "title": "Priest",
+    "town": "Gludin",
+    "at": [
+     -79274,
+     150966,
+     -3031
+    ],
+    "alt": []
+   },
+   "text": "Bring Penitent's Mark to Adonius",
+   "needs": [
+    {
+     "id": 1267,
+     "name": "Penitent's Mark",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30375@-79274,150966",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4416,
+    "sec": 57,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4416,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79272,
+      150952,
+      -3040
+     ],
+     [
+      -79272,
+      150968,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30377",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30377,
+    "name": "Talbot",
+    "title": "Magister",
+    "town": "Gludin",
+    "at": [
+     -84642,
+     149630,
+     -3127
+    ],
+    "alt": []
+   },
+   "text": "Bring Bloody Rune x5 to Talbot",
+   "needs": [
+    {
+     "id": 1264,
+     "name": "Bloody Rune",
+     "n": 5
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30377@-84642,149630",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5908,
+    "sec": 69,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 5908,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150744,
+      -3120
+     ],
+     [
+      -83608,
+      150744,
+      -3120
+     ],
+     [
+      -83864,
+      150744,
+      -3120
+     ],
+     [
+      -83880,
+      150760,
+      -3120
+     ],
+     [
+      -84072,
+      150808,
+      -3120
+     ],
+     [
+      -84344,
+      150840,
+      -3120
+     ],
+     [
+      -84616,
+      150840,
+      -3120
+     ],
+     [
+      -84584,
+      150760,
+      -3120
+     ],
+     [
+      -84600,
+      150488,
+      -3120
+     ],
+     [
+      -84616,
+      150216,
+      -3120
+     ],
+     [
+      -84600,
+      150072,
+      -3120
+     ],
+     [
+      -84568,
+      149800,
+      -3120
+     ],
+     [
+      -84648,
+      149624,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c4:deliver:30377",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "Ask how to find Garmiel's Book"
+   ],
+   "npc": {
+    "id": 30377,
+    "name": "Talbot",
+    "title": "Magister",
+    "town": "Gludin",
+    "at": [
+     -84642,
+     149630,
+     -3127
+    ],
+    "alt": []
+   },
+   "text": "Bring Sidra's Letter to Talbot",
+   "needs": [
+    {
+     "id": 1262,
+     "name": "Sidra's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30377@-84642,149630",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5908,
+    "sec": 69,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 5908,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82040,
+      150840,
+      -3120
+     ],
+     [
+      -82312,
+      150840,
+      -3120
+     ],
+     [
+      -82584,
+      150840,
+      -3120
+     ],
+     [
+      -82856,
+      150840,
+      -3120
+     ],
+     [
+      -83128,
+      150872,
+      -3120
+     ],
+     [
+      -83128,
+      150856,
+      -3120
+     ],
+     [
+      -83160,
+      150840,
+      -3120
+     ],
+     [
+      -83336,
+      150744,
+      -3120
+     ],
+     [
+      -83608,
+      150744,
+      -3120
+     ],
+     [
+      -83864,
+      150744,
+      -3120
+     ],
+     [
+      -83880,
+      150760,
+      -3120
+     ],
+     [
+      -84072,
+      150808,
+      -3120
+     ],
+     [
+      -84344,
+      150840,
+      -3120
+     ],
+     [
+      -84616,
+      150840,
+      -3120
+     ],
+     [
+      -84584,
+      150760,
+      -3120
+     ],
+     [
+      -84600,
+      150488,
+      -3120
+     ],
+     [
+      -84616,
+      150216,
+      -3120
+     ],
+     [
+      -84600,
+      150072,
+      -3120
+     ],
+     [
+      -84568,
+      149800,
+      -3120
+     ],
+     [
+      -84648,
+      149624,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c7:deliver:30375",
+   "cond": 7,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "Ask about Andariel's Book"
+   ],
+   "npc": {
+    "id": 30375,
+    "name": "Adonius",
+    "title": "Priest",
+    "town": "Gludin",
+    "at": [
+     -79274,
+     150966,
+     -3031
+    ],
+    "alt": []
+   },
+   "text": "Bring Prayer of Adonius to Adonius",
+   "needs": [
+    {
+     "id": 1266,
+     "name": "Prayer of Adonius",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30375@-79274,150966",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4416,
+    "sec": 57,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4416,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79272,
+      150952,
+      -3040
+     ],
+     [
+      -79272,
+      150968,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:39.263Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

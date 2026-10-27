@@ -1,0 +1,849 @@
+{
+ "id": 261,
+ "name": "Collector's Dream",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.908Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Elven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 10,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30222",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the task"
+   ],
+   "npc": {
+    "id": 30222,
+    "name": "Alshupes",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     45859,
+     50827,
+     -3056
+    ],
+    "alt": []
+   },
+   "text": "Talk to Alshupes – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31031@46450,50822",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2071,
+    "sec": 62,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2071,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46536,
+      50648,
+      -3056
+     ],
+     [
+      46456,
+      50824,
+      -3056
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31031@46450,50822",
+     "name": "Broadcasting Tower"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46536,
+      50648,
+      -3056
+     ],
+     [
+      46456,
+      50824,
+      -3056
+     ]
+    ]
+   },
+   "expectedSec": 92,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20308,
+     "name": "Hook Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 20460,
+     "name": "Crimson Spider",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20466,
+     "name": "Pincer Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1087,
+     "name": "Giant Spider's Leg",
+     "n": 8,
+     "from": [
+      {
+       "id": 20308,
+       "name": "Hook Spider",
+       "chance": 100
+      },
+      {
+       "id": 20460,
+       "name": "Crimson Spider",
+       "chance": 100
+      },
+      {
+       "id": 20466,
+       "name": "Pincer Spider",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Hook Spider, Crimson Spider, Pincer Spider for Giant Spider's Leg x8",
+   "places": [
+    {
+     "mobs": [
+      20308,
+      20460,
+      20466
+     ],
+     "items": [
+      1087
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "elven-forest-23",
+      "name": "Elven Forest 23: Hook Spider area (south-west)",
+      "at": [
+       5832,
+       59960,
+       -3648
+      ],
+      "radius": 4010,
+      "levels": [
+       16,
+       18
+      ],
+      "count": 12,
+      "region": "Elven Forest",
+      "atlasKey": "area:elven-forest-23",
+      "status": "ok",
+      "sec": 229,
+      "danger": 18,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -68.18333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "neutral-zone-10",
+        "name": "Neutral Zone 10: Lirein area (east)",
+        "at": [
+         4248,
+         74344,
+         -3712
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "neutral-zone-12",
+        "name": "Neutral Zone 12: Pincer Spider area (north-east)",
+        "at": [
+         2920,
+         64616,
+         -3600
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "neutral-zone-11",
+        "name": "Neutral Zone 11: Lirein Elder area (east)",
+        "at": [
+         4776,
+         81464,
+         -3576
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:elven-forest-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 19069,
+      "sec": 229,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Forest",
+        "link": "elven forest",
+        "price": 710,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10052,
+        "how": "field-areas-gap",
+        "danger": 16
+       },
+       {
+        "do": "walk",
+        "len": 9017,
+        "how": "field-areas",
+        "danger": 18
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        21362,
+        51122,
+        -3688
+       ],
+       [
+        12216,
+        53592,
+        -3672
+       ],
+       [
+        11224,
+        54568,
+        -3536
+       ],
+       [
+        10232,
+        55560,
+        -3432
+       ],
+       [
+        9240,
+        56552,
+        -3392
+       ],
+       [
+        8248,
+        57544,
+        -3600
+       ],
+       [
+        7256,
+        58536,
+        -3664
+       ],
+       [
+        6264,
+        59528,
+        -3664
+       ],
+       [
+        5832,
+        59960,
+        -3648
+       ]
+      ],
+      "maxDanger": 18,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 18,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "elven-forest-23",
+    "name": "Elven Forest 23: Hook Spider area (south-west)",
+    "at": [
+     5832,
+     59960,
+     -3648
+    ],
+    "radius": 4010,
+    "levels": [
+     16,
+     18
+    ],
+    "count": 12,
+    "region": "Elven Forest",
+    "atlasKey": "area:elven-forest-23",
+    "status": "ok",
+    "sec": 229,
+    "danger": 18,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -68.18333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "neutral-zone-10",
+      "name": "Neutral Zone 10: Lirein area (east)",
+      "at": [
+       4248,
+       74344,
+       -3712
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "neutral-zone-12",
+      "name": "Neutral Zone 12: Pincer Spider area (north-east)",
+      "at": [
+       2920,
+       64616,
+       -3600
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "neutral-zone-11",
+      "name": "Neutral Zone 11: Lirein Elder area (east)",
+      "at": [
+       4776,
+       81464,
+       -3576
+      ],
+      "count": 10,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:elven-forest-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 19069,
+    "sec": 229,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Forest",
+      "link": "elven forest",
+      "price": 710,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10052,
+      "how": "field-areas-gap",
+      "danger": 16
+     },
+     {
+      "do": "walk",
+      "len": 9017,
+      "how": "field-areas",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      21362,
+      51122,
+      -3688
+     ],
+     [
+      12216,
+      53592,
+      -3672
+     ],
+     [
+      11224,
+      54568,
+      -3536
+     ],
+     [
+      10232,
+      55560,
+      -3432
+     ],
+     [
+      9240,
+      56552,
+      -3392
+     ],
+     [
+      8248,
+      57544,
+      -3600
+     ],
+     [
+      7256,
+      58536,
+      -3664
+     ],
+     [
+      6264,
+      59528,
+      -3664
+     ],
+     [
+      5832,
+      59960,
+      -3648
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 429,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30222",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30222,
+    "name": "Alshupes",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     45859,
+     50827,
+     -3056
+    ],
+    "alt": []
+   },
+   "text": "Talk to Alshupes",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31031@46450,50822",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2071,
+    "sec": 62,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2071,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46536,
+      50648,
+      -3056
+     ],
+     [
+      46456,
+      50824,
+      -3056
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31031@46450,50822",
+     "name": "Broadcasting Tower"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46536,
+      50648,
+      -3056
+     ],
+     [
+      46456,
+      50824,
+      -3056
+     ]
+    ]
+   },
+   "expectedSec": 87,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.941Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

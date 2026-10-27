@@ -1,0 +1,1699 @@
+{
+ "id": 139,
+ "name": "Shadow Fox - 1",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.907Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 37,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Heine",
+ "requirements": {
+  "quests": [
+   {
+    "id": 138,
+    "name": "Temple Champion - Part 2",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "138 completed"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 14,
+ "refLevel": 37,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30896",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Tell her that you heard it from High Priest Sylvain.",
+    "\"Yes! I need to talk to him about something very important.\""
+   ],
+   "npc": {
+    "id": 30896,
+    "name": "Mia",
+    "title": "Warehouse Keeper",
+    "town": "Heine",
+    "at": [
+     109625,
+     220238,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mia – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30896@109625,220238",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2518,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2518,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109928,
+      219560,
+      -3472
+     ],
+     [
+      109880,
+      219800,
+      -3472
+     ],
+     [
+      109880,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220232,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30896",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Keep listening.",
+    "\"Secret?\"",
+    "Ask how you can help.",
+    "\"How?\"",
+    "\"Tell me about the mission.\""
+   ],
+   "npc": {
+    "id": 30896,
+    "name": "Mia",
+    "title": "Warehouse Keeper",
+    "town": "Heine",
+    "at": [
+     109625,
+     220238,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Listen to Mia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30896@109625,220238",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2518,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2518,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109928,
+      219560,
+      -3472
+     ],
+     [
+      109880,
+      219800,
+      -3472
+     ],
+     [
+      109880,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220232,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20784,
+     "name": "Tasaba Lizardman",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 20785,
+     "name": "Tasaba Lizardman Shaman",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 21639,
+     "name": "Tasaba Lizardman",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 21640,
+     "name": "Tasaba Lizardman Shaman",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10345,
+     "name": "Records Chest Key Fragment",
+     "n": 10,
+     "from": [
+      {
+       "id": 20784,
+       "name": "Tasaba Lizardman",
+       "chance": 61.8
+      },
+      {
+       "id": 20785,
+       "name": "Tasaba Lizardman Shaman",
+       "chance": 61.8
+      },
+      {
+       "id": 21639,
+       "name": "Tasaba Lizardman",
+       "chance": 61.8
+      },
+      {
+       "id": 21640,
+       "name": "Tasaba Lizardman Shaman",
+       "chance": 61.8
+      }
+     ]
+    },
+    {
+     "id": 10346,
+     "name": "Records Chest",
+     "n": 1,
+     "from": [
+      {
+       "id": 20784,
+       "name": "Tasaba Lizardman",
+       "chance": 6.18
+      },
+      {
+       "id": 20785,
+       "name": "Tasaba Lizardman Shaman",
+       "chance": 6.18
+      },
+      {
+       "id": 21639,
+       "name": "Tasaba Lizardman",
+       "chance": 6.18
+      },
+      {
+       "id": 21640,
+       "name": "Tasaba Lizardman Shaman",
+       "chance": 6.18
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Collect 10 Fragments and 1 Chest from Tasaba Lizardmen, bring them to Mia",
+   "places": [
+    {
+     "mobs": [
+      20784,
+      20785,
+      21639,
+      21640
+     ],
+     "items": [
+      10345,
+      10346
+     ],
+     "kills": null,
+     "area": {
+      "kind": "override",
+      "id": "override",
+      "name": "Heine outskirts 5: Tasaba Lizardman area (north-west)",
+      "radius": 3051,
+      "count": 0,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "alligator-islands-19",
+        "name": "Alligator Islands 19: Alligator area (south-west)",
+        "at": [
+         105032,
+         202936,
+         -3408
+        ]
+       }
+      ],
+      "at": [
+       104712,
+       210680,
+       -2712
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:heine-outskirts-5",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".heine",
+      "length": 22762,
+      "sec": 239,
+      "via": ".heine > Heine -> Entrance to Alligator Islands",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Entrance to Alligator Islands",
+        "link": "alligator island",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17886,
+        "how": "field-areas-gap",
+        "danger": 40
+       },
+       {
+        "do": "walk",
+        "len": 4876,
+        "how": "field-areas",
+        "danger": 39
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Entrance to Alligator Islands"
+      },
+      "simple": true,
+      "pv": [
+       [
+        115583,
+        192261,
+        -3488
+       ],
+       [
+        108072,
+        207240,
+        -3704
+       ],
+       [
+        108040,
+        207368,
+        -3760
+       ],
+       [
+        107784,
+        207624,
+        -3800
+       ],
+       [
+        107768,
+        207624,
+        -3800
+       ],
+       [
+        107752,
+        207624,
+        -3768
+       ],
+       [
+        107736,
+        207624,
+        -3744
+       ],
+       [
+        107720,
+        207624,
+        -3712
+       ],
+       [
+        107704,
+        207624,
+        -3688
+       ],
+       [
+        107688,
+        207624,
+        -3656
+       ],
+       [
+        107672,
+        207624,
+        -3624
+       ],
+       [
+        107656,
+        207624,
+        -3600
+       ],
+       [
+        107640,
+        207624,
+        -3568
+       ],
+       [
+        107576,
+        207656,
+        -3512
+       ],
+       [
+        107128,
+        208104,
+        -3408
+       ],
+       [
+        106248,
+        209096,
+        -3416
+       ],
+       [
+        105352,
+        209992,
+        -3016
+       ],
+       [
+        104712,
+        210680,
+        -2712
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 380,
+        "maxSwim": 380,
+        "overBreath": false
+       },
+       "danger": 40,
+       "dangerVsLevel": 3,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:heine-outskirts-5",
+       "name": "Heine outskirts 5: Tasaba Lizardman area (north-west)"
+      },
+      "points": [
+       [
+        115583,
+        192261,
+        -3488
+       ],
+       [
+        108072,
+        207240,
+        -3704
+       ],
+       [
+        108040,
+        207368,
+        -3760
+       ],
+       [
+        107784,
+        207624,
+        -3800
+       ],
+       [
+        107768,
+        207624,
+        -3800
+       ],
+       [
+        107752,
+        207624,
+        -3768
+       ],
+       [
+        107736,
+        207624,
+        -3744
+       ],
+       [
+        107720,
+        207624,
+        -3712
+       ],
+       [
+        107704,
+        207624,
+        -3688
+       ],
+       [
+        107688,
+        207624,
+        -3656
+       ],
+       [
+        107672,
+        207624,
+        -3624
+       ],
+       [
+        107656,
+        207624,
+        -3600
+       ],
+       [
+        107640,
+        207624,
+        -3568
+       ],
+       [
+        107576,
+        207656,
+        -3512
+       ],
+       [
+        107128,
+        208104,
+        -3408
+       ],
+       [
+        106248,
+        209096,
+        -3416
+       ],
+       [
+        105352,
+        209992,
+        -3016
+       ],
+       [
+        104712,
+        210680,
+        -2712
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "override",
+    "id": "override",
+    "name": "Heine outskirts 5: Tasaba Lizardman area (north-west)",
+    "radius": 3051,
+    "count": 0,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "alligator-islands-19",
+      "name": "Alligator Islands 19: Alligator area (south-west)",
+      "at": [
+       105032,
+       202936,
+       -3408
+      ]
+     }
+    ],
+    "at": [
+     104712,
+     210680,
+     -2712
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:heine-outskirts-5",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".heine",
+    "length": 22762,
+    "sec": 239,
+    "via": ".heine > Heine -> Entrance to Alligator Islands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Entrance to Alligator Islands",
+      "link": "alligator island",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 17886,
+      "how": "field-areas-gap",
+      "danger": 40
+     },
+     {
+      "do": "walk",
+      "len": 4876,
+      "how": "field-areas",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115583,
+      192261,
+      -3488
+     ],
+     [
+      108072,
+      207240,
+      -3704
+     ],
+     [
+      108040,
+      207368,
+      -3760
+     ],
+     [
+      107784,
+      207624,
+      -3800
+     ],
+     [
+      107768,
+      207624,
+      -3800
+     ],
+     [
+      107752,
+      207624,
+      -3768
+     ],
+     [
+      107736,
+      207624,
+      -3744
+     ],
+     [
+      107720,
+      207624,
+      -3712
+     ],
+     [
+      107704,
+      207624,
+      -3688
+     ],
+     [
+      107688,
+      207624,
+      -3656
+     ],
+     [
+      107672,
+      207624,
+      -3624
+     ],
+     [
+      107656,
+      207624,
+      -3600
+     ],
+     [
+      107640,
+      207624,
+      -3568
+     ],
+     [
+      107576,
+      207656,
+      -3512
+     ],
+     [
+      107128,
+      208104,
+      -3408
+     ],
+     [
+      106248,
+      209096,
+      -3416
+     ],
+     [
+      105352,
+      209992,
+      -3016
+     ],
+     [
+      104712,
+      210680,
+      -2712
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 380,
+      "maxSwim": 380,
+      "overBreath": false
+     },
+     "danger": 40,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:heine-outskirts-5",
+     "name": "Heine outskirts 5: Tasaba Lizardman area (north-west)"
+    },
+    "points": [
+     [
+      115583,
+      192261,
+      -3488
+     ],
+     [
+      108072,
+      207240,
+      -3704
+     ],
+     [
+      108040,
+      207368,
+      -3760
+     ],
+     [
+      107784,
+      207624,
+      -3800
+     ],
+     [
+      107768,
+      207624,
+      -3800
+     ],
+     [
+      107752,
+      207624,
+      -3768
+     ],
+     [
+      107736,
+      207624,
+      -3744
+     ],
+     [
+      107720,
+      207624,
+      -3712
+     ],
+     [
+      107704,
+      207624,
+      -3688
+     ],
+     [
+      107688,
+      207624,
+      -3656
+     ],
+     [
+      107672,
+      207624,
+      -3624
+     ],
+     [
+      107656,
+      207624,
+      -3600
+     ],
+     [
+      107640,
+      207624,
+      -3568
+     ],
+     [
+      107576,
+      207656,
+      -3512
+     ],
+     [
+      107128,
+      208104,
+      -3408
+     ],
+     [
+      106248,
+      209096,
+      -3416
+     ],
+     [
+      105352,
+      209992,
+      -3016
+     ],
+     [
+      104712,
+      210680,
+      -2712
+     ]
+    ]
+   },
+   "expectedSec": 661,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ],
+   "override": {
+    "area": {
+     "at": [
+      104712,
+      210680,
+      -2712
+     ],
+     "radius": 3051,
+     "name": "Heine outskirts 5: Tasaba Lizardman area (north-west)"
+    },
+    "route": [
+     [
+      110712,
+      219080,
+      -3536
+     ],
+     [
+      110088,
+      219032,
+      -3472
+     ],
+     [
+      110072,
+      218040,
+      -3544
+     ],
+     [
+      110056,
+      217272,
+      -3744
+     ],
+     [
+      109496,
+      217368,
+      -3744
+     ],
+     [
+      109320,
+      217496,
+      -3744
+     ],
+     [
+      108328,
+      217496,
+      -3688
+     ],
+     [
+      107816,
+      217544,
+      -3672
+     ],
+     [
+      107304,
+      218056,
+      -3672
+     ],
+     [
+      106312,
+      218152,
+      -3560
+     ],
+     [
+      105320,
+      218152,
+      -3488
+     ],
+     [
+      104328,
+      218152,
+      -3528
+     ],
+     [
+      103768,
+      218120,
+      -3592
+     ],
+     [
+      103688,
+      218008,
+      -3592
+     ],
+     [
+      103976,
+      217016,
+      -3480
+     ],
+     [
+      103880,
+      216888,
+      -3408
+     ],
+     [
+      103912,
+      216744,
+      -3360
+     ],
+     [
+      104424,
+      216088,
+      -3224
+     ],
+     [
+      104712,
+      215096,
+      -3224
+     ],
+     [
+      104712,
+      214104,
+      -3368
+     ],
+     [
+      104504,
+      213208,
+      -3096
+     ],
+     [
+      104712,
+      212216,
+      -2760
+     ],
+     [
+      104712,
+      211224,
+      -2656
+     ],
+     [
+      104664,
+      210888,
+      -2672
+     ],
+     [
+      104712,
+      210680,
+      -2712
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "note": "The planned place (Alligator Islands 19) needs a 5.4 km swim (over one breath); walking out of Heine on foot is allowed (owner 2026-10-13). New place: field area heine-outskirts-5 \"Heine outskirts 5: Tasaba Lizardman area (north-west)\" (field_areas.json: Tasaba Lizardman x2 L36 A, Tasaba Lizardman Shaman x2 L37 A, Tasaba Lizardman x2 L36 A, Tasaba Lizardman Shaman x2 L37 A, Tasaba Lizardman Sniper x1 L39 A, Tasaba Lizardman Sniper x1 L39 A). Route: .heine, then a geodata walk computed with raid_policy policyLeg (dry, walls block): 16757 long, swim 0, aggressive monsters lv >= 43 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:25:24.784Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "points": [
+     [
+      110712,
+      219080,
+      -3536
+     ],
+     [
+      110088,
+      219032,
+      -3472
+     ],
+     [
+      110072,
+      218040,
+      -3544
+     ],
+     [
+      110056,
+      217272,
+      -3744
+     ],
+     [
+      109496,
+      217368,
+      -3744
+     ],
+     [
+      109320,
+      217496,
+      -3744
+     ],
+     [
+      108328,
+      217496,
+      -3688
+     ],
+     [
+      107816,
+      217544,
+      -3672
+     ],
+     [
+      107304,
+      218056,
+      -3672
+     ],
+     [
+      106312,
+      218152,
+      -3560
+     ],
+     [
+      105320,
+      218152,
+      -3488
+     ],
+     [
+      104328,
+      218152,
+      -3528
+     ],
+     [
+      103768,
+      218120,
+      -3592
+     ],
+     [
+      103688,
+      218008,
+      -3592
+     ],
+     [
+      103976,
+      217016,
+      -3480
+     ],
+     [
+      103880,
+      216888,
+      -3408
+     ],
+     [
+      103912,
+      216744,
+      -3360
+     ],
+     [
+      104424,
+      216088,
+      -3224
+     ],
+     [
+      104712,
+      215096,
+      -3224
+     ],
+     [
+      104712,
+      214104,
+      -3368
+     ],
+     [
+      104504,
+      213208,
+      -3096
+     ],
+     [
+      104712,
+      212216,
+      -2760
+     ],
+     [
+      104712,
+      211224,
+      -2656
+     ],
+     [
+      104664,
+      210888,
+      -2672
+     ],
+     [
+      104712,
+      210680,
+      -2712
+     ]
+    ],
+    "pv": [
+     [
+      110712,
+      219080,
+      -3536
+     ],
+     [
+      110088,
+      219032,
+      -3472
+     ],
+     [
+      110072,
+      218040,
+      -3544
+     ],
+     [
+      110056,
+      217272,
+      -3744
+     ],
+     [
+      109496,
+      217368,
+      -3744
+     ],
+     [
+      109320,
+      217496,
+      -3744
+     ],
+     [
+      108328,
+      217496,
+      -3688
+     ],
+     [
+      107816,
+      217544,
+      -3672
+     ],
+     [
+      107304,
+      218056,
+      -3672
+     ],
+     [
+      106312,
+      218152,
+      -3560
+     ],
+     [
+      105320,
+      218152,
+      -3488
+     ],
+     [
+      104328,
+      218152,
+      -3528
+     ],
+     [
+      103768,
+      218120,
+      -3592
+     ],
+     [
+      103688,
+      218008,
+      -3592
+     ],
+     [
+      103976,
+      217016,
+      -3480
+     ],
+     [
+      103880,
+      216888,
+      -3408
+     ],
+     [
+      103912,
+      216744,
+      -3360
+     ],
+     [
+      104424,
+      216088,
+      -3224
+     ],
+     [
+      104712,
+      215096,
+      -3224
+     ],
+     [
+      104712,
+      214104,
+      -3368
+     ],
+     [
+      104504,
+      213208,
+      -3096
+     ],
+     [
+      104712,
+      212216,
+      -2760
+     ],
+     [
+      104712,
+      211224,
+      -2656
+     ],
+     [
+      104664,
+      210888,
+      -2672
+     ],
+     [
+      104712,
+      210680,
+      -2712
+     ]
+    ],
+    "length": 16757,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 3,
+   "key": "c2:deliver:30896",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Wait until she has finished.",
+    "\"What should I do?\"",
+    "\"Did I pass the test?\""
+   ],
+   "npc": {
+    "id": 30896,
+    "name": "Mia",
+    "title": "Warehouse Keeper",
+    "town": "Heine",
+    "at": [
+     109625,
+     220238,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Collect 10 Fragments and 1 Chest from Tasaba Lizardmen, bring them to Mia",
+   "needs": [
+    {
+     "id": 10345,
+     "name": "Records Chest Key Fragment",
+     "n": 10
+    },
+    {
+     "id": 10346,
+     "name": "Records Chest",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30896@109625,220238",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2518,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2518,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109928,
+      219560,
+      -3472
+     ],
+     [
+      109880,
+      219800,
+      -3472
+     ],
+     [
+      109880,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220232,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c2:hunt": {
+    "area": {
+     "at": [
+      104712,
+      210680,
+      -2712
+     ],
+     "radius": 3051,
+     "name": "Heine outskirts 5: Tasaba Lizardman area (north-west)"
+    },
+    "route": [
+     [
+      110712,
+      219080,
+      -3536
+     ],
+     [
+      110088,
+      219032,
+      -3472
+     ],
+     [
+      110072,
+      218040,
+      -3544
+     ],
+     [
+      110056,
+      217272,
+      -3744
+     ],
+     [
+      109496,
+      217368,
+      -3744
+     ],
+     [
+      109320,
+      217496,
+      -3744
+     ],
+     [
+      108328,
+      217496,
+      -3688
+     ],
+     [
+      107816,
+      217544,
+      -3672
+     ],
+     [
+      107304,
+      218056,
+      -3672
+     ],
+     [
+      106312,
+      218152,
+      -3560
+     ],
+     [
+      105320,
+      218152,
+      -3488
+     ],
+     [
+      104328,
+      218152,
+      -3528
+     ],
+     [
+      103768,
+      218120,
+      -3592
+     ],
+     [
+      103688,
+      218008,
+      -3592
+     ],
+     [
+      103976,
+      217016,
+      -3480
+     ],
+     [
+      103880,
+      216888,
+      -3408
+     ],
+     [
+      103912,
+      216744,
+      -3360
+     ],
+     [
+      104424,
+      216088,
+      -3224
+     ],
+     [
+      104712,
+      215096,
+      -3224
+     ],
+     [
+      104712,
+      214104,
+      -3368
+     ],
+     [
+      104504,
+      213208,
+      -3096
+     ],
+     [
+      104712,
+      212216,
+      -2760
+     ],
+     [
+      104712,
+      211224,
+      -2656
+     ],
+     [
+      104664,
+      210888,
+      -2672
+     ],
+     [
+      104712,
+      210680,
+      -2712
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "note": "The planned place (Alligator Islands 19) needs a 5.4 km swim (over one breath); walking out of Heine on foot is allowed (owner 2026-10-13). New place: field area heine-outskirts-5 \"Heine outskirts 5: Tasaba Lizardman area (north-west)\" (field_areas.json: Tasaba Lizardman x2 L36 A, Tasaba Lizardman Shaman x2 L37 A, Tasaba Lizardman x2 L36 A, Tasaba Lizardman Shaman x2 L37 A, Tasaba Lizardman Sniper x1 L39 A, Tasaba Lizardman Sniper x1 L39 A). Route: .heine, then a geodata walk computed with raid_policy policyLeg (dry, walls block): 16757 long, swim 0, aggressive monsters lv >= 43 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:25:24.784Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T10:25:24.784Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.926Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "script-flow-far",
+   "chance-unconfirmed"
+  ]
+ }
+}

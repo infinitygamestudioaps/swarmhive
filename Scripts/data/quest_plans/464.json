@@ -1,0 +1,109 @@
+{
+ "id": 464,
+ "name": "Oath",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.084Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "daily",
+ "region": "",
+ "requirements": {
+  "other": [
+   "(startQuest)"
+  ]
+ },
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-start-npc",
+   "text": "no start NPC registered"
+  },
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  {
+   "code": "kill-parse",
+   "text": "kill NPCs registered but no drop / kill step parsed"
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 1
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c1:talk:30297",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say you're here to give him this book."
+   ],
+   "npc": {
+    "id": 30297,
+    "name": "Tobias",
+    "at": null,
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Tobias",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32596",
+   "cond": 1,
+   "kind": "talk",
+   "to": {
+    "raw": "cond"
+   },
+   "links": [
+    "\"Whose book is this??\""
+   ],
+   "npc": {
+    "id": 32596,
+    "name": "Sophia",
+    "at": null,
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Sophia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,570 @@
+{
+ "id": 10282,
+ "name": "To the Seed of Annihilation",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.440Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 84,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: engine-gap:start.kind=atlas, route-status"
+  },
+  {
+   "code": "dryrun:engine-gap:start.kind=atlas",
+   "text": "c0:start:32733: start \"atlas\" (nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)) — rsCustomTrip knows only town / gk"
+  },
+  {
+   "code": "dryrun:route-status",
+   "text": "step 2 (c1:talk:32734): route npc:32734@-178467,153371 status conditional"
+  }
+ ],
+ "expectedMin": 11,
+ "refLevel": 84,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32733",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'm ready. Huzzah!\""
+   ],
+   "npc": {
+    "id": 32733,
+    "name": "Kbaldir",
+    "title": "Commander",
+    "town": "Talking Island",
+    "at": [
+     -185957,
+     245068,
+     1568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kbaldir – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 30,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185976,
+      242712,
+      2544
+     ],
+     [
+      -185848,
+      242744,
+      2560
+     ],
+     [
+      -185832,
+      242744,
+      1680
+     ],
+     [
+      -186120,
+      243720,
+      1576
+     ],
+     [
+      -185960,
+      244712,
+      1568
+     ],
+     [
+      -185960,
+      245064,
+      1568
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Kbaldir (-185957,245068,1568); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point; the airship part is the nav atlas Plenos route (engine walks it)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185976,
+      242712,
+      2544
+     ],
+     [
+      -185848,
+      242744,
+      2560
+     ],
+     [
+      -185832,
+      242744,
+      1680
+     ],
+     [
+      -186120,
+      243720,
+      1576
+     ],
+     [
+      -185960,
+      244712,
+      1568
+     ],
+     [
+      -185960,
+      245064,
+      1568
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185976,
+      242712,
+      2544
+     ],
+     [
+      -185848,
+      242744,
+      2560
+     ],
+     [
+      -185832,
+      242744,
+      1680
+     ],
+     [
+      -186120,
+      243720,
+      1576
+     ],
+     [
+      -185960,
+      244712,
+      1568
+     ],
+     [
+      -185960,
+      245064,
+      1568
+     ]
+    ],
+    "length": 3588,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32734",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Nod."
+   ],
+   "npc": {
+    "id": 32734,
+    "name": "Klemis",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -178467,
+     153371,
+     2472
+    ],
+    "alt": []
+   },
+   "text": "Bring the SoA Orders to Klemis at the Seed of Annihilation dock",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32734@-178467,153371",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 13949,
+    "sec": 616,
+    "via": ".gludio > enter Bella > enter Flight Control > enter Lionel",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 8261,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Lionel",
+      "link": "Seed of Annihilation Dock"
+     },
+     {
+      "do": "walk",
+      "len": 3376,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186136,
+      242512,
+      1708
+     ],
+     [
+      -185640,
+      242728,
+      1680
+     ],
+     [
+      -185080,
+      242616,
+      1672
+     ],
+     [
+      -184088,
+      242728,
+      1576
+     ],
+     [
+      -183976,
+      242728,
+      1576
+     ],
+     [
+      -176012,
+      154009,
+      2704
+     ],
+     [
+      -176504,
+      153512,
+      2696
+     ],
+     [
+      -177000,
+      153440,
+      2672
+     ],
+     [
+      -177496,
+      153368,
+      2648
+     ],
+     [
+      -178472,
+      153368,
+      2472
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship",
+     "keucereus-docks"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 641,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm) (Seed of Annihilation Dock)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32733": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186168,
+      242888,
+      2544
+     ],
+     [
+      -185976,
+      242712,
+      2544
+     ],
+     [
+      -185848,
+      242744,
+      2560
+     ],
+     [
+      -185832,
+      242744,
+      1680
+     ],
+     [
+      -186120,
+      243720,
+      1576
+     ],
+     [
+      -185960,
+      244712,
+      1568
+     ],
+     [
+      -185960,
+      245064,
+      1568
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Kbaldir (-185957,245068,1568); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point; the airship part is the nav atlas Plenos route (engine walks it)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32734": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm) (Seed of Annihilation Dock)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:38.453Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c0:start:32733: start \"atlas\" (nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)) — rsCustomTrip knows only town / gk"
+   },
+   {
+    "code": "route-status",
+    "t": "step 2 (c1:talk:32734): route npc:32734@-178467,153371 status conditional"
+   }
+  ],
+  "warns": []
+ }
+}

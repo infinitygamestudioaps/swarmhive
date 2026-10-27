@@ -1,0 +1,1855 @@
+{
+ "id": 260,
+ "name": "Orc Hunting",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.896Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 6,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Elven Village",
+ "requirements": {
+  "races": [
+   "ELF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ELF"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: route-end-far"
+  },
+  {
+   "code": "dryrun:route-end-far",
+   "text": "step 2 (c1:hunt): the walk ends 7912 from Elven Forest 1: Kaboo Orc Fighter Lieutenant area (east) (limit 6364)"
+  }
+ ],
+ "expectedMin": 25,
+ "refLevel": 6,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30221",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will participate"
+   ],
+   "npc": {
+    "id": 30221,
+    "name": "Rayen",
+    "title": "Sentinel",
+    "town": "Elven Village",
+    "at": [
+     42812,
+     51138,
+     -2992
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rayen – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31781@43136,51376",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6381,
+    "sec": 98,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6381,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44200,
+      50200,
+      -3056
+     ],
+     [
+      43928,
+      50216,
+      -3056
+     ],
+     [
+      43672,
+      50328,
+      -3016
+     ],
+     [
+      43432,
+      50472,
+      -2992
+     ],
+     [
+      43352,
+      50648,
+      -2992
+     ],
+     [
+      43304,
+      50920,
+      -2992
+     ],
+     [
+      43176,
+      51160,
+      -2992
+     ],
+     [
+      43144,
+      51384,
+      -2992
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31781@43136,51376",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44200,
+      50200,
+      -3056
+     ],
+     [
+      43928,
+      50216,
+      -3056
+     ],
+     [
+      43672,
+      50328,
+      -3016
+     ],
+     [
+      43432,
+      50472,
+      -2992
+     ],
+     [
+      43352,
+      50648,
+      -2992
+     ],
+     [
+      43304,
+      50920,
+      -2992
+     ],
+     [
+      43176,
+      51160,
+      -2992
+     ],
+     [
+      43144,
+      51384,
+      -2992
+     ]
+    ]
+   },
+   "expectedSec": 128,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20468,
+     "name": "Kaboo Orc",
+     "level": 6,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20469,
+     "name": "Kaboo Orc Archer",
+     "level": 8,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 20470,
+     "name": "Kaboo Orc Grunt",
+     "level": 7,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 42,
+     "questSpawned": false
+    },
+    {
+     "id": 20471,
+     "name": "Kaboo Orc Fighter",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 65,
+     "questSpawned": false
+    },
+    {
+     "id": 20472,
+     "name": "Kaboo Orc Fighter Leader",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20473,
+     "name": "Kaboo Orc Fighter Lieutenant",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 51,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1114,
+     "name": "Orc Amulet",
+     "n": 20,
+     "from": [
+      {
+       "id": 20468,
+       "name": "Kaboo Orc",
+       "chance": 50
+      },
+      {
+       "id": 20469,
+       "name": "Kaboo Orc Archer",
+       "chance": 50
+      },
+      {
+       "id": 20470,
+       "name": "Kaboo Orc Grunt",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 1115,
+     "name": "Orc's Necklace",
+     "n": 20,
+     "from": [
+      {
+       "id": 20471,
+       "name": "Kaboo Orc Fighter",
+       "chance": 50
+      },
+      {
+       "id": 20472,
+       "name": "Kaboo Orc Fighter Leader",
+       "chance": 50
+      },
+      {
+       "id": 20473,
+       "name": "Kaboo Orc Fighter Lieutenant",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Kaboo Orc, Kaboo Orc Archer, Kaboo Orc Grunt for Orc Amulet x20, Orc's Necklace x20",
+   "places": [
+    {
+     "mobs": [
+      20468,
+      20469,
+      20470
+     ],
+     "items": [
+      1114
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "elven-village-outskirts-4",
+      "name": "Elven Village outskirts 4: Kaboo Orc Grunt area (north-east)",
+      "at": [
+       45896,
+       58568,
+       -3568
+      ],
+      "radius": 5737,
+      "levels": [
+       7,
+       8
+      ],
+      "count": 14,
+      "region": "Elven Village outskirts",
+      "atlasKey": "area:elven-village-outskirts-4",
+      "status": "ok",
+      "sec": 264,
+      "danger": 8,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -79.6,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "elven-village-outskirts-1",
+        "name": "Elven Village outskirts 1: Green Dryad area (north-east)",
+        "at": [
+         40584,
+         61224,
+         -3528
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-village-outskirts-13",
+        "name": "Elven Village outskirts 13: Kaboo Orc Archer area (north)",
+        "at": [
+         39320,
+         50200,
+         -3496
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-village-outskirts-8",
+        "name": "Elven Village outskirts 8: Kaboo Orc Grunt area (north)",
+        "at": [
+         35256,
+         50680,
+         -3512
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:elven-village-outskirts-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 23337,
+      "sec": 264,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Fortress",
+        "link": "elven fortress",
+        "price": 820,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10631,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 12706,
+        "how": "field-areas",
+        "danger": 10
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        29294,
+        74968,
+        -3776
+       ],
+       [
+        36872,
+        67512,
+        -3760
+       ],
+       [
+        37864,
+        66520,
+        -3648
+       ],
+       [
+        38856,
+        65528,
+        -3560
+       ],
+       [
+        39848,
+        64536,
+        -3680
+       ],
+       [
+        40840,
+        63544,
+        -3584
+       ],
+       [
+        41832,
+        62632,
+        -3544
+       ],
+       [
+        42824,
+        61640,
+        -3504
+       ],
+       [
+        43048,
+        61416,
+        -3512
+       ],
+       [
+        43064,
+        61400,
+        -3504
+       ],
+       [
+        44056,
+        60408,
+        -3560
+       ],
+       [
+        45048,
+        59416,
+        -3608
+       ],
+       [
+        45896,
+        58568,
+        -3568
+       ]
+      ],
+      "maxDanger": 10,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 10,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20471,
+      20472,
+      20473
+     ],
+     "items": [
+      1115
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "elven-forest-1",
+      "name": "Elven Forest 1: Kaboo Orc Fighter Lieutenant area (east)",
+      "at": [
+       25640,
+       50344,
+       -3480
+      ],
+      "radius": 4864,
+      "levels": [
+       11,
+       13
+      ],
+      "count": 15,
+      "region": "Elven Forest",
+      "atlasKey": "area:elven-forest-1",
+      "status": "ok",
+      "sec": 108,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -88.2,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "elven-forest-3",
+        "name": "Elven Forest 3: Kaboo Orc Fighter Leader area (north)",
+        "at": [
+         21928,
+         44840,
+         -3640
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-forest-13",
+        "name": "Elven Forest 13: Spore Fungus area (east)",
+        "at": [
+         31880,
+         55208,
+         -3496
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "elven-fortress-1",
+        "name": "Elven Fortress 1: Kaboo Orc Fighter Lieutenant area (north)",
+        "at": [
+         30744,
+         63368,
+         -3640
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:elven-forest-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 4506,
+      "sec": 108,
+      "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Forest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Elven Village",
+        "link": "elven village",
+        "price": 9200,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Elven",
+        "desc": "Elven Village -> Elven Forest",
+        "link": "elven forest",
+        "price": 710,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4506,
+        "how": "field-areas",
+        "danger": 13
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Elven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        21368,
+        51128,
+        -3688
+       ],
+       [
+        22360,
+        51128,
+        -3640
+       ],
+       [
+        23352,
+        51128,
+        -3456
+       ],
+       [
+        24344,
+        51128,
+        -3376
+       ],
+       [
+        25176,
+        50664,
+        -3424
+       ],
+       [
+        25400,
+        50584,
+        -3448
+       ],
+       [
+        25640,
+        50344,
+        -3480
+       ]
+      ],
+      "maxDanger": 13,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 13,
+       "dangerVsLevel": 7,
+       "aggro": [
+        {
+         "name": "Dryad",
+         "lv": 13,
+         "n": 3
+        },
+        {
+         "name": "Kaboo Orc Fighter Leader",
+         "lv": 12,
+         "n": 4
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "elven-village-outskirts-4",
+    "name": "Elven Village outskirts 4: Kaboo Orc Grunt area (north-east)",
+    "at": [
+     45896,
+     58568,
+     -3568
+    ],
+    "radius": 5737,
+    "levels": [
+     7,
+     8
+    ],
+    "count": 14,
+    "region": "Elven Village outskirts",
+    "atlasKey": "area:elven-village-outskirts-4",
+    "status": "ok",
+    "sec": 264,
+    "danger": 8,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -79.6,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "elven-village-outskirts-1",
+      "name": "Elven Village outskirts 1: Green Dryad area (north-east)",
+      "at": [
+       40584,
+       61224,
+       -3528
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-village-outskirts-13",
+      "name": "Elven Village outskirts 13: Kaboo Orc Archer area (north)",
+      "at": [
+       39320,
+       50200,
+       -3496
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "elven-village-outskirts-8",
+      "name": "Elven Village outskirts 8: Kaboo Orc Grunt area (north)",
+      "at": [
+       35256,
+       50680,
+       -3512
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:elven-village-outskirts-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 23337,
+    "sec": 264,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Fortress",
+      "link": "elven fortress",
+      "price": 820,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10631,
+      "how": "field-areas-gap",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 12706,
+      "how": "field-areas",
+      "danger": 10
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      29294,
+      74968,
+      -3776
+     ],
+     [
+      36872,
+      67512,
+      -3760
+     ],
+     [
+      37864,
+      66520,
+      -3648
+     ],
+     [
+      38856,
+      65528,
+      -3560
+     ],
+     [
+      39848,
+      64536,
+      -3680
+     ],
+     [
+      40840,
+      63544,
+      -3584
+     ],
+     [
+      41832,
+      62632,
+      -3544
+     ],
+     [
+      42824,
+      61640,
+      -3504
+     ],
+     [
+      43048,
+      61416,
+      -3512
+     ],
+     [
+      43064,
+      61400,
+      -3504
+     ],
+     [
+      44056,
+      60408,
+      -3560
+     ],
+     [
+      45048,
+      59416,
+      -3608
+     ],
+     [
+      45896,
+      58568,
+      -3568
+     ]
+    ],
+    "maxDanger": 10,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 10,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1264,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      22360,
+      52120,
+      -3592
+     ],
+     [
+      22792,
+      52472,
+      -3568
+     ],
+     [
+      22936,
+      52456,
+      -3504
+     ],
+     [
+      23576,
+      53096,
+      -3432
+     ],
+     [
+      23656,
+      53080,
+      -3416
+     ],
+     [
+      24648,
+      54072,
+      -3600
+     ],
+     [
+      25640,
+      54344,
+      -3504
+     ],
+     [
+      26632,
+      54040,
+      -3440
+     ],
+     [
+      27624,
+      53048,
+      -3512
+     ],
+     [
+      28616,
+      52520,
+      -3584
+     ],
+     [
+      28792,
+      52424,
+      -3592
+     ],
+     [
+      29784,
+      52696,
+      -3496
+     ],
+     [
+      30776,
+      53432,
+      -3448
+     ],
+     [
+      31768,
+      54424,
+      -3480
+     ],
+     [
+      31880,
+      55208,
+      -3496
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Forest"
+    },
+    "note": "Elven Forest 13 (Kaboo orcs): gk link \"Elven Forest\" on the live menu Scripts/data/gk_live/Mirabel.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27, no aggressive monster >= 12 on it (the atlas way passes Dryads 13 / Kaboo Orc Fighter Leaders 12).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Forest"
+    },
+    "points": [
+     [
+      22360,
+      52120,
+      -3592
+     ],
+     [
+      22792,
+      52472,
+      -3568
+     ],
+     [
+      22936,
+      52456,
+      -3504
+     ],
+     [
+      23576,
+      53096,
+      -3432
+     ],
+     [
+      23656,
+      53080,
+      -3416
+     ],
+     [
+      24648,
+      54072,
+      -3600
+     ],
+     [
+      25640,
+      54344,
+      -3504
+     ],
+     [
+      26632,
+      54040,
+      -3440
+     ],
+     [
+      27624,
+      53048,
+      -3512
+     ],
+     [
+      28616,
+      52520,
+      -3584
+     ],
+     [
+      28792,
+      52424,
+      -3592
+     ],
+     [
+      29784,
+      52696,
+      -3496
+     ],
+     [
+      30776,
+      53432,
+      -3448
+     ],
+     [
+      31768,
+      54424,
+      -3480
+     ],
+     [
+      31880,
+      55208,
+      -3496
+     ]
+    ],
+    "pv": [
+     [
+      22360,
+      52120,
+      -3592
+     ],
+     [
+      22792,
+      52472,
+      -3568
+     ],
+     [
+      22936,
+      52456,
+      -3504
+     ],
+     [
+      23576,
+      53096,
+      -3432
+     ],
+     [
+      23656,
+      53080,
+      -3416
+     ],
+     [
+      24648,
+      54072,
+      -3600
+     ],
+     [
+      25640,
+      54344,
+      -3504
+     ],
+     [
+      26632,
+      54040,
+      -3440
+     ],
+     [
+      27624,
+      53048,
+      -3512
+     ],
+     [
+      28616,
+      52520,
+      -3584
+     ],
+     [
+      28792,
+      52424,
+      -3592
+     ],
+     [
+      29784,
+      52696,
+      -3496
+     ],
+     [
+      30776,
+      53432,
+      -3448
+     ],
+     [
+      31768,
+      54424,
+      -3480
+     ],
+     [
+      31880,
+      55208,
+      -3496
+     ]
+    ],
+    "length": 12344,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30221",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30221,
+    "name": "Rayen",
+    "title": "Sentinel",
+    "town": "Elven Village",
+    "at": [
+     42812,
+     51138,
+     -2992
+    ],
+    "alt": []
+   },
+   "text": "Hand in Orc Amulet, Orc's Necklace at Rayen (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 1114,
+     "name": "Orc Amulet",
+     "n": 20
+    },
+    {
+     "id": 1115,
+     "name": "Orc's Necklace",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31781@43136,51376",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6381,
+    "sec": 98,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6381,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44200,
+      50200,
+      -3056
+     ],
+     [
+      43928,
+      50216,
+      -3056
+     ],
+     [
+      43672,
+      50328,
+      -3016
+     ],
+     [
+      43432,
+      50472,
+      -2992
+     ],
+     [
+      43352,
+      50648,
+      -2992
+     ],
+     [
+      43304,
+      50920,
+      -2992
+     ],
+     [
+      43176,
+      51160,
+      -2992
+     ],
+     [
+      43144,
+      51384,
+      -2992
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31781@43136,51376",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44200,
+      50200,
+      -3056
+     ],
+     [
+      43928,
+      50216,
+      -3056
+     ],
+     [
+      43672,
+      50328,
+      -3016
+     ],
+     [
+      43432,
+      50472,
+      -2992
+     ],
+     [
+      43352,
+      50648,
+      -2992
+     ],
+     [
+      43304,
+      50920,
+      -2992
+     ],
+     [
+      43176,
+      51160,
+      -2992
+     ],
+     [
+      43144,
+      51384,
+      -2992
+     ]
+    ]
+   },
+   "expectedSec": 123,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "route": [
+     [
+      22360,
+      52120,
+      -3592
+     ],
+     [
+      22792,
+      52472,
+      -3568
+     ],
+     [
+      22936,
+      52456,
+      -3504
+     ],
+     [
+      23576,
+      53096,
+      -3432
+     ],
+     [
+      23656,
+      53080,
+      -3416
+     ],
+     [
+      24648,
+      54072,
+      -3600
+     ],
+     [
+      25640,
+      54344,
+      -3504
+     ],
+     [
+      26632,
+      54040,
+      -3440
+     ],
+     [
+      27624,
+      53048,
+      -3512
+     ],
+     [
+      28616,
+      52520,
+      -3584
+     ],
+     [
+      28792,
+      52424,
+      -3592
+     ],
+     [
+      29784,
+      52696,
+      -3496
+     ],
+     [
+      30776,
+      53432,
+      -3448
+     ],
+     [
+      31768,
+      54424,
+      -3480
+     ],
+     [
+      31880,
+      55208,
+      -3496
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Forest"
+    },
+    "note": "Elven Forest 13 (Kaboo orcs): gk link \"Elven Forest\" on the live menu Scripts/data/gk_live/Mirabel.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27, no aggressive monster >= 12 on it (the atlas way passes Dryads 13 / Kaboo Orc Fighter Leaders 12).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.904Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "route-end-far",
+    "t": "step 2 (c1:hunt): the walk ends 7912 from Elven Forest 1: Kaboo Orc Fighter Lieutenant area (east) (limit 6364)"
+   }
+  ],
+  "warns": [
+   "prereq-missing",
+   "chance-unconfirmed",
+   "gk-menu-unknown"
+  ]
+ }
+}

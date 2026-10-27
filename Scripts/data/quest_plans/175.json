@@ -1,0 +1,1623 @@
+{
+ "id": 175,
+ "name": "The Way of the Warrior",
+ "version": 1,
+ "generated": "2026-10-27T11:15:14.071Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 10,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Kamael Village",
+ "requirements": {
+  "races": [
+   "KAMAEL"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: KAMAEL"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 18,
+ "refLevel": 10,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32138",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I can do anything.\""
+   ],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kekropus – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 124,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:32138",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Show him the claws."
+   ],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Bring Muertos Claw to Kekropus",
+   "needs": [
+    {
+     "id": 9808,
+     "name": "Muertos Claw",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32133",
+   "cond": 1,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "\"I'm ready.\""
+   ],
+   "npc": {
+    "id": 32133,
+    "name": "Perwan",
+    "title": "Vice Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -125872,
+     38208,
+     1232
+    ],
+    "alt": []
+   },
+   "text": "Talk to Perwan",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14244,
+    "sec": 163,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10714,
+      "how": "field-areas",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -9,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-5",
+     "name": "Kamael Village outskirts 5: Young Grey Keltir area (north-west)"
+    },
+    "points": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ]
+   },
+   "expectedSec": 188,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 22235,
+     "name": "Mountain Werewolf",
+     "level": 7,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 115,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9807,
+     "name": "Wolf Tail",
+     "n": 5,
+     "from": [
+      {
+       "id": 22235,
+       "name": "Mountain Werewolf",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Mountain Werewolf for Wolf Tail x5",
+   "places": [
+    {
+     "mobs": [
+      22235
+     ],
+     "items": [
+      9807
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-i-16",
+      "name": "Stronghold I 16: Mountain Werewolf area (south)",
+      "at": [
+       -119752,
+       86664,
+       -3520
+      ],
+      "radius": 4001,
+      "levels": [
+       6,
+       8
+      ],
+      "count": 12,
+      "region": "Stronghold I",
+      "atlasKey": "area:stronghold-i-16",
+      "status": "ok",
+      "sec": 191,
+      "danger": 8,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -68.81666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stronghold-i-4",
+        "name": "Stronghold I 4: Mountain Werewolf area (south)",
+        "at": [
+         -122584,
+         78440,
+         -3208
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-17",
+        "name": "Stronghold I 17: Mountain Werewolf area (east)",
+        "at": [
+         -114360,
+         73304,
+         -3152
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-6",
+        "name": "Stronghold I 6: Green Goblin area (south)",
+        "at": [
+         -125048,
+         81896,
+         -3440
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-i-16",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 14518,
+      "sec": 191,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold I",
+        "link": "stronghold i",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9487,
+        "how": "field-areas-gap",
+        "danger": 8
+       },
+       {
+        "do": "walk",
+        "len": 5031,
+        "how": "field-areas",
+        "danger": 8
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -122410,
+        73205,
+        -2872
+       ],
+       [
+        -122344,
+        82600,
+        -3392
+       ],
+       [
+        -122344,
+        83592,
+        -3472
+       ],
+       [
+        -121464,
+        84568,
+        -3480
+       ],
+       [
+        -120856,
+        85560,
+        -3512
+       ],
+       [
+        -119864,
+        86552,
+        -3520
+       ],
+       [
+        -119752,
+        86664,
+        -3520
+       ]
+      ],
+      "maxDanger": 8,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 8,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "stronghold-i-16",
+    "name": "Stronghold I 16: Mountain Werewolf area (south)",
+    "at": [
+     -119752,
+     86664,
+     -3520
+    ],
+    "radius": 4001,
+    "levels": [
+     6,
+     8
+    ],
+    "count": 12,
+    "region": "Stronghold I",
+    "atlasKey": "area:stronghold-i-16",
+    "status": "ok",
+    "sec": 191,
+    "danger": 8,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -68.81666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stronghold-i-4",
+      "name": "Stronghold I 4: Mountain Werewolf area (south)",
+      "at": [
+       -122584,
+       78440,
+       -3208
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-i-17",
+      "name": "Stronghold I 17: Mountain Werewolf area (east)",
+      "at": [
+       -114360,
+       73304,
+       -3152
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-i-6",
+      "name": "Stronghold I 6: Green Goblin area (south)",
+      "at": [
+       -125048,
+       81896,
+       -3440
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:stronghold-i-16",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14518,
+    "sec": 191,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold I",
+      "link": "stronghold i",
+      "price": 2600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9487,
+      "how": "field-areas-gap",
+      "danger": 8
+     },
+     {
+      "do": "walk",
+      "len": 5031,
+      "how": "field-areas",
+      "danger": 8
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -122410,
+      73205,
+      -2872
+     ],
+     [
+      -122344,
+      82600,
+      -3392
+     ],
+     [
+      -122344,
+      83592,
+      -3472
+     ],
+     [
+      -121464,
+      84568,
+      -3480
+     ],
+     [
+      -120856,
+      85560,
+      -3512
+     ],
+     [
+      -119864,
+      86552,
+      -3520
+     ],
+     [
+      -119752,
+      86664,
+      -3520
+     ]
+    ],
+    "maxDanger": 8,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 8,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 441,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c7:hunt",
+   "cond": 7,
+   "kind": "hunt",
+   "to": 8,
+   "monsters": [
+    {
+     "id": 22235,
+     "name": "Mountain Werewolf",
+     "level": 7,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 115,
+     "questSpawned": false
+    },
+    {
+     "id": 22236,
+     "name": "Muertos Archer",
+     "level": 8,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 113,
+     "questSpawned": false
+    },
+    {
+     "id": 22239,
+     "name": "Muertos Guard",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 22240,
+     "name": "Muertos Scout",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 107,
+     "questSpawned": false
+    },
+    {
+     "id": 22242,
+     "name": "Muertos Warrior",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 98,
+     "questSpawned": false
+    },
+    {
+     "id": 22243,
+     "name": "Muertos Captain",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 22245,
+     "name": "Muertos Lieutenant",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9808,
+     "name": "Muertos Claw",
+     "n": 1,
+     "from": [
+      {
+       "id": 22235,
+       "name": "Mountain Werewolf",
+       "chance": 100
+      },
+      {
+       "id": 22236,
+       "name": "Muertos Archer",
+       "chance": 100
+      },
+      {
+       "id": 22239,
+       "name": "Muertos Guard",
+       "chance": 100
+      },
+      {
+       "id": 22240,
+       "name": "Muertos Scout",
+       "chance": 100
+      },
+      {
+       "id": 22242,
+       "name": "Muertos Warrior",
+       "chance": 100
+      },
+      {
+       "id": 22243,
+       "name": "Muertos Captain",
+       "chance": 100
+      },
+      {
+       "id": 22245,
+       "name": "Muertos Lieutenant",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Mountain Werewolf, Muertos Archer, Muertos Guard for Muertos Claw x1",
+   "places": [
+    {
+     "mobs": [
+      22235,
+      22236,
+      22239,
+      22240,
+      22242,
+      22243,
+      22245
+     ],
+     "items": [
+      9808
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-i-16",
+      "name": "Stronghold I 16: Mountain Werewolf area (south)",
+      "at": [
+       -119752,
+       86664,
+       -3520
+      ],
+      "radius": 4001,
+      "levels": [
+       6,
+       8
+      ],
+      "count": 19,
+      "region": "Stronghold I",
+      "atlasKey": "area:stronghold-i-16",
+      "status": "ok",
+      "sec": 191,
+      "danger": 8,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -110.81666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stronghold-ii-12",
+        "name": "Stronghold II 12: Muertos Guard area (south-west)",
+        "at": [
+         -105208,
+         63288,
+         -2896
+        ],
+        "count": 18,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-iii-2",
+        "name": "Stronghold III 2: Colossus area (south-east)",
+        "at": [
+         -82568,
+         40088,
+         -2528
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-17",
+        "name": "Stronghold I 17: Mountain Werewolf area (east)",
+        "at": [
+         -114360,
+         73304,
+         -3152
+        ],
+        "count": 16,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-i-16",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 14518,
+      "sec": 191,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold I",
+        "link": "stronghold i",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9487,
+        "how": "field-areas-gap",
+        "danger": 8
+       },
+       {
+        "do": "walk",
+        "len": 5031,
+        "how": "field-areas",
+        "danger": 8
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -122410,
+        73205,
+        -2872
+       ],
+       [
+        -122344,
+        82600,
+        -3392
+       ],
+       [
+        -122344,
+        83592,
+        -3472
+       ],
+       [
+        -121464,
+        84568,
+        -3480
+       ],
+       [
+        -120856,
+        85560,
+        -3512
+       ],
+       [
+        -119864,
+        86552,
+        -3520
+       ],
+       [
+        -119752,
+        86664,
+        -3520
+       ]
+      ],
+      "maxDanger": 8,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 8,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "stronghold-i-16",
+    "name": "Stronghold I 16: Mountain Werewolf area (south)",
+    "at": [
+     -119752,
+     86664,
+     -3520
+    ],
+    "radius": 4001,
+    "levels": [
+     6,
+     8
+    ],
+    "count": 19,
+    "region": "Stronghold I",
+    "atlasKey": "area:stronghold-i-16",
+    "status": "ok",
+    "sec": 191,
+    "danger": 8,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -110.81666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stronghold-ii-12",
+      "name": "Stronghold II 12: Muertos Guard area (south-west)",
+      "at": [
+       -105208,
+       63288,
+       -2896
+      ],
+      "count": 18,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-iii-2",
+      "name": "Stronghold III 2: Colossus area (south-east)",
+      "at": [
+       -82568,
+       40088,
+       -2528
+      ],
+      "count": 16,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-i-17",
+      "name": "Stronghold I 17: Mountain Werewolf area (east)",
+      "at": [
+       -114360,
+       73304,
+       -3152
+      ],
+      "count": 16,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:stronghold-i-16",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14518,
+    "sec": 191,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold I",
+      "link": "stronghold i",
+      "price": 2600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9487,
+      "how": "field-areas-gap",
+      "danger": 8
+     },
+     {
+      "do": "walk",
+      "len": 5031,
+      "how": "field-areas",
+      "danger": 8
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -122410,
+      73205,
+      -2872
+     ],
+     [
+      -122344,
+      82600,
+      -3392
+     ],
+     [
+      -122344,
+      83592,
+      -3472
+     ],
+     [
+      -121464,
+      84568,
+      -3480
+     ],
+     [
+      -120856,
+      85560,
+      -3512
+     ],
+     [
+      -119864,
+      86552,
+      -3520
+     ],
+     [
+      -119752,
+      86664,
+      -3520
+     ]
+    ],
+    "maxDanger": 8,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 8,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 216,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:14.305Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial",
+   "route-detour"
+  ]
+ }
+}

@@ -1,0 +1,7125 @@
+{
+ "id": 215,
+ "name": "Trial Of The Pilgrim",
+ "version": 1,
+ "generated": "2026-10-27T11:15:15.479Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 35,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludin",
+ "requirements": {
+  "categories": [
+   "HEAL_GROUP"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: HEAL_GROUP"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 55,
+ "refLevel": 35,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30648",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the Trial of the Pilgrim"
+   ],
+   "npc": {
+    "id": 30648,
+    "name": "Santiago",
+    "title": "Hermit",
+    "town": "Gludin",
+    "at": [
+     -85002,
+     105749,
+     -3593
+    ],
+    "alt": []
+   },
+   "text": "Talk to Santiago – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30648@-85002,105749",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4811,
+    "sec": 85,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4811,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -89269,
+      105460,
+      -3444
+     ],
+     [
+      -88776,
+      105560,
+      -3312
+     ],
+     [
+      -87784,
+      105560,
+      -3360
+     ],
+     [
+      -86792,
+      105560,
+      -3456
+     ],
+     [
+      -85832,
+      105560,
+      -3552
+     ],
+     [
+      -85480,
+      105592,
+      -3544
+     ],
+     [
+      -85000,
+      105752,
+      -3592
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 115,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 27116,
+     "name": "Lava Salamander",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 27117,
+     "name": "Nahir",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 27118,
+     "name": "Black Willow",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2725,
+     "name": "Essence of Flame",
+     "n": 1,
+     "from": [
+      {
+       "id": 27116,
+       "name": "Lava Salamander",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2729,
+     "name": "Hair of Nahir",
+     "n": 20,
+     "from": [
+      {
+       "id": 27117,
+       "name": "Nahir",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2732,
+     "name": "Debris of Willow",
+     "n": 1,
+     "from": [
+      {
+       "id": 27118,
+       "name": "Black Willow",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Lava Salamander, Nahir, Black Willow for Essence of Flame x1, Hair of Nahir x20, Debris of Willow x1",
+   "places": [
+    {
+     "mobs": [
+      27116
+     ],
+     "items": [
+      2725
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27116@-61151,182532",
+      "name": "Lava Salamander (Forgotten Temple)",
+      "at": [
+       -61151,
+       182532,
+       -4818
+      ],
+      "radius": 1500,
+      "levels": [
+       35,
+       35
+      ],
+      "count": 4,
+      "region": "Forgotten Temple",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 66,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "raid:25038",
+      "status": "ok",
+      "flags": [
+       "raid-policy"
+      ],
+      "from": ".gludin",
+      "length": 19362,
+      "sec": 207,
+      "via": ".gludin > Gludin -> Forgotten Temple",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Forgotten Temple",
+        "link": "forgotten temple",
+        "price": 2000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9675,
+        "how": "geodata",
+        "danger": 33
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Forgotten Temple"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -53001,
+        191425,
+        -3568
+       ],
+       [
+        -53000,
+        191432,
+        -3568
+       ],
+       [
+        -52904,
+        190936,
+        -3532
+       ],
+       [
+        -52808,
+        190440,
+        -3496
+       ],
+       [
+        -52824,
+        189848,
+        -3896
+       ],
+       [
+        -52936,
+        189352,
+        -4224
+       ],
+       [
+        -52888,
+        189144,
+        -4360
+       ],
+       [
+        -52888,
+        188376,
+        -4696
+       ],
+       [
+        -53720,
+        188056,
+        -4664
+       ],
+       [
+        -53720,
+        187544,
+        -4736
+       ],
+       [
+        -53672,
+        187528,
+        -4736
+       ],
+       [
+        -53752,
+        187320,
+        -4784
+       ],
+       [
+        -53784,
+        187128,
+        -4808
+       ],
+       [
+        -54072,
+        186840,
+        -4808
+       ],
+       [
+        -54712,
+        186840,
+        -4808
+       ],
+       [
+        -54952,
+        186408,
+        -4808
+       ],
+       [
+        -55928,
+        186344,
+        -4808
+       ],
+       [
+        -56520,
+        186376,
+        -4808
+       ],
+       [
+        -56744,
+        186456,
+        -4808
+       ],
+       [
+        -56840,
+        185928,
+        -4968
+       ],
+       [
+        -56872,
+        185928,
+        -4968
+       ],
+       [
+        -57192,
+        185944,
+        -4968
+       ],
+       [
+        -57192,
+        186232,
+        -4968
+       ],
+       [
+        -57240,
+        186264,
+        -4968
+       ],
+       [
+        -57336,
+        186264,
+        -4968
+       ],
+       [
+        -57352,
+        186280,
+        -4968
+       ],
+       [
+        -57192,
+        186296,
+        -4968
+       ],
+       [
+        -57192,
+        186648,
+        -4968
+       ],
+       [
+        -57240,
+        186680,
+        -4968
+       ],
+       [
+        -57576,
+        186680,
+        -4968
+       ],
+       [
+        -57592,
+        186120,
+        -4808
+       ],
+       [
+        -57848,
+        186168,
+        -4808
+       ],
+       [
+        -57864,
+        186184,
+        -4808
+       ],
+       [
+        -58856,
+        186216,
+        -4808
+       ],
+       [
+        -59112,
+        186168,
+        -4808
+       ],
+       [
+        -59512,
+        185736,
+        -4808
+       ],
+       [
+        -59512,
+        184744,
+        -4808
+       ],
+       [
+        -59448,
+        184376,
+        -4808
+       ],
+       [
+        -59224,
+        184104,
+        -4808
+       ],
+       [
+        -59224,
+        183512,
+        -4808
+       ],
+       [
+        -59512,
+        183144,
+        -4808
+       ],
+       [
+        -59512,
+        182152,
+        -4808
+       ],
+       [
+        -59560,
+        181896,
+        -4808
+       ],
+       [
+        -59752,
+        181752,
+        -4808
+       ],
+       [
+        -60312,
+        181624,
+        -4808
+       ],
+       [
+        -60680,
+        181624,
+        -4808
+       ],
+       [
+        -60984,
+        181992,
+        -4808
+       ],
+       [
+        -61144,
+        182536,
+        -4808
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": 0,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "raid:25038",
+       "name": "Tirak"
+      },
+      "points": [
+       [
+        -53001,
+        191425,
+        -3568
+       ],
+       [
+        -53000,
+        191432,
+        -3568
+       ],
+       [
+        -52904,
+        190936,
+        -3532
+       ],
+       [
+        -52808,
+        190440,
+        -3496
+       ],
+       [
+        -52824,
+        189848,
+        -3896
+       ],
+       [
+        -52936,
+        189352,
+        -4224
+       ],
+       [
+        -52888,
+        189144,
+        -4360
+       ],
+       [
+        -52888,
+        188376,
+        -4696
+       ],
+       [
+        -53720,
+        188056,
+        -4664
+       ],
+       [
+        -53720,
+        187544,
+        -4736
+       ],
+       [
+        -53672,
+        187528,
+        -4736
+       ],
+       [
+        -53752,
+        187320,
+        -4784
+       ],
+       [
+        -53784,
+        187128,
+        -4808
+       ],
+       [
+        -54072,
+        186840,
+        -4808
+       ],
+       [
+        -54712,
+        186840,
+        -4808
+       ],
+       [
+        -54952,
+        186408,
+        -4808
+       ],
+       [
+        -55928,
+        186344,
+        -4808
+       ],
+       [
+        -56520,
+        186376,
+        -4808
+       ],
+       [
+        -56744,
+        186456,
+        -4808
+       ],
+       [
+        -56840,
+        185928,
+        -4968
+       ],
+       [
+        -56872,
+        185928,
+        -4968
+       ],
+       [
+        -57192,
+        185944,
+        -4968
+       ],
+       [
+        -57192,
+        186232,
+        -4968
+       ],
+       [
+        -57240,
+        186264,
+        -4968
+       ],
+       [
+        -57336,
+        186264,
+        -4968
+       ],
+       [
+        -57352,
+        186280,
+        -4968
+       ],
+       [
+        -57192,
+        186296,
+        -4968
+       ],
+       [
+        -57192,
+        186648,
+        -4968
+       ],
+       [
+        -57240,
+        186680,
+        -4968
+       ],
+       [
+        -57576,
+        186680,
+        -4968
+       ],
+       [
+        -57592,
+        186120,
+        -4808
+       ],
+       [
+        -57848,
+        186168,
+        -4808
+       ],
+       [
+        -57864,
+        186184,
+        -4808
+       ],
+       [
+        -58856,
+        186216,
+        -4808
+       ],
+       [
+        -59112,
+        186168,
+        -4808
+       ],
+       [
+        -59512,
+        185736,
+        -4808
+       ],
+       [
+        -59512,
+        184744,
+        -4808
+       ],
+       [
+        -59448,
+        184376,
+        -4808
+       ],
+       [
+        -59224,
+        184104,
+        -4808
+       ],
+       [
+        -59224,
+        183512,
+        -4808
+       ],
+       [
+        -59512,
+        183144,
+        -4808
+       ],
+       [
+        -59512,
+        182152,
+        -4808
+       ],
+       [
+        -59560,
+        181896,
+        -4808
+       ],
+       [
+        -59752,
+        181752,
+        -4808
+       ],
+       [
+        -60312,
+        181624,
+        -4808
+       ],
+       [
+        -60680,
+        181624,
+        -4808
+       ],
+       [
+        -60984,
+        181992,
+        -4808
+       ],
+       [
+        -61144,
+        182536,
+        -4808
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      27117
+     ],
+     "items": [
+      2729
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27117@48001,244347",
+      "name": "Nahir",
+      "at": [
+       48001,
+       244347,
+       -6563
+      ],
+      "radius": 1500,
+      "levels": [
+       35,
+       35
+      ],
+      "count": 1,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 84,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:30429@49328,248416",
+      "status": "unverified",
+      "flags": [
+       "unverified-walk",
+       "long-walk"
+      ],
+      "from": ".heine",
+      "length": 49636,
+      "sec": 459,
+      "via": ".heine > Heine -> Garden of Eva",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Garden of Eva",
+        "link": "garden of eva",
+        "price": 2400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 37806,
+        "how": "straight",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Garden of Eva"
+      },
+      "simple": true,
+      "pv": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        45496,
+        248456,
+        -6360
+       ],
+       [
+        44504,
+        248456,
+        -6456
+       ],
+       [
+        43912,
+        248440,
+        -6496
+       ],
+       [
+        43624,
+        248104,
+        -6488
+       ],
+       [
+        43624,
+        247112,
+        -6456
+       ],
+       [
+        43624,
+        246120,
+        -6456
+       ],
+       [
+        43624,
+        245128,
+        -6456
+       ],
+       [
+        43640,
+        244632,
+        -6496
+       ],
+       [
+        43976,
+        244344,
+        -6488
+       ],
+       [
+        44968,
+        244344,
+        -6456
+       ],
+       [
+        45960,
+        244344,
+        -6512
+       ],
+       [
+        46952,
+        244344,
+        -6560
+       ],
+       [
+        47944,
+        244344,
+        -6560
+       ],
+       [
+        48008,
+        244344,
+        -6560
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [
+       "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": 0,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:30429@49328,248416",
+       "name": "Tiramisa"
+      },
+      "points": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        45496,
+        248456,
+        -6360
+       ],
+       [
+        44504,
+        248456,
+        -6456
+       ],
+       [
+        43912,
+        248440,
+        -6496
+       ],
+       [
+        43624,
+        248104,
+        -6488
+       ],
+       [
+        43624,
+        247112,
+        -6456
+       ],
+       [
+        43624,
+        246120,
+        -6456
+       ],
+       [
+        43624,
+        245128,
+        -6456
+       ],
+       [
+        43640,
+        244632,
+        -6496
+       ],
+       [
+        43976,
+        244344,
+        -6488
+       ],
+       [
+        44968,
+        244344,
+        -6456
+       ],
+       [
+        45960,
+        244344,
+        -6512
+       ],
+       [
+        46952,
+        244344,
+        -6560
+       ],
+       [
+        47944,
+        244344,
+        -6560
+       ],
+       [
+        48008,
+        244344,
+        -6560
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      27118
+     ],
+     "items": [
+      2732
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "neutral-zone-14",
+      "name": "Neutral Zone 14: Black Willow area (north)",
+      "at": [
+       -10952,
+       57592,
+       -3720
+      ],
+      "radius": 2454,
+      "levels": [
+       30,
+       30
+      ],
+      "count": 5,
+      "region": "Neutral Zone",
+      "atlasKey": "area:neutral-zone-14",
+      "status": "ok",
+      "sec": 432,
+      "danger": 30,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -22.8,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:neutral-zone-14",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".gludio",
+      "length": 18627,
+      "sec": 432,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Neutral Zone",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Neutral Zone",
+        "link": "neutral zone",
+        "price": 1700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4796,
+        "how": "field-areas-gap",
+        "danger": 17
+       },
+       {
+        "do": "walk",
+        "len": 13831,
+        "how": "field-areas",
+        "danger": 30
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -10612,
+        75881,
+        -3592
+       ],
+       [
+        -10616,
+        71160,
+        -3904
+       ],
+       [
+        -10616,
+        70168,
+        -4096
+       ],
+       [
+        -10616,
+        69176,
+        -3928
+       ],
+       [
+        -10616,
+        68184,
+        -3808
+       ],
+       [
+        -10616,
+        67192,
+        -3864
+       ],
+       [
+        -10616,
+        66200,
+        -3792
+       ],
+       [
+        -10616,
+        65208,
+        -3784
+       ],
+       [
+        -10616,
+        64216,
+        -3952
+       ],
+       [
+        -10616,
+        63224,
+        -4144
+       ],
+       [
+        -10616,
+        62232,
+        -4344
+       ],
+       [
+        -10616,
+        61240,
+        -4424
+       ],
+       [
+        -10616,
+        60248,
+        -4432
+       ],
+       [
+        -10600,
+        59256,
+        -4344
+       ],
+       [
+        -10360,
+        59016,
+        -4208
+       ],
+       [
+        -10360,
+        58648,
+        -3888
+       ],
+       [
+        -10376,
+        58632,
+        -3864
+       ],
+       [
+        -10392,
+        58616,
+        -3840
+       ],
+       [
+        -10408,
+        58600,
+        -3824
+       ],
+       [
+        -10424,
+        58584,
+        -3808
+       ],
+       [
+        -10440,
+        58568,
+        -3784
+       ],
+       [
+        -10456,
+        58552,
+        -3768
+       ],
+       [
+        -10472,
+        58536,
+        -3744
+       ],
+       [
+        -10488,
+        58520,
+        -3728
+       ],
+       [
+        -10504,
+        58504,
+        -3712
+       ],
+       [
+        -10952,
+        57592,
+        -3720
+       ]
+      ],
+      "maxDanger": 30,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 17746,
+        "maxSwim": 13015,
+        "overBreath": true
+       },
+       "danger": 30,
+       "dangerVsLevel": -5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "27116@-61151,182532",
+    "name": "Lava Salamander (Forgotten Temple)",
+    "at": [
+     -61151,
+     182532,
+     -4818
+    ],
+    "radius": 1500,
+    "levels": [
+     35,
+     35
+    ],
+    "count": 4,
+    "region": "Forgotten Temple",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 66,
+    "alt": []
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:30429@49328,248416",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk",
+     "long-walk"
+    ],
+    "from": ".heine",
+    "length": 49636,
+    "sec": 459,
+    "via": ".heine > Heine -> Garden of Eva",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Garden of Eva",
+      "link": "garden of eva",
+      "price": 2400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 37806,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Garden of Eva"
+    },
+    "simple": true,
+    "pv": [
+     [
+      84413,
+      234334,
+      -3656
+     ],
+     [
+      49328,
+      248416,
+      -5952
+     ],
+     [
+      47352,
+      248440,
+      -6360
+     ],
+     [
+      46488,
+      248472,
+      -6360
+     ],
+     [
+      45496,
+      248456,
+      -6360
+     ],
+     [
+      44504,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246120,
+      -6456
+     ],
+     [
+      43624,
+      245128,
+      -6456
+     ],
+     [
+      43640,
+      244632,
+      -6496
+     ],
+     [
+      43976,
+      244344,
+      -6488
+     ],
+     [
+      44968,
+      244344,
+      -6456
+     ],
+     [
+      45960,
+      244344,
+      -6512
+     ],
+     [
+      46952,
+      244344,
+      -6560
+     ],
+     [
+      47944,
+      244344,
+      -6560
+     ],
+     [
+      48008,
+      244344,
+      -6560
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30429@49328,248416",
+     "name": "Tiramisa"
+    },
+    "points": [
+     [
+      84413,
+      234334,
+      -3656
+     ],
+     [
+      49328,
+      248416,
+      -5952
+     ],
+     [
+      47352,
+      248440,
+      -6360
+     ],
+     [
+      46488,
+      248472,
+      -6360
+     ],
+     [
+      45496,
+      248456,
+      -6360
+     ],
+     [
+      44504,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246120,
+      -6456
+     ],
+     [
+      43624,
+      245128,
+      -6456
+     ],
+     [
+      43640,
+      244632,
+      -6496
+     ],
+     [
+      43976,
+      244344,
+      -6488
+     ],
+     [
+      44968,
+      244344,
+      -6456
+     ],
+     [
+      45960,
+      244344,
+      -6512
+     ],
+     [
+      46952,
+      244344,
+      -6560
+     ],
+     [
+      47944,
+      244344,
+      -6560
+     ],
+     [
+      48008,
+      244344,
+      -6560
+     ]
+    ]
+   },
+   "expectedSec": 959,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "override": {
+    "route": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246120,
+      -6456
+     ],
+     [
+      43624,
+      245128,
+      -6456
+     ],
+     [
+      43640,
+      244632,
+      -6496
+     ],
+     [
+      43976,
+      244344,
+      -6488
+     ],
+     [
+      44968,
+      244344,
+      -6456
+     ],
+     [
+      45960,
+      244344,
+      -6512
+     ],
+     [
+      46952,
+      244344,
+      -6560
+     ],
+     [
+      47944,
+      244344,
+      -6560
+     ],
+     [
+      48008,
+      244344,
+      -6560
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "forMobs": [
+     27117
+    ],
+    "note": "route for the Nahir 27117 place only (TI dungeon interior 48001,244347,-6563, spawns_h5.json); the other places keep their routes; way in = Siff teleport; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "points": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246120,
+      -6456
+     ],
+     [
+      43624,
+      245128,
+      -6456
+     ],
+     [
+      43640,
+      244632,
+      -6496
+     ],
+     [
+      43976,
+      244344,
+      -6488
+     ],
+     [
+      44968,
+      244344,
+      -6456
+     ],
+     [
+      45960,
+      244344,
+      -6512
+     ],
+     [
+      46952,
+      244344,
+      -6560
+     ],
+     [
+      47944,
+      244344,
+      -6560
+     ],
+     [
+      48008,
+      244344,
+      -6560
+     ]
+    ],
+    "pv": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246120,
+      -6456
+     ],
+     [
+      43624,
+      245128,
+      -6456
+     ],
+     [
+      43640,
+      244632,
+      -6496
+     ],
+     [
+      43976,
+      244344,
+      -6488
+     ],
+     [
+      44968,
+      244344,
+      -6456
+     ],
+     [
+      45960,
+      244344,
+      -6512
+     ],
+     [
+      46952,
+      244344,
+      -6560
+     ],
+     [
+      47944,
+      244344,
+      -6560
+     ],
+     [
+      48008,
+      244344,
+      -6560
+     ]
+    ],
+    "length": 13068,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30648",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30648,
+    "name": "Santiago",
+    "title": "Hermit",
+    "town": "Gludin",
+    "at": [
+     -85002,
+     105749,
+     -3593
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Sage to Santiago",
+   "needs": [
+    {
+     "id": 2722,
+     "name": "Book of Sage",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30648@-85002,105749",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4811,
+    "sec": 85,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4811,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -89269,
+      105460,
+      -3444
+     ],
+     [
+      -88776,
+      105560,
+      -3312
+     ],
+     [
+      -87784,
+      105560,
+      -3360
+     ],
+     [
+      -86792,
+      105560,
+      -3456
+     ],
+     [
+      -85832,
+      105560,
+      -3552
+     ],
+     [
+      -85480,
+      105592,
+      -3544
+     ],
+     [
+      -85000,
+      105752,
+      -3592
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30612",
+   "cond": 1,
+   "kind": "talk",
+   "to": 17,
+   "links": [],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30362",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 16,
+   "links": [
+    "Burn the Book of Darkness"
+   ],
+   "npc": {
+    "id": 30362,
+    "name": "Andellia",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     46475,
+     50495,
+     -3056
+    ],
+    "alt": []
+   },
+   "text": "Bring Book of Darkness to Andellia",
+   "needs": [
+    {
+     "id": 2731,
+     "name": "Book of Darkness",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30362@46475,50495",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 1706,
+    "sec": 59,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30652",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 15,
+   "links": [
+    "\"I only came here at the request of Andellia.\""
+   ],
+   "npc": {
+    "id": 30652,
+    "name": "Uruha",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -11692,
+     57028,
+     -3712
+    ],
+    "alt": []
+   },
+   "text": "Bring Debris of Willow to Uruha",
+   "needs": [
+    {
+     "id": 2732,
+     "name": "Debris of Willow",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30652@-11692,57028",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".gludio",
+    "length": 19468,
+    "sec": 348,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Neutral Zone",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Neutral Zone",
+      "link": "neutral zone",
+      "price": 1700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19468,
+      "how": "geodata",
+      "danger": 30
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -10612,
+      75881,
+      -3592
+     ],
+     [
+      -11110,
+      75385,
+      -3568
+     ],
+     [
+      -11608,
+      74888,
+      -3544
+     ],
+     [
+      -11688,
+      73896,
+      -3400
+     ],
+     [
+      -11688,
+      72904,
+      -3320
+     ],
+     [
+      -11688,
+      71912,
+      -3424
+     ],
+     [
+      -11688,
+      70920,
+      -3936
+     ],
+     [
+      -11688,
+      69928,
+      -4040
+     ],
+     [
+      -11688,
+      68936,
+      -3824
+     ],
+     [
+      -11384,
+      68376,
+      -3736
+     ],
+     [
+      -11384,
+      68344,
+      -3720
+     ],
+     [
+      -11536,
+      67848,
+      -3612
+     ],
+     [
+      -11688,
+      67352,
+      -3504
+     ],
+     [
+      -11688,
+      66360,
+      -3640
+     ],
+     [
+      -11688,
+      65368,
+      -3776
+     ],
+     [
+      -11688,
+      64376,
+      -3792
+     ],
+     [
+      -11688,
+      63384,
+      -3952
+     ],
+     [
+      -11688,
+      62392,
+      -4160
+     ],
+     [
+      -11688,
+      61400,
+      -4280
+     ],
+     [
+      -11688,
+      60408,
+      -4312
+     ],
+     [
+      -11688,
+      59416,
+      -4256
+     ],
+     [
+      -11656,
+      58760,
+      -3856
+     ],
+     [
+      -11640,
+      58760,
+      -3848
+     ],
+     [
+      -11656,
+      58728,
+      -3832
+     ],
+     [
+      -11752,
+      58632,
+      -3768
+     ],
+     [
+      -11768,
+      58632,
+      -3768
+     ],
+     [
+      -11688,
+      57640,
+      -3720
+     ],
+     [
+      -11688,
+      57032,
+      -3720
+     ]
+    ],
+    "maxDanger": 30,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 9951,
+      "maxSwim": 6822,
+      "overBreath": true
+     },
+     "danger": 30,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 373,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17
+   ],
+   "override": {
+    "route": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -20968,
+      41496,
+      -3480
+     ],
+     [
+      -20328,
+      42136,
+      -3680
+     ],
+     [
+      -19688,
+      42808,
+      -3768
+     ],
+     [
+      -18696,
+      43752,
+      -3712
+     ],
+     [
+      -17704,
+      44744,
+      -3704
+     ],
+     [
+      -17160,
+      45288,
+      -3752
+     ],
+     [
+      -16248,
+      46280,
+      -3776
+     ],
+     [
+      -15688,
+      46840,
+      -3768
+     ],
+     [
+      -15128,
+      47416,
+      -3768
+     ],
+     [
+      -14280,
+      48408,
+      -3768
+     ],
+     [
+      -13288,
+      49400,
+      -3712
+     ],
+     [
+      -12296,
+      50392,
+      -3744
+     ],
+     [
+      -11304,
+      51384,
+      -3720
+     ],
+     [
+      -10728,
+      51960,
+      -3688
+     ],
+     [
+      -11688,
+      52952,
+      -3736
+     ],
+     [
+      -11688,
+      53944,
+      -3648
+     ],
+     [
+      -11688,
+      54936,
+      -3544
+     ],
+     [
+      -11720,
+      55928,
+      -3344
+     ],
+     [
+      -11960,
+      56872,
+      -3680
+     ],
+     [
+      -11688,
+      57032,
+      -3720
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Swampland",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "note": "Uruha (-11692,57028,-3712): the atlas way swam 6822 in one go; new way = nav atlas walk to Swampland 23 + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (dry, no swim)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Swampland",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "points": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -20968,
+      41496,
+      -3480
+     ],
+     [
+      -20328,
+      42136,
+      -3680
+     ],
+     [
+      -19688,
+      42808,
+      -3768
+     ],
+     [
+      -18696,
+      43752,
+      -3712
+     ],
+     [
+      -17704,
+      44744,
+      -3704
+     ],
+     [
+      -17160,
+      45288,
+      -3752
+     ],
+     [
+      -16248,
+      46280,
+      -3776
+     ],
+     [
+      -15688,
+      46840,
+      -3768
+     ],
+     [
+      -15128,
+      47416,
+      -3768
+     ],
+     [
+      -14280,
+      48408,
+      -3768
+     ],
+     [
+      -13288,
+      49400,
+      -3712
+     ],
+     [
+      -12296,
+      50392,
+      -3744
+     ],
+     [
+      -11304,
+      51384,
+      -3720
+     ],
+     [
+      -10728,
+      51960,
+      -3688
+     ],
+     [
+      -11688,
+      52952,
+      -3736
+     ],
+     [
+      -11688,
+      53944,
+      -3648
+     ],
+     [
+      -11688,
+      54936,
+      -3544
+     ],
+     [
+      -11720,
+      55928,
+      -3344
+     ],
+     [
+      -11960,
+      56872,
+      -3680
+     ],
+     [
+      -11688,
+      57032,
+      -3720
+     ]
+    ],
+    "pv": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -20968,
+      41496,
+      -3480
+     ],
+     [
+      -20328,
+      42136,
+      -3680
+     ],
+     [
+      -19688,
+      42808,
+      -3768
+     ],
+     [
+      -18696,
+      43752,
+      -3712
+     ],
+     [
+      -17704,
+      44744,
+      -3704
+     ],
+     [
+      -17160,
+      45288,
+      -3752
+     ],
+     [
+      -16248,
+      46280,
+      -3776
+     ],
+     [
+      -15688,
+      46840,
+      -3768
+     ],
+     [
+      -15128,
+      47416,
+      -3768
+     ],
+     [
+      -14280,
+      48408,
+      -3768
+     ],
+     [
+      -13288,
+      49400,
+      -3712
+     ],
+     [
+      -12296,
+      50392,
+      -3744
+     ],
+     [
+      -11304,
+      51384,
+      -3720
+     ],
+     [
+      -10728,
+      51960,
+      -3688
+     ],
+     [
+      -11688,
+      52952,
+      -3736
+     ],
+     [
+      -11688,
+      53944,
+      -3648
+     ],
+     [
+      -11688,
+      54936,
+      -3544
+     ],
+     [
+      -11720,
+      55928,
+      -3344
+     ],
+     [
+      -11960,
+      56872,
+      -3680
+     ],
+     [
+      -11688,
+      57032,
+      -3720
+     ]
+    ],
+    "length": 21662,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-swim"
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:talk:30036",
+   "cond": 1,
+   "kind": "talk",
+   "to": 12,
+   "links": [],
+   "npc": {
+    "id": 30036,
+    "name": "Petron",
+    "title": "Priest",
+    "town": "Talking Island",
+    "at": [
+     -85186,
+     245001,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Petron",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30036@-85186,245001",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 2085,
+    "sec": 62,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2085,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84264,
+      244648,
+      -3728
+     ],
+     [
+      -84216,
+      244920,
+      -3728
+     ],
+     [
+      -84376,
+      245144,
+      -3712
+     ],
+     [
+      -84584,
+      245320,
+      -3720
+     ],
+     [
+      -84520,
+      245448,
+      -3712
+     ],
+     [
+      -84536,
+      245416,
+      -3712
+     ],
+     [
+      -84728,
+      245240,
+      -3720
+     ],
+     [
+      -84920,
+      245048,
+      -3720
+     ],
+     [
+      -85096,
+      244968,
+      -3720
+     ],
+     [
+      -85192,
+      245000,
+      -3720
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -32,
+     "aggro": []
+    }
+   },
+   "expectedSec": 87,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:talk:30117",
+   "cond": 1,
+   "kind": "talk",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30117,
+    "name": "Primos",
+    "title": "Priest",
+    "town": "Giran",
+    "at": [
+     86472,
+     148848,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Talk to Primos",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30117@86472,148848",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 3718,
+    "sec": 51,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 3718,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148392,
+      -3400
+     ],
+     [
+      83592,
+      148216,
+      -3400
+     ],
+     [
+      83864,
+      148184,
+      -3392
+     ],
+     [
+      84136,
+      148216,
+      -3400
+     ],
+     [
+      84120,
+      148424,
+      -3400
+     ],
+     [
+      84184,
+      148600,
+      -3400
+     ],
+     [
+      84456,
+      148616,
+      -3400
+     ],
+     [
+      84728,
+      148616,
+      -3400
+     ],
+     [
+      85000,
+      148616,
+      -3400
+     ],
+     [
+      85160,
+      148616,
+      -3400
+     ],
+     [
+      85288,
+      148632,
+      -3400
+     ],
+     [
+      85560,
+      148632,
+      -3400
+     ],
+     [
+      85832,
+      148632,
+      -3400
+     ],
+     [
+      86104,
+      148632,
+      -3400
+     ],
+     [
+      86376,
+      148680,
+      -3400
+     ],
+     [
+      86472,
+      148856,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:talk:30651",
+   "cond": 1,
+   "kind": "talk",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30651,
+    "name": "Dorf",
+    "title": "Wanderer",
+    "town": "Dwarven Village",
+    "at": [
+     116164,
+     -184029,
+     -1488
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dorf",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30651@116164,-184029",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6458,
+    "sec": 99,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6458,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116504,
+      -180104,
+      -1160
+     ],
+     [
+      116504,
+      -180136,
+      -1160
+     ],
+     [
+      116168,
+      -180600,
+      -904
+     ],
+     [
+      116360,
+      -181144,
+      -1344
+     ],
+     [
+      116264,
+      -181640,
+      -1412
+     ],
+     [
+      116168,
+      -182136,
+      -1480
+     ],
+     [
+      116168,
+      -183128,
+      -1504
+     ],
+     [
+      116168,
+      -184024,
+      -1504
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 124,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:deliver:30550",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30550,
+    "name": "Gauri Twinklerock",
+    "title": "",
+    "town": "Dwarven Village",
+    "at": [
+     115563,
+     -182923,
+     -1448
+    ],
+    "alt": []
+   },
+   "text": "Bring Spirit of Flame to Gauri Twinklerock",
+   "needs": [
+    {
+     "id": 2724,
+     "name": "Spirit of Flame",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30550@115563,-182923",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6007,
+    "sec": 95,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6007,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115288,
+      -178440,
+      -920
+     ],
+     [
+      115288,
+      -178712,
+      -920
+     ],
+     [
+      115336,
+      -178888,
+      -936
+     ],
+     [
+      115368,
+      -178920,
+      -944
+     ],
+     [
+      115384,
+      -178936,
+      -944
+     ],
+     [
+      115576,
+      -179128,
+      -968
+     ],
+     [
+      115768,
+      -179320,
+      -984
+     ],
+     [
+      116024,
+      -179384,
+      -1032
+     ],
+     [
+      116280,
+      -179448,
+      -1088
+     ],
+     [
+      116488,
+      -179576,
+      -1120
+     ],
+     [
+      116680,
+      -179768,
+      -1144
+     ],
+     [
+      116728,
+      -179976,
+      -1168
+     ],
+     [
+      116680,
+      -180248,
+      -1192
+     ],
+     [
+      116712,
+      -180520,
+      -1240
+     ],
+     [
+      116712,
+      -180792,
+      -1288
+     ],
+     [
+      116664,
+      -181064,
+      -1344
+     ],
+     [
+      116648,
+      -181336,
+      -1392
+     ],
+     [
+      116648,
+      -181400,
+      -1400
+     ],
+     [
+      116616,
+      -181672,
+      -1440
+     ],
+     [
+      116584,
+      -181944,
+      -1488
+     ],
+     [
+      116392,
+      -182136,
+      -1488
+     ],
+     [
+      116200,
+      -182328,
+      -1488
+     ],
+     [
+      116088,
+      -182440,
+      -1488
+     ],
+     [
+      115960,
+      -182568,
+      -1464
+     ],
+     [
+      115768,
+      -182744,
+      -1448
+     ],
+     [
+      115560,
+      -182920,
+      -1448
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 120,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c1:deliver:30571",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30571,
+    "name": "Tanapi",
+    "title": "Seer",
+    "town": "Orc Village",
+    "at": [
+     -45863,
+     -112621,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Bring Spirit of Flame to Tanapi",
+   "needs": [
+    {
+     "id": 2724,
+     "name": "Spirit of Flame",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30571@-45863,-112621",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 11922,
+    "sec": 144,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11922,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ],
+     [
+      -46696,
+      -113464,
+      -200
+     ],
+     [
+      -46472,
+      -113464,
+      -200
+     ],
+     [
+      -46392,
+      -113208,
+      -200
+     ],
+     [
+      -46360,
+      -113144,
+      -200
+     ],
+     [
+      -46392,
+      -112936,
+      -200
+     ],
+     [
+      -46200,
+      -112744,
+      -200
+     ],
+     [
+      -46008,
+      -112552,
+      -200
+     ],
+     [
+      -45864,
+      -112536,
+      -200
+     ],
+     [
+      -45864,
+      -112616,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -32,
+     "aggro": []
+    }
+   },
+   "expectedSec": 169,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c1:deliver:30649",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "Swallow the Essence of Flame"
+   ],
+   "npc": {
+    "id": 30649,
+    "name": "Ancestor Martankus",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "alt": []
+   },
+   "text": "Bring Essence of Flame to Ancestor Martankus",
+   "needs": [
+    {
+     "id": 2725,
+     "name": "Essence of Flame",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30649@21420,-107787",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".schuttgart",
+    "length": 12970,
+    "sec": 178,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Cave of Trials",
+      "link": "cave of trials",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 12970,
+      "how": "straight",
+      "danger": 19
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      21420,
+      -107787,
+      -2926
+     ]
+    ],
+    "maxDanger": 19,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 9340,-112509 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 19,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 203,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "override": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "npcAt": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "note": "Ancestor Martankus stands on a dais (-2920) in the Cave of Trials Undead Slave hall; route = the nav atlas walk of room:caveoftrials-1-straight-g (dungeon-rooms graph) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer to (21420,-107900,-3016), 113 from him (talk range); the old atlas walk was an unchecked straight line",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "points": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "length": 18182,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c1:deliver:30650",
+   "cond": 1,
+   "kind": "deliver",
+   "to": null,
+   "links": [
+    "Donate 100,000 Adena."
+   ],
+   "npc": {
+    "id": 30650,
+    "name": "Gerald",
+    "title": "Priest of the Earth",
+    "town": "Dwarven Village",
+    "at": [
+     114990,
+     -177294,
+     -856
+    ],
+    "alt": []
+   },
+   "text": "Bring Adena x100000, Tag of Rumor to Gerald",
+   "needs": [
+    {
+     "id": 57,
+     "name": "Adena",
+     "n": 100000
+    },
+    {
+     "id": 2733,
+     "name": "Tag of Rumor",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30650@114990,-177294",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1077,
+    "sec": 54,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1077,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115176,
+      -178168,
+      -912
+     ],
+     [
+      115240,
+      -177992,
+      -920
+     ],
+     [
+      115240,
+      -177720,
+      -920
+     ],
+     [
+      115192,
+      -177448,
+      -904
+     ],
+     [
+      114984,
+      -177288,
+      -856
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c5:talk:30649",
+   "cond": 5,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30649,
+    "name": "Ancestor Martankus",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "alt": []
+   },
+   "text": "Talk to Ancestor Martankus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30649@21420,-107787",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".schuttgart",
+    "length": 12970,
+    "sec": 178,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Cave of Trials",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Cave of Trials",
+      "link": "cave of trials",
+      "price": 1500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 12970,
+      "how": "straight",
+      "danger": 19
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      21420,
+      -107787,
+      -2926
+     ]
+    ],
+    "maxDanger": 19,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 9340,-112509 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 19,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 203,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ],
+   "override": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "npcAt": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "note": "Ancestor Martankus stands on a dais (-2920) in the Cave of Trials Undead Slave hall; route = the nav atlas walk of room:caveoftrials-1-straight-g (dungeon-rooms graph) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer to (21420,-107900,-3016), 113 from him (talk range); the old atlas walk was an unchecked straight line",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "points": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "length": 18182,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c6:deliver:30571",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30571,
+    "name": "Tanapi",
+    "title": "Seer",
+    "town": "Orc Village",
+    "at": [
+     -45863,
+     -112621,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Bring Voucher of Trial to Tanapi",
+   "needs": [
+    {
+     "id": 2723,
+     "name": "Voucher of Trial",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30571@-45863,-112621",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 11922,
+    "sec": 144,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11922,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ],
+     [
+      -46696,
+      -113464,
+      -200
+     ],
+     [
+      -46472,
+      -113464,
+      -200
+     ],
+     [
+      -46392,
+      -113208,
+      -200
+     ],
+     [
+      -46360,
+      -113144,
+      -200
+     ],
+     [
+      -46392,
+      -112936,
+      -200
+     ],
+     [
+      -46200,
+      -112744,
+      -200
+     ],
+     [
+      -46008,
+      -112552,
+      -200
+     ],
+     [
+      -45864,
+      -112536,
+      -200
+     ],
+     [
+      -45864,
+      -112616,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -32,
+     "aggro": []
+    }
+   },
+   "expectedSec": 169,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c8:deliver:30651",
+   "cond": 8,
+   "kind": "deliver",
+   "to": null,
+   "links": [],
+   "npc": {
+    "id": 30651,
+    "name": "Dorf",
+    "title": "Wanderer",
+    "town": "Dwarven Village",
+    "at": [
+     116164,
+     -184029,
+     -1488
+    ],
+    "alt": []
+   },
+   "text": "Bring Tag of Rumor to Dorf",
+   "needs": [
+    {
+     "id": 2733,
+     "name": "Tag of Rumor",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30651@116164,-184029",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6458,
+    "sec": 99,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6458,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115620,
+      -178716,
+      -968
+     ],
+     [
+      116120,
+      -179208,
+      -1056
+     ],
+     [
+      116504,
+      -180104,
+      -1160
+     ],
+     [
+      116504,
+      -180136,
+      -1160
+     ],
+     [
+      116168,
+      -180600,
+      -904
+     ],
+     [
+      116360,
+      -181144,
+      -1344
+     ],
+     [
+      116264,
+      -181640,
+      -1412
+     ],
+     [
+      116168,
+      -182136,
+      -1480
+     ],
+     [
+      116168,
+      -183128,
+      -1504
+     ],
+     [
+      116168,
+      -184024,
+      -1504
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 124,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c16:talk:30362",
+   "cond": 16,
+   "kind": "talk",
+   "to": 13,
+   "links": [],
+   "npc": {
+    "id": 30362,
+    "name": "Andellia",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     46475,
+     50495,
+     -3056
+    ],
+    "alt": []
+   },
+   "text": "Talk to Andellia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30362@46475,50495",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 1706,
+    "sec": 59,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    16
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "route": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246120,
+      -6456
+     ],
+     [
+      43624,
+      245128,
+      -6456
+     ],
+     [
+      43640,
+      244632,
+      -6496
+     ],
+     [
+      43976,
+      244344,
+      -6488
+     ],
+     [
+      44968,
+      244344,
+      -6456
+     ],
+     [
+      45960,
+      244344,
+      -6512
+     ],
+     [
+      46952,
+      244344,
+      -6560
+     ],
+     [
+      47944,
+      244344,
+      -6560
+     ],
+     [
+      48008,
+      244344,
+      -6560
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "forMobs": [
+     27117
+    ],
+    "note": "route for the Nahir 27117 place only (TI dungeon interior 48001,244347,-6563, spawns_h5.json); the other places keep their routes; way in = Siff teleport; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:deliver:30649": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "npcAt": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "note": "Ancestor Martankus stands on a dais (-2920) in the Cave of Trials Undead Slave hall; route = the nav atlas walk of room:caveoftrials-1-straight-g (dungeon-rooms graph) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer to (21420,-107900,-3016), 113 from him (talk range); the old atlas walk was an unchecked straight line",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c5:talk:30649": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      10328,
+      -112376,
+      -2536
+     ],
+     [
+      11320,
+      -112328,
+      -2768
+     ],
+     [
+      12312,
+      -112328,
+      -2976
+     ],
+     [
+      12680,
+      -112328,
+      -2976
+     ],
+     [
+      12856,
+      -112280,
+      -2976
+     ],
+     [
+      13848,
+      -112264,
+      -2976
+     ],
+     [
+      14776,
+      -112216,
+      -3304
+     ],
+     [
+      14872,
+      -111864,
+      -3320
+     ],
+     [
+      14824,
+      -110872,
+      -3336
+     ],
+     [
+      14408,
+      -110520,
+      -3344
+     ],
+     [
+      13912,
+      -110520,
+      -3360
+     ],
+     [
+      13848,
+      -110456,
+      -3328
+     ],
+     [
+      13848,
+      -110440,
+      -3312
+     ],
+     [
+      13768,
+      -110440,
+      -3392
+     ],
+     [
+      13768,
+      -110280,
+      -3456
+     ],
+     [
+      14072,
+      -109928,
+      -3448
+     ],
+     [
+      15064,
+      -109896,
+      -3272
+     ],
+     [
+      15928,
+      -109896,
+      -3056
+     ],
+     [
+      16216,
+      -109864,
+      -3040
+     ],
+     [
+      16280,
+      -109816,
+      -3040
+     ],
+     [
+      17192,
+      -108856,
+      -3040
+     ],
+     [
+      17848,
+      -108920,
+      -3040
+     ],
+     [
+      17992,
+      -109064,
+      -3040
+     ],
+     [
+      18072,
+      -109096,
+      -3040
+     ],
+     [
+      18264,
+      -109096,
+      -3040
+     ],
+     [
+      18424,
+      -109048,
+      -3040
+     ],
+     [
+      18472,
+      -108968,
+      -3040
+     ],
+     [
+      18472,
+      -108440,
+      -3032
+     ],
+     [
+      18568,
+      -108312,
+      -3040
+     ],
+     [
+      19336,
+      -107592,
+      -3040
+     ],
+     [
+      19544,
+      -107576,
+      -3040
+     ],
+     [
+      19720,
+      -107576,
+      -3032
+     ],
+     [
+      20216,
+      -107640,
+      -3040
+     ],
+     [
+      20616,
+      -107752,
+      -3040
+     ],
+     [
+      21480,
+      -108168,
+      -3040
+     ],
+     [
+      21640,
+      -108168,
+      -3040
+     ],
+     [
+      21576,
+      -108040,
+      -3040
+     ],
+     [
+      21416,
+      -107992,
+      -3040
+     ],
+     [
+      21416,
+      -107896,
+      -3016
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "npcAt": [
+     21420,
+     -107787,
+     -2926
+    ],
+    "note": "Ancestor Martankus stands on a dais (-2920) in the Cave of Trials Undead Slave hall; route = the nav atlas walk of room:caveoftrials-1-straight-g (dungeon-rooms graph) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer to (21420,-107900,-3016), 113 from him (talk range); the old atlas walk was an unchecked straight line",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:deliver:30652": {
+    "route": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -20968,
+      41496,
+      -3480
+     ],
+     [
+      -20328,
+      42136,
+      -3680
+     ],
+     [
+      -19688,
+      42808,
+      -3768
+     ],
+     [
+      -18696,
+      43752,
+      -3712
+     ],
+     [
+      -17704,
+      44744,
+      -3704
+     ],
+     [
+      -17160,
+      45288,
+      -3752
+     ],
+     [
+      -16248,
+      46280,
+      -3776
+     ],
+     [
+      -15688,
+      46840,
+      -3768
+     ],
+     [
+      -15128,
+      47416,
+      -3768
+     ],
+     [
+      -14280,
+      48408,
+      -3768
+     ],
+     [
+      -13288,
+      49400,
+      -3712
+     ],
+     [
+      -12296,
+      50392,
+      -3744
+     ],
+     [
+      -11304,
+      51384,
+      -3720
+     ],
+     [
+      -10728,
+      51960,
+      -3688
+     ],
+     [
+      -11688,
+      52952,
+      -3736
+     ],
+     [
+      -11688,
+      53944,
+      -3648
+     ],
+     [
+      -11688,
+      54936,
+      -3544
+     ],
+     [
+      -11720,
+      55928,
+      -3344
+     ],
+     [
+      -11960,
+      56872,
+      -3680
+     ],
+     [
+      -11688,
+      57032,
+      -3720
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DarkElf",
+     "desc": "DE Village -> Swampland",
+     "via": ".gludio > Gludio -> DE Village"
+    },
+    "note": "Uruha (-11692,57028,-3712): the atlas way swam 6822 in one go; new way = nav atlas walk to Swampland 23 + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (dry, no swim)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

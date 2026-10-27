@@ -1,0 +1,481 @@
+{
+ "id": 187,
+ "name": "Nikola's Heart",
+ "version": 1,
+ "generated": "2026-10-27T11:15:14.354Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 41,
+  "max": 47
+ },
+ "type": "one-time",
+ "region": "Dion",
+ "requirements": {
+  "quests": [
+   {
+    "id": 185,
+    "name": "Q00185_NikolasCooperation",
+    "need": "completed"
+   }
+  ],
+  "items": [
+   {
+    "id": 10362,
+    "name": "Loraine's Certificate"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "185 completed"
+  },
+  {
+   "code": "needs-item",
+   "text": "Loraine's Certificate"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 41,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30673",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"You can count on me.\""
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 87,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30512",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"That problem has been resolved. I found something that looks like a relic, but we need the password.\""
+   ],
+   "npc": {
+    "id": 30512,
+    "name": "Kusto",
+    "title": "Head Blacksmith",
+    "town": "Giran",
+    "at": [
+     77659,
+     148089,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kusto",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30512@77659,148089",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7785,
+    "sec": 85,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7785,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83240,
+      148744,
+      -3400
+     ],
+     [
+      82920,
+      148888,
+      -3464
+     ],
+     [
+      82792,
+      149016,
+      -3464
+     ],
+     [
+      82296,
+      149280,
+      -3464
+     ],
+     [
+      81800,
+      149544,
+      -3464
+     ],
+     [
+      81608,
+      149736,
+      -3464
+     ],
+     [
+      81384,
+      150168,
+      -3528
+     ],
+     [
+      81288,
+      150264,
+      -3528
+     ],
+     [
+      81160,
+      150264,
+      -3528
+     ],
+     [
+      80664,
+      149992,
+      -3528
+     ],
+     [
+      80168,
+      149720,
+      -3528
+     ],
+     [
+      80104,
+      149720,
+      -3528
+     ],
+     [
+      79784,
+      149208,
+      -3528
+     ],
+     [
+      79752,
+      148824,
+      -3528
+     ],
+     [
+      79256,
+      148600,
+      -3560
+     ],
+     [
+      78760,
+      148376,
+      -3592
+     ],
+     [
+      78280,
+      148408,
+      -3592
+     ],
+     [
+      77576,
+      148424,
+      -3592
+     ],
+     [
+      77576,
+      148328,
+      -3592
+     ],
+     [
+      77656,
+      148088,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30621",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Who is it? Tell me.\""
+   ],
+   "npc": {
+    "id": 30621,
+    "name": "Nikola",
+    "title": "Maestro",
+    "town": "Gludio",
+    "at": [
+     10580,
+     118027,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nikola",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30621@10580,118027",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 8062,
+    "sec": 112,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8062,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114328,
+      -3528
+     ],
+     [
+      15912,
+      114488,
+      -3576
+     ],
+     [
+      15416,
+      114984,
+      -3596
+     ],
+     [
+      14920,
+      115480,
+      -3616
+     ],
+     [
+      14424,
+      115976,
+      -3664
+     ],
+     [
+      13928,
+      116472,
+      -3712
+     ],
+     [
+      13432,
+      116968,
+      -3708
+     ],
+     [
+      12936,
+      117464,
+      -3704
+     ],
+     [
+      12440,
+      117744,
+      -3720
+     ],
+     [
+      11944,
+      118024,
+      -3736
+     ],
+     [
+      10952,
+      118024,
+      -3688
+     ],
+     [
+      10584,
+      118024,
+      -3672
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 137,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

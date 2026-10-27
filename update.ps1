@@ -276,6 +276,14 @@ if ((Test-Path "$root\Scripts\data\brain_host.json") -and (Test-Path "$root\docs
     }
 }
 
+# ------------------------------------------------------------------ account XML field order for L2Swarm 3.10.7
+# XMLORDER-2026-10-27 (tester: "The account options XML does not match the internal schema ... CombatSkill/RepeatDelaySeconds"): 3.10.7 wants
+# RepeatDelaySeconds right before IsRepeat; files written in the old order are refused at login. Moves only that element (backup in Settings\backup\xmlorder_*).
+if ((Test-Path "$root\docs\plan\tools\xml_order_fix.js") -and (Get-Command node -ErrorAction SilentlyContinue)) {
+    $xo = @(& node "$root\docs\plan\tools\xml_order_fix.js" --root $root 2>&1 | ForEach-Object { [string]$_ })
+    foreach ($l in $xo) { if ($l -match 'moved before|fixed \([1-9]') { Say ('  ' + $l) Green } }
+}
+
 # ------------------------------------------------------------------ files generated from YOUR L2Swarm (never shipped)
 if (-not (Test-Path "$root\Scripts\data\npc_strings.json") -and (Test-Path "$root\Data\base.db") -and (Get-Command node -ErrorAction SilentlyContinue)) {
     Say 'generating Scripts\data\npc_strings.json from your Data\base.db ...'

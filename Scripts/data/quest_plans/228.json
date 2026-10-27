@@ -1,0 +1,5752 @@
+{
+ "id": 228,
+ "name": "Test Of Magus",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.259Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dion",
+ "requirements": {
+  "classes": [
+   "wizard",
+   "elvenWizard",
+   "darkWizard"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: wizard/elvenWizard/darkWizard"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 33,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30629",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Take the Test of the Magus"
+   ],
+   "npc": {
+    "id": 30629,
+    "name": "Rukal",
+    "title": "Bard",
+    "town": "Dion",
+    "at": [
+     16680,
+     142368,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rukal – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30629@16680,142368",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 2209,
+    "sec": 38,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 2209,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16376,
+      142312,
+      -2688
+     ],
+     [
+      16456,
+      142440,
+      -2688
+     ],
+     [
+      16488,
+      142376,
+      -2688
+     ],
+     [
+      16680,
+      142376,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 68,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20145,
+     "name": "Harpy",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20231,
+     "name": "Toad Lord",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20176,
+     "name": "Wyrm",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20553,
+     "name": "Windsus",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20564,
+     "name": "Enchanted Monstereye",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20565,
+     "name": "Enchanted Stone Golem",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20566,
+     "name": "Enchanted Iron Golem",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 27098,
+     "name": "Ghost Fire",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 27095,
+     "name": "Singing Flower of Phantasm",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 27096,
+     "name": "Singing Flower of Nightmare",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 27097,
+     "name": "Singing Flower of Darkness",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2844,
+     "name": "1st Golden Seed",
+     "n": 1,
+     "from": [
+      {
+       "id": 27095,
+       "name": "Singing Flower of Phantasm",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2845,
+     "name": "2nd Golden Seed",
+     "n": 1,
+     "from": [
+      {
+       "id": 27096,
+       "name": "Singing Flower of Nightmare",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2846,
+     "name": "3rd Golden Seed",
+     "n": 1,
+     "from": [
+      {
+       "id": 27097,
+       "name": "Singing Flower of Darkness",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2848,
+     "name": "Dazzling Drop",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20231,
+       "name": "Toad Lord",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2849,
+     "name": "Flame Crystal",
+     "n": 5,
+     "from": [
+      {
+       "id": 27098,
+       "name": "Ghost Fire",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2850,
+     "name": "Harpy's Feather",
+     "n": 20,
+     "from": [
+      {
+       "id": 20145,
+       "name": "Harpy",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2851,
+     "name": "Wyrm's Wingbone",
+     "n": 10,
+     "from": [
+      {
+       "id": 20176,
+       "name": "Wyrm",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2852,
+     "name": "Windsus Mane",
+     "n": 10,
+     "from": [
+      {
+       "id": 20553,
+       "name": "Windsus",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 2853,
+     "name": "Enchanted Monster Eye Shell",
+     "n": 10,
+     "from": [
+      {
+       "id": 20564,
+       "name": "Enchanted Monstereye",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2854,
+     "name": "Enchanted Golem Powder",
+     "n": 10,
+     "from": [
+      {
+       "id": 20565,
+       "name": "Enchanted Stone Golem",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2855,
+     "name": "Enchanted Iron Golem Shard",
+     "n": 10,
+     "from": [
+      {
+       "id": 20566,
+       "name": "Enchanted Iron Golem",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Harpy, Marsh Stakato, Marsh Stakato Worker for 1st Golden Seed x1, 2nd Golden Seed x1, 3rd Golden Seed x1, Dazzling Drop x20, Flame Crystal x5, Harpy's Feather x20, Wyrm's Wingbone x10, Windsus Mane x10, Enchanted Monster Eye Shell x10, Enchanted Golem Powder x10, Enchanted Iron Golem Shard x10",
+   "places": [
+    {
+     "mobs": [
+      27095
+     ],
+     "items": [
+      2844
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27095@-57838,127161",
+      "name": "Singing Flower of Phantasm (Ruins of Agony)",
+      "at": [
+       -57838,
+       127161,
+       -2944
+      ],
+      "radius": 1500,
+      "levels": [
+       44,
+       44
+      ],
+      "count": 3,
+      "region": "Ruins of Agony",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 72,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:30413@-60672,126592",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".gludio",
+      "length": 22961,
+      "sec": 318,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 20747,
+        "how": "geodata",
+        "danger": 44
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41248,
+        122848,
+        -2904
+       ],
+       [
+        -41740,
+        123348,
+        -2888
+       ],
+       [
+        -42232,
+        123848,
+        -2872
+       ],
+       [
+        -42728,
+        124336,
+        -2864
+       ],
+       [
+        -43224,
+        124824,
+        -2856
+       ],
+       [
+        -43944,
+        124824,
+        -2864
+       ],
+       [
+        -44200,
+        124888,
+        -2864
+       ],
+       [
+        -44696,
+        125080,
+        -2856
+       ],
+       [
+        -45192,
+        125272,
+        -2848
+       ],
+       [
+        -46184,
+        125272,
+        -2728
+       ],
+       [
+        -47176,
+        125272,
+        -2872
+       ],
+       [
+        -48168,
+        125272,
+        -2896
+       ],
+       [
+        -49160,
+        125272,
+        -2920
+       ],
+       [
+        -50152,
+        125272,
+        -2984
+       ],
+       [
+        -51144,
+        125272,
+        -3008
+       ],
+       [
+        -52136,
+        125272,
+        -3016
+       ],
+       [
+        -53128,
+        125304,
+        -3280
+       ],
+       [
+        -54120,
+        125304,
+        -3472
+       ],
+       [
+        -55112,
+        125304,
+        -3456
+       ],
+       [
+        -56104,
+        125304,
+        -3408
+       ],
+       [
+        -57096,
+        125304,
+        -3424
+       ],
+       [
+        -57736,
+        125304,
+        -3320
+       ],
+       [
+        -57848,
+        125416,
+        -3208
+       ],
+       [
+        -57976,
+        125416,
+        -3280
+       ],
+       [
+        -58472,
+        125560,
+        -3364
+       ],
+       [
+        -58968,
+        125704,
+        -3448
+       ],
+       [
+        -59528,
+        125704,
+        -3136
+       ],
+       [
+        -60024,
+        126152,
+        -3040
+       ],
+       [
+        -60520,
+        126600,
+        -2944
+       ],
+       [
+        -60664,
+        126600,
+        -2936
+       ],
+       [
+        -59672,
+        126376,
+        -3016
+       ],
+       [
+        -59352,
+        126488,
+        -3024
+       ],
+       [
+        -59304,
+        126616,
+        -3112
+       ],
+       [
+        -59288,
+        126616,
+        -3312
+       ],
+       [
+        -58296,
+        127336,
+        -3088
+       ],
+       [
+        -57832,
+        127160,
+        -3000
+       ]
+      ],
+      "maxDanger": 44,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 7051,
+        "maxSwim": 7051,
+        "overBreath": true
+       },
+       "danger": 44,
+       "dangerVsLevel": 5,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:30413@-60672,126592",
+       "name": "Water Undine"
+      },
+      "points": [
+       [
+        -41248,
+        122848,
+        -2904
+       ],
+       [
+        -41740,
+        123348,
+        -2888
+       ],
+       [
+        -42232,
+        123848,
+        -2872
+       ],
+       [
+        -42728,
+        124336,
+        -2864
+       ],
+       [
+        -43224,
+        124824,
+        -2856
+       ],
+       [
+        -43944,
+        124824,
+        -2864
+       ],
+       [
+        -44200,
+        124888,
+        -2864
+       ],
+       [
+        -44696,
+        125080,
+        -2856
+       ],
+       [
+        -45192,
+        125272,
+        -2848
+       ],
+       [
+        -46184,
+        125272,
+        -2728
+       ],
+       [
+        -47176,
+        125272,
+        -2872
+       ],
+       [
+        -48168,
+        125272,
+        -2896
+       ],
+       [
+        -49160,
+        125272,
+        -2920
+       ],
+       [
+        -50152,
+        125272,
+        -2984
+       ],
+       [
+        -51144,
+        125272,
+        -3008
+       ],
+       [
+        -52136,
+        125272,
+        -3016
+       ],
+       [
+        -53128,
+        125304,
+        -3280
+       ],
+       [
+        -54120,
+        125304,
+        -3472
+       ],
+       [
+        -55112,
+        125304,
+        -3456
+       ],
+       [
+        -56104,
+        125304,
+        -3408
+       ],
+       [
+        -57096,
+        125304,
+        -3424
+       ],
+       [
+        -57736,
+        125304,
+        -3320
+       ],
+       [
+        -57848,
+        125416,
+        -3208
+       ],
+       [
+        -57976,
+        125416,
+        -3280
+       ],
+       [
+        -58472,
+        125560,
+        -3364
+       ],
+       [
+        -58968,
+        125704,
+        -3448
+       ],
+       [
+        -59528,
+        125704,
+        -3136
+       ],
+       [
+        -60024,
+        126152,
+        -3040
+       ],
+       [
+        -60520,
+        126600,
+        -2944
+       ],
+       [
+        -60664,
+        126600,
+        -2936
+       ],
+       [
+        -59672,
+        126376,
+        -3016
+       ],
+       [
+        -59352,
+        126488,
+        -3024
+       ],
+       [
+        -59304,
+        126616,
+        -3112
+       ],
+       [
+        -59288,
+        126616,
+        -3312
+       ],
+       [
+        -58296,
+        127336,
+        -3088
+       ],
+       [
+        -57832,
+        127160,
+        -3000
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      27096
+     ],
+     "items": [
+      2845
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27096@69748,10572",
+      "name": "Singing Flower of Nightmare (Ivory Tower / Ivory Fortress)",
+      "at": [
+       69748,
+       10572,
+       -3692
+      ],
+      "radius": 1500,
+      "levels": [
+       44,
+       44
+      ],
+      "count": 3,
+      "region": "Ivory Tower / Ivory Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 72,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:sea-of-spores-26",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 23769,
+      "sec": 243,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10663,
+        "how": "field-areas-gap",
+        "danger": 49
+       },
+       {
+        "do": "walk",
+        "len": 8086,
+        "how": "field-areas",
+        "danger": 49
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        82568,
+        8600,
+        -3280
+       ],
+       [
+        81576,
+        8600,
+        -3352
+       ],
+       [
+        80584,
+        8600,
+        -3472
+       ],
+       [
+        79592,
+        8600,
+        -3504
+       ],
+       [
+        78600,
+        8728,
+        -3520
+       ],
+       [
+        78520,
+        8808,
+        -3520
+       ],
+       [
+        78344,
+        8888,
+        -3520
+       ],
+       [
+        78264,
+        8904,
+        -3520
+       ],
+       [
+        77272,
+        8904,
+        -3520
+       ],
+       [
+        76280,
+        8904,
+        -3496
+       ],
+       [
+        75288,
+        9528,
+        -3568
+       ],
+       [
+        74888,
+        9928,
+        -3568
+       ],
+       [
+        73928,
+        9848,
+        -3600
+       ],
+       [
+        73816,
+        9928,
+        -3672
+       ],
+       [
+        73800,
+        9928,
+        -3848
+       ],
+       [
+        73144,
+        9512,
+        -3624
+       ],
+       [
+        72344,
+        10136,
+        -3872
+       ],
+       [
+        71976,
+        10504,
+        -3856
+       ],
+       [
+        71080,
+        10936,
+        -3768
+       ],
+       [
+        70312,
+        10360,
+        -3616
+       ],
+       [
+        70152,
+        10392,
+        -3576
+       ],
+       [
+        69752,
+        10568,
+        -3552
+       ]
+      ],
+      "maxDanger": 49,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 49,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Tarlk Bugbear High Warrior",
+         "lv": 49,
+         "n": 2
+        },
+        {
+         "name": "Tarlk Bugbear Warrior",
+         "lv": 48,
+         "n": 6
+        },
+        {
+         "name": "Tarlk Bugbear",
+         "lv": 47,
+         "n": 2
+        },
+        {
+         "name": "Formor Elder",
+         "lv": 46,
+         "n": 3
+        }
+       ]
+      },
+      "anchor": {
+       "key": "area:sea-of-spores-26",
+       "name": "Sea of Spores 26: Tarlk Bugbear area (north-east)"
+      },
+      "points": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        82568,
+        8600,
+        -3280
+       ],
+       [
+        81576,
+        8600,
+        -3352
+       ],
+       [
+        80584,
+        8600,
+        -3472
+       ],
+       [
+        79592,
+        8600,
+        -3504
+       ],
+       [
+        78600,
+        8728,
+        -3520
+       ],
+       [
+        78520,
+        8808,
+        -3520
+       ],
+       [
+        78344,
+        8888,
+        -3520
+       ],
+       [
+        78264,
+        8904,
+        -3520
+       ],
+       [
+        77272,
+        8904,
+        -3520
+       ],
+       [
+        76280,
+        8904,
+        -3496
+       ],
+       [
+        75288,
+        9528,
+        -3568
+       ],
+       [
+        74888,
+        9928,
+        -3568
+       ],
+       [
+        73928,
+        9848,
+        -3600
+       ],
+       [
+        73816,
+        9928,
+        -3672
+       ],
+       [
+        73800,
+        9928,
+        -3848
+       ],
+       [
+        73144,
+        9512,
+        -3624
+       ],
+       [
+        72344,
+        10136,
+        -3872
+       ],
+       [
+        71976,
+        10504,
+        -3856
+       ],
+       [
+        71080,
+        10936,
+        -3768
+       ],
+       [
+        70312,
+        10360,
+        -3616
+       ],
+       [
+        70152,
+        10392,
+        -3576
+       ],
+       [
+        69752,
+        10568,
+        -3552
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      27097
+     ],
+     "items": [
+      2846
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27097@75454,165866",
+      "name": "Singing Flower of Darkness (Field of Silence / Aaru Fortress)",
+      "at": [
+       75454,
+       165866,
+       -3684
+      ],
+      "radius": 1500,
+      "levels": [
+       44,
+       44
+      ],
+      "count": 3,
+      "region": "Field of Silence / Aaru Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 72,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:32646@86641,162261",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 18710,
+      "sec": 201,
+      "via": ".heine > Heine -> Field of Silence",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Field of Silence",
+        "link": "field of silence",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1195,
+        "how": "geodata",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Field of Silence"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87691,
+        162835,
+        -3563
+       ],
+       [
+        87194,
+        162550,
+        -3569
+       ],
+       [
+        86696,
+        162264,
+        -3576
+       ],
+       [
+        86648,
+        162264,
+        -3584
+       ],
+       [
+        86616,
+        162264,
+        -3584
+       ],
+       [
+        86520,
+        162328,
+        -3584
+       ],
+       [
+        86360,
+        162264,
+        -3576
+       ],
+       [
+        85368,
+        162264,
+        -3464
+       ],
+       [
+        84376,
+        162264,
+        -3272
+       ],
+       [
+        84248,
+        162264,
+        -3248
+       ],
+       [
+        83656,
+        161272,
+        -3280
+       ],
+       [
+        83368,
+        160824,
+        -3264
+       ],
+       [
+        83224,
+        160888,
+        -3264
+       ],
+       [
+        83224,
+        160616,
+        -3256
+       ],
+       [
+        82232,
+        160088,
+        -3128
+       ],
+       [
+        81784,
+        159928,
+        -3176
+       ],
+       [
+        81304,
+        159656,
+        -3256
+       ],
+       [
+        81096,
+        159736,
+        -3240
+       ],
+       [
+        80696,
+        160200,
+        -3408
+       ],
+       [
+        81000,
+        161160,
+        -3672
+       ],
+       [
+        80872,
+        161224,
+        -3616
+       ],
+       [
+        80824,
+        161592,
+        -3632
+       ],
+       [
+        80776,
+        162296,
+        -3720
+       ],
+       [
+        80872,
+        162696,
+        -3712
+       ],
+       [
+        80840,
+        163400,
+        -3728
+       ],
+       [
+        80392,
+        163624,
+        -3712
+       ],
+       [
+        79768,
+        164264,
+        -3616
+       ],
+       [
+        79752,
+        164504,
+        -3664
+       ],
+       [
+        79688,
+        164648,
+        -3688
+       ],
+       [
+        78712,
+        165496,
+        -3640
+       ],
+       [
+        78424,
+        165784,
+        -3640
+       ],
+       [
+        78472,
+        165832,
+        -3696
+       ],
+       [
+        77480,
+        165864,
+        -3592
+       ],
+       [
+        76728,
+        166104,
+        -3520
+       ],
+       [
+        76568,
+        166056,
+        -3592
+       ],
+       [
+        76104,
+        165864,
+        -3608
+       ],
+       [
+        75448,
+        165864,
+        -3624
+       ]
+      ],
+      "maxDanger": 44,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 44,
+       "dangerVsLevel": 5,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:32646@86641,162261",
+       "name": "Katensa"
+      },
+      "points": [
+       [
+        87691,
+        162835,
+        -3563
+       ],
+       [
+        87194,
+        162550,
+        -3569
+       ],
+       [
+        86696,
+        162264,
+        -3576
+       ],
+       [
+        86648,
+        162264,
+        -3584
+       ],
+       [
+        86616,
+        162264,
+        -3584
+       ],
+       [
+        86520,
+        162328,
+        -3584
+       ],
+       [
+        86360,
+        162264,
+        -3576
+       ],
+       [
+        85368,
+        162264,
+        -3464
+       ],
+       [
+        84376,
+        162264,
+        -3272
+       ],
+       [
+        84248,
+        162264,
+        -3248
+       ],
+       [
+        83656,
+        161272,
+        -3280
+       ],
+       [
+        83368,
+        160824,
+        -3264
+       ],
+       [
+        83224,
+        160888,
+        -3264
+       ],
+       [
+        83224,
+        160616,
+        -3256
+       ],
+       [
+        82232,
+        160088,
+        -3128
+       ],
+       [
+        81784,
+        159928,
+        -3176
+       ],
+       [
+        81304,
+        159656,
+        -3256
+       ],
+       [
+        81096,
+        159736,
+        -3240
+       ],
+       [
+        80696,
+        160200,
+        -3408
+       ],
+       [
+        81000,
+        161160,
+        -3672
+       ],
+       [
+        80872,
+        161224,
+        -3616
+       ],
+       [
+        80824,
+        161592,
+        -3632
+       ],
+       [
+        80776,
+        162296,
+        -3720
+       ],
+       [
+        80872,
+        162696,
+        -3712
+       ],
+       [
+        80840,
+        163400,
+        -3728
+       ],
+       [
+        80392,
+        163624,
+        -3712
+       ],
+       [
+        79768,
+        164264,
+        -3616
+       ],
+       [
+        79752,
+        164504,
+        -3664
+       ],
+       [
+        79688,
+        164648,
+        -3688
+       ],
+       [
+        78712,
+        165496,
+        -3640
+       ],
+       [
+        78424,
+        165784,
+        -3640
+       ],
+       [
+        78472,
+        165832,
+        -3696
+       ],
+       [
+        77480,
+        165864,
+        -3592
+       ],
+       [
+        76728,
+        166104,
+        -3520
+       ],
+       [
+        76568,
+        166056,
+        -3592
+       ],
+       [
+        76104,
+        165864,
+        -3608
+       ],
+       [
+        75448,
+        165864,
+        -3624
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20231,
+      20232,
+      20234
+     ],
+     "items": [
+      2848
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fortress-of-resistance-34",
+      "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+      "at": [
+       28920,
+       108584,
+       -3704
+      ],
+      "radius": 5521,
+      "levels": [
+       32,
+       35
+      ],
+      "count": 20,
+      "region": "Fortress of Resistance",
+      "atlasKey": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "sec": 177,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-2",
+        "name": "Cruma Tower 2: Toad Lord area (north-east)",
+        "at": [
+         23720,
+         113256,
+         -3760
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 19,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fortress-of-resistance-34",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 15821,
+      "sec": 177,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5351,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 10470,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        20184,
+        113064,
+        -3752
+       ],
+       [
+        21176,
+        113064,
+        -3752
+       ],
+       [
+        22168,
+        113064,
+        -3680
+       ],
+       [
+        23080,
+        112968,
+        -3744
+       ],
+       [
+        24072,
+        112968,
+        -3728
+       ],
+       [
+        25064,
+        112440,
+        -3704
+       ],
+       [
+        26056,
+        111448,
+        -3720
+       ],
+       [
+        27048,
+        110456,
+        -3720
+       ],
+       [
+        28040,
+        109464,
+        -3728
+       ],
+       [
+        28920,
+        108584,
+        -3704
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27098
+     ],
+     "items": [
+      2849
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-5",
+      "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+      "at": [
+       88840,
+       17288,
+       -5280
+      ],
+      "radius": 2532,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 2,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-5",
+      "status": "ok",
+      "sec": 177,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -9.05,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 15888,
+      "sec": 177,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9547,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 6341,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        86120,
+        20008,
+        -5288
+       ],
+       [
+        87112,
+        19016,
+        -5272
+       ],
+       [
+        88104,
+        18024,
+        -5264
+       ],
+       [
+        88840,
+        17288,
+        -5280
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20145
+     ],
+     "items": [
+      2850
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-12",
+      "name": "Brekas Stronghold 12: Harpy area (east)",
+      "at": [
+       102456,
+       132952,
+       -3432
+      ],
+      "radius": 5657,
+      "levels": [
+       31,
+       33
+      ],
+      "count": 10,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "sec": 191,
+      "danger": 33,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.816666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "giran-outskirts-4",
+        "name": "Giran outskirts 4: Turak Bugbear Warrior area (east)",
+        "at": [
+         101688,
+         143288,
+         -3592
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-11",
+        "name": "Brekas Stronghold 11: Harpy area (south-east)",
+        "at": [
+         100168,
+         138616,
+         -3504
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "giran-outskirts-1",
+        "name": "Giran outskirts 1: Harpy area (east)",
+        "at": [
+         99848,
+         148360,
+         -3520
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "flags": [
+       "link-not-on-live-menu"
+      ],
+      "from": ".giran",
+      "length": 17498,
+      "sec": 191,
+      "via": ".giran > Giran -> Brekas Stronghold",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "gk",
+        "from": "Giran",
+        "desc": "Giran -> Brekas Stronghold",
+        "link": "Brekas Stronghold",
+        "price": 1000,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 17498,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Giran",
+       "desc": "Giran -> Brekas Stronghold"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85544,
+        131336,
+        -3672
+       ],
+       [
+        86536,
+        131336,
+        -3648
+       ],
+       [
+        87528,
+        131336,
+        -3648
+       ],
+       [
+        88520,
+        131336,
+        -3688
+       ],
+       [
+        89512,
+        131336,
+        -3664
+       ],
+       [
+        90504,
+        131336,
+        -3632
+       ],
+       [
+        91496,
+        131336,
+        -3624
+       ],
+       [
+        92488,
+        131336,
+        -3608
+       ],
+       [
+        93480,
+        131336,
+        -3592
+       ],
+       [
+        94472,
+        131336,
+        -3536
+       ],
+       [
+        95464,
+        131336,
+        -3472
+       ],
+       [
+        96456,
+        131336,
+        -3480
+       ],
+       [
+        97448,
+        131336,
+        -3456
+       ],
+       [
+        98440,
+        131336,
+        -3360
+       ],
+       [
+        99432,
+        131336,
+        -3304
+       ],
+       [
+        100424,
+        131336,
+        -3168
+       ],
+       [
+        101416,
+        131912,
+        -3256
+       ],
+       [
+        102408,
+        132904,
+        -3432
+       ],
+       [
+        102456,
+        132952,
+        -3432
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20176
+     ],
+     "items": [
+      2851
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-2",
+        "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+        "at": [
+         69032,
+         113624,
+         -3664
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20553
+     ],
+     "items": [
+      2852
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-30",
+      "name": "Plains of Lizardmen 30: Windsus area (south-east)",
+      "at": [
+       100072,
+       100936,
+       -3600
+      ],
+      "radius": 3982,
+      "levels": [
+       38,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "sec": 281,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.316666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-16",
+        "name": "Dragon Valley 16: Grandis area (north)",
+        "at": [
+         70056,
+         101080,
+         -3720
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-25",
+        "name": "Plains of Lizardmen 25: Fettered Soul area (south)",
+        "at": [
+         85896,
+         99592,
+         -3584
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-29",
+        "name": "Plains of Lizardmen 29: Grandis area (south-east)",
+        "at": [
+         96600,
+         101352,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-30",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".oren",
+      "length": 20550,
+      "sec": 281,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3450,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 17100,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        88104,
+        88728,
+        -2840
+       ],
+       [
+        88984,
+        89720,
+        -3176
+       ],
+       [
+        89976,
+        90712,
+        -3352
+       ],
+       [
+        90968,
+        91704,
+        -3360
+       ],
+       [
+        91960,
+        92696,
+        -3416
+       ],
+       [
+        92744,
+        93480,
+        -3520
+       ],
+       [
+        93608,
+        94472,
+        -3888
+       ],
+       [
+        94600,
+        95464,
+        -3920
+       ],
+       [
+        95592,
+        96456,
+        -3912
+       ],
+       [
+        96584,
+        97448,
+        -3776
+       ],
+       [
+        97576,
+        98440,
+        -3688
+       ],
+       [
+        98568,
+        99432,
+        -3624
+       ],
+       [
+        99560,
+        100424,
+        -3592
+       ],
+       [
+        100072,
+        100936,
+        -3600
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 5582,
+        "maxSwim": 5582,
+        "overBreath": true
+       },
+       "danger": 85,
+       "dangerVsLevel": 46,
+       "aggro": [
+        {
+         "name": "Fantasy Mushroom",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Berserker",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20564
+     ],
+     "items": [
+      2853
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 6,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -32.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20565
+     ],
+     "items": [
+      2854
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-1",
+      "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+      "at": [
+       82888,
+       12520,
+       -5288
+      ],
+      "radius": 3429,
+      "levels": [
+       40,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "sec": 216,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-4",
+        "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+        "at": [
+         85624,
+         11208,
+         -5288
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 20560,
+      "sec": 216,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9569,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10991,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85112,
+        22392,
+        -5240
+       ],
+       [
+        84968,
+        21992,
+        -5288
+       ],
+       [
+        84968,
+        21000,
+        -5288
+       ],
+       [
+        84664,
+        20008,
+        -5280
+       ],
+       [
+        83672,
+        19016,
+        -5256
+       ],
+       [
+        82680,
+        18024,
+        -5264
+       ],
+       [
+        82488,
+        17832,
+        -5264
+       ],
+       [
+        82488,
+        16840,
+        -5256
+       ],
+       [
+        82488,
+        15848,
+        -5264
+       ],
+       [
+        82488,
+        14856,
+        -5256
+       ],
+       [
+        82488,
+        13864,
+        -5288
+       ],
+       [
+        82536,
+        12872,
+        -5288
+       ],
+       [
+        82888,
+        12520,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 5
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20566
+     ],
+     "items": [
+      2855
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "radius": 3701,
+      "levels": [
+       41,
+       43
+      ],
+      "count": 5,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "sec": 210,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -26.5,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-1",
+        "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+        "at": [
+         82888,
+         12520,
+         -5288
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-5",
+        "name": "Ivory Tower area 5: Enchanted Monstereye area (east)",
+        "at": [
+         88840,
+         17288,
+         -5280
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 19779,
+      "sec": 210,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9599,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10180,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85560,
+        22392,
+        -5272
+       ],
+       [
+        85688,
+        21992,
+        -5288
+       ],
+       [
+        85688,
+        21000,
+        -5288
+       ],
+       [
+        85992,
+        20008,
+        -5288
+       ],
+       [
+        86984,
+        19016,
+        -5264
+       ],
+       [
+        87976,
+        18024,
+        -5256
+       ],
+       [
+        88184,
+        17816,
+        -5264
+       ],
+       [
+        88184,
+        16824,
+        -5256
+       ],
+       [
+        88184,
+        15832,
+        -5256
+       ],
+       [
+        88184,
+        14840,
+        -5256
+       ],
+       [
+        88184,
+        13848,
+        -5288
+       ],
+       [
+        88408,
+        13224,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Shackle",
+         "lv": 45,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "27095@-57838,127161",
+    "name": "Singing Flower of Phantasm (Ruins of Agony)",
+    "at": [
+     -57838,
+     127161,
+     -2944
+    ],
+    "radius": 1500,
+    "levels": [
+     44,
+     44
+    ],
+    "count": 3,
+    "region": "Ruins of Agony",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 72,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-12",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".giran",
+    "length": 17498,
+    "sec": 191,
+    "via": ".giran > Giran -> Brekas Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Brekas Stronghold",
+      "link": "Brekas Stronghold",
+      "price": 1000,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 17498,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Brekas Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85544,
+      131336,
+      -3672
+     ],
+     [
+      86536,
+      131336,
+      -3648
+     ],
+     [
+      87528,
+      131336,
+      -3648
+     ],
+     [
+      88520,
+      131336,
+      -3688
+     ],
+     [
+      89512,
+      131336,
+      -3664
+     ],
+     [
+      90504,
+      131336,
+      -3632
+     ],
+     [
+      91496,
+      131336,
+      -3624
+     ],
+     [
+      92488,
+      131336,
+      -3608
+     ],
+     [
+      93480,
+      131336,
+      -3592
+     ],
+     [
+      94472,
+      131336,
+      -3536
+     ],
+     [
+      95464,
+      131336,
+      -3472
+     ],
+     [
+      96456,
+      131336,
+      -3480
+     ],
+     [
+      97448,
+      131336,
+      -3456
+     ],
+     [
+      98440,
+      131336,
+      -3360
+     ],
+     [
+      99432,
+      131336,
+      -3304
+     ],
+     [
+      100424,
+      131336,
+      -3168
+     ],
+     [
+      101416,
+      131912,
+      -3256
+     ],
+     [
+      102408,
+      132904,
+      -3432
+     ],
+     [
+      102456,
+      132952,
+      -3432
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 691,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "override": {
+    "fixed": [
+     "route-unverified"
+    ],
+    "note": "the atlas marked \"Giran -> Brekas Stronghold\" not live, but Clarissa's live menu (Scripts/data/gk_live/Clarissa.json) has \"Breka's Stronghold - 500\"; swarm.js gkNorm() (Scripts_dev/swarm.js ~line 6758: drops 's and the plural s) maps both to \"breka stronghold\" -> the link is clicked fine.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30629",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30629,
+    "name": "Rukal",
+    "title": "Bard",
+    "town": "Dion",
+    "at": [
+     16680,
+     142368,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Bring Score of Elements, Tone of Water, Tone of Fire, Tone of Wind, Tone of Earth to Rukal",
+   "needs": [
+    {
+     "id": 2847,
+     "name": "Score of Elements",
+     "n": 1
+    },
+    {
+     "id": 2856,
+     "name": "Tone of Water",
+     "n": 1
+    },
+    {
+     "id": 2857,
+     "name": "Tone of Fire",
+     "n": 1
+    },
+    {
+     "id": 2858,
+     "name": "Tone of Wind",
+     "n": 1
+    },
+    {
+     "id": 2859,
+     "name": "Tone of Earth",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30629@16680,142368",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 2209,
+    "sec": 38,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 2209,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16376,
+      142312,
+      -2688
+     ],
+     [
+      16456,
+      142440,
+      -2688
+     ],
+     [
+      16488,
+      142376,
+      -2688
+     ],
+     [
+      16680,
+      142376,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30409",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30409,
+    "name": "Earth Snake",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -53760,
+     110720,
+     -3610
+    ],
+    "alt": []
+   },
+   "text": "Bring Score of Elements, Tone of Earth, Serpent Charm, Tone of Fire, Tone of Water, Tone of Wind to Earth Snake",
+   "needs": [
+    {
+     "id": 2847,
+     "name": "Score of Elements",
+     "n": 1
+    },
+    {
+     "id": 2859,
+     "name": "Tone of Earth",
+     "n": 1
+    },
+    {
+     "id": 2863,
+     "name": "Serpent Charm",
+     "n": 1
+    },
+    {
+     "id": 2857,
+     "name": "Tone of Fire",
+     "n": 1
+    },
+    {
+     "id": 2856,
+     "name": "Tone of Water",
+     "n": 1
+    },
+    {
+     "id": 2858,
+     "name": "Tone of Wind",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30409@-53760,110720",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13958,
+    "sec": 161,
+    "via": ".gludin > Gludin -> Fellmere Harvest Grounds",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Fellmere Harvest Grounds",
+      "link": "fellmere harvesting grounds",
+      "price": 1400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13958,
+      "how": "geodata",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -63736,
+      101522,
+      -3552
+     ],
+     [
+      -63608,
+      101384,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63448,
+      101432,
+      -3504
+     ],
+     [
+      -63384,
+      101480,
+      -3544
+     ],
+     [
+      -62888,
+      101976,
+      -3552
+     ],
+     [
+      -62392,
+      102472,
+      -3560
+     ],
+     [
+      -61896,
+      102944,
+      -3588
+     ],
+     [
+      -61400,
+      103416,
+      -3616
+     ],
+     [
+      -61304,
+      103416,
+      -3632
+     ],
+     [
+      -60808,
+      103912,
+      -3656
+     ],
+     [
+      -60312,
+      104408,
+      -3680
+     ],
+     [
+      -59816,
+      104904,
+      -3696
+     ],
+     [
+      -59320,
+      105400,
+      -3712
+     ],
+     [
+      -58832,
+      105896,
+      -3724
+     ],
+     [
+      -58344,
+      106392,
+      -3736
+     ],
+     [
+      -57848,
+      106888,
+      -3736
+     ],
+     [
+      -57352,
+      107384,
+      -3736
+     ],
+     [
+      -56920,
+      107832,
+      -3488
+     ],
+     [
+      -56424,
+      108328,
+      -3408
+     ],
+     [
+      -55928,
+      108824,
+      -3328
+     ],
+     [
+      -55432,
+      109320,
+      -3348
+     ],
+     [
+      -54936,
+      109816,
+      -3368
+     ],
+     [
+      -54680,
+      110072,
+      -3424
+     ],
+     [
+      -54648,
+      110072,
+      -3448
+     ],
+     [
+      -54248,
+      110488,
+      -3568
+     ],
+     [
+      -54200,
+      110584,
+      -3552
+     ],
+     [
+      -54040,
+      110728,
+      -3568
+     ],
+     [
+      -53752,
+      110728,
+      -3584
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 186,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30411",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30411,
+    "name": "Flame Salamander",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -20352,
+     144736,
+     -3840
+    ],
+    "alt": []
+   },
+   "text": "Bring Score of Elements, Tone of Fire, Salamander Charm, Tone of Water, Tone of Wind, Tone of Earth to Flame Salamander",
+   "needs": [
+    {
+     "id": 2847,
+     "name": "Score of Elements",
+     "n": 1
+    },
+    {
+     "id": 2857,
+     "name": "Tone of Fire",
+     "n": 1
+    },
+    {
+     "id": 2860,
+     "name": "Salamander Charm",
+     "n": 1
+    },
+    {
+     "id": 2856,
+     "name": "Tone of Water",
+     "n": 1
+    },
+    {
+     "id": 2858,
+     "name": "Tone of Wind",
+     "n": 1
+    },
+    {
+     "id": 2859,
+     "name": "Tone of Earth",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30411@-20352,144736",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8480,
+    "sec": 116,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8480,
+      "how": "geodata",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -19612,
+      137316,
+      -3824
+     ],
+     [
+      -20104,
+      137816,
+      -3896
+     ],
+     [
+      -20344,
+      138440,
+      -3896
+     ],
+     [
+      -20344,
+      139432,
+      -3896
+     ],
+     [
+      -20344,
+      140424,
+      -3896
+     ],
+     [
+      -20344,
+      141416,
+      -3896
+     ],
+     [
+      -20136,
+      142104,
+      -3896
+     ],
+     [
+      -20104,
+      142408,
+      -3896
+     ],
+     [
+      -20104,
+      142472,
+      -3896
+     ],
+     [
+      -20440,
+      143304,
+      -3816
+     ],
+     [
+      -20456,
+      143448,
+      -3816
+     ],
+     [
+      -20344,
+      144440,
+      -3816
+     ],
+     [
+      -20344,
+      144744,
+      -3808
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 141,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30412",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30412,
+    "name": "Wind Sylph",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -41452,
+     167329,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Bring Score of Elements, Tone of Wind, Sylph Charm, Tone of Water, Tone of Fire, Tone of Earth to Wind Sylph",
+   "needs": [
+    {
+     "id": 2847,
+     "name": "Score of Elements",
+     "n": 1
+    },
+    {
+     "id": 2858,
+     "name": "Tone of Wind",
+     "n": 1
+    },
+    {
+     "id": 2861,
+     "name": "Sylph Charm",
+     "n": 1
+    },
+    {
+     "id": 2856,
+     "name": "Tone of Water",
+     "n": 1
+    },
+    {
+     "id": 2857,
+     "name": "Tone of Fire",
+     "n": 1
+    },
+    {
+     "id": 2859,
+     "name": "Tone of Earth",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30412@-41452,167329",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 19751,
+    "sec": 210,
+    "via": ".gludio > Gludio -> Windawood Manor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Windawood Manor",
+      "link": "windawood manor",
+      "price": 1400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19751,
+      "how": "geodata",
+      "danger": 31
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Windawood Manor"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -28327,
+      155125,
+      -3496
+     ],
+     [
+      -28823,
+      155623,
+      -3648
+     ],
+     [
+      -29320,
+      156120,
+      -3800
+     ],
+     [
+      -29808,
+      156560,
+      -3852
+     ],
+     [
+      -30296,
+      157000,
+      -3904
+     ],
+     [
+      -31128,
+      157064,
+      -3904
+     ],
+     [
+      -32120,
+      157080,
+      -3904
+     ],
+     [
+      -33112,
+      157080,
+      -3952
+     ],
+     [
+      -33928,
+      157320,
+      -3792
+     ],
+     [
+      -34152,
+      157192,
+      -3552
+     ],
+     [
+      -34184,
+      157208,
+      -3520
+     ],
+     [
+      -34680,
+      157696,
+      -3140
+     ],
+     [
+      -35176,
+      158184,
+      -2760
+     ],
+     [
+      -35672,
+      158680,
+      -2292
+     ],
+     [
+      -36168,
+      159176,
+      -1824
+     ],
+     [
+      -36664,
+      159672,
+      -1716
+     ],
+     [
+      -37160,
+      160168,
+      -1608
+     ],
+     [
+      -37656,
+      160664,
+      -1236
+     ],
+     [
+      -38152,
+      161160,
+      -864
+     ],
+     [
+      -38648,
+      161656,
+      -1220
+     ],
+     [
+      -39144,
+      162152,
+      -1576
+     ],
+     [
+      -39640,
+      162648,
+      -1988
+     ],
+     [
+      -40136,
+      163144,
+      -2400
+     ],
+     [
+      -40632,
+      163640,
+      -2484
+     ],
+     [
+      -41128,
+      164136,
+      -2568
+     ],
+     [
+      -41448,
+      164968,
+      -2832
+     ],
+     [
+      -41448,
+      165960,
+      -3560
+     ],
+     [
+      -41448,
+      166952,
+      -3560
+     ],
+     [
+      -41448,
+      167336,
+      -3560
+     ]
+    ],
+    "maxDanger": 31,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 31,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 235,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30413",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30413,
+    "name": "Water Undine",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -60672,
+     126592,
+     -2957
+    ],
+    "alt": []
+   },
+   "text": "Bring Score of Elements, Tone of Water, Undine Charm, Tone of Fire, Tone of Wind, Tone of Earth to Water Undine",
+   "needs": [
+    {
+     "id": 2847,
+     "name": "Score of Elements",
+     "n": 1
+    },
+    {
+     "id": 2856,
+     "name": "Tone of Water",
+     "n": 1
+    },
+    {
+     "id": 2862,
+     "name": "Undine Charm",
+     "n": 1
+    },
+    {
+     "id": 2857,
+     "name": "Tone of Fire",
+     "n": 1
+    },
+    {
+     "id": 2858,
+     "name": "Tone of Wind",
+     "n": 1
+    },
+    {
+     "id": 2859,
+     "name": "Tone of Earth",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30413@-60672,126592",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".gludio",
+    "length": 20747,
+    "sec": 300,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20747,
+      "how": "geodata",
+      "danger": 44
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41740,
+      123348,
+      -2888
+     ],
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -42728,
+      124336,
+      -2864
+     ],
+     [
+      -43224,
+      124824,
+      -2856
+     ],
+     [
+      -43944,
+      124824,
+      -2864
+     ],
+     [
+      -44200,
+      124888,
+      -2864
+     ],
+     [
+      -44696,
+      125080,
+      -2856
+     ],
+     [
+      -45192,
+      125272,
+      -2848
+     ],
+     [
+      -46184,
+      125272,
+      -2728
+     ],
+     [
+      -47176,
+      125272,
+      -2872
+     ],
+     [
+      -48168,
+      125272,
+      -2896
+     ],
+     [
+      -49160,
+      125272,
+      -2920
+     ],
+     [
+      -50152,
+      125272,
+      -2984
+     ],
+     [
+      -51144,
+      125272,
+      -3008
+     ],
+     [
+      -52136,
+      125272,
+      -3016
+     ],
+     [
+      -53128,
+      125304,
+      -3280
+     ],
+     [
+      -54120,
+      125304,
+      -3472
+     ],
+     [
+      -55112,
+      125304,
+      -3456
+     ],
+     [
+      -56104,
+      125304,
+      -3408
+     ],
+     [
+      -57096,
+      125304,
+      -3424
+     ],
+     [
+      -57736,
+      125304,
+      -3320
+     ],
+     [
+      -57848,
+      125416,
+      -3208
+     ],
+     [
+      -57976,
+      125416,
+      -3280
+     ],
+     [
+      -58472,
+      125560,
+      -3364
+     ],
+     [
+      -58968,
+      125704,
+      -3448
+     ],
+     [
+      -59528,
+      125704,
+      -3136
+     ],
+     [
+      -60024,
+      126152,
+      -3040
+     ],
+     [
+      -60520,
+      126600,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "maxDanger": 44,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 7051,
+      "maxSwim": 7051,
+      "overBreath": true
+     },
+     "danger": 44,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 325,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "override": {
+    "route": [
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -43224,
+      124840,
+      -2856
+     ],
+     [
+      -44216,
+      125832,
+      -2888
+     ],
+     [
+      -45208,
+      126600,
+      -2864
+     ],
+     [
+      -46200,
+      126312,
+      -2704
+     ],
+     [
+      -46312,
+      126296,
+      -2680
+     ],
+     [
+      -47304,
+      126600,
+      -2792
+     ],
+     [
+      -48296,
+      126600,
+      -2824
+     ],
+     [
+      -49288,
+      126600,
+      -2856
+     ],
+     [
+      -50280,
+      126360,
+      -3000
+     ],
+     [
+      -50456,
+      126280,
+      -3008
+     ],
+     [
+      -51448,
+      126280,
+      -3048
+     ],
+     [
+      -52440,
+      125448,
+      -3032
+     ],
+     [
+      -53144,
+      124776,
+      -3032
+     ],
+     [
+      -54136,
+      124536,
+      -3104
+     ],
+     [
+      -54328,
+      124344,
+      -3072
+     ],
+     [
+      -54712,
+      124104,
+      -3056
+     ],
+     [
+      -55704,
+      123352,
+      -3088
+     ],
+     [
+      -55864,
+      123192,
+      -3064
+     ],
+     [
+      -56424,
+      122904,
+      -2984
+     ],
+     [
+      -57416,
+      122904,
+      -2976
+     ],
+     [
+      -58408,
+      122904,
+      -3016
+     ],
+     [
+      -59400,
+      122760,
+      -3072
+     ],
+     [
+      -59560,
+      122696,
+      -3080
+     ],
+     [
+      -60552,
+      122824,
+      -3176
+     ],
+     [
+      -60824,
+      123736,
+      -3168
+     ],
+     [
+      -60664,
+      124728,
+      -3080
+     ],
+     [
+      -60664,
+      125720,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "note": "Water Undine 30413 (-60672,126592): gk link \"Ruins of Agony\" on the live menu Scripts/data/gk_live/Bella.json, 26.8 km DRY (the atlas way from .gludio swam 7 km = over one breath); geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "points": [
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -43224,
+      124840,
+      -2856
+     ],
+     [
+      -44216,
+      125832,
+      -2888
+     ],
+     [
+      -45208,
+      126600,
+      -2864
+     ],
+     [
+      -46200,
+      126312,
+      -2704
+     ],
+     [
+      -46312,
+      126296,
+      -2680
+     ],
+     [
+      -47304,
+      126600,
+      -2792
+     ],
+     [
+      -48296,
+      126600,
+      -2824
+     ],
+     [
+      -49288,
+      126600,
+      -2856
+     ],
+     [
+      -50280,
+      126360,
+      -3000
+     ],
+     [
+      -50456,
+      126280,
+      -3008
+     ],
+     [
+      -51448,
+      126280,
+      -3048
+     ],
+     [
+      -52440,
+      125448,
+      -3032
+     ],
+     [
+      -53144,
+      124776,
+      -3032
+     ],
+     [
+      -54136,
+      124536,
+      -3104
+     ],
+     [
+      -54328,
+      124344,
+      -3072
+     ],
+     [
+      -54712,
+      124104,
+      -3056
+     ],
+     [
+      -55704,
+      123352,
+      -3088
+     ],
+     [
+      -55864,
+      123192,
+      -3064
+     ],
+     [
+      -56424,
+      122904,
+      -2984
+     ],
+     [
+      -57416,
+      122904,
+      -2976
+     ],
+     [
+      -58408,
+      122904,
+      -3016
+     ],
+     [
+      -59400,
+      122760,
+      -3072
+     ],
+     [
+      -59560,
+      122696,
+      -3080
+     ],
+     [
+      -60552,
+      122824,
+      -3176
+     ],
+     [
+      -60824,
+      123736,
+      -3168
+     ],
+     [
+      -60664,
+      124728,
+      -3080
+     ],
+     [
+      -60664,
+      125720,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "pv": [
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -43224,
+      124840,
+      -2856
+     ],
+     [
+      -44216,
+      125832,
+      -2888
+     ],
+     [
+      -45208,
+      126600,
+      -2864
+     ],
+     [
+      -46200,
+      126312,
+      -2704
+     ],
+     [
+      -46312,
+      126296,
+      -2680
+     ],
+     [
+      -47304,
+      126600,
+      -2792
+     ],
+     [
+      -48296,
+      126600,
+      -2824
+     ],
+     [
+      -49288,
+      126600,
+      -2856
+     ],
+     [
+      -50280,
+      126360,
+      -3000
+     ],
+     [
+      -50456,
+      126280,
+      -3008
+     ],
+     [
+      -51448,
+      126280,
+      -3048
+     ],
+     [
+      -52440,
+      125448,
+      -3032
+     ],
+     [
+      -53144,
+      124776,
+      -3032
+     ],
+     [
+      -54136,
+      124536,
+      -3104
+     ],
+     [
+      -54328,
+      124344,
+      -3072
+     ],
+     [
+      -54712,
+      124104,
+      -3056
+     ],
+     [
+      -55704,
+      123352,
+      -3088
+     ],
+     [
+      -55864,
+      123192,
+      -3064
+     ],
+     [
+      -56424,
+      122904,
+      -2984
+     ],
+     [
+      -57416,
+      122904,
+      -2976
+     ],
+     [
+      -58408,
+      122904,
+      -3016
+     ],
+     [
+      -59400,
+      122760,
+      -3072
+     ],
+     [
+      -59560,
+      122696,
+      -3080
+     ],
+     [
+      -60552,
+      122824,
+      -3176
+     ],
+     [
+      -60824,
+      123736,
+      -3168
+     ],
+     [
+      -60664,
+      124728,
+      -3080
+     ],
+     [
+      -60664,
+      125720,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "length": 24535,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-swim"
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:talk:30612",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Where are the singing flowers?\""
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30391",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "Ask about the singing flower"
+   ],
+   "npc": {
+    "id": 30391,
+    "name": "Parina",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -80430,
+     150694,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Bring Rukal's Letter to Parina",
+   "needs": [
+    {
+     "id": 2841,
+     "name": "Rukal's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30391@-80430,150694",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5610,
+    "sec": 67,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 5610,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79320,
+      150824,
+      -3040
+     ],
+     [
+      -79592,
+      150824,
+      -3040
+     ],
+     [
+      -79864,
+      150824,
+      -3040
+     ],
+     [
+      -80136,
+      150824,
+      -3040
+     ],
+     [
+      -80360,
+      150824,
+      -3040
+     ],
+     [
+      -80456,
+      150808,
+      -3040
+     ],
+     [
+      -80424,
+      150696,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:deliver:30413": {
+    "route": [
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -43224,
+      124840,
+      -2856
+     ],
+     [
+      -44216,
+      125832,
+      -2888
+     ],
+     [
+      -45208,
+      126600,
+      -2864
+     ],
+     [
+      -46200,
+      126312,
+      -2704
+     ],
+     [
+      -46312,
+      126296,
+      -2680
+     ],
+     [
+      -47304,
+      126600,
+      -2792
+     ],
+     [
+      -48296,
+      126600,
+      -2824
+     ],
+     [
+      -49288,
+      126600,
+      -2856
+     ],
+     [
+      -50280,
+      126360,
+      -3000
+     ],
+     [
+      -50456,
+      126280,
+      -3008
+     ],
+     [
+      -51448,
+      126280,
+      -3048
+     ],
+     [
+      -52440,
+      125448,
+      -3032
+     ],
+     [
+      -53144,
+      124776,
+      -3032
+     ],
+     [
+      -54136,
+      124536,
+      -3104
+     ],
+     [
+      -54328,
+      124344,
+      -3072
+     ],
+     [
+      -54712,
+      124104,
+      -3056
+     ],
+     [
+      -55704,
+      123352,
+      -3088
+     ],
+     [
+      -55864,
+      123192,
+      -3064
+     ],
+     [
+      -56424,
+      122904,
+      -2984
+     ],
+     [
+      -57416,
+      122904,
+      -2976
+     ],
+     [
+      -58408,
+      122904,
+      -3016
+     ],
+     [
+      -59400,
+      122760,
+      -3072
+     ],
+     [
+      -59560,
+      122696,
+      -3080
+     ],
+     [
+      -60552,
+      122824,
+      -3176
+     ],
+     [
+      -60824,
+      123736,
+      -3168
+     ],
+     [
+      -60664,
+      124728,
+      -3080
+     ],
+     [
+      -60664,
+      125720,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "note": "Water Undine 30413 (-60672,126592): gk link \"Ruins of Agony\" on the live menu Scripts/data/gk_live/Bella.json, 26.8 km DRY (the atlas way from .gludio swam 7 km = over one breath); geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:hunt": {
+    "fixed": [
+     "route-unverified"
+    ],
+    "note": "the atlas marked \"Giran -> Brekas Stronghold\" not live, but Clarissa's live menu (Scripts/data/gk_live/Clarissa.json) has \"Breka's Stronghold - 500\"; swarm.js gkNorm() (Scripts_dev/swarm.js ~line 6758: drops 's and the plural s) maps both to \"breka stronghold\" -> the link is clicked fine.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

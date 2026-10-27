@@ -1,0 +1,605 @@
+{
+ "id": 309,
+ "name": "For A Good Cause",
+ "version": 1,
+ "generated": "2026-10-27T11:15:19.333Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Heine",
+ "requirements": {
+  "quests": [
+   {
+    "id": 239,
+    "name": "Q00239_WontYouJoinUs",
+    "need": "completed",
+    "where": "somewhere in the script"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "239 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 5,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32647",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll be happy to help.\""
+   ],
+   "npc": {
+    "id": 32647,
+    "name": "Atra",
+    "title": "Apprentice",
+    "town": "Heine",
+    "at": [
+     81232,
+     226688,
+     -3584
+    ],
+    "alt": []
+   },
+   "text": "Talk to Atra – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32647@81232,226688",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1109,
+    "sec": 54,
+    "via": ".heine > Heine -> Field of Whispers",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Whispers",
+      "link": "field of whispers",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1109,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Whispers"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82192,
+      226128,
+      -3664
+     ],
+     [
+      81716,
+      226412,
+      -3632
+     ],
+     [
+      81240,
+      226696,
+      -3600
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22650,
+     "name": "Mucrokian Fanatic",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 329,
+     "questSpawned": false
+    },
+    {
+     "id": 22651,
+     "name": "Mucrokian Ascetic",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 330,
+     "questSpawned": false
+    },
+    {
+     "id": 22652,
+     "name": "Mucrokian Savior",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 22653,
+     "name": "Mucrokian Preacher",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 58,
+     "questSpawned": false
+    },
+    {
+     "id": 22654,
+     "name": "Contaminated Mucrokian",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 22655,
+     "name": "Awakened Mucrokian",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "engine-manual"
+   ],
+   "text": "Hunt Mucrokian Fanatic, Mucrokian Ascetic, Mucrokian Savior",
+   "places": [
+    {
+     "mobs": [
+      22650,
+      22651,
+      22652,
+      22653,
+      22654,
+      22655
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "field-of-whispers-33",
+      "name": "Field of Whispers 33: Mucrokian Fanatic area (north)",
+      "at": [
+       84568,
+       206888,
+       -3752
+      ],
+      "radius": 4021,
+      "levels": [
+       83,
+       84
+      ],
+      "count": 24,
+      "region": "Field of Whispers",
+      "atlasKey": "area:field-of-whispers-33",
+      "status": "ok",
+      "sec": 213,
+      "danger": 84,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -140.45,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "field-of-whispers-20",
+        "name": "Field of Whispers 20: Mucrokian Fanatic area (north-east)",
+        "at": [
+         88616,
+         216072,
+         -3760
+        ],
+        "count": 23,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "field-of-silence-15",
+        "name": "Field of Silence 15: Mucrokian Fanatic area (south)",
+        "at": [
+         79800,
+         181944,
+         -3760
+        ],
+        "count": 23,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "field-of-whispers-25",
+        "name": "Field of Whispers 25: Mucrokian Fanatic area (north-east)",
+        "at": [
+         93112,
+         215880,
+         -3760
+        ],
+        "count": 21,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:field-of-whispers-33",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 20195,
+      "sec": 213,
+      "via": ".heine > Heine -> Field of Whispers",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Field of Whispers",
+        "link": "field of whispers",
+        "price": 5900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8081,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 12114,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Field of Whispers"
+      },
+      "simple": true,
+      "pv": [
+       [
+        82192,
+        226128,
+        -3664
+       ],
+       [
+        82520,
+        218232,
+        -3704
+       ],
+       [
+        82520,
+        217240,
+        -3760
+       ],
+       [
+        82520,
+        216248,
+        -3680
+       ],
+       [
+        82520,
+        215256,
+        -3760
+       ],
+       [
+        82520,
+        214264,
+        -3760
+       ],
+       [
+        82520,
+        213272,
+        -3760
+       ],
+       [
+        82520,
+        212280,
+        -3600
+       ],
+       [
+        82520,
+        211288,
+        -3584
+       ],
+       [
+        82520,
+        210296,
+        -3688
+       ],
+       [
+        82520,
+        209304,
+        -3760
+       ],
+       [
+        83144,
+        208312,
+        -3744
+       ],
+       [
+        84136,
+        207320,
+        -3704
+       ],
+       [
+        84568,
+        206888,
+        -3752
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "field-of-whispers-33",
+    "name": "Field of Whispers 33: Mucrokian Fanatic area (north)",
+    "at": [
+     84568,
+     206888,
+     -3752
+    ],
+    "radius": 4021,
+    "levels": [
+     83,
+     84
+    ],
+    "count": 24,
+    "region": "Field of Whispers",
+    "atlasKey": "area:field-of-whispers-33",
+    "status": "ok",
+    "sec": 213,
+    "danger": 84,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -140.45,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "field-of-whispers-20",
+      "name": "Field of Whispers 20: Mucrokian Fanatic area (north-east)",
+      "at": [
+       88616,
+       216072,
+       -3760
+      ],
+      "count": 23,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "field-of-silence-15",
+      "name": "Field of Silence 15: Mucrokian Fanatic area (south)",
+      "at": [
+       79800,
+       181944,
+       -3760
+      ],
+      "count": 23,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "field-of-whispers-25",
+      "name": "Field of Whispers 25: Mucrokian Fanatic area (north-east)",
+      "at": [
+       93112,
+       215880,
+       -3760
+      ],
+      "count": 21,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:field-of-whispers-33",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 20195,
+    "sec": 213,
+    "via": ".heine > Heine -> Field of Whispers",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Field of Whispers",
+      "link": "field of whispers",
+      "price": 5900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8081,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 12114,
+      "how": "field-areas",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Field of Whispers"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82192,
+      226128,
+      -3664
+     ],
+     [
+      82520,
+      218232,
+      -3704
+     ],
+     [
+      82520,
+      217240,
+      -3760
+     ],
+     [
+      82520,
+      216248,
+      -3680
+     ],
+     [
+      82520,
+      215256,
+      -3760
+     ],
+     [
+      82520,
+      214264,
+      -3760
+     ],
+     [
+      82520,
+      213272,
+      -3760
+     ],
+     [
+      82520,
+      212280,
+      -3600
+     ],
+     [
+      82520,
+      211288,
+      -3584
+     ],
+     [
+      82520,
+      210296,
+      -3688
+     ],
+     [
+      82520,
+      209304,
+      -3760
+     ],
+     [
+      83144,
+      208312,
+      -3744
+     ],
+     [
+      84136,
+      207320,
+      -3704
+     ],
+     [
+      84568,
+      206888,
+      -3752
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 238,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

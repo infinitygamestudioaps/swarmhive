@@ -1,0 +1,1064 @@
+{
+ "id": 264,
+ "name": "Keen Claws",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.980Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dark Elf Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 49,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30136",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help."
+   ],
+   "npc": {
+    "id": 30136,
+    "name": "Payne",
+    "title": "Armor Merchant",
+    "town": "Dark Elf Village",
+    "at": [
+     10823,
+     18013,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Payne – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30136@10823,18013",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3814,
+    "sec": 77,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3814,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10200,
+      16808,
+      -4584
+     ],
+     [
+      10392,
+      17000,
+      -4584
+     ],
+     [
+      10504,
+      17048,
+      -4584
+     ],
+     [
+      10312,
+      17240,
+      -4584
+     ],
+     [
+      10264,
+      17512,
+      -4568
+     ],
+     [
+      10184,
+      17768,
+      -4568
+     ],
+     [
+      10136,
+      17880,
+      -4568
+     ],
+     [
+      10232,
+      17784,
+      -4568
+     ],
+     [
+      10504,
+      17736,
+      -4552
+     ],
+     [
+      10664,
+      17768,
+      -4552
+     ],
+     [
+      10920,
+      17864,
+      -4552
+     ],
+     [
+      10952,
+      17992,
+      -4552
+     ],
+     [
+      10872,
+      18024,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20003,
+     "name": "Goblin",
+     "level": 5,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20456,
+     "name": "Ashen Wolf",
+     "level": 4,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1367,
+     "name": "Wolf Claw",
+     "n": 50,
+     "from": [
+      {
+       "id": 20003,
+       "name": "Goblin",
+       "chance": 50
+      },
+      {
+       "id": 20456,
+       "name": "Ashen Wolf",
+       "chance": 125
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Goblin, Ashen Wolf for Wolf Claw x50",
+   "places": [
+    {
+     "mobs": [
+      20003,
+      20456
+     ],
+     "items": [
+      1367
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-5",
+      "name": "Dark Elf Village outskirts 5: Ashen Wolf area (east)",
+      "at": [
+       25128,
+       20392,
+       -3520
+      ],
+      "radius": 6198,
+      "levels": [
+       2,
+       6
+      ],
+      "count": 11,
+      "region": "Dark Elf Village outskirts",
+      "atlasKey": "area:dark-elf-village-outskirts-2-5",
+      "status": "ok",
+      "sec": 226,
+      "danger": 7,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -62.233333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dark-elf-village-outskirts-2-7",
+        "name": "Dark Elf Village outskirts 7: Goblin area (east)",
+        "at": [
+         31016,
+         13752,
+         -3696
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dark-elf-village-outskirts-2-1",
+        "name": "Dark Elf Village outskirts 1: Goblin area (north-east)",
+        "at": [
+         19208,
+         8088,
+         -3632
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dark-elf-village-outskirts-2-3",
+        "name": "Dark Elf Village outskirts 3: Young Brown Keltir area (north-east)",
+        "at": [
+         22664,
+         8280,
+         -3576
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dark-elf-village-outskirts-2-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 21763,
+      "sec": 226,
+      "via": ".gludio > Gludio -> DE Village",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 21763,
+        "how": "field-areas",
+        "danger": 7
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": true,
+      "pv": [
+       [
+        9704,
+        15560,
+        -4568
+       ],
+       [
+        10696,
+        15560,
+        -4568
+       ],
+       [
+        10824,
+        15608,
+        -4568
+       ],
+       [
+        10856,
+        15704,
+        -4568
+       ],
+       [
+        10872,
+        15720,
+        -4568
+       ],
+       [
+        11672,
+        16040,
+        -4568
+       ],
+       [
+        11688,
+        16056,
+        -4552
+       ],
+       [
+        11832,
+        16024,
+        -4552
+       ],
+       [
+        12296,
+        15976,
+        -4552
+       ],
+       [
+        13288,
+        15976,
+        -4568
+       ],
+       [
+        13688,
+        15928,
+        -4576
+       ],
+       [
+        14680,
+        15928,
+        -4440
+       ],
+       [
+        15672,
+        15928,
+        -4392
+       ],
+       [
+        16632,
+        15528,
+        -4264
+       ],
+       [
+        16680,
+        15480,
+        -4256
+       ],
+       [
+        16712,
+        15400,
+        -4224
+       ],
+       [
+        16712,
+        15144,
+        -4144
+       ],
+       [
+        16616,
+        15048,
+        -4088
+       ],
+       [
+        16168,
+        14648,
+        -3920
+       ],
+       [
+        16104,
+        14536,
+        -3856
+       ],
+       [
+        16088,
+        14424,
+        -3800
+       ],
+       [
+        16088,
+        14104,
+        -3728
+       ],
+       [
+        16472,
+        13720,
+        -3712
+       ],
+       [
+        17000,
+        13656,
+        -3744
+       ],
+       [
+        17992,
+        13656,
+        -3664
+       ],
+       [
+        18024,
+        13624,
+        -3656
+       ],
+       [
+        18104,
+        13592,
+        -3640
+       ],
+       [
+        18216,
+        13576,
+        -3616
+       ],
+       [
+        19208,
+        13576,
+        -3680
+       ],
+       [
+        20200,
+        13752,
+        -3656
+       ],
+       [
+        20312,
+        13864,
+        -3648
+       ],
+       [
+        20504,
+        14856,
+        -3640
+       ],
+       [
+        20552,
+        14936,
+        -3640
+       ],
+       [
+        20664,
+        15928,
+        -3608
+       ],
+       [
+        21656,
+        16920,
+        -3608
+       ],
+       [
+        22648,
+        17912,
+        -3536
+       ],
+       [
+        23640,
+        18904,
+        -3504
+       ],
+       [
+        24632,
+        19896,
+        -3464
+       ],
+       [
+        25128,
+        20392,
+        -3520
+       ]
+      ],
+      "maxDanger": 7,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 7,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dark-elf-village-outskirts-2-5",
+    "name": "Dark Elf Village outskirts 5: Ashen Wolf area (east)",
+    "at": [
+     25128,
+     20392,
+     -3520
+    ],
+    "radius": 6198,
+    "levels": [
+     2,
+     6
+    ],
+    "count": 11,
+    "region": "Dark Elf Village outskirts",
+    "atlasKey": "area:dark-elf-village-outskirts-2-5",
+    "status": "ok",
+    "sec": 226,
+    "danger": 7,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -62.233333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-7",
+      "name": "Dark Elf Village outskirts 7: Goblin area (east)",
+      "at": [
+       31016,
+       13752,
+       -3696
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-1",
+      "name": "Dark Elf Village outskirts 1: Goblin area (north-east)",
+      "at": [
+       19208,
+       8088,
+       -3632
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dark-elf-village-outskirts-2-3",
+      "name": "Dark Elf Village outskirts 3: Young Brown Keltir area (north-east)",
+      "at": [
+       22664,
+       8280,
+       -3576
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dark-elf-village-outskirts-2-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 21763,
+    "sec": 226,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 21763,
+      "how": "field-areas",
+      "danger": 7
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9704,
+      15560,
+      -4568
+     ],
+     [
+      10696,
+      15560,
+      -4568
+     ],
+     [
+      10824,
+      15608,
+      -4568
+     ],
+     [
+      10856,
+      15704,
+      -4568
+     ],
+     [
+      10872,
+      15720,
+      -4568
+     ],
+     [
+      11672,
+      16040,
+      -4568
+     ],
+     [
+      11688,
+      16056,
+      -4552
+     ],
+     [
+      11832,
+      16024,
+      -4552
+     ],
+     [
+      12296,
+      15976,
+      -4552
+     ],
+     [
+      13288,
+      15976,
+      -4568
+     ],
+     [
+      13688,
+      15928,
+      -4576
+     ],
+     [
+      14680,
+      15928,
+      -4440
+     ],
+     [
+      15672,
+      15928,
+      -4392
+     ],
+     [
+      16632,
+      15528,
+      -4264
+     ],
+     [
+      16680,
+      15480,
+      -4256
+     ],
+     [
+      16712,
+      15400,
+      -4224
+     ],
+     [
+      16712,
+      15144,
+      -4144
+     ],
+     [
+      16616,
+      15048,
+      -4088
+     ],
+     [
+      16168,
+      14648,
+      -3920
+     ],
+     [
+      16104,
+      14536,
+      -3856
+     ],
+     [
+      16088,
+      14424,
+      -3800
+     ],
+     [
+      16088,
+      14104,
+      -3728
+     ],
+     [
+      16472,
+      13720,
+      -3712
+     ],
+     [
+      17000,
+      13656,
+      -3744
+     ],
+     [
+      17992,
+      13656,
+      -3664
+     ],
+     [
+      18024,
+      13624,
+      -3656
+     ],
+     [
+      18104,
+      13592,
+      -3640
+     ],
+     [
+      18216,
+      13576,
+      -3616
+     ],
+     [
+      19208,
+      13576,
+      -3680
+     ],
+     [
+      20200,
+      13752,
+      -3656
+     ],
+     [
+      20312,
+      13864,
+      -3648
+     ],
+     [
+      20504,
+      14856,
+      -3640
+     ],
+     [
+      20552,
+      14936,
+      -3640
+     ],
+     [
+      20664,
+      15928,
+      -3608
+     ],
+     [
+      21656,
+      16920,
+      -3608
+     ],
+     [
+      22648,
+      17912,
+      -3536
+     ],
+     [
+      23640,
+      18904,
+      -3504
+     ],
+     [
+      24632,
+      19896,
+      -3464
+     ],
+     [
+      25128,
+      20392,
+      -3520
+     ]
+    ],
+    "maxDanger": 7,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 7,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 2726,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30136",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30136,
+    "name": "Payne",
+    "title": "Armor Merchant",
+    "town": "Dark Elf Village",
+    "at": [
+     10823,
+     18013,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Payne",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30136@10823,18013",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3814,
+    "sec": 77,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3814,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10200,
+      16808,
+      -4584
+     ],
+     [
+      10392,
+      17000,
+      -4584
+     ],
+     [
+      10504,
+      17048,
+      -4584
+     ],
+     [
+      10312,
+      17240,
+      -4584
+     ],
+     [
+      10264,
+      17512,
+      -4568
+     ],
+     [
+      10184,
+      17768,
+      -4568
+     ],
+     [
+      10136,
+      17880,
+      -4568
+     ],
+     [
+      10232,
+      17784,
+      -4568
+     ],
+     [
+      10504,
+      17736,
+      -4552
+     ],
+     [
+      10664,
+      17768,
+      -4552
+     ],
+     [
+      10920,
+      17864,
+      -4552
+     ],
+     [
+      10952,
+      17992,
+      -4552
+     ],
+     [
+      10872,
+      18024,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.988Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "chance-garbled"
+  ]
+ }
+}

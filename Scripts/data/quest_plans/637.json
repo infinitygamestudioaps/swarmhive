@@ -1,0 +1,731 @@
+{
+ "id": 637,
+ "name": "Through the Gate Once More",
+ "version": 1,
+ "generated": "2026-10-27T11:16:14.028Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 73,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {
+  "items": [
+   {
+    "id": 8065,
+    "name": "Faded Visitor's Mark"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Faded Visitor's Mark"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 11,
+ "refLevel": 73,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32010",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Okay, it's a deal.\""
+   ],
+   "npc": {
+    "id": 32010,
+    "name": "Flauron",
+    "title": "Priest",
+    "town": "Rune",
+    "at": [
+     36432,
+     -51296,
+     720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Flauron – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32010@36432,-51296",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 9030,
+    "sec": 95,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 9030,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40536,
+      -48472,
+      -768
+     ],
+     [
+      40336,
+      -48968,
+      -608
+     ],
+     [
+      40136,
+      -49464,
+      -448
+     ],
+     [
+      40120,
+      -49624,
+      -392
+     ],
+     [
+      39768,
+      -50248,
+      -264
+     ],
+     [
+      39272,
+      -50696,
+      -132
+     ],
+     [
+      38776,
+      -51144,
+      0
+     ],
+     [
+      38280,
+      -51216,
+      184
+     ],
+     [
+      37784,
+      -51288,
+      368
+     ],
+     [
+      36792,
+      -51288,
+      712
+     ],
+     [
+      36440,
+      -51288,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 125,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21565,
+     "name": "Bone Animator",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21566,
+     "name": "Skull Animator",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21567,
+     "name": "Bone Slayer",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8066,
+     "name": "Necromancer's Heart",
+     "n": 10,
+     "from": [
+      {
+       "id": 21565,
+       "name": "Bone Animator",
+       "chance": 90
+      },
+      {
+       "id": 21566,
+       "name": "Skull Animator",
+       "chance": 90
+      },
+      {
+       "id": 21567,
+       "name": "Bone Slayer",
+       "chance": 90
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Bone Animator, Skull Animator, Bone Slayer for Necromancer's Heart x10",
+   "places": [
+    {
+     "mobs": [
+      21565,
+      21566,
+      21567
+     ],
+     "items": [
+      8066
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forest-of-the-dead-19",
+      "name": "Forest of the Dead 19: Bone Animator area (east)",
+      "at": [
+       58328,
+       -55912,
+       -3328
+      ],
+      "radius": 2309,
+      "levels": [
+       66,
+       68
+      ],
+      "count": 7,
+      "region": "Forest of the Dead",
+      "atlasKey": "area:forest-of-the-dead-19",
+      "status": "ok",
+      "sec": 102,
+      "danger": 69,
+      "aggrShare": 0.95,
+      "reachable": true,
+      "score": -40.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-6",
+        "name": "Forest of the Dead 6: Corpse of Deadman area (north-east)",
+        "at": [
+         54680,
+         -56680,
+         -3352
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "rune-outskirts-4",
+        "name": "Rune outskirts 4: Bone Slayer area (south)",
+        "at": [
+         49528,
+         -40888,
+         -2248
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-15",
+        "name": "Forest of the Dead 15: Corpse of Deadman area (east)",
+        "at": [
+         57368,
+         -52552,
+         -3240
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forest-of-the-dead-19",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 6858,
+      "sec": 102,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4406,
+        "how": "field-areas-gap",
+        "danger": 71
+       },
+       {
+        "do": "walk",
+        "len": 2452,
+        "how": "field-areas",
+        "danger": 71
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        56408,
+        -54424,
+        -3280
+       ],
+       [
+        57400,
+        -54984,
+        -3408
+       ],
+       [
+        58328,
+        -55912,
+        -3328
+       ]
+      ],
+      "maxDanger": 71,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 71,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "forest-of-the-dead-19",
+    "name": "Forest of the Dead 19: Bone Animator area (east)",
+    "at": [
+     58328,
+     -55912,
+     -3328
+    ],
+    "radius": 2309,
+    "levels": [
+     66,
+     68
+    ],
+    "count": 7,
+    "region": "Forest of the Dead",
+    "atlasKey": "area:forest-of-the-dead-19",
+    "status": "ok",
+    "sec": 102,
+    "danger": 69,
+    "aggrShare": 0.95,
+    "reachable": true,
+    "score": -40.3,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-6",
+      "name": "Forest of the Dead 6: Corpse of Deadman area (north-east)",
+      "at": [
+       54680,
+       -56680,
+       -3352
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "rune-outskirts-4",
+      "name": "Rune outskirts 4: Bone Slayer area (south)",
+      "at": [
+       49528,
+       -40888,
+       -2248
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-15",
+      "name": "Forest of the Dead 15: Corpse of Deadman area (east)",
+      "at": [
+       57368,
+       -52552,
+       -3240
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:forest-of-the-dead-19",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 6858,
+    "sec": 102,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4406,
+      "how": "field-areas-gap",
+      "danger": 71
+     },
+     {
+      "do": "walk",
+      "len": 2452,
+      "how": "field-areas",
+      "danger": 71
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      56408,
+      -54424,
+      -3280
+     ],
+     [
+      57400,
+      -54984,
+      -3408
+     ],
+     [
+      58328,
+      -55912,
+      -3328
+     ]
+    ],
+    "maxDanger": 71,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 71,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 402,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32010",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I am not interested in the chapel of the temple.\""
+   ],
+   "npc": {
+    "id": 32010,
+    "name": "Flauron",
+    "title": "Priest",
+    "town": "Rune",
+    "at": [
+     36432,
+     -51296,
+     720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Flauron",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32010@36432,-51296",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 9030,
+    "sec": 95,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 9030,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40536,
+      -48472,
+      -768
+     ],
+     [
+      40336,
+      -48968,
+      -608
+     ],
+     [
+      40136,
+      -49464,
+      -448
+     ],
+     [
+      40120,
+      -49624,
+      -392
+     ],
+     [
+      39768,
+      -50248,
+      -264
+     ],
+     [
+      39272,
+      -50696,
+      -132
+     ],
+     [
+      38776,
+      -51144,
+      0
+     ],
+     [
+      38280,
+      -51216,
+      184
+     ],
+     [
+      37784,
+      -51288,
+      368
+     ],
+     [
+      36792,
+      -51288,
+      712
+     ],
+     [
+      36440,
+      -51288,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 120,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:14.044Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "level-max-missing",
+   "start-item-missing",
+   "route-detour"
+  ]
+ }
+}

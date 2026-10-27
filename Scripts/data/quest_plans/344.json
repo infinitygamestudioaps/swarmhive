@@ -1,0 +1,2028 @@
+{
+ "id": 344,
+ "name": "1000 years, the End of Lamentation",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.905Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 48,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Giran",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 28,
+ "refLevel": 48,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30754",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Carry on.\""
+   ],
+   "npc": {
+    "id": 30754,
+    "name": "Gilmore",
+    "title": "Antharas Watchman",
+    "town": "Giran",
+    "at": [
+     73211,
+     118492,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gilmore – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30754@73211,118492",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 184,
+    "sec": 47,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73208,
+      118488,
+      -3696
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20236,
+     "name": "Cave Servant",
+     "level": 46,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20238,
+     "name": "Cave Servant Warrior",
+     "level": 48,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20237,
+     "name": "Cave Servant Archer",
+     "level": 47,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20239,
+     "name": "Cave Servant Captain",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20240,
+     "name": "Royal Cave Servant",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 4269,
+     "name": "Articles of Dead Heroes",
+     "n": 20,
+     "from": [
+      {
+       "id": 20236,
+       "name": "Cave Servant",
+       "chance": 58
+      },
+      {
+       "id": 20238,
+       "name": "Cave Servant Warrior",
+       "chance": 75
+      },
+      {
+       "id": 20237,
+       "name": "Cave Servant Archer",
+       "chance": 78
+      },
+      {
+       "id": 20239,
+       "name": "Cave Servant Captain",
+       "chance": 79
+      },
+      {
+       "id": 20240,
+       "name": "Royal Cave Servant",
+       "chance": 85
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Cave Servant, Cave Servant Warrior, Cave Servant Archer for Articles of Dead Heroes x20",
+   "places": [
+    {
+     "mobs": [
+      20236,
+      20238,
+      20237,
+      20239,
+      20240
+     ],
+     "items": [
+      4269
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "dvcave-1-right-b",
+      "name": "Dragon Valley cave (Death Pass): Cave, right: Cave Maiden room",
+      "at": [
+       75406,
+       107398,
+       -2712
+      ],
+      "radius": 2279,
+      "levels": [
+       45,
+       59
+      ],
+      "count": 8,
+      "region": "Dragon Valley cave (Death Pass)",
+      "atlasKey": "room:dvcave-1-right-b",
+      "status": "ok",
+      "sec": 256,
+      "danger": 59,
+      "reachable": true,
+      "score": -31.733333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "dvcave-1-straight-d",
+        "name": "Dragon Valley cave (Death Pass): Cave, straight: Cave Maiden room",
+        "at": [
+         78057,
+         104514,
+         -3360
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:dvcave-1-right-b",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".hunters",
+      "length": 25317,
+      "sec": 256,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 25317,
+        "how": "dungeon-rooms",
+        "danger": 75
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73024,
+        118485,
+        -3696
+       ],
+       [
+        73024,
+        118485,
+        -3696
+       ],
+       [
+        72088,
+        117496,
+        -3672
+       ],
+       [
+        71624,
+        116504,
+        -3616
+       ],
+       [
+        71544,
+        115784,
+        -3640
+       ],
+       [
+        71512,
+        115752,
+        -3640
+       ],
+       [
+        71512,
+        114760,
+        -3720
+       ],
+       [
+        71512,
+        113768,
+        -3712
+       ],
+       [
+        71512,
+        112776,
+        -3672
+       ],
+       [
+        71512,
+        111784,
+        -3720
+       ],
+       [
+        71496,
+        110792,
+        -3720
+       ],
+       [
+        71496,
+        109800,
+        -3712
+       ],
+       [
+        71496,
+        108808,
+        -3720
+       ],
+       [
+        71496,
+        107816,
+        -3720
+       ],
+       [
+        71496,
+        106824,
+        -3696
+       ],
+       [
+        71416,
+        106216,
+        -3656
+       ],
+       [
+        71416,
+        105224,
+        -3600
+       ],
+       [
+        71432,
+        105192,
+        -3584
+       ],
+       [
+        71528,
+        105096,
+        -3496
+       ],
+       [
+        71544,
+        104568,
+        -3688
+       ],
+       [
+        71672,
+        103800,
+        -3656
+       ],
+       [
+        71816,
+        103528,
+        -3536
+       ],
+       [
+        72440,
+        102536,
+        -3424
+       ],
+       [
+        72440,
+        102136,
+        -3488
+       ],
+       [
+        72568,
+        101624,
+        -3464
+       ],
+       [
+        72824,
+        101640,
+        -3232
+       ],
+       [
+        72840,
+        101608,
+        -3224
+       ],
+       [
+        72952,
+        101496,
+        -3144
+       ],
+       [
+        73080,
+        101512,
+        -3040
+       ],
+       [
+        73080,
+        101368,
+        -3072
+       ],
+       [
+        73112,
+        101384,
+        -3040
+       ],
+       [
+        74104,
+        102376,
+        -2608
+       ],
+       [
+        74536,
+        102824,
+        -2720
+       ],
+       [
+        74536,
+        103224,
+        -2720
+       ],
+       [
+        74552,
+        103240,
+        -2720
+       ],
+       [
+        74568,
+        103320,
+        -2736
+       ],
+       [
+        75400,
+        104312,
+        -2904
+       ],
+       [
+        75400,
+        105304,
+        -2792
+       ],
+       [
+        75400,
+        106296,
+        -2800
+       ],
+       [
+        75400,
+        107288,
+        -2744
+       ],
+       [
+        75400,
+        107400,
+        -2720
+       ]
+      ],
+      "maxDanger": 75,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 75,
+       "dangerVsLevel": 27,
+       "aggro": [
+        {
+         "name": "Cave Maiden",
+         "lv": 59,
+         "n": 2
+        },
+        {
+         "name": "Cave Keeper",
+         "lv": 58,
+         "n": 1
+        },
+        {
+         "name": "Maluk Succubus Turen",
+         "lv": 56,
+         "n": 2
+        },
+        {
+         "name": "Maluk Succubus",
+         "lv": 55,
+         "n": 1
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Cave Maiden",
+       "lv": 59
+      },
+      {
+       "name": "Cave Maiden",
+       "lv": 59
+      },
+      {
+       "name": "Cave Maiden",
+       "lv": 59
+      },
+      {
+       "name": "Cave Maiden",
+       "lv": 59
+      },
+      {
+       "name": "Cave Maiden",
+       "lv": 59
+      },
+      {
+       "name": "Cave Keeper",
+       "lv": 58
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "dvcave-1-right-b",
+    "name": "Dragon Valley cave (Death Pass): Cave, right: Cave Maiden room",
+    "at": [
+     75406,
+     107398,
+     -2712
+    ],
+    "radius": 2279,
+    "levels": [
+     45,
+     59
+    ],
+    "count": 8,
+    "region": "Dragon Valley cave (Death Pass)",
+    "atlasKey": "room:dvcave-1-right-b",
+    "status": "ok",
+    "sec": 256,
+    "danger": 59,
+    "reachable": true,
+    "score": -31.733333333333334,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "dvcave-1-straight-d",
+      "name": "Dragon Valley cave (Death Pass): Cave, straight: Cave Maiden room",
+      "at": [
+       78057,
+       104514,
+       -3360
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:dvcave-1-right-b",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".hunters",
+    "length": 25317,
+    "sec": 256,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 25317,
+      "how": "dungeon-rooms",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      72088,
+      117496,
+      -3672
+     ],
+     [
+      71624,
+      116504,
+      -3616
+     ],
+     [
+      71544,
+      115784,
+      -3640
+     ],
+     [
+      71512,
+      115752,
+      -3640
+     ],
+     [
+      71512,
+      114760,
+      -3720
+     ],
+     [
+      71512,
+      113768,
+      -3712
+     ],
+     [
+      71512,
+      112776,
+      -3672
+     ],
+     [
+      71512,
+      111784,
+      -3720
+     ],
+     [
+      71496,
+      110792,
+      -3720
+     ],
+     [
+      71496,
+      109800,
+      -3712
+     ],
+     [
+      71496,
+      108808,
+      -3720
+     ],
+     [
+      71496,
+      107816,
+      -3720
+     ],
+     [
+      71496,
+      106824,
+      -3696
+     ],
+     [
+      71416,
+      106216,
+      -3656
+     ],
+     [
+      71416,
+      105224,
+      -3600
+     ],
+     [
+      71432,
+      105192,
+      -3584
+     ],
+     [
+      71528,
+      105096,
+      -3496
+     ],
+     [
+      71544,
+      104568,
+      -3688
+     ],
+     [
+      71672,
+      103800,
+      -3656
+     ],
+     [
+      71816,
+      103528,
+      -3536
+     ],
+     [
+      72440,
+      102536,
+      -3424
+     ],
+     [
+      72440,
+      102136,
+      -3488
+     ],
+     [
+      72568,
+      101624,
+      -3464
+     ],
+     [
+      72824,
+      101640,
+      -3232
+     ],
+     [
+      72840,
+      101608,
+      -3224
+     ],
+     [
+      72952,
+      101496,
+      -3144
+     ],
+     [
+      73080,
+      101512,
+      -3040
+     ],
+     [
+      73080,
+      101368,
+      -3072
+     ],
+     [
+      73112,
+      101384,
+      -3040
+     ],
+     [
+      74104,
+      102376,
+      -2608
+     ],
+     [
+      74536,
+      102824,
+      -2720
+     ],
+     [
+      74536,
+      103224,
+      -2720
+     ],
+     [
+      74552,
+      103240,
+      -2720
+     ],
+     [
+      74568,
+      103320,
+      -2736
+     ],
+     [
+      75400,
+      104312,
+      -2904
+     ],
+     [
+      75400,
+      105304,
+      -2792
+     ],
+     [
+      75400,
+      106296,
+      -2800
+     ],
+     [
+      75400,
+      107288,
+      -2744
+     ],
+     [
+      75400,
+      107400,
+      -2720
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": 27,
+     "aggro": [
+      {
+       "name": "Cave Maiden",
+       "lv": 59,
+       "n": 2
+      },
+      {
+       "name": "Cave Keeper",
+       "lv": 58,
+       "n": 1
+      },
+      {
+       "name": "Maluk Succubus Turen",
+       "lv": 56,
+       "n": 2
+      },
+      {
+       "name": "Maluk Succubus",
+       "lv": 55,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 1131,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:30623",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30623,
+    "name": "Kaien",
+    "title": "Duelist",
+    "town": "Oren",
+    "at": [
+     79610,
+     56717,
+     -1510
+    ],
+    "alt": []
+   },
+   "text": "Bring Old Hilt to Kaien",
+   "needs": [
+    {
+     "id": 4271,
+     "name": "Old Hilt",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30623@79610,56717",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5395,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81096,
+      55768,
+      -1552
+     ],
+     [
+      80888,
+      55944,
+      -1552
+     ],
+     [
+      80664,
+      56072,
+      -1552
+     ],
+     [
+      80392,
+      56120,
+      -1552
+     ],
+     [
+      80344,
+      56168,
+      -1552
+     ],
+     [
+      80184,
+      56168,
+      -1552
+     ],
+     [
+      79912,
+      56216,
+      -1552
+     ],
+     [
+      79720,
+      56408,
+      -1512
+     ],
+     [
+      79528,
+      56584,
+      -1512
+     ],
+     [
+      79496,
+      56680,
+      -1512
+     ],
+     [
+      79608,
+      56712,
+      -1512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:deliver:30756",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30756,
+    "name": "Sir Kristof Rodemai",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     84521,
+     146372,
+     -3404
+    ],
+    "alt": []
+   },
+   "text": "Bring Old Key to Sir Kristof Rodemai",
+   "needs": [
+    {
+     "id": 4270,
+     "name": "Old Key",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30108@85055,146560",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 4262,
+    "sec": 56,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 4198,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83992,
+      146520,
+      -3400
+     ],
+     [
+      84184,
+      146472,
+      -3400
+     ],
+     [
+      84456,
+      146472,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ],
+     [
+      84600,
+      146472,
+      -3400
+     ],
+     [
+      84872,
+      146472,
+      -3400
+     ],
+     [
+      85048,
+      146568,
+      -3400
+     ],
+     [
+      84520,
+      146440,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30108@85055,146560",
+     "name": "Macken"
+    },
+    "points": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83992,
+      146520,
+      -3400
+     ],
+     [
+      84184,
+      146472,
+      -3400
+     ],
+     [
+      84456,
+      146472,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ],
+     [
+      84600,
+      146472,
+      -3400
+     ],
+     [
+      84872,
+      146472,
+      -3400
+     ],
+     [
+      85048,
+      146568,
+      -3400
+     ],
+     [
+      84520,
+      146440,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ]
+    ]
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c2:deliver:30704",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30704,
+    "name": "Garvarentz",
+    "title": "High Prefect",
+    "town": "Hunters Village",
+    "at": [
+     120100,
+     74739,
+     -2372
+    ],
+    "alt": []
+   },
+   "text": "Bring Totem Necklace to Garvarentz",
+   "needs": [
+    {
+     "id": 4272,
+     "name": "Totem Necklace",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30704@120100,74739",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 9819,
+    "sec": 102,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 9819,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116696,
+      76280,
+      -2728
+     ],
+     [
+      116776,
+      76456,
+      -2728
+     ],
+     [
+      116792,
+      76728,
+      -2720
+     ],
+     [
+      116824,
+      77000,
+      -2704
+     ],
+     [
+      116616,
+      77160,
+      -2720
+     ],
+     [
+      116424,
+      77352,
+      -2704
+     ],
+     [
+      116360,
+      77416,
+      -2704
+     ],
+     [
+      116344,
+      77672,
+      -2680
+     ],
+     [
+      116392,
+      77944,
+      -2680
+     ],
+     [
+      116536,
+      78184,
+      -2648
+     ],
+     [
+      116616,
+      78312,
+      -2608
+     ],
+     [
+      116760,
+      78536,
+      -2496
+     ],
+     [
+      116824,
+      78648,
+      -2432
+     ],
+     [
+      116968,
+      78888,
+      -2256
+     ],
+     [
+      117000,
+      78968,
+      -2256
+     ],
+     [
+      117256,
+      78984,
+      -2256
+     ],
+     [
+      117528,
+      79000,
+      -2256
+     ],
+     [
+      117800,
+      79016,
+      -2256
+     ],
+     [
+      117976,
+      78808,
+      -2200
+     ],
+     [
+      117976,
+      78648,
+      -2168
+     ],
+     [
+      117976,
+      78664,
+      -2168
+     ],
+     [
+      118168,
+      78632,
+      -2176
+     ],
+     [
+      118344,
+      78424,
+      -2176
+     ],
+     [
+      118520,
+      78216,
+      -2176
+     ],
+     [
+      118696,
+      78024,
+      -2176
+     ],
+     [
+      118904,
+      77848,
+      -2200
+     ],
+     [
+      119016,
+      77720,
+      -2248
+     ],
+     [
+      119064,
+      77448,
+      -2272
+     ],
+     [
+      119112,
+      77208,
+      -2272
+     ],
+     [
+      119288,
+      77000,
+      -2272
+     ],
+     [
+      119352,
+      76920,
+      -2272
+     ],
+     [
+      119480,
+      76920,
+      -2272
+     ],
+     [
+      119720,
+      76792,
+      -2272
+     ],
+     [
+      119768,
+      76520,
+      -2272
+     ],
+     [
+      119640,
+      76280,
+      -2272
+     ],
+     [
+      119608,
+      76008,
+      -2272
+     ],
+     [
+      119704,
+      75912,
+      -2264
+     ],
+     [
+      119608,
+      75816,
+      -2272
+     ],
+     [
+      119768,
+      75592,
+      -2272
+     ],
+     [
+      119752,
+      75320,
+      -2344
+     ],
+     [
+      119736,
+      75288,
+      -2360
+     ],
+     [
+      119672,
+      75096,
+      -2368
+     ],
+     [
+      119816,
+      74952,
+      -2368
+     ],
+     [
+      119944,
+      74824,
+      -2368
+     ],
+     [
+      120104,
+      74744,
+      -2368
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 127,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c2:deliver:30857",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30857,
+    "name": "Orven",
+    "title": "High Priest",
+    "town": "Aden",
+    "at": [
+     147456,
+     22576,
+     -1989
+    ],
+    "alt": []
+   },
+   "text": "Bring Einhasad Crucifix to Orven",
+   "needs": [
+    {
+     "id": 4273,
+     "name": "Einhasad Crucifix",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30857@147456,22576",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3996,
+    "sec": 53,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3996,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147464,
+      23752,
+      -1984
+     ],
+     [
+      147448,
+      23672,
+      -1984
+     ],
+     [
+      147448,
+      23400,
+      -1984
+     ],
+     [
+      147464,
+      23128,
+      -1984
+     ],
+     [
+      147464,
+      22856,
+      -1984
+     ],
+     [
+      147464,
+      22584,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:turnin:30754",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Give him the relics."
+   ],
+   "npc": {
+    "id": 30754,
+    "name": "Gilmore",
+    "title": "Antharas Watchman",
+    "town": "Giran",
+    "at": [
+     73211,
+     118492,
+     -3696
+    ],
+    "alt": []
+   },
+   "text": "Hand in Articles of Dead Heroes at Gilmore (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 4269,
+     "name": "Articles of Dead Heroes",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30754@73211,118492",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 184,
+    "sec": 47,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 184,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73208,
+      118488,
+      -3696
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 72,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

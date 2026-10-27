@@ -1,0 +1,1036 @@
+{
+ "id": 354,
+ "name": "Conquest of Alligator Island",
+ "version": 1,
+ "generated": "2026-10-27T11:15:28.160Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 38,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Heine",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 88,
+ "refLevel": 38,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30895",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will help you.\""
+   ],
+   "npc": {
+    "id": 30895,
+    "name": "Kluck",
+    "title": "Warehouse Keeper",
+    "town": "Heine",
+    "at": [
+     109623,
+     220091,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kluck – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30895@109623,220091",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2404,
+    "sec": 40,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2404,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219752,
+      -3472
+     ],
+     [
+      109848,
+      220024,
+      -3512
+     ],
+     [
+      109672,
+      220088,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 70,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20804,
+     "name": "Crokian Lad",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 60,
+     "questSpawned": false
+    },
+    {
+     "id": 20805,
+     "name": "Dailaon Lad",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 20806,
+     "name": "Crokian Lad Warrior",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 51,
+     "questSpawned": false
+    },
+    {
+     "id": 20807,
+     "name": "Farhite Lad",
+     "level": 44,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 44,
+     "questSpawned": false
+    },
+    {
+     "id": 20991,
+     "name": "Swamp Tribe",
+     "level": 45,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5863,
+     "name": "Alligator Tooth",
+     "n": 20,
+     "from": [
+      {
+       "id": 20804,
+       "name": "Crokian Lad",
+       "chance": 84
+      },
+      {
+       "id": 20805,
+       "name": "Dailaon Lad",
+       "chance": 91
+      },
+      {
+       "id": 20806,
+       "name": "Crokian Lad Warrior",
+       "chance": 88
+      },
+      {
+       "id": 20807,
+       "name": "Farhite Lad",
+       "chance": 92
+      },
+      {
+       "id": 20991,
+       "name": "Swamp Tribe",
+       "chance": 169
+      }
+     ]
+    },
+    {
+     "id": 5864,
+     "name": "Mysterious Map Piece",
+     "n": 20,
+     "from": [
+      {
+       "id": 20804,
+       "name": "Crokian Lad",
+       "chance": 10
+      },
+      {
+       "id": 20805,
+       "name": "Dailaon Lad",
+       "chance": 10
+      },
+      {
+       "id": 20806,
+       "name": "Crokian Lad Warrior",
+       "chance": 10
+      },
+      {
+       "id": 20807,
+       "name": "Farhite Lad",
+       "chance": 10
+      },
+      {
+       "id": 20991,
+       "name": "Swamp Tribe",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Crokian Lad, Dailaon Lad, Crokian Lad Warrior for Alligator Tooth x20, Mysterious Map Piece x20",
+   "places": [
+    {
+     "mobs": [
+      20804,
+      20805,
+      20806,
+      20807,
+      20991
+     ],
+     "items": [
+      5863,
+      5864
+     ],
+     "kills": null,
+     "area": {
+      "kind": "override",
+      "id": "override",
+      "name": "Alligator Islands 3: Crokian Lad area (north)",
+      "radius": 4905,
+      "count": 0,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "alligator-islands-20",
+        "name": "Alligator Islands 20: Farhite Lad area (north)",
+        "at": [
+         119416,
+         178328,
+         -3672
+        ]
+       }
+      ],
+      "at": [
+       114920,
+       186712,
+       -3760
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:alligator-islands-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 5799,
+      "sec": 93,
+      "via": ".heine > Heine -> Entrance to Alligator Islands",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Entrance to Alligator Islands",
+        "link": "alligator island",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5799,
+        "how": "field-areas",
+        "danger": 43
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Entrance to Alligator Islands"
+      },
+      "simple": true,
+      "pv": [
+       [
+        115576,
+        192264,
+        -3488
+       ],
+       [
+        115576,
+        191272,
+        -3408
+       ],
+       [
+        115576,
+        190280,
+        -3608
+       ],
+       [
+        115576,
+        189288,
+        -3760
+       ],
+       [
+        115576,
+        188296,
+        -3752
+       ],
+       [
+        115512,
+        187304,
+        -3760
+       ],
+       [
+        114920,
+        186712,
+        -3760
+       ]
+      ],
+      "maxDanger": 43,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 43,
+       "dangerVsLevel": 5,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:alligator-islands-3",
+       "name": "Alligator Islands 3: Crokian Lad area (north)"
+      },
+      "points": [
+       [
+        115576,
+        192264,
+        -3488
+       ],
+       [
+        115576,
+        191272,
+        -3408
+       ],
+       [
+        115576,
+        190280,
+        -3608
+       ],
+       [
+        115576,
+        189288,
+        -3760
+       ],
+       [
+        115576,
+        188296,
+        -3752
+       ],
+       [
+        115512,
+        187304,
+        -3760
+       ],
+       [
+        114920,
+        186712,
+        -3760
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "override",
+    "id": "override",
+    "name": "Alligator Islands 3: Crokian Lad area (north)",
+    "radius": 4905,
+    "count": 0,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "alligator-islands-20",
+      "name": "Alligator Islands 20: Farhite Lad area (north)",
+      "at": [
+       119416,
+       178328,
+       -3672
+      ]
+     }
+    ],
+    "at": [
+     114920,
+     186712,
+     -3760
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:alligator-islands-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 5799,
+    "sec": 93,
+    "via": ".heine > Heine -> Entrance to Alligator Islands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Entrance to Alligator Islands",
+      "link": "alligator island",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5799,
+      "how": "field-areas",
+      "danger": 43
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115576,
+      192264,
+      -3488
+     ],
+     [
+      115576,
+      191272,
+      -3408
+     ],
+     [
+      115576,
+      190280,
+      -3608
+     ],
+     [
+      115576,
+      189288,
+      -3760
+     ],
+     [
+      115576,
+      188296,
+      -3752
+     ],
+     [
+      115512,
+      187304,
+      -3760
+     ],
+     [
+      114920,
+      186712,
+      -3760
+     ]
+    ],
+    "maxDanger": 43,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 43,
+     "dangerVsLevel": 5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:alligator-islands-3",
+     "name": "Alligator Islands 3: Crokian Lad area (north)"
+    },
+    "points": [
+     [
+      115576,
+      192264,
+      -3488
+     ],
+     [
+      115576,
+      191272,
+      -3408
+     ],
+     [
+      115576,
+      190280,
+      -3608
+     ],
+     [
+      115576,
+      189288,
+      -3760
+     ],
+     [
+      115576,
+      188296,
+      -3752
+     ],
+     [
+      115512,
+      187304,
+      -3760
+     ],
+     [
+      114920,
+      186712,
+      -3760
+     ]
+    ]
+   },
+   "expectedSec": 5174,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "note": "Monsters 22208 have no spawn: removed from the drop / kill lists of quests/354.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows for 22208 (the same-name Pachycephalosaurus 22221 lives on Primeval Isle, not Alligator Island); both items also drop from the 5 spawned Alligator Island monsters | The planned place (Alligator Islands 20) is full of Farhite Lad 44 / Nos Lad 45 (aggressive, quest level 38 + 6). New place: field area alligator-islands-3 \"Alligator Islands 3: Crokian Lad area (north)\" (field_areas.json: Crokian Lad x10 L41 A, Alligator x7 L40 A, Dailaon Lad x3 L42 A, Crokian Lad Warrior x1 L43 A). Route: Heine -> Entrance to Alligator Islands (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 4931 long, swim 0, aggressive monsters lv >= 44 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:25:24.765Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)",
+    "area": {
+     "at": [
+      114920,
+      186712,
+      -3760
+     ],
+     "radius": 4905,
+     "name": "Alligator Islands 3: Crokian Lad area (north)"
+    },
+    "route": [
+     [
+      114920,
+      191272,
+      -3432
+     ],
+     [
+      114920,
+      190280,
+      -3704
+     ],
+     [
+      114920,
+      189288,
+      -3760
+     ],
+     [
+      115144,
+      188952,
+      -3760
+     ],
+     [
+      115176,
+      188840,
+      -3760
+     ],
+     [
+      114936,
+      187944,
+      -3760
+     ],
+     [
+      115288,
+      187592,
+      -3760
+     ],
+     [
+      115320,
+      187512,
+      -3760
+     ],
+     [
+      115336,
+      187448,
+      -3760
+     ],
+     [
+      115304,
+      187336,
+      -3760
+     ],
+     [
+      114920,
+      186712,
+      -3760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    }
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    },
+    "points": [
+     [
+      114920,
+      191272,
+      -3432
+     ],
+     [
+      114920,
+      190280,
+      -3704
+     ],
+     [
+      114920,
+      189288,
+      -3760
+     ],
+     [
+      115144,
+      188952,
+      -3760
+     ],
+     [
+      115176,
+      188840,
+      -3760
+     ],
+     [
+      114936,
+      187944,
+      -3760
+     ],
+     [
+      115288,
+      187592,
+      -3760
+     ],
+     [
+      115320,
+      187512,
+      -3760
+     ],
+     [
+      115336,
+      187448,
+      -3760
+     ],
+     [
+      115304,
+      187336,
+      -3760
+     ],
+     [
+      114920,
+      186712,
+      -3760
+     ]
+    ],
+    "pv": [
+     [
+      114920,
+      191272,
+      -3432
+     ],
+     [
+      114920,
+      190280,
+      -3704
+     ],
+     [
+      114920,
+      189288,
+      -3760
+     ],
+     [
+      115144,
+      188952,
+      -3760
+     ],
+     [
+      115176,
+      188840,
+      -3760
+     ],
+     [
+      114936,
+      187944,
+      -3760
+     ],
+     [
+      115288,
+      187592,
+      -3760
+     ],
+     [
+      115320,
+      187512,
+      -3760
+     ],
+     [
+      115336,
+      187448,
+      -3760
+     ],
+     [
+      115304,
+      187336,
+      -3760
+     ],
+     [
+      114920,
+      186712,
+      -3760
+     ]
+    ],
+    "length": 4931,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30895",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I want out of the Contract.\""
+   ],
+   "npc": {
+    "id": 30895,
+    "name": "Kluck",
+    "title": "Warehouse Keeper",
+    "town": "Heine",
+    "at": [
+     109623,
+     220091,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kluck",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30895@109623,220091",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2404,
+    "sec": 40,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2404,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219752,
+      -3472
+     ],
+     [
+      109848,
+      220024,
+      -3512
+     ],
+     [
+      109672,
+      220088,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 65,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "note": "Monsters 22208 have no spawn: removed from the drop / kill lists of quests/354.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows for 22208 (the same-name Pachycephalosaurus 22221 lives on Primeval Isle, not Alligator Island); both items also drop from the 5 spawned Alligator Island monsters | The planned place (Alligator Islands 20) is full of Farhite Lad 44 / Nos Lad 45 (aggressive, quest level 38 + 6). New place: field area alligator-islands-3 \"Alligator Islands 3: Crokian Lad area (north)\" (field_areas.json: Crokian Lad x10 L41 A, Alligator x7 L40 A, Dailaon Lad x3 L42 A, Crokian Lad Warrior x1 L43 A). Route: Heine -> Entrance to Alligator Islands (live gatekeeper menu), then a geodata walk computed with raid_policy policyLeg (dry, walls block): 4931 long, swim 0, aggressive monsters lv >= 44 on it: none.",
+    "fixed": [
+     "area-danger",
+     "no-hunt-place"
+    ],
+    "editedAt": "2026-10-27T10:25:24.765Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)",
+    "area": {
+     "at": [
+      114920,
+      186712,
+      -3760
+     ],
+     "radius": 4905,
+     "name": "Alligator Islands 3: Crokian Lad area (north)"
+    },
+    "route": [
+     [
+      114920,
+      191272,
+      -3432
+     ],
+     [
+      114920,
+      190280,
+      -3704
+     ],
+     [
+      114920,
+      189288,
+      -3760
+     ],
+     [
+      115144,
+      188952,
+      -3760
+     ],
+     [
+      115176,
+      188840,
+      -3760
+     ],
+     [
+      114936,
+      187944,
+      -3760
+     ],
+     [
+      115288,
+      187592,
+      -3760
+     ],
+     [
+      115320,
+      187512,
+      -3760
+     ],
+     [
+      115336,
+      187448,
+      -3760
+     ],
+     [
+      115304,
+      187336,
+      -3760
+     ],
+     [
+      114920,
+      186712,
+      -3760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Entrance to Alligator Islands"
+    }
+   }
+  },
+  "editedAt": "2026-10-27T10:25:24.765Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:28.168Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "chance-garbled",
+   "area-partial",
+   "hunt-long"
+  ]
+ }
+}

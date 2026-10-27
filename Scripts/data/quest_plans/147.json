@@ -1,0 +1,95 @@
+{
+ "id": 147,
+ "name": "Path to Becoming an Elite Mercenary",
+ "version": 1,
+ "generated": "2026-10-27T11:15:13.004Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": null,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "",
+ "requirements": {
+  "clan": {
+   "leader": false,
+   "minLevel": null
+  }
+ },
+ "restrictions": [
+  {
+   "code": "level-unknown",
+   "text": "minimum level unknown"
+  }
+ ],
+ "status": "not-for-bots",
+ "reasons": [
+  {
+   "code": "clan",
+   "text": "clan quest"
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 2,
+ "refLevel": 1,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:36481",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Please tell me how.\""
+   ],
+   "npc": {
+    "id": 36481,
+    "name": "Mercenary Captain",
+    "title": "Gludio",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Mercenary Captain / Mercenary Captain / Mercenary Captain / Mercenary Captain / Mercenary Captain / Mercenary Captain / Mercenary Captain / Mercenary Captain / Mercenary Captain – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:manual",
+   "cond": 1,
+   "kind": "special",
+   "text": "step 1",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "no automatic step at cond 1",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,321 @@
+{
+ "id": 110,
+ "name": "To the Primeval Isle",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.025Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 3,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31338",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will."
+   ],
+   "npc": {
+    "id": 31338,
+    "name": "Anton",
+    "title": "Spellbook Seller",
+    "town": "Rune",
+    "at": [
+     37008,
+     -49200,
+     -1127
+    ],
+    "alt": []
+   },
+   "text": "Talk to Anton – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31338@37008,-49200",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7322,
+    "sec": 81,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7322,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40712,
+      -48352,
+      -784
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37272,
+      -49160,
+      -1128
+     ],
+     [
+      37160,
+      -49192,
+      -1128
+     ],
+     [
+      37016,
+      -49192,
+      -1128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 111,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32113",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Tell him that you are interested in hearing the translation.",
+    "Tell him that you are not interested and will just leave."
+   ],
+   "npc": {
+    "id": 32113,
+    "name": "Marquez",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     11712,
+     -23616,
+     -3644
+    ],
+    "alt": []
+   },
+   "text": "Talk to Marquez",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32714@11504,-23344",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 830,
+    "sec": 52,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 744,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      11512,
+      -23336,
+      -3640
+     ],
+     [
+      11640,
+      -23640,
+      -3640
+     ],
+     [
+      11720,
+      -23608,
+      -3640
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32714@11504,-23344",
+     "name": "Asher"
+    },
+    "points": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      11512,
+      -23336,
+      -3640
+     ],
+     [
+      11640,
+      -23640,
+      -3640
+     ],
+     [
+      11720,
+      -23608,
+      -3640
+     ]
+    ]
+   },
+   "expectedSec": 77,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.060Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "script-flow-far"
+  ]
+ }
+}

@@ -1,0 +1,358 @@
+{
+ "id": 121,
+ "name": "Pavel the Giant",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.326Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 70,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Schuttgart",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 3,
+ "refLevel": 70,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31961",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you're experienced enough"
+   ],
+   "npc": {
+    "id": 31961,
+    "name": "Newyear",
+    "title": "Head Blacksmith",
+    "town": "Schuttgart",
+    "at": [
+     88405,
+     -139769,
+     -1533
+    ],
+    "alt": []
+   },
+   "text": "Talk to Newyear – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31961@88405,-139769",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 6432,
+    "sec": 74,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 6432,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141752,
+      -1536
+     ],
+     [
+      89736,
+      -141480,
+      -1536
+     ],
+     [
+      89688,
+      -141208,
+      -1536
+     ],
+     [
+      89544,
+      -140968,
+      -1536
+     ],
+     [
+      89352,
+      -140776,
+      -1536
+     ],
+     [
+      89160,
+      -140600,
+      -1536
+     ],
+     [
+      89000,
+      -140440,
+      -1536
+     ],
+     [
+      88728,
+      -140376,
+      -1536
+     ],
+     [
+      88456,
+      -140360,
+      -1536
+     ],
+     [
+      88232,
+      -140216,
+      -1536
+     ],
+     [
+      88216,
+      -140008,
+      -1536
+     ],
+     [
+      88088,
+      -139832,
+      -1528
+     ],
+     [
+      88232,
+      -139704,
+      -1528
+     ],
+     [
+      88472,
+      -139848,
+      -1528
+     ],
+     [
+      88424,
+      -139816,
+      -1528
+     ],
+     [
+      88408,
+      -139768,
+      -1528
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 104,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32041",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Ask what needs to be done."
+   ],
+   "npc": {
+    "id": 32041,
+    "name": "Yumi",
+    "title": "Collector",
+    "town": "Schuttgart",
+    "at": [
+     91374,
+     -116884,
+     -3920
+    ],
+    "alt": []
+   },
+   "text": "Talk to Yumi",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32069@91316,-116927",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 235,
+    "sec": 47,
+    "via": ".schuttgart > Schuttgart -> Pavel Ruins",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Pavel Ruins",
+      "link": "pavel ruins",
+      "price": 5300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 235,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Pavel Ruins"
+    },
+    "simple": true,
+    "pv": [
+     [
+      91280,
+      -117152,
+      -3928
+     ],
+     [
+      91320,
+      -116920,
+      -3928
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32069@91316,-116927",
+     "name": "Gutenhagen"
+    },
+    "points": [
+     [
+      91280,
+      -117152,
+      -3928
+     ],
+     [
+      91320,
+      -116920,
+      -3928
+     ]
+    ]
+   },
+   "expectedSec": 72,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.333Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

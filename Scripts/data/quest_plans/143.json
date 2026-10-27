@@ -1,0 +1,710 @@
+{
+ "id": 143,
+ "name": "Fallen Angel - Request of Dusk",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.994Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": null,
+  "max": 43
+ },
+ "type": "one-time",
+ "region": "Heine",
+ "requirements": {},
+ "restrictions": [
+  {
+   "code": "level-unknown",
+   "text": "minimum level unknown"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-start-npc",
+   "text": "no start NPC registered"
+  },
+  {
+   "code": "npc-quest-spawned",
+   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  }
+ ],
+ "expectedMin": 7,
+ "refLevel": 1,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30894",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to  – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32369",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"What you say is amazing... You mean that Gran Kain is the god who created Humans, and Shilen is only a victim?\""
+   ],
+   "npc": {
+    "id": 32369,
+    "name": "Fallen Angel",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Fallen Angel",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30612",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Take the healing medicine."
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 38,
+     "aggro": [
+      {
+       "name": "Skeletal Mercenary",
+       "lv": 39,
+       "n": 2
+      },
+      {
+       "name": "Granite Golem",
+       "lv": 33,
+       "n": 2
+      },
+      {
+       "name": "Skeleton Marauder",
+       "lv": 29,
+       "n": 1
+      },
+      {
+       "name": "Basilisk",
+       "lv": 28,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30297",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Receive the Prophecy."
+   ],
+   "npc": {
+    "id": 30297,
+    "name": "Tobias",
+    "title": "Grand Master",
+    "town": "Gludio",
+    "at": [
+     -12892,
+     123143,
+     -3102
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tobias",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30297@-12892,123143",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2004,
+    "sec": 37,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2004,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12728,
+      122728,
+      -3112
+     ],
+     [
+      -12456,
+      122744,
+      -3104
+     ],
+     [
+      -12248,
+      122920,
+      -3096
+     ],
+     [
+      -12248,
+      123192,
+      -3096
+     ],
+     [
+      -12312,
+      123416,
+      -3096
+     ],
+     [
+      -12472,
+      123416,
+      -3104
+     ],
+     [
+      -12648,
+      123464,
+      -3112
+     ],
+     [
+      -12712,
+      123288,
+      -3096
+     ],
+     [
+      -12728,
+      123192,
+      -3096
+     ],
+     [
+      -12888,
+      123144,
+      -3096
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30894",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "How do I find the location of the angel? What do I do to obtain its message?\""
+   ],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Natools",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,1036 @@
+{
+ "id": 662,
+ "name": "A Game of Cards",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.131Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 61,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 28,
+ "refLevel": 61,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30845",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30845,
+    "name": "Klump",
+    "title": "Warehouse Chief",
+    "town": "Aden",
+    "at": [
+     148960,
+     26145,
+     -2218
+    ],
+    "alt": []
+   },
+   "text": "Talk to Klump – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30845@148960,26145",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3443,
+    "sec": 49,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3443,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147464,
+      26504,
+      -2192
+     ],
+     [
+      147544,
+      26680,
+      -2200
+     ],
+     [
+      147736,
+      26872,
+      -2200
+     ],
+     [
+      148008,
+      26872,
+      -2200
+     ],
+     [
+      148216,
+      26776,
+      -2200
+     ],
+     [
+      148408,
+      26584,
+      -2200
+     ],
+     [
+      148312,
+      26488,
+      -2184
+     ],
+     [
+      148392,
+      26312,
+      -2184
+     ],
+     [
+      148664,
+      26280,
+      -2184
+     ],
+     [
+      148920,
+      26232,
+      -2184
+     ],
+     [
+      148968,
+      26152,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 79,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20672,
+     "name": "Trives",
+     "level": 63,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20673,
+     "name": "Falibati",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 20674,
+     "name": "Doom Knight",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 71,
+     "questSpawned": false
+    },
+    {
+     "id": 20677,
+     "name": "Tulben",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20959,
+     "name": "Dark Guard",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 20965,
+     "name": "Chimera Piece",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20966,
+     "name": "Changed Creation",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21508,
+     "name": "Splinter Stakato",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 20968,
+     "name": "Nonexistent Man",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20972,
+     "name": "Shaman of Ancient Times",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20973,
+     "name": "Forgotten Ancient People",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21002,
+     "name": "Doom Scout",
+     "level": 56,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21004,
+     "name": "Dismal Pole",
+     "level": 58,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 53,
+     "questSpawned": false
+    },
+    {
+     "id": 21006,
+     "name": "Doom Servant",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 21008,
+     "name": "Doom Archer",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21010,
+     "name": "Doom Warrior",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    },
+    {
+     "id": 21109,
+     "name": "Hames Orc Scout",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 21112,
+     "name": "Hames Orc Footman",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 49,
+     "questSpawned": false
+    },
+    {
+     "id": 21526,
+     "name": "Wisdom of Splendor",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 21114,
+     "name": "Cursed Guardian",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 21116,
+     "name": "Hames Orc Overlord",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 21278,
+     "name": "Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21279,
+     "name": "Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 21280,
+     "name": "Antelope",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21286,
+     "name": "Buffalo",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21287,
+     "name": "Buffalo",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 21288,
+     "name": "Buffalo",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 21510,
+     "name": "Splinter Stakato Soldier",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 68,
+     "questSpawned": false
+    },
+    {
+     "id": 21513,
+     "name": "Needle Stakato",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 66,
+     "questSpawned": false
+    },
+    {
+     "id": 21515,
+     "name": "Needle Stakato Soldier",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 81,
+     "questSpawned": false
+    },
+    {
+     "id": 21520,
+     "name": "Eye of Splendor",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 21530,
+     "name": "Victory of Splendor",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21535,
+     "name": "Signet of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 18001,
+     "name": "Blood Queen",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8765,
+     "name": "Red Gem",
+     "n": 20,
+     "from": [
+      {
+       "id": 20672,
+       "name": "Trives",
+       "chance": 35.7
+      },
+      {
+       "id": 20673,
+       "name": "Falibati",
+       "chance": 35.7
+      },
+      {
+       "id": 20674,
+       "name": "Doom Knight",
+       "chance": 58.3
+      },
+      {
+       "id": 20677,
+       "name": "Tulben",
+       "chance": 43.5
+      },
+      {
+       "id": 20959,
+       "name": "Dark Guard",
+       "chance": 45.5
+      },
+      {
+       "id": 20965,
+       "name": "Chimera Piece",
+       "chance": 45.7
+      },
+      {
+       "id": 20966,
+       "name": "Changed Creation",
+       "chance": 49.3
+      },
+      {
+       "id": 21508,
+       "name": "Splinter Stakato",
+       "chance": 49.3
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "engine-manual"
+   ],
+   "text": "Hunt Trives, Falibati, Doom Knight for Red Gem x20",
+   "places": [
+    {
+     "mobs": [
+      20672,
+      20673,
+      20674,
+      20677,
+      20959,
+      20965,
+      20966,
+      21508
+     ],
+     "items": [
+      8765
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "seal-of-shilen-9",
+      "name": "Seal of Shilen 9: Trives area (south-east)",
+      "at": [
+       188696,
+       23592,
+       -3704
+      ],
+      "radius": 5655,
+      "levels": [
+       60,
+       65
+      ],
+      "count": 12,
+      "region": "Seal of Shilen",
+      "atlasKey": "area:seal-of-shilen-9",
+      "status": "ok",
+      "sec": 94,
+      "danger": 65,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -70.43333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-15",
+        "name": "Fields of Massacre 15: Doom Knight area (north-west)",
+        "at": [
+         175848,
+         -24008,
+         -3672
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "seal-of-shilen-24",
+        "name": "Seal of Shilen 24: Trives area (north)",
+        "at": [
+         181128,
+         5032,
+         -2704
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-4",
+        "name": "Swamp of Screams 4: Splinter Stakato Soldier area (south-east)",
+        "at": [
+         75160,
+         -46616,
+         -3224
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:seal-of-shilen-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 5853,
+      "sec": 94,
+      "via": ".aden > Aden -> Seal of Shilen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Seal of Shilen",
+        "link": "seal of shilen",
+        "price": 3000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1722,
+        "how": "field-areas-gap",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 4131,
+        "how": "field-areas",
+        "danger": 65
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Seal of Shilen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        184742,
+        19745,
+        -3168
+       ],
+       [
+        185736,
+        20712,
+        -3360
+       ],
+       [
+        186728,
+        21624,
+        -3544
+       ],
+       [
+        187720,
+        22616,
+        -3624
+       ],
+       [
+        188696,
+        23592,
+        -3704
+       ]
+      ],
+      "maxDanger": 65,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 65,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "seal-of-shilen-9",
+    "name": "Seal of Shilen 9: Trives area (south-east)",
+    "at": [
+     188696,
+     23592,
+     -3704
+    ],
+    "radius": 5655,
+    "levels": [
+     60,
+     65
+    ],
+    "count": 12,
+    "region": "Seal of Shilen",
+    "atlasKey": "area:seal-of-shilen-9",
+    "status": "ok",
+    "sec": 94,
+    "danger": 65,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -70.43333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-15",
+      "name": "Fields of Massacre 15: Doom Knight area (north-west)",
+      "at": [
+       175848,
+       -24008,
+       -3672
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "seal-of-shilen-24",
+      "name": "Seal of Shilen 24: Trives area (north)",
+      "at": [
+       181128,
+       5032,
+       -2704
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swamp-of-screams-4",
+      "name": "Swamp of Screams 4: Splinter Stakato Soldier area (south-east)",
+      "at": [
+       75160,
+       -46616,
+       -3224
+      ],
+      "count": 9,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:seal-of-shilen-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 5853,
+    "sec": 94,
+    "via": ".aden > Aden -> Seal of Shilen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Seal of Shilen",
+      "link": "seal of shilen",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1722,
+      "how": "field-areas-gap",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 4131,
+      "how": "field-areas",
+      "danger": 65
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Seal of Shilen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      184742,
+      19745,
+      -3168
+     ],
+     [
+      185736,
+      20712,
+      -3360
+     ],
+     [
+      186728,
+      21624,
+      -3544
+     ],
+     [
+      187720,
+      22616,
+      -3624
+     ],
+     [
+      188696,
+      23592,
+      -3704
+     ]
+    ],
+    "maxDanger": 65,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 65,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1519,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30845",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Put the first card face up.",
+    "Put the second card face up.",
+    "Put the third card face up.",
+    "Put the fourth card face up.",
+    "Put the fifth card face up."
+   ],
+   "npc": {
+    "id": 30845,
+    "name": "Klump",
+    "title": "Warehouse Chief",
+    "town": "Aden",
+    "at": [
+     148960,
+     26145,
+     -2218
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Klump (repeatable: then hunt again)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30845@148960,26145",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3443,
+    "sec": 49,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3443,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147464,
+      26504,
+      -2192
+     ],
+     [
+      147544,
+      26680,
+      -2200
+     ],
+     [
+      147736,
+      26872,
+      -2200
+     ],
+     [
+      148008,
+      26872,
+      -2200
+     ],
+     [
+      148216,
+      26776,
+      -2200
+     ],
+     [
+      148408,
+      26584,
+      -2200
+     ],
+     [
+      148312,
+      26488,
+      -2184
+     ],
+     [
+      148392,
+      26312,
+      -2184
+     ],
+     [
+      148664,
+      26280,
+      -2184
+     ],
+     [
+      148920,
+      26232,
+      -2184
+     ],
+     [
+      148968,
+      26152,
+      -2184
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 74,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:20955": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "optional: these monster ids have no spawn in the datapack (spawnlist.sql, no minion entry in stats/npcs); item 8765 also drops from 34 spawned monster(s) of the hunt step at this cond (quest record drops), and the engine (qeHuntAction) hunts only the spawned ones.",
+    "editedAt": "2026-10-27T10:06:26.459Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.459Z",
+  "by": "quest-fixer batch 5"
+ }
+}

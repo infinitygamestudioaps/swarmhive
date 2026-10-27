@@ -1,0 +1,561 @@
+{
+ "id": 277,
+ "name": "Gatekeeper's Offering",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.146Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Orc Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 12,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30576",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30576,
+    "name": "Tamil",
+    "title": "Gatekeeper",
+    "town": "Orc Village",
+    "at": [
+     -45264,
+     -112512,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tamil – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30576@-45264,-112512",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 127,
+    "sec": 46,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 127,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45256,
+      -112504,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20333,
+     "name": "Greystone Golem",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1572,
+     "name": "Starstone",
+     "n": 20,
+     "from": [
+      {
+       "id": 20333,
+       "name": "Greystone Golem",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Greystone Golem for Starstone x20",
+   "places": [
+    {
+     "mobs": [
+      20333
+     ],
+     "items": [
+      1572
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "the-immortal-plateau-1",
+      "name": "The Immortal Plateau 1: Greystone Golem area (south-west)",
+      "at": [
+       -13288,
+       -115880,
+       -2224
+      ],
+      "radius": 3230,
+      "levels": [
+       12,
+       14
+      ],
+      "count": 5,
+      "region": "The Immortal Plateau",
+      "atlasKey": "area:the-immortal-plateau-1",
+      "status": "ok",
+      "sec": 94,
+      "danger": 14,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.433333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-10",
+        "name": "Frozen Waterfall 10: Maraku Werewolf Chieftain area (south-west)",
+        "at": [
+         -3848,
+         -133192,
+         -2784
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-3",
+        "name": "The Immortal Plateau 3: Goblin Tomb Raider Leader area (north-west)",
+        "at": [
+         -16616,
+         -120856,
+         -2144
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-5",
+        "name": "The Immortal Plateau 5: Greystone Golem area (south-west)",
+        "at": [
+         -16280,
+         -109528,
+         -2384
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:the-immortal-plateau-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 2888,
+      "sec": 94,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> The Immortal Plateau",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> The Immortal Plateau",
+        "link": "immortal plateau, southern region",
+        "price": 960,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2888,
+        "how": "field-areas",
+        "danger": 14
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -10984,
+        -117480,
+        -2464
+       ],
+       [
+        -11976,
+        -117192,
+        -2400
+       ],
+       [
+        -12968,
+        -116200,
+        -2184
+       ],
+       [
+        -13288,
+        -115880,
+        -2224
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 14,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "the-immortal-plateau-1",
+    "name": "The Immortal Plateau 1: Greystone Golem area (south-west)",
+    "at": [
+     -13288,
+     -115880,
+     -2224
+    ],
+    "radius": 3230,
+    "levels": [
+     12,
+     14
+    ],
+    "count": 5,
+    "region": "The Immortal Plateau",
+    "atlasKey": "area:the-immortal-plateau-1",
+    "status": "ok",
+    "sec": 94,
+    "danger": 14,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -28.433333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-10",
+      "name": "Frozen Waterfall 10: Maraku Werewolf Chieftain area (south-west)",
+      "at": [
+       -3848,
+       -133192,
+       -2784
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-3",
+      "name": "The Immortal Plateau 3: Goblin Tomb Raider Leader area (north-west)",
+      "at": [
+       -16616,
+       -120856,
+       -2144
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-5",
+      "name": "The Immortal Plateau 5: Greystone Golem area (south-west)",
+      "at": [
+       -16280,
+       -109528,
+       -2384
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:the-immortal-plateau-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2888,
+    "sec": 94,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> The Immortal Plateau",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> The Immortal Plateau",
+      "link": "immortal plateau, southern region",
+      "price": 960,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2888,
+      "how": "field-areas",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -10984,
+      -117480,
+      -2464
+     ],
+     [
+      -11976,
+      -117192,
+      -2400
+     ],
+     [
+      -12968,
+      -116200,
+      -2184
+     ],
+     [
+      -13288,
+      -115880,
+      -2224
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 594,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:30576",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30576,
+    "name": "Tamil",
+    "title": "Gatekeeper",
+    "town": "Orc Village",
+    "at": [
+     -45264,
+     -112512,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Bring Starstone x20 to Tamil",
+   "needs": [
+    {
+     "id": 1572,
+     "name": "Starstone",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30576@-45264,-112512",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 127,
+    "sec": 46,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 127,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45256,
+      -112504,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.155Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

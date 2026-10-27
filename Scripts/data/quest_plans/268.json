@@ -1,0 +1,772 @@
+{
+ "id": 268,
+ "name": "Traces of Evil",
+ "version": 1,
+ "generated": "2026-10-27T11:15:17.037Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Orc Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 20,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30559",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30559,
+    "name": "Kunai",
+    "title": "Armor Merchant",
+    "town": "Orc Village",
+    "at": [
+     -43905,
+     -111824,
+     -216
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kunai – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30559@-43905,-111824",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1648,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1648,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44888,
+      -112552,
+      -240
+     ],
+     [
+      -44696,
+      -112552,
+      -240
+     ],
+     [
+      -44568,
+      -112360,
+      -240
+     ],
+     [
+      -44424,
+      -112136,
+      -240
+     ],
+     [
+      -44264,
+      -111912,
+      -224
+     ],
+     [
+      -44184,
+      -111832,
+      -216
+     ],
+     [
+      -44056,
+      -111880,
+      -216
+     ],
+     [
+      -43912,
+      -111816,
+      -216
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20474,
+     "name": "Kasha Spider",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20476,
+     "name": "Kasha Fang Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    },
+    {
+     "id": 20478,
+     "name": "Kasha Blade Spider",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10869,
+     "name": "Contaminated Kasha Spider Venom",
+     "n": 30,
+     "from": [
+      {
+       "id": 20474,
+       "name": "Kasha Spider",
+       "chance": 100
+      },
+      {
+       "id": 20476,
+       "name": "Kasha Fang Spider",
+       "chance": 100
+      },
+      {
+       "id": 20478,
+       "name": "Kasha Blade Spider",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Kasha Spider, Kasha Fang Spider, Kasha Blade Spider for Contaminated Kasha Spider Venom x30",
+   "places": [
+    {
+     "mobs": [
+      20474,
+      20476,
+      20478
+     ],
+     "items": [
+      10869
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "the-immortal-plateau-20",
+      "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+      "at": [
+       -2952,
+       -123320,
+       -2536
+      ],
+      "radius": 4571,
+      "levels": [
+       14,
+       17
+      ],
+      "count": 14,
+      "region": "The Immortal Plateau",
+      "atlasKey": "area:the-immortal-plateau-20",
+      "status": "ok",
+      "sec": 247,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -79.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-the-lords-far-2",
+        "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+        "at": [
+         26408,
+         -125144,
+         -712
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-1",
+        "name": "Frozen Waterfall 1: Kasha Fang Spider area (east)",
+        "at": [
+         11144,
+         -140856,
+         -1800
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-8",
+        "name": "Frozen Waterfall 8: Kasha Spider area (south)",
+        "at": [
+         12728,
+         -129208,
+         -1368
+        ],
+        "count": 10,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:the-immortal-plateau-20",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 21264,
+      "sec": 247,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Frozen Waterfall",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Frozen Waterfall",
+        "link": "frozen waterfall",
+        "price": 1600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7950,
+        "how": "field-areas-gap",
+        "danger": 13
+       },
+       {
+        "do": "walk",
+        "len": 13314,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        8652,
+        -139941,
+        -1144
+       ],
+       [
+        5992,
+        -133128,
+        -2656
+       ],
+       [
+        5016,
+        -132136,
+        -3032
+       ],
+       [
+        4024,
+        -131144,
+        -3312
+       ],
+       [
+        3656,
+        -130776,
+        -3344
+       ],
+       [
+        3000,
+        -129784,
+        -3232
+       ],
+       [
+        2008,
+        -128792,
+        -2888
+       ],
+       [
+        1016,
+        -127800,
+        -3224
+       ],
+       [
+        24,
+        -126808,
+        -3280
+       ],
+       [
+        -792,
+        -125992,
+        -3192
+       ],
+       [
+        -1480,
+        -125112,
+        -3096
+       ],
+       [
+        -1864,
+        -124728,
+        -2976
+       ],
+       [
+        -2536,
+        -123736,
+        -2728
+       ],
+       [
+        -2952,
+        -123320,
+        -2536
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "the-immortal-plateau-20",
+    "name": "The Immortal Plateau 20: Kasha Bear area (south-west)",
+    "at": [
+     -2952,
+     -123320,
+     -2536
+    ],
+    "radius": 4571,
+    "levels": [
+     14,
+     17
+    ],
+    "count": 14,
+    "region": "The Immortal Plateau",
+    "atlasKey": "area:the-immortal-plateau-20",
+    "status": "ok",
+    "sec": 247,
+    "danger": 17,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -79.88333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "valley-of-the-lords-far-2",
+      "name": "Valley of the Lords 2: Kasha Blade Spider area (south-east)",
+      "at": [
+       26408,
+       -125144,
+       -712
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-1",
+      "name": "Frozen Waterfall 1: Kasha Fang Spider area (east)",
+      "at": [
+       11144,
+       -140856,
+       -1800
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-8",
+      "name": "Frozen Waterfall 8: Kasha Spider area (south)",
+      "at": [
+       12728,
+       -129208,
+       -1368
+      ],
+      "count": 10,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:the-immortal-plateau-20",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 21264,
+    "sec": 247,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Frozen Waterfall",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Frozen Waterfall",
+      "link": "frozen waterfall",
+      "price": 1600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7950,
+      "how": "field-areas-gap",
+      "danger": 13
+     },
+     {
+      "do": "walk",
+      "len": 13314,
+      "how": "field-areas",
+      "danger": 17
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      8652,
+      -139941,
+      -1144
+     ],
+     [
+      5992,
+      -133128,
+      -2656
+     ],
+     [
+      5016,
+      -132136,
+      -3032
+     ],
+     [
+      4024,
+      -131144,
+      -3312
+     ],
+     [
+      3656,
+      -130776,
+      -3344
+     ],
+     [
+      3000,
+      -129784,
+      -3232
+     ],
+     [
+      2008,
+      -128792,
+      -2888
+     ],
+     [
+      1016,
+      -127800,
+      -3224
+     ],
+     [
+      24,
+      -126808,
+      -3280
+     ],
+     [
+      -792,
+      -125992,
+      -3192
+     ],
+     [
+      -1480,
+      -125112,
+      -3096
+     ],
+     [
+      -1864,
+      -124728,
+      -2976
+     ],
+     [
+      -2536,
+      -123736,
+      -2728
+     ],
+     [
+      -2952,
+      -123320,
+      -2536
+     ]
+    ],
+    "maxDanger": 17,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 17,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 997,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:30559",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30559,
+    "name": "Kunai",
+    "title": "Armor Merchant",
+    "town": "Orc Village",
+    "at": [
+     -43905,
+     -111824,
+     -216
+    ],
+    "alt": []
+   },
+   "text": "Bring Contaminated Kasha Spider Venom x30 to Kunai",
+   "needs": [
+    {
+     "id": 10869,
+     "name": "Contaminated Kasha Spider Venom",
+     "n": 30
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30559@-43905,-111824",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1648,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1648,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44888,
+      -112552,
+      -240
+     ],
+     [
+      -44696,
+      -112552,
+      -240
+     ],
+     [
+      -44568,
+      -112360,
+      -240
+     ],
+     [
+      -44424,
+      -112136,
+      -240
+     ],
+     [
+      -44264,
+      -111912,
+      -224
+     ],
+     [
+      -44184,
+      -111832,
+      -216
+     ],
+     [
+      -44056,
+      -111880,
+      -216
+     ],
+     [
+      -43912,
+      -111816,
+      -216
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:17.121Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

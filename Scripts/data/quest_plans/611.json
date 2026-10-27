@@ -1,0 +1,868 @@
+{
+ "id": 611,
+ "name": "Alliance with Varka Silenos",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.269Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 74,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Goddard",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "drop-unresolved",
+   "text": "a quest drop (item / chance) was not resolved"
+  },
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 2
+  }
+ ],
+ "expectedMin": 12,
+ "refLevel": 74,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31378",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it!\""
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 88,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21324,
+     "name": "Ketra Orc Footman",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    },
+    {
+     "id": 21325,
+     "name": "Ketra's War Hound",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 51,
+     "questSpawned": false
+    },
+    {
+     "id": 21327,
+     "name": "Ketra Orc Raider",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 21328,
+     "name": "Ketra Orc Scout",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21329,
+     "name": "Ketra Orc Shaman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 21331,
+     "name": "Ketra Orc Warrior",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 21332,
+     "name": "Ketra Orc Lieutenant",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 21334,
+     "name": "Ketra Orc Medium",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 21335,
+     "name": "Ketra Orc Elite Soldier",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 21336,
+     "name": "Ketra Orc White Captain",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21338,
+     "name": "Ketra Orc Seer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 21339,
+     "name": "Ketra Orc General",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 42,
+     "questSpawned": false
+    },
+    {
+     "id": 21340,
+     "name": "Ketra Orc Battalion Commander",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 21342,
+     "name": "Ketra Orc Grand Seer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 21343,
+     "name": "Ketra Commander",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21345,
+     "name": "Ketra's Head Shaman",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21347,
+     "name": "Ketra Prophet",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Ketra Orc Footman, Ketra's War Hound, Ketra Orc Raider",
+   "places": [
+    {
+     "mobs": [
+      21324,
+      21325,
+      21327,
+      21328,
+      21329,
+      21331,
+      21332,
+      21334,
+      21335,
+      21336,
+      21338,
+      21339,
+      21340,
+      21342,
+      21343,
+      21345,
+      21347
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ketra-orc-outpost-23",
+      "name": "Ketra Orc Outpost 23: Ketra Orc Warrior area (north-west)",
+      "at": [
+       138808,
+       -82360,
+       -4792
+      ],
+      "radius": 2790,
+      "levels": [
+       78,
+       78
+      ],
+      "count": 21,
+      "region": "Ketra Orc Outpost",
+      "atlasKey": "area:ketra-orc-outpost-23",
+      "status": "ok",
+      "sec": 199,
+      "danger": 78,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -122.68333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ketra-orc-outpost-4",
+        "name": "Ketra Orc Outpost 4: Grazing Elder Buffalo area (north-west)",
+        "at": [
+         143032,
+         -73864,
+         -4216
+        ],
+        "count": 19,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ketra-orc-outpost-15",
+        "name": "Ketra Orc Outpost 15: Grazing Kookaburra area (west)",
+        "at": [
+         134424,
+         -70920,
+         -3160
+        ],
+        "count": 18,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ketra-orc-outpost-16",
+        "name": "Ketra Orc Outpost 16: Ketra Orc Shaman area (north-west)",
+        "at": [
+         135896,
+         -76696,
+         -3936
+        ],
+        "count": 18,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ketra-orc-outpost-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 18502,
+      "sec": 199,
+      "via": ".goddard > Goddard -> Ketra Orc Outpost",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Ketra Orc Outpost",
+        "link": "ketra orc outpost",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 13870,
+        "how": "field-areas-gap",
+        "danger": 78
+       },
+       {
+        "do": "walk",
+        "len": 4632,
+        "how": "field-areas",
+        "danger": 78
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Ketra Orc Outpost"
+      },
+      "simple": true,
+      "pv": [
+       [
+        146990,
+        -67128,
+        -3640
+       ],
+       [
+        141944,
+        -78984,
+        -5104
+       ],
+       [
+        141704,
+        -79464,
+        -5176
+       ],
+       [
+        140712,
+        -80456,
+        -5120
+       ],
+       [
+        139720,
+        -81448,
+        -4992
+       ],
+       [
+        138808,
+        -82360,
+        -4792
+       ]
+      ],
+      "maxDanger": 78,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 78,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ketra-orc-outpost-23",
+    "name": "Ketra Orc Outpost 23: Ketra Orc Warrior area (north-west)",
+    "at": [
+     138808,
+     -82360,
+     -4792
+    ],
+    "radius": 2790,
+    "levels": [
+     78,
+     78
+    ],
+    "count": 21,
+    "region": "Ketra Orc Outpost",
+    "atlasKey": "area:ketra-orc-outpost-23",
+    "status": "ok",
+    "sec": 199,
+    "danger": 78,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -122.68333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ketra-orc-outpost-4",
+      "name": "Ketra Orc Outpost 4: Grazing Elder Buffalo area (north-west)",
+      "at": [
+       143032,
+       -73864,
+       -4216
+      ],
+      "count": 19,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ketra-orc-outpost-15",
+      "name": "Ketra Orc Outpost 15: Grazing Kookaburra area (west)",
+      "at": [
+       134424,
+       -70920,
+       -3160
+      ],
+      "count": 18,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ketra-orc-outpost-16",
+      "name": "Ketra Orc Outpost 16: Ketra Orc Shaman area (north-west)",
+      "at": [
+       135896,
+       -76696,
+       -3936
+      ],
+      "count": 18,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ketra-orc-outpost-23",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 18502,
+    "sec": 199,
+    "via": ".goddard > Goddard -> Ketra Orc Outpost",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Ketra Orc Outpost",
+      "link": "ketra orc outpost",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13870,
+      "how": "field-areas-gap",
+      "danger": 78
+     },
+     {
+      "do": "walk",
+      "len": 4632,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Ketra Orc Outpost"
+    },
+    "simple": true,
+    "pv": [
+     [
+      146990,
+      -67128,
+      -3640
+     ],
+     [
+      141944,
+      -78984,
+      -5104
+     ],
+     [
+      141704,
+      -79464,
+      -5176
+     ],
+     [
+      140712,
+      -80456,
+      -5120
+     ],
+     [
+      139720,
+      -81448,
+      -4992
+     ],
+     [
+      138808,
+      -82360,
+      -4792
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 224,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:21344",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 21344,
+     "name": "Ketra Elite Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 21346,
+     "name": "Ketra's Head Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 21348,
+     "name": "Prophet's Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 21349,
+     "name": "Prophet's Aide",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (21344, 21346, 21348, 21349) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Ketra Elite Guard, Ketra's Head Guard, Prophet's Guard, Prophet's Aide appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:31378",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Hand over the Ketra badges."
+   ],
+   "npc": {
+    "id": 31378,
+    "name": "Naran Ashanuk",
+    "title": "Varka's Messenger",
+    "town": "Goddard",
+    "at": [
+     125440,
+     -40944,
+     -3701
+    ],
+    "alt": []
+   },
+   "text": "Talk to Naran Ashanuk",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:varka-silenos-stronghold-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 1605,
+    "sec": 58,
+    "via": ".goddard > Goddard -> Varka Silenos Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Varka Silenos Stronghold",
+      "link": "varka silenos stronghold",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1605,
+      "how": "field-areas",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Varka Silenos Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 4,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:varka-silenos-stronghold-1",
+     "name": "Varka Silenos Stronghold 1: Varka Silenos Recruit area (south-east)"
+    },
+    "points": [
+     [
+      125736,
+      -40856,
+      -3744
+     ],
+     [
+      126408,
+      -39864,
+      -3600
+     ],
+     [
+      126696,
+      -39576,
+      -3560
+     ],
+     [
+      125448,
+      -40936,
+      -3696
+     ]
+    ]
+   },
+   "expectedSec": 83,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c5:spawn:21344": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "Ketra Elite Guard 21344 / Ketra's Head Guard 21346 / Prophet's Guard 21348 / Prophet's Aide 21349 are minions (stats/npcs/21300-21399.xml <minions>: of Ketra Commander 21343, Ketra's Head Shaman 21345, Ketra Prophet 21347, which spawn in the outpost): they appear with their leaders; the alliance badge also drops from the 17 spawned Ketra monsters of step c5:hunt.",
+    "editedAt": "2026-10-27T10:06:26.466Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.466Z",
+  "by": "quest-fixer batch 5"
+ }
+}

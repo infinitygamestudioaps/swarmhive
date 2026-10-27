@@ -1,0 +1,1090 @@
+{
+ "id": 275,
+ "name": "Dark Winged Spies",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.134Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 11,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Orc Village",
+ "requirements": {
+  "races": [
+   "ORC"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ORC"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 36,
+ "refLevel": 11,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30567",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will collect the fangs."
+   ],
+   "npc": {
+    "id": 30567,
+    "name": "Tantus",
+    "title": "Neruga Chief",
+    "town": "Orc Village",
+    "at": [
+     -46247,
+     -113866,
+     -16
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tantus – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30567@-46247,-113866",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2148,
+    "sec": 63,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2148,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44712,
+      -112904,
+      -240
+     ],
+     [
+      -44904,
+      -113096,
+      -240
+     ],
+     [
+      -45144,
+      -113224,
+      -240
+     ],
+     [
+      -45352,
+      -113400,
+      -240
+     ],
+     [
+      -45544,
+      -113592,
+      -240
+     ],
+     [
+      -45816,
+      -113608,
+      -216
+     ],
+     [
+      -45992,
+      -113672,
+      -200
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -9,
+     "aggro": []
+    }
+   },
+   "expectedSec": 93,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20316,
+     "name": "Darkwing Bat",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1478,
+     "name": "Darkwing Bat Fang",
+     "n": 70,
+     "from": [
+      {
+       "id": 20316,
+       "name": "Darkwing Bat",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Darkwing Bat for Darkwing Bat Fang x70",
+   "places": [
+    {
+     "mobs": [
+      20316
+     ],
+     "items": [
+      1478
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "immortal-plateau-southern-region-13",
+      "name": "Immortal Plateau,Southern Region 13: Grizzly area (north)",
+      "at": [
+       -5768,
+       -94360,
+       -2440
+      ],
+      "radius": 2444,
+      "levels": [
+       11,
+       12
+      ],
+      "count": 8,
+      "region": "Immortal Plateau,Southern Region",
+      "atlasKey": "area:immortal-plateau-southern-region-13",
+      "status": "ok",
+      "sec": 216,
+      "danger": 18,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -44.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-18",
+        "name": "The Immortal Plateau 18: Grizzly area (north)",
+        "at": [
+         -16504,
+         -131464,
+         -1984
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-7",
+        "name": "The Immortal Plateau 7: Grizzly area (north-west)",
+        "at": [
+         -15928,
+         -125944,
+         -1784
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-9",
+        "name": "The Immortal Plateau 9: Grizzly area (north)",
+        "at": [
+         -12664,
+         -131672,
+         -2840
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:immortal-plateau-southern-region-13",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 17558,
+      "sec": 216,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> Immortal Plateau,Southern Region",
+        "link": "immortal plateau, southern region",
+        "price": 2000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15735,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 1823,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -4190,
+        -80040,
+        -2696
+       ],
+       [
+        -4488,
+        -93064,
+        -2384
+       ],
+       [
+        -4504,
+        -93096,
+        -2352
+       ],
+       [
+        -5496,
+        -94088,
+        -2368
+       ],
+       [
+        -5768,
+        -94360,
+        -2440
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 9,
+       "aggro": [
+        {
+         "name": "Kasha Dire Wolf",
+         "lv": 23,
+         "n": 1
+        },
+        {
+         "name": "Kasha Imp Turen",
+         "lv": 22,
+         "n": 3
+        },
+        {
+         "name": "Hobgoblin",
+         "lv": 21,
+         "n": 1
+        },
+        {
+         "name": "Baar Dre Vanul",
+         "lv": 20,
+         "n": 3
+        },
+        {
+         "name": "Kasha Imp",
+         "lv": 19,
+         "n": 3
+        },
+        {
+         "name": "Evil Eye Seer",
+         "lv": 18,
+         "n": 1
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Baar Dre Vanul",
+       "lv": 20
+      },
+      {
+       "name": "Kasha Imp",
+       "lv": 19
+      },
+      {
+       "name": "Kasha Imp",
+       "lv": 19
+      },
+      {
+       "name": "Kasha Imp",
+       "lv": 19
+      },
+      {
+       "name": "Kasha Imp",
+       "lv": 19
+      },
+      {
+       "name": "Baar Dre Vanul",
+       "lv": 20
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "immortal-plateau-southern-region-13",
+    "name": "Immortal Plateau,Southern Region 13: Grizzly area (north)",
+    "at": [
+     -5768,
+     -94360,
+     -2440
+    ],
+    "radius": 2444,
+    "levels": [
+     11,
+     12
+    ],
+    "count": 8,
+    "region": "Immortal Plateau,Southern Region",
+    "atlasKey": "area:immortal-plateau-southern-region-13",
+    "status": "ok",
+    "sec": 216,
+    "danger": 18,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -44.4,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-18",
+      "name": "The Immortal Plateau 18: Grizzly area (north)",
+      "at": [
+       -16504,
+       -131464,
+       -1984
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-7",
+      "name": "The Immortal Plateau 7: Grizzly area (north-west)",
+      "at": [
+       -15928,
+       -125944,
+       -1784
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-9",
+      "name": "The Immortal Plateau 9: Grizzly area (north)",
+      "at": [
+       -12664,
+       -131672,
+       -2840
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:immortal-plateau-southern-region-13",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 17558,
+    "sec": 216,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Immortal Plateau,Southern Region",
+      "link": "immortal plateau, southern region",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15735,
+      "how": "field-areas-gap",
+      "danger": 20
+     },
+     {
+      "do": "walk",
+      "len": 1823,
+      "how": "field-areas",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      -4488,
+      -93064,
+      -2384
+     ],
+     [
+      -4504,
+      -93096,
+      -2352
+     ],
+     [
+      -5496,
+      -94088,
+      -2368
+     ],
+     [
+      -5768,
+      -94360,
+      -2440
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": 9,
+     "aggro": [
+      {
+       "name": "Kasha Dire Wolf",
+       "lv": 23,
+       "n": 1
+      },
+      {
+       "name": "Kasha Imp Turen",
+       "lv": 22,
+       "n": 3
+      },
+      {
+       "name": "Hobgoblin",
+       "lv": 21,
+       "n": 1
+      },
+      {
+       "name": "Baar Dre Vanul",
+       "lv": 20,
+       "n": 3
+      },
+      {
+       "name": "Kasha Imp",
+       "lv": 19,
+       "n": 3
+      },
+      {
+       "name": "Evil Eye Seer",
+       "lv": 18,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 1966,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Immortal Plateau,Southern Region",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "note": "Darkwing Bats; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles | NOT stored as the route: aggressive monsters Kasha Imp Turen 22 x3, Kasha Dire Wolf 23 x2, Hobgoblin 21 x2, Evil Eye Seer 18 x2, Baar Dre Vanul 20 x2, Kasha Imp 19 x3 (>= quest level 11 + 6) touch it; needs a party of about level 21+ or another way",
+    "routeProposed": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      -3192,
+      -80168,
+      -2512
+     ],
+     [
+      -2200,
+      -80168,
+      -2432
+     ],
+     [
+      -1912,
+      -80168,
+      -2432
+     ],
+     [
+      -1976,
+      -80552,
+      -2432
+     ],
+     [
+      -1832,
+      -81400,
+      -2432
+     ],
+     [
+      -2072,
+      -81688,
+      -2232
+     ],
+     [
+      -2680,
+      -81800,
+      -1952
+     ],
+     [
+      -2600,
+      -82200,
+      -2040
+     ],
+     [
+      -2632,
+      -83144,
+      -2008
+     ],
+     [
+      -2904,
+      -83928,
+      -1696
+     ],
+     [
+      -2984,
+      -83896,
+      -1648
+     ],
+     [
+      -3640,
+      -84536,
+      -1048
+     ],
+     [
+      -4632,
+      -84328,
+      -968
+     ],
+     [
+      -4808,
+      -84472,
+      -1216
+     ],
+     [
+      -5640,
+      -84904,
+      -1976
+     ],
+     [
+      -5864,
+      -85160,
+      -2104
+     ],
+     [
+      -5768,
+      -85912,
+      -2320
+     ],
+     [
+      -5768,
+      -86904,
+      -2288
+     ],
+     [
+      -5768,
+      -87896,
+      -2504
+     ],
+     [
+      -5768,
+      -88312,
+      -2552
+     ],
+     [
+      -5768,
+      -89304,
+      -2504
+     ],
+     [
+      -6040,
+      -90296,
+      -2320
+     ],
+     [
+      -5768,
+      -90712,
+      -2280
+     ],
+     [
+      -5432,
+      -91704,
+      -2216
+     ],
+     [
+      -5432,
+      -92696,
+      -2328
+     ],
+     [
+      -5768,
+      -93112,
+      -2416
+     ],
+     [
+      -5768,
+      -94104,
+      -2416
+     ],
+     [
+      -5768,
+      -94360,
+      -2440
+     ]
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30567",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30567,
+    "name": "Tantus",
+    "title": "Neruga Chief",
+    "town": "Orc Village",
+    "at": [
+     -46247,
+     -113866,
+     -16
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tantus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30567@-46247,-113866",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2148,
+    "sec": 63,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2148,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44712,
+      -112904,
+      -240
+     ],
+     [
+      -44904,
+      -113096,
+      -240
+     ],
+     [
+      -45144,
+      -113224,
+      -240
+     ],
+     [
+      -45352,
+      -113400,
+      -240
+     ],
+     [
+      -45544,
+      -113592,
+      -240
+     ],
+     [
+      -45816,
+      -113608,
+      -216
+     ],
+     [
+      -45992,
+      -113672,
+      -200
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -9,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Immortal Plateau,Southern Region",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "note": "Darkwing Bats; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles | NOT stored as the route: aggressive monsters Kasha Imp Turen 22 x3, Kasha Dire Wolf 23 x2, Hobgoblin 21 x2, Evil Eye Seer 18 x2, Baar Dre Vanul 20 x2, Kasha Imp 19 x3 (>= quest level 11 + 6) touch it; needs a party of about level 21+ or another way",
+    "routeProposed": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      -3192,
+      -80168,
+      -2512
+     ],
+     [
+      -2200,
+      -80168,
+      -2432
+     ],
+     [
+      -1912,
+      -80168,
+      -2432
+     ],
+     [
+      -1976,
+      -80552,
+      -2432
+     ],
+     [
+      -1832,
+      -81400,
+      -2432
+     ],
+     [
+      -2072,
+      -81688,
+      -2232
+     ],
+     [
+      -2680,
+      -81800,
+      -1952
+     ],
+     [
+      -2600,
+      -82200,
+      -2040
+     ],
+     [
+      -2632,
+      -83144,
+      -2008
+     ],
+     [
+      -2904,
+      -83928,
+      -1696
+     ],
+     [
+      -2984,
+      -83896,
+      -1648
+     ],
+     [
+      -3640,
+      -84536,
+      -1048
+     ],
+     [
+      -4632,
+      -84328,
+      -968
+     ],
+     [
+      -4808,
+      -84472,
+      -1216
+     ],
+     [
+      -5640,
+      -84904,
+      -1976
+     ],
+     [
+      -5864,
+      -85160,
+      -2104
+     ],
+     [
+      -5768,
+      -85912,
+      -2320
+     ],
+     [
+      -5768,
+      -86904,
+      -2288
+     ],
+     [
+      -5768,
+      -87896,
+      -2504
+     ],
+     [
+      -5768,
+      -88312,
+      -2552
+     ],
+     [
+      -5768,
+      -89304,
+      -2504
+     ],
+     [
+      -6040,
+      -90296,
+      -2320
+     ],
+     [
+      -5768,
+      -90712,
+      -2280
+     ],
+     [
+      -5432,
+      -91704,
+      -2216
+     ],
+     [
+      -5432,
+      -92696,
+      -2328
+     ],
+     [
+      -5768,
+      -93112,
+      -2416
+     ],
+     [
+      -5768,
+      -94104,
+      -2416
+     ],
+     [
+      -5768,
+      -94360,
+      -2440
+     ]
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

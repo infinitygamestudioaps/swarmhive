@@ -1,0 +1,3140 @@
+{
+ "id": 501,
+ "name": "Proof of Clan Alliance",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.098Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Giran",
+ "requirements": {
+  "items": [
+   {
+    "id": 3874,
+    "name": "Alliance Manifesto"
+   }
+  ],
+  "clan": {
+   "leader": true,
+   "minLevel": null
+  }
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Alliance Manifesto"
+  }
+ ],
+ "status": "not-for-bots",
+ "reasons": [
+  {
+   "code": "clan",
+   "text": "clan quest (clan leader only)"
+  },
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "route-swim",
+   "text": "the way has a swim longer than one breath",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 3
+  },
+  {
+   "code": "route-swim",
+   "text": "the way has a swim longer than one breath",
+   "step": 4
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 4
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 15
+  }
+ ],
+ "expectedMin": 26,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30756",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"We shall take the test!\""
+   ],
+   "npc": {
+    "id": 30756,
+    "name": "Sir Kristof Rodemai",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     84521,
+     146372,
+     -3404
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Kristof Rodemai / Statue Of Offering – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30108@85055,146560",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 4262,
+    "sec": 56,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 4198,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83992,
+      146520,
+      -3400
+     ],
+     [
+      84184,
+      146472,
+      -3400
+     ],
+     [
+      84456,
+      146472,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ],
+     [
+      84600,
+      146472,
+      -3400
+     ],
+     [
+      84872,
+      146472,
+      -3400
+     ],
+     [
+      85048,
+      146568,
+      -3400
+     ],
+     [
+      84520,
+      146440,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30108@85055,146560",
+     "name": "Macken"
+    },
+    "points": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83992,
+      146520,
+      -3400
+     ],
+     [
+      84184,
+      146472,
+      -3400
+     ],
+     [
+      84456,
+      146472,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ],
+     [
+      84600,
+      146472,
+      -3400
+     ],
+     [
+      84872,
+      146472,
+      -3400
+     ],
+     [
+      85048,
+      146568,
+      -3400
+     ],
+     [
+      84520,
+      146440,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ]
+    ]
+   },
+   "expectedSec": 86,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20576,
+     "name": "Oel Mahum Witch Doctor",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 52,
+     "questSpawned": false
+    },
+    {
+     "id": 20644,
+     "name": "Harit Lizardman Shaman",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20685,
+     "name": "Vanor Silenos Shaman",
+     "level": 49,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3832,
+     "name": "Herb of Harit",
+     "n": 1,
+     "from": [
+      {
+       "id": 20644,
+       "name": "Harit Lizardman Shaman",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 3833,
+     "name": "Herb of Vanor",
+     "n": 1,
+     "from": [
+      {
+       "id": 20685,
+       "name": "Vanor Silenos Shaman",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 3834,
+     "name": "Herb of Oel Mahum",
+     "n": 1,
+     "from": [
+      {
+       "id": 20576,
+       "name": "Oel Mahum Witch Doctor",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Oel Mahum Witch Doctor, Harit Lizardman Shaman, Vanor Silenos Shaman for Herb of Harit x1, Herb of Vanor x1, Herb of Oel Mahum x1",
+   "places": [
+    {
+     "mobs": [
+      20644
+     ],
+     "items": [
+      3832
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forest-of-mirrors-20",
+      "name": "Forest of Mirrors 20: Harit Lizardman Shaman area (east)",
+      "at": [
+       158664,
+       74936,
+       -3424
+      ],
+      "radius": 4910,
+      "levels": [
+       51,
+       55
+      ],
+      "count": 7,
+      "region": "Forest of Mirrors",
+      "atlasKey": "area:forest-of-mirrors-20",
+      "status": "ok",
+      "sec": 237,
+      "danger": 55,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": 137.95,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-14",
+        "name": "Forest of Mirrors 14: Harit Lizardman Shaman area (south-east)",
+        "at": [
+         151336,
+         92152,
+         -3552
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-17",
+        "name": "Forest of Mirrors 17: Harit Lizardman Matriarch area (south-east)",
+        "at": [
+         154792,
+         92216,
+         -3688
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-mirrors-18",
+        "name": "Forest of Mirrors 18: Harit Lizardman Shaman area (south-east)",
+        "at": [
+         156760,
+         88968,
+         -3680
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forest-of-mirrors-20",
+      "status": "ok",
+      "flags": [
+       "swim",
+       "over-breath"
+      ],
+      "from": ".hunters",
+      "length": 19139,
+      "sec": 237,
+      "via": ".hunters > Hunters -> Entrance to the Forest of Mirrors",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Entrance to the Forest of Mirrors",
+        "link": "forest of mirrors",
+        "price": 2000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4417,
+        "how": "field-areas-gap",
+        "danger": 51
+       },
+       {
+        "do": "walk",
+        "len": 14722,
+        "how": "field-areas",
+        "danger": 55
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Entrance to the Forest of Mirrors"
+      },
+      "simple": true,
+      "pv": [
+       [
+        142065,
+        81300,
+        -3000
+       ],
+       [
+        146360,
+        81224,
+        -3776
+       ],
+       [
+        147352,
+        81224,
+        -3776
+       ],
+       [
+        148344,
+        81224,
+        -3600
+       ],
+       [
+        149336,
+        81224,
+        -3536
+       ],
+       [
+        150328,
+        81224,
+        -3480
+       ],
+       [
+        150984,
+        80840,
+        -3480
+       ],
+       [
+        151048,
+        80776,
+        -3480
+       ],
+       [
+        152040,
+        80008,
+        -3544
+       ],
+       [
+        153032,
+        79016,
+        -3728
+       ],
+       [
+        154024,
+        78024,
+        -3792
+       ],
+       [
+        155016,
+        77032,
+        -3792
+       ],
+       [
+        155640,
+        76408,
+        -3768
+       ],
+       [
+        156184,
+        76280,
+        -3528
+       ],
+       [
+        157176,
+        76280,
+        -3360
+       ],
+       [
+        158168,
+        75432,
+        -3424
+       ],
+       [
+        158664,
+        74936,
+        -3424
+       ]
+      ],
+      "maxDanger": 55,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 2807,
+        "maxSwim": 2807,
+        "overBreath": true
+       },
+       "danger": 55,
+       "dangerVsLevel": 52,
+       "aggro": [
+        {
+         "name": "Harit Lizardman Matriarch",
+         "lv": 55,
+         "n": 3
+        },
+        {
+         "name": "Harit Lizardman Shaman",
+         "lv": 54,
+         "n": 2
+        },
+        {
+         "name": "Harit Lizardman Warrior",
+         "lv": 53,
+         "n": 3
+        },
+        {
+         "name": "Harit Lizardman Archer",
+         "lv": 52,
+         "n": 4
+        },
+        {
+         "name": "Harit Lizardman Grunt",
+         "lv": 51,
+         "n": 6
+        },
+        {
+         "name": "Harit Lizardman",
+         "lv": 50,
+         "n": 4
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Harit Lizardman Matriarch",
+       "lv": 55
+      },
+      {
+       "name": "Harit Lizardman",
+       "lv": 50
+      },
+      {
+       "name": "Harit Lizardman",
+       "lv": 50
+      },
+      {
+       "name": "Harit Lizardman",
+       "lv": 50
+      },
+      {
+       "name": "Harit Lizardman Grunt",
+       "lv": 51
+      },
+      {
+       "name": "Harit Lizardman Archer",
+       "lv": 52
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20685
+     ],
+     "items": [
+      3833
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "aden-outskirts-15",
+      "name": "Aden outskirts 15: Vanor Silenos Warrior area (north-west)",
+      "at": [
+       137704,
+       9816,
+       -4184
+      ],
+      "radius": 4659,
+      "levels": [
+       46,
+       50
+      ],
+      "count": 6,
+      "region": "Aden outskirts",
+      "atlasKey": "area:aden-outskirts-15",
+      "status": "ok",
+      "sec": 215,
+      "danger": 50,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": 123.58333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "aden-outskirts-17",
+        "name": "Aden outskirts 17: Vanor Silenos Shaman area (north-west)",
+        "at": [
+         133832,
+         8568,
+         -4312
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "aden-far-3",
+        "name": "Aden (unreachable) 3: Vanor Silenos Shaman area (north-west)",
+        "at": [
+         135352,
+         1704,
+         -4000
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "aden-far-2",
+        "name": "Aden (unreachable) 2: Vanor Silenos Chieftain area (north)",
+        "at": [
+         139320,
+         2024,
+         -4520
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:aden-outskirts-15",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 23430,
+      "sec": 215,
+      "via": ".aden",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "walk",
+        "len": 16311,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 7119,
+        "how": "field-areas",
+        "danger": 50
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Aden"
+      },
+      "simple": true,
+      "pv": [
+       [
+        146783,
+        25808,
+        -2008
+       ],
+       [
+        141944,
+        15224,
+        -3728
+       ],
+       [
+        141944,
+        14232,
+        -3696
+       ],
+       [
+        141128,
+        13240,
+        -3880
+       ],
+       [
+        140136,
+        12248,
+        -3984
+       ],
+       [
+        139144,
+        11256,
+        -4232
+       ],
+       [
+        138152,
+        10264,
+        -4216
+       ],
+       [
+        137704,
+        9816,
+        -4184
+       ]
+      ],
+      "maxDanger": 50,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 50,
+       "dangerVsLevel": 47,
+       "aggro": [
+        {
+         "name": "Vanor Silenos Chieftain",
+         "lv": 50,
+         "n": 3
+        },
+        {
+         "name": "Vanor Silenos Warrior",
+         "lv": 48,
+         "n": 3
+        },
+        {
+         "name": "Vanor Silenos Scout",
+         "lv": 47,
+         "n": 3
+        },
+        {
+         "name": "Vanor Silenos Grunt",
+         "lv": 46,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Vanor Silenos Chieftain",
+       "lv": 50
+      },
+      {
+       "name": "Vanor Silenos Chieftain",
+       "lv": 50
+      },
+      {
+       "name": "Vanor Silenos Warrior",
+       "lv": 48
+      },
+      {
+       "name": "Vanor Silenos Chieftain",
+       "lv": 50
+      },
+      {
+       "name": "Vanor Silenos Chieftain",
+       "lv": 50
+      },
+      {
+       "name": "Vanor Silenos Warrior",
+       "lv": 48
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20576
+     ],
+     "items": [
+      3834
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "outlaw-forest-6",
+      "name": "Outlaw Forest 6: Oel Mahum Witch Doctor area (north)",
+      "at": [
+       92760,
+       -19624,
+       -1648
+      ],
+      "radius": 3937,
+      "levels": [
+       50,
+       55
+      ],
+      "count": 9,
+      "region": "Outlaw Forest",
+      "atlasKey": "area:outlaw-forest-6",
+      "status": "ok",
+      "sec": 110,
+      "danger": 55,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": 123.83333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "outlaw-forest-12",
+        "name": "Outlaw Forest 12: Oel Mahum Warrior area (north-east)",
+        "at": [
+         98696,
+         -19656,
+         -3016
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "outlaw-forest-1",
+        "name": "Outlaw Forest 1: Oel Mahum Warrior area (north-east)",
+        "at": [
+         94792,
+         -15000,
+         -2040
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "outlaw-forest-5",
+        "name": "Outlaw Forest 5: Oel Mahum Witch Doctor area (east)",
+        "at": [
+         99160,
+         -12856,
+         -3256
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:outlaw-forest-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 7833,
+      "sec": 110,
+      "via": ".oren > Oren -> Outlaw Forest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Outlaw Forest",
+        "link": "outlaw forest",
+        "price": 5200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7833,
+        "how": "field-areas",
+        "danger": 55
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Outlaw Forest"
+      },
+      "simple": true,
+      "pv": [
+       [
+        91544,
+        -12200,
+        -2440
+       ],
+       [
+        91608,
+        -12312,
+        -2432
+       ],
+       [
+        91656,
+        -13304,
+        -2392
+       ],
+       [
+        91672,
+        -13320,
+        -2392
+       ],
+       [
+        91688,
+        -13336,
+        -2384
+       ],
+       [
+        91704,
+        -13352,
+        -2384
+       ],
+       [
+        91720,
+        -13368,
+        -2376
+       ],
+       [
+        91736,
+        -13384,
+        -2376
+       ],
+       [
+        91752,
+        -13400,
+        -2376
+       ],
+       [
+        91768,
+        -13416,
+        -2368
+       ],
+       [
+        91784,
+        -13432,
+        -2368
+       ],
+       [
+        91784,
+        -14424,
+        -2112
+       ],
+       [
+        91784,
+        -15416,
+        -2008
+       ],
+       [
+        91848,
+        -15912,
+        -2016
+       ],
+       [
+        91848,
+        -16904,
+        -1976
+       ],
+       [
+        91848,
+        -17896,
+        -2064
+       ],
+       [
+        91976,
+        -18840,
+        -1584
+       ],
+       [
+        92760,
+        -19624,
+        -1648
+       ]
+      ],
+      "maxDanger": 55,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 55,
+       "dangerVsLevel": 52,
+       "aggro": [
+        {
+         "name": "Oel Mahum Witch Doctor",
+         "lv": 55,
+         "n": 3
+        },
+        {
+         "name": "Oel Mahum Warrior",
+         "lv": 54,
+         "n": 4
+        },
+        {
+         "name": "Oel Mahum",
+         "lv": 53,
+         "n": 4
+        },
+        {
+         "name": "Elder Tarlk Basilisk",
+         "lv": 51,
+         "n": 1
+        },
+        {
+         "name": "Ol Mahum Transcender",
+         "lv": 50,
+         "n": 4
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Oel Mahum",
+       "lv": 53
+      },
+      {
+       "name": "Oel Mahum",
+       "lv": 53
+      },
+      {
+       "name": "Ol Mahum Transcender",
+       "lv": 50
+      },
+      {
+       "name": "Oel Mahum",
+       "lv": 53
+      },
+      {
+       "name": "Oel Mahum",
+       "lv": 53
+      },
+      {
+       "name": "Oel Mahum",
+       "lv": 53
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "forest-of-mirrors-20",
+    "name": "Forest of Mirrors 20: Harit Lizardman Shaman area (east)",
+    "at": [
+     158664,
+     74936,
+     -3424
+    ],
+    "radius": 4910,
+    "levels": [
+     51,
+     55
+    ],
+    "count": 7,
+    "region": "Forest of Mirrors",
+    "atlasKey": "area:forest-of-mirrors-20",
+    "status": "ok",
+    "sec": 237,
+    "danger": 55,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": 137.95,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-14",
+      "name": "Forest of Mirrors 14: Harit Lizardman Shaman area (south-east)",
+      "at": [
+       151336,
+       92152,
+       -3552
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-17",
+      "name": "Forest of Mirrors 17: Harit Lizardman Matriarch area (south-east)",
+      "at": [
+       154792,
+       92216,
+       -3688
+      ],
+      "count": 2,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-mirrors-18",
+      "name": "Forest of Mirrors 18: Harit Lizardman Shaman area (south-east)",
+      "at": [
+       156760,
+       88968,
+       -3680
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:forest-of-mirrors-20",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "over-breath"
+    ],
+    "from": ".hunters",
+    "length": 19139,
+    "sec": 237,
+    "via": ".hunters > Hunters -> Entrance to the Forest of Mirrors",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Entrance to the Forest of Mirrors",
+      "link": "forest of mirrors",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4417,
+      "how": "field-areas-gap",
+      "danger": 51
+     },
+     {
+      "do": "walk",
+      "len": 14722,
+      "how": "field-areas",
+      "danger": 55
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Entrance to the Forest of Mirrors"
+    },
+    "simple": true,
+    "pv": [
+     [
+      142065,
+      81300,
+      -3000
+     ],
+     [
+      146360,
+      81224,
+      -3776
+     ],
+     [
+      147352,
+      81224,
+      -3776
+     ],
+     [
+      148344,
+      81224,
+      -3600
+     ],
+     [
+      149336,
+      81224,
+      -3536
+     ],
+     [
+      150328,
+      81224,
+      -3480
+     ],
+     [
+      150984,
+      80840,
+      -3480
+     ],
+     [
+      151048,
+      80776,
+      -3480
+     ],
+     [
+      152040,
+      80008,
+      -3544
+     ],
+     [
+      153032,
+      79016,
+      -3728
+     ],
+     [
+      154024,
+      78024,
+      -3792
+     ],
+     [
+      155016,
+      77032,
+      -3792
+     ],
+     [
+      155640,
+      76408,
+      -3768
+     ],
+     [
+      156184,
+      76280,
+      -3528
+     ],
+     [
+      157176,
+      76280,
+      -3360
+     ],
+     [
+      158168,
+      75432,
+      -3424
+     ],
+     [
+      158664,
+      74936,
+      -3424
+     ]
+    ],
+    "maxDanger": 55,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 2807,
+      "maxSwim": 2807,
+      "overBreath": true
+     },
+     "danger": 55,
+     "dangerVsLevel": 52,
+     "aggro": [
+      {
+       "name": "Harit Lizardman Matriarch",
+       "lv": 55,
+       "n": 3
+      },
+      {
+       "name": "Harit Lizardman Shaman",
+       "lv": 54,
+       "n": 2
+      },
+      {
+       "name": "Harit Lizardman Warrior",
+       "lv": 53,
+       "n": 3
+      },
+      {
+       "name": "Harit Lizardman Archer",
+       "lv": 52,
+       "n": 4
+      },
+      {
+       "name": "Harit Lizardman Grunt",
+       "lv": 51,
+       "n": 6
+      },
+      {
+       "name": "Harit Lizardman",
+       "lv": 50,
+       "n": 4
+      }
+     ]
+    }
+   },
+   "expectedSec": 487,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30756",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30756,
+    "name": "Sir Kristof Rodemai",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     84521,
+     146372,
+     -3404
+    ],
+    "alt": []
+   },
+   "text": "Bring Voucher of Faith to Sir Kristof Rodemai",
+   "needs": [
+    {
+     "id": 3873,
+     "name": "Voucher of Faith",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30108@85055,146560",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 4262,
+    "sec": 56,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 4198,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83992,
+      146520,
+      -3400
+     ],
+     [
+      84184,
+      146472,
+      -3400
+     ],
+     [
+      84456,
+      146472,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ],
+     [
+      84600,
+      146472,
+      -3400
+     ],
+     [
+      84872,
+      146472,
+      -3400
+     ],
+     [
+      85048,
+      146568,
+      -3400
+     ],
+     [
+      84520,
+      146440,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30108@85055,146560",
+     "name": "Macken"
+    },
+    "points": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83992,
+      146520,
+      -3400
+     ],
+     [
+      84184,
+      146472,
+      -3400
+     ],
+     [
+      84456,
+      146472,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ],
+     [
+      84600,
+      146472,
+      -3400
+     ],
+     [
+      84872,
+      146472,
+      -3400
+     ],
+     [
+      85048,
+      146568,
+      -3400
+     ],
+     [
+      84520,
+      146440,
+      -3400
+     ],
+     [
+      84520,
+      146376,
+      -3400
+     ]
+    ]
+   },
+   "expectedSec": 81,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30759",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30759,
+    "name": "Kalis",
+    "title": "Witch",
+    "town": "Oren",
+    "at": [
+     95359,
+     22208,
+     -2879
+    ],
+    "alt": []
+   },
+   "text": "Bring Blood of Eva, Herb of Vanor, Herb of Harit, Herb of Oel Mahum to Kalis",
+   "needs": [
+    {
+     "id": 3835,
+     "name": "Blood of Eva",
+     "n": 1
+    },
+    {
+     "id": 3833,
+     "name": "Herb of Vanor",
+     "n": 1
+    },
+    {
+     "id": 3832,
+     "name": "Herb of Harit",
+     "n": 1
+    },
+    {
+     "id": 3834,
+     "name": "Herb of Oel Mahum",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:northern-pathway-of-enchanted-valley-5",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".hunters",
+    "length": 22683,
+    "sec": 251,
+    "via": ".hunters > Hunters -> Northern Pathway of Enchanted Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Northern Pathway of Enchanted Valley",
+      "link": "enchanted valley, northern region",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18650,
+      "how": "field-areas",
+      "danger": 47
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Northern Pathway of Enchanted Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      104424,
+      33752,
+      -3800
+     ],
+     [
+      103432,
+      32776,
+      -3720
+     ],
+     [
+      102440,
+      31784,
+      -3648
+     ],
+     [
+      101448,
+      30792,
+      -3840
+     ],
+     [
+      100456,
+      29800,
+      -3688
+     ],
+     [
+      99464,
+      28808,
+      -3632
+     ],
+     [
+      98472,
+      27816,
+      -3608
+     ],
+     [
+      97560,
+      26904,
+      -3504
+     ],
+     [
+      96568,
+      26040,
+      -3528
+     ],
+     [
+      95576,
+      25048,
+      -3552
+     ],
+     [
+      95240,
+      24712,
+      -3488
+     ],
+     [
+      95224,
+      24696,
+      -3472
+     ],
+     [
+      95208,
+      24680,
+      -3448
+     ],
+     [
+      95192,
+      24664,
+      -3432
+     ],
+     [
+      95176,
+      24648,
+      -3408
+     ],
+     [
+      95160,
+      24632,
+      -3392
+     ],
+     [
+      95144,
+      24616,
+      -3368
+     ],
+     [
+      95128,
+      24600,
+      -3344
+     ],
+     [
+      95112,
+      24584,
+      -3328
+     ],
+     [
+      94120,
+      23832,
+      -3208
+     ],
+     [
+      93400,
+      23112,
+      -3224
+     ],
+     [
+      93384,
+      23096,
+      -3208
+     ],
+     [
+      92392,
+      22136,
+      -3464
+     ],
+     [
+      91416,
+      21144,
+      -3600
+     ],
+     [
+      91368,
+      21096,
+      -3592
+     ],
+     [
+      91368,
+      21080,
+      -3576
+     ],
+     [
+      91384,
+      21064,
+      -3560
+     ],
+     [
+      91784,
+      21176,
+      -3472
+     ],
+     [
+      91816,
+      21208,
+      -3544
+     ],
+     [
+      91832,
+      21224,
+      -3608
+     ],
+     [
+      92824,
+      22200,
+      -3344
+     ],
+     [
+      93816,
+      22216,
+      -3320
+     ],
+     [
+      94808,
+      22216,
+      -2928
+     ],
+     [
+      95144,
+      22056,
+      -2888
+     ],
+     [
+      95352,
+      22216,
+      -2880
+     ]
+    ],
+    "maxDanger": 47,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1416,
+      "maxSwim": 1416,
+      "overBreath": false
+     },
+     "danger": 47,
+     "dangerVsLevel": 44,
+     "aggro": [
+      {
+       "name": "Tarlk Bugbear",
+       "lv": 47,
+       "n": 6
+      },
+      {
+       "name": "Formor Elder",
+       "lv": 46,
+       "n": 4
+      },
+      {
+       "name": "Formor",
+       "lv": 45,
+       "n": 7
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:northern-pathway-of-enchanted-valley-5",
+     "name": "Northern Pathway of Enchanted Valley 5: Formor area (north-west)"
+    },
+    "points": [
+     [
+      104424,
+      33752,
+      -3800
+     ],
+     [
+      103432,
+      32776,
+      -3720
+     ],
+     [
+      102440,
+      31784,
+      -3648
+     ],
+     [
+      101448,
+      30792,
+      -3840
+     ],
+     [
+      100456,
+      29800,
+      -3688
+     ],
+     [
+      99464,
+      28808,
+      -3632
+     ],
+     [
+      98472,
+      27816,
+      -3608
+     ],
+     [
+      97560,
+      26904,
+      -3504
+     ],
+     [
+      96568,
+      26040,
+      -3528
+     ],
+     [
+      95576,
+      25048,
+      -3552
+     ],
+     [
+      95240,
+      24712,
+      -3488
+     ],
+     [
+      95224,
+      24696,
+      -3472
+     ],
+     [
+      95208,
+      24680,
+      -3448
+     ],
+     [
+      95192,
+      24664,
+      -3432
+     ],
+     [
+      95176,
+      24648,
+      -3408
+     ],
+     [
+      95160,
+      24632,
+      -3392
+     ],
+     [
+      95144,
+      24616,
+      -3368
+     ],
+     [
+      95128,
+      24600,
+      -3344
+     ],
+     [
+      95112,
+      24584,
+      -3328
+     ],
+     [
+      94120,
+      23832,
+      -3208
+     ],
+     [
+      93400,
+      23112,
+      -3224
+     ],
+     [
+      93384,
+      23096,
+      -3208
+     ],
+     [
+      92392,
+      22136,
+      -3464
+     ],
+     [
+      91416,
+      21144,
+      -3600
+     ],
+     [
+      91368,
+      21096,
+      -3592
+     ],
+     [
+      91368,
+      21080,
+      -3576
+     ],
+     [
+      91384,
+      21064,
+      -3560
+     ],
+     [
+      91784,
+      21176,
+      -3472
+     ],
+     [
+      91816,
+      21208,
+      -3544
+     ],
+     [
+      91832,
+      21224,
+      -3608
+     ],
+     [
+      92824,
+      22200,
+      -3344
+     ],
+     [
+      93816,
+      22216,
+      -3320
+     ],
+     [
+      94808,
+      22216,
+      -2928
+     ],
+     [
+      95144,
+      22056,
+      -2888
+     ],
+     [
+      95352,
+      22216,
+      -2880
+     ]
+    ]
+   },
+   "expectedSec": 276,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30758",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "\"Start the game.\""
+   ],
+   "npc": {
+    "id": 30758,
+    "name": "Athrea",
+    "title": "Witch",
+    "town": "Hunters Village",
+    "at": [
+     102069,
+     103120,
+     -3504
+    ],
+    "alt": []
+   },
+   "text": "Talk to Athrea",
+   "reasons": [
+    "route-swim",
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:plains-of-lizardmen-30",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".oren",
+    "length": 22864,
+    "sec": 300,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3450,
+      "how": "field-areas-gap",
+      "danger": 84
+     },
+     {
+      "do": "walk",
+      "len": 17100,
+      "how": "field-areas",
+      "danger": 85
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      88104,
+      88728,
+      -2840
+     ],
+     [
+      88984,
+      89720,
+      -3176
+     ],
+     [
+      89976,
+      90712,
+      -3352
+     ],
+     [
+      90968,
+      91704,
+      -3360
+     ],
+     [
+      91960,
+      92696,
+      -3416
+     ],
+     [
+      92744,
+      93480,
+      -3520
+     ],
+     [
+      93608,
+      94472,
+      -3888
+     ],
+     [
+      94600,
+      95464,
+      -3920
+     ],
+     [
+      95592,
+      96456,
+      -3912
+     ],
+     [
+      96584,
+      97448,
+      -3776
+     ],
+     [
+      97576,
+      98440,
+      -3688
+     ],
+     [
+      98568,
+      99432,
+      -3624
+     ],
+     [
+      99560,
+      100424,
+      -3592
+     ],
+     [
+      100072,
+      100936,
+      -3600
+     ],
+     [
+      100344,
+      102024,
+      -3480
+     ],
+     [
+      100504,
+      102120,
+      -3480
+     ],
+     [
+      101496,
+      103112,
+      -3456
+     ],
+     [
+      101992,
+      103288,
+      -3496
+     ],
+     [
+      102072,
+      103224,
+      -3504
+     ],
+     [
+      102072,
+      103128,
+      -3504
+     ]
+    ],
+    "maxDanger": 85,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 5582,
+      "maxSwim": 5582,
+      "overBreath": true
+     },
+     "danger": 85,
+     "dangerVsLevel": 82,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Summoner",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84,
+       "n": 2
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Tanta Lizardman Warrior",
+       "lv": 83,
+       "n": 1
+      },
+      {
+       "name": "Grandis",
+       "lv": 40,
+       "n": 4
+      },
+      {
+       "name": "Windsus",
+       "lv": 39,
+       "n": 3
+      },
+      {
+       "name": "Fettered Soul",
+       "lv": 38,
+       "n": 4
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:plains-of-lizardmen-30",
+     "name": "Plains of Lizardmen 30: Windsus area (south-east)"
+    },
+    "points": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      88104,
+      88728,
+      -2840
+     ],
+     [
+      88984,
+      89720,
+      -3176
+     ],
+     [
+      89976,
+      90712,
+      -3352
+     ],
+     [
+      90968,
+      91704,
+      -3360
+     ],
+     [
+      91960,
+      92696,
+      -3416
+     ],
+     [
+      92744,
+      93480,
+      -3520
+     ],
+     [
+      93608,
+      94472,
+      -3888
+     ],
+     [
+      94600,
+      95464,
+      -3920
+     ],
+     [
+      95592,
+      96456,
+      -3912
+     ],
+     [
+      96584,
+      97448,
+      -3776
+     ],
+     [
+      97576,
+      98440,
+      -3688
+     ],
+     [
+      98568,
+      99432,
+      -3624
+     ],
+     [
+      99560,
+      100424,
+      -3592
+     ],
+     [
+      100072,
+      100936,
+      -3600
+     ],
+     [
+      100344,
+      102024,
+      -3480
+     ],
+     [
+      100504,
+      102120,
+      -3480
+     ],
+     [
+      101496,
+      103112,
+      -3456
+     ],
+     [
+      101992,
+      103288,
+      -3496
+     ],
+     [
+      102072,
+      103224,
+      -3504
+     ],
+     [
+      102072,
+      103128,
+      -3504
+     ]
+    ]
+   },
+   "expectedSec": 325,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c4:deliver:30759",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 3,
+   "links": [
+    "Drink the poison"
+   ],
+   "npc": {
+    "id": 30759,
+    "name": "Kalis",
+    "title": "Witch",
+    "town": "Oren",
+    "at": [
+     95359,
+     22208,
+     -2879
+    ],
+    "alt": []
+   },
+   "text": "Bring Symbol of Loyalty x3 to Kalis",
+   "needs": [
+    {
+     "id": 3837,
+     "name": "Symbol of Loyalty",
+     "n": 3
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:northern-pathway-of-enchanted-valley-5",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".hunters",
+    "length": 22683,
+    "sec": 251,
+    "via": ".hunters > Hunters -> Northern Pathway of Enchanted Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Northern Pathway of Enchanted Valley",
+      "link": "enchanted valley, northern region",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18650,
+      "how": "field-areas",
+      "danger": 47
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Northern Pathway of Enchanted Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      104424,
+      33752,
+      -3800
+     ],
+     [
+      103432,
+      32776,
+      -3720
+     ],
+     [
+      102440,
+      31784,
+      -3648
+     ],
+     [
+      101448,
+      30792,
+      -3840
+     ],
+     [
+      100456,
+      29800,
+      -3688
+     ],
+     [
+      99464,
+      28808,
+      -3632
+     ],
+     [
+      98472,
+      27816,
+      -3608
+     ],
+     [
+      97560,
+      26904,
+      -3504
+     ],
+     [
+      96568,
+      26040,
+      -3528
+     ],
+     [
+      95576,
+      25048,
+      -3552
+     ],
+     [
+      95240,
+      24712,
+      -3488
+     ],
+     [
+      95224,
+      24696,
+      -3472
+     ],
+     [
+      95208,
+      24680,
+      -3448
+     ],
+     [
+      95192,
+      24664,
+      -3432
+     ],
+     [
+      95176,
+      24648,
+      -3408
+     ],
+     [
+      95160,
+      24632,
+      -3392
+     ],
+     [
+      95144,
+      24616,
+      -3368
+     ],
+     [
+      95128,
+      24600,
+      -3344
+     ],
+     [
+      95112,
+      24584,
+      -3328
+     ],
+     [
+      94120,
+      23832,
+      -3208
+     ],
+     [
+      93400,
+      23112,
+      -3224
+     ],
+     [
+      93384,
+      23096,
+      -3208
+     ],
+     [
+      92392,
+      22136,
+      -3464
+     ],
+     [
+      91416,
+      21144,
+      -3600
+     ],
+     [
+      91368,
+      21096,
+      -3592
+     ],
+     [
+      91368,
+      21080,
+      -3576
+     ],
+     [
+      91384,
+      21064,
+      -3560
+     ],
+     [
+      91784,
+      21176,
+      -3472
+     ],
+     [
+      91816,
+      21208,
+      -3544
+     ],
+     [
+      91832,
+      21224,
+      -3608
+     ],
+     [
+      92824,
+      22200,
+      -3344
+     ],
+     [
+      93816,
+      22216,
+      -3320
+     ],
+     [
+      94808,
+      22216,
+      -2928
+     ],
+     [
+      95144,
+      22056,
+      -2888
+     ],
+     [
+      95352,
+      22216,
+      -2880
+     ]
+    ],
+    "maxDanger": 47,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 1416,
+      "maxSwim": 1416,
+      "overBreath": false
+     },
+     "danger": 47,
+     "dangerVsLevel": 44,
+     "aggro": [
+      {
+       "name": "Tarlk Bugbear",
+       "lv": 47,
+       "n": 6
+      },
+      {
+       "name": "Formor Elder",
+       "lv": 46,
+       "n": 4
+      },
+      {
+       "name": "Formor",
+       "lv": 45,
+       "n": 7
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:northern-pathway-of-enchanted-valley-5",
+     "name": "Northern Pathway of Enchanted Valley 5: Formor area (north-west)"
+    },
+    "points": [
+     [
+      104424,
+      33752,
+      -3800
+     ],
+     [
+      103432,
+      32776,
+      -3720
+     ],
+     [
+      102440,
+      31784,
+      -3648
+     ],
+     [
+      101448,
+      30792,
+      -3840
+     ],
+     [
+      100456,
+      29800,
+      -3688
+     ],
+     [
+      99464,
+      28808,
+      -3632
+     ],
+     [
+      98472,
+      27816,
+      -3608
+     ],
+     [
+      97560,
+      26904,
+      -3504
+     ],
+     [
+      96568,
+      26040,
+      -3528
+     ],
+     [
+      95576,
+      25048,
+      -3552
+     ],
+     [
+      95240,
+      24712,
+      -3488
+     ],
+     [
+      95224,
+      24696,
+      -3472
+     ],
+     [
+      95208,
+      24680,
+      -3448
+     ],
+     [
+      95192,
+      24664,
+      -3432
+     ],
+     [
+      95176,
+      24648,
+      -3408
+     ],
+     [
+      95160,
+      24632,
+      -3392
+     ],
+     [
+      95144,
+      24616,
+      -3368
+     ],
+     [
+      95128,
+      24600,
+      -3344
+     ],
+     [
+      95112,
+      24584,
+      -3328
+     ],
+     [
+      94120,
+      23832,
+      -3208
+     ],
+     [
+      93400,
+      23112,
+      -3224
+     ],
+     [
+      93384,
+      23096,
+      -3208
+     ],
+     [
+      92392,
+      22136,
+      -3464
+     ],
+     [
+      91416,
+      21144,
+      -3600
+     ],
+     [
+      91368,
+      21096,
+      -3592
+     ],
+     [
+      91368,
+      21080,
+      -3576
+     ],
+     [
+      91384,
+      21064,
+      -3560
+     ],
+     [
+      91784,
+      21176,
+      -3472
+     ],
+     [
+      91816,
+      21208,
+      -3544
+     ],
+     [
+      91832,
+      21224,
+      -3608
+     ],
+     [
+      92824,
+      22200,
+      -3344
+     ],
+     [
+      93816,
+      22216,
+      -3320
+     ],
+     [
+      94808,
+      22216,
+      -2928
+     ],
+     [
+      95144,
+      22056,
+      -2888
+     ],
+     [
+      95352,
+      22216,
+      -2880
+     ]
+    ]
+   },
+   "expectedSec": 276,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

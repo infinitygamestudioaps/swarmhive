@@ -1,0 +1,310 @@
+{
+ "id": 458,
+ "name": "Perfect Form",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.064Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 8,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32768",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Accept the challenge."
+   ],
+   "npc": {
+    "id": 32768,
+    "name": "Kelleyia",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     53774,
+     -81907,
+     -2752
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kelleyia – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32768@53774,-81907",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 953,
+    "sec": 53,
+    "via": ".rune > Rune -> Wild Beast Pastures",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Wild Beast Pastures",
+      "link": "wild beast pastures",
+      "price": 7200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 953,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Wild Beast Pastures"
+    },
+    "simple": true,
+    "pv": [
+     [
+      53516,
+      -82831,
+      -2700
+     ],
+     [
+      53768,
+      -81912,
+      -2752
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18878",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18878,
+     "name": "Full Grown Kookaburra",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18879,
+     "name": "Full Grown Kookaburra",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18885,
+     "name": "Full Grown Cougar",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18886,
+     "name": "Full Grown Cougar",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18892,
+     "name": "Full Grown Buffalo",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18893,
+     "name": "Full Grown Buffalo",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18899,
+     "name": "Full Grown Grendel",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18900,
+     "name": "Full Grown Grendel",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (18878, 18879, 18885, 18886, 18892, 18893, 18899, 18900) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Full Grown Kookaburra, Full Grown Kookaburra, Full Grown Cougar, Full Grown Cougar, Full Grown Buffalo, Full Grown Buffalo, Full Grown Grendel, Full Grown Grendel appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (18878, 18879, 18885, 18886, 18892, 18893, 18899, 18900) only appear through the quest script and no trigger is known",
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32768",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Graciously accept the award."
+   ],
+   "npc": {
+    "id": 32768,
+    "name": "Kelleyia",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     53774,
+     -81907,
+     -2752
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kelleyia",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32768@53774,-81907",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 953,
+    "sec": 53,
+    "via": ".rune > Rune -> Wild Beast Pastures",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Wild Beast Pastures",
+      "link": "wild beast pastures",
+      "price": 7200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 953,
+      "how": "geodata",
+      "danger": 84
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Wild Beast Pastures"
+    },
+    "simple": true,
+    "pv": [
+     [
+      53516,
+      -82831,
+      -2700
+     ],
+     [
+      53768,
+      -81912,
+      -2752
+     ]
+    ],
+    "maxDanger": 84,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 84,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

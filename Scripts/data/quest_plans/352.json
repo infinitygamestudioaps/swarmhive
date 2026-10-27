@@ -1,0 +1,811 @@
+{
+ "id": 352,
+ "name": "Help Rood Raise A New Pet!",
+ "version": 1,
+ "generated": "2026-10-27T11:15:28.156Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Heine / White Sands Fortress",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 213,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31067",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will get a Lienrik Egg for you.\""
+   ],
+   "npc": {
+    "id": 31067,
+    "name": "Rood",
+    "title": "Pet Manager",
+    "town": "Heine / White Sands Fortress",
+    "at": [
+     110605,
+     219495,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rood – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30899@111386,219413",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1073,
+    "sec": 29,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 461,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111384,
+      219032,
+      -3536
+     ],
+     [
+      111384,
+      219304,
+      -3544
+     ],
+     [
+      111384,
+      219416,
+      -3544
+     ],
+     [
+      111144,
+      219608,
+      -3648
+     ],
+     [
+      111048,
+      219688,
+      -3664
+     ],
+     [
+      110600,
+      219496,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30899@111386,219413",
+     "name": "Flauen"
+    },
+    "points": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111384,
+      219032,
+      -3536
+     ],
+     [
+      111384,
+      219304,
+      -3544
+     ],
+     [
+      111384,
+      219416,
+      -3544
+     ],
+     [
+      111144,
+      219608,
+      -3648
+     ],
+     [
+      111048,
+      219688,
+      -3664
+     ],
+     [
+      110600,
+      219496,
+      -3664
+     ]
+    ]
+   },
+   "expectedSec": 59,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20786,
+     "name": "Lienrik",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21644,
+     "name": "Lienrik",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 21645,
+     "name": "Lienrik Lad",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5860,
+     "name": "Lienrik Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20786,
+       "name": "Lienrik",
+       "chance": 46
+      },
+      {
+       "id": 21644,
+       "name": "Lienrik",
+       "chance": 46
+      },
+      {
+       "id": 21645,
+       "name": "Lienrik Lad",
+       "chance": 69
+      }
+     ]
+    },
+    {
+     "id": 5861,
+     "name": "Lienrik Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20786,
+       "name": "Lienrik",
+       "chance": 2
+      },
+      {
+       "id": 21644,
+       "name": "Lienrik",
+       "chance": 2
+      },
+      {
+       "id": 21645,
+       "name": "Lienrik Lad",
+       "chance": 2
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "engine-manual"
+   ],
+   "text": "Hunt Lienrik, Lienrik, Lienrik Lad for Lienrik Egg x10, Lienrik Egg x10",
+   "places": [
+    {
+     "mobs": [
+      20786,
+      21644,
+      21645
+     ],
+     "items": [
+      5860,
+      5861
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "heine-outskirts-1",
+      "name": "Heine outskirts 1: Lienrik area (east)",
+      "at": [
+       123320,
+       222744,
+       -2632
+      ],
+      "radius": 2377,
+      "levels": [
+       39,
+       40
+      ],
+      "count": 8,
+      "region": "Heine outskirts",
+      "atlasKey": "area:heine-outskirts-1",
+      "status": "ok",
+      "sec": 149,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -45.516666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "heine-outskirts-2",
+        "name": "Heine outskirts 2: Lienrik area (east)",
+        "at": [
+         123512,
+         214648,
+         -3360
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "heine-outskirts-3",
+        "name": "Heine outskirts 3: Lienrik area (east)",
+        "at": [
+         125688,
+         219528,
+         -3032
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "heine-outskirts-4",
+        "name": "Heine outskirts 4: Lienrik area (north-east)",
+        "at": [
+         119080,
+         211288,
+         -3392
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:heine-outskirts-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".heine",
+      "length": 15530,
+      "sec": 149,
+      "via": ".heine",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "walk",
+        "len": 11969,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 3561,
+        "how": "field-areas",
+        "danger": 40
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Heine"
+      },
+      "simple": true,
+      "pv": [
+       [
+        111455,
+        219400,
+        -3544
+       ],
+       [
+        121096,
+        220040,
+        -3416
+       ],
+       [
+        121208,
+        220520,
+        -3280
+       ],
+       [
+        121224,
+        220536,
+        -3264
+       ],
+       [
+        121240,
+        220552,
+        -3240
+       ],
+       [
+        121256,
+        220568,
+        -3224
+       ],
+       [
+        121272,
+        220584,
+        -3200
+       ],
+       [
+        121288,
+        220600,
+        -3176
+       ],
+       [
+        121304,
+        220616,
+        -3160
+       ],
+       [
+        121320,
+        220632,
+        -3136
+       ],
+       [
+        121336,
+        220648,
+        -3112
+       ],
+       [
+        122216,
+        221640,
+        -3000
+       ],
+       [
+        123208,
+        222632,
+        -2656
+       ],
+       [
+        123320,
+        222744,
+        -2632
+       ]
+      ],
+      "maxDanger": 40,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 40,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "heine-outskirts-1",
+    "name": "Heine outskirts 1: Lienrik area (east)",
+    "at": [
+     123320,
+     222744,
+     -2632
+    ],
+    "radius": 2377,
+    "levels": [
+     39,
+     40
+    ],
+    "count": 8,
+    "region": "Heine outskirts",
+    "atlasKey": "area:heine-outskirts-1",
+    "status": "ok",
+    "sec": 149,
+    "danger": 40,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -45.516666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "heine-outskirts-2",
+      "name": "Heine outskirts 2: Lienrik area (east)",
+      "at": [
+       123512,
+       214648,
+       -3360
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "heine-outskirts-3",
+      "name": "Heine outskirts 3: Lienrik area (east)",
+      "at": [
+       125688,
+       219528,
+       -3032
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "heine-outskirts-4",
+      "name": "Heine outskirts 4: Lienrik area (north-east)",
+      "at": [
+       119080,
+       211288,
+       -3392
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:heine-outskirts-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 15530,
+    "sec": 149,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 11969,
+      "how": "field-areas-gap",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 3561,
+      "how": "field-areas",
+      "danger": 40
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111455,
+      219400,
+      -3544
+     ],
+     [
+      121096,
+      220040,
+      -3416
+     ],
+     [
+      121208,
+      220520,
+      -3280
+     ],
+     [
+      121224,
+      220536,
+      -3264
+     ],
+     [
+      121240,
+      220552,
+      -3240
+     ],
+     [
+      121256,
+      220568,
+      -3224
+     ],
+     [
+      121272,
+      220584,
+      -3200
+     ],
+     [
+      121288,
+      220600,
+      -3176
+     ],
+     [
+      121304,
+      220616,
+      -3160
+     ],
+     [
+      121320,
+      220632,
+      -3136
+     ],
+     [
+      121336,
+      220648,
+      -3112
+     ],
+     [
+      122216,
+      221640,
+      -3000
+     ],
+     [
+      123208,
+      222632,
+      -2656
+     ],
+     [
+      123320,
+      222744,
+      -2632
+     ]
+    ],
+    "maxDanger": 40,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 40,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 12649,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:31067",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 31067,
+    "name": "Rood",
+    "title": "Pet Manager",
+    "town": "Heine / White Sands Fortress",
+    "at": [
+     110605,
+     219495,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Rood (repeatable: then hunt again)",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30899@111386,219413",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 1073,
+    "sec": 29,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 461,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111384,
+      219032,
+      -3536
+     ],
+     [
+      111384,
+      219304,
+      -3544
+     ],
+     [
+      111384,
+      219416,
+      -3544
+     ],
+     [
+      111144,
+      219608,
+      -3648
+     ],
+     [
+      111048,
+      219688,
+      -3664
+     ],
+     [
+      110600,
+      219496,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30899@111386,219413",
+     "name": "Flauen"
+    },
+    "points": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111384,
+      219032,
+      -3536
+     ],
+     [
+      111384,
+      219304,
+      -3544
+     ],
+     [
+      111384,
+      219416,
+      -3544
+     ],
+     [
+      111144,
+      219608,
+      -3648
+     ],
+     [
+      111048,
+      219688,
+      -3664
+     ],
+     [
+      110600,
+      219496,
+      -3664
+     ]
+    ]
+   },
+   "expectedSec": 54,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

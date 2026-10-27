@@ -1,0 +1,294 @@
+{
+ "id": 451,
+ "name": "Lucien's Altar",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.013Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Dwarven Village",
+ "requirements": {
+  "other": [
+   "(npcId == DAICHIR)"
+  ]
+ },
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 3,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30537",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30537,
+    "name": "Daichir",
+    "title": "Priest of the Earth",
+    "town": "Dwarven Village",
+    "at": [
+     114348,
+     -178537,
+     -808
+    ],
+    "alt": []
+   },
+   "text": "Talk to Daichir – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30537@114348,-178537",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1652,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1652,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115160,
+      -178712,
+      -904
+     ],
+     [
+      114952,
+      -178536,
+      -840
+     ],
+     [
+      114680,
+      -178536,
+      -808
+     ],
+     [
+      114408,
+      -178536,
+      -808
+     ],
+     [
+      114344,
+      -178536,
+      -808
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30537",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30537,
+    "name": "Daichir",
+    "title": "Priest of the Earth",
+    "town": "Dwarven Village",
+    "at": [
+     114348,
+     -178537,
+     -808
+    ],
+    "alt": []
+   },
+   "text": "Talk to Daichir",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30537@114348,-178537",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1652,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1652,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115160,
+      -178712,
+      -904
+     ],
+     [
+      114952,
+      -178536,
+      -840
+     ],
+     [
+      114680,
+      -178536,
+      -808
+     ],
+     [
+      114408,
+      -178536,
+      -808
+     ],
+     [
+      114344,
+      -178536,
+      -808
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:41.017Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

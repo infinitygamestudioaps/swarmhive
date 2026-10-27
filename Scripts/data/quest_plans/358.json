@@ -1,0 +1,829 @@
+{
+ "id": 358,
+ "name": "Illegitimate Child of the Goddess",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.211Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 63,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 69,
+ "refLevel": 63,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30862",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Why can't we kill those creatures?\""
+   ],
+   "npc": {
+    "id": 30862,
+    "name": "Oltran",
+    "title": "Grand Master",
+    "town": "Aden",
+    "at": [
+     143776,
+     23936,
+     -2118
+    ],
+    "alt": []
+   },
+   "text": "Talk to Oltran – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30862@143776,23936",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 7162,
+    "sec": 80,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 7162,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24200,
+      -2136
+     ],
+     [
+      145128,
+      24008,
+      -2136
+     ],
+     [
+      145016,
+      23944,
+      -2136
+     ],
+     [
+      144744,
+      23944,
+      -2136
+     ],
+     [
+      144520,
+      23784,
+      -2136
+     ],
+     [
+      144504,
+      23512,
+      -2136
+     ],
+     [
+      144456,
+      23336,
+      -2136
+     ],
+     [
+      144248,
+      23192,
+      -2136
+     ],
+     [
+      143976,
+      23192,
+      -2136
+     ],
+     [
+      143784,
+      23144,
+      -2136
+     ],
+     [
+      143896,
+      23256,
+      -2136
+     ],
+     [
+      143944,
+      23528,
+      -2120
+     ],
+     [
+      143944,
+      23784,
+      -2120
+     ],
+     [
+      143784,
+      23944,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20672,
+     "name": "Trives",
+     "level": 63,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20673,
+     "name": "Falibati",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5868,
+     "name": "Snake Scale",
+     "n": 108,
+     "from": [
+      {
+       "id": 20672,
+       "name": "Trives",
+       "chance": 71
+      },
+      {
+       "id": 20673,
+       "name": "Falibati",
+       "chance": 74
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Trives, Falibati for Snake Scale x108",
+   "places": [
+    {
+     "mobs": [
+      20672,
+      20673
+     ],
+     "items": [
+      5868
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "seal-of-shilen-9",
+      "name": "Seal of Shilen 9: Trives area (south-east)",
+      "at": [
+       188696,
+       23592,
+       -3704
+      ],
+      "radius": 5655,
+      "levels": [
+       60,
+       65
+      ],
+      "count": 9,
+      "region": "Seal of Shilen",
+      "atlasKey": "area:seal-of-shilen-9",
+      "status": "ok",
+      "sec": 94,
+      "danger": 65,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -52.43333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "seal-of-shilen-24",
+        "name": "Seal of Shilen 24: Trives area (north)",
+        "at": [
+         181128,
+         5032,
+         -2704
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "seal-of-shilen-22",
+        "name": "Seal of Shilen 22: Falibati area (north)",
+        "at": [
+         180184,
+         7768,
+         -2728
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "seal-of-shilen-10",
+        "name": "Seal of Shilen 10: Falibati area (east)",
+        "at": [
+         191464,
+         18376,
+         -3664
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:seal-of-shilen-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 5853,
+      "sec": 94,
+      "via": ".aden > Aden -> Seal of Shilen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Seal of Shilen",
+        "link": "seal of shilen",
+        "price": 3000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1722,
+        "how": "field-areas-gap",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 4131,
+        "how": "field-areas",
+        "danger": 65
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Seal of Shilen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        184742,
+        19745,
+        -3168
+       ],
+       [
+        185736,
+        20712,
+        -3360
+       ],
+       [
+        186728,
+        21624,
+        -3544
+       ],
+       [
+        187720,
+        22616,
+        -3624
+       ],
+       [
+        188696,
+        23592,
+        -3704
+       ]
+      ],
+      "maxDanger": 65,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 65,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "seal-of-shilen-9",
+    "name": "Seal of Shilen 9: Trives area (south-east)",
+    "at": [
+     188696,
+     23592,
+     -3704
+    ],
+    "radius": 5655,
+    "levels": [
+     60,
+     65
+    ],
+    "count": 9,
+    "region": "Seal of Shilen",
+    "atlasKey": "area:seal-of-shilen-9",
+    "status": "ok",
+    "sec": 94,
+    "danger": 65,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -52.43333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "seal-of-shilen-24",
+      "name": "Seal of Shilen 24: Trives area (north)",
+      "at": [
+       181128,
+       5032,
+       -2704
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "seal-of-shilen-22",
+      "name": "Seal of Shilen 22: Falibati area (north)",
+      "at": [
+       180184,
+       7768,
+       -2728
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "seal-of-shilen-10",
+      "name": "Seal of Shilen 10: Falibati area (east)",
+      "at": [
+       191464,
+       18376,
+       -3664
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:seal-of-shilen-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 5853,
+    "sec": 94,
+    "via": ".aden > Aden -> Seal of Shilen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Seal of Shilen",
+      "link": "seal of shilen",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1722,
+      "how": "field-areas-gap",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 4131,
+      "how": "field-areas",
+      "danger": 65
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Seal of Shilen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      184742,
+      19745,
+      -3168
+     ],
+     [
+      185736,
+      20712,
+      -3360
+     ],
+     [
+      186728,
+      21624,
+      -3544
+     ],
+     [
+      187720,
+      22616,
+      -3624
+     ],
+     [
+      188696,
+      23592,
+      -3704
+     ]
+    ],
+    "maxDanger": 65,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 65,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 3919,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30862",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30862,
+    "name": "Oltran",
+    "title": "Grand Master",
+    "town": "Aden",
+    "at": [
+     143776,
+     23936,
+     -2118
+    ],
+    "alt": []
+   },
+   "text": "Talk to Oltran",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30862@143776,23936",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 7162,
+    "sec": 80,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 7162,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24200,
+      -2136
+     ],
+     [
+      145128,
+      24008,
+      -2136
+     ],
+     [
+      145016,
+      23944,
+      -2136
+     ],
+     [
+      144744,
+      23944,
+      -2136
+     ],
+     [
+      144520,
+      23784,
+      -2136
+     ],
+     [
+      144504,
+      23512,
+      -2136
+     ],
+     [
+      144456,
+      23336,
+      -2136
+     ],
+     [
+      144248,
+      23192,
+      -2136
+     ],
+     [
+      143976,
+      23192,
+      -2136
+     ],
+     [
+      143784,
+      23144,
+      -2136
+     ],
+     [
+      143896,
+      23256,
+      -2136
+     ],
+     [
+      143944,
+      23528,
+      -2120
+     ],
+     [
+      143944,
+      23784,
+      -2120
+     ],
+     [
+      143784,
+      23944,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 105,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:38.231Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "hunt-long"
+  ]
+ }
+}

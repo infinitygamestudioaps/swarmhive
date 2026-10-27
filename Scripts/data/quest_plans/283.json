@@ -1,0 +1,996 @@
+{
+ "id": 283,
+ "name": "The Few, The Proud, The Brave",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.723Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Kamael Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 23,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32133",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will help."
+   ],
+   "npc": {
+    "id": 32133,
+    "name": "Perwan",
+    "title": "Vice Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -125872,
+     38208,
+     1232
+    ],
+    "alt": []
+   },
+   "text": "Talk to Perwan – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14244,
+    "sec": 163,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10714,
+      "how": "field-areas",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -14,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-5",
+     "name": "Kamael Village outskirts 5: Young Grey Keltir area (north-west)"
+    },
+    "points": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ]
+   },
+   "expectedSec": 193,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22244,
+     "name": "Crimson Spider",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9747,
+     "name": "Crimson Spider Claw",
+     "n": 20,
+     "from": [
+      {
+       "id": 22244,
+       "name": "Crimson Spider",
+       "chance": 60
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Crimson Spider for Crimson Spider Claw x20",
+   "places": [
+    {
+     "mobs": [
+      22244
+     ],
+     "items": [
+      9747
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-iii-6",
+      "name": "Stronghold III 6: Muertos Warrior area (south-east)",
+      "at": [
+       -79576,
+       45768,
+       -2752
+      ],
+      "radius": 4340,
+      "levels": [
+       13,
+       16
+      ],
+      "count": 7,
+      "region": "Stronghold III",
+      "atlasKey": "area:stronghold-iii-6",
+      "status": "ok",
+      "sec": 163,
+      "danger": 17,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -39.28333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stronghold-iii-4",
+        "name": "Stronghold III 4: Crimson Spider area (south-east)",
+        "at": [
+         -78776,
+         40104,
+         -2648
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-iii-5",
+        "name": "Stronghold III 5: Muertos Captain area (south-east)",
+        "at": [
+         -77112,
+         42136,
+         -2656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-iii-9",
+        "name": "Stronghold III 9: Muertos Captain area (south-east)",
+        "at": [
+         -75576,
+         46008,
+         -2976
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-iii-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 11213,
+      "sec": 163,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold III",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold III",
+        "link": "stronghold iii",
+        "price": 3200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1598,
+        "how": "field-areas-gap",
+        "danger": 15
+       },
+       {
+        "do": "walk",
+        "len": 9615,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -85928,
+        37095,
+        -2048
+       ],
+       [
+        -85928,
+        38664,
+        -2216
+       ],
+       [
+        -85560,
+        39656,
+        -2416
+       ],
+       [
+        -84568,
+        40648,
+        -2552
+       ],
+       [
+        -83576,
+        41640,
+        -2688
+       ],
+       [
+        -82584,
+        42632,
+        -2752
+       ],
+       [
+        -81592,
+        43624,
+        -2824
+       ],
+       [
+        -80744,
+        44472,
+        -2784
+       ],
+       [
+        -80104,
+        45240,
+        -2664
+       ],
+       [
+        -79576,
+        45768,
+        -2752
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "stronghold-iii-6",
+    "name": "Stronghold III 6: Muertos Warrior area (south-east)",
+    "at": [
+     -79576,
+     45768,
+     -2752
+    ],
+    "radius": 4340,
+    "levels": [
+     13,
+     16
+    ],
+    "count": 7,
+    "region": "Stronghold III",
+    "atlasKey": "area:stronghold-iii-6",
+    "status": "ok",
+    "sec": 163,
+    "danger": 17,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -39.28333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "stronghold-iii-4",
+      "name": "Stronghold III 4: Crimson Spider area (south-east)",
+      "at": [
+       -78776,
+       40104,
+       -2648
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-iii-5",
+      "name": "Stronghold III 5: Muertos Captain area (south-east)",
+      "at": [
+       -77112,
+       42136,
+       -2656
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "stronghold-iii-9",
+      "name": "Stronghold III 9: Muertos Captain area (south-east)",
+      "at": [
+       -75576,
+       46008,
+       -2976
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:stronghold-iii-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 11213,
+    "sec": 163,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold III",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold III",
+      "link": "stronghold iii",
+      "price": 3200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1598,
+      "how": "field-areas-gap",
+      "danger": 15
+     },
+     {
+      "do": "walk",
+      "len": 9615,
+      "how": "field-areas",
+      "danger": 17
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -85928,
+      37095,
+      -2048
+     ],
+     [
+      -85928,
+      38664,
+      -2216
+     ],
+     [
+      -85560,
+      39656,
+      -2416
+     ],
+     [
+      -84568,
+      40648,
+      -2552
+     ],
+     [
+      -83576,
+      41640,
+      -2688
+     ],
+     [
+      -82584,
+      42632,
+      -2752
+     ],
+     [
+      -81592,
+      43624,
+      -2824
+     ],
+     [
+      -80744,
+      44472,
+      -2784
+     ],
+     [
+      -80104,
+      45240,
+      -2664
+     ],
+     [
+      -79576,
+      45768,
+      -2752
+     ]
+    ],
+    "maxDanger": 17,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 17,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1013,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:32133",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Show him the Crimson Spider Claws."
+   ],
+   "npc": {
+    "id": 32133,
+    "name": "Perwan",
+    "title": "Vice Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -125872,
+     38208,
+     1232
+    ],
+    "alt": []
+   },
+   "text": "Hand in Crimson Spider Claw at Perwan (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 9747,
+     "name": "Crimson Spider Claw",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14244,
+    "sec": 163,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10714,
+      "how": "field-areas",
+      "danger": 1
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ],
+    "maxDanger": 1,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 1,
+     "dangerVsLevel": -14,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-5",
+     "name": "Kamael Village outskirts 5: Young Grey Keltir area (north-west)"
+    },
+    "points": [
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -118248,
+      46536,
+      368
+     ],
+     [
+      -118552,
+      46232,
+      360
+     ],
+     [
+      -119544,
+      45352,
+      360
+     ],
+     [
+      -120536,
+      44360,
+      400
+     ],
+     [
+      -121528,
+      43368,
+      704
+     ],
+     [
+      -122248,
+      42648,
+      936
+     ],
+     [
+      -122376,
+      42376,
+      952
+     ],
+     [
+      -122376,
+      41384,
+      1088
+     ],
+     [
+      -121512,
+      40392,
+      1304
+     ],
+     [
+      -120696,
+      39576,
+      1408
+     ],
+     [
+      -120456,
+      39320,
+      1408
+     ],
+     [
+      -122440,
+      38216,
+      1432
+     ],
+     [
+      -122616,
+      38120,
+      1432
+     ],
+     [
+      -123608,
+      38136,
+      1232
+     ],
+     [
+      -124104,
+      38136,
+      1176
+     ],
+     [
+      -124856,
+      38424,
+      1208
+     ],
+     [
+      -125304,
+      38392,
+      1208
+     ],
+     [
+      -125864,
+      38216,
+      1232
+     ]
+    ]
+   },
+   "expectedSec": 188,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.730Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "prereq-missing",
+   "route-detour"
+  ]
+ }
+}

@@ -1,0 +1,773 @@
+{
+ "id": 702,
+ "name": "A Trap for Revenge",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.198Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 78,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10273,
+    "name": "Q10273_GoodDayToFly",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10273 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 39,
+ "refLevel": 78,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32563",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Sure.\""
+   ],
+   "npc": {
+    "id": 32563,
+    "name": "Plenos",
+    "title": "Soldier",
+    "town": "Talking Island",
+    "at": [
+     -186692,
+     243539,
+     2608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Plenos – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32563@-186692,243539",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 2451,
+    "sec": 505,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 139,
+      "how": "adjacent",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186692,
+      243539,
+      2608
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 535,
+   "conds": [
+    0
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32555",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Tell we whatever I need to know.\""
+   ],
+   "npc": {
+    "id": 32555,
+    "name": "Tenius",
+    "title": "Soldier",
+    "town": "Talking Island",
+    "at": [
+     -186177,
+     242341,
+     1680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tenius",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186184,
+      242344,
+      1680
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Tenius; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186184,
+      242344,
+      1680
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186184,
+      242344,
+      1680
+     ]
+    ],
+    "length": 1725,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22612,
+     "name": "Drak",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 22613,
+     "name": "Drak",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 22610,
+     "name": "Mutated Drake Wing",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 22611,
+     "name": "Mutated Drake Wing",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13877,
+     "name": "Drake's Flesh",
+     "n": 20,
+     "from": [
+      {
+       "id": 22612,
+       "name": "Drak",
+       "chance": 41.3
+      },
+      {
+       "id": 22612,
+       "name": "Drak",
+       "chance": 58.7
+      },
+      {
+       "id": 22613,
+       "name": "Drak",
+       "chance": 44
+      },
+      {
+       "id": 22613,
+       "name": "Drak",
+       "chance": 56
+      },
+      {
+       "id": 22610,
+       "name": "Mutated Drake Wing",
+       "chance": 48.5
+      },
+      {
+       "id": 22610,
+       "name": "Mutated Drake Wing",
+       "chance": 51.5
+      },
+      {
+       "id": 22611,
+       "name": "Mutated Drake Wing",
+       "chance": 45.1
+      },
+      {
+       "id": 22611,
+       "name": "Mutated Drake Wing",
+       "chance": 54.9
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Drak, Drak, Mutated Drake Wing for Drake's Flesh x20",
+   "places": [
+    {
+     "mobs": [
+      22612,
+      22613,
+      22610,
+      22611
+     ],
+     "items": [
+      13877
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22610@-252385,235450",
+      "name": "Mutated Drake Wing (Seed of Destruction)",
+      "at": [
+       -252385,
+       235450,
+       4647
+      ],
+      "radius": 1500,
+      "levels": [
+       75,
+       75
+      ],
+      "count": 5,
+      "region": "Seed of Destruction",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 60,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22613@-251368,235406",
+        "name": "Drak (Seed of Destruction)",
+        "at": [
+         -251368,
+         235406,
+         4622
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22612@-251418,235606",
+        "name": "Drak (Seed of Destruction)",
+        "at": [
+         -251418,
+         235606,
+         5623
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22612@-251091,236636",
+        "name": "Drak (Seed of Destruction)",
+        "at": [
+         -251091,
+         236636,
+         4509
+        ],
+        "count": 2,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22610@-252385,235450",
+    "name": "Mutated Drake Wing (Seed of Destruction)",
+    "at": [
+     -252385,
+     235450,
+     4647
+    ],
+    "radius": 1500,
+    "levels": [
+     75,
+     75
+    ],
+    "count": 5,
+    "region": "Seed of Destruction",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 60,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22613@-251368,235406",
+      "name": "Drak (Seed of Destruction)",
+      "at": [
+       -251368,
+       235406,
+       4622
+      ],
+      "count": 3,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22612@-251418,235606",
+      "name": "Drak (Seed of Destruction)",
+      "at": [
+       -251418,
+       235606,
+       5623
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22612@-251091,236636",
+      "name": "Drak (Seed of Destruction)",
+      "at": [
+       -251091,
+       236636,
+       4509
+      ],
+      "count": 2,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 1225,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:turnin:32563",
+   "cond": 2,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"Give it to me.\""
+   ],
+   "npc": {
+    "id": 32563,
+    "name": "Plenos",
+    "title": "Soldier",
+    "town": "Talking Island",
+    "at": [
+     -186692,
+     243539,
+     2608
+    ],
+    "alt": []
+   },
+   "text": "Hand in Drake's Flesh at Plenos (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 13877,
+     "name": "Drake's Flesh",
+     "n": 20
+    }
+   ],
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32563@-186692,243539",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 2451,
+    "sec": 505,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 139,
+      "how": "adjacent",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186692,
+      243539,
+      2608
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 530,
+   "turnin": true,
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32555": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186136,
+      242840,
+      2544
+     ],
+     [
+      -185832,
+      242696,
+      2560
+     ],
+     [
+      -185816,
+      242696,
+      1680
+     ],
+     [
+      -186184,
+      242344,
+      1680
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Tenius; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c0:start:32563": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

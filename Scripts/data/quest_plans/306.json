@@ -1,0 +1,2092 @@
+{
+ "id": 306,
+ "name": "Crystals of Fire and Ice",
+ "version": 1,
+ "generated": "2026-10-27T11:15:19.314Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 17,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: engine-gap:start.kind=atlas"
+  },
+  {
+   "code": "dryrun:engine-gap:start.kind=atlas",
+   "text": "c1:hunt: start \"atlas\" (nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)) — rsCustomTrip knows only town / gk"
+  }
+ ],
+ "expectedMin": 21,
+ "refLevel": 17,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30004",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you'll do it."
+   ],
+   "npc": {
+    "id": 30004,
+    "name": "Katerina",
+    "title": "Grocer",
+    "town": "Talking Island",
+    "at": [
+     -84204,
+     240403,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katerina – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30004@-84204,240403",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5910,
+    "sec": 94,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5910,
+      "how": "town-graph",
+      "danger": 4
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85224,
+      243736,
+      -3728
+     ],
+     [
+      -85048,
+      243528,
+      -3728
+     ],
+     [
+      -84856,
+      243336,
+      -3728
+     ],
+     [
+      -84616,
+      243192,
+      -3728
+     ],
+     [
+      -84680,
+      243016,
+      -3728
+     ],
+     [
+      -84664,
+      242744,
+      -3728
+     ],
+     [
+      -84664,
+      242472,
+      -3728
+     ],
+     [
+      -84824,
+      242264,
+      -3728
+     ],
+     [
+      -84936,
+      242104,
+      -3728
+     ],
+     [
+      -84920,
+      242088,
+      -3728
+     ],
+     [
+      -84776,
+      241864,
+      -3728
+     ],
+     [
+      -84632,
+      241640,
+      -3728
+     ],
+     [
+      -84472,
+      241432,
+      -3728
+     ],
+     [
+      -84520,
+      241176,
+      -3728
+     ],
+     [
+      -84632,
+      241032,
+      -3728
+     ],
+     [
+      -84808,
+      240840,
+      -3728
+     ],
+     [
+      -84664,
+      240920,
+      -3728
+     ],
+     [
+      -84488,
+      240824,
+      -3720
+     ],
+     [
+      -84296,
+      240648,
+      -3720
+     ],
+     [
+      -84248,
+      240440,
+      -3720
+     ]
+    ],
+    "maxDanger": 4,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 4,
+     "dangerVsLevel": -13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 124,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20109,
+     "name": "Salamander",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 20114,
+     "name": "Salamander Noble",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20110,
+     "name": "Undine",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 20112,
+     "name": "Salamander Elder",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 20113,
+     "name": "Undine Elder",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 20115,
+     "name": "Undine Noble",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1020,
+     "name": "Flame Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 20109,
+       "name": "Salamander",
+       "chance": 92.5
+      },
+      {
+       "id": 20114,
+       "name": "Salamander Noble",
+       "chance": 92.5
+      },
+      {
+       "id": 20112,
+       "name": "Salamander Elder",
+       "chance": 90
+      }
+     ]
+    },
+    {
+     "id": 1021,
+     "name": "Ice Shard",
+     "n": 20,
+     "from": [
+      {
+       "id": 20110,
+       "name": "Undine",
+       "chance": 90
+      },
+      {
+       "id": 20113,
+       "name": "Undine Elder",
+       "chance": 92.5
+      },
+      {
+       "id": 20115,
+       "name": "Undine Noble",
+       "chance": 95
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Salamander, Salamander Noble, Undine for Flame Shard x20, Ice Shard x20",
+   "places": [
+    {
+     "mobs": [
+      20109,
+      20114,
+      20112
+     ],
+     "items": [
+      1020
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "20114@45878,245451",
+      "name": "Salamander Noble",
+      "at": [
+       45878,
+       245451,
+       -6660
+      ],
+      "radius": 1500,
+      "levels": [
+       19,
+       19
+      ],
+      "count": 5,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 60,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "20112@46768,243309",
+        "name": "Salamander Elder",
+        "at": [
+         46768,
+         243309,
+         -6604
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20109@46602,242798",
+        "name": "Salamander",
+        "at": [
+         46602,
+         242798,
+         -6584
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20109@46902,243309",
+        "name": "Salamander",
+        "at": [
+         46902,
+         243309,
+         -6604
+        ],
+        "count": 1,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:30429@49328,248416",
+      "status": "unverified",
+      "flags": [
+       "unverified-walk",
+       "long-walk"
+      ],
+      "from": ".heine",
+      "length": 47067,
+      "sec": 437,
+      "via": ".heine > Heine -> Garden of Eva",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Garden of Eva",
+        "link": "garden of eva",
+        "price": 2400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 37806,
+        "how": "straight",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Garden of Eva"
+      },
+      "simple": true,
+      "pv": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        45496,
+        248456,
+        -6360
+       ],
+       [
+        44504,
+        248456,
+        -6456
+       ],
+       [
+        43912,
+        248440,
+        -6496
+       ],
+       [
+        43624,
+        248104,
+        -6488
+       ],
+       [
+        43624,
+        247112,
+        -6456
+       ],
+       [
+        43624,
+        246632,
+        -6456
+       ],
+       [
+        43992,
+        246584,
+        -6512
+       ],
+       [
+        44696,
+        246552,
+        -6560
+       ],
+       [
+        44712,
+        246536,
+        -6560
+       ],
+       [
+        44744,
+        245544,
+        -6408
+       ],
+       [
+        44776,
+        245176,
+        -6408
+       ],
+       [
+        45096,
+        245208,
+        -6408
+       ],
+       [
+        45096,
+        245512,
+        -6304
+       ],
+       [
+        45176,
+        245560,
+        -6304
+       ],
+       [
+        45256,
+        245560,
+        -6304
+       ],
+       [
+        45432,
+        245624,
+        -6304
+       ],
+       [
+        45848,
+        245528,
+        -6304
+       ],
+       [
+        45848,
+        245496,
+        -6304
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [
+       "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 3,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:30429@49328,248416",
+       "name": "Tiramisa"
+      },
+      "points": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        45496,
+        248456,
+        -6360
+       ],
+       [
+        44504,
+        248456,
+        -6456
+       ],
+       [
+        43912,
+        248440,
+        -6496
+       ],
+       [
+        43624,
+        248104,
+        -6488
+       ],
+       [
+        43624,
+        247112,
+        -6456
+       ],
+       [
+        43624,
+        246632,
+        -6456
+       ],
+       [
+        43992,
+        246584,
+        -6512
+       ],
+       [
+        44696,
+        246552,
+        -6560
+       ],
+       [
+        44712,
+        246536,
+        -6560
+       ],
+       [
+        44744,
+        245544,
+        -6408
+       ],
+       [
+        44776,
+        245176,
+        -6408
+       ],
+       [
+        45096,
+        245208,
+        -6408
+       ],
+       [
+        45096,
+        245512,
+        -6304
+       ],
+       [
+        45176,
+        245560,
+        -6304
+       ],
+       [
+        45256,
+        245560,
+        -6304
+       ],
+       [
+        45432,
+        245624,
+        -6304
+       ],
+       [
+        45848,
+        245528,
+        -6304
+       ],
+       [
+        45848,
+        245496,
+        -6304
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      20110,
+      20113,
+      20115
+     ],
+     "items": [
+      1021
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "20115@45905,246146",
+      "name": "Undine Noble",
+      "at": [
+       45905,
+       246146,
+       -6652
+      ],
+      "radius": 1500,
+      "levels": [
+       19,
+       19
+      ],
+      "count": 5,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 60,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "20113@45561,242784",
+        "name": "Undine Elder",
+        "at": [
+         45561,
+         242784,
+         -6489
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20110@45226,243224",
+        "name": "Undine",
+        "at": [
+         45226,
+         243224,
+         -6502
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "20110@44772,242779",
+        "name": "Undine",
+        "at": [
+         44772,
+         242779,
+         -6502
+        ],
+        "count": 1,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:30429@49328,248416",
+      "status": "unverified",
+      "flags": [
+       "unverified-walk",
+       "long-walk"
+      ],
+      "from": ".heine",
+      "length": 45543,
+      "sec": 424,
+      "via": ".heine > Heine -> Garden of Eva",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Heine",
+        "cmd": ".heine"
+       },
+       {
+        "do": "gk",
+        "from": "Heine",
+        "desc": "Heine -> Garden of Eva",
+        "link": "garden of eva",
+        "price": 2400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 37806,
+        "how": "straight",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Heine",
+       "desc": "Heine -> Garden of Eva"
+      },
+      "simple": true,
+      "pv": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        45496,
+        248456,
+        -6360
+       ],
+       [
+        44504,
+        248456,
+        -6456
+       ],
+       [
+        43912,
+        248440,
+        -6496
+       ],
+       [
+        43624,
+        248104,
+        -6488
+       ],
+       [
+        43624,
+        247112,
+        -6456
+       ],
+       [
+        43624,
+        246632,
+        -6456
+       ],
+       [
+        43992,
+        246584,
+        -6512
+       ],
+       [
+        44984,
+        246568,
+        -6608
+       ],
+       [
+        45896,
+        246152,
+        -6608
+       ],
+       [
+        45912,
+        246152,
+        -6608
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [
+       "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 3,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:30429@49328,248416",
+       "name": "Tiramisa"
+      },
+      "points": [
+       [
+        84413,
+        234334,
+        -3656
+       ],
+       [
+        49328,
+        248416,
+        -5952
+       ],
+       [
+        47352,
+        248440,
+        -6360
+       ],
+       [
+        46488,
+        248472,
+        -6360
+       ],
+       [
+        45496,
+        248456,
+        -6360
+       ],
+       [
+        44504,
+        248456,
+        -6456
+       ],
+       [
+        43912,
+        248440,
+        -6496
+       ],
+       [
+        43624,
+        248104,
+        -6488
+       ],
+       [
+        43624,
+        247112,
+        -6456
+       ],
+       [
+        43624,
+        246632,
+        -6456
+       ],
+       [
+        43992,
+        246584,
+        -6512
+       ],
+       [
+        44984,
+        246568,
+        -6608
+       ],
+       [
+        45896,
+        246152,
+        -6608
+       ],
+       [
+        45912,
+        246152,
+        -6608
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "20114@45878,245451",
+    "name": "Salamander Noble",
+    "at": [
+     45878,
+     245451,
+     -6660
+    ],
+    "radius": 1500,
+    "levels": [
+     19,
+     19
+    ],
+    "count": 5,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 60,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "20112@46768,243309",
+      "name": "Salamander Elder",
+      "at": [
+       46768,
+       243309,
+       -6604
+      ],
+      "count": 3,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "20109@46602,242798",
+      "name": "Salamander",
+      "at": [
+       46602,
+       242798,
+       -6584
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "20109@46902,243309",
+      "name": "Salamander",
+      "at": [
+       46902,
+       243309,
+       -6604
+      ],
+      "count": 1,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:30429@49328,248416",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk",
+     "long-walk"
+    ],
+    "from": ".heine",
+    "length": 47067,
+    "sec": 437,
+    "via": ".heine > Heine -> Garden of Eva",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "gk",
+      "from": "Heine",
+      "desc": "Heine -> Garden of Eva",
+      "link": "garden of eva",
+      "price": 2400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 37806,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Heine",
+     "desc": "Heine -> Garden of Eva"
+    },
+    "simple": true,
+    "pv": [
+     [
+      84413,
+      234334,
+      -3656
+     ],
+     [
+      49328,
+      248416,
+      -5952
+     ],
+     [
+      47352,
+      248440,
+      -6360
+     ],
+     [
+      46488,
+      248472,
+      -6360
+     ],
+     [
+      45496,
+      248456,
+      -6360
+     ],
+     [
+      44504,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246632,
+      -6456
+     ],
+     [
+      43992,
+      246584,
+      -6512
+     ],
+     [
+      44696,
+      246552,
+      -6560
+     ],
+     [
+      44712,
+      246536,
+      -6560
+     ],
+     [
+      44744,
+      245544,
+      -6408
+     ],
+     [
+      44776,
+      245176,
+      -6408
+     ],
+     [
+      45096,
+      245208,
+      -6408
+     ],
+     [
+      45096,
+      245512,
+      -6304
+     ],
+     [
+      45176,
+      245560,
+      -6304
+     ],
+     [
+      45256,
+      245560,
+      -6304
+     ],
+     [
+      45432,
+      245624,
+      -6304
+     ],
+     [
+      45848,
+      245528,
+      -6304
+     ],
+     [
+      45848,
+      245496,
+      -6304
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 84413,234334 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30429@49328,248416",
+     "name": "Tiramisa"
+    },
+    "points": [
+     [
+      84413,
+      234334,
+      -3656
+     ],
+     [
+      49328,
+      248416,
+      -5952
+     ],
+     [
+      47352,
+      248440,
+      -6360
+     ],
+     [
+      46488,
+      248472,
+      -6360
+     ],
+     [
+      45496,
+      248456,
+      -6360
+     ],
+     [
+      44504,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246632,
+      -6456
+     ],
+     [
+      43992,
+      246584,
+      -6512
+     ],
+     [
+      44696,
+      246552,
+      -6560
+     ],
+     [
+      44712,
+      246536,
+      -6560
+     ],
+     [
+      44744,
+      245544,
+      -6408
+     ],
+     [
+      44776,
+      245176,
+      -6408
+     ],
+     [
+      45096,
+      245208,
+      -6408
+     ],
+     [
+      45096,
+      245512,
+      -6304
+     ],
+     [
+      45176,
+      245560,
+      -6304
+     ],
+     [
+      45256,
+      245560,
+      -6304
+     ],
+     [
+      45432,
+      245624,
+      -6304
+     ],
+     [
+      45848,
+      245528,
+      -6304
+     ],
+     [
+      45848,
+      245496,
+      -6304
+     ]
+    ]
+   },
+   "expectedSec": 1012,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246632,
+      -6456
+     ],
+     [
+      43992,
+      246584,
+      -6512
+     ],
+     [
+      44696,
+      246552,
+      -6560
+     ],
+     [
+      44712,
+      246536,
+      -6560
+     ],
+     [
+      44744,
+      245544,
+      -6408
+     ],
+     [
+      44776,
+      245176,
+      -6408
+     ],
+     [
+      45096,
+      245208,
+      -6408
+     ],
+     [
+      45096,
+      245512,
+      -6304
+     ],
+     [
+      45176,
+      245560,
+      -6304
+     ],
+     [
+      45256,
+      245560,
+      -6304
+     ],
+     [
+      45432,
+      245624,
+      -6304
+     ],
+     [
+      45848,
+      245528,
+      -6304
+     ],
+     [
+      45848,
+      245496,
+      -6304
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "note": "Salamanders / Undines 20109-20115 live in the TI dungeon interior (spawns_h5.json); way in = Siff teleport; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (both item groups are in the same hall, 700 apart)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "points": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246632,
+      -6456
+     ],
+     [
+      43992,
+      246584,
+      -6512
+     ],
+     [
+      44696,
+      246552,
+      -6560
+     ],
+     [
+      44712,
+      246536,
+      -6560
+     ],
+     [
+      44744,
+      245544,
+      -6408
+     ],
+     [
+      44776,
+      245176,
+      -6408
+     ],
+     [
+      45096,
+      245208,
+      -6408
+     ],
+     [
+      45096,
+      245512,
+      -6304
+     ],
+     [
+      45176,
+      245560,
+      -6304
+     ],
+     [
+      45256,
+      245560,
+      -6304
+     ],
+     [
+      45432,
+      245624,
+      -6304
+     ],
+     [
+      45848,
+      245528,
+      -6304
+     ],
+     [
+      45848,
+      245496,
+      -6304
+     ]
+    ],
+    "pv": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246632,
+      -6456
+     ],
+     [
+      43992,
+      246584,
+      -6512
+     ],
+     [
+      44696,
+      246552,
+      -6560
+     ],
+     [
+      44712,
+      246536,
+      -6560
+     ],
+     [
+      44744,
+      245544,
+      -6408
+     ],
+     [
+      44776,
+      245176,
+      -6408
+     ],
+     [
+      45096,
+      245208,
+      -6408
+     ],
+     [
+      45096,
+      245512,
+      -6304
+     ],
+     [
+      45176,
+      245560,
+      -6304
+     ],
+     [
+      45256,
+      245560,
+      -6304
+     ],
+     [
+      45432,
+      245624,
+      -6304
+     ],
+     [
+      45848,
+      245528,
+      -6304
+     ],
+     [
+      45848,
+      245496,
+      -6304
+     ]
+    ],
+    "length": 10498,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30004",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say you will end the Contract"
+   ],
+   "npc": {
+    "id": 30004,
+    "name": "Katerina",
+    "title": "Grocer",
+    "town": "Talking Island",
+    "at": [
+     -84204,
+     240403,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Talk to Katerina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30004@-84204,240403",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5910,
+    "sec": 94,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5910,
+      "how": "town-graph",
+      "danger": 4
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85224,
+      243736,
+      -3728
+     ],
+     [
+      -85048,
+      243528,
+      -3728
+     ],
+     [
+      -84856,
+      243336,
+      -3728
+     ],
+     [
+      -84616,
+      243192,
+      -3728
+     ],
+     [
+      -84680,
+      243016,
+      -3728
+     ],
+     [
+      -84664,
+      242744,
+      -3728
+     ],
+     [
+      -84664,
+      242472,
+      -3728
+     ],
+     [
+      -84824,
+      242264,
+      -3728
+     ],
+     [
+      -84936,
+      242104,
+      -3728
+     ],
+     [
+      -84920,
+      242088,
+      -3728
+     ],
+     [
+      -84776,
+      241864,
+      -3728
+     ],
+     [
+      -84632,
+      241640,
+      -3728
+     ],
+     [
+      -84472,
+      241432,
+      -3728
+     ],
+     [
+      -84520,
+      241176,
+      -3728
+     ],
+     [
+      -84632,
+      241032,
+      -3728
+     ],
+     [
+      -84808,
+      240840,
+      -3728
+     ],
+     [
+      -84664,
+      240920,
+      -3728
+     ],
+     [
+      -84488,
+      240824,
+      -3720
+     ],
+     [
+      -84296,
+      240648,
+      -3720
+     ],
+     [
+      -84248,
+      240440,
+      -3720
+     ]
+    ],
+    "maxDanger": 4,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 4,
+     "dangerVsLevel": -13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "route": [
+     [
+      48586,
+      248459,
+      -6160
+     ],
+     [
+      48536,
+      248440,
+      -6160
+     ],
+     [
+      47544,
+      248440,
+      -6360
+     ],
+     [
+      46552,
+      248472,
+      -6360
+     ],
+     [
+      45560,
+      248456,
+      -6360
+     ],
+     [
+      44568,
+      248456,
+      -6456
+     ],
+     [
+      43912,
+      248440,
+      -6496
+     ],
+     [
+      43624,
+      248104,
+      -6488
+     ],
+     [
+      43624,
+      247112,
+      -6456
+     ],
+     [
+      43624,
+      246632,
+      -6456
+     ],
+     [
+      43992,
+      246584,
+      -6512
+     ],
+     [
+      44696,
+      246552,
+      -6560
+     ],
+     [
+      44712,
+      246536,
+      -6560
+     ],
+     [
+      44744,
+      245544,
+      -6408
+     ],
+     [
+      44776,
+      245176,
+      -6408
+     ],
+     [
+      45096,
+      245208,
+      -6408
+     ],
+     [
+      45096,
+      245512,
+      -6304
+     ],
+     [
+      45176,
+      245560,
+      -6304
+     ],
+     [
+      45256,
+      245560,
+      -6304
+     ],
+     [
+      45432,
+      245624,
+      -6304
+     ],
+     [
+      45848,
+      245528,
+      -6304
+     ],
+     [
+      45848,
+      245496,
+      -6304
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:30427@-113490,235526",
+     "desc": "nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)",
+     "then": {
+      "npc": "Siff",
+      "id": 30427,
+      "link": "Teleport into the ruins",
+      "desc": "TI Dungeon outside -> inside",
+      "tpId": 30,
+      "landing": [
+       48586,
+       248459,
+       -6160
+      ],
+      "src": "dp html_teleporter/30427.htm + l2j_teleport.sql id 30"
+     }
+    },
+    "note": "Salamanders / Undines 20109-20115 live in the TI dungeon interior (spawns_h5.json); way in = Siff teleport; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (both item groups are in the same hall, 700 apart)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:19.320Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c1:hunt: start \"atlas\" (nav atlas route to Gatekeeper Siff (.gludin > Gludin -> TI Village > TI -> Elven Ruins > walk)) — rsCustomTrip knows only town / gk"
+   }
+  ],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

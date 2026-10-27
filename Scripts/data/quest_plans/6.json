@@ -1,0 +1,473 @@
+{
+ "id": 6,
+ "name": "Step Into the Future",
+ "version": 1,
+ "generated": "2026-10-27T11:14:35.514Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {
+  "races": [
+   "HUMAN"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: HUMAN"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 6,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30006",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I want to go to Giran!\""
+   ],
+   "npc": {
+    "id": 30006,
+    "name": "Roxxy",
+    "title": "Gatekeeper",
+    "town": "Talking Island",
+    "at": [
+     -84108,
+     244604,
+     -3728
+    ],
+    "alt": []
+   },
+   "text": "Talk to Roxxy – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30006@-84108,244604",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 384,
+    "sec": 48,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 384,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30006",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Magister Baulro persuaded Sir Colin Windawood pay for my journey!\""
+   ],
+   "npc": {
+    "id": 30006,
+    "name": "Roxxy",
+    "title": "Gatekeeper",
+    "town": "Talking Island",
+    "at": [
+     -84108,
+     244604,
+     -3728
+    ],
+    "alt": []
+   },
+   "text": "Get Baulro's Letter",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30006@-84108,244604",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 384,
+    "sec": 48,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 384,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84104,
+      244600,
+      -3728
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30311",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"Baulro told me to pay you a visit and give you this.\""
+   ],
+   "npc": {
+    "id": 30311,
+    "name": "Sir Collin Windawood",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -100332,
+     238019,
+     -3568
+    ],
+    "alt": []
+   },
+   "text": "Get Baulro's Letter",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30311@-100332,238019",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 837,
+    "sec": 77,
+    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Obelisk of Victory",
+      "link": "Obelisk of Victory",
+      "price": 470,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 837,
+      "how": "geodata",
+      "danger": 9
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -99586,
+      237637,
+      -3568
+     ],
+     [
+      -100328,
+      238024,
+      -3568
+     ]
+    ],
+    "maxDanger": 9,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 9,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 102,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30033",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"I want to visit Giran in order to increase my knowledge, but I can't afford the journey.\""
+   ],
+   "npc": {
+    "id": 30033,
+    "name": "Baulro",
+    "title": "Magister",
+    "town": "Talking Island",
+    "at": [
+     -84729,
+     245001,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Get Baulro's Letter",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30033@-84729,245001",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1808,
+    "sec": 60,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1808,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84264,
+      244648,
+      -3728
+     ],
+     [
+      -84216,
+      244920,
+      -3728
+     ],
+     [
+      -84376,
+      245144,
+      -3712
+     ],
+     [
+      -84584,
+      245320,
+      -3720
+     ],
+     [
+      -84520,
+      245448,
+      -3712
+     ],
+     [
+      -84536,
+      245416,
+      -3712
+     ],
+     [
+      -84632,
+      245336,
+      -3720
+     ],
+     [
+      -84808,
+      245144,
+      -3720
+     ],
+     [
+      -84728,
+      245000,
+      -3720
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 85,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:35.532Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

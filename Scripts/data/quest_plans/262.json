@@ -1,0 +1,1008 @@
+{
+ "id": 262,
+ "name": "Trade With The Ivory Tower",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.945Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 8,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dark Elf Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 21,
+ "refLevel": 8,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30137",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30137,
+    "name": "Vollodos",
+    "title": "Grocer",
+    "town": "Dark Elf Village",
+    "at": [
+     11951,
+     15661,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vollodos – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30137@11951,15661",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5482,
+    "sec": 91,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5482,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9928,
+      15672,
+      -4568
+     ],
+     [
+      10200,
+      15672,
+      -4568
+     ],
+     [
+      10456,
+      15592,
+      -4568
+     ],
+     [
+      10632,
+      15480,
+      -4568
+     ],
+     [
+      10616,
+      15320,
+      -4504
+     ],
+     [
+      10584,
+      15112,
+      -4352
+     ],
+     [
+      10664,
+      14968,
+      -4336
+     ],
+     [
+      10920,
+      15048,
+      -4352
+     ],
+     [
+      11096,
+      14952,
+      -4336
+     ],
+     [
+      11128,
+      14712,
+      -4336
+     ],
+     [
+      11144,
+      14824,
+      -4336
+     ],
+     [
+      11352,
+      14904,
+      -4336
+     ],
+     [
+      11416,
+      15176,
+      -4528
+     ],
+     [
+      11528,
+      15352,
+      -4568
+     ],
+     [
+      11800,
+      15288,
+      -4568
+     ],
+     [
+      12072,
+      15272,
+      -4568
+     ],
+     [
+      12280,
+      15320,
+      -4568
+     ],
+     [
+      12472,
+      15512,
+      -4568
+     ],
+     [
+      12552,
+      15592,
+      -4568
+     ],
+     [
+      12552,
+      15656,
+      -4568
+     ],
+     [
+      12456,
+      15864,
+      -4568
+     ],
+     [
+      12264,
+      15944,
+      -4552
+     ],
+     [
+      12104,
+      15928,
+      -4552
+     ],
+     [
+      11832,
+      15864,
+      -4552
+     ],
+     [
+      11768,
+      15688,
+      -4552
+     ],
+     [
+      11896,
+      15640,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 121,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20007,
+     "name": "Green Fungus",
+     "level": 9,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 20400,
+     "name": "Blood Fungus",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 707,
+     "name": "Spore Sac",
+     "n": 10,
+     "from": [
+      {
+       "id": 20007,
+       "name": "Green Fungus",
+       "chance": 30
+      },
+      {
+       "id": 20400,
+       "name": "Blood Fungus",
+       "chance": 40
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Green Fungus, Blood Fungus for Spore Sac x10",
+   "places": [
+    {
+     "mobs": [
+      20007,
+      20400
+     ],
+     "items": [
+      707
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "dark-forest-11",
+      "name": "Dark Forest 11: Goblin Lookout area (south-east)",
+      "at": [
+       -10648,
+       21064,
+       -3712
+      ],
+      "radius": 4774,
+      "levels": [
+       8,
+       10
+      ],
+      "count": 8,
+      "region": "Dark Forest",
+      "atlasKey": "area:dark-forest-11",
+      "status": "ok",
+      "sec": 187,
+      "danger": 10,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -44.88333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dark-forest-1",
+        "name": "Dark Forest 1: Balor Orc Lieutenant area (south-east)",
+        "at": [
+         -20184,
+         18504,
+         -3688
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dark-forest-12",
+        "name": "Dark Forest 12: Goblin Lookout area (east)",
+        "at": [
+         -8120,
+         12520,
+         -2944
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dark-forest-14",
+        "name": "Dark Forest 14: Green Fungus area (south-east)",
+        "at": [
+         -7512,
+         24568,
+         -3512
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dark-forest-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 14078,
+      "sec": 187,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Dark Forest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Dark Forest",
+        "link": "dark forest",
+        "price": 890,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14078,
+        "how": "field-areas",
+        "danger": 12
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -22216,
+        14168,
+        -3232
+       ],
+       [
+        -21224,
+        14168,
+        -3360
+       ],
+       [
+        -20232,
+        14168,
+        -3400
+       ],
+       [
+        -19240,
+        14952,
+        -3616
+       ],
+       [
+        -18248,
+        15944,
+        -3624
+       ],
+       [
+        -18184,
+        16008,
+        -3624
+       ],
+       [
+        -18168,
+        16024,
+        -3624
+       ],
+       [
+        -18152,
+        16040,
+        -3624
+       ],
+       [
+        -18136,
+        16056,
+        -3616
+       ],
+       [
+        -18120,
+        16072,
+        -3616
+       ],
+       [
+        -18104,
+        16088,
+        -3616
+       ],
+       [
+        -18088,
+        16104,
+        -3608
+       ],
+       [
+        -18072,
+        16120,
+        -3608
+       ],
+       [
+        -18056,
+        16136,
+        -3608
+       ],
+       [
+        -17192,
+        16536,
+        -3520
+       ],
+       [
+        -16200,
+        16536,
+        -3696
+       ],
+       [
+        -15208,
+        17096,
+        -3720
+       ],
+       [
+        -14328,
+        17960,
+        -3712
+       ],
+       [
+        -13336,
+        18552,
+        -3712
+       ],
+       [
+        -13096,
+        18792,
+        -3688
+       ],
+       [
+        -12104,
+        19608,
+        -3656
+       ],
+       [
+        -11112,
+        20600,
+        -3704
+       ],
+       [
+        -10648,
+        21064,
+        -3712
+       ]
+      ],
+      "maxDanger": 12,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 12,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dark-forest-11",
+    "name": "Dark Forest 11: Goblin Lookout area (south-east)",
+    "at": [
+     -10648,
+     21064,
+     -3712
+    ],
+    "radius": 4774,
+    "levels": [
+     8,
+     10
+    ],
+    "count": 8,
+    "region": "Dark Forest",
+    "atlasKey": "area:dark-forest-11",
+    "status": "ok",
+    "sec": 187,
+    "danger": 10,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -44.88333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dark-forest-1",
+      "name": "Dark Forest 1: Balor Orc Lieutenant area (south-east)",
+      "at": [
+       -20184,
+       18504,
+       -3688
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dark-forest-12",
+      "name": "Dark Forest 12: Goblin Lookout area (east)",
+      "at": [
+       -8120,
+       12520,
+       -2944
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dark-forest-14",
+      "name": "Dark Forest 14: Green Fungus area (south-east)",
+      "at": [
+       -7512,
+       24568,
+       -3512
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dark-forest-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14078,
+    "sec": 187,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Dark Forest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Dark Forest",
+      "link": "dark forest",
+      "price": 890,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14078,
+      "how": "field-areas",
+      "danger": 12
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -22216,
+      14168,
+      -3232
+     ],
+     [
+      -21224,
+      14168,
+      -3360
+     ],
+     [
+      -20232,
+      14168,
+      -3400
+     ],
+     [
+      -19240,
+      14952,
+      -3616
+     ],
+     [
+      -18248,
+      15944,
+      -3624
+     ],
+     [
+      -18184,
+      16008,
+      -3624
+     ],
+     [
+      -18168,
+      16024,
+      -3624
+     ],
+     [
+      -18152,
+      16040,
+      -3624
+     ],
+     [
+      -18136,
+      16056,
+      -3616
+     ],
+     [
+      -18120,
+      16072,
+      -3616
+     ],
+     [
+      -18104,
+      16088,
+      -3616
+     ],
+     [
+      -18088,
+      16104,
+      -3608
+     ],
+     [
+      -18072,
+      16120,
+      -3608
+     ],
+     [
+      -18056,
+      16136,
+      -3608
+     ],
+     [
+      -17192,
+      16536,
+      -3520
+     ],
+     [
+      -16200,
+      16536,
+      -3696
+     ],
+     [
+      -15208,
+      17096,
+      -3720
+     ],
+     [
+      -14328,
+      17960,
+      -3712
+     ],
+     [
+      -13336,
+      18552,
+      -3712
+     ],
+     [
+      -13096,
+      18792,
+      -3688
+     ],
+     [
+      -12104,
+      19608,
+      -3656
+     ],
+     [
+      -11112,
+      20600,
+      -3704
+     ],
+     [
+      -10648,
+      21064,
+      -3712
+     ]
+    ],
+    "maxDanger": 12,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 12,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1037,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30137",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30137,
+    "name": "Vollodos",
+    "title": "Grocer",
+    "town": "Dark Elf Village",
+    "at": [
+     11951,
+     15661,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vollodos",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30137@11951,15661",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5482,
+    "sec": 91,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5482,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9928,
+      15672,
+      -4568
+     ],
+     [
+      10200,
+      15672,
+      -4568
+     ],
+     [
+      10456,
+      15592,
+      -4568
+     ],
+     [
+      10632,
+      15480,
+      -4568
+     ],
+     [
+      10616,
+      15320,
+      -4504
+     ],
+     [
+      10584,
+      15112,
+      -4352
+     ],
+     [
+      10664,
+      14968,
+      -4336
+     ],
+     [
+      10920,
+      15048,
+      -4352
+     ],
+     [
+      11096,
+      14952,
+      -4336
+     ],
+     [
+      11128,
+      14712,
+      -4336
+     ],
+     [
+      11144,
+      14824,
+      -4336
+     ],
+     [
+      11352,
+      14904,
+      -4336
+     ],
+     [
+      11416,
+      15176,
+      -4528
+     ],
+     [
+      11528,
+      15352,
+      -4568
+     ],
+     [
+      11800,
+      15288,
+      -4568
+     ],
+     [
+      12072,
+      15272,
+      -4568
+     ],
+     [
+      12280,
+      15320,
+      -4568
+     ],
+     [
+      12472,
+      15512,
+      -4568
+     ],
+     [
+      12552,
+      15592,
+      -4568
+     ],
+     [
+      12552,
+      15656,
+      -4568
+     ],
+     [
+      12456,
+      15864,
+      -4568
+     ],
+     [
+      12264,
+      15944,
+      -4552
+     ],
+     [
+      12104,
+      15928,
+      -4552
+     ],
+     [
+      11832,
+      15864,
+      -4552
+     ],
+     [
+      11768,
+      15688,
+      -4552
+     ],
+     [
+      11896,
+      15640,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 116,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.959Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

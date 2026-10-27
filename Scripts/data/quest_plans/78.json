@@ -1,0 +1,2455 @@
+{
+ "id": 78,
+ "name": "Saga of the Doomcryer",
+ "version": 1,
+ "generated": "2026-10-27T11:14:57.000Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 76,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "saga-template",
+   "text": "saga template quest (AbstractSagaQuest arrays): steps / items not resolved"
+  },
+  {
+   "code": "timer",
+   "text": "the quest script runs timers (Mob_1 Timer 1, Mob_1 has despawned)"
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 9
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 17
+  }
+ ],
+ "expectedMin": 618,
+ "refLevel": 76,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31336",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What do you mean?\""
+   ],
+   "npc": {
+    "id": 31336,
+    "name": "Rahorakti",
+    "title": "Grand Seer",
+    "town": "Rune",
+    "at": [
+     38432,
+     -49184,
+     -1105
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rahorakti – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31336@38432,-49184",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7984,
+    "sec": 87,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7984,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      40696,
+      -48424,
+      -768
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48904,
+      -1128
+     ],
+     [
+      37432,
+      -49160,
+      -1128
+     ],
+     [
+      38024,
+      -49272,
+      -1128
+     ],
+     [
+      38344,
+      -49272,
+      -1128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 117,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21646,
+     "name": "Grave Scarab",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 21647,
+     "name": "Scavenger Scarab",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 21648,
+     "name": "Grave Ant",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21649,
+     "name": "Scavenger Ant",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 21650,
+     "name": "Shrine Knight",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21651,
+     "name": "Shrine Guard",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7493,
+     "name": "Halisha's Mark",
+     "n": 700,
+     "from": [
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21648,
+       "name": "Grave Ant",
+       "chance": 100
+      },
+      {
+       "id": 21649,
+       "name": "Scavenger Ant",
+       "chance": 100
+      },
+      {
+       "id": 21650,
+       "name": "Shrine Knight",
+       "chance": 100
+      },
+      {
+       "id": 21651,
+       "name": "Shrine Guard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Grave Scarab, Scavenger Scarab, Grave Ant for Halisha's Mark x700",
+   "places": [
+    {
+     "mobs": [
+      21646,
+      21647,
+      21648,
+      21649,
+      21650,
+      21651
+     ],
+     "items": [
+      7493
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "imperialtomb-1-right-a",
+      "name": "Imperial Tomb (outer halls): Outer tomb, right: Grave Ant room",
+      "at": [
+       193174,
+       -67003,
+       -2806
+      ],
+      "radius": 1881,
+      "levels": [
+       74,
+       75
+      ],
+      "count": 7,
+      "region": "Imperial Tomb (outer halls)",
+      "atlasKey": "room:imperialtomb-1-right-a",
+      "status": "ok",
+      "sec": 632,
+      "danger": 74,
+      "reachable": true,
+      "score": -31.46666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "imperialtomb-1-behind-a",
+        "name": "Imperial Tomb (outer halls): Outer tomb, behind: Grave Ant room",
+        "at": [
+         189936,
+         -69128,
+         -2615
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wall-of-argos-far-1",
+        "name": "Wall of Argos (unreachable) 1: Shrine Knight area (north-east)",
+        "at": [
+         186200,
+         -62312,
+         -2960
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "imperialtomb-1-behind-b",
+        "name": "Imperial Tomb (outer halls): Outer tomb, behind: Shrine Knight room",
+        "at": [
+         194160,
+         -64484,
+         -2897
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:imperialtomb-1-right-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 70380,
+      "sec": 632,
+      "via": ".goddard > Goddard -> Wall of Argos",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Wall of Argos",
+        "link": "wall of argos",
+        "price": 2200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 58438,
+        "how": "saved",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 11942,
+        "how": "dungeon-rooms",
+        "danger": 75
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Wall of Argos"
+      },
+      "simple": true,
+      "pv": [
+       [
+        164744,
+        -48504,
+        -3552
+       ],
+       [
+        165384,
+        -48904,
+        -3120
+       ],
+       [
+        166008,
+        -50184,
+        -3056
+       ],
+       [
+        166952,
+        -52168,
+        -3056
+       ],
+       [
+        167032,
+        -52264,
+        -3120
+       ],
+       [
+        167928,
+        -52952,
+        -2704
+       ],
+       [
+        168344,
+        -52968,
+        -3160
+       ],
+       [
+        170328,
+        -54952,
+        -3488
+       ],
+       [
+        170696,
+        -56376,
+        -3528
+       ],
+       [
+        170936,
+        -56712,
+        -3472
+       ],
+       [
+        172376,
+        -57752,
+        -3360
+       ],
+       [
+        174360,
+        -59736,
+        -3272
+       ],
+       [
+        176344,
+        -61720,
+        -3056
+       ],
+       [
+        178328,
+        -62952,
+        -3008
+       ],
+       [
+        180040,
+        -62856,
+        -3064
+       ],
+       [
+        183016,
+        -62840,
+        -3088
+       ],
+       [
+        184504,
+        -62776,
+        -2944
+       ],
+       [
+        184872,
+        -62856,
+        -2960
+       ],
+       [
+        185912,
+        -63496,
+        -2840
+       ],
+       [
+        187896,
+        -63496,
+        -2904
+       ],
+       [
+        188968,
+        -62984,
+        -2784
+       ],
+       [
+        188984,
+        -62328,
+        -2728
+       ],
+       [
+        189608,
+        -61304,
+        -2872
+       ],
+       [
+        189864,
+        -60216,
+        -2952
+       ],
+       [
+        190408,
+        -59800,
+        -2960
+       ],
+       [
+        191848,
+        -59384,
+        -2840
+       ],
+       [
+        192520,
+        -59192,
+        -2840
+       ],
+       [
+        193080,
+        -59576,
+        -2888
+       ],
+       [
+        193400,
+        -60600,
+        -2880
+       ],
+       [
+        193928,
+        -61928,
+        -2768
+       ],
+       [
+        193848,
+        -63208,
+        -2856
+       ],
+       [
+        193896,
+        -64168,
+        -2888
+       ],
+       [
+        194360,
+        -64968,
+        -2872
+       ],
+       [
+        194056,
+        -65800,
+        -2864
+       ],
+       [
+        192072,
+        -67784,
+        -2696
+       ],
+       [
+        190856,
+        -68824,
+        -2592
+       ],
+       [
+        189960,
+        -69464,
+        -2600
+       ],
+       [
+        190008,
+        -69912,
+        -2512
+       ],
+       [
+        190056,
+        -70888,
+        -2576
+       ],
+       [
+        190120,
+        -71608,
+        -2624
+       ],
+       [
+        189368,
+        -72536,
+        -2656
+       ],
+       [
+        188056,
+        -74424,
+        -2720
+       ],
+       [
+        186696,
+        -75912,
+        -2824
+       ],
+       [
+        188680,
+        -73928,
+        -2696
+       ],
+       [
+        190120,
+        -72296,
+        -2624
+       ],
+       [
+        190088,
+        -70152,
+        -2488
+       ],
+       [
+        190072,
+        -69736,
+        -2504
+       ],
+       [
+        190088,
+        -69336,
+        -2576
+       ],
+       [
+        192072,
+        -67352,
+        -2640
+       ],
+       [
+        193176,
+        -67000,
+        -2808
+       ]
+      ],
+      "maxDanger": 75,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 75,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "imperialtomb-1-right-a",
+    "name": "Imperial Tomb (outer halls): Outer tomb, right: Grave Ant room",
+    "at": [
+     193174,
+     -67003,
+     -2806
+    ],
+    "radius": 1881,
+    "levels": [
+     74,
+     75
+    ],
+    "count": 7,
+    "region": "Imperial Tomb (outer halls)",
+    "atlasKey": "room:imperialtomb-1-right-a",
+    "status": "ok",
+    "sec": 632,
+    "danger": 74,
+    "reachable": true,
+    "score": -31.46666666666667,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "imperialtomb-1-behind-a",
+      "name": "Imperial Tomb (outer halls): Outer tomb, behind: Grave Ant room",
+      "at": [
+       189936,
+       -69128,
+       -2615
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "wall-of-argos-far-1",
+      "name": "Wall of Argos (unreachable) 1: Shrine Knight area (north-east)",
+      "at": [
+       186200,
+       -62312,
+       -2960
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "imperialtomb-1-behind-b",
+      "name": "Imperial Tomb (outer halls): Outer tomb, behind: Shrine Knight room",
+      "at": [
+       194160,
+       -64484,
+       -2897
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:imperialtomb-1-right-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 70380,
+    "sec": 632,
+    "via": ".goddard > Goddard -> Wall of Argos",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 58438,
+      "how": "saved",
+      "danger": 75
+     },
+     {
+      "do": "walk",
+      "len": 11942,
+      "how": "dungeon-rooms",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": true,
+    "pv": [
+     [
+      164744,
+      -48504,
+      -3552
+     ],
+     [
+      165384,
+      -48904,
+      -3120
+     ],
+     [
+      166008,
+      -50184,
+      -3056
+     ],
+     [
+      166952,
+      -52168,
+      -3056
+     ],
+     [
+      167032,
+      -52264,
+      -3120
+     ],
+     [
+      167928,
+      -52952,
+      -2704
+     ],
+     [
+      168344,
+      -52968,
+      -3160
+     ],
+     [
+      170328,
+      -54952,
+      -3488
+     ],
+     [
+      170696,
+      -56376,
+      -3528
+     ],
+     [
+      170936,
+      -56712,
+      -3472
+     ],
+     [
+      172376,
+      -57752,
+      -3360
+     ],
+     [
+      174360,
+      -59736,
+      -3272
+     ],
+     [
+      176344,
+      -61720,
+      -3056
+     ],
+     [
+      178328,
+      -62952,
+      -3008
+     ],
+     [
+      180040,
+      -62856,
+      -3064
+     ],
+     [
+      183016,
+      -62840,
+      -3088
+     ],
+     [
+      184504,
+      -62776,
+      -2944
+     ],
+     [
+      184872,
+      -62856,
+      -2960
+     ],
+     [
+      185912,
+      -63496,
+      -2840
+     ],
+     [
+      187896,
+      -63496,
+      -2904
+     ],
+     [
+      188968,
+      -62984,
+      -2784
+     ],
+     [
+      188984,
+      -62328,
+      -2728
+     ],
+     [
+      189608,
+      -61304,
+      -2872
+     ],
+     [
+      189864,
+      -60216,
+      -2952
+     ],
+     [
+      190408,
+      -59800,
+      -2960
+     ],
+     [
+      191848,
+      -59384,
+      -2840
+     ],
+     [
+      192520,
+      -59192,
+      -2840
+     ],
+     [
+      193080,
+      -59576,
+      -2888
+     ],
+     [
+      193400,
+      -60600,
+      -2880
+     ],
+     [
+      193928,
+      -61928,
+      -2768
+     ],
+     [
+      193848,
+      -63208,
+      -2856
+     ],
+     [
+      193896,
+      -64168,
+      -2888
+     ],
+     [
+      194360,
+      -64968,
+      -2872
+     ],
+     [
+      194056,
+      -65800,
+      -2864
+     ],
+     [
+      192072,
+      -67784,
+      -2696
+     ],
+     [
+      190856,
+      -68824,
+      -2592
+     ],
+     [
+      189960,
+      -69464,
+      -2600
+     ],
+     [
+      190008,
+      -69912,
+      -2512
+     ],
+     [
+      190056,
+      -70888,
+      -2576
+     ],
+     [
+      190120,
+      -71608,
+      -2624
+     ],
+     [
+      189368,
+      -72536,
+      -2656
+     ],
+     [
+      188056,
+      -74424,
+      -2720
+     ],
+     [
+      186696,
+      -75912,
+      -2824
+     ],
+     [
+      188680,
+      -73928,
+      -2696
+     ],
+     [
+      190120,
+      -72296,
+      -2624
+     ],
+     [
+      190088,
+      -70152,
+      -2488
+     ],
+     [
+      190072,
+      -69736,
+      -2504
+     ],
+     [
+      190088,
+      -69336,
+      -2576
+     ],
+     [
+      192072,
+      -67352,
+      -2640
+     ],
+     [
+      193176,
+      -67000,
+      -2808
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 18132,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c6:hunt",
+   "cond": 6,
+   "kind": "hunt",
+   "to": 7,
+   "monsters": [
+    {
+     "id": 27214,
+     "name": "Guardian of Forbidden Knowledge",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 27215,
+     "name": "Guardian of Forbidden Knowledge",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 27216,
+     "name": "Guardian of Forbidden Knowledge",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21646,
+     "name": "Grave Scarab",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 21647,
+     "name": "Scavenger Scarab",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 21648,
+     "name": "Grave Ant",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21649,
+     "name": "Scavenger Ant",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 21650,
+     "name": "Shrine Knight",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21651,
+     "name": "Shrine Guard",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7493,
+     "name": "Halisha's Mark",
+     "n": 700,
+     "from": [
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21648,
+       "name": "Grave Ant",
+       "chance": 100
+      },
+      {
+       "id": 21649,
+       "name": "Scavenger Ant",
+       "chance": 100
+      },
+      {
+       "id": 21650,
+       "name": "Shrine Knight",
+       "chance": 100
+      },
+      {
+       "id": 21651,
+       "name": "Shrine Guard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Guardian of Forbidden Knowledge, Guardian of Forbidden Knowledge, Guardian of Forbidden Knowledge for Halisha's Mark x700",
+   "places": [
+    {
+     "mobs": [
+      21646,
+      21647,
+      21648,
+      21649,
+      21650,
+      21651
+     ],
+     "items": [
+      7493
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "imperialtomb-1-right-a",
+      "name": "Imperial Tomb (outer halls): Outer tomb, right: Grave Ant room",
+      "at": [
+       193174,
+       -67003,
+       -2806
+      ],
+      "radius": 1881,
+      "levels": [
+       74,
+       75
+      ],
+      "count": 7,
+      "region": "Imperial Tomb (outer halls)",
+      "atlasKey": "room:imperialtomb-1-right-a",
+      "status": "ok",
+      "sec": 632,
+      "danger": 74,
+      "reachable": true,
+      "score": -31.46666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "imperialtomb-1-behind-a",
+        "name": "Imperial Tomb (outer halls): Outer tomb, behind: Grave Ant room",
+        "at": [
+         189936,
+         -69128,
+         -2615
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wall-of-argos-far-1",
+        "name": "Wall of Argos (unreachable) 1: Shrine Knight area (north-east)",
+        "at": [
+         186200,
+         -62312,
+         -2960
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "imperialtomb-1-behind-b",
+        "name": "Imperial Tomb (outer halls): Outer tomb, behind: Shrine Knight room",
+        "at": [
+         194160,
+         -64484,
+         -2897
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:imperialtomb-1-right-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".goddard",
+      "length": 70380,
+      "sec": 632,
+      "via": ".goddard > Goddard -> Wall of Argos",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Goddard",
+        "cmd": ".goddard"
+       },
+       {
+        "do": "gk",
+        "from": "Goddard",
+        "desc": "Goddard -> Wall of Argos",
+        "link": "wall of argos",
+        "price": 2200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 58438,
+        "how": "saved",
+        "danger": 75
+       },
+       {
+        "do": "walk",
+        "len": 11942,
+        "how": "dungeon-rooms",
+        "danger": 75
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Goddard",
+       "desc": "Goddard -> Wall of Argos"
+      },
+      "simple": true,
+      "pv": [
+       [
+        164744,
+        -48504,
+        -3552
+       ],
+       [
+        165384,
+        -48904,
+        -3120
+       ],
+       [
+        166008,
+        -50184,
+        -3056
+       ],
+       [
+        166952,
+        -52168,
+        -3056
+       ],
+       [
+        167032,
+        -52264,
+        -3120
+       ],
+       [
+        167928,
+        -52952,
+        -2704
+       ],
+       [
+        168344,
+        -52968,
+        -3160
+       ],
+       [
+        170328,
+        -54952,
+        -3488
+       ],
+       [
+        170696,
+        -56376,
+        -3528
+       ],
+       [
+        170936,
+        -56712,
+        -3472
+       ],
+       [
+        172376,
+        -57752,
+        -3360
+       ],
+       [
+        174360,
+        -59736,
+        -3272
+       ],
+       [
+        176344,
+        -61720,
+        -3056
+       ],
+       [
+        178328,
+        -62952,
+        -3008
+       ],
+       [
+        180040,
+        -62856,
+        -3064
+       ],
+       [
+        183016,
+        -62840,
+        -3088
+       ],
+       [
+        184504,
+        -62776,
+        -2944
+       ],
+       [
+        184872,
+        -62856,
+        -2960
+       ],
+       [
+        185912,
+        -63496,
+        -2840
+       ],
+       [
+        187896,
+        -63496,
+        -2904
+       ],
+       [
+        188968,
+        -62984,
+        -2784
+       ],
+       [
+        188984,
+        -62328,
+        -2728
+       ],
+       [
+        189608,
+        -61304,
+        -2872
+       ],
+       [
+        189864,
+        -60216,
+        -2952
+       ],
+       [
+        190408,
+        -59800,
+        -2960
+       ],
+       [
+        191848,
+        -59384,
+        -2840
+       ],
+       [
+        192520,
+        -59192,
+        -2840
+       ],
+       [
+        193080,
+        -59576,
+        -2888
+       ],
+       [
+        193400,
+        -60600,
+        -2880
+       ],
+       [
+        193928,
+        -61928,
+        -2768
+       ],
+       [
+        193848,
+        -63208,
+        -2856
+       ],
+       [
+        193896,
+        -64168,
+        -2888
+       ],
+       [
+        194360,
+        -64968,
+        -2872
+       ],
+       [
+        194056,
+        -65800,
+        -2864
+       ],
+       [
+        192072,
+        -67784,
+        -2696
+       ],
+       [
+        190856,
+        -68824,
+        -2592
+       ],
+       [
+        189960,
+        -69464,
+        -2600
+       ],
+       [
+        190008,
+        -69912,
+        -2512
+       ],
+       [
+        190056,
+        -70888,
+        -2576
+       ],
+       [
+        190120,
+        -71608,
+        -2624
+       ],
+       [
+        189368,
+        -72536,
+        -2656
+       ],
+       [
+        188056,
+        -74424,
+        -2720
+       ],
+       [
+        186696,
+        -75912,
+        -2824
+       ],
+       [
+        188680,
+        -73928,
+        -2696
+       ],
+       [
+        190120,
+        -72296,
+        -2624
+       ],
+       [
+        190088,
+        -70152,
+        -2488
+       ],
+       [
+        190072,
+        -69736,
+        -2504
+       ],
+       [
+        190088,
+        -69336,
+        -2576
+       ],
+       [
+        192072,
+        -67352,
+        -2640
+       ],
+       [
+        193176,
+        -67000,
+        -2808
+       ]
+      ],
+      "maxDanger": 75,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 75,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27214,
+      27215,
+      27216
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-6",
+      "name": "Valley of Saints 6: Guardian of Forbidden Knowledge area (east)",
+      "at": [
+       79816,
+       -72824,
+       -4456
+      ],
+      "radius": 4471,
+      "levels": [
+       61,
+       76
+      ],
+      "count": 10,
+      "region": "Valley of Saints",
+      "atlasKey": "area:valley-of-saints-6",
+      "status": "ok",
+      "sec": 176,
+      "danger": 76,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -57.06666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "valley-of-saints-7",
+        "name": "Valley of Saints 7: Guardian of Forbidden Knowledge area (north-east)",
+        "at": [
+         72392,
+         -84200,
+         -4312
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-monastic-fortress-far-8",
+        "name": "Valley of Saints / Monastic Fortress (unreachable) 8: Guardian of Forbidden Knowledge area (north-east)",
+        "at": [
+         94392,
+         -88264,
+         -3792
+        ],
+        "count": 10,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 15779,
+      "sec": 176,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15187,
+        "how": "field-areas-gap",
+        "danger": 76
+       },
+       {
+        "do": "walk",
+        "len": 592,
+        "how": "field-areas",
+        "danger": 76
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65307,
+        -71445,
+        -3688
+       ],
+       [
+        79352,
+        -72456,
+        -4384
+       ],
+       [
+        79816,
+        -72824,
+        -4456
+       ]
+      ],
+      "maxDanger": 76,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 76,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "imperialtomb-1-right-a",
+    "name": "Imperial Tomb (outer halls): Outer tomb, right: Grave Ant room",
+    "at": [
+     193174,
+     -67003,
+     -2806
+    ],
+    "radius": 1881,
+    "levels": [
+     74,
+     75
+    ],
+    "count": 7,
+    "region": "Imperial Tomb (outer halls)",
+    "atlasKey": "room:imperialtomb-1-right-a",
+    "status": "ok",
+    "sec": 632,
+    "danger": 74,
+    "reachable": true,
+    "score": -31.46666666666667,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "imperialtomb-1-behind-a",
+      "name": "Imperial Tomb (outer halls): Outer tomb, behind: Grave Ant room",
+      "at": [
+       189936,
+       -69128,
+       -2615
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "wall-of-argos-far-1",
+      "name": "Wall of Argos (unreachable) 1: Shrine Knight area (north-east)",
+      "at": [
+       186200,
+       -62312,
+       -2960
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "imperialtomb-1-behind-b",
+      "name": "Imperial Tomb (outer halls): Outer tomb, behind: Shrine Knight room",
+      "at": [
+       194160,
+       -64484,
+       -2897
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:imperialtomb-1-right-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".goddard",
+    "length": 70380,
+    "sec": 632,
+    "via": ".goddard > Goddard -> Wall of Argos",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Goddard",
+      "cmd": ".goddard"
+     },
+     {
+      "do": "gk",
+      "from": "Goddard",
+      "desc": "Goddard -> Wall of Argos",
+      "link": "wall of argos",
+      "price": 2200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 58438,
+      "how": "saved",
+      "danger": 75
+     },
+     {
+      "do": "walk",
+      "len": 11942,
+      "how": "dungeon-rooms",
+      "danger": 75
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Goddard",
+     "desc": "Goddard -> Wall of Argos"
+    },
+    "simple": true,
+    "pv": [
+     [
+      164744,
+      -48504,
+      -3552
+     ],
+     [
+      165384,
+      -48904,
+      -3120
+     ],
+     [
+      166008,
+      -50184,
+      -3056
+     ],
+     [
+      166952,
+      -52168,
+      -3056
+     ],
+     [
+      167032,
+      -52264,
+      -3120
+     ],
+     [
+      167928,
+      -52952,
+      -2704
+     ],
+     [
+      168344,
+      -52968,
+      -3160
+     ],
+     [
+      170328,
+      -54952,
+      -3488
+     ],
+     [
+      170696,
+      -56376,
+      -3528
+     ],
+     [
+      170936,
+      -56712,
+      -3472
+     ],
+     [
+      172376,
+      -57752,
+      -3360
+     ],
+     [
+      174360,
+      -59736,
+      -3272
+     ],
+     [
+      176344,
+      -61720,
+      -3056
+     ],
+     [
+      178328,
+      -62952,
+      -3008
+     ],
+     [
+      180040,
+      -62856,
+      -3064
+     ],
+     [
+      183016,
+      -62840,
+      -3088
+     ],
+     [
+      184504,
+      -62776,
+      -2944
+     ],
+     [
+      184872,
+      -62856,
+      -2960
+     ],
+     [
+      185912,
+      -63496,
+      -2840
+     ],
+     [
+      187896,
+      -63496,
+      -2904
+     ],
+     [
+      188968,
+      -62984,
+      -2784
+     ],
+     [
+      188984,
+      -62328,
+      -2728
+     ],
+     [
+      189608,
+      -61304,
+      -2872
+     ],
+     [
+      189864,
+      -60216,
+      -2952
+     ],
+     [
+      190408,
+      -59800,
+      -2960
+     ],
+     [
+      191848,
+      -59384,
+      -2840
+     ],
+     [
+      192520,
+      -59192,
+      -2840
+     ],
+     [
+      193080,
+      -59576,
+      -2888
+     ],
+     [
+      193400,
+      -60600,
+      -2880
+     ],
+     [
+      193928,
+      -61928,
+      -2768
+     ],
+     [
+      193848,
+      -63208,
+      -2856
+     ],
+     [
+      193896,
+      -64168,
+      -2888
+     ],
+     [
+      194360,
+      -64968,
+      -2872
+     ],
+     [
+      194056,
+      -65800,
+      -2864
+     ],
+     [
+      192072,
+      -67784,
+      -2696
+     ],
+     [
+      190856,
+      -68824,
+      -2592
+     ],
+     [
+      189960,
+      -69464,
+      -2600
+     ],
+     [
+      190008,
+      -69912,
+      -2512
+     ],
+     [
+      190056,
+      -70888,
+      -2576
+     ],
+     [
+      190120,
+      -71608,
+      -2624
+     ],
+     [
+      189368,
+      -72536,
+      -2656
+     ],
+     [
+      188056,
+      -74424,
+      -2720
+     ],
+     [
+      186696,
+      -75912,
+      -2824
+     ],
+     [
+      188680,
+      -73928,
+      -2696
+     ],
+     [
+      190120,
+      -72296,
+      -2624
+     ],
+     [
+      190088,
+      -70152,
+      -2488
+     ],
+     [
+      190072,
+      -69736,
+      -2504
+     ],
+     [
+      190088,
+      -69336,
+      -2576
+     ],
+     [
+      192072,
+      -67352,
+      -2640
+     ],
+     [
+      193176,
+      -67000,
+      -2808
+     ]
+    ],
+    "maxDanger": 75,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 75,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 18132,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c8:spawn:27295",
+   "cond": 8,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27295,
+     "name": "Sharuhi Mouth Mudaha",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 7493,
+     "name": "Halisha's Mark",
+     "n": 700,
+     "from": [
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21648,
+       "name": "Grave Ant",
+       "chance": 100
+      },
+      {
+       "id": 21649,
+       "name": "Scavenger Ant",
+       "chance": 100
+      },
+      {
+       "id": 21650,
+       "name": "Shrine Knight",
+       "chance": 100
+      },
+      {
+       "id": 21651,
+       "name": "Shrine Guard",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "spawn of Sharuhi Mouth Mudaha by \"event\" is not automated"
+   },
+   "text": "Make Sharuhi Mouth Mudaha appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c15:spawn:18212",
+   "cond": 15,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18212,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18214,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18215,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18216,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18218,
+     "name": "Archon of Halisha",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27227,
+     "name": "Archon of Halisha",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7493,
+     "name": "Halisha's Mark",
+     "n": 700,
+     "from": [
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21648,
+       "name": "Grave Ant",
+       "chance": 100
+      },
+      {
+       "id": 21649,
+       "name": "Scavenger Ant",
+       "chance": 100
+      },
+      {
+       "id": 21650,
+       "name": "Shrine Knight",
+       "chance": 100
+      },
+      {
+       "id": 21651,
+       "name": "Shrine Guard",
+       "chance": 100
+      },
+      {
+       "id": 21646,
+       "name": "Grave Scarab",
+       "chance": 100
+      },
+      {
+       "id": 21647,
+       "name": "Scavenger Scarab",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (18212, 18214, 18215, 18216, 18218, 27227) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha, Archon of Halisha appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    15
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c20:talk:31336",
+   "cond": 20,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31336,
+    "name": "Rahorakti",
+    "title": "Grand Seer",
+    "town": "Rune",
+    "at": [
+     38432,
+     -49184,
+     -1105
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rahorakti",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31336@38432,-49184",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7984,
+    "sec": 87,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7984,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      40696,
+      -48424,
+      -768
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48904,
+      -1128
+     ],
+     [
+      37432,
+      -49160,
+      -1128
+     ],
+     [
+      38024,
+      -49272,
+      -1128
+     ],
+     [
+      38344,
+      -49272,
+      -1128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 112,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    20
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

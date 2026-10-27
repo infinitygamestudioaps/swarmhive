@@ -1,0 +1,748 @@
+{
+ "id": 7,
+ "name": "A Trip Begins",
+ "version": 1,
+ "generated": "2026-10-27T11:14:35.536Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Elven Village",
+ "requirements": {
+  "races": [
+   "ELF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ELF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 7,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30146",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I want to see the world!\""
+   ],
+   "npc": {
+    "id": 30146,
+    "name": "Mirabel",
+    "title": "Gatekeeper",
+    "town": "Elven Village",
+    "at": [
+     46926,
+     51511,
+     -2976
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mirabel – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30146@46926,51511",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 51,
+    "sec": 45,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 51,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      46920,
+      51512,
+      -2976
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30146",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30146,
+    "name": "Mirabel",
+    "title": "Gatekeeper",
+    "town": "Elven Village",
+    "at": [
+     46926,
+     51511,
+     -2976
+    ],
+    "alt": []
+   },
+   "text": "Talk to Trader Ariel",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30146@46926,51511",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 51,
+    "sec": 45,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 51,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      46920,
+      51512,
+      -2976
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 70,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30154",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"I shall return!\""
+   ],
+   "npc": {
+    "id": 30154,
+    "name": "Asterios",
+    "title": "Hierarch",
+    "town": "Elven Village",
+    "at": [
+     44692,
+     52261,
+     -2792
+    ],
+    "alt": []
+   },
+   "text": "Talk to Trader Ariel",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30154@44692,52261",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8186,
+    "sec": 113,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8186,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44232,
+      50200,
+      -3056
+     ],
+     [
+      43960,
+      50200,
+      -3056
+     ],
+     [
+      43704,
+      50312,
+      -3024
+     ],
+     [
+      43464,
+      50456,
+      -2992
+     ],
+     [
+      43416,
+      50680,
+      -2992
+     ],
+     [
+      43496,
+      50856,
+      -2992
+     ],
+     [
+      43688,
+      51032,
+      -2992
+     ],
+     [
+      43944,
+      51096,
+      -2992
+     ],
+     [
+      43976,
+      51192,
+      -2992
+     ],
+     [
+      44152,
+      51240,
+      -2984
+     ],
+     [
+      44312,
+      51256,
+      -2928
+     ],
+     [
+      44344,
+      51480,
+      -2848
+     ],
+     [
+      44456,
+      51688,
+      -2832
+     ],
+     [
+      44440,
+      51640,
+      -2832
+     ],
+     [
+      44648,
+      51592,
+      -2808
+     ],
+     [
+      44696,
+      51736,
+      -2808
+     ],
+     [
+      44696,
+      52008,
+      -2792
+     ],
+     [
+      44728,
+      52120,
+      -2792
+     ],
+     [
+      44696,
+      52264,
+      -2792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30148",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Say Yes."
+   ],
+   "npc": {
+    "id": 30148,
+    "name": "Ariel",
+    "title": "Armor Merchant",
+    "town": "Elven Village",
+    "at": [
+     44683,
+     46952,
+     -2981
+    ],
+    "alt": []
+   },
+   "text": "Talk to Trader Ariel",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30148@44683,46952",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 6416,
+    "sec": 98,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6416,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46360,
+      50008,
+      -3056
+     ],
+     [
+      46200,
+      49848,
+      -3064
+     ],
+     [
+      46168,
+      49816,
+      -3064
+     ],
+     [
+      46120,
+      49640,
+      -3056
+     ],
+     [
+      45976,
+      49400,
+      -3056
+     ],
+     [
+      45800,
+      49208,
+      -3056
+     ],
+     [
+      45608,
+      49016,
+      -3056
+     ],
+     [
+      45608,
+      48744,
+      -3064
+     ],
+     [
+      45544,
+      48472,
+      -3056
+     ],
+     [
+      45480,
+      48360,
+      -3056
+     ],
+     [
+      45496,
+      48264,
+      -3056
+     ],
+     [
+      45496,
+      47992,
+      -3056
+     ],
+     [
+      45528,
+      47720,
+      -3032
+     ],
+     [
+      45544,
+      47448,
+      -2992
+     ],
+     [
+      45448,
+      47272,
+      -2992
+     ],
+     [
+      45256,
+      47096,
+      -2992
+     ],
+     [
+      45112,
+      47224,
+      -2992
+     ],
+     [
+      44888,
+      47320,
+      -2992
+     ],
+     [
+      44712,
+      47192,
+      -2984
+     ],
+     [
+      44680,
+      47000,
+      -2984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 123,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:35.545Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

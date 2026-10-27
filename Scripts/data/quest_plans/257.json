@@ -1,0 +1,1361 @@
+{
+ "id": 257,
+ "name": "The Guard is Busy",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.869Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 6,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 18,
+ "refLevel": 6,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30039",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will participate in the hunt"
+   ],
+   "npc": {
+    "id": 30039,
+    "name": "Gilbert",
+    "title": "Captain",
+    "town": "Talking Island",
+    "at": [
+     -82236,
+     241573,
+     -3728
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gilbert – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30039@-82236,241573",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5704,
+    "sec": 93,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5704,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85112,
+      243528,
+      -3728
+     ],
+     [
+      -85016,
+      243416,
+      -3728
+     ],
+     [
+      -84920,
+      243336,
+      -3728
+     ],
+     [
+      -84728,
+      243144,
+      -3728
+     ],
+     [
+      -84664,
+      242888,
+      -3728
+     ],
+     [
+      -84504,
+      242680,
+      -3728
+     ],
+     [
+      -84296,
+      242536,
+      -3728
+     ],
+     [
+      -84024,
+      242536,
+      -3728
+     ],
+     [
+      -83752,
+      242536,
+      -3728
+     ],
+     [
+      -83560,
+      242344,
+      -3728
+     ],
+     [
+      -83480,
+      242264,
+      -3728
+     ],
+     [
+      -83400,
+      242200,
+      -3728
+     ],
+     [
+      -83144,
+      242088,
+      -3728
+     ],
+     [
+      -82904,
+      241944,
+      -3728
+     ],
+     [
+      -82696,
+      241768,
+      -3728
+     ],
+     [
+      -82616,
+      241656,
+      -3728
+     ],
+     [
+      -82440,
+      241448,
+      -3728
+     ],
+     [
+      -82232,
+      241448,
+      -3728
+     ],
+     [
+      -82232,
+      241576,
+      -3728
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 123,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20006,
+     "name": "Orc Archer",
+     "level": 8,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20130,
+     "name": "Orc",
+     "level": 6,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20131,
+     "name": "Orc Grunt",
+     "level": 7,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20093,
+     "name": "Orc Fighter",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20096,
+     "name": "Orc Lieutenant",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20098,
+     "name": "Orc Fighter Leader",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20132,
+     "name": "Werewolf",
+     "level": 9,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20342,
+     "name": "Werewolf Chieftain",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 35,
+     "questSpawned": false
+    },
+    {
+     "id": 20343,
+     "name": "Werewolf Hunter",
+     "level": 10,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 752,
+     "name": "Orc Amulet",
+     "n": 20,
+     "from": [
+      {
+       "id": 20006,
+       "name": "Orc Archer",
+       "chance": 100
+      },
+      {
+       "id": 20130,
+       "name": "Orc",
+       "chance": 70
+      },
+      {
+       "id": 20131,
+       "name": "Orc Grunt",
+       "chance": 90
+      }
+     ]
+    },
+    {
+     "id": 1085,
+     "name": "Orc's Necklace",
+     "n": 20,
+     "from": [
+      {
+       "id": 20093,
+       "name": "Orc Fighter",
+       "chance": 85
+      },
+      {
+       "id": 20096,
+       "name": "Orc Lieutenant",
+       "chance": 95
+      },
+      {
+       "id": 20098,
+       "name": "Orc Fighter Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1086,
+     "name": "Werewolf's Fang",
+     "n": 20,
+     "from": [
+      {
+       "id": 20132,
+       "name": "Werewolf",
+       "chance": 70
+      },
+      {
+       "id": 20342,
+       "name": "Werewolf Chieftain",
+       "chance": 100
+      },
+      {
+       "id": 20343,
+       "name": "Werewolf Hunter",
+       "chance": 85
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Orc Archer, Orc, Orc Grunt for Orc Amulet x20, Orc's Necklace x20, Werewolf's Fang x20",
+   "places": [
+    {
+     "mobs": [
+      20006,
+      20130,
+      20131
+     ],
+     "items": [
+      752
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "obelisk-of-victory-3",
+      "name": "Obelisk of Victory 3: Orc area (east)",
+      "at": [
+       -94728,
+       237160,
+       -3440
+      ],
+      "radius": 3994,
+      "levels": [
+       4,
+       7
+      ],
+      "count": 11,
+      "region": "Obelisk of Victory",
+      "atlasKey": "area:obelisk-of-victory-3",
+      "status": "ok",
+      "sec": 112,
+      "danger": 7,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -64.13333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-7",
+        "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+        "at": [
+         -96328,
+         244552,
+         -3576
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-2",
+        "name": "Obelisk of Victory 2: Werewolf area (north-east)",
+        "at": [
+         -97112,
+         234056,
+         -3560
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-6",
+        "name": "Obelisk of Victory 6: Wolf area (south-east)",
+        "at": [
+         -93512,
+         240536,
+         -3392
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:obelisk-of-victory-3",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 4981,
+      "sec": 112,
+      "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Obelisk of Victory",
+        "link": "Obelisk of Victory",
+        "price": 470,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 4981,
+        "how": "field-areas",
+        "danger": 9
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -99592,
+        237640,
+        -3568
+       ],
+       [
+        -98600,
+        237640,
+        -3560
+       ],
+       [
+        -97608,
+        237640,
+        -3552
+       ],
+       [
+        -96616,
+        237640,
+        -3488
+       ],
+       [
+        -95960,
+        237544,
+        -3400
+       ],
+       [
+        -94968,
+        237400,
+        -3424
+       ],
+       [
+        -94728,
+        237160,
+        -3440
+       ]
+      ],
+      "maxDanger": 9,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 9,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20093,
+      20096,
+      20098
+     ],
+     "items": [
+      1085
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "singing-waterfall-6",
+      "name": "Singing Waterfall 6: Orc Fighter area (south)",
+      "at": [
+       -103720,
+       248648,
+       -3384
+      ],
+      "radius": 4538,
+      "levels": [
+       10,
+       12
+      ],
+      "count": 13,
+      "region": "Singing Waterfall",
+      "atlasKey": "area:singing-waterfall-6",
+      "status": "ok",
+      "sec": 228,
+      "danger": 12,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -74.2,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "singing-waterfall-5",
+        "name": "Singing Waterfall 5: Orc Fighter Leader area (south)",
+        "at": [
+         -108728,
+         252760,
+         -3320
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "singing-waterfall-7",
+        "name": "Singing Waterfall 7: Orc Fighter area (south)",
+        "at": [
+         -101432,
+         253384,
+         -3368
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "singing-waterfall-4",
+        "name": "Singing Waterfall 4: Orc Lieutenant area (south-east)",
+        "at": [
+         -107224,
+         247848,
+         -3312
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:singing-waterfall-6",
+      "status": "ok",
+      "flags": [
+       "link-unverified",
+       "swim",
+       "long-swim",
+       "over-breath"
+      ],
+      "from": ".gludin",
+      "length": 11942,
+      "sec": 228,
+      "via": ".gludin > Gludin -> TI Village > TI -> Singing Waterfall",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Singing Waterfall",
+        "link": "Singing Waterfall",
+        "price": 770,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 5657,
+        "how": "field-areas-gap",
+        "danger": 14
+       },
+       {
+        "do": "walk",
+        "len": 6285,
+        "how": "field-areas",
+        "danger": 12
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -111728,
+        244330,
+        -3448
+       ],
+       [
+        -107240,
+        243720,
+        -3840
+       ],
+       [
+        -107016,
+        244088,
+        -3784
+       ],
+       [
+        -107000,
+        244104,
+        -3768
+       ],
+       [
+        -106984,
+        244120,
+        -3744
+       ],
+       [
+        -106968,
+        244136,
+        -3728
+       ],
+       [
+        -106952,
+        244152,
+        -3712
+       ],
+       [
+        -106936,
+        244168,
+        -3688
+       ],
+       [
+        -106920,
+        244184,
+        -3672
+       ],
+       [
+        -106904,
+        244200,
+        -3656
+       ],
+       [
+        -106888,
+        244216,
+        -3632
+       ],
+       [
+        -106888,
+        245208,
+        -3320
+       ],
+       [
+        -106072,
+        246200,
+        -3416
+       ],
+       [
+        -105080,
+        247192,
+        -3528
+       ],
+       [
+        -104456,
+        247816,
+        -3416
+       ],
+       [
+        -103720,
+        248648,
+        -3384
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 4980,
+        "maxSwim": 4546,
+        "overBreath": true
+       },
+       "danger": 14,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Orc Fighter Leader",
+         "lv": 12,
+         "n": 2
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20132,
+      20342,
+      20343
+     ],
+     "items": [
+      1086
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "obelisk-of-victory-5",
+      "name": "Obelisk of Victory 5: Werewolf Chieftain area (north-west)",
+      "at": [
+       -102952,
+       233192,
+       -3568
+      ],
+      "radius": 4721,
+      "levels": [
+       10,
+       13
+      ],
+      "count": 17,
+      "region": "Obelisk of Victory",
+      "atlasKey": "area:obelisk-of-victory-5",
+      "status": "ok",
+      "sec": 118,
+      "danger": 13,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -100.03333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-1",
+        "name": "Obelisk of Victory 1: Werewolf area (south)",
+        "at": [
+         -101016,
+         241112,
+         -3464
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "obelisk-of-victory-4",
+        "name": "Obelisk of Victory 4: Werewolf Chieftain area (west)",
+        "at": [
+         -104408,
+         238632,
+         -3560
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-territory-4",
+        "name": "Western Territory 4: Werewolf Chieftain area (south)",
+        "at": [
+         -105256,
+         223096,
+         -3592
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:obelisk-of-victory-5",
+      "status": "ok",
+      "flags": [
+       "link-unverified"
+      ],
+      "from": ".gludin",
+      "length": 5813,
+      "sec": 118,
+      "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> TI Village",
+        "link": "talking island village",
+        "price": 9400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "TI",
+        "desc": "TI -> Obelisk of Victory",
+        "link": "Obelisk of Victory",
+        "price": 470,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 5813,
+        "how": "field-areas",
+        "danger": 12
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> TI Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -99592,
+        237640,
+        -3568
+       ],
+       [
+        -99592,
+        236648,
+        -3496
+       ],
+       [
+        -100488,
+        235656,
+        -3448
+       ],
+       [
+        -101480,
+        234664,
+        -3376
+       ],
+       [
+        -102472,
+        233672,
+        -3480
+       ],
+       [
+        -102952,
+        233192,
+        -3568
+       ]
+      ],
+      "maxDanger": 12,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 12,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Werewolf Chieftain",
+         "lv": 12,
+         "n": 4
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "obelisk-of-victory-3",
+    "name": "Obelisk of Victory 3: Orc area (east)",
+    "at": [
+     -94728,
+     237160,
+     -3440
+    ],
+    "radius": 3994,
+    "levels": [
+     4,
+     7
+    ],
+    "count": 11,
+    "region": "Obelisk of Victory",
+    "atlasKey": "area:obelisk-of-victory-3",
+    "status": "ok",
+    "sec": 112,
+    "danger": 7,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -64.13333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "obelisk-of-victory-7",
+      "name": "Obelisk of Victory 7: Giant Toad area (south-east)",
+      "at": [
+       -96328,
+       244552,
+       -3576
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "obelisk-of-victory-2",
+      "name": "Obelisk of Victory 2: Werewolf area (north-east)",
+      "at": [
+       -97112,
+       234056,
+       -3560
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "obelisk-of-victory-6",
+      "name": "Obelisk of Victory 6: Wolf area (south-east)",
+      "at": [
+       -93512,
+       240536,
+       -3392
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:obelisk-of-victory-3",
+    "status": "ok",
+    "flags": [
+     "link-unverified"
+    ],
+    "from": ".gludin",
+    "length": 4981,
+    "sec": 112,
+    "via": ".gludin > Gludin -> TI Village > TI -> Obelisk of Victory",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "TI",
+      "desc": "TI -> Obelisk of Victory",
+      "link": "Obelisk of Victory",
+      "price": 470,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 4981,
+      "how": "field-areas",
+      "danger": 9
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -99592,
+      237640,
+      -3568
+     ],
+     [
+      -98600,
+      237640,
+      -3560
+     ],
+     [
+      -97608,
+      237640,
+      -3552
+     ],
+     [
+      -96616,
+      237640,
+      -3488
+     ],
+     [
+      -95960,
+      237544,
+      -3400
+     ],
+     [
+      -94968,
+      237400,
+      -3424
+     ],
+     [
+      -94728,
+      237160,
+      -3440
+     ]
+    ],
+    "maxDanger": 9,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 9,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 837,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30039",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30039,
+    "name": "Gilbert",
+    "title": "Captain",
+    "town": "Talking Island",
+    "at": [
+     -82236,
+     241573,
+     -3728
+    ],
+    "alt": []
+   },
+   "text": "Hand in Orc Amulet, Orc's Necklace, Werewolf's Fang at Gilbert (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 752,
+     "name": "Orc Amulet",
+     "n": 20
+    },
+    {
+     "id": 1085,
+     "name": "Orc's Necklace",
+     "n": 20
+    },
+    {
+     "id": 1086,
+     "name": "Werewolf's Fang",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30039@-82236,241573",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5704,
+    "sec": 93,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5704,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84504,
+      244392,
+      -3728
+     ],
+     [
+      -84744,
+      244248,
+      -3728
+     ],
+     [
+      -85000,
+      244152,
+      -3728
+     ],
+     [
+      -85208,
+      243992,
+      -3728
+     ],
+     [
+      -85256,
+      243768,
+      -3728
+     ],
+     [
+      -85112,
+      243528,
+      -3728
+     ],
+     [
+      -85016,
+      243416,
+      -3728
+     ],
+     [
+      -84920,
+      243336,
+      -3728
+     ],
+     [
+      -84728,
+      243144,
+      -3728
+     ],
+     [
+      -84664,
+      242888,
+      -3728
+     ],
+     [
+      -84504,
+      242680,
+      -3728
+     ],
+     [
+      -84296,
+      242536,
+      -3728
+     ],
+     [
+      -84024,
+      242536,
+      -3728
+     ],
+     [
+      -83752,
+      242536,
+      -3728
+     ],
+     [
+      -83560,
+      242344,
+      -3728
+     ],
+     [
+      -83480,
+      242264,
+      -3728
+     ],
+     [
+      -83400,
+      242200,
+      -3728
+     ],
+     [
+      -83144,
+      242088,
+      -3728
+     ],
+     [
+      -82904,
+      241944,
+      -3728
+     ],
+     [
+      -82696,
+      241768,
+      -3728
+     ],
+     [
+      -82616,
+      241656,
+      -3728
+     ],
+     [
+      -82440,
+      241448,
+      -3728
+     ],
+     [
+      -82232,
+      241448,
+      -3728
+     ],
+     [
+      -82232,
+      241576,
+      -3728
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 118,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

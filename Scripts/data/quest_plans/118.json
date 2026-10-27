@@ -1,0 +1,1202 @@
+{
+ "id": 118,
+ "name": "To Lead And Be Led",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.270Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 19,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "other": [
+   "((q123 != null) && q123.isCompleted())"
+  ]
+ },
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 66,
+ "refLevel": 19,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30298",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Please make some new Armor for me.\""
+   ],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pinter – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 93,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20919,
+     "name": "Maille Lizardman",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20920,
+     "name": "Maille Lizardman Scout",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20921,
+     "name": "Maille Lizardman Guard",
+     "level": 24,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 20927,
+     "name": "King of the Araneid",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8062,
+     "name": "Blood of Maille Lizardman",
+     "n": 10,
+     "from": [
+      {
+       "id": 20919,
+       "name": "Maille Lizardman",
+       "chance": 7
+      },
+      {
+       "id": 20920,
+       "name": "Maille Lizardman Scout",
+       "chance": 7
+      },
+      {
+       "id": 20921,
+       "name": "Maille Lizardman Guard",
+       "chance": 7
+      }
+     ]
+    },
+    {
+     "id": 8063,
+     "name": "Leg of King Araneid",
+     "n": 8,
+     "from": [
+      {
+       "id": 20927,
+       "name": "King of the Araneid",
+       "chance": 7
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Maille Lizardman, Maille Lizardman Scout, Maille Lizardman Guard for Blood of Maille Lizardman x10, Leg of King Araneid x8",
+   "places": [
+    {
+     "mobs": [
+      20919,
+      20920,
+      20921
+     ],
+     "items": [
+      8062
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "gludio-outskirts-2",
+      "name": "Gludio outskirts 2: Maille Lizardman Scout area (west)",
+      "at": [
+       -22760,
+       121576,
+       -3584
+      ],
+      "radius": 4554,
+      "levels": [
+       20,
+       24
+      ],
+      "count": 32,
+      "region": "Gludio outskirts",
+      "atlasKey": "area:gludio-outskirts-2",
+      "status": "ok",
+      "sec": 184,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -176.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-23",
+        "name": "Ruins of Agony 23: Maille Lizardman area (north-east)",
+        "at": [
+         -28984,
+         116648,
+         -3664
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-16",
+        "name": "Ruins of Agony 16: Giant Araneid area (north-east)",
+        "at": [
+         -30664,
+         116808,
+         -3304
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "gludio-outskirts-1",
+        "name": "Gludio outskirts 1: Maille Lizardman Guard area (west)",
+        "at": [
+         -19736,
+         121944,
+         -3280
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:gludio-outskirts-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 16707,
+      "sec": 184,
+      "via": ".gludio > Gludio -> Ruins of Despair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Despair",
+        "link": "ruins of despair",
+        "price": 610,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2760,
+        "how": "field-areas-gap",
+        "danger": 22
+       },
+       {
+        "do": "walk",
+        "len": 13947,
+        "how": "field-areas",
+        "danger": 24
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Despair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -19120,
+        136816,
+        -3752
+       ],
+       [
+        -19336,
+        134152,
+        -3728
+       ],
+       [
+        -19336,
+        133160,
+        -3792
+       ],
+       [
+        -19336,
+        132168,
+        -3720
+       ],
+       [
+        -19336,
+        131176,
+        -3720
+       ],
+       [
+        -19336,
+        130184,
+        -3720
+       ],
+       [
+        -19400,
+        129432,
+        -3720
+       ],
+       [
+        -19400,
+        128440,
+        -3648
+       ],
+       [
+        -19400,
+        127448,
+        -3432
+       ],
+       [
+        -19400,
+        126456,
+        -3328
+       ],
+       [
+        -19464,
+        125864,
+        -3264
+       ],
+       [
+        -19464,
+        124872,
+        -3208
+       ],
+       [
+        -20456,
+        123880,
+        -3344
+       ],
+       [
+        -21448,
+        122888,
+        -3504
+       ],
+       [
+        -22440,
+        121896,
+        -3576
+       ],
+       [
+        -22760,
+        121576,
+        -3584
+       ]
+      ],
+      "maxDanger": 24,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 24,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "King of the Araneid",
+       "lv": 27
+      },
+      {
+       "name": "King of the Araneid",
+       "lv": 27
+      },
+      {
+       "name": "King of the Araneid",
+       "lv": 27
+      },
+      {
+       "name": "King of the Araneid",
+       "lv": 27
+      },
+      {
+       "name": "King of the Araneid",
+       "lv": 27
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20927
+     ],
+     "items": [
+      8063
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-24",
+      "name": "Ruins of Agony 24: Poison Araneid area (north-east)",
+      "at": [
+       -31640,
+       112792,
+       -2640
+      ],
+      "radius": 4243,
+      "levels": [
+       24,
+       27
+      ],
+      "count": 7,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-24",
+      "status": "ok",
+      "sec": 173,
+      "danger": 27,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -39.11666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "gludio-outskirts-5",
+        "name": "Gludio outskirts 5: King of the Araneid area (west)",
+        "at": [
+         -26408,
+         118264,
+         -3704
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-33",
+        "name": "Ruins of Agony 33: Maille Lizardman Guard area (north-east)",
+        "at": [
+         -27752,
+         113752,
+         -3520
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-34",
+        "name": "Ruins of Agony 34: Giant Araneid area (north-east)",
+        "at": [
+         -32744,
+         107880,
+         -2624
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-24",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 15373,
+      "sec": 173,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2325,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 13048,
+        "how": "field-areas",
+        "danger": 27
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41248,
+        122848,
+        -2904
+       ],
+       [
+        -41176,
+        120712,
+        -2872
+       ],
+       [
+        -41016,
+        119720,
+        -3016
+       ],
+       [
+        -40456,
+        119160,
+        -2864
+       ],
+       [
+        -39464,
+        118936,
+        -2568
+       ],
+       [
+        -39048,
+        118520,
+        -2568
+       ],
+       [
+        -38056,
+        118520,
+        -2248
+       ],
+       [
+        -37064,
+        117704,
+        -2680
+       ],
+       [
+        -36072,
+        116712,
+        -2856
+       ],
+       [
+        -35336,
+        115976,
+        -2632
+       ],
+       [
+        -35320,
+        115960,
+        -2624
+       ],
+       [
+        -34328,
+        115480,
+        -2184
+       ],
+       [
+        -33336,
+        114488,
+        -2192
+       ],
+       [
+        -32344,
+        113496,
+        -2352
+       ],
+       [
+        -31640,
+        112792,
+        -2640
+       ]
+      ],
+      "maxDanger": 27,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 27,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "King of the Araneid",
+         "lv": 27,
+         "n": 6
+        },
+        {
+         "name": "Maille Lizardman Warrior",
+         "lv": 26,
+         "n": 5
+        },
+        {
+         "name": "Poison Araneid",
+         "lv": 25,
+         "n": 7
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "gludio-outskirts-2",
+    "name": "Gludio outskirts 2: Maille Lizardman Scout area (west)",
+    "at": [
+     -22760,
+     121576,
+     -3584
+    ],
+    "radius": 4554,
+    "levels": [
+     20,
+     24
+    ],
+    "count": 32,
+    "region": "Gludio outskirts",
+    "atlasKey": "area:gludio-outskirts-2",
+    "status": "ok",
+    "sec": 184,
+    "danger": 24,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -176.93333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-23",
+      "name": "Ruins of Agony 23: Maille Lizardman area (north-east)",
+      "at": [
+       -28984,
+       116648,
+       -3664
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-16",
+      "name": "Ruins of Agony 16: Giant Araneid area (north-east)",
+      "at": [
+       -30664,
+       116808,
+       -3304
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "gludio-outskirts-1",
+      "name": "Gludio outskirts 1: Maille Lizardman Guard area (west)",
+      "at": [
+       -19736,
+       121944,
+       -3280
+      ],
+      "count": 9,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:gludio-outskirts-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 16707,
+    "sec": 184,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2760,
+      "how": "field-areas-gap",
+      "danger": 22
+     },
+     {
+      "do": "walk",
+      "len": 13947,
+      "how": "field-areas",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -19336,
+      134152,
+      -3728
+     ],
+     [
+      -19336,
+      133160,
+      -3792
+     ],
+     [
+      -19336,
+      132168,
+      -3720
+     ],
+     [
+      -19336,
+      131176,
+      -3720
+     ],
+     [
+      -19336,
+      130184,
+      -3720
+     ],
+     [
+      -19400,
+      129432,
+      -3720
+     ],
+     [
+      -19400,
+      128440,
+      -3648
+     ],
+     [
+      -19400,
+      127448,
+      -3432
+     ],
+     [
+      -19400,
+      126456,
+      -3328
+     ],
+     [
+      -19464,
+      125864,
+      -3264
+     ],
+     [
+      -19464,
+      124872,
+      -3208
+     ],
+     [
+      -20456,
+      123880,
+      -3344
+     ],
+     [
+      -21448,
+      122888,
+      -3504
+     ],
+     [
+      -22440,
+      121896,
+      -3576
+     ],
+     [
+      -22760,
+      121576,
+      -3584
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 3759,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30298",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30298,
+    "name": "Pinter",
+    "title": "Blacksmith",
+    "town": "Gludio",
+    "at": [
+     -15349,
+     124763,
+     -3113
+    ],
+    "alt": []
+   },
+   "text": "Talk to Pinter",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30298@-15349,124763",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5154,
+    "sec": 63,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 5154,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14360,
+      122904,
+      -3112
+     ],
+     [
+      -14408,
+      123160,
+      -3112
+     ],
+     [
+      -14408,
+      123432,
+      -3112
+     ],
+     [
+      -14504,
+      123608,
+      -3112
+     ],
+     [
+      -14696,
+      123800,
+      -3112
+     ],
+     [
+      -14952,
+      123896,
+      -3112
+     ],
+     [
+      -15176,
+      123976,
+      -3112
+     ],
+     [
+      -15272,
+      124152,
+      -3112
+     ],
+     [
+      -15160,
+      124296,
+      -3112
+     ],
+     [
+      -15288,
+      124312,
+      -3112
+     ],
+     [
+      -15304,
+      124568,
+      -3112
+     ],
+     [
+      -15352,
+      124760,
+      -3112
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 88,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

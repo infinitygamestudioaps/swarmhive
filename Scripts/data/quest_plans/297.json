@@ -1,0 +1,745 @@
+{
+ "id": 297,
+ "name": "Gatekeeper's Favor",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.987Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 15,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30540",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30540,
+    "name": "Wirphy",
+    "title": "Gatekeeper",
+    "town": "Dwarven Village",
+    "at": [
+     115072,
+     -178176,
+     -880
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wirphy – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30540@115072,-178176",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 79,
+    "sec": 46,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 79,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115080,
+      -178168,
+      -880
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20521,
+     "name": "Whinstone Golem",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1573,
+     "name": "Starstone",
+     "n": 20,
+     "from": [
+      {
+       "id": 20521,
+       "name": "Whinstone Golem",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Whinstone Golem for Starstone x20",
+   "places": [
+    {
+     "mobs": [
+      20521
+     ],
+     "items": [
+      1573
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-16",
+      "name": "Western Mining Zone (Central Shore) 16: Whinstone Golem area (south-west)",
+      "at": [
+       128120,
+       -191928,
+       -3360
+      ],
+      "radius": 4494,
+      "levels": [
+       14,
+       15
+      ],
+      "count": 7,
+      "region": "Western Mining Zone (Central Shore)",
+      "atlasKey": "area:western-mining-zone-central-shore-16",
+      "status": "ok",
+      "sec": 246,
+      "danger": 15,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -37.9,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-10",
+        "name": "Western Mining Zone (Central Shore) 10: Goblin Brigand Leader area (south)",
+        "at": [
+         133096,
+         -195832,
+         -3584
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-18",
+        "name": "Western Mining Zone (Central Shore) 18: Whinstone Golem area (south)",
+        "at": [
+         134552,
+         -189272,
+         -3216
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "western-mining-zone-central-shore-14",
+        "name": "Western Mining Zone (Central Shore) 14: Goblin Brigand Leader area (south)",
+        "at": [
+         138456,
+         -190680,
+         -2384
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:western-mining-zone-central-shore-16",
+      "status": "ok",
+      "flags": [
+       "swim"
+      ],
+      "from": ".schuttgart",
+      "length": 16289,
+      "sec": 246,
+      "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Dwarven Village",
+        "link": "dwarven village",
+        "price": 4400,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Dwarven",
+        "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+        "link": "western mining zone (central shore)",
+        "price": 970,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 16289,
+        "how": "field-areas",
+        "danger": 15
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Dwarven Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        136904,
+        -205080,
+        -3664
+       ],
+       [
+        136712,
+        -204568,
+        -3672
+       ],
+       [
+        136408,
+        -203640,
+        -3784
+       ],
+       [
+        136280,
+        -203416,
+        -3816
+       ],
+       [
+        135976,
+        -202664,
+        -3816
+       ],
+       [
+        135816,
+        -202248,
+        -3776
+       ],
+       [
+        135784,
+        -201400,
+        -3600
+       ],
+       [
+        135624,
+        -200408,
+        -3704
+       ],
+       [
+        134632,
+        -199416,
+        -3816
+       ],
+       [
+        133640,
+        -198424,
+        -3624
+       ],
+       [
+        133464,
+        -198248,
+        -3648
+       ],
+       [
+        133208,
+        -197912,
+        -3664
+       ],
+       [
+        132824,
+        -197368,
+        -3640
+       ],
+       [
+        132760,
+        -197304,
+        -3648
+       ],
+       [
+        132328,
+        -196312,
+        -3616
+       ],
+       [
+        131336,
+        -195320,
+        -3568
+       ],
+       [
+        130344,
+        -194328,
+        -3528
+       ],
+       [
+        129352,
+        -193336,
+        -3472
+       ],
+       [
+        129288,
+        -193272,
+        -3456
+       ],
+       [
+        128472,
+        -192280,
+        -3336
+       ],
+       [
+        128120,
+        -191928,
+        -3360
+       ]
+      ],
+      "maxDanger": 15,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": {
+        "swimLen": 3461,
+        "maxSwim": 2054,
+        "overBreath": false
+       },
+       "danger": 15,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "western-mining-zone-central-shore-16",
+    "name": "Western Mining Zone (Central Shore) 16: Whinstone Golem area (south-west)",
+    "at": [
+     128120,
+     -191928,
+     -3360
+    ],
+    "radius": 4494,
+    "levels": [
+     14,
+     15
+    ],
+    "count": 7,
+    "region": "Western Mining Zone (Central Shore)",
+    "atlasKey": "area:western-mining-zone-central-shore-16",
+    "status": "ok",
+    "sec": 246,
+    "danger": 15,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -37.9,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-10",
+      "name": "Western Mining Zone (Central Shore) 10: Goblin Brigand Leader area (south)",
+      "at": [
+       133096,
+       -195832,
+       -3584
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-18",
+      "name": "Western Mining Zone (Central Shore) 18: Whinstone Golem area (south)",
+      "at": [
+       134552,
+       -189272,
+       -3216
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "western-mining-zone-central-shore-14",
+      "name": "Western Mining Zone (Central Shore) 14: Goblin Brigand Leader area (south)",
+      "at": [
+       138456,
+       -190680,
+       -2384
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:western-mining-zone-central-shore-16",
+    "status": "ok",
+    "flags": [
+     "swim"
+    ],
+    "from": ".schuttgart",
+    "length": 16289,
+    "sec": 246,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village > Dwarven Village -> Western Mining Zone (Central Shore)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Dwarven",
+      "desc": "Dwarven Village -> Western Mining Zone (Central Shore)",
+      "link": "western mining zone (central shore)",
+      "price": 970,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 16289,
+      "how": "field-areas",
+      "danger": 15
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      136904,
+      -205080,
+      -3664
+     ],
+     [
+      136712,
+      -204568,
+      -3672
+     ],
+     [
+      136408,
+      -203640,
+      -3784
+     ],
+     [
+      136280,
+      -203416,
+      -3816
+     ],
+     [
+      135976,
+      -202664,
+      -3816
+     ],
+     [
+      135816,
+      -202248,
+      -3776
+     ],
+     [
+      135784,
+      -201400,
+      -3600
+     ],
+     [
+      135624,
+      -200408,
+      -3704
+     ],
+     [
+      134632,
+      -199416,
+      -3816
+     ],
+     [
+      133640,
+      -198424,
+      -3624
+     ],
+     [
+      133464,
+      -198248,
+      -3648
+     ],
+     [
+      133208,
+      -197912,
+      -3664
+     ],
+     [
+      132824,
+      -197368,
+      -3640
+     ],
+     [
+      132760,
+      -197304,
+      -3648
+     ],
+     [
+      132328,
+      -196312,
+      -3616
+     ],
+     [
+      131336,
+      -195320,
+      -3568
+     ],
+     [
+      130344,
+      -194328,
+      -3528
+     ],
+     [
+      129352,
+      -193336,
+      -3472
+     ],
+     [
+      129288,
+      -193272,
+      -3456
+     ],
+     [
+      128472,
+      -192280,
+      -3336
+     ],
+     [
+      128120,
+      -191928,
+      -3360
+     ]
+    ],
+    "maxDanger": 15,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 3461,
+      "maxSwim": 2054,
+      "overBreath": false
+     },
+     "danger": 15,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 746,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:30540",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30540,
+    "name": "Wirphy",
+    "title": "Gatekeeper",
+    "town": "Dwarven Village",
+    "at": [
+     115072,
+     -178176,
+     -880
+    ],
+    "alt": []
+   },
+   "text": "Bring Starstone x20 to Wirphy",
+   "needs": [
+    {
+     "id": 1573,
+     "name": "Starstone",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30540@115072,-178176",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 79,
+    "sec": 46,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 79,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115080,
+      -178168,
+      -880
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:19.006Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "route-detour"
+  ]
+ }
+}

@@ -1,0 +1,1694 @@
+{
+ "id": 403,
+ "name": "Path Of The Rogue",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.010Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludin",
+ "requirements": {
+  "classes": [
+   "fighter"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: fighter"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: engine-gap:needEquipped, engine-gap:soloHits"
+  },
+  {
+   "code": "dryrun:engine-gap:needEquipped",
+   "text": "drop 1183: equip [1181,1182] before the kill"
+  },
+  {
+   "code": "dryrun:engine-gap:soloHits",
+   "text": "drop 1183: only this character may hit the monster"
+  }
+ ],
+ "expectedMin": 33,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30379",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Ask about the thieves."
+   ],
+   "npc": {
+    "id": 30379,
+    "name": "Bezique",
+    "title": "Captain",
+    "town": "Gludin",
+    "at": [
+     -85019,
+     152887,
+     -3178
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bezique – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30379@-85019,152887",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6335,
+    "sec": 73,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6335,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -83048,
+      152680,
+      -3168
+     ],
+     [
+      -83224,
+      152760,
+      -3168
+     ],
+     [
+      -83400,
+      152760,
+      -3168
+     ],
+     [
+      -83672,
+      152744,
+      -3168
+     ],
+     [
+      -83928,
+      152760,
+      -3168
+     ],
+     [
+      -84056,
+      152760,
+      -3168
+     ],
+     [
+      -84328,
+      152744,
+      -3168
+     ],
+     [
+      -84600,
+      152744,
+      -3168
+     ],
+     [
+      -84872,
+      152744,
+      -3176
+     ],
+     [
+      -85016,
+      152888,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:30379",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30379,
+    "name": "Bezique",
+    "title": "Captain",
+    "town": "Gludin",
+    "at": [
+     -85019,
+     152887,
+     -3178
+    ],
+    "alt": []
+   },
+   "text": "Bring Stolen Jewelry, Stolen Tomes, Stolen Ring, Stolen Necklace to Bezique",
+   "needs": [
+    {
+     "id": 1186,
+     "name": "Stolen Jewelry",
+     "n": 1
+    },
+    {
+     "id": 1187,
+     "name": "Stolen Tomes",
+     "n": 1
+    },
+    {
+     "id": 1188,
+     "name": "Stolen Ring",
+     "n": 1
+    },
+    {
+     "id": 1189,
+     "name": "Stolen Necklace",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30379@-85019,152887",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6335,
+    "sec": 73,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6335,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -83048,
+      152680,
+      -3168
+     ],
+     [
+      -83224,
+      152760,
+      -3168
+     ],
+     [
+      -83400,
+      152760,
+      -3168
+     ],
+     [
+      -83672,
+      152744,
+      -3168
+     ],
+     [
+      -83928,
+      152760,
+      -3168
+     ],
+     [
+      -84056,
+      152760,
+      -3168
+     ],
+     [
+      -84328,
+      152744,
+      -3168
+     ],
+     [
+      -84600,
+      152744,
+      -3168
+     ],
+     [
+      -84872,
+      152744,
+      -3176
+     ],
+     [
+      -85016,
+      152888,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30425",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30425,
+    "name": "Neti",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -83414,
+     151924,
+     -3127
+    ],
+    "alt": []
+   },
+   "text": "Talk to Neti",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30425@-83414,151924",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3833,
+    "sec": 52,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 3833,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82200,
+      151032,
+      -3120
+     ],
+     [
+      -82456,
+      151144,
+      -3120
+     ],
+     [
+      -82664,
+      151320,
+      -3120
+     ],
+     [
+      -82856,
+      151512,
+      -3120
+     ],
+     [
+      -83016,
+      151720,
+      -3120
+     ],
+     [
+      -83224,
+      151736,
+      -3120
+     ],
+     [
+      -83416,
+      151928,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20035,
+     "name": "Skeleton Tracker",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 20042,
+     "name": "Skeleton Tracker Leader",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20045,
+     "name": "Skeleton Scout",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20051,
+     "name": "Skeleton Bowman",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20054,
+     "name": "Ruin Spartoi",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    },
+    {
+     "id": 20060,
+     "name": "Raging Spartoi",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 23,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1183,
+     "name": "Spartoi's Bones",
+     "n": 10,
+     "from": [
+      {
+       "id": 20035,
+       "name": "Skeleton Tracker",
+       "chance": 20
+      },
+      {
+       "id": 20042,
+       "name": "Skeleton Tracker Leader",
+       "chance": 30
+      },
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 20
+      },
+      {
+       "id": 20051,
+       "name": "Skeleton Bowman",
+       "chance": 20
+      },
+      {
+       "id": 20054,
+       "name": "Ruin Spartoi",
+       "chance": 80
+      },
+      {
+       "id": 20060,
+       "name": "Raging Spartoi",
+       "chance": 80
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Skeleton Tracker, Skeleton Tracker Leader, Skeleton Scout for Spartoi's Bones x10",
+   "places": [
+    {
+     "mobs": [
+      20035,
+      20042,
+      20045,
+      20051,
+      20054,
+      20060
+     ],
+     "items": [
+      1183
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "radius": 5846,
+      "levels": [
+       17,
+       23
+      ],
+      "count": 32,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-11",
+      "status": "ok",
+      "sec": 148,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -177.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-12",
+        "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+        "at": [
+         -58232,
+         110552,
+         -3336
+        ],
+        "count": 18,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-17",
+        "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+        "at": [
+         -54760,
+         112264,
+         -3240
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 12362,
+      "sec": 148,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12362,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122024,
+        -2736
+       ],
+       [
+        -44216,
+        121080,
+        -3000
+       ],
+       [
+        -44568,
+        120728,
+        -3072
+       ],
+       [
+        -45560,
+        119912,
+        -3424
+       ],
+       [
+        -46552,
+        118920,
+        -3208
+       ],
+       [
+        -47544,
+        117928,
+        -3216
+       ],
+       [
+        -48536,
+        116936,
+        -3552
+       ],
+       [
+        -49528,
+        115944,
+        -3360
+       ],
+       [
+        -50456,
+        115016,
+        -3288
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ruins-of-agony-11",
+    "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+    "at": [
+     -50456,
+     115016,
+     -3288
+    ],
+    "radius": 5846,
+    "levels": [
+     17,
+     23
+    ],
+    "count": 32,
+    "region": "Ruins of Agony",
+    "atlasKey": "area:ruins-of-agony-11",
+    "status": "ok",
+    "sec": 148,
+    "danger": 24,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -177.53333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-12",
+      "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+      "at": [
+       -58232,
+       110552,
+       -3336
+      ],
+      "count": 18,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-17",
+      "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+      "at": [
+       -54760,
+       112264,
+       -3240
+      ],
+      "count": 16,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-5",
+      "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+      "at": [
+       -48072,
+       120920,
+       -3128
+      ],
+      "count": 13,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ruins-of-agony-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 12362,
+    "sec": 148,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12362,
+      "how": "field-areas",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122024,
+      -2736
+     ],
+     [
+      -44216,
+      121080,
+      -3000
+     ],
+     [
+      -44568,
+      120728,
+      -3072
+     ],
+     [
+      -45560,
+      119912,
+      -3424
+     ],
+     [
+      -46552,
+      118920,
+      -3208
+     ],
+     [
+      -47544,
+      117928,
+      -3216
+     ],
+     [
+      -48536,
+      116936,
+      -3552
+     ],
+     [
+      -49528,
+      115944,
+      -3360
+     ],
+     [
+      -50456,
+      115016,
+      -3288
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1398,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:deliver:30425",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "Take the test"
+   ],
+   "npc": {
+    "id": 30425,
+    "name": "Neti",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -83414,
+     151924,
+     -3127
+    ],
+    "alt": []
+   },
+   "text": "Bring Bezique's Letter to Neti",
+   "needs": [
+    {
+     "id": 1180,
+     "name": "Bezique's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30425@-83414,151924",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3833,
+    "sec": 52,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 3833,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82200,
+      151032,
+      -3120
+     ],
+     [
+      -82456,
+      151144,
+      -3120
+     ],
+     [
+      -82664,
+      151320,
+      -3120
+     ],
+     [
+      -82856,
+      151512,
+      -3120
+     ],
+     [
+      -83016,
+      151720,
+      -3120
+     ],
+     [
+      -83224,
+      151736,
+      -3120
+     ],
+     [
+      -83416,
+      151928,
+      -3120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 77,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:hunt",
+   "cond": 5,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 27038,
+     "name": "Cat's Eye Bandit",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1186,
+     "name": "Stolen Jewelry",
+     "n": 1,
+     "from": [
+      {
+       "id": 27038,
+       "name": "Cat's Eye Bandit",
+       "chance": 25
+      }
+     ]
+    },
+    {
+     "id": 1187,
+     "name": "Stolen Tomes",
+     "n": 1,
+     "from": [
+      {
+       "id": 27038,
+       "name": "Cat's Eye Bandit",
+       "chance": 25
+      }
+     ]
+    },
+    {
+     "id": 1188,
+     "name": "Stolen Ring",
+     "n": 1,
+     "from": [
+      {
+       "id": 27038,
+       "name": "Cat's Eye Bandit",
+       "chance": 25
+      }
+     ]
+    },
+    {
+     "id": 1189,
+     "name": "Stolen Necklace",
+     "n": 1,
+     "from": [
+      {
+       "id": 27038,
+       "name": "Cat's Eye Bandit",
+       "chance": 25
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Cat's Eye Bandit for Stolen Jewelry x1, Stolen Tomes x1, Stolen Ring x1, Stolen Necklace x1",
+   "places": [
+    {
+     "mobs": [
+      27038
+     ],
+     "items": [
+      1186,
+      1187,
+      1188,
+      1189
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "abandoned-camp-4",
+      "name": "Abandoned Camp 4: Ol Mahum Patrol area (north-east)",
+      "at": [
+       -45320,
+       142040,
+       -2976
+      ],
+      "radius": 4351,
+      "levels": [
+       15,
+       22
+      ],
+      "count": 5,
+      "region": "Abandoned Camp",
+      "atlasKey": "area:abandoned-camp-4",
+      "status": "ok",
+      "sec": 102,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "abandoned-camp-1",
+        "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+        "at": [
+         -49064,
+         150024,
+         -2824
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "abandoned-camp-2",
+        "name": "Abandoned Camp 2: Ol Mahum Patrol area (north-east)",
+        "at": [
+         -46024,
+         145032,
+         -3024
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:abandoned-camp-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 6823,
+      "sec": 102,
+      "via": ".gludin > Gludin -> Abandoned Camp",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Abandoned Camp",
+        "link": "abandoned camp",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6823,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Abandoned Camp"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -49848,
+        147096,
+        -2792
+       ],
+       [
+        -49304,
+        146104,
+        -2728
+       ],
+       [
+        -48392,
+        145112,
+        -2880
+       ],
+       [
+        -47400,
+        144120,
+        -2832
+       ],
+       [
+        -46408,
+        143128,
+        -2872
+       ],
+       [
+        -45416,
+        142136,
+        -2968
+       ],
+       [
+        -45320,
+        142040,
+        -2976
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "abandoned-camp-4",
+    "name": "Abandoned Camp 4: Ol Mahum Patrol area (north-east)",
+    "at": [
+     -45320,
+     142040,
+     -2976
+    ],
+    "radius": 4351,
+    "levels": [
+     15,
+     22
+    ],
+    "count": 5,
+    "region": "Abandoned Camp",
+    "atlasKey": "area:abandoned-camp-4",
+    "status": "ok",
+    "sec": 102,
+    "danger": 22,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -28.3,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "abandoned-camp-1",
+      "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+      "at": [
+       -49064,
+       150024,
+       -2824
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "abandoned-camp-2",
+      "name": "Abandoned Camp 2: Ol Mahum Patrol area (north-east)",
+      "at": [
+       -46024,
+       145032,
+       -3024
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:abandoned-camp-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6823,
+    "sec": 102,
+    "via": ".gludin > Gludin -> Abandoned Camp",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Abandoned Camp",
+      "link": "abandoned camp",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6823,
+      "how": "field-areas",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Abandoned Camp"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -49848,
+      147096,
+      -2792
+     ],
+     [
+      -49304,
+      146104,
+      -2728
+     ],
+     [
+      -48392,
+      145112,
+      -2880
+     ],
+     [
+      -47400,
+      144120,
+      -2832
+     ],
+     [
+      -46408,
+      143128,
+      -2872
+     ],
+     [
+      -45416,
+      142136,
+      -2968
+     ],
+     [
+      -45320,
+      142040,
+      -2976
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 202,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:39.027Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "engine-gap:needEquipped",
+    "t": "drop 1183: equip [1181,1182] before the kill"
+   },
+   {
+    "code": "engine-gap:soloHits",
+    "t": "drop 1183: only this character may hit the monster"
+   },
+   {
+    "code": "engine-gap:needEquipped",
+    "t": "drop 1186: equip [1181,1182] before the kill"
+   },
+   {
+    "code": "engine-gap:soloHits",
+    "t": "drop 1186: only this character may hit the monster"
+   },
+   {
+    "code": "engine-gap:needEquipped",
+    "t": "drop 1187: equip [1181,1182] before the kill"
+   },
+   {
+    "code": "engine-gap:soloHits",
+    "t": "drop 1187: only this character may hit the monster"
+   },
+   {
+    "code": "engine-gap:needEquipped",
+    "t": "drop 1188: equip [1181,1182] before the kill"
+   },
+   {
+    "code": "engine-gap:soloHits",
+    "t": "drop 1188: only this character may hit the monster"
+   },
+   {
+    "code": "engine-gap:needEquipped",
+    "t": "drop 1189: equip [1181,1182] before the kill"
+   },
+   {
+    "code": "engine-gap:soloHits",
+    "t": "drop 1189: only this character may hit the monster"
+   }
+  ],
+  "warns": [
+   "chance-unconfirmed"
+  ]
+ }
+}

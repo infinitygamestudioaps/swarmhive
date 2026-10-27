@@ -1,0 +1,818 @@
+{
+ "id": 274,
+ "name": "Skirmish with the Werewolves",
+ "version": 1,
+ "generated": "2026-10-27T11:15:17.601Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 9,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Orc Village",
+ "requirements": {
+  "races": [
+   "ORC"
+  ],
+  "items": [
+   {
+    "id": 1507,
+    "name": "Necklace of Valor"
+   },
+   {
+    "id": 1506,
+    "name": "Necklace of Courage"
+   }
+  ],
+  "other": [
+   "(hasAtLeastOneQuestItem(player, NECKLACE_OF_VALOR, NECKLACE_OF_COURAGE))"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ORC"
+  },
+  {
+   "code": "needs-item",
+   "text": "Necklace of Valor, Necklace of Courage"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 24,
+ "refLevel": 9,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30569",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will fight the werewolves"
+   ],
+   "npc": {
+    "id": 30569,
+    "name": "Brukurse",
+    "title": "Prefect",
+    "town": "Orc Village",
+    "at": [
+     -45952,
+     -114784,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Brukurse – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30569@-45952,-114784",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 4483,
+    "sec": 82,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4483,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44808,
+      -113000,
+      -240
+     ],
+     [
+      -45000,
+      -113176,
+      -240
+     ],
+     [
+      -45240,
+      -113304,
+      -240
+     ],
+     [
+      -45400,
+      -113528,
+      -240
+     ],
+     [
+      -45416,
+      -113800,
+      -240
+     ],
+     [
+      -45592,
+      -114008,
+      -240
+     ],
+     [
+      -45736,
+      -114232,
+      -240
+     ],
+     [
+      -45736,
+      -113976,
+      -240
+     ],
+     [
+      -45736,
+      -113752,
+      -240
+     ],
+     [
+      -45896,
+      -113672,
+      -200
+     ],
+     [
+      -46072,
+      -113672,
+      -200
+     ],
+     [
+      -46120,
+      -113736,
+      -200
+     ],
+     [
+      -46200,
+      -113992,
+      -200
+     ],
+     [
+      -46280,
+      -114072,
+      -200
+     ],
+     [
+      -46280,
+      -114264,
+      -200
+     ],
+     [
+      -46088,
+      -114456,
+      -200
+     ],
+     [
+      -45944,
+      -114648,
+      -200
+     ],
+     [
+      -45944,
+      -114776,
+      -200
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 112,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20363,
+     "name": "Maraku Werewolf",
+     "level": 9,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 61,
+     "questSpawned": false
+    },
+    {
+     "id": 20364,
+     "name": "Maraku Werewolf Chieftain",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 54,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1477,
+     "name": "Maraku Werewolf Head",
+     "n": 40,
+     "from": [
+      {
+       "id": 20363,
+       "name": "Maraku Werewolf",
+       "chance": 100
+      },
+      {
+       "id": 20364,
+       "name": "Maraku Werewolf Chieftain",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Maraku Werewolf, Maraku Werewolf Chieftain for Maraku Werewolf Head x40",
+   "places": [
+    {
+     "mobs": [
+      20363,
+      20364
+     ],
+     "items": [
+      1477
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "the-immortal-plateau-8",
+      "name": "The Immortal Plateau 8: Maraku Werewolf area (north-west)",
+      "at": [
+       -22952,
+       -124840,
+       -2664
+      ],
+      "radius": 3980,
+      "levels": [
+       8,
+       10
+      ],
+      "count": 10,
+      "region": "The Immortal Plateau",
+      "atlasKey": "area:the-immortal-plateau-8",
+      "status": "ok",
+      "sec": 194,
+      "danger": 10,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -56.766666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "the-immortal-plateau-6",
+        "name": "The Immortal Plateau 6: Maraku Werewolf area (west)",
+        "at": [
+         -21880,
+         -116504,
+         -2984
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-7",
+        "name": "Frozen Waterfall 7: Maraku Werewolf Chieftain area (south)",
+        "at": [
+         6040,
+         -129368,
+         -3048
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "frozen-waterfall-10",
+        "name": "Frozen Waterfall 10: Maraku Werewolf Chieftain area (south-west)",
+        "at": [
+         -3848,
+         -133192,
+         -2784
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:the-immortal-plateau-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 14912,
+      "sec": 194,
+      "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> The Immortal Plateau",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Orc Village",
+        "link": "orc village",
+        "price": 13000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Orc",
+        "desc": "Orc Village -> The Immortal Plateau",
+        "link": "immortal plateau, southern region",
+        "price": 960,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11869,
+        "how": "field-areas-gap",
+        "danger": 14
+       },
+       {
+        "do": "walk",
+        "len": 3043,
+        "how": "field-areas",
+        "danger": 14
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Orc Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -10983,
+        -117484,
+        -2464
+       ],
+       [
+        -20792,
+        -122696,
+        -2936
+       ],
+       [
+        -21784,
+        -123672,
+        -2848
+       ],
+       [
+        -22776,
+        -124664,
+        -2672
+       ],
+       [
+        -22952,
+        -124840,
+        -2664
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 14,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "the-immortal-plateau-8",
+    "name": "The Immortal Plateau 8: Maraku Werewolf area (north-west)",
+    "at": [
+     -22952,
+     -124840,
+     -2664
+    ],
+    "radius": 3980,
+    "levels": [
+     8,
+     10
+    ],
+    "count": 10,
+    "region": "The Immortal Plateau",
+    "atlasKey": "area:the-immortal-plateau-8",
+    "status": "ok",
+    "sec": 194,
+    "danger": 10,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -56.766666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-6",
+      "name": "The Immortal Plateau 6: Maraku Werewolf area (west)",
+      "at": [
+       -21880,
+       -116504,
+       -2984
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-7",
+      "name": "Frozen Waterfall 7: Maraku Werewolf Chieftain area (south)",
+      "at": [
+       6040,
+       -129368,
+       -3048
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-10",
+      "name": "Frozen Waterfall 10: Maraku Werewolf Chieftain area (south-west)",
+      "at": [
+       -3848,
+       -133192,
+       -2784
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:the-immortal-plateau-8",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 14912,
+    "sec": 194,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> The Immortal Plateau",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> The Immortal Plateau",
+      "link": "immortal plateau, southern region",
+      "price": 960,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11869,
+      "how": "field-areas-gap",
+      "danger": 14
+     },
+     {
+      "do": "walk",
+      "len": 3043,
+      "how": "field-areas",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -10983,
+      -117484,
+      -2464
+     ],
+     [
+      -20792,
+      -122696,
+      -2936
+     ],
+     [
+      -21784,
+      -123672,
+      -2848
+     ],
+     [
+      -22776,
+      -124664,
+      -2672
+     ],
+     [
+      -22952,
+      -124840,
+      -2664
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1194,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30569",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30569,
+    "name": "Brukurse",
+    "title": "Prefect",
+    "town": "Orc Village",
+    "at": [
+     -45952,
+     -114784,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Brukurse",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30569@-45952,-114784",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 4483,
+    "sec": 82,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4483,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44808,
+      -113000,
+      -240
+     ],
+     [
+      -45000,
+      -113176,
+      -240
+     ],
+     [
+      -45240,
+      -113304,
+      -240
+     ],
+     [
+      -45400,
+      -113528,
+      -240
+     ],
+     [
+      -45416,
+      -113800,
+      -240
+     ],
+     [
+      -45592,
+      -114008,
+      -240
+     ],
+     [
+      -45736,
+      -114232,
+      -240
+     ],
+     [
+      -45736,
+      -113976,
+      -240
+     ],
+     [
+      -45736,
+      -113752,
+      -240
+     ],
+     [
+      -45896,
+      -113672,
+      -200
+     ],
+     [
+      -46072,
+      -113672,
+      -200
+     ],
+     [
+      -46120,
+      -113736,
+      -200
+     ],
+     [
+      -46200,
+      -113992,
+      -200
+     ],
+     [
+      -46280,
+      -114072,
+      -200
+     ],
+     [
+      -46280,
+      -114264,
+      -200
+     ],
+     [
+      -46088,
+      -114456,
+      -200
+     ],
+     [
+      -45944,
+      -114648,
+      -200
+     ],
+     [
+      -45944,
+      -114776,
+      -200
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.129Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

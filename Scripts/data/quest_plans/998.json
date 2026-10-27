@@ -1,0 +1,184 @@
+{
+ "id": 998,
+ "name": "Fallen Angel - Select",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.345Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 38,
+  "max": null
+ },
+ "type": "unknown",
+ "region": "Heine",
+ "requirements": {},
+ "restrictions": [
+  {
+   "code": "type-unknown",
+   "text": "quest type unknown"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 2,
+ "refLevel": 38,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30894",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will accept the request of the Temple and the Lords of Dawn.\"",
+    "\"I will accept the request of the Revolutionaries of Dusk.\""
+   ],
+   "npc": {
+    "id": 30894,
+    "name": "Natools",
+    "title": "Warehouse Chief",
+    "town": "Heine",
+    "at": [
+     109627,
+     220168,
+     -3520
+    ],
+    "alt": []
+   },
+   "text": "Talk to Natools – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30894@109627,220168",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2463,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2463,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111112,
+      219032,
+      -3536
+     ],
+     [
+      110856,
+      219096,
+      -3536
+     ],
+     [
+      110584,
+      219096,
+      -3536
+     ],
+     [
+      110312,
+      219096,
+      -3496
+     ],
+     [
+      110088,
+      219240,
+      -3472
+     ],
+     [
+      110040,
+      219448,
+      -3472
+     ],
+     [
+      109912,
+      219576,
+      -3472
+     ],
+     [
+      109864,
+      219800,
+      -3472
+     ],
+     [
+      109848,
+      220072,
+      -3512
+     ],
+     [
+      109672,
+      220168,
+      -3512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:manual",
+   "cond": 1,
+   "kind": "special",
+   "text": "step 1",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "no automatic step at cond 1",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

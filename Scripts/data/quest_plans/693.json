@@ -1,0 +1,99 @@
+{
+ "id": 693,
+ "name": "Defeating Dragonkin Remnants",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.166Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "",
+ "requirements": {
+  "other": [
+   "(checkInstances(player))"
+  ]
+ },
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 1
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32527",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Register for battle with the Mounted Troop."
+   ],
+   "npc": {
+    "id": 32527,
+    "name": "Edric",
+    "title": "Officer",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Edric – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32527",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32527,
+    "name": "Edric",
+    "title": "Officer",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Edric",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

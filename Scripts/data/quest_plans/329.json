@@ -1,0 +1,631 @@
+{
+ "id": 329,
+ "name": "Curiosity Of A Dwarf",
+ "version": 1,
+ "generated": "2026-10-27T11:15:22.533Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 33,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Floran",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 284,
+ "refLevel": 33,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30437",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30437,
+    "name": "Rolento",
+    "title": "Grocer",
+    "town": "Floran",
+    "at": [
+     -17312,
+     208976,
+     -3661
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rolento – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30437@-17312,208976",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1229,
+    "sec": 55,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1229,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208508,
+      -3664
+     ],
+     [
+      -17304,
+      208984,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 85,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20083,
+     "name": "Granite Golem",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 84,
+     "questSpawned": false
+    },
+    {
+     "id": 20085,
+     "name": "Puncher",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 44,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1346,
+     "name": "Golem's Stoneheart",
+     "n": 20,
+     "from": [
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 3
+      },
+      {
+       "id": 20085,
+       "name": "Puncher",
+       "chance": 3
+      }
+     ]
+    },
+    {
+     "id": 1365,
+     "name": "Broken Stoneheart",
+     "n": 20,
+     "from": [
+      {
+       "id": 20083,
+       "name": "Granite Golem",
+       "chance": 51
+      },
+      {
+       "id": 20085,
+       "name": "Puncher",
+       "chance": 55
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "engine-manual"
+   ],
+   "text": "Hunt Granite Golem, Puncher for Golem's Stoneheart x20, Broken Stoneheart x20",
+   "places": [
+    {
+     "mobs": [
+      20083,
+      20085
+     ],
+     "items": [
+      1346,
+      1365
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "wastelands-15",
+      "name": "Wastelands 15: Granite Golem area (north)",
+      "at": [
+       -20600,
+       194280,
+       -4176
+      ],
+      "radius": 5128,
+      "levels": [
+       30,
+       35
+      ],
+      "count": 14,
+      "region": "Wastelands",
+      "atlasKey": "area:wastelands-15",
+      "status": "ok",
+      "sec": 173,
+      "danger": 39,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -81.11666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-dion-33",
+        "name": "Plains of Dion 33: Granite Golem area (west)",
+        "at": [
+         -19160,
+         185608,
+         -3904
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "red-rock-ridge-12",
+        "name": "Red Rock Ridge 12: Granite Golem area (north-east)",
+        "at": [
+         -32792,
+         188936,
+         -3936
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-15",
+        "name": "Windawood Manor 15: Granite Golem area (south)",
+        "at": [
+         -27608,
+         174616,
+         -4112
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:wastelands-15",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 15392,
+      "sec": 173,
+      "via": ".gludin > Gludin -> Wastelands",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Wastelands",
+        "link": "wastelands",
+        "price": 3400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8591,
+        "how": "field-areas-gap",
+        "danger": 30
+       },
+       {
+        "do": "walk",
+        "len": 6801,
+        "how": "field-areas",
+        "danger": 39
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Wastelands"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -16526,
+        208032,
+        -3664
+       ],
+       [
+        -18504,
+        200248,
+        -4016
+       ],
+       [
+        -18504,
+        199256,
+        -4200
+       ],
+       [
+        -18504,
+        198264,
+        -4200
+       ],
+       [
+        -18504,
+        197272,
+        -4200
+       ],
+       [
+        -18600,
+        196280,
+        -4208
+       ],
+       [
+        -19592,
+        195288,
+        -4208
+       ],
+       [
+        -20584,
+        194296,
+        -4176
+       ],
+       [
+        -20600,
+        194280,
+        -4176
+       ]
+      ],
+      "maxDanger": 39,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 39,
+       "dangerVsLevel": 6,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "wastelands-15",
+    "name": "Wastelands 15: Granite Golem area (north)",
+    "at": [
+     -20600,
+     194280,
+     -4176
+    ],
+    "radius": 5128,
+    "levels": [
+     30,
+     35
+    ],
+    "count": 14,
+    "region": "Wastelands",
+    "atlasKey": "area:wastelands-15",
+    "status": "ok",
+    "sec": 173,
+    "danger": 39,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -81.11666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plains-of-dion-33",
+      "name": "Plains of Dion 33: Granite Golem area (west)",
+      "at": [
+       -19160,
+       185608,
+       -3904
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "red-rock-ridge-12",
+      "name": "Red Rock Ridge 12: Granite Golem area (north-east)",
+      "at": [
+       -32792,
+       188936,
+       -3936
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "windawood-manor-15",
+      "name": "Windawood Manor 15: Granite Golem area (south)",
+      "at": [
+       -27608,
+       174616,
+       -4112
+      ],
+      "count": 9,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:wastelands-15",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 15392,
+    "sec": 173,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8591,
+      "how": "field-areas-gap",
+      "danger": 30
+     },
+     {
+      "do": "walk",
+      "len": 6801,
+      "how": "field-areas",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -18504,
+      200248,
+      -4016
+     ],
+     [
+      -18504,
+      199256,
+      -4200
+     ],
+     [
+      -18504,
+      198264,
+      -4200
+     ],
+     [
+      -18504,
+      197272,
+      -4200
+     ],
+     [
+      -18600,
+      196280,
+      -4208
+     ],
+     [
+      -19592,
+      195288,
+      -4208
+     ],
+     [
+      -20584,
+      194296,
+      -4176
+     ],
+     [
+      -20600,
+      194280,
+      -4176
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 16848,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30437",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30437,
+    "name": "Rolento",
+    "title": "Grocer",
+    "town": "Floran",
+    "at": [
+     -17312,
+     208976,
+     -3661
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Rolento (repeatable: then hunt again)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30437@-17312,208976",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1229,
+    "sec": 55,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1229,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16915,
+      208508,
+      -3664
+     ],
+     [
+      -17304,
+      208984,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 80,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

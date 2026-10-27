@@ -1,0 +1,3873 @@
+{
+ "id": 633,
+ "name": "In The Forgotten Village",
+ "version": 1,
+ "generated": "2026-10-27T11:16:13.960Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 65,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 3
+  }
+ ],
+ "expectedMin": 222,
+ "refLevel": 65,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31388",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "I'll help you."
+   ],
+   "npc": {
+    "id": 31388,
+    "name": "Mina",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     59626,
+     -41684,
+     -3000
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mina – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31388@59626,-41684",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 15697,
+    "sec": 176,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15697,
+      "how": "geodata",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      52424,
+      -53848,
+      -3096
+     ],
+     [
+      52680,
+      -53560,
+      -3144
+     ],
+     [
+      53168,
+      -53064,
+      -3104
+     ],
+     [
+      53656,
+      -52568,
+      -3064
+     ],
+     [
+      54152,
+      -52072,
+      -3172
+     ],
+     [
+      54648,
+      -51576,
+      -3280
+     ],
+     [
+      55064,
+      -51096,
+      -3544
+     ],
+     [
+      55080,
+      -51096,
+      -3552
+     ],
+     [
+      55080,
+      -51080,
+      -3552
+     ],
+     [
+      55112,
+      -51064,
+      -3552
+     ],
+     [
+      55048,
+      -50776,
+      -3424
+     ],
+     [
+      55064,
+      -50648,
+      -3344
+     ],
+     [
+      55112,
+      -50584,
+      -3296
+     ],
+     [
+      55608,
+      -50088,
+      -3224
+     ],
+     [
+      56104,
+      -49592,
+      -3152
+     ],
+     [
+      56600,
+      -48984,
+      -3016
+     ],
+     [
+      57096,
+      -48488,
+      -2988
+     ],
+     [
+      57592,
+      -47992,
+      -2960
+     ],
+     [
+      57848,
+      -47688,
+      -2856
+     ],
+     [
+      57848,
+      -47608,
+      -2784
+     ],
+     [
+      57992,
+      -47336,
+      -2632
+     ],
+     [
+      58488,
+      -46848,
+      -2716
+     ],
+     [
+      58984,
+      -46360,
+      -2800
+     ],
+     [
+      59304,
+      -45864,
+      -2832
+     ],
+     [
+      59624,
+      -45368,
+      -2864
+     ],
+     [
+      59624,
+      -44376,
+      -2792
+     ],
+     [
+      59624,
+      -43592,
+      -2984
+     ],
+     [
+      59784,
+      -43416,
+      -2984
+     ],
+     [
+      59784,
+      -43368,
+      -2984
+     ],
+     [
+      59768,
+      -43368,
+      -2976
+     ],
+     [
+      59752,
+      -43336,
+      -2984
+     ],
+     [
+      59720,
+      -43320,
+      -2984
+     ],
+     [
+      59656,
+      -42920,
+      -2984
+     ],
+     [
+      59624,
+      -41928,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Vampire Magister",
+       "lv": 73,
+       "n": 2
+      },
+      {
+       "name": "Vampire Warlord",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Vampire Wizard",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Vampire Magician",
+       "lv": 72,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 206,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52248,
+      -48216,
+      -3376
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55832,
+      -42408,
+      -2752
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Route: Rune -> Forest of the Dead landing -> 59626,-41684,-3000, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 71 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 21396 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52248,
+      -48216,
+      -3376
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55832,
+      -42408,
+      -2752
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "length": 21396,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 21553,
+     "name": "Trampled Man",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21557,
+     "name": "Bone Snatcher",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 21559,
+     "name": "Bone Maker",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21563,
+     "name": "Bone Collector",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 21560,
+     "name": "Bone Shaper",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21561,
+     "name": "Sacrificed Man",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21564,
+     "name": "Skull Collector",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 21565,
+     "name": "Bone Animator",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21566,
+     "name": "Skull Animator",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21567,
+     "name": "Bone Slayer",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21570,
+     "name": "Ghost of Betrayer",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21572,
+     "name": "Bone Sweeper",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21574,
+     "name": "Bone Grinder",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 21578,
+     "name": "Behemoth Zombie",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21580,
+     "name": "Bone Caster",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 21581,
+     "name": "Bone Puppeteer",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21583,
+     "name": "Bone Scavenger",
+     "level": 72,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21596,
+     "name": "Requiem Lord",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 21599,
+     "name": "Requiem Priest",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 7544,
+     "name": "Rib Bone of a Black Magus",
+     "n": 200,
+     "from": [
+      {
+       "id": 21557,
+       "name": "Bone Snatcher",
+       "chance": 39.4
+      },
+      {
+       "id": 21559,
+       "name": "Bone Maker",
+       "chance": 43.6
+      },
+      {
+       "id": 21563,
+       "name": "Bone Collector",
+       "chance": 43.6
+      },
+      {
+       "id": 21560,
+       "name": "Bone Shaper",
+       "chance": 43
+      },
+      {
+       "id": 21564,
+       "name": "Skull Collector",
+       "chance": 41.4
+      },
+      {
+       "id": 21565,
+       "name": "Bone Animator",
+       "chance": 42
+      },
+      {
+       "id": 21566,
+       "name": "Skull Animator",
+       "chance": 46
+      },
+      {
+       "id": 21567,
+       "name": "Bone Slayer",
+       "chance": 54.9
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Trampled Man, Bone Snatcher, Bone Maker for Rib Bone of a Black Magus x200",
+   "places": [
+    {
+     "mobs": [
+      21557,
+      21559,
+      21563,
+      21560,
+      21564,
+      21565,
+      21566,
+      21567
+     ],
+     "items": [
+      7544
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forest-of-the-dead-6",
+      "name": "Forest of the Dead 6: Corpse of Deadman area (north-east)",
+      "at": [
+       54680,
+       -56680,
+       -3352
+      ],
+      "radius": 2453,
+      "levels": [
+       63,
+       68
+      ],
+      "count": 12,
+      "region": "Forest of the Dead",
+      "atlasKey": "area:forest-of-the-dead-6",
+      "status": "ok",
+      "sec": 75,
+      "danger": 69,
+      "aggrShare": 0.65,
+      "reachable": true,
+      "score": -70.75,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-19",
+        "name": "Forest of the Dead 19: Bone Animator area (east)",
+        "at": [
+         58328,
+         -55912,
+         -3328
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-4",
+        "name": "Forest of the Dead 4: Bone Collector area (south)",
+        "at": [
+         51080,
+         -51512,
+         -2968
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-20",
+        "name": "Forest of the Dead 20: Corpse of Deadman area (north-east)",
+        "at": [
+         58136,
+         -57624,
+         -3328
+        ],
+        "count": 9,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forest-of-the-dead-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 3546,
+      "sec": 75,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2731,
+        "how": "field-areas-gap",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 815,
+        "how": "field-areas",
+        "danger": 69
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        54104,
+        -56104,
+        -3208
+       ],
+       [
+        54680,
+        -56680,
+        -3352
+       ]
+      ],
+      "maxDanger": 69,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 69,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21553,
+      21557,
+      21559,
+      21560,
+      21561,
+      21563,
+      21564,
+      21565,
+      21566,
+      21567,
+      21570,
+      21572,
+      21574,
+      21578,
+      21580,
+      21581,
+      21583,
+      21596,
+      21599
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "forest-of-the-dead-6",
+      "name": "Forest of the Dead 6: Corpse of Deadman area (north-east)",
+      "at": [
+       54680,
+       -56680,
+       -3352
+      ],
+      "radius": 2453,
+      "levels": [
+       63,
+       68
+      ],
+      "count": 16,
+      "region": "Forest of the Dead",
+      "atlasKey": "area:forest-of-the-dead-6",
+      "status": "ok",
+      "sec": 75,
+      "danger": 69,
+      "aggrShare": 0.65,
+      "reachable": true,
+      "score": -94.75,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-15",
+        "name": "Forest of the Dead 15: Corpse of Deadman area (east)",
+        "at": [
+         57368,
+         -52552,
+         -3240
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-21",
+        "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
+        "at": [
+         60376,
+         -47160,
+         -2688
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-19",
+        "name": "Forest of the Dead 19: Bone Animator area (east)",
+        "at": [
+         58328,
+         -55912,
+         -3328
+        ],
+        "count": 12,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forest-of-the-dead-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 3546,
+      "sec": 75,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2731,
+        "how": "field-areas-gap",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 815,
+        "how": "field-areas",
+        "danger": 69
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        54104,
+        -56104,
+        -3208
+       ],
+       [
+        54680,
+        -56680,
+        -3352
+       ]
+      ],
+      "maxDanger": 69,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 69,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "forest-of-the-dead-6",
+    "name": "Forest of the Dead 6: Corpse of Deadman area (north-east)",
+    "at": [
+     54680,
+     -56680,
+     -3352
+    ],
+    "radius": 2453,
+    "levels": [
+     63,
+     68
+    ],
+    "count": 12,
+    "region": "Forest of the Dead",
+    "atlasKey": "area:forest-of-the-dead-6",
+    "status": "ok",
+    "sec": 75,
+    "danger": 69,
+    "aggrShare": 0.65,
+    "reachable": true,
+    "score": -70.75,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-19",
+      "name": "Forest of the Dead 19: Bone Animator area (east)",
+      "at": [
+       58328,
+       -55912,
+       -3328
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-4",
+      "name": "Forest of the Dead 4: Bone Collector area (south)",
+      "at": [
+       51080,
+       -51512,
+       -2968
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-20",
+      "name": "Forest of the Dead 20: Corpse of Deadman area (north-east)",
+      "at": [
+       58136,
+       -57624,
+       -3328
+      ],
+      "count": 9,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:forest-of-the-dead-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 3546,
+    "sec": 75,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2731,
+      "how": "field-areas-gap",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 815,
+      "how": "field-areas",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      54104,
+      -56104,
+      -3208
+     ],
+     [
+      54680,
+      -56680,
+      -3352
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 12775,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31388",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Stop hunting (all proofs will be removed from inventory without reward)"
+   ],
+   "npc": {
+    "id": 31388,
+    "name": "Mina",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     59626,
+     -41684,
+     -3000
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31388@59626,-41684",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 15697,
+    "sec": 176,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15697,
+      "how": "geodata",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      52424,
+      -53848,
+      -3096
+     ],
+     [
+      52680,
+      -53560,
+      -3144
+     ],
+     [
+      53168,
+      -53064,
+      -3104
+     ],
+     [
+      53656,
+      -52568,
+      -3064
+     ],
+     [
+      54152,
+      -52072,
+      -3172
+     ],
+     [
+      54648,
+      -51576,
+      -3280
+     ],
+     [
+      55064,
+      -51096,
+      -3544
+     ],
+     [
+      55080,
+      -51096,
+      -3552
+     ],
+     [
+      55080,
+      -51080,
+      -3552
+     ],
+     [
+      55112,
+      -51064,
+      -3552
+     ],
+     [
+      55048,
+      -50776,
+      -3424
+     ],
+     [
+      55064,
+      -50648,
+      -3344
+     ],
+     [
+      55112,
+      -50584,
+      -3296
+     ],
+     [
+      55608,
+      -50088,
+      -3224
+     ],
+     [
+      56104,
+      -49592,
+      -3152
+     ],
+     [
+      56600,
+      -48984,
+      -3016
+     ],
+     [
+      57096,
+      -48488,
+      -2988
+     ],
+     [
+      57592,
+      -47992,
+      -2960
+     ],
+     [
+      57848,
+      -47688,
+      -2856
+     ],
+     [
+      57848,
+      -47608,
+      -2784
+     ],
+     [
+      57992,
+      -47336,
+      -2632
+     ],
+     [
+      58488,
+      -46848,
+      -2716
+     ],
+     [
+      58984,
+      -46360,
+      -2800
+     ],
+     [
+      59304,
+      -45864,
+      -2832
+     ],
+     [
+      59624,
+      -45368,
+      -2864
+     ],
+     [
+      59624,
+      -44376,
+      -2792
+     ],
+     [
+      59624,
+      -43592,
+      -2984
+     ],
+     [
+      59784,
+      -43416,
+      -2984
+     ],
+     [
+      59784,
+      -43368,
+      -2984
+     ],
+     [
+      59768,
+      -43368,
+      -2976
+     ],
+     [
+      59752,
+      -43336,
+      -2984
+     ],
+     [
+      59720,
+      -43320,
+      -2984
+     ],
+     [
+      59656,
+      -42920,
+      -2984
+     ],
+     [
+      59624,
+      -41928,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Vampire Magister",
+       "lv": 73,
+       "n": 2
+      },
+      {
+       "name": "Vampire Warlord",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Vampire Wizard",
+       "lv": 73,
+       "n": 1
+      },
+      {
+       "name": "Vampire Magician",
+       "lv": 72,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 201,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ],
+   "override": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52248,
+      -48216,
+      -3376
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55832,
+      -42408,
+      -2752
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Route: Rune -> Forest of the Dead landing -> 59626,-41684,-3000, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 71 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 21396 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "points": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52248,
+      -48216,
+      -3376
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55832,
+      -42408,
+      -2752
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "pv": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "length": 21396,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21553,
+     "name": "Trampled Man",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21561,
+     "name": "Sacrificed Man",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21570,
+     "name": "Ghost of Betrayer",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 21578,
+     "name": "Behemoth Zombie",
+     "level": 71,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Trampled Man, Sacrificed Man, Ghost of Betrayer",
+   "places": [
+    {
+     "mobs": [
+      21553,
+      21561,
+      21570,
+      21578
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swamp-of-screams-21",
+      "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
+      "at": [
+       60376,
+       -47160,
+       -2688
+      ],
+      "radius": 2875,
+      "levels": [
+       63,
+       71
+      ],
+      "count": 7,
+      "region": "Swamp of Screams",
+      "atlasKey": "area:swamp-of-screams-21",
+      "status": "ok",
+      "sec": 138,
+      "danger": 71,
+      "aggrShare": 0.81,
+      "reachable": true,
+      "score": -39.7,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-2",
+        "name": "Forest of the Dead 2: Atrox area (east)",
+        "at": [
+         53528,
+         -54776,
+         -2928
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-3",
+        "name": "Forest of the Dead 3: Corrupted Knight area (north-west)",
+        "at": [
+         50088,
+         -56504,
+         -2592
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-10",
+        "name": "Forest of the Dead 10: Corrupted Knight area (north-west)",
+        "at": [
+         48088,
+         -57560,
+         -2584
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swamp-of-screams-21",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 11206,
+      "sec": 138,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1016,
+        "how": "field-areas-gap",
+        "danger": 69
+       },
+       {
+        "do": "walk",
+        "len": 10190,
+        "how": "field-areas",
+        "danger": 73
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        52664,
+        -53656,
+        -3104
+       ],
+       [
+        53608,
+        -53128,
+        -3200
+       ],
+       [
+        54600,
+        -52632,
+        -3360
+       ],
+       [
+        55320,
+        -51928,
+        -3512
+       ],
+       [
+        56312,
+        -50968,
+        -3408
+       ],
+       [
+        57272,
+        -49976,
+        -3288
+       ],
+       [
+        58264,
+        -48984,
+        -2744
+       ],
+       [
+        59256,
+        -47992,
+        -2624
+       ],
+       [
+        59928,
+        -47320,
+        -2720
+       ],
+       [
+        60376,
+        -47160,
+        -2688
+       ]
+      ],
+      "maxDanger": 73,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 73,
+       "dangerVsLevel": 8,
+       "aggro": [
+        {
+         "name": "Ghost of Rebellion Leader",
+         "lv": 71,
+         "n": 5
+        },
+        {
+         "name": "Requiem Priest",
+         "lv": 71,
+         "n": 2
+        },
+        {
+         "name": "Behemoth Zombie",
+         "lv": 71,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swamp-of-screams-21",
+    "name": "Swamp of Screams 21: Corpse of Deadman area (west)",
+    "at": [
+     60376,
+     -47160,
+     -2688
+    ],
+    "radius": 2875,
+    "levels": [
+     63,
+     71
+    ],
+    "count": 7,
+    "region": "Swamp of Screams",
+    "atlasKey": "area:swamp-of-screams-21",
+    "status": "ok",
+    "sec": 138,
+    "danger": 71,
+    "aggrShare": 0.81,
+    "reachable": true,
+    "score": -39.7,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-2",
+      "name": "Forest of the Dead 2: Atrox area (east)",
+      "at": [
+       53528,
+       -54776,
+       -2928
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-3",
+      "name": "Forest of the Dead 3: Corrupted Knight area (north-west)",
+      "at": [
+       50088,
+       -56504,
+       -2592
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forest-of-the-dead-10",
+      "name": "Forest of the Dead 10: Corrupted Knight area (north-west)",
+      "at": [
+       48088,
+       -57560,
+       -2584
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swamp-of-screams-21",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 11206,
+    "sec": 138,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1016,
+      "how": "field-areas-gap",
+      "danger": 69
+     },
+     {
+      "do": "walk",
+      "len": 10190,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      52664,
+      -53656,
+      -3104
+     ],
+     [
+      53608,
+      -53128,
+      -3200
+     ],
+     [
+      54600,
+      -52632,
+      -3360
+     ],
+     [
+      55320,
+      -51928,
+      -3512
+     ],
+     [
+      56312,
+      -50968,
+      -3408
+     ],
+     [
+      57272,
+      -49976,
+      -3288
+     ],
+     [
+      58264,
+      -48984,
+      -2744
+     ],
+     [
+      59256,
+      -47992,
+      -2624
+     ],
+     [
+      59928,
+      -47320,
+      -2720
+     ],
+     [
+      60376,
+      -47160,
+      -2688
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": 8,
+     "aggro": [
+      {
+       "name": "Ghost of Rebellion Leader",
+       "lv": 71,
+       "n": 5
+      },
+      {
+       "name": "Requiem Priest",
+       "lv": 71,
+       "n": 2
+      },
+      {
+       "name": "Behemoth Zombie",
+       "lv": 71,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 163,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:31388": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52248,
+      -48216,
+      -3376
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55832,
+      -42408,
+      -2752
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Route: Rune -> Forest of the Dead landing -> 59626,-41684,-3000, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 71 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 21396 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "c1:talk:31388": {
+    "route": [
+     [
+      52104,
+      -54328,
+      -3152
+     ],
+     [
+      52328,
+      -53336,
+      -3160
+     ],
+     [
+      52168,
+      -52712,
+      -3136
+     ],
+     [
+      52328,
+      -52152,
+      -3064
+     ],
+     [
+      52344,
+      -51208,
+      -3096
+     ],
+     [
+      51864,
+      -50216,
+      -3032
+     ],
+     [
+      51800,
+      -50152,
+      -3032
+     ],
+     [
+      51816,
+      -50120,
+      -3016
+     ],
+     [
+      52040,
+      -50040,
+      -3024
+     ],
+     [
+      51368,
+      -49704,
+      -2784
+     ],
+     [
+      51256,
+      -49592,
+      -2848
+     ],
+     [
+      51272,
+      -48936,
+      -3000
+     ],
+     [
+      51512,
+      -48696,
+      -3112
+     ],
+     [
+      52248,
+      -48216,
+      -3376
+     ],
+     [
+      52760,
+      -48648,
+      -3696
+     ],
+     [
+      53016,
+      -48648,
+      -3672
+     ],
+     [
+      53080,
+      -48056,
+      -3712
+     ],
+     [
+      53224,
+      -47064,
+      -3712
+     ],
+     [
+      53144,
+      -46488,
+      -3576
+     ],
+     [
+      53224,
+      -46456,
+      -3592
+     ],
+     [
+      53176,
+      -46264,
+      -3440
+     ],
+     [
+      53512,
+      -45688,
+      -3232
+     ],
+     [
+      53480,
+      -45176,
+      -3240
+     ],
+     [
+      53304,
+      -45000,
+      -3256
+     ],
+     [
+      53320,
+      -44872,
+      -3328
+     ],
+     [
+      53576,
+      -44808,
+      -3448
+     ],
+     [
+      53576,
+      -44648,
+      -3472
+     ],
+     [
+      53528,
+      -44424,
+      -3448
+     ],
+     [
+      53768,
+      -43896,
+      -3344
+     ],
+     [
+      54568,
+      -43592,
+      -2760
+     ],
+     [
+      54520,
+      -43528,
+      -2688
+     ],
+     [
+      54520,
+      -43016,
+      -2472
+     ],
+     [
+      54616,
+      -42712,
+      -2480
+     ],
+     [
+      54664,
+      -42680,
+      -2448
+     ],
+     [
+      55656,
+      -42744,
+      -2504
+     ],
+     [
+      55720,
+      -42808,
+      -2512
+     ],
+     [
+      55768,
+      -42728,
+      -2592
+     ],
+     [
+      55752,
+      -42456,
+      -2680
+     ],
+     [
+      55832,
+      -42408,
+      -2752
+     ],
+     [
+      55848,
+      -42424,
+      -2760
+     ],
+     [
+      55976,
+      -42424,
+      -2840
+     ],
+     [
+      56088,
+      -42216,
+      -2928
+     ],
+     [
+      56088,
+      -42184,
+      -2928
+     ],
+     [
+      56488,
+      -42120,
+      -2952
+     ],
+     [
+      56856,
+      -41896,
+      -3128
+     ],
+     [
+      57176,
+      -42216,
+      -3120
+     ],
+     [
+      57368,
+      -42248,
+      -3120
+     ],
+     [
+      57576,
+      -42104,
+      -3096
+     ],
+     [
+      57784,
+      -41784,
+      -3128
+     ],
+     [
+      58088,
+      -41784,
+      -3088
+     ],
+     [
+      58760,
+      -41896,
+      -3000
+     ],
+     [
+      59624,
+      -41688,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "note": "Route: Rune -> Forest of the Dead landing -> 59626,-41684,-3000, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 71 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 21396 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   }
+  },
+  "editedAt": "2026-10-27T11:05:18.265Z",
+  "by": "quest fixer batch 3"
+ }
+}

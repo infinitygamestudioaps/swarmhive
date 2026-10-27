@@ -1,0 +1,1899 @@
+{
+ "id": 107,
+ "name": "Merciless Punishment",
+ "version": 1,
+ "generated": "2026-10-27T11:14:57.809Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 10,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Orc Village",
+ "requirements": {
+  "races": [
+   "ORC"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ORC"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: engine-gap:start.via"
+  },
+  {
+   "code": "dryrun:engine-gap:start.via",
+   "text": "c2:hunt: gatekeeper start via \".schuttgart > Schuttgart -> Orc Village\" — rsCustomTrip teleports to \"Orc\" directly"
+  }
+ ],
+ "expectedMin": 11,
+ "refLevel": 10,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30568",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30568,
+    "name": "Hatos",
+    "title": "Urutu Chief",
+    "town": "Orc Village",
+    "at": [
+     -46808,
+     -113184,
+     -112
+    ],
+    "alt": []
+   },
+   "text": "Accept the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30568@-46808,-113184",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7553,
+    "sec": 108,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7553,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45864,
+      -111752,
+      -240
+     ],
+     [
+      -46056,
+      -111928,
+      -240
+     ],
+     [
+      -46312,
+      -112040,
+      -240
+     ],
+     [
+      -46584,
+      -112024,
+      -240
+     ],
+     [
+      -46856,
+      -112024,
+      -240
+     ],
+     [
+      -46888,
+      -111992,
+      -240
+     ],
+     [
+      -47000,
+      -111752,
+      -240
+     ],
+     [
+      -47016,
+      -111480,
+      -240
+     ],
+     [
+      -47096,
+      -111224,
+      -240
+     ],
+     [
+      -47080,
+      -111144,
+      -240
+     ],
+     [
+      -47112,
+      -110872,
+      -184
+     ],
+     [
+      -47112,
+      -110600,
+      -88
+     ],
+     [
+      -47112,
+      -110328,
+      8
+     ],
+     [
+      -47224,
+      -110248,
+      16
+     ],
+     [
+      -47288,
+      -110376,
+      16
+     ],
+     [
+      -47288,
+      -110648,
+      16
+     ],
+     [
+      -47288,
+      -110920,
+      16
+     ],
+     [
+      -47288,
+      -111192,
+      16
+     ],
+     [
+      -47288,
+      -111464,
+      16
+     ],
+     [
+      -47288,
+      -111736,
+      16
+     ],
+     [
+      -47288,
+      -112008,
+      16
+     ],
+     [
+      -47288,
+      -112280,
+      16
+     ],
+     [
+      -47288,
+      -112552,
+      16
+     ],
+     [
+      -47288,
+      -112824,
+      16
+     ],
+     [
+      -47224,
+      -112936,
+      16
+     ],
+     [
+      -46952,
+      -112952,
+      16
+     ],
+     [
+      -46808,
+      -113016,
+      16
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:deliver:30580",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30580,
+    "name": "Parugon",
+    "title": "Centurion",
+    "town": "Orc Village",
+    "at": [
+     -45744,
+     -117165,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Bring Hatos's 1st Order to Parugon",
+   "needs": [
+    {
+     "id": 1553,
+     "name": "Hatos's 1st Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31785@-45840,-116688",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5156,
+    "sec": 88,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44664,
+      -112920,
+      -240
+     ],
+     [
+      -44472,
+      -113112,
+      -240
+     ],
+     [
+      -44424,
+      -113352,
+      -240
+     ],
+     [
+      -44504,
+      -113608,
+      -208
+     ],
+     [
+      -44392,
+      -113816,
+      -240
+     ],
+     [
+      -44440,
+      -114024,
+      -240
+     ],
+     [
+      -44632,
+      -114216,
+      -240
+     ],
+     [
+      -44712,
+      -114296,
+      -240
+     ],
+     [
+      -44712,
+      -114568,
+      -240
+     ],
+     [
+      -44760,
+      -114776,
+      -240
+     ],
+     [
+      -44792,
+      -114808,
+      -240
+     ],
+     [
+      -44968,
+      -115016,
+      -240
+     ],
+     [
+      -45160,
+      -115208,
+      -240
+     ],
+     [
+      -45384,
+      -115368,
+      -240
+     ],
+     [
+      -45576,
+      -115496,
+      -240
+     ],
+     [
+      -45736,
+      -115704,
+      -240
+     ],
+     [
+      -45816,
+      -115960,
+      -240
+     ],
+     [
+      -45800,
+      -116136,
+      -240
+     ],
+     [
+      -45832,
+      -116408,
+      -240
+     ],
+     [
+      -45832,
+      -116680,
+      -240
+     ],
+     [
+      -45800,
+      -117208,
+      -240
+     ],
+     [
+      -45736,
+      -117160,
+      -240
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31785@-45840,-116688",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44664,
+      -112920,
+      -240
+     ],
+     [
+      -44472,
+      -113112,
+      -240
+     ],
+     [
+      -44424,
+      -113352,
+      -240
+     ],
+     [
+      -44504,
+      -113608,
+      -208
+     ],
+     [
+      -44392,
+      -113816,
+      -240
+     ],
+     [
+      -44440,
+      -114024,
+      -240
+     ],
+     [
+      -44632,
+      -114216,
+      -240
+     ],
+     [
+      -44712,
+      -114296,
+      -240
+     ],
+     [
+      -44712,
+      -114568,
+      -240
+     ],
+     [
+      -44760,
+      -114776,
+      -240
+     ],
+     [
+      -44792,
+      -114808,
+      -240
+     ],
+     [
+      -44968,
+      -115016,
+      -240
+     ],
+     [
+      -45160,
+      -115208,
+      -240
+     ],
+     [
+      -45384,
+      -115368,
+      -240
+     ],
+     [
+      -45576,
+      -115496,
+      -240
+     ],
+     [
+      -45736,
+      -115704,
+      -240
+     ],
+     [
+      -45816,
+      -115960,
+      -240
+     ],
+     [
+      -45800,
+      -116136,
+      -240
+     ],
+     [
+      -45832,
+      -116408,
+      -240
+     ],
+     [
+      -45832,
+      -116680,
+      -240
+     ],
+     [
+      -45800,
+      -117208,
+      -240
+     ],
+     [
+      -45736,
+      -117160,
+      -240
+     ]
+    ]
+   },
+   "expectedSec": 113,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 3,
+   "monsters": [
+    {
+     "id": 27041,
+     "name": "Varangka's Messenger",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Varangka's Messenger x1",
+   "places": [
+    {
+     "mobs": [
+      27041
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "27041@16576,-118592",
+      "name": "Varangka's Messenger (Valley of the Lords)",
+      "at": [
+       16576,
+       -118592,
+       -760
+      ],
+      "radius": 1500,
+      "levels": [
+       12,
+       12
+      ],
+      "count": 1,
+      "region": "Valley of the Lords",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 84,
+      "alt": []
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "27041@16576,-118592",
+    "name": "Varangka's Messenger (Valley of the Lords)",
+    "at": [
+     16576,
+     -118592,
+     -760
+    ],
+    "radius": 1500,
+    "levels": [
+     12,
+     12
+    ],
+    "count": 1,
+    "region": "Valley of the Lords",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 84,
+    "alt": []
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    2,
+    4,
+    6
+   ],
+   "override": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9352,
+      -113064,
+      -2464
+     ],
+     [
+      9464,
+      -113336,
+      -2408
+     ],
+     [
+      10056,
+      -114328,
+      -2376
+     ],
+     [
+      10472,
+      -115320,
+      -2344
+     ],
+     [
+      10584,
+      -115672,
+      -2328
+     ],
+     [
+      10744,
+      -115960,
+      -2312
+     ],
+     [
+      11736,
+      -116952,
+      -2096
+     ],
+     [
+      12728,
+      -117912,
+      -1896
+     ],
+     [
+      12888,
+      -117832,
+      -1824
+     ],
+     [
+      13880,
+      -118584,
+      -1448
+     ],
+     [
+      14872,
+      -118584,
+      -952
+     ],
+     [
+      15864,
+      -118584,
+      -816
+     ],
+     [
+      16584,
+      -118584,
+      -760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "note": "Varangka's Messenger 27041 (16576,-118592,-760, spawns_h5.json); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the Cave of Trials landing",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "points": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9352,
+      -113064,
+      -2464
+     ],
+     [
+      9464,
+      -113336,
+      -2408
+     ],
+     [
+      10056,
+      -114328,
+      -2376
+     ],
+     [
+      10472,
+      -115320,
+      -2344
+     ],
+     [
+      10584,
+      -115672,
+      -2328
+     ],
+     [
+      10744,
+      -115960,
+      -2312
+     ],
+     [
+      11736,
+      -116952,
+      -2096
+     ],
+     [
+      12728,
+      -117912,
+      -1896
+     ],
+     [
+      12888,
+      -117832,
+      -1824
+     ],
+     [
+      13880,
+      -118584,
+      -1448
+     ],
+     [
+      14872,
+      -118584,
+      -952
+     ],
+     [
+      15864,
+      -118584,
+      -816
+     ],
+     [
+      16584,
+      -118584,
+      -760
+     ]
+    ],
+    "pv": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9352,
+      -113064,
+      -2464
+     ],
+     [
+      9464,
+      -113336,
+      -2408
+     ],
+     [
+      10056,
+      -114328,
+      -2376
+     ],
+     [
+      10472,
+      -115320,
+      -2344
+     ],
+     [
+      10584,
+      -115672,
+      -2328
+     ],
+     [
+      10744,
+      -115960,
+      -2312
+     ],
+     [
+      11736,
+      -116952,
+      -2096
+     ],
+     [
+      12728,
+      -117912,
+      -1896
+     ],
+     [
+      12888,
+      -117832,
+      -1824
+     ],
+     [
+      13880,
+      -118584,
+      -1448
+     ],
+     [
+      14872,
+      -118584,
+      -952
+     ],
+     [
+      15864,
+      -118584,
+      -816
+     ],
+     [
+      16584,
+      -118584,
+      -760
+     ]
+    ],
+    "length": 10690,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:deliver:30568",
+   "cond": 3,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "Say you will continue."
+   ],
+   "npc": {
+    "id": 30568,
+    "name": "Hatos",
+    "title": "Urutu Chief",
+    "town": "Orc Village",
+    "at": [
+     -46808,
+     -113184,
+     -112
+    ],
+    "alt": []
+   },
+   "text": "Bring Hatos's 1st Order to Hatos",
+   "needs": [
+    {
+     "id": 1553,
+     "name": "Hatos's 1st Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30568@-46808,-113184",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7553,
+    "sec": 108,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7553,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45864,
+      -111752,
+      -240
+     ],
+     [
+      -46056,
+      -111928,
+      -240
+     ],
+     [
+      -46312,
+      -112040,
+      -240
+     ],
+     [
+      -46584,
+      -112024,
+      -240
+     ],
+     [
+      -46856,
+      -112024,
+      -240
+     ],
+     [
+      -46888,
+      -111992,
+      -240
+     ],
+     [
+      -47000,
+      -111752,
+      -240
+     ],
+     [
+      -47016,
+      -111480,
+      -240
+     ],
+     [
+      -47096,
+      -111224,
+      -240
+     ],
+     [
+      -47080,
+      -111144,
+      -240
+     ],
+     [
+      -47112,
+      -110872,
+      -184
+     ],
+     [
+      -47112,
+      -110600,
+      -88
+     ],
+     [
+      -47112,
+      -110328,
+      8
+     ],
+     [
+      -47224,
+      -110248,
+      16
+     ],
+     [
+      -47288,
+      -110376,
+      16
+     ],
+     [
+      -47288,
+      -110648,
+      16
+     ],
+     [
+      -47288,
+      -110920,
+      16
+     ],
+     [
+      -47288,
+      -111192,
+      16
+     ],
+     [
+      -47288,
+      -111464,
+      16
+     ],
+     [
+      -47288,
+      -111736,
+      16
+     ],
+     [
+      -47288,
+      -112008,
+      16
+     ],
+     [
+      -47288,
+      -112280,
+      16
+     ],
+     [
+      -47288,
+      -112552,
+      16
+     ],
+     [
+      -47288,
+      -112824,
+      16
+     ],
+     [
+      -47224,
+      -112936,
+      16
+     ],
+     [
+      -46952,
+      -112952,
+      16
+     ],
+     [
+      -46808,
+      -113016,
+      16
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 133,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c5:deliver:30568",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "Say you will continue"
+   ],
+   "npc": {
+    "id": 30568,
+    "name": "Hatos",
+    "title": "Urutu Chief",
+    "town": "Orc Village",
+    "at": [
+     -46808,
+     -113184,
+     -112
+    ],
+    "alt": []
+   },
+   "text": "Bring Hatos's 2nd Order to Hatos",
+   "needs": [
+    {
+     "id": 1554,
+     "name": "Hatos's 2nd Order",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30568@-46808,-113184",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7553,
+    "sec": 108,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7553,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45864,
+      -111752,
+      -240
+     ],
+     [
+      -46056,
+      -111928,
+      -240
+     ],
+     [
+      -46312,
+      -112040,
+      -240
+     ],
+     [
+      -46584,
+      -112024,
+      -240
+     ],
+     [
+      -46856,
+      -112024,
+      -240
+     ],
+     [
+      -46888,
+      -111992,
+      -240
+     ],
+     [
+      -47000,
+      -111752,
+      -240
+     ],
+     [
+      -47016,
+      -111480,
+      -240
+     ],
+     [
+      -47096,
+      -111224,
+      -240
+     ],
+     [
+      -47080,
+      -111144,
+      -240
+     ],
+     [
+      -47112,
+      -110872,
+      -184
+     ],
+     [
+      -47112,
+      -110600,
+      -88
+     ],
+     [
+      -47112,
+      -110328,
+      8
+     ],
+     [
+      -47224,
+      -110248,
+      16
+     ],
+     [
+      -47288,
+      -110376,
+      16
+     ],
+     [
+      -47288,
+      -110648,
+      16
+     ],
+     [
+      -47288,
+      -110920,
+      16
+     ],
+     [
+      -47288,
+      -111192,
+      16
+     ],
+     [
+      -47288,
+      -111464,
+      16
+     ],
+     [
+      -47288,
+      -111736,
+      16
+     ],
+     [
+      -47288,
+      -112008,
+      16
+     ],
+     [
+      -47288,
+      -112280,
+      16
+     ],
+     [
+      -47288,
+      -112552,
+      16
+     ],
+     [
+      -47288,
+      -112824,
+      16
+     ],
+     [
+      -47224,
+      -112936,
+      16
+     ],
+     [
+      -46952,
+      -112952,
+      16
+     ],
+     [
+      -46808,
+      -113016,
+      16
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 133,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c7:deliver:30568",
+   "cond": 7,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30568,
+    "name": "Hatos",
+    "title": "Urutu Chief",
+    "town": "Orc Village",
+    "at": [
+     -46808,
+     -113184,
+     -112
+    ],
+    "alt": []
+   },
+   "text": "Bring Hatos's 3rd Order, Letter to Human, Letter to Dark Elf, Letter to Elf to Hatos",
+   "needs": [
+    {
+     "id": 1555,
+     "name": "Hatos's 3rd Order",
+     "n": 1
+    },
+    {
+     "id": 1557,
+     "name": "Letter to Human",
+     "n": 1
+    },
+    {
+     "id": 1556,
+     "name": "Letter to Dark Elf",
+     "n": 1
+    },
+    {
+     "id": 1558,
+     "name": "Letter to Elf",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30568@-46808,-113184",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 7553,
+    "sec": 108,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7553,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45464,
+      -111816,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45864,
+      -111752,
+      -240
+     ],
+     [
+      -46056,
+      -111928,
+      -240
+     ],
+     [
+      -46312,
+      -112040,
+      -240
+     ],
+     [
+      -46584,
+      -112024,
+      -240
+     ],
+     [
+      -46856,
+      -112024,
+      -240
+     ],
+     [
+      -46888,
+      -111992,
+      -240
+     ],
+     [
+      -47000,
+      -111752,
+      -240
+     ],
+     [
+      -47016,
+      -111480,
+      -240
+     ],
+     [
+      -47096,
+      -111224,
+      -240
+     ],
+     [
+      -47080,
+      -111144,
+      -240
+     ],
+     [
+      -47112,
+      -110872,
+      -184
+     ],
+     [
+      -47112,
+      -110600,
+      -88
+     ],
+     [
+      -47112,
+      -110328,
+      8
+     ],
+     [
+      -47224,
+      -110248,
+      16
+     ],
+     [
+      -47288,
+      -110376,
+      16
+     ],
+     [
+      -47288,
+      -110648,
+      16
+     ],
+     [
+      -47288,
+      -110920,
+      16
+     ],
+     [
+      -47288,
+      -111192,
+      16
+     ],
+     [
+      -47288,
+      -111464,
+      16
+     ],
+     [
+      -47288,
+      -111736,
+      16
+     ],
+     [
+      -47288,
+      -112008,
+      16
+     ],
+     [
+      -47288,
+      -112280,
+      16
+     ],
+     [
+      -47288,
+      -112552,
+      16
+     ],
+     [
+      -47288,
+      -112824,
+      16
+     ],
+     [
+      -47224,
+      -112936,
+      16
+     ],
+     [
+      -46952,
+      -112952,
+      16
+     ],
+     [
+      -46808,
+      -113016,
+      16
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": -7,
+     "aggro": []
+    }
+   },
+   "expectedSec": 133,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c2:hunt": {
+    "route": [
+     [
+      9340,
+      -112509,
+      -2536
+     ],
+     [
+      9352,
+      -113064,
+      -2464
+     ],
+     [
+      9464,
+      -113336,
+      -2408
+     ],
+     [
+      10056,
+      -114328,
+      -2376
+     ],
+     [
+      10472,
+      -115320,
+      -2344
+     ],
+     [
+      10584,
+      -115672,
+      -2328
+     ],
+     [
+      10744,
+      -115960,
+      -2312
+     ],
+     [
+      11736,
+      -116952,
+      -2096
+     ],
+     [
+      12728,
+      -117912,
+      -1896
+     ],
+     [
+      12888,
+      -117832,
+      -1824
+     ],
+     [
+      13880,
+      -118584,
+      -1448
+     ],
+     [
+      14872,
+      -118584,
+      -952
+     ],
+     [
+      15864,
+      -118584,
+      -816
+     ],
+     [
+      16584,
+      -118584,
+      -760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Orc",
+     "desc": "Orc Village -> Cave of Trials",
+     "via": ".schuttgart > Schuttgart -> Orc Village"
+    },
+    "note": "Varangka's Messenger 27041 (16576,-118592,-760, spawns_h5.json); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the Cave of Trials landing",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:57.830Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "engine-gap:start.via",
+    "t": "c2:hunt: gatekeeper start via \".schuttgart > Schuttgart -> Orc Village\" — rsCustomTrip teleports to \"Orc\" directly"
+   }
+  ],
+  "warns": [
+   "prereq-missing",
+   "area-thin",
+   "route-detour"
+  ]
+ }
+}

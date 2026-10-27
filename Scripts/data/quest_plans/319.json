@@ -1,0 +1,821 @@
+{
+ "id": 319,
+ "name": "Scent of Death",
+ "version": 1,
+ "generated": "2026-10-27T11:15:22.321Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 11,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dark Elf Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 8,
+ "refLevel": 11,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30138",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help"
+   ],
+   "npc": {
+    "id": 30138,
+    "name": "Minaless",
+    "title": "Accessory Merchant",
+    "town": "Dark Elf Village",
+    "at": [
+     12009,
+     15704,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Minaless – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30138@12009,15704",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5036,
+    "sec": 87,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5036,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9928,
+      15672,
+      -4568
+     ],
+     [
+      10200,
+      15672,
+      -4568
+     ],
+     [
+      10456,
+      15592,
+      -4568
+     ],
+     [
+      10632,
+      15480,
+      -4568
+     ],
+     [
+      10616,
+      15320,
+      -4504
+     ],
+     [
+      10584,
+      15112,
+      -4352
+     ],
+     [
+      10664,
+      14968,
+      -4336
+     ],
+     [
+      10920,
+      15048,
+      -4352
+     ],
+     [
+      11096,
+      14952,
+      -4336
+     ],
+     [
+      11128,
+      14712,
+      -4336
+     ],
+     [
+      11144,
+      14824,
+      -4336
+     ],
+     [
+      11352,
+      14904,
+      -4336
+     ],
+     [
+      11416,
+      15176,
+      -4528
+     ],
+     [
+      11528,
+      15352,
+      -4568
+     ],
+     [
+      11800,
+      15288,
+      -4568
+     ],
+     [
+      12072,
+      15272,
+      -4568
+     ],
+     [
+      12280,
+      15320,
+      -4568
+     ],
+     [
+      12472,
+      15512,
+      -4568
+     ],
+     [
+      12552,
+      15592,
+      -4568
+     ],
+     [
+      12552,
+      15656,
+      -4568
+     ],
+     [
+      12456,
+      15864,
+      -4568
+     ],
+     [
+      12264,
+      15944,
+      -4552
+     ],
+     [
+      12184,
+      15944,
+      -4552
+     ],
+     [
+      12024,
+      15768,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 117,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20015,
+     "name": "Marsh Zombie",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 20020,
+     "name": "Marsh Zombie Lord",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 64,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1045,
+     "name": "Zombie's Skin",
+     "n": 5,
+     "from": [
+      {
+       "id": 20015,
+       "name": "Marsh Zombie",
+       "chance": 100
+      },
+      {
+       "id": 20020,
+       "name": "Marsh Zombie Lord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Marsh Zombie, Marsh Zombie Lord for Zombie's Skin x5",
+   "places": [
+    {
+     "mobs": [
+      20015,
+      20020
+     ],
+     "items": [
+      1045
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swampland-3",
+      "name": "Swampland 3: Marsh Zombie Lord area (west)",
+      "at": [
+       -26792,
+       41992,
+       -3424
+      ],
+      "radius": 4254,
+      "levels": [
+       13,
+       14
+      ],
+      "count": 13,
+      "region": "Swampland",
+      "atlasKey": "area:swampland-3",
+      "status": "ok",
+      "sec": 115,
+      "danger": 14,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -76.08333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "swampland-1",
+        "name": "Swampland 1: Marsh Zombie area (east)",
+        "at": [
+         -19400,
+         40856,
+         -3776
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-10",
+        "name": "Swampland 10: Marsh Zombie Lord area (south-west)",
+        "at": [
+         -27448,
+         47224,
+         -3672
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-12",
+        "name": "Swampland 12: Festering Bat area (north-east)",
+        "at": [
+         -16664,
+         33160,
+         -3600
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swampland-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 5345,
+      "sec": 115,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Swampland",
+        "link": "swampland",
+        "price": 1100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5345,
+        "how": "field-areas",
+        "danger": 14
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -21960,
+        40552,
+        -3192
+       ],
+       [
+        -22952,
+        40552,
+        -3104
+       ],
+       [
+        -23944,
+        40552,
+        -3088
+       ],
+       [
+        -24936,
+        40552,
+        -3088
+       ],
+       [
+        -25928,
+        41128,
+        -3200
+       ],
+       [
+        -26792,
+        41992,
+        -3424
+       ]
+      ],
+      "maxDanger": 14,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 14,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swampland-3",
+    "name": "Swampland 3: Marsh Zombie Lord area (west)",
+    "at": [
+     -26792,
+     41992,
+     -3424
+    ],
+    "radius": 4254,
+    "levels": [
+     13,
+     14
+    ],
+    "count": 13,
+    "region": "Swampland",
+    "atlasKey": "area:swampland-3",
+    "status": "ok",
+    "sec": 115,
+    "danger": 14,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -76.08333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "swampland-1",
+      "name": "Swampland 1: Marsh Zombie area (east)",
+      "at": [
+       -19400,
+       40856,
+       -3776
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swampland-10",
+      "name": "Swampland 10: Marsh Zombie Lord area (south-west)",
+      "at": [
+       -27448,
+       47224,
+       -3672
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swampland-12",
+      "name": "Swampland 12: Festering Bat area (north-east)",
+      "at": [
+       -16664,
+       33160,
+       -3600
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swampland-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5345,
+    "sec": 115,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5345,
+      "how": "field-areas",
+      "danger": 14
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -22952,
+      40552,
+      -3104
+     ],
+     [
+      -23944,
+      40552,
+      -3088
+     ],
+     [
+      -24936,
+      40552,
+      -3088
+     ],
+     [
+      -25928,
+      41128,
+      -3200
+     ],
+     [
+      -26792,
+      41992,
+      -3424
+     ]
+    ],
+    "maxDanger": 14,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 14,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 240,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30138",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30138,
+    "name": "Minaless",
+    "title": "Accessory Merchant",
+    "town": "Dark Elf Village",
+    "at": [
+     12009,
+     15704,
+     -4554
+    ],
+    "alt": []
+   },
+   "text": "Talk to Minaless",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30138@12009,15704",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5036,
+    "sec": 87,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5036,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9928,
+      15672,
+      -4568
+     ],
+     [
+      10200,
+      15672,
+      -4568
+     ],
+     [
+      10456,
+      15592,
+      -4568
+     ],
+     [
+      10632,
+      15480,
+      -4568
+     ],
+     [
+      10616,
+      15320,
+      -4504
+     ],
+     [
+      10584,
+      15112,
+      -4352
+     ],
+     [
+      10664,
+      14968,
+      -4336
+     ],
+     [
+      10920,
+      15048,
+      -4352
+     ],
+     [
+      11096,
+      14952,
+      -4336
+     ],
+     [
+      11128,
+      14712,
+      -4336
+     ],
+     [
+      11144,
+      14824,
+      -4336
+     ],
+     [
+      11352,
+      14904,
+      -4336
+     ],
+     [
+      11416,
+      15176,
+      -4528
+     ],
+     [
+      11528,
+      15352,
+      -4568
+     ],
+     [
+      11800,
+      15288,
+      -4568
+     ],
+     [
+      12072,
+      15272,
+      -4568
+     ],
+     [
+      12280,
+      15320,
+      -4568
+     ],
+     [
+      12472,
+      15512,
+      -4568
+     ],
+     [
+      12552,
+      15592,
+      -4568
+     ],
+     [
+      12552,
+      15656,
+      -4568
+     ],
+     [
+      12456,
+      15864,
+      -4568
+     ],
+     [
+      12264,
+      15944,
+      -4552
+     ],
+     [
+      12184,
+      15944,
+      -4552
+     ],
+     [
+      12024,
+      15768,
+      -4552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 112,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:22.327Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

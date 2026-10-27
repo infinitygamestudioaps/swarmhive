@@ -1,0 +1,3070 @@
+{
+ "id": 221,
+ "name": "Testimony Of Prosperity",
+ "version": 1,
+ "generated": "2026-10-27T11:15:15.908Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 37,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Giran",
+ "requirements": {
+  "races": [
+   "DWARF"
+  ],
+  "categories": [
+   "DWARF_2ND_GROUP"
+  ],
+  "items": [
+   {
+    "id": 3239,
+    "name": "1st Ring of Testimony"
+   }
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DWARF"
+  },
+  {
+   "code": "class-only",
+   "text": "classes: DWARF_2ND_GROUP"
+  },
+  {
+   "code": "needs-item",
+   "text": "1st Ring of Testimony"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 3
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 3
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 56
+  }
+ ],
+ "expectedMin": 31,
+ "refLevel": 37,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30104",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will take the test!\""
+   ],
+   "npc": {
+    "id": 30104,
+    "name": "Parman",
+    "title": "Warehouse Keeper",
+    "town": "Giran",
+    "at": [
+     83263,
+     146736,
+     -3464
+    ],
+    "alt": []
+   },
+   "text": "Talk to Parman – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30104@83263,146736",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 5370,
+    "sec": 65,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 5370,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146712,
+      -3528
+     ],
+     [
+      81592,
+      146632,
+      -3528
+     ],
+     [
+      81848,
+      146568,
+      -3528
+     ],
+     [
+      81912,
+      146568,
+      -3528
+     ],
+     [
+      82184,
+      146616,
+      -3528
+     ],
+     [
+      82456,
+      146664,
+      -3520
+     ],
+     [
+      82728,
+      146664,
+      -3464
+     ],
+     [
+      82952,
+      146664,
+      -3464
+     ],
+     [
+      83208,
+      146744,
+      -3464
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20154,
+     "name": "Mandragora Sprout",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 20155,
+     "name": "Mandragora Sapling",
+     "level": 23,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 20156,
+     "name": "Mandragora Blossom",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20223,
+     "name": "Mandragora Sprout",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20228,
+     "name": "Giant Crimson Ant",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20231,
+     "name": "Toad Lord",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3265,
+     "name": "Mandragora Petal",
+     "n": 20,
+     "from": [
+      {
+       "id": 20154,
+       "name": "Mandragora Sprout",
+       "chance": 100
+      },
+      {
+       "id": 20155,
+       "name": "Mandragora Sapling",
+       "chance": 100
+      },
+      {
+       "id": 20156,
+       "name": "Mandragora Blossom",
+       "chance": 100
+      },
+      {
+       "id": 20223,
+       "name": "Mandragora Sprout",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3266,
+     "name": "Crimson Moss",
+     "n": 10,
+     "from": [
+      {
+       "id": 20228,
+       "name": "Giant Crimson Ant",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3273,
+     "name": "Stakato Shell",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3274,
+     "name": "Toad Lord Sac",
+     "n": 10,
+     "from": [
+      {
+       "id": 20231,
+       "name": "Toad Lord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3275,
+     "name": "Marsh Spider's Thorn",
+     "n": 10,
+     "from": [
+      {
+       "id": 20233,
+       "name": "Marsh Spider",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Mandragora Sprout, Mandragora Sapling, Mandragora Blossom for Mandragora Petal x20, Crimson Moss x10, Stakato Shell x20, Toad Lord Sac x10, Marsh Spider's Thorn x10",
+   "places": [
+    {
+     "mobs": [
+      20154,
+      20155,
+      20156,
+      20223
+     ],
+     "items": [
+      3265
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-6",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 6: Mandragora Sprout area (north-west)",
+      "at": [
+       38120,
+       145112,
+       -3680
+      ],
+      "radius": 2310,
+      "levels": [
+       20,
+       21
+      ],
+      "count": 4,
+      "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+      "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+      "status": "ok",
+      "sec": 220,
+      "danger": 21,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.333333333333332,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-2",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 2: Mandragora Sapling area (north-west)",
+        "at": [
+         37960,
+         148648,
+         -3728
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-4",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 4: Mandragora Blossom area (north-west)",
+        "at": [
+         39688,
+         146664,
+         -3888
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-7",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 7: Specter area (north)",
+        "at": [
+         53608,
+         141784,
+         -2992
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 23952,
+      "sec": 220,
+      "via": ".dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "walk",
+        "len": 23545,
+        "how": "field-areas-gap",
+        "danger": 21
+       },
+       {
+        "do": "walk",
+        "len": 407,
+        "how": "field-areas",
+        "danger": 21
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        15472,
+        142880,
+        -2688
+       ],
+       [
+        37832,
+        144824,
+        -3608
+       ],
+       [
+        38120,
+        145112,
+        -3680
+       ]
+      ],
+      "maxDanger": 21,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 21,
+       "dangerVsLevel": -16,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20228
+     ],
+     "items": [
+      3266
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-marshlands-9",
+      "name": "Cruma Marshlands 9: Marsh Stakato area (north-east)",
+      "at": [
+       20376,
+       120184,
+       -3648
+      ],
+      "radius": 4287,
+      "levels": [
+       27,
+       29
+      ],
+      "count": 8,
+      "region": "Cruma Marshlands",
+      "atlasKey": "area:cruma-marshlands-9",
+      "status": "ok",
+      "sec": 115,
+      "danger": 39,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -46.083333333333336,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-11",
+        "name": "Cruma Marshlands 11: Giant Crimson Ant area (north)",
+        "at": [
+         7544,
+         106760,
+         -3744
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-6",
+        "name": "Cruma Marshlands 6: Marsh Stakato area (north-east)",
+        "at": [
+         12904,
+         114696,
+         -3680
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-4",
+        "name": "Cruma Marshlands 4: Horror Mist Ripper area (north-east)",
+        "at": [
+         14200,
+         118360,
+         -3664
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-marshlands-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 8390,
+      "sec": 115,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 997,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 7393,
+        "how": "field-areas",
+        "danger": 32
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114344,
+        -3576
+       ],
+       [
+        16408,
+        114984,
+        -3576
+       ],
+       [
+        16504,
+        115976,
+        -3592
+       ],
+       [
+        17496,
+        116968,
+        -3672
+       ],
+       [
+        18488,
+        117960,
+        -3720
+       ],
+       [
+        19480,
+        118952,
+        -3752
+       ],
+       [
+        20072,
+        119544,
+        -3728
+       ],
+       [
+        20376,
+        120184,
+        -3648
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20232,
+      20234
+     ],
+     "items": [
+      3273
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 15,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20231
+     ],
+     "items": [
+      3274
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-2",
+      "name": "Cruma Tower 2: Toad Lord area (north-east)",
+      "at": [
+       23720,
+       113256,
+       -3760
+      ],
+      "radius": 3953,
+      "levels": [
+       30,
+       33
+      ],
+      "count": 10,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-2",
+      "status": "ok",
+      "sec": 119,
+      "danger": 34,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -58.016666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-33",
+        "name": "Fortress of Resistance 33: Marsh Stakato Worker area (west)",
+        "at": [
+         27032,
+         114104,
+         -3696
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 8906,
+      "sec": 119,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5351,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 3555,
+        "how": "field-areas",
+        "danger": 34
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        20184,
+        113064,
+        -3752
+       ],
+       [
+        21176,
+        113064,
+        -3752
+       ],
+       [
+        22168,
+        113064,
+        -3680
+       ],
+       [
+        23160,
+        113112,
+        -3752
+       ],
+       [
+        23720,
+        113256,
+        -3760
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": -3,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20233
+     ],
+     "items": [
+      3275
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.88333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-8",
+        "name": "Cruma Tower 8: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         24552,
+         102888,
+         -3688
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-cruma-tower-tanor-fortress-far-6",
+    "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 6: Mandragora Sprout area (north-west)",
+    "at": [
+     38120,
+     145112,
+     -3680
+    ],
+    "radius": 2310,
+    "levels": [
+     20,
+     21
+    ],
+    "count": 4,
+    "region": "Tanor Canyon / Cruma Tower / Tanor Fortress",
+    "atlasKey": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+    "status": "ok",
+    "sec": 220,
+    "danger": 21,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -20.333333333333332,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-2",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 2: Mandragora Sapling area (north-west)",
+      "at": [
+       37960,
+       148648,
+       -3728
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-4",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 4: Mandragora Blossom area (north-west)",
+      "at": [
+       39688,
+       146664,
+       -3888
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-7",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 7: Specter area (north)",
+      "at": [
+       53608,
+       141784,
+       -2992
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-cruma-tower-tanor-fortress-far-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 23952,
+    "sec": 220,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 23545,
+      "how": "field-areas-gap",
+      "danger": 21
+     },
+     {
+      "do": "walk",
+      "len": 407,
+      "how": "field-areas",
+      "danger": 21
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15472,
+      142880,
+      -2688
+     ],
+     [
+      37832,
+      144824,
+      -3608
+     ],
+     [
+      38120,
+      145112,
+      -3680
+     ]
+    ],
+    "maxDanger": 21,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 21,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 720,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30104",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30104,
+    "name": "Parman",
+    "title": "Warehouse Keeper",
+    "town": "Giran",
+    "at": [
+     83263,
+     146736,
+     -3464
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Ring of Testimony, Maphr Tablet Fragment to Parman",
+   "needs": [
+    {
+     "id": 3240,
+     "name": "2nd Ring of Testimony",
+     "n": 1
+    },
+    {
+     "id": 3245,
+     "name": "Maphr Tablet Fragment",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30104@83263,146736",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 5370,
+    "sec": 65,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 5370,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82856,
+      148520,
+      -3464
+     ],
+     [
+      82664,
+      148328,
+      -3464
+     ],
+     [
+      82616,
+      148232,
+      -3464
+     ],
+     [
+      82584,
+      148200,
+      -3464
+     ],
+     [
+      82392,
+      148008,
+      -3464
+     ],
+     [
+      82216,
+      147944,
+      -3464
+     ],
+     [
+      81944,
+      147944,
+      -3464
+     ],
+     [
+      81704,
+      147800,
+      -3464
+     ],
+     [
+      81544,
+      147592,
+      -3464
+     ],
+     [
+      81544,
+      147320,
+      -3504
+     ],
+     [
+      81480,
+      147176,
+      -3528
+     ],
+     [
+      81336,
+      147272,
+      -3528
+     ],
+     [
+      81528,
+      147080,
+      -3528
+     ],
+     [
+      81544,
+      146808,
+      -3528
+     ],
+     [
+      81512,
+      146712,
+      -3528
+     ],
+     [
+      81592,
+      146632,
+      -3528
+     ],
+     [
+      81848,
+      146568,
+      -3528
+     ],
+     [
+      81912,
+      146568,
+      -3528
+     ],
+     [
+      82184,
+      146616,
+      -3528
+     ],
+     [
+      82456,
+      146664,
+      -3520
+     ],
+     [
+      82728,
+      146664,
+      -3464
+     ],
+     [
+      82952,
+      146664,
+      -3464
+     ],
+     [
+      83208,
+      146744,
+      -3464
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30622",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 9,
+   "links": [
+    "Use the Key of Titan"
+   ],
+   "npc": {
+    "id": 30622,
+    "name": "Box Of Titan",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     15443,
+     119719,
+     -12086
+    ],
+    "alt": []
+   },
+   "text": "Bring Key of Titan to Box Of Titan",
+   "needs": [
+    {
+     "id": 3030,
+     "name": "Key of Titan",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere",
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30622@15443,119719",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".dion",
+    "length": 9729,
+    "sec": 141,
+    "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 71,
+      "how": "adjacent",
+      "danger": 34
+     },
+     {
+      "do": "floor",
+      "npc": "Mozella",
+      "link": "Teleport into the Tower.",
+      "floor": "1st floor"
+     },
+     {
+      "do": "walk",
+      "len": 9658,
+      "how": "geodata",
+      "danger": 42
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      17296,
+      114176,
+      -3439
+     ],
+     [
+      17608,
+      114936,
+      -11720
+     ],
+     [
+      17576,
+      115928,
+      -11848
+     ],
+     [
+      17560,
+      116920,
+      -12032
+     ],
+     [
+      17560,
+      117160,
+      -12072
+     ],
+     [
+      16568,
+      117160,
+      -12160
+     ],
+     [
+      16264,
+      117096,
+      -12160
+     ],
+     [
+      15448,
+      117080,
+      -12080
+     ],
+     [
+      14952,
+      117576,
+      -12080
+     ],
+     [
+      14456,
+      118072,
+      -12080
+     ],
+     [
+      14184,
+      118232,
+      -12080
+     ],
+     [
+      14248,
+      119224,
+      -12080
+     ],
+     [
+      14248,
+      119672,
+      -12080
+     ],
+     [
+      15240,
+      119720,
+      -12080
+     ],
+     [
+      15448,
+      119720,
+      -12080
+     ]
+    ],
+    "maxDanger": 42,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 42,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 166,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30621",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30621,
+    "name": "Nikola",
+    "title": "Maestro",
+    "town": "Gludio",
+    "at": [
+     10580,
+     118027,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Ring of Testimony, Clay Dough, Pattern of Keyhole, Nikola's List, Maphr Tablet Fragment to Nikola",
+   "needs": [
+    {
+     "id": 3240,
+     "name": "2nd Ring of Testimony",
+     "n": 1
+    },
+    {
+     "id": 3270,
+     "name": "Clay Dough",
+     "n": 1
+    },
+    {
+     "id": 3271,
+     "name": "Pattern of Keyhole",
+     "n": 1
+    },
+    {
+     "id": 3272,
+     "name": "Nikola's List",
+     "n": 1
+    },
+    {
+     "id": 3245,
+     "name": "Maphr Tablet Fragment",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30621@10580,118027",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 8062,
+    "sec": 112,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8062,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114328,
+      -3528
+     ],
+     [
+      15912,
+      114488,
+      -3576
+     ],
+     [
+      15416,
+      114984,
+      -3596
+     ],
+     [
+      14920,
+      115480,
+      -3616
+     ],
+     [
+      14424,
+      115976,
+      -3664
+     ],
+     [
+      13928,
+      116472,
+      -3712
+     ],
+     [
+      13432,
+      116968,
+      -3708
+     ],
+     [
+      12936,
+      117464,
+      -3704
+     ],
+     [
+      12440,
+      117744,
+      -3720
+     ],
+     [
+      11944,
+      118024,
+      -3736
+     ],
+     [
+      10952,
+      118024,
+      -3688
+     ],
+     [
+      10584,
+      118024,
+      -3672
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 137,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30368",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "Beg her to give the Mark of Health"
+   ],
+   "npc": {
+    "id": 30368,
+    "name": "Lilith",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     -85301,
+     244587,
+     -3720
+    ],
+    "alt": []
+   },
+   "text": "Bring Crystal Brooch, Old Account Book, Blessed Seed, Emily's Recipe to Lilith",
+   "needs": [
+    {
+     "id": 3428,
+     "name": "Crystal Brooch",
+     "n": 1
+    },
+    {
+     "id": 3241,
+     "name": "Old Account Book",
+     "n": 1
+    },
+    {
+     "id": 3242,
+     "name": "Blessed Seed",
+     "n": 1
+    },
+    {
+     "id": 3243,
+     "name": "Emily's Recipe",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30368@-85301,244587",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 1885,
+    "sec": 61,
+    "via": ".gludin > Gludin -> TI Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> TI Village",
+      "link": "talking island village",
+      "price": 9400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1885,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> TI Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -84141,
+      244623,
+      -3728
+     ],
+     [
+      -84312,
+      244584,
+      -3728
+     ],
+     [
+      -84360,
+      244536,
+      -3728
+     ],
+     [
+      -84552,
+      244344,
+      -3728
+     ],
+     [
+      -84776,
+      244248,
+      -3728
+     ],
+     [
+      -85032,
+      244168,
+      -3728
+     ],
+     [
+      -85304,
+      244168,
+      -3728
+     ],
+     [
+      -85496,
+      244360,
+      -3728
+     ],
+     [
+      -85416,
+      244536,
+      -3720
+     ],
+     [
+      -85304,
+      244584,
+      -3720
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30597",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "But, is there not any hope?"
+   ],
+   "npc": {
+    "id": 30597,
+    "name": "Piotur",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -85700,
+     106591,
+     -3555
+    ],
+    "alt": []
+   },
+   "text": "Bring Old Account Book, Emily's Recipe, Lilith's Elven Wafer to Piotur",
+   "needs": [
+    {
+     "id": 3241,
+     "name": "Old Account Book",
+     "n": 1
+    },
+    {
+     "id": 3243,
+     "name": "Emily's Recipe",
+     "n": 1
+    },
+    {
+     "id": 3244,
+     "name": "Lilith's Elven Wafer",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30597@-85700,106591",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4395,
+    "sec": 82,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4395,
+      "how": "geodata",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -89208,
+      105592,
+      -3456
+     ],
+     [
+      -88712,
+      105728,
+      -3388
+     ],
+     [
+      -88216,
+      105864,
+      -3320
+     ],
+     [
+      -87224,
+      105864,
+      -3456
+     ],
+     [
+      -86680,
+      105864,
+      -3528
+     ],
+     [
+      -86472,
+      105928,
+      -3544
+     ],
+     [
+      -86072,
+      106248,
+      -3552
+     ],
+     [
+      -85704,
+      106584,
+      -3552
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 107,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30620",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "Ask about the Proof of Fertility"
+   ],
+   "npc": {
+    "id": 30620,
+    "name": "Emily",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     20609,
+     145993,
+     -3123
+    ],
+    "alt": []
+   },
+   "text": "Bring Mandragora Bouquet, Old Account Book, Blessed Seed, Lilith's Elven Wafer to Emily",
+   "needs": [
+    {
+     "id": 3267,
+     "name": "Mandragora Bouquet",
+     "n": 1
+    },
+    {
+     "id": 3241,
+     "name": "Old Account Book",
+     "n": 1
+    },
+    {
+     "id": 3242,
+     "name": "Blessed Seed",
+     "n": 1
+    },
+    {
+     "id": 3244,
+     "name": "Lilith's Elven Wafer",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30620@20609,145993",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 6361,
+    "sec": 73,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 6361,
+      "how": "geodata",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      16118,
+      143626,
+      -2828
+     ],
+     [
+      16616,
+      144120,
+      -2968
+     ],
+     [
+      17160,
+      144888,
+      -3016
+     ],
+     [
+      17656,
+      145384,
+      -3064
+     ],
+     [
+      18152,
+      145880,
+      -3112
+     ],
+     [
+      19048,
+      145800,
+      -3080
+     ],
+     [
+      19256,
+      145800,
+      -3064
+     ],
+     [
+      19336,
+      145944,
+      -3064
+     ],
+     [
+      19560,
+      146072,
+      -3064
+     ],
+     [
+      19592,
+      146072,
+      -3064
+     ],
+     [
+      19928,
+      145944,
+      -3120
+     ],
+     [
+      20440,
+      145960,
+      -3120
+     ],
+     [
+      20616,
+      145992,
+      -3120
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30531",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30531,
+    "name": "Lockirin",
+    "title": "Iron Gate's",
+    "town": "Dwarven Village",
+    "at": [
+     116226,
+     -178529,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Bring 1st Ring of Testimony, Collection License, Old Account Book, 1st Receipt of Contribution, 2nd Receipt of Contribution, 3rd Receipt of Contribution, 4th Receipt of Contribution, 5th Receipt of Contribution, Blessed Seed, Emily's Recipe, Lilith's Elven Wafer to Lockirin",
+   "needs": [
+    {
+     "id": 3239,
+     "name": "1st Ring of Testimony",
+     "n": 1
+    },
+    {
+     "id": 3246,
+     "name": "Collection License",
+     "n": 1
+    },
+    {
+     "id": 3241,
+     "name": "Old Account Book",
+     "n": 1
+    },
+    {
+     "id": 3258,
+     "name": "1st Receipt of Contribution",
+     "n": 1
+    },
+    {
+     "id": 3259,
+     "name": "2nd Receipt of Contribution",
+     "n": 1
+    },
+    {
+     "id": 3260,
+     "name": "3rd Receipt of Contribution",
+     "n": 1
+    },
+    {
+     "id": 3261,
+     "name": "4th Receipt of Contribution",
+     "n": 1
+    },
+    {
+     "id": 3262,
+     "name": "5th Receipt of Contribution",
+     "n": 1
+    },
+    {
+     "id": 3242,
+     "name": "Blessed Seed",
+     "n": 1
+    },
+    {
+     "id": 3243,
+     "name": "Emily's Recipe",
+     "n": 1
+    },
+    {
+     "id": 3244,
+     "name": "Lilith's Elven Wafer",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30531@116226,-178529",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1706,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1706,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116168,
+      -178536,
+      -944
+     ],
+     [
+      116232,
+      -178536,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c7:talk:30621",
+   "cond": 7,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Ask about the key manufacturing"
+   ],
+   "npc": {
+    "id": 30621,
+    "name": "Nikola",
+    "title": "Maestro",
+    "town": "Gludio",
+    "at": [
+     10580,
+     118027,
+     -3672
+    ],
+    "alt": []
+   },
+   "text": "Talk to Nikola",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30621@10580,118027",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 8062,
+    "sec": 112,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8062,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114328,
+      -3528
+     ],
+     [
+      15912,
+      114488,
+      -3576
+     ],
+     [
+      15416,
+      114984,
+      -3596
+     ],
+     [
+      14920,
+      115480,
+      -3616
+     ],
+     [
+      14424,
+      115976,
+      -3664
+     ],
+     [
+      13928,
+      116472,
+      -3712
+     ],
+     [
+      13432,
+      116968,
+      -3708
+     ],
+     [
+      12936,
+      117464,
+      -3704
+     ],
+     [
+      12440,
+      117744,
+      -3720
+     ],
+     [
+      11944,
+      118024,
+      -3736
+     ],
+     [
+      10952,
+      118024,
+      -3688
+     ],
+     [
+      10584,
+      118024,
+      -3672
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 137,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c9:deliver:30622",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "Make a pattern of the keyhole"
+   ],
+   "npc": {
+    "id": 30622,
+    "name": "Box Of Titan",
+    "title": "",
+    "town": "Dion",
+    "at": [
+     15443,
+     119719,
+     -12086
+    ],
+    "alt": []
+   },
+   "text": "Bring Clay Dough to Box Of Titan",
+   "needs": [
+    {
+     "id": 3270,
+     "name": "Clay Dough",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30622@15443,119719",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".dion",
+    "length": 9729,
+    "sec": 141,
+    "via": ".dion > Dion -> Cruma Tower > floor 1st floor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 71,
+      "how": "adjacent",
+      "danger": 34
+     },
+     {
+      "do": "floor",
+      "npc": "Mozella",
+      "link": "Teleport into the Tower.",
+      "floor": "1st floor"
+     },
+     {
+      "do": "walk",
+      "len": 9658,
+      "how": "geodata",
+      "danger": 42
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      17296,
+      114176,
+      -3439
+     ],
+     [
+      17608,
+      114936,
+      -11720
+     ],
+     [
+      17576,
+      115928,
+      -11848
+     ],
+     [
+      17560,
+      116920,
+      -12032
+     ],
+     [
+      17560,
+      117160,
+      -12072
+     ],
+     [
+      16568,
+      117160,
+      -12160
+     ],
+     [
+      16264,
+      117096,
+      -12160
+     ],
+     [
+      15448,
+      117080,
+      -12080
+     ],
+     [
+      14952,
+      117576,
+      -12080
+     ],
+     [
+      14456,
+      118072,
+      -12080
+     ],
+     [
+      14184,
+      118232,
+      -12080
+     ],
+     [
+      14248,
+      119224,
+      -12080
+     ],
+     [
+      14248,
+      119672,
+      -12080
+     ],
+     [
+      15240,
+      119720,
+      -12080
+     ],
+     [
+      15448,
+      119720,
+      -12080
+     ]
+    ],
+    "maxDanger": 42,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 42,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 166,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

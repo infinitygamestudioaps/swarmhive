@@ -1,0 +1,162 @@
+{
+ "id": 690,
+ "name": "Jude's Request",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.152Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 78,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 2
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 78,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32356",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will do it.\""
+   ],
+   "npc": {
+    "id": 32356,
+    "name": "Jude",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Jude – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:22398",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22398,
+     "name": "Lesser Evil",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22399,
+     "name": "Greater Evil",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10327,
+     "name": "Evil Weapon",
+     "n": 200,
+     "from": [
+      {
+       "id": 22398,
+       "name": "Lesser Evil",
+       "chance": 17.3
+      },
+      {
+       "id": 22399,
+       "name": "Greater Evil",
+       "chance": 24.6
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (22398, 22399) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Lesser Evil, Greater Evil appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32356",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Stop collecting Evil Weapons."
+   ],
+   "npc": {
+    "id": 32356,
+    "name": "Jude",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Jude",
+   "reasons": [
+    "npc-no-spawn",
+    "engine-manual"
+   ],
+   "expectedSec": 25,
+   "engineWhy": "the monsters (22398, 22399) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

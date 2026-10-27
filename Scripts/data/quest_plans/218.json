@@ -1,0 +1,8735 @@
+{
+ "id": 218,
+ "name": "Testimony Of Life",
+ "version": 1,
+ "generated": "2026-10-27T11:15:15.752Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 37,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dion",
+ "requirements": {
+  "races": [
+   "ELF"
+  ],
+  "categories": [
+   "ELF_2ND_GROUP"
+  ],
+  "items": [
+   {
+    "id": 3141,
+    "name": "Cardien's Letter"
+   }
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ELF"
+  },
+  {
+   "code": "class-only",
+   "text": "classes: ELF_2ND_GROUP"
+  },
+  {
+   "code": "needs-item",
+   "text": "Cardien's Letter"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 42,
+ "refLevel": 37,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30460",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will join the struggle.\""
+   ],
+   "npc": {
+    "id": 30460,
+    "name": "Cardien",
+    "title": "Master",
+    "town": "Dion",
+    "at": [
+     19472,
+     144334,
+     -3088
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cardien – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30460@19472,144334",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5676,
+    "sec": 67,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5676,
+      "how": "town-graph",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19096,
+      144600,
+      -3104
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ],
+     [
+      19272,
+      144632,
+      -3096
+     ],
+     [
+      19416,
+      144552,
+      -3088
+     ],
+     [
+      19544,
+      144504,
+      -3088
+     ],
+     [
+      19480,
+      144328,
+      -3088
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20087,
+     "name": "Ant Soldier",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20088,
+     "name": "Ant Warrior Captain",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 20145,
+     "name": "Harpy",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20176,
+     "name": "Wyrm",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20550,
+     "name": "Guardian Basilisk",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20581,
+     "name": "Leto Lizardman Shaman",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 27077,
+     "name": "Unicorn Of Eva",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3159,
+     "name": "Tears of Unicorn",
+     "n": 1,
+     "from": [
+      {
+       "id": 27077,
+       "name": "Unicorn Of Eva",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3161,
+     "name": "Pure Mithril Ore",
+     "n": 10,
+     "from": [
+      {
+       "id": 20550,
+       "name": "Guardian Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3162,
+     "name": "Ant Soldier Acid",
+     "n": 20,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 100
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 100
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 100
+      },
+      {
+       "id": 20087,
+       "name": "Ant Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20088,
+       "name": "Ant Warrior Captain",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3163,
+     "name": "Wyrm's Talon",
+     "n": 20,
+     "from": [
+      {
+       "id": 20176,
+       "name": "Wyrm",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3164,
+     "name": "Spider Ichor",
+     "n": 20,
+     "from": [
+      {
+       "id": 20233,
+       "name": "Marsh Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3165,
+     "name": "Harpy's Down",
+     "n": 20,
+     "from": [
+      {
+       "id": 20145,
+       "name": "Harpy",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3166,
+     "name": "Talin's Spear Blade",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3167,
+     "name": "Talin's Spear Shaft",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3168,
+     "name": "Talin's Ruby",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3169,
+     "name": "Talin's Aquamarine",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3170,
+     "name": "Talin's Amethyst",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3171,
+     "name": "Talin's Peridot",
+     "n": 1,
+     "from": [
+      {
+       "id": 20581,
+       "name": "Leto Lizardman Shaman",
+       "chance": 100
+      },
+      {
+       "id": 20582,
+       "name": "Leto Lizardman Overlord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way",
+    "owner-manual"
+   ],
+   "text": "Hunt Ant Recruit, Ant Patrol, Ant Guard for Tears of Unicorn x1, Pure Mithril Ore x10, Ant Soldier Acid x20, Wyrm's Talon x20, Spider Ichor x20, Harpy's Down x20, Talin's Spear Blade x1, Talin's Spear Shaft x1, Talin's Ruby x1, Talin's Aquamarine x1, Talin's Amethyst x1, Talin's Peridot x1",
+   "places": [
+    {
+     "mobs": [
+      27077
+     ],
+     "items": [
+      3159
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27077@6707,90902",
+      "name": "Unicorn Of Eva (Dragonspine Fortress)",
+      "at": [
+       6707,
+       90902,
+       -3444
+      ],
+      "radius": 1500,
+      "levels": [
+       30,
+       30
+      ],
+      "count": 2,
+      "region": "Dragonspine Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 78,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "27077@48279,90774",
+        "name": "Unicorn Of Eva",
+        "at": [
+         48279,
+         90774,
+         -3576
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "27077@36747,90533",
+        "name": "Unicorn Of Eva",
+        "at": [
+         36747,
+         90533,
+         -3420
+        ],
+        "count": 2,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:cruma-tower-far-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 27754,
+      "sec": 276,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 13192,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 5634,
+        "how": "field-areas",
+        "danger": 33
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        11864,
+        103720,
+        -3704
+       ],
+       [
+        10888,
+        102728,
+        -3608
+       ],
+       [
+        10696,
+        102536,
+        -3616
+       ],
+       [
+        9896,
+        101624,
+        -3656
+       ],
+       [
+        8904,
+        101144,
+        -3640
+       ],
+       [
+        8792,
+        101048,
+        -3656
+       ],
+       [
+        7800,
+        100520,
+        -3632
+       ],
+       [
+        7528,
+        100248,
+        -3592
+       ],
+       [
+        6088,
+        98744,
+        -2992
+       ],
+       [
+        6088,
+        98232,
+        -2736
+       ],
+       [
+        6696,
+        97240,
+        -2728
+       ],
+       [
+        7224,
+        96680,
+        -2696
+       ],
+       [
+        6776,
+        95688,
+        -2384
+       ],
+       [
+        6776,
+        94696,
+        -2736
+       ],
+       [
+        7624,
+        93752,
+        -2808
+       ],
+       [
+        7464,
+        92760,
+        -3160
+       ],
+       [
+        7496,
+        92712,
+        -3168
+       ],
+       [
+        7480,
+        92344,
+        -3344
+       ],
+       [
+        6712,
+        91352,
+        -3640
+       ],
+       [
+        6712,
+        90904,
+        -3608
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": -3,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:cruma-tower-far-5",
+       "name": "Cruma Tower 5: Stinger Wasp area (north)"
+      },
+      "points": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        11864,
+        103720,
+        -3704
+       ],
+       [
+        10888,
+        102728,
+        -3608
+       ],
+       [
+        10696,
+        102536,
+        -3616
+       ],
+       [
+        9896,
+        101624,
+        -3656
+       ],
+       [
+        8904,
+        101144,
+        -3640
+       ],
+       [
+        8792,
+        101048,
+        -3656
+       ],
+       [
+        7800,
+        100520,
+        -3632
+       ],
+       [
+        7528,
+        100248,
+        -3592
+       ],
+       [
+        6088,
+        98744,
+        -2992
+       ],
+       [
+        6088,
+        98232,
+        -2736
+       ],
+       [
+        6696,
+        97240,
+        -2728
+       ],
+       [
+        7224,
+        96680,
+        -2696
+       ],
+       [
+        6776,
+        95688,
+        -2384
+       ],
+       [
+        6776,
+        94696,
+        -2736
+       ],
+       [
+        7624,
+        93752,
+        -2808
+       ],
+       [
+        7464,
+        92760,
+        -3160
+       ],
+       [
+        7496,
+        92712,
+        -3168
+       ],
+       [
+        7480,
+        92344,
+        -3344
+       ],
+       [
+        6712,
+        91352,
+        -3640
+       ],
+       [
+        6712,
+        90904,
+        -3608
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      20550
+     ],
+     "items": [
+      3161
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-2",
+      "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+      "at": [
+       69032,
+       113624,
+       -3664
+      ],
+      "radius": 4241,
+      "levels": [
+       35,
+       37
+      ],
+      "count": 5,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-2",
+      "status": "ok",
+      "sec": 98,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.366666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-4",
+        "name": "Dragon Valley 4: Fettered Soul area (south)",
+        "at": [
+         71624,
+         125672,
+         -3624
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-6",
+        "name": "Dragon Valley 6: Guardian Basilisk area (north-west)",
+        "at": [
+         67912,
+         109816,
+         -3640
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 6389,
+      "sec": 98,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6389,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        72664,
+        117496,
+        -3672
+       ],
+       [
+        71672,
+        116504,
+        -3616
+       ],
+       [
+        71416,
+        116248,
+        -3584
+       ],
+       [
+        71128,
+        115720,
+        -3560
+       ],
+       [
+        70136,
+        114728,
+        -3560
+       ],
+       [
+        69144,
+        113736,
+        -3648
+       ],
+       [
+        69032,
+        113624,
+        -3664
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20082,
+      20084,
+      20086,
+      20087,
+      20088
+     ],
+     "items": [
+      3162
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-left-b",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -14207,
+       180247,
+       -5387
+      ],
+      "radius": 1882,
+      "levels": [
+       33,
+       36
+      ],
+      "count": 35,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-left-b",
+      "status": "ok",
+      "sec": 137,
+      "danger": 36,
+      "reachable": true,
+      "score": -177.71666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-l",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -25328,
+         180192,
+         -5406
+        ],
+        "count": 46,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-p",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28065,
+         182298,
+         -5365
+        ],
+        "count": 26,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-left-a",
+        "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+        "at": [
+         -13622,
+         179364,
+         -5389
+        ],
+        "count": 22,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-left-b",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 11014,
+      "sec": 137,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 11014,
+        "how": "dungeon-rooms",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13208,
+        177944,
+        -5304
+       ],
+       [
+        -13048,
+        178648,
+        -5384
+       ],
+       [
+        -13048,
+        178712,
+        -5384
+       ],
+       [
+        -13080,
+        178856,
+        -5384
+       ],
+       [
+        -13480,
+        179848,
+        -5384
+       ],
+       [
+        -13480,
+        179912,
+        -5368
+       ],
+       [
+        -14200,
+        180248,
+        -5384
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20176
+     ],
+     "items": [
+      3163
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-1",
+        "name": "Dragon Valley 1: Wyrm area (south-west)",
+        "at": [
+         68888,
+         120904,
+         -3656
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-2",
+        "name": "Dragon Valley 2: Road Scavenger area (north-west)",
+        "at": [
+         69032,
+         113624,
+         -3664
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20233
+     ],
+     "items": [
+      3164
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.88333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-8",
+        "name": "Cruma Tower 8: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         24552,
+         102888,
+         -3688
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20145
+     ],
+     "items": [
+      3165
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "brekas-stronghold-12",
+      "name": "Brekas Stronghold 12: Harpy area (east)",
+      "at": [
+       102456,
+       132952,
+       -3432
+      ],
+      "radius": 5657,
+      "levels": [
+       31,
+       33
+      ],
+      "count": 10,
+      "region": "Brekas Stronghold",
+      "atlasKey": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "sec": 191,
+      "danger": 33,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.816666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "giran-outskirts-4",
+        "name": "Giran outskirts 4: Turak Bugbear Warrior area (east)",
+        "at": [
+         101688,
+         143288,
+         -3592
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-11",
+        "name": "Brekas Stronghold 11: Harpy area (south-east)",
+        "at": [
+         100168,
+         138616,
+         -3504
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "giran-outskirts-1",
+        "name": "Giran outskirts 1: Harpy area (east)",
+        "at": [
+         99848,
+         148360,
+         -3520
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:brekas-stronghold-12",
+      "status": "unverified",
+      "flags": [
+       "link-not-on-live-menu"
+      ],
+      "from": ".giran",
+      "length": 17498,
+      "sec": 191,
+      "via": ".giran > Giran -> Brekas Stronghold",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Giran",
+        "cmd": ".giran"
+       },
+       {
+        "do": "gk",
+        "from": "Giran",
+        "desc": "Giran -> Brekas Stronghold",
+        "link": "Brekas Stronghold",
+        "price": 1000,
+        "live": false
+       },
+       {
+        "do": "walk",
+        "len": 17498,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Giran",
+       "desc": "Giran -> Brekas Stronghold"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85544,
+        131336,
+        -3672
+       ],
+       [
+        86536,
+        131336,
+        -3648
+       ],
+       [
+        87528,
+        131336,
+        -3648
+       ],
+       [
+        88520,
+        131336,
+        -3688
+       ],
+       [
+        89512,
+        131336,
+        -3664
+       ],
+       [
+        90504,
+        131336,
+        -3632
+       ],
+       [
+        91496,
+        131336,
+        -3624
+       ],
+       [
+        92488,
+        131336,
+        -3608
+       ],
+       [
+        93480,
+        131336,
+        -3592
+       ],
+       [
+        94472,
+        131336,
+        -3536
+       ],
+       [
+        95464,
+        131336,
+        -3472
+       ],
+       [
+        96456,
+        131336,
+        -3480
+       ],
+       [
+        97448,
+        131336,
+        -3456
+       ],
+       [
+        98440,
+        131336,
+        -3360
+       ],
+       [
+        99432,
+        131336,
+        -3304
+       ],
+       [
+        100424,
+        131336,
+        -3168
+       ],
+       [
+        101416,
+        131912,
+        -3256
+       ],
+       [
+        102408,
+        132904,
+        -3432
+       ],
+       [
+        102456,
+        132952,
+        -3432
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20581,
+      20582
+     ],
+     "items": [
+      3166,
+      3167,
+      3168,
+      3169,
+      3170,
+      3171
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-23",
+      "name": "Plains of Lizardmen 23: Divine Emissary area (north-east)",
+      "at": [
+       96328,
+       77128,
+       -3592
+      ],
+      "radius": 3827,
+      "levels": [
+       36,
+       40
+      ],
+      "count": 6,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "sec": 150,
+      "danger": 40,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.5,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-23",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12541,
+      "sec": 150,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11880,
+        "how": "field-areas-gap",
+        "danger": 84
+       },
+       {
+        "do": "walk",
+        "len": 661,
+        "how": "field-areas",
+        "danger": 84
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        95896,
+        77624,
+        -3552
+       ],
+       [
+        96088,
+        77352,
+        -3568
+       ],
+       [
+        96328,
+        77128,
+        -3592
+       ]
+      ],
+      "maxDanger": 84,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 84,
+       "dangerVsLevel": 47,
+       "aggro": [
+        {
+         "name": "Energy Plant",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Rainbow Frog",
+         "lv": 85,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Soldier",
+         "lv": 84,
+         "n": 2
+        },
+        {
+         "name": "Tanta Lizardman Summoner",
+         "lv": 84,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Archer",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Magician",
+         "lv": 83,
+         "n": 3
+        },
+        {
+         "name": "Tanta Lizardman Warrior",
+         "lv": 83,
+         "n": 1
+        },
+        {
+         "name": "Tanta Lizardman Scout",
+         "lv": 82,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Fantasy Mushroom",
+       "lv": 85
+      },
+      {
+       "name": "Rainbow Frog",
+       "lv": 85
+      },
+      {
+       "name": "Energy Plant",
+       "lv": 85
+      },
+      {
+       "name": "Tanta Lizardman Berserker",
+       "lv": 84
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      },
+      {
+       "name": "Tanta Lizardman Archer",
+       "lv": 83
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "27077@6707,90902",
+    "name": "Unicorn Of Eva (Dragonspine Fortress)",
+    "at": [
+     6707,
+     90902,
+     -3444
+    ],
+    "radius": 1500,
+    "levels": [
+     30,
+     30
+    ],
+    "count": 2,
+    "region": "Dragonspine Fortress",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 78,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "27077@48279,90774",
+      "name": "Unicorn Of Eva",
+      "at": [
+       48279,
+       90774,
+       -3576
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "27077@36747,90533",
+      "name": "Unicorn Of Eva",
+      "at": [
+       36747,
+       90533,
+       -3420
+      ],
+      "count": 2,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:brekas-stronghold-12",
+    "status": "unverified",
+    "flags": [
+     "link-not-on-live-menu"
+    ],
+    "from": ".giran",
+    "length": 17498,
+    "sec": 191,
+    "via": ".giran > Giran -> Brekas Stronghold",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Brekas Stronghold",
+      "link": "Brekas Stronghold",
+      "price": 1000,
+      "live": false
+     },
+     {
+      "do": "walk",
+      "len": 17498,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Brekas Stronghold"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85544,
+      131336,
+      -3672
+     ],
+     [
+      86536,
+      131336,
+      -3648
+     ],
+     [
+      87528,
+      131336,
+      -3648
+     ],
+     [
+      88520,
+      131336,
+      -3688
+     ],
+     [
+      89512,
+      131336,
+      -3664
+     ],
+     [
+      90504,
+      131336,
+      -3632
+     ],
+     [
+      91496,
+      131336,
+      -3624
+     ],
+     [
+      92488,
+      131336,
+      -3608
+     ],
+     [
+      93480,
+      131336,
+      -3592
+     ],
+     [
+      94472,
+      131336,
+      -3536
+     ],
+     [
+      95464,
+      131336,
+      -3472
+     ],
+     [
+      96456,
+      131336,
+      -3480
+     ],
+     [
+      97448,
+      131336,
+      -3456
+     ],
+     [
+      98440,
+      131336,
+      -3360
+     ],
+     [
+      99432,
+      131336,
+      -3304
+     ],
+     [
+      100424,
+      131336,
+      -3168
+     ],
+     [
+      101416,
+      131912,
+      -3256
+     ],
+     [
+      102408,
+      132904,
+      -3432
+     ],
+     [
+      102456,
+      132952,
+      -3432
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 691,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20,
+    21
+   ],
+   "override": {
+    "fixed": [
+     "route-unverified"
+    ],
+    "note": "BLOCKED: one place of this step needs Leto Lizardman Shaman / Overlord 20581 / 20582: their only spawns (spawns_h5, 2-4 each, ~96000,77000) sit inside the Tanta Lizardman camp (431 spawns, level 82-85, aggro 300; nearest 905 from a Leto); no route avoids them (danger-weighted geodata search, weight 500, b2 leg lizard>leto:w500). Needs a high-level escort. the atlas marked \"Giran -> Brekas Stronghold\" not live, but Clarissa's live menu (Scripts/data/gk_live/Clarissa.json) has \"Breka's Stronghold - 500\"; swarm.js gkNorm() (Scripts_dev/swarm.js ~line 6758: drops 's and the plural s) maps both to \"breka stronghold\" -> the link is clicked fine.",
+    "manual": true,
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30460",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30460,
+    "name": "Cardien",
+    "title": "Master",
+    "town": "Dion",
+    "at": [
+     19472,
+     144334,
+     -3088
+    ],
+    "alt": []
+   },
+   "text": "Bring Camomile Charm to Cardien",
+   "needs": [
+    {
+     "id": 3142,
+     "name": "Camomile Charm",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30460@19472,144334",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5676,
+    "sec": 67,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5676,
+      "how": "town-graph",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19096,
+      144600,
+      -3104
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ],
+     [
+      19272,
+      144632,
+      -3096
+     ],
+     [
+      19416,
+      144552,
+      -3088
+     ],
+     [
+      19544,
+      144504,
+      -3088
+     ],
+     [
+      19480,
+      144328,
+      -3088
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -17,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30154",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 21,
+   "links": [],
+   "npc": {
+    "id": 30154,
+    "name": "Asterios",
+    "title": "Hierarch",
+    "town": "Elven Village",
+    "at": [
+     44692,
+     52261,
+     -2792
+    ],
+    "alt": []
+   },
+   "text": "Bring Moonflower Charm, Water of Life to Asterios",
+   "needs": [
+    {
+     "id": 3144,
+     "name": "Moonflower Charm",
+     "n": 1
+    },
+    {
+     "id": 3160,
+     "name": "Water of Life",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30154@44692,52261",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8186,
+    "sec": 113,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8186,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44232,
+      50200,
+      -3056
+     ],
+     [
+      43960,
+      50200,
+      -3056
+     ],
+     [
+      43704,
+      50312,
+      -3024
+     ],
+     [
+      43464,
+      50456,
+      -2992
+     ],
+     [
+      43416,
+      50680,
+      -2992
+     ],
+     [
+      43496,
+      50856,
+      -2992
+     ],
+     [
+      43688,
+      51032,
+      -2992
+     ],
+     [
+      43944,
+      51096,
+      -2992
+     ],
+     [
+      43976,
+      51192,
+      -2992
+     ],
+     [
+      44152,
+      51240,
+      -2984
+     ],
+     [
+      44312,
+      51256,
+      -2928
+     ],
+     [
+      44344,
+      51480,
+      -2848
+     ],
+     [
+      44456,
+      51688,
+      -2832
+     ],
+     [
+      44440,
+      51640,
+      -2832
+     ],
+     [
+      44648,
+      51592,
+      -2808
+     ],
+     [
+      44696,
+      51736,
+      -2808
+     ],
+     [
+      44696,
+      52008,
+      -2792
+     ],
+     [
+      44728,
+      52120,
+      -2792
+     ],
+     [
+      44696,
+      52264,
+      -2792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30371",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 20,
+   "links": [],
+   "npc": {
+    "id": 30371,
+    "name": "Thalia",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     51210,
+     82474,
+     -3283
+    ],
+    "alt": []
+   },
+   "text": "Bring Moonflower Charm, Tears of Unicorn to Thalia",
+   "needs": [
+    {
+     "id": 3144,
+     "name": "Moonflower Charm",
+     "n": 1
+    },
+    {
+     "id": 3159,
+     "name": "Tears of Unicorn",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30371@51210,82474",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludio",
+    "length": 23166,
+    "sec": 263,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Fortress",
+      "link": "elven fortress",
+      "price": 820,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 23166,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      29294,
+      74968,
+      -3776
+     ],
+     [
+      51210,
+      82474,
+      -3283
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 29294,74968 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 288,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    21
+   ],
+   "override": {
+    "route": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32168,
+      78088,
+      -3496
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      35720,
+      81736,
+      -3568
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38408,
+      82392,
+      -3648
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41064,
+      83512,
+      -3504
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      41816,
+      87480,
+      -3584
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42472,
+      87880,
+      -3584
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43512,
+      87768,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47464,
+      88216,
+      -3624
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      51272,
+      88136,
+      -3776
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53800,
+      86280,
+      -3568
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      53096,
+      82520,
+      -3424
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Fortress"
+    },
+    "note": "Thalia 30371 (51210,82474): gk link \"Elven Fortress\" on the live menu Scripts/data/gk_live/Mirabel.json, via the Roko area, 40 km dry walk (every direct search from Elven Fortress / Plains of Lizardmen hit the 2.5 M cell limit); geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Fortress"
+    },
+    "points": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32168,
+      78088,
+      -3496
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      35720,
+      81736,
+      -3568
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38408,
+      82392,
+      -3648
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41064,
+      83512,
+      -3504
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      41816,
+      87480,
+      -3584
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42472,
+      87880,
+      -3584
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43512,
+      87768,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47464,
+      88216,
+      -3624
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      51272,
+      88136,
+      -3776
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53800,
+      86280,
+      -3568
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      53096,
+      82520,
+      -3424
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "pv": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "length": 38604,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30655",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 17,
+   "links": [],
+   "npc": {
+    "id": 30655,
+    "name": "Isael Silvershadow",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     115791,
+     75867,
+     -2714
+    ],
+    "alt": []
+   },
+   "text": "Bring Moonflower Charm, Isael's Instructions, Talin's Spear Blade, Talin's Spear Shaft, Talin's Ruby, Talin's Aquamarine, Talin's Amethyst, Talin's Peridot to Isael Silvershadow",
+   "needs": [
+    {
+     "id": 3144,
+     "name": "Moonflower Charm",
+     "n": 1
+    },
+    {
+     "id": 3156,
+     "name": "Isael's Instructions",
+     "n": 1
+    },
+    {
+     "id": 3166,
+     "name": "Talin's Spear Blade",
+     "n": 1
+    },
+    {
+     "id": 3167,
+     "name": "Talin's Spear Shaft",
+     "n": 1
+    },
+    {
+     "id": 3168,
+     "name": "Talin's Ruby",
+     "n": 1
+    },
+    {
+     "id": 3169,
+     "name": "Talin's Aquamarine",
+     "n": 1
+    },
+    {
+     "id": 3170,
+     "name": "Talin's Amethyst",
+     "n": 1
+    },
+    {
+     "id": 3171,
+     "name": "Talin's Peridot",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30655@115791,75867",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 965,
+    "sec": 28,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 965,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 53,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30419",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 12,
+   "links": [],
+   "npc": {
+    "id": 30419,
+    "name": "Arkenia",
+    "title": "Witch",
+    "town": "Gludio",
+    "at": [
+     -44015,
+     79683,
+     -3648
+    ],
+    "alt": []
+   },
+   "text": "Bring Moonflower Charm, Andariel Scripture Copy to Arkenia",
+   "needs": [
+    {
+     "id": 3144,
+     "name": "Moonflower Charm",
+     "n": 1
+    },
+    {
+     "id": 3154,
+     "name": "Andariel Scripture Copy",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30419@-44015,79683",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".oren",
+    "length": 8728,
+    "sec": 118,
+    "via": ".oren > Oren -> Necropolis of Devotion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Necropolis of Devotion",
+      "link": "necropolis of devotion",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8728,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Necropolis of Devotion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -52724,
+      79104,
+      -4739
+     ],
+     [
+      -44015,
+      79683,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -52724,79104 (the start is a closed pocket of 5280 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Sepulcher Sage",
+       "lv": 62,
+       "n": 2
+      },
+      {
+       "name": "Nephilim Bishop",
+       "lv": 60,
+       "n": 2
+      },
+      {
+       "name": "Sepulcher Guardian",
+       "lv": 60,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 143,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20,
+    21
+   ],
+   "override": {
+    "route": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Spider Nest"
+    },
+    "note": "Arkenia 30419: gk link \"Spider Nest\" on the live menu Scripts/data/gk_live/Jasmine.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Spider Nest"
+    },
+    "points": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "pv": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "length": 20671,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30375",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30375,
+    "name": "Adonius",
+    "title": "Priest",
+    "town": "Gludin",
+    "at": [
+     -79274,
+     150966,
+     -3031
+    ],
+    "alt": []
+   },
+   "text": "Bring Spider Ichor x20, Harpy's Down x20, Moonflower Charm, Adonius's list to Adonius",
+   "needs": [
+    {
+     "id": 3164,
+     "name": "Spider Ichor",
+     "n": 20
+    },
+    {
+     "id": 3165,
+     "name": "Harpy's Down",
+     "n": 20
+    },
+    {
+     "id": 3144,
+     "name": "Moonflower Charm",
+     "n": 1
+    },
+    {
+     "id": 3153,
+     "name": "Adonius's list",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30375@-79274,150966",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4416,
+    "sec": 57,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4416,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79272,
+      150952,
+      -3040
+     ],
+     [
+      -79272,
+      150968,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:30300",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [
+    "Wait until he finishes."
+   ],
+   "npc": {
+    "id": 30300,
+    "name": "Pushkin",
+    "title": "Blacksmith",
+    "town": "Giran",
+    "at": [
+     77458,
+     148169,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Bring Pushkin's List to Pushkin",
+   "needs": [
+    {
+     "id": 3149,
+     "name": "Pushkin's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30300@77458,148169",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7716,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7716,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83240,
+      148744,
+      -3400
+     ],
+     [
+      82920,
+      148888,
+      -3464
+     ],
+     [
+      82792,
+      149016,
+      -3464
+     ],
+     [
+      82296,
+      149280,
+      -3464
+     ],
+     [
+      81800,
+      149544,
+      -3464
+     ],
+     [
+      81608,
+      149736,
+      -3464
+     ],
+     [
+      81384,
+      150168,
+      -3528
+     ],
+     [
+      81288,
+      150264,
+      -3528
+     ],
+     [
+      81160,
+      150264,
+      -3528
+     ],
+     [
+      80664,
+      149992,
+      -3528
+     ],
+     [
+      80168,
+      149720,
+      -3528
+     ],
+     [
+      80104,
+      149720,
+      -3528
+     ],
+     [
+      79784,
+      149208,
+      -3528
+     ],
+     [
+      79752,
+      148824,
+      -3528
+     ],
+     [
+      79256,
+      148600,
+      -3560
+     ],
+     [
+      78760,
+      148376,
+      -3592
+     ],
+     [
+      78280,
+      148408,
+      -3592
+     ],
+     [
+      77576,
+      148424,
+      -3592
+     ],
+     [
+      77464,
+      148168,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c6:deliver:30300",
+   "cond": 6,
+   "kind": "deliver",
+   "to": 4,
+   "links": [
+    "Ask about materials"
+   ],
+   "npc": {
+    "id": 30300,
+    "name": "Pushkin",
+    "title": "Blacksmith",
+    "town": "Giran",
+    "at": [
+     77458,
+     148169,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Bring Grail Diagram to Pushkin",
+   "needs": [
+    {
+     "id": 3145,
+     "name": "Grail Diagram",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30300@77458,148169",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7716,
+    "sec": 84,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7716,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83240,
+      148744,
+      -3400
+     ],
+     [
+      82920,
+      148888,
+      -3464
+     ],
+     [
+      82792,
+      149016,
+      -3464
+     ],
+     [
+      82296,
+      149280,
+      -3464
+     ],
+     [
+      81800,
+      149544,
+      -3464
+     ],
+     [
+      81608,
+      149736,
+      -3464
+     ],
+     [
+      81384,
+      150168,
+      -3528
+     ],
+     [
+      81288,
+      150264,
+      -3528
+     ],
+     [
+      81160,
+      150264,
+      -3528
+     ],
+     [
+      80664,
+      149992,
+      -3528
+     ],
+     [
+      80168,
+      149720,
+      -3528
+     ],
+     [
+      80104,
+      149720,
+      -3528
+     ],
+     [
+      79784,
+      149208,
+      -3528
+     ],
+     [
+      79752,
+      148824,
+      -3528
+     ],
+     [
+      79256,
+      148600,
+      -3560
+     ],
+     [
+      78760,
+      148376,
+      -3592
+     ],
+     [
+      78280,
+      148408,
+      -3592
+     ],
+     [
+      77576,
+      148424,
+      -3592
+     ],
+     [
+      77464,
+      148168,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 109,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c11:deliver:30375",
+   "cond": 11,
+   "kind": "deliver",
+   "to": 9,
+   "links": [
+    "I will help."
+   ],
+   "npc": {
+    "id": 30375,
+    "name": "Adonius",
+    "title": "Priest",
+    "town": "Gludin",
+    "at": [
+     -79274,
+     150966,
+     -3031
+    ],
+    "alt": []
+   },
+   "text": "Bring Arkenia's Instructions to Adonius",
+   "needs": [
+    {
+     "id": 3152,
+     "name": "Arkenia's Instructions",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30375@-79274,150966",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 4416,
+    "sec": 57,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 4416,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79272,
+      150952,
+      -3040
+     ],
+     [
+      -79272,
+      150968,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    11
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c12:deliver:30419",
+   "cond": 12,
+   "kind": "deliver",
+   "to": 8,
+   "links": [
+    "Say you will pay the price."
+   ],
+   "npc": {
+    "id": 30419,
+    "name": "Arkenia",
+    "title": "Witch",
+    "town": "Gludio",
+    "at": [
+     -44015,
+     79683,
+     -3648
+    ],
+    "alt": []
+   },
+   "text": "Bring Thalia's 1st Letter to Arkenia",
+   "needs": [
+    {
+     "id": 3146,
+     "name": "Thalia's 1st Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30419@-44015,79683",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".oren",
+    "length": 8728,
+    "sec": 118,
+    "via": ".oren > Oren -> Necropolis of Devotion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Necropolis of Devotion",
+      "link": "necropolis of devotion",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8728,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Necropolis of Devotion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -52724,
+      79104,
+      -4739
+     ],
+     [
+      -44015,
+      79683,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -52724,79104 (the start is a closed pocket of 5280 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Sepulcher Sage",
+       "lv": 62,
+       "n": 2
+      },
+      {
+       "name": "Nephilim Bishop",
+       "lv": 60,
+       "n": 2
+      },
+      {
+       "name": "Sepulcher Guardian",
+       "lv": 60,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 143,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    12
+   ],
+   "override": {
+    "route": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Spider Nest"
+    },
+    "note": "Arkenia 30419: gk link \"Spider Nest\" on the live menu Scripts/data/gk_live/Jasmine.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Spider Nest"
+    },
+    "points": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "pv": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "length": 20671,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c17:deliver:30655",
+   "cond": 17,
+   "kind": "deliver",
+   "to": 15,
+   "links": [
+    "Ask where Talin's Spear is."
+   ],
+   "npc": {
+    "id": 30655,
+    "name": "Isael Silvershadow",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     115791,
+     75867,
+     -2714
+    ],
+    "alt": []
+   },
+   "text": "Bring Thalia's 2nd Letter to Isael Silvershadow",
+   "needs": [
+    {
+     "id": 3147,
+     "name": "Thalia's 2nd Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30655@115791,75867",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 965,
+    "sec": 28,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 965,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 53,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    17
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c20:deliver:30371",
+   "cond": 20,
+   "kind": "deliver",
+   "to": 18,
+   "links": [],
+   "npc": {
+    "id": 30371,
+    "name": "Thalia",
+    "title": "",
+    "town": "Elven Village",
+    "at": [
+     51210,
+     82474,
+     -3283
+    ],
+    "alt": []
+   },
+   "text": "Bring Moonflower Charm, Talins Spear, Isael's Letter to Thalia",
+   "needs": [
+    {
+     "id": 3144,
+     "name": "Moonflower Charm",
+     "n": 1
+    },
+    {
+     "id": 3026,
+     "name": "Talins Spear",
+     "n": 1
+    },
+    {
+     "id": 3157,
+     "name": "Isael's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30371@51210,82474",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludio",
+    "length": 23166,
+    "sec": 263,
+    "via": ".gludio > Gludio -> Elven Village > Elven Village -> Elven Fortress",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Elven",
+      "desc": "Elven Village -> Elven Fortress",
+      "link": "elven fortress",
+      "price": 820,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 23166,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      29294,
+      74968,
+      -3776
+     ],
+     [
+      51210,
+      82474,
+      -3283
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 29294,74968 (gave up after 2000001 cells (too far or no way))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 288,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    20
+   ],
+   "override": {
+    "route": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32168,
+      78088,
+      -3496
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      35720,
+      81736,
+      -3568
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38408,
+      82392,
+      -3648
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41064,
+      83512,
+      -3504
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      41816,
+      87480,
+      -3584
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42472,
+      87880,
+      -3584
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43512,
+      87768,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47464,
+      88216,
+      -3624
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      51272,
+      88136,
+      -3776
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53800,
+      86280,
+      -3568
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      53096,
+      82520,
+      -3424
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Fortress"
+    },
+    "note": "Thalia 30371 (51210,82474): gk link \"Elven Fortress\" on the live menu Scripts/data/gk_live/Mirabel.json, via the Roko area, 40 km dry walk (every direct search from Elven Fortress / Plains of Lizardmen hit the 2.5 M cell limit); geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Fortress"
+    },
+    "points": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32168,
+      78088,
+      -3496
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      35720,
+      81736,
+      -3568
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38408,
+      82392,
+      -3648
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41064,
+      83512,
+      -3504
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      41816,
+      87480,
+      -3584
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42472,
+      87880,
+      -3584
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43512,
+      87768,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47464,
+      88216,
+      -3624
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      51272,
+      88136,
+      -3776
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53800,
+      86280,
+      -3568
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      53096,
+      82520,
+      -3424
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "pv": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "length": 38604,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified"
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c21:deliver:30154",
+   "cond": 21,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"I will set off in search of the Water of Life.\""
+   ],
+   "npc": {
+    "id": 30154,
+    "name": "Asterios",
+    "title": "Hierarch",
+    "town": "Elven Village",
+    "at": [
+     44692,
+     52261,
+     -2792
+    ],
+    "alt": []
+   },
+   "text": "Bring Cardien's Letter to Asterios",
+   "needs": [
+    {
+     "id": 3141,
+     "name": "Cardien's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30154@44692,52261",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8186,
+    "sec": 113,
+    "via": ".gludio > Gludio -> Elven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Elven Village",
+      "link": "elven village",
+      "price": 9200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8186,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Elven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      46951,
+      51550,
+      -2976
+     ],
+     [
+      46952,
+      51544,
+      -2976
+     ],
+     [
+      47112,
+      51320,
+      -2992
+     ],
+     [
+      47288,
+      51112,
+      -2992
+     ],
+     [
+      47304,
+      50984,
+      -2992
+     ],
+     [
+      47160,
+      50824,
+      -2992
+     ],
+     [
+      46968,
+      50648,
+      -2992
+     ],
+     [
+      46744,
+      50488,
+      -3056
+     ],
+     [
+      46472,
+      50488,
+      -3056
+     ],
+     [
+      46520,
+      50216,
+      -3056
+     ],
+     [
+      46344,
+      50024,
+      -3056
+     ],
+     [
+      46184,
+      49864,
+      -3064
+     ],
+     [
+      46152,
+      49896,
+      -3064
+     ],
+     [
+      45912,
+      50024,
+      -3056
+     ],
+     [
+      45640,
+      50056,
+      -3056
+     ],
+     [
+      45368,
+      50120,
+      -3056
+     ],
+     [
+      45096,
+      50056,
+      -3056
+     ],
+     [
+      44824,
+      50024,
+      -3056
+     ],
+     [
+      44568,
+      50008,
+      -3064
+     ],
+     [
+      44536,
+      50040,
+      -3056
+     ],
+     [
+      44312,
+      50200,
+      -3056
+     ],
+     [
+      44232,
+      50200,
+      -3056
+     ],
+     [
+      43960,
+      50200,
+      -3056
+     ],
+     [
+      43704,
+      50312,
+      -3024
+     ],
+     [
+      43464,
+      50456,
+      -2992
+     ],
+     [
+      43416,
+      50680,
+      -2992
+     ],
+     [
+      43496,
+      50856,
+      -2992
+     ],
+     [
+      43688,
+      51032,
+      -2992
+     ],
+     [
+      43944,
+      51096,
+      -2992
+     ],
+     [
+      43976,
+      51192,
+      -2992
+     ],
+     [
+      44152,
+      51240,
+      -2984
+     ],
+     [
+      44312,
+      51256,
+      -2928
+     ],
+     [
+      44344,
+      51480,
+      -2848
+     ],
+     [
+      44456,
+      51688,
+      -2832
+     ],
+     [
+      44440,
+      51640,
+      -2832
+     ],
+     [
+      44648,
+      51592,
+      -2808
+     ],
+     [
+      44696,
+      51736,
+      -2808
+     ],
+     [
+      44696,
+      52008,
+      -2792
+     ],
+     [
+      44728,
+      52120,
+      -2792
+     ],
+     [
+      44696,
+      52264,
+      -2792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    21
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:deliver:30419": {
+    "route": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Spider Nest"
+    },
+    "note": "Arkenia 30419: gk link \"Spider Nest\" on the live menu Scripts/data/gk_live/Jasmine.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c12:deliver:30419": {
+    "route": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -60840,
+      75224,
+      -3344
+     ],
+     [
+      -59848,
+      75144,
+      -3280
+     ],
+     [
+      -59512,
+      74936,
+      -3288
+     ],
+     [
+      -59432,
+      74920,
+      -3280
+     ],
+     [
+      -59320,
+      74952,
+      -3264
+     ],
+     [
+      -58728,
+      75144,
+      -3168
+     ],
+     [
+      -57752,
+      75064,
+      -3288
+     ],
+     [
+      -57672,
+      75144,
+      -3344
+     ],
+     [
+      -57656,
+      75144,
+      -3416
+     ],
+     [
+      -56664,
+      75144,
+      -3336
+     ],
+     [
+      -55672,
+      75144,
+      -3104
+     ],
+     [
+      -55256,
+      75144,
+      -3080
+     ],
+     [
+      -54840,
+      75336,
+      -3096
+     ],
+     [
+      -53848,
+      75192,
+      -3144
+     ],
+     [
+      -52904,
+      75192,
+      -3248
+     ],
+     [
+      -51912,
+      75368,
+      -3344
+     ],
+     [
+      -50920,
+      75304,
+      -3440
+     ],
+     [
+      -50616,
+      75304,
+      -3464
+     ],
+     [
+      -49624,
+      76296,
+      -3304
+     ],
+     [
+      -49272,
+      76360,
+      -3296
+     ],
+     [
+      -48904,
+      77352,
+      -3296
+     ],
+     [
+      -49000,
+      78344,
+      -3296
+     ],
+     [
+      -49176,
+      78568,
+      -3296
+     ],
+     [
+      -49272,
+      78760,
+      -3296
+     ],
+     [
+      -48680,
+      78872,
+      -3248
+     ],
+     [
+      -47688,
+      79000,
+      -3096
+     ],
+     [
+      -47256,
+      79080,
+      -3064
+     ],
+     [
+      -47224,
+      79112,
+      -3064
+     ],
+     [
+      -46232,
+      79112,
+      -3728
+     ],
+     [
+      -45240,
+      79112,
+      -3744
+     ],
+     [
+      -44824,
+      79112,
+      -3744
+     ],
+     [
+      -44344,
+      79112,
+      -3728
+     ],
+     [
+      -44280,
+      79176,
+      -3712
+     ],
+     [
+      -44120,
+      79576,
+      -3648
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Spider Nest"
+    },
+    "note": "Arkenia 30419: gk link \"Spider Nest\" on the live menu Scripts/data/gk_live/Jasmine.json; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:deliver:30371": {
+    "route": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32168,
+      78088,
+      -3496
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      35720,
+      81736,
+      -3568
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38408,
+      82392,
+      -3648
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41064,
+      83512,
+      -3504
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      41816,
+      87480,
+      -3584
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42472,
+      87880,
+      -3584
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43512,
+      87768,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47464,
+      88216,
+      -3624
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      51272,
+      88136,
+      -3776
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53800,
+      86280,
+      -3568
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      53096,
+      82520,
+      -3424
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Fortress"
+    },
+    "note": "Thalia 30371 (51210,82474): gk link \"Elven Fortress\" on the live menu Scripts/data/gk_live/Mirabel.json, via the Roko area, 40 km dry walk (every direct search from Elven Fortress / Plains of Lizardmen hit the 2.5 M cell limit); geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c20:deliver:30371": {
+    "route": [
+     [
+      30280,
+      75960,
+      -3664
+     ],
+     [
+      31080,
+      76952,
+      -3488
+     ],
+     [
+      31176,
+      77176,
+      -3488
+     ],
+     [
+      32168,
+      78088,
+      -3496
+     ],
+     [
+      32520,
+      78168,
+      -3504
+     ],
+     [
+      33512,
+      79160,
+      -3496
+     ],
+     [
+      34504,
+      80152,
+      -3504
+     ],
+     [
+      34728,
+      80744,
+      -3536
+     ],
+     [
+      35720,
+      81736,
+      -3568
+     ],
+     [
+      36152,
+      81944,
+      -3600
+     ],
+     [
+      37144,
+      82072,
+      -3632
+     ],
+     [
+      38136,
+      82072,
+      -3640
+     ],
+     [
+      38424,
+      82072,
+      -3752
+     ],
+     [
+      38280,
+      82152,
+      -3664
+     ],
+     [
+      38408,
+      82392,
+      -3648
+     ],
+     [
+      38936,
+      82824,
+      -3632
+     ],
+     [
+      39240,
+      82872,
+      -3584
+     ],
+     [
+      40008,
+      82872,
+      -3544
+     ],
+     [
+      40072,
+      82824,
+      -3544
+     ],
+     [
+      41064,
+      83512,
+      -3504
+     ],
+     [
+      41784,
+      83512,
+      -3512
+     ],
+     [
+      41784,
+      84504,
+      -3528
+     ],
+     [
+      41784,
+      85496,
+      -3616
+     ],
+     [
+      41784,
+      85912,
+      -3672
+     ],
+     [
+      41720,
+      86904,
+      -3648
+     ],
+     [
+      41816,
+      87480,
+      -3584
+     ],
+     [
+      42008,
+      87640,
+      -3584
+     ],
+     [
+      42408,
+      87704,
+      -3608
+     ],
+     [
+      42504,
+      87592,
+      -3624
+     ],
+     [
+      42424,
+      87736,
+      -3608
+     ],
+     [
+      42472,
+      87880,
+      -3584
+     ],
+     [
+      42776,
+      87944,
+      -3600
+     ],
+     [
+      43192,
+      87864,
+      -3624
+     ],
+     [
+      43480,
+      87704,
+      -3632
+     ],
+     [
+      43496,
+      87704,
+      -3720
+     ],
+     [
+      43512,
+      87768,
+      -3720
+     ],
+     [
+      43528,
+      87768,
+      -3776
+     ],
+     [
+      43640,
+      87768,
+      -3752
+     ],
+     [
+      44632,
+      88216,
+      -3544
+     ],
+     [
+      45480,
+      88216,
+      -3520
+     ],
+     [
+      46472,
+      88216,
+      -3496
+     ],
+     [
+      47464,
+      88216,
+      -3624
+     ],
+     [
+      47880,
+      88216,
+      -3648
+     ],
+     [
+      48872,
+      88216,
+      -3688
+     ],
+     [
+      49864,
+      88216,
+      -3736
+     ],
+     [
+      50280,
+      88216,
+      -3768
+     ],
+     [
+      51272,
+      88136,
+      -3776
+     ],
+     [
+      52184,
+      87720,
+      -3776
+     ],
+     [
+      53064,
+      87352,
+      -3616
+     ],
+     [
+      53576,
+      86840,
+      -3528
+     ],
+     [
+      53368,
+      86504,
+      -3624
+     ],
+     [
+      53592,
+      86504,
+      -3608
+     ],
+     [
+      53800,
+      86280,
+      -3568
+     ],
+     [
+      53928,
+      85752,
+      -3592
+     ],
+     [
+      53880,
+      85192,
+      -3600
+     ],
+     [
+      53640,
+      84376,
+      -3528
+     ],
+     [
+      53096,
+      83384,
+      -3472
+     ],
+     [
+      53096,
+      82520,
+      -3424
+     ],
+     [
+      52104,
+      82472,
+      -3320
+     ],
+     [
+      51432,
+      82568,
+      -3304
+     ],
+     [
+      51208,
+      82472,
+      -3280
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Elven Village",
+     "desc": "Elven Village -> Elven Fortress"
+    },
+    "note": "Thalia 30371 (51210,82474): gk link \"Elven Fortress\" on the live menu Scripts/data/gk_live/Mirabel.json, via the Roko area, 40 km dry walk (every direct search from Elven Fortress / Plains of Lizardmen hit the 2.5 M cell limit); geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:hunt": {
+    "fixed": [
+     "route-unverified"
+    ],
+    "note": "BLOCKED: one place of this step needs Leto Lizardman Shaman / Overlord 20581 / 20582: their only spawns (spawns_h5, 2-4 each, ~96000,77000) sit inside the Tanta Lizardman camp (431 spawns, level 82-85, aggro 300; nearest 905 from a Leto); no route avoids them (danger-weighted geodata search, weight 500, b2 leg lizard>leto:w500). Needs a high-level escort. the atlas marked \"Giran -> Brekas Stronghold\" not live, but Clarissa's live menu (Scripts/data/gk_live/Clarissa.json) has \"Breka's Stronghold - 500\"; swarm.js gkNorm() (Scripts_dev/swarm.js ~line 6758: drops 's and the plural s) maps both to \"breka stronghold\" -> the link is clicked fine.",
+    "manual": true,
+    "editedAt": "2026-10-27T10:23:12.174Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:23:12.174Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

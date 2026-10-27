@@ -1,0 +1,585 @@
+{
+ "id": 688,
+ "name": "Defeat the Elrokian Raiders!",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.143Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dark Elf Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 23,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32105",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Pledge your services to catch the thieves."
+   ],
+   "npc": {
+    "id": 32105,
+    "name": "Dinn",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     11952,
+     -24016,
+     -3644
+    ],
+    "alt": []
+   },
+   "text": "Talk to Dinn – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32105@11952,-24016",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 725,
+    "sec": 51,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 725,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      11960,
+      -24008,
+      -3640
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22214,
+     "name": "Elroki",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8785,
+     "name": "Dinosaur Fang Necklace",
+     "n": 20,
+     "from": [
+      {
+       "id": 22214,
+       "name": "Elroki",
+       "chance": 44.8
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Elroki for Dinosaur Fang Necklace x20",
+   "places": [
+    {
+     "mobs": [
+      22214
+     ],
+     "items": [
+      8785
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "primeval-isle-1",
+      "name": "Primeval Isle 1: Pachycephalosaurus area (south-west)",
+      "at": [
+       6344,
+       -20984,
+       -3472
+      ],
+      "radius": 2601,
+      "levels": [
+       80,
+       80
+      ],
+      "count": 1,
+      "region": "Primeval Isle",
+      "atlasKey": "area:primeval-isle-1",
+      "status": "ok",
+      "sec": 95,
+      "danger": 80,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -4.416666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "primeval-isle-2",
+        "name": "Primeval Isle 2: Pachycephalosaurus area (south-west)",
+        "at": [
+         7208,
+         -18200,
+         -3624
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-4",
+        "name": "Primeval Isle 4: Pachycephalosaurus area (south-west)",
+        "at": [
+         3720,
+         -18888,
+         -3520
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "primeval-isle-5",
+        "name": "Primeval Isle 5: Wild Strider area (south)",
+        "at": [
+         7736,
+         -15208,
+         -3688
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:primeval-isle-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 6008,
+      "sec": 95,
+      "via": ".rune > Rune Township -> Primeval Isle",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune Township -> Primeval Isle",
+        "link": "primeval isle wharf",
+        "price": 6400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 6008,
+        "how": "field-areas",
+        "danger": 80
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune Township -> Primeval Isle"
+      },
+      "simple": true,
+      "pv": [
+       [
+        11240,
+        -24024,
+        -3640
+       ],
+       [
+        10360,
+        -23032,
+        -3672
+       ],
+       [
+        9768,
+        -22440,
+        -3696
+       ],
+       [
+        9480,
+        -22248,
+        -3688
+       ],
+       [
+        8824,
+        -21912,
+        -3456
+       ],
+       [
+        8616,
+        -21832,
+        -3408
+       ],
+       [
+        7624,
+        -21832,
+        -3304
+       ],
+       [
+        6632,
+        -21272,
+        -3440
+       ],
+       [
+        6344,
+        -20984,
+        -3472
+       ]
+      ],
+      "maxDanger": 80,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 80,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "primeval-isle-1",
+    "name": "Primeval Isle 1: Pachycephalosaurus area (south-west)",
+    "at": [
+     6344,
+     -20984,
+     -3472
+    ],
+    "radius": 2601,
+    "levels": [
+     80,
+     80
+    ],
+    "count": 1,
+    "region": "Primeval Isle",
+    "atlasKey": "area:primeval-isle-1",
+    "status": "ok",
+    "sec": 95,
+    "danger": 80,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -4.416666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "primeval-isle-2",
+      "name": "Primeval Isle 2: Pachycephalosaurus area (south-west)",
+      "at": [
+       7208,
+       -18200,
+       -3624
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "primeval-isle-4",
+      "name": "Primeval Isle 4: Pachycephalosaurus area (south-west)",
+      "at": [
+       3720,
+       -18888,
+       -3520
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "primeval-isle-5",
+      "name": "Primeval Isle 5: Wild Strider area (south)",
+      "at": [
+       7736,
+       -15208,
+       -3688
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:primeval-isle-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 6008,
+    "sec": 95,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6008,
+      "how": "field-areas",
+      "danger": 80
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11240,
+      -24024,
+      -3640
+     ],
+     [
+      10360,
+      -23032,
+      -3672
+     ],
+     [
+      9768,
+      -22440,
+      -3696
+     ],
+     [
+      9480,
+      -22248,
+      -3688
+     ],
+     [
+      8824,
+      -21912,
+      -3456
+     ],
+     [
+      8616,
+      -21832,
+      -3408
+     ],
+     [
+      7624,
+      -21832,
+      -3304
+     ],
+     [
+      6632,
+      -21272,
+      -3440
+     ],
+     [
+      6344,
+      -20984,
+      -3472
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1220,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:32105",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Take the per necklace bounty."
+   ],
+   "npc": {
+    "id": 32105,
+    "name": "Dinn",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     11952,
+     -24016,
+     -3644
+    ],
+    "alt": []
+   },
+   "text": "Hand in Dinosaur Fang Necklace at Dinn (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 8785,
+     "name": "Dinosaur Fang Necklace",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32105@11952,-24016",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 725,
+    "sec": 51,
+    "via": ".rune > Rune Township -> Primeval Isle",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune Township -> Primeval Isle",
+      "link": "primeval isle wharf",
+      "price": 6400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 725,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune Township -> Primeval Isle"
+    },
+    "simple": true,
+    "pv": [
+     [
+      11235,
+      -24026,
+      -3640
+     ],
+     [
+      11960,
+      -24008,
+      -3640
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:38.148Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-thin"
+  ]
+ }
+}

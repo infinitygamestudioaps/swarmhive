@@ -1,0 +1,3123 @@
+{
+ "id": 333,
+ "name": "Hunt Of The Black Lion",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.650Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 25,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dion",
+ "requirements": {
+  "items": [
+   {
+    "id": 1369,
+    "name": "Black Lion Mark"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Black Lion Mark"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  },
+  {
+   "code": "item-from-elsewhere",
+   "text": "a step needs an item the quest does not give or drop (bought / crafted / another quest)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 108,
+ "refLevel": 25,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30735",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will join in the fight!\""
+   ],
+   "npc": {
+    "id": 30735,
+    "name": "Sophya",
+    "title": "Mercenary Captain",
+    "town": "Dion",
+    "at": [
+     19264,
+     144672,
+     -3098
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sophya – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30066@19516,144772",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5742,
+    "sec": 68,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5635,
+      "how": "town-graph",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19096,
+      144600,
+      -3104
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ],
+     [
+      19272,
+      144632,
+      -3096
+     ],
+     [
+      19416,
+      144552,
+      -3088
+     ],
+     [
+      19528,
+      144632,
+      -3088
+     ],
+     [
+      19512,
+      144776,
+      -3088
+     ],
+     [
+      19320,
+      144584,
+      -3096
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30066@19516,144772",
+     "name": "Pabris"
+    },
+    "points": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19096,
+      144600,
+      -3104
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ],
+     [
+      19272,
+      144632,
+      -3096
+     ],
+     [
+      19416,
+      144552,
+      -3088
+     ],
+     [
+      19528,
+      144632,
+      -3088
+     ],
+     [
+      19512,
+      144776,
+      -3088
+     ],
+     [
+      19320,
+      144584,
+      -3096
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ]
+    ]
+   },
+   "expectedSec": 98,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20160,
+     "name": "Neer Crawler",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20198,
+     "name": "Neer Ghoul Berserker",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 20200,
+     "name": "Strain",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20201,
+     "name": "Ghoul",
+     "level": 32,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20171,
+     "name": "Specter",
+     "level": 26,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20197,
+     "name": "Sorrow Maiden",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 20207,
+     "name": "Ol Mahum Guerilla",
+     "level": 26,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 102,
+     "questSpawned": false
+    },
+    {
+     "id": 20208,
+     "name": "Ol Mahum Raider",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 91,
+     "questSpawned": false
+    },
+    {
+     "id": 20209,
+     "name": "Ol Mahum Marksman",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 20210,
+     "name": "Ol Mahum Sergeant",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 88,
+     "questSpawned": false
+    },
+    {
+     "id": 20211,
+     "name": "Ol Mahum Captain",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20251,
+     "name": "Delu Lizardman",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20252,
+     "name": "Delu Lizardman Scout",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20253,
+     "name": "Delu Lizardman Warrior",
+     "level": 30,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3440,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20160,
+       "name": "Neer Crawler",
+       "chance": 11
+      },
+      {
+       "id": 20171,
+       "name": "Specter",
+       "chance": 8
+      },
+      {
+       "id": 20197,
+       "name": "Sorrow Maiden",
+       "chance": 9
+      },
+      {
+       "id": 20198,
+       "name": "Neer Ghoul Berserker",
+       "chance": 12
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 13
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3441,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20207,
+       "name": "Ol Mahum Guerilla",
+       "chance": 9
+      },
+      {
+       "id": 20208,
+       "name": "Ol Mahum Raider",
+       "chance": 10
+      },
+      {
+       "id": 20209,
+       "name": "Ol Mahum Marksman",
+       "chance": 11
+      },
+      {
+       "id": 20210,
+       "name": "Ol Mahum Sergeant",
+       "chance": 12
+      },
+      {
+       "id": 20211,
+       "name": "Ol Mahum Captain",
+       "chance": 13
+      }
+     ]
+    },
+    {
+     "id": 3442,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20251,
+       "name": "Delu Lizardman",
+       "chance": 14
+      },
+      {
+       "id": 20252,
+       "name": "Delu Lizardman Scout",
+       "chance": 14
+      },
+      {
+       "id": 20253,
+       "name": "Delu Lizardman Warrior",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3443,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 12
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 13
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 14
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3848,
+     "name": "Undead Ash",
+     "n": 20,
+     "from": [
+      {
+       "id": 20160,
+       "name": "Neer Crawler",
+       "chance": 50
+      },
+      {
+       "id": 20198,
+       "name": "Neer Ghoul Berserker",
+       "chance": 50
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 50
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 50
+      },
+      {
+       "id": 20171,
+       "name": "Specter",
+       "chance": 60
+      },
+      {
+       "id": 20197,
+       "name": "Sorrow Maiden",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3849,
+     "name": "Bloody Axe Insignia",
+     "n": 20,
+     "from": [
+      {
+       "id": 20207,
+       "name": "Ol Mahum Guerilla",
+       "chance": 50
+      },
+      {
+       "id": 20208,
+       "name": "Ol Mahum Raider",
+       "chance": 50
+      },
+      {
+       "id": 20209,
+       "name": "Ol Mahum Marksman",
+       "chance": 50
+      },
+      {
+       "id": 20210,
+       "name": "Ol Mahum Sergeant",
+       "chance": 50
+      },
+      {
+       "id": 20211,
+       "name": "Ol Mahum Captain",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 3850,
+     "name": "Delu Lizardman Fang",
+     "n": 20,
+     "from": [
+      {
+       "id": 20251,
+       "name": "Delu Lizardman",
+       "chance": 50
+      },
+      {
+       "id": 20252,
+       "name": "Delu Lizardman Scout",
+       "chance": 50
+      },
+      {
+       "id": 20253,
+       "name": "Delu Lizardman Warrior",
+       "chance": 50
+      },
+      {
+       "id": 27151,
+       "name": "Delu Lizardman Headhunter",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3851,
+     "name": "Stakato Talon",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 55
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 60
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 60
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 56
+      },
+      {
+       "id": 27152,
+       "name": "Marsh Stakato Marquess",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Marsh Stakato, Neer Crawler, Neer Ghoul Berserker for Cargo Box x20, Cargo Box x20, Cargo Box x20, Cargo Box x20, Undead Ash x20, Bloody Axe Insignia x20, Delu Lizardman Fang x20, Stakato Talon x20",
+   "places": [
+    {
+     "mobs": [
+      20160,
+      20171,
+      20197,
+      20198,
+      20200,
+      20201
+     ],
+     "items": [
+      3440,
+      3848
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-7",
+      "name": "Tanor Canyon 7: Specter area (north-west)",
+      "at": [
+       52248,
+       148264,
+       -2408
+      ],
+      "radius": 5487,
+      "levels": [
+       26,
+       29
+      ],
+      "count": 28,
+      "region": "Tanor Canyon",
+      "atlasKey": "area:tanor-canyon-7",
+      "status": "ok",
+      "sec": 227,
+      "danger": 31,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -164.21666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "tanor-canyon-8",
+        "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+        "at": [
+         46776,
+         150968,
+         -2808
+        ],
+        "count": 17,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-5",
+        "name": "Tanor Canyon 5: Neer Ghoul Berserker area (north-west)",
+        "at": [
+         48056,
+         154216,
+         -2728
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-7",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 7: Specter area (north)",
+        "at": [
+         53608,
+         141784,
+         -2992
+        ],
+        "count": 14,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 21818,
+      "sec": 227,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12783,
+        "how": "field-areas-gap",
+        "danger": 47
+       },
+       {
+        "do": "walk",
+        "len": 9035,
+        "how": "field-areas",
+        "danger": 31
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        58488,
+        154488,
+        -2296
+       ],
+       [
+        57496,
+        154168,
+        -2448
+       ],
+       [
+        56952,
+        153624,
+        -2424
+       ],
+       [
+        56568,
+        153112,
+        -2392
+       ],
+       [
+        56120,
+        152120,
+        -2432
+       ],
+       [
+        55736,
+        151736,
+        -2400
+       ],
+       [
+        55480,
+        151352,
+        -2344
+       ],
+       [
+        54488,
+        150360,
+        -2456
+       ],
+       [
+        53496,
+        149368,
+        -2480
+       ],
+       [
+        52504,
+        148376,
+        -2424
+       ],
+       [
+        52488,
+        148360,
+        -2424
+       ],
+       [
+        52248,
+        148264,
+        -2408
+       ]
+      ],
+      "maxDanger": 47,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 47,
+       "dangerVsLevel": 22,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 6
+        },
+        {
+         "name": "Strain",
+         "lv": 31,
+         "n": 1
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20207,
+      20208,
+      20209,
+      20210,
+      20211
+     ],
+     "items": [
+      3441,
+      3849
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fortress-of-resistance-8",
+      "name": "Fortress of Resistance 8: Ol Mahum Sergeant area (east)",
+      "at": [
+       54456,
+       109016,
+       -1104
+      ],
+      "radius": 4328,
+      "levels": [
+       27,
+       29
+      ],
+      "count": 25,
+      "region": "Fortress of Resistance",
+      "atlasKey": "area:fortress-of-resistance-8",
+      "status": "ok",
+      "sec": 111,
+      "danger": 29,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -148.15,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-18",
+        "name": "Fortress of Resistance 18: Ol Mahum Raider area (east)",
+        "at": [
+         57016,
+         112056,
+         -1720
+        ],
+        "count": 24,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-15",
+        "name": "Fortress of Resistance 15: Ol Mahum Guerilla area (south-west)",
+        "at": [
+         42920,
+         118504,
+         -1744
+        ],
+        "count": 21,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-14",
+        "name": "Fortress of Resistance 14: Ol Mahum Sergeant area (north-west)",
+        "at": [
+         41208,
+         106744,
+         -1480
+        ],
+        "count": 21,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fortress-of-resistance-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 7912,
+      "sec": 111,
+      "via": ".dion > Dion -> Fortress of Resistance",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Fortress of Resistance",
+        "link": "fortress of resistance",
+        "price": 1700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7912,
+        "how": "field-areas",
+        "danger": 30
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Fortress of Resistance"
+      },
+      "simple": true,
+      "pv": [
+       [
+        47384,
+        111272,
+        -2104
+       ],
+       [
+        48376,
+        111272,
+        -2112
+       ],
+       [
+        49368,
+        111272,
+        -2064
+       ],
+       [
+        50360,
+        111272,
+        -1976
+       ],
+       [
+        51352,
+        111272,
+        -1976
+       ],
+       [
+        51560,
+        111192,
+        -1976
+       ],
+       [
+        52552,
+        110920,
+        -1848
+       ],
+       [
+        53544,
+        109928,
+        -1424
+       ],
+       [
+        54456,
+        109016,
+        -1104
+       ]
+      ],
+      "maxDanger": 30,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 30,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20251,
+      20252,
+      20253
+     ],
+     "items": [
+      3442,
+      3850
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-dion-15",
+      "name": "Plains of Dion 15: Delu Lizardman Warrior area (south-east)",
+      "at": [
+       10392,
+       184824,
+       -2936
+      ],
+      "radius": 2859,
+      "levels": [
+       29,
+       30
+      ],
+      "count": 9,
+      "region": "Plains of Dion",
+      "atlasKey": "area:plains-of-dion-15",
+      "status": "ok",
+      "sec": 145,
+      "danger": 30,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -51.583333333333336,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-dion-14",
+        "name": "Plains of Dion 14: Delu Lizardman Scout area (south-east)",
+        "at": [
+         7064,
+         188600,
+         -3720
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-17",
+        "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+        "at": [
+         3720,
+         166904,
+         -3464
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-6",
+        "name": "Plains of Dion 6: Silenos area (east)",
+        "at": [
+         8072,
+         181576,
+         -2928
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-dion-15",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 11987,
+      "sec": 145,
+      "via": ".dion > Dion -> Plains of Dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Plains of Dion",
+        "link": "plains of dion",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 11987,
+        "how": "field-areas",
+        "danger": 30
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Plains of Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        632,
+        179192,
+        -3720
+       ],
+       [
+        1160,
+        179272,
+        -3712
+       ],
+       [
+        2152,
+        179272,
+        -3696
+       ],
+       [
+        3144,
+        179272,
+        -3712
+       ],
+       [
+        4136,
+        179272,
+        -3600
+       ],
+       [
+        5128,
+        179560,
+        -3496
+       ],
+       [
+        6120,
+        180552,
+        -3384
+       ],
+       [
+        7112,
+        181544,
+        -2976
+       ],
+       [
+        8104,
+        182536,
+        -2768
+       ],
+       [
+        9096,
+        183528,
+        -2696
+       ],
+       [
+        10088,
+        184520,
+        -2736
+       ],
+       [
+        10392,
+        184824,
+        -2936
+       ]
+      ],
+      "maxDanger": 30,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 30,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20232,
+      20234
+     ],
+     "items": [
+      3443,
+      3851
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 15,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -79.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Marsh Stakato Drone",
+         "lv": 35,
+         "n": 2
+        },
+        {
+         "name": "Marsh Spider",
+         "lv": 34,
+         "n": 4
+        },
+        {
+         "name": "Marsh Stakato Soldier",
+         "lv": 33,
+         "n": 6
+        },
+        {
+         "name": "Toad Lord",
+         "lv": 32,
+         "n": 4
+        },
+        {
+         "name": "Marsh Stakato Worker",
+         "lv": 31,
+         "n": 3
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Marsh Spider",
+       "lv": 34
+      },
+      {
+       "name": "Marsh Spider",
+       "lv": 34
+      },
+      {
+       "name": "Marsh Spider",
+       "lv": 34
+      },
+      {
+       "name": "Marsh Spider",
+       "lv": 34
+      },
+      {
+       "name": "Marsh Spider",
+       "lv": 34
+      },
+      {
+       "name": "Marsh Spider",
+       "lv": 34
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-7",
+    "name": "Tanor Canyon 7: Specter area (north-west)",
+    "at": [
+     52248,
+     148264,
+     -2408
+    ],
+    "radius": 5487,
+    "levels": [
+     26,
+     29
+    ],
+    "count": 28,
+    "region": "Tanor Canyon",
+    "atlasKey": "area:tanor-canyon-7",
+    "status": "ok",
+    "sec": 227,
+    "danger": 31,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -164.21666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "tanor-canyon-8",
+      "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+      "at": [
+       46776,
+       150968,
+       -2808
+      ],
+      "count": 17,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-5",
+      "name": "Tanor Canyon 5: Neer Ghoul Berserker area (north-west)",
+      "at": [
+       48056,
+       154216,
+       -2728
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-7",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 7: Specter area (north)",
+      "at": [
+       53608,
+       141784,
+       -2992
+      ],
+      "count": 14,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 21818,
+    "sec": 227,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12783,
+      "how": "field-areas-gap",
+      "danger": 47
+     },
+     {
+      "do": "walk",
+      "len": 9035,
+      "how": "field-areas",
+      "danger": 31
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      58488,
+      154488,
+      -2296
+     ],
+     [
+      57496,
+      154168,
+      -2448
+     ],
+     [
+      56952,
+      153624,
+      -2424
+     ],
+     [
+      56568,
+      153112,
+      -2392
+     ],
+     [
+      56120,
+      152120,
+      -2432
+     ],
+     [
+      55736,
+      151736,
+      -2400
+     ],
+     [
+      55480,
+      151352,
+      -2344
+     ],
+     [
+      54488,
+      150360,
+      -2456
+     ],
+     [
+      53496,
+      149368,
+      -2480
+     ],
+     [
+      52504,
+      148376,
+      -2424
+     ],
+     [
+      52488,
+      148360,
+      -2424
+     ],
+     [
+      52248,
+      148264,
+      -2408
+     ]
+    ],
+    "maxDanger": 47,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 47,
+     "dangerVsLevel": 22,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 6
+      },
+      {
+       "name": "Strain",
+       "lv": 31,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 5802,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27151",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27151,
+     "name": "Delu Lizardman Headhunter",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27152,
+     "name": "Marsh Stakato Marquess",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3440,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20160,
+       "name": "Neer Crawler",
+       "chance": 11
+      },
+      {
+       "id": 20171,
+       "name": "Specter",
+       "chance": 8
+      },
+      {
+       "id": 20197,
+       "name": "Sorrow Maiden",
+       "chance": 9
+      },
+      {
+       "id": 20198,
+       "name": "Neer Ghoul Berserker",
+       "chance": 12
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 13
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3441,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20207,
+       "name": "Ol Mahum Guerilla",
+       "chance": 9
+      },
+      {
+       "id": 20208,
+       "name": "Ol Mahum Raider",
+       "chance": 10
+      },
+      {
+       "id": 20209,
+       "name": "Ol Mahum Marksman",
+       "chance": 11
+      },
+      {
+       "id": 20210,
+       "name": "Ol Mahum Sergeant",
+       "chance": 12
+      },
+      {
+       "id": 20211,
+       "name": "Ol Mahum Captain",
+       "chance": 13
+      }
+     ]
+    },
+    {
+     "id": 3442,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20251,
+       "name": "Delu Lizardman",
+       "chance": 14
+      },
+      {
+       "id": 20252,
+       "name": "Delu Lizardman Scout",
+       "chance": 14
+      },
+      {
+       "id": 20253,
+       "name": "Delu Lizardman Warrior",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3443,
+     "name": "Cargo Box",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 12
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 13
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 14
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 15
+      }
+     ]
+    },
+    {
+     "id": 3848,
+     "name": "Undead Ash",
+     "n": 20,
+     "from": [
+      {
+       "id": 20160,
+       "name": "Neer Crawler",
+       "chance": 50
+      },
+      {
+       "id": 20198,
+       "name": "Neer Ghoul Berserker",
+       "chance": 50
+      },
+      {
+       "id": 20200,
+       "name": "Strain",
+       "chance": 50
+      },
+      {
+       "id": 20201,
+       "name": "Ghoul",
+       "chance": 50
+      },
+      {
+       "id": 20171,
+       "name": "Specter",
+       "chance": 60
+      },
+      {
+       "id": 20197,
+       "name": "Sorrow Maiden",
+       "chance": 60
+      }
+     ]
+    },
+    {
+     "id": 3849,
+     "name": "Bloody Axe Insignia",
+     "n": 20,
+     "from": [
+      {
+       "id": 20207,
+       "name": "Ol Mahum Guerilla",
+       "chance": 50
+      },
+      {
+       "id": 20208,
+       "name": "Ol Mahum Raider",
+       "chance": 50
+      },
+      {
+       "id": 20209,
+       "name": "Ol Mahum Marksman",
+       "chance": 50
+      },
+      {
+       "id": 20210,
+       "name": "Ol Mahum Sergeant",
+       "chance": 50
+      },
+      {
+       "id": 20211,
+       "name": "Ol Mahum Captain",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 3850,
+     "name": "Delu Lizardman Fang",
+     "n": 20,
+     "from": [
+      {
+       "id": 20251,
+       "name": "Delu Lizardman",
+       "chance": 50
+      },
+      {
+       "id": 20252,
+       "name": "Delu Lizardman Scout",
+       "chance": 50
+      },
+      {
+       "id": 20253,
+       "name": "Delu Lizardman Warrior",
+       "chance": 50
+      },
+      {
+       "id": 27151,
+       "name": "Delu Lizardman Headhunter",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3851,
+     "name": "Stakato Talon",
+     "n": 20,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 55
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 60
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 60
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 56
+      },
+      {
+       "id": 27152,
+       "name": "Marsh Stakato Marquess",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20157
+    ]
+   },
+   "text": "Make Delu Lizardman Headhunter, Marsh Stakato Marquess appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "cruma-marshlands-6",
+    "name": "Cruma Marshlands 6: Marsh Stakato area (north-east)",
+    "at": [
+     12904,
+     114696,
+     -3680
+    ],
+    "radius": 5244,
+    "levels": [
+     27,
+     31
+    ],
+    "count": 6,
+    "region": "Cruma Marshlands",
+    "atlasKey": "area:cruma-marshlands-6",
+    "status": "ok",
+    "sec": 82,
+    "danger": 32,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -34.63333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "cruma-marshlands-7",
+      "name": "Cruma Marshlands 7: Marsh Stakato area (north-east)",
+      "at": [
+       16888,
+       117656,
+       -3744
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "cruma-marshlands-9",
+      "name": "Cruma Marshlands 9: Marsh Stakato area (north-east)",
+      "at": [
+       20376,
+       120184,
+       -3648
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "cruma-tower-far-4",
+      "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+      "at": [
+       12488,
+       103176,
+       -3736
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:cruma-marshlands-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 4481,
+    "sec": 82,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4481,
+      "how": "field-areas",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17224,
+      114168,
+      -3440
+     ],
+     [
+      16232,
+      114168,
+      -3560
+     ],
+     [
+      15240,
+      114168,
+      -3576
+     ],
+     [
+      14248,
+      114168,
+      -3608
+     ],
+     [
+      13256,
+      114344,
+      -3672
+     ],
+     [
+      12904,
+      114696,
+      -3680
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": 9,
+     "aggro": [
+      {
+       "name": "Toad Lord",
+       "lv": 32,
+       "n": 1
+      },
+      {
+       "name": "Marsh Stakato Worker",
+       "lv": 31,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 382,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30735",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"I wish to leave the mercenary troop.\""
+   ],
+   "npc": {
+    "id": 30735,
+    "name": "Sophya",
+    "title": "Mercenary Captain",
+    "town": "Dion",
+    "at": [
+     19264,
+     144672,
+     -3098
+    ],
+    "alt": []
+   },
+   "text": "Bring Black Lion Mark to Sophya",
+   "needs": [
+    {
+     "id": 1369,
+     "name": "Black Lion Mark",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "item-from-elsewhere"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30066@19516,144772",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5742,
+    "sec": 68,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5635,
+      "how": "town-graph",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19096,
+      144600,
+      -3104
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ],
+     [
+      19272,
+      144632,
+      -3096
+     ],
+     [
+      19416,
+      144552,
+      -3088
+     ],
+     [
+      19528,
+      144632,
+      -3088
+     ],
+     [
+      19512,
+      144776,
+      -3088
+     ],
+     [
+      19320,
+      144584,
+      -3096
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": -5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30066@19516,144772",
+     "name": "Pabris"
+    },
+    "points": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16312,
+      143640,
+      -2864
+     ],
+     [
+      16520,
+      143800,
+      -2912
+     ],
+     [
+      16712,
+      143992,
+      -2968
+     ],
+     [
+      16936,
+      144040,
+      -3008
+     ],
+     [
+      16968,
+      144184,
+      -3008
+     ],
+     [
+      17176,
+      144184,
+      -3024
+     ],
+     [
+      17432,
+      144120,
+      -3032
+     ],
+     [
+      17480,
+      144088,
+      -3032
+     ],
+     [
+      17704,
+      143928,
+      -3032
+     ],
+     [
+      17976,
+      143928,
+      -3056
+     ],
+     [
+      18168,
+      143912,
+      -3064
+     ],
+     [
+      18280,
+      144152,
+      -3064
+     ],
+     [
+      18472,
+      144344,
+      -3064
+     ],
+     [
+      18696,
+      144504,
+      -3080
+     ],
+     [
+      18936,
+      144456,
+      -3096
+     ],
+     [
+      18968,
+      144424,
+      -3096
+     ],
+     [
+      19096,
+      144600,
+      -3104
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ],
+     [
+      19272,
+      144632,
+      -3096
+     ],
+     [
+      19416,
+      144552,
+      -3088
+     ],
+     [
+      19528,
+      144632,
+      -3088
+     ],
+     [
+      19512,
+      144776,
+      -3088
+     ],
+     [
+      19320,
+      144584,
+      -3096
+     ],
+     [
+      19272,
+      144680,
+      -3096
+     ]
+    ]
+   },
+   "expectedSec": 93,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30736",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "\"Do you have any useful information?\""
+   ],
+   "npc": {
+    "id": 30736,
+    "name": "Redfoot",
+    "title": "Mercenary",
+    "town": "Dion",
+    "at": [
+     16955,
+     146303,
+     -3106
+    ],
+    "alt": []
+   },
+   "text": "Talk to Redfoot",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30654@17220,146554",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 7093,
+    "sec": 79,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5895,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17304,
+      146776,
+      -3080
+     ],
+     [
+      17224,
+      146552,
+      -3080
+     ],
+     [
+      17400,
+      147144,
+      -3112
+     ],
+     [
+      16952,
+      147032,
+      -3104
+     ],
+     [
+      16952,
+      146296,
+      -3104
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30654@17220,146554",
+     "name": "Sir Kiel Nighthawk"
+    },
+    "points": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17304,
+      146776,
+      -3080
+     ],
+     [
+      17224,
+      146552,
+      -3080
+     ],
+     [
+      17400,
+      147144,
+      -3112
+     ],
+     [
+      16952,
+      147032,
+      -3104
+     ],
+     [
+      16952,
+      146296,
+      -3104
+     ]
+    ]
+   },
+   "expectedSec": 104,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

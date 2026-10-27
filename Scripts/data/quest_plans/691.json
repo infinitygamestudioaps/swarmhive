@@ -1,0 +1,627 @@
+{
+ "id": 691,
+ "name": "Matras' Suspicious Request",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.157Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 76,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 0
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 0
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 1
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 2
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 2
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 3
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 16,
+ "refLevel": 76,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32245",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"How can I help you?\""
+   ],
+   "npc": {
+    "id": 32245,
+    "name": "Matras",
+    "title": "",
+    "town": "",
+    "at": [
+     8800,
+     251652,
+     -2032
+    ],
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Matras – accept the quest",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ],
+   "override": {
+    "npcAt": [
+     8800,
+     251652,
+     -2032
+    ],
+    "manual": true,
+    "note": "Matras 32245 spawns from data/hellbound/hellboundSpawns.xml (line 39: 8800,251652,-2032), i.e. inside HELLBOUND (Warpgate + quest 130/133 + level 78 + server Hellbound level for the gates). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "fixedByOverride": [
+    "npc-no-spawn"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22363,
+     "name": "Body Destroyer",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22365,
+     "name": "Labyrinth Watchman",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 22366,
+     "name": "Labyrinth Watchman",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 22367,
+     "name": "Labyrinth Mystic",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 27,
+     "questSpawned": false
+    },
+    {
+     "id": 22368,
+     "name": "Labyrinth Captain",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 22369,
+     "name": "Labyrinth Seer",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 22370,
+     "name": "Passageway Captain",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 22372,
+     "name": "Passageway Mystic",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10372,
+     "name": "Red Stone",
+     "n": 20,
+     "from": [
+      {
+       "id": 22363,
+       "name": "Body Destroyer",
+       "chance": 89
+      },
+      {
+       "id": 22364,
+       "name": "Soul Dominator",
+       "chance": 26.1
+      },
+      {
+       "id": 22365,
+       "name": "Labyrinth Watchman",
+       "chance": 56
+      },
+      {
+       "id": 22366,
+       "name": "Labyrinth Watchman",
+       "chance": 56
+      },
+      {
+       "id": 22367,
+       "name": "Labyrinth Mystic",
+       "chance": 19
+      },
+      {
+       "id": 22368,
+       "name": "Labyrinth Captain",
+       "chance": 12.9
+      },
+      {
+       "id": 22369,
+       "name": "Labyrinth Seer",
+       "chance": 21
+      },
+      {
+       "id": 22370,
+       "name": "Passageway Captain",
+       "chance": 78.7
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "text": "Hunt Body Destroyer, Labyrinth Watchman, Labyrinth Watchman for Red Stone x20",
+   "places": [
+    {
+     "mobs": [
+      22363,
+      22365,
+      22366,
+      22367,
+      22368,
+      22369,
+      22370
+     ],
+     "items": [
+      10372
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22370@18537,277535",
+      "name": "Passageway Captain",
+      "at": [
+       18537,
+       277535,
+       -7552
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 15,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 0,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22365@13794,281820",
+        "name": "Labyrinth Watchman",
+        "at": [
+         13794,
+         281820,
+         -9696
+        ],
+        "count": 11,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22367@13923,282227",
+        "name": "Labyrinth Mystic",
+        "at": [
+         13923,
+         282227,
+         -9696
+        ],
+        "count": 11,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22368@18302,277518",
+        "name": "Labyrinth Captain",
+        "at": [
+         18302,
+         277518,
+         -9700
+        ],
+        "count": 7,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22370@18537,277535",
+    "name": "Passageway Captain",
+    "at": [
+     18537,
+     277535,
+     -7552
+    ],
+    "radius": 1500,
+    "levels": [
+     83,
+     83
+    ],
+    "count": 15,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 0,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22365@13794,281820",
+      "name": "Labyrinth Watchman",
+      "at": [
+       13794,
+       281820,
+       -9696
+      ],
+      "count": 11,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22367@13923,282227",
+      "name": "Labyrinth Mystic",
+      "at": [
+       13923,
+       282227,
+       -9696
+      ],
+      "count": 11,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22368@18302,277518",
+      "name": "Labyrinth Captain",
+      "at": [
+       18302,
+       277518,
+       -9700
+      ],
+      "count": 7,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 575,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "manual": true,
+    "note": "HELLBOUND Tully's Workshop / labyrinth monsters (22363-22372); Soul Dominator 22364 / Passageway Guards 22371 have no spawn row (TullyWorkshop AI). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:22364",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22364,
+     "name": "Soul Dominator",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22371,
+     "name": "Passageway Guards",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 10372,
+     "name": "Red Stone",
+     "n": 20,
+     "from": [
+      {
+       "id": 22363,
+       "name": "Body Destroyer",
+       "chance": 89
+      },
+      {
+       "id": 22364,
+       "name": "Soul Dominator",
+       "chance": 26.1
+      },
+      {
+       "id": 22365,
+       "name": "Labyrinth Watchman",
+       "chance": 56
+      },
+      {
+       "id": 22366,
+       "name": "Labyrinth Watchman",
+       "chance": 56
+      },
+      {
+       "id": 22367,
+       "name": "Labyrinth Mystic",
+       "chance": 19
+      },
+      {
+       "id": 22368,
+       "name": "Labyrinth Captain",
+       "chance": 12.9
+      },
+      {
+       "id": 22369,
+       "name": "Labyrinth Seer",
+       "chance": 21
+      },
+      {
+       "id": 22370,
+       "name": "Passageway Captain",
+       "chance": 78.7
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "owner-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (22364, 22371) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Soul Dominator, Passageway Guards appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ],
+   "override": {
+    "manual": true,
+    "note": "HELLBOUND Tully's Workshop / labyrinth monsters (22363-22372); Soul Dominator 22364 / Passageway Guards 22371 have no spawn row (TullyWorkshop AI). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:32245",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I've had enough of this. Give me a reward for the stones I have brought you.\""
+   ],
+   "npc": {
+    "id": 32245,
+    "name": "Matras",
+    "title": "",
+    "town": "",
+    "at": [
+     8800,
+     251652,
+     -2032
+    ],
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Matras",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "npcAt": [
+     8800,
+     251652,
+     -2032
+    ],
+    "manual": true,
+    "note": "Matras 32245: hellboundSpawns.xml line 39 (Hellbound).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "fixedByOverride": [
+    "npc-no-spawn"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32245": {
+    "npcAt": [
+     8800,
+     251652,
+     -2032
+    ],
+    "manual": true,
+    "note": "Matras 32245 spawns from data/hellbound/hellboundSpawns.xml (line 39: 8800,251652,-2032), i.e. inside HELLBOUND (Warpgate + quest 130/133 + level 78 + server Hellbound level for the gates). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:talk:32245": {
+    "npcAt": [
+     8800,
+     251652,
+     -2032
+    ],
+    "manual": true,
+    "note": "Matras 32245: hellboundSpawns.xml line 39 (Hellbound).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:hunt": {
+    "manual": true,
+    "note": "HELLBOUND Tully's Workshop / labyrinth monsters (22363-22372); Soul Dominator 22364 / Passageway Guards 22371 have no spawn row (TullyWorkshop AI). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:spawn:22364": {
+    "manual": true,
+    "note": "HELLBOUND Tully's Workshop / labyrinth monsters (22363-22372); Soul Dominator 22364 / Passageway Guards 22371 have no spawn row (TullyWorkshop AI). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

@@ -1,0 +1,1393 @@
+{
+ "id": 453,
+ "name": "Not Strong Enought Alone",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.046Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 84,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Gludin",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10282,
+    "name": "Q10282_ToTheSeedOfAnnihilation",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10282 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 3
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 5
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 6
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 8
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 9
+  }
+ ],
+ "expectedMin": 38,
+ "refLevel": 84,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32734",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Kill 'em all and let the gods sort 'em out, that's what I say.\""
+   ],
+   "npc": {
+    "id": 32734,
+    "name": "Klemis",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -178467,
+     153371,
+     2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Klemis – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32734@-178467,153371",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 13949,
+    "sec": 616,
+    "via": ".gludio > enter Bella > enter Flight Control > enter Lionel",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 8261,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Lionel",
+      "link": "Seed of Annihilation Dock"
+     },
+     {
+      "do": "walk",
+      "len": 3376,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186136,
+      242512,
+      1708
+     ],
+     [
+      -185640,
+      242728,
+      1680
+     ],
+     [
+      -185080,
+      242616,
+      1672
+     ],
+     [
+      -184088,
+      242728,
+      1576
+     ],
+     [
+      -183976,
+      242728,
+      1576
+     ],
+     [
+      -176012,
+      154009,
+      2704
+     ],
+     [
+      -176504,
+      153512,
+      2696
+     ],
+     [
+      -177000,
+      153440,
+      2672
+     ],
+     [
+      -177496,
+      153368,
+      2648
+     ],
+     [
+      -178472,
+      153368,
+      2472
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship",
+     "keucereus-docks"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 646,
+   "conds": [
+    0
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32734",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Cokrakon Region"
+   ],
+   "npc": {
+    "id": 32734,
+    "name": "Klemis",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -178467,
+     153371,
+     2472
+    ],
+    "alt": []
+   },
+   "text": "Talk to Klemis",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32734@-178467,153371",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 13949,
+    "sec": 616,
+    "via": ".gludio > enter Bella > enter Flight Control > enter Lionel",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 8261,
+      "how": "geodata",
+      "danger": 0
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Lionel",
+      "link": "Seed of Annihilation Dock"
+     },
+     {
+      "do": "walk",
+      "len": 3376,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186568,
+      242600,
+      2544
+     ],
+     [
+      -186600,
+      242408,
+      2552
+     ],
+     [
+      -186840,
+      242216,
+      2560
+     ],
+     [
+      -186680,
+      241256,
+      2328
+     ],
+     [
+      -186664,
+      241240,
+      2320
+     ],
+     [
+      -186296,
+      240376,
+      2144
+     ],
+     [
+      -186200,
+      240392,
+      2144
+     ],
+     [
+      -186264,
+      241064,
+      2000
+     ],
+     [
+      -186280,
+      241080,
+      2000
+     ],
+     [
+      -186328,
+      241224,
+      1984
+     ],
+     [
+      -186480,
+      241704,
+      1868
+     ],
+     [
+      -186632,
+      242184,
+      1752
+     ],
+     [
+      -186648,
+      242264,
+      1744
+     ],
+     [
+      -186632,
+      242296,
+      1736
+     ],
+     [
+      -186136,
+      242512,
+      1708
+     ],
+     [
+      -185640,
+      242728,
+      1680
+     ],
+     [
+      -185080,
+      242616,
+      1672
+     ],
+     [
+      -184088,
+      242728,
+      1576
+     ],
+     [
+      -183976,
+      242728,
+      1576
+     ],
+     [
+      -176012,
+      154009,
+      2704
+     ],
+     [
+      -176504,
+      153512,
+      2696
+     ],
+     [
+      -177000,
+      153440,
+      2672
+     ],
+     [
+      -177496,
+      153368,
+      2648
+     ],
+     [
+      -178472,
+      153368,
+      2472
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship",
+     "keucereus-docks"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 641,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": 5,
+   "monsters": [
+    {
+     "id": 22750,
+     "name": "Elite Bgurent",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 22751,
+     "name": "Elite Brakian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 22752,
+     "name": "Elite Groikan",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 22753,
+     "name": "Elite Treykan",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Elite Bgurent, Elite Brakian, Elite Groikan x1",
+   "places": [
+    {
+     "mobs": [
+      22750,
+      22751,
+      22752,
+      22753
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22750@-175800,179404",
+      "name": "Elite Bgurent (Seed of Annihilation)",
+      "at": [
+       -175800,
+       179404,
+       -10365
+      ],
+      "radius": 1500,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 7,
+      "region": "Seed of Annihilation",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 48,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22753@-178804,180919",
+        "name": "Elite Treykan (Seed of Annihilation)",
+        "at": [
+         -178804,
+         180919,
+         -10503
+        ],
+        "count": 7,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22751@-179804,179851",
+        "name": "Elite Brakian (Seed of Annihilation)",
+        "at": [
+         -179804,
+         179851,
+         -10448
+        ],
+        "count": 6,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22751@-175699,179357",
+        "name": "Elite Brakian (Seed of Annihilation)",
+        "at": [
+         -175699,
+         179357,
+         -10353
+        ],
+        "count": 6,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22750@-175800,179404",
+    "name": "Elite Bgurent (Seed of Annihilation)",
+    "at": [
+     -175800,
+     179404,
+     -10365
+    ],
+    "radius": 1500,
+    "levels": [
+     85,
+     85
+    ],
+    "count": 7,
+    "region": "Seed of Annihilation",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 48,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22753@-178804,180919",
+      "name": "Elite Treykan (Seed of Annihilation)",
+      "at": [
+       -178804,
+       180919,
+       -10503
+      ],
+      "count": 7,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22751@-179804,179851",
+      "name": "Elite Brakian (Seed of Annihilation)",
+      "at": [
+       -179804,
+       179851,
+       -10448
+      ],
+      "count": 6,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22751@-175699,179357",
+      "name": "Elite Brakian (Seed of Annihilation)",
+      "at": [
+       -175699,
+       179357,
+       -10353
+      ],
+      "count": 6,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:spawn:22746",
+   "cond": 2,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22746,
+     "name": "Bgurent",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22747,
+     "name": "Brakian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22748,
+     "name": "Groikan",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22749,
+     "name": "Treykan",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (22746, 22747, 22748, 22749) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Bgurent, Brakian, Groikan, Treykan appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c3:hunt",
+   "cond": 3,
+   "kind": "hunt",
+   "to": 5,
+   "monsters": [
+    {
+     "id": 22757,
+     "name": "Elite Turtlelian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    },
+    {
+     "id": 22758,
+     "name": "Elite Krajian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 22759,
+     "name": "Elite Tardyon",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Elite Turtlelian, Elite Krajian, Elite Tardyon x1",
+   "places": [
+    {
+     "mobs": [
+      22757,
+      22758,
+      22759
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22757@-185302,179573",
+      "name": "Elite Turtlelian (Seed of Annihilation)",
+      "at": [
+       -185302,
+       179573,
+       -15410
+      ],
+      "radius": 1500,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 7,
+      "region": "Seed of Annihilation",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 48,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22758@-185893,180875",
+        "name": "Elite Krajian (Seed of Annihilation)",
+        "at": [
+         -185893,
+         180875,
+         -15483
+        ],
+        "count": 6,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22757@-185401,183891",
+        "name": "Elite Turtlelian (Seed of Annihilation)",
+        "at": [
+         -185401,
+         183891,
+         -15650
+        ],
+        "count": 5,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22757@-175271,181068",
+        "name": "Elite Turtlelian (Seed of Annihilation)",
+        "at": [
+         -175271,
+         181068,
+         -15659
+        ],
+        "count": 5,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22757@-185302,179573",
+    "name": "Elite Turtlelian (Seed of Annihilation)",
+    "at": [
+     -185302,
+     179573,
+     -15410
+    ],
+    "radius": 1500,
+    "levels": [
+     85,
+     85
+    ],
+    "count": 7,
+    "region": "Seed of Annihilation",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 48,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22758@-185893,180875",
+      "name": "Elite Krajian (Seed of Annihilation)",
+      "at": [
+       -185893,
+       180875,
+       -15483
+      ],
+      "count": 6,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22757@-185401,183891",
+      "name": "Elite Turtlelian (Seed of Annihilation)",
+      "at": [
+       -185401,
+       183891,
+       -15650
+      ],
+      "count": 5,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22757@-175271,181068",
+      "name": "Elite Turtlelian (Seed of Annihilation)",
+      "at": [
+       -175271,
+       181068,
+       -15659
+      ],
+      "count": 5,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c3:spawn:22754",
+   "cond": 3,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22754,
+     "name": "Turtlelian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22755,
+     "name": "Krajian",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22756,
+     "name": "Tardyon",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (22754, 22755, 22756) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Turtlelian, Krajian, Tardyon appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c4:hunt",
+   "cond": 4,
+   "kind": "hunt",
+   "to": 5,
+   "monsters": [
+    {
+     "id": 22763,
+     "name": "Elite Kanibi",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 22764,
+     "name": "Elite Kiriona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 22765,
+     "name": "Elite Kaiona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Elite Kanibi, Elite Kiriona, Elite Kaiona x1",
+   "places": [
+    {
+     "mobs": [
+      22763,
+      22764,
+      22765
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22764@-217701,178063",
+      "name": "Elite Kiriona",
+      "at": [
+       -217701,
+       178063,
+       -12308
+      ],
+      "radius": 1500,
+      "levels": [
+       85,
+       85
+      ],
+      "count": 4,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 66,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22763@-217046,179012",
+        "name": "Elite Kanibi",
+        "at": [
+         -217046,
+         179012,
+         -12629
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22763@-208514,179809",
+        "name": "Elite Kanibi",
+        "at": [
+         -208514,
+         179809,
+         -11904
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22763@-219762,178327",
+        "name": "Elite Kanibi",
+        "at": [
+         -219762,
+         178327,
+         -11760
+        ],
+        "count": 3,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22764@-217701,178063",
+    "name": "Elite Kiriona",
+    "at": [
+     -217701,
+     178063,
+     -12308
+    ],
+    "radius": 1500,
+    "levels": [
+     85,
+     85
+    ],
+    "count": 4,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 66,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22763@-217046,179012",
+      "name": "Elite Kanibi",
+      "at": [
+       -217046,
+       179012,
+       -12629
+      ],
+      "count": 3,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22763@-208514,179809",
+      "name": "Elite Kanibi",
+      "at": [
+       -208514,
+       179809,
+       -11904
+      ],
+      "count": 3,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22763@-219762,178327",
+      "name": "Elite Kanibi",
+      "at": [
+       -219762,
+       178327,
+       -11760
+      ],
+      "count": 3,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c4:spawn:22760",
+   "cond": 4,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 22760,
+     "name": "Kanibi",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22761,
+     "name": "Kiriona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 22762,
+     "name": "Kaiona",
+     "level": 85,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (22760, 22761, 22762) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Kanibi, Kiriona, Kaiona appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32734": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32734": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java; then Lionel 32782 teleport (150,000 adena, nav atlas condition keucereus-docks, dp html/teleporter/32782-1.htm)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

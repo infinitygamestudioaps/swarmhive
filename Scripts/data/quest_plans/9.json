@@ -1,0 +1,674 @@
+{
+ "id": 9,
+ "name": "Into the City of Humans",
+ "version": 1,
+ "generated": "2026-10-27T11:14:35.682Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Orc Village",
+ "requirements": {
+  "races": [
+   "ORC"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: ORC"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 6,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30583",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do it!\""
+   ],
+   "npc": {
+    "id": 30583,
+    "name": "Petukai",
+    "title": "Centurion",
+    "town": "Orc Village",
+    "at": [
+     -45731,
+     -113844,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Petukai – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30570@-45952,-114496",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2355,
+    "sec": 65,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2355,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44808,
+      -113000,
+      -240
+     ],
+     [
+      -45000,
+      -113176,
+      -240
+     ],
+     [
+      -45240,
+      -113304,
+      -240
+     ],
+     [
+      -45400,
+      -113528,
+      -240
+     ],
+     [
+      -45416,
+      -113800,
+      -240
+     ],
+     [
+      -45592,
+      -114008,
+      -240
+     ],
+     [
+      -45736,
+      -114232,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30570@-45952,-114496",
+     "name": "Karukia"
+    },
+    "points": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44808,
+      -113000,
+      -240
+     ],
+     [
+      -45000,
+      -113176,
+      -240
+     ],
+     [
+      -45240,
+      -113304,
+      -240
+     ],
+     [
+      -45400,
+      -113528,
+      -240
+     ],
+     [
+      -45416,
+      -113800,
+      -240
+     ],
+     [
+      -45592,
+      -114008,
+      -240
+     ],
+     [
+      -45736,
+      -114232,
+      -240
+     ]
+    ]
+   },
+   "expectedSec": 95,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30576",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Yes I do.\""
+   ],
+   "npc": {
+    "id": 30576,
+    "name": "Tamil",
+    "title": "Gatekeeper",
+    "town": "Orc Village",
+    "at": [
+     -45264,
+     -112512,
+     -240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Seer Tanapi",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30576@-45264,-112512",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 127,
+    "sec": 46,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 127,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45256,
+      -112504,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30571",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"What should I do?\""
+   ],
+   "npc": {
+    "id": 30571,
+    "name": "Tanapi",
+    "title": "Seer",
+    "town": "Orc Village",
+    "at": [
+     -45863,
+     -112621,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Seer Tanapi",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30571@-45863,-112621",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 11922,
+    "sec": 144,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 11922,
+      "how": "town-graph",
+      "danger": 3
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -45048,
+      -112408,
+      -240
+     ],
+     [
+      -45048,
+      -112136,
+      -240
+     ],
+     [
+      -45224,
+      -111944,
+      -240
+     ],
+     [
+      -45592,
+      -111752,
+      -240
+     ],
+     [
+      -45736,
+      -111528,
+      -240
+     ],
+     [
+      -45832,
+      -111336,
+      -240
+     ],
+     [
+      -45816,
+      -111064,
+      -240
+     ],
+     [
+      -45816,
+      -110792,
+      -240
+     ],
+     [
+      -46008,
+      -110600,
+      -240
+     ],
+     [
+      -46088,
+      -110520,
+      -240
+     ],
+     [
+      -46120,
+      -110248,
+      -264
+     ],
+     [
+      -46136,
+      -109976,
+      -280
+     ],
+     [
+      -46152,
+      -109704,
+      -288
+     ],
+     [
+      -46472,
+      -109384,
+      -232
+     ],
+     [
+      -46536,
+      -109448,
+      -232
+     ],
+     [
+      -46792,
+      -109544,
+      -240
+     ],
+     [
+      -47064,
+      -109544,
+      -240
+     ],
+     [
+      -47320,
+      -109624,
+      -240
+     ],
+     [
+      -47368,
+      -109448,
+      -224
+     ],
+     [
+      -47608,
+      -109480,
+      -240
+     ],
+     [
+      -47784,
+      -109688,
+      -240
+     ],
+     [
+      -47784,
+      -109960,
+      -240
+     ],
+     [
+      -47944,
+      -110184,
+      -240
+     ],
+     [
+      -47864,
+      -110728,
+      -240
+     ],
+     [
+      -47864,
+      -110856,
+      -240
+     ],
+     [
+      -47864,
+      -111016,
+      -240
+     ],
+     [
+      -47864,
+      -111288,
+      -240
+     ],
+     [
+      -47864,
+      -111560,
+      -240
+     ],
+     [
+      -47896,
+      -111832,
+      -240
+     ],
+     [
+      -47896,
+      -112104,
+      -240
+     ],
+     [
+      -47896,
+      -112376,
+      -240
+     ],
+     [
+      -47896,
+      -112648,
+      -240
+     ],
+     [
+      -47896,
+      -112728,
+      -240
+     ],
+     [
+      -47832,
+      -113016,
+      -240
+     ],
+     [
+      -47752,
+      -113272,
+      -240
+     ],
+     [
+      -47640,
+      -113448,
+      -224
+     ],
+     [
+      -47432,
+      -113608,
+      -224
+     ],
+     [
+      -47160,
+      -113608,
+      -208
+     ],
+     [
+      -46888,
+      -113608,
+      -200
+     ],
+     [
+      -46696,
+      -113464,
+      -200
+     ],
+     [
+      -46472,
+      -113464,
+      -200
+     ],
+     [
+      -46392,
+      -113208,
+      -200
+     ],
+     [
+      -46360,
+      -113144,
+      -200
+     ],
+     [
+      -46392,
+      -112936,
+      -200
+     ],
+     [
+      -46200,
+      -112744,
+      -200
+     ],
+     [
+      -46008,
+      -112552,
+      -200
+     ],
+     [
+      -45864,
+      -112536,
+      -200
+     ],
+     [
+      -45864,
+      -112616,
+      -200
+     ]
+    ],
+    "maxDanger": 3,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 3,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 169,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:35.688Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

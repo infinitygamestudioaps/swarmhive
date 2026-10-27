@@ -1,0 +1,1074 @@
+{
+ "id": 377,
+ "name": "Exploration of the Giants' Cave - Part 2",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.395Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 79,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 11,
+ "refLevel": 79,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31147",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help."
+   ],
+   "npc": {
+    "id": 31147,
+    "name": "Sobling",
+    "title": "Head Researcher",
+    "town": "Aden",
+    "at": [
+     174473,
+     52854,
+     -4360
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sobling – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31147@174473,52854",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 1914,
+    "sec": 61,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 1914,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174472,
+      51928,
+      -4360
+     ],
+     [
+      174472,
+      52856,
+      -4360
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 91,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22661,
+     "name": "Lesser Giant Soldier",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 47,
+     "questSpawned": false
+    },
+    {
+     "id": 22662,
+     "name": "Lesser Giant Shooter",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22663,
+     "name": "Lesser Giant Scout",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 22664,
+     "name": "Lesser Giant Mage",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 22665,
+     "name": "Lesser Giant Elder",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 54,
+     "questSpawned": false
+    },
+    {
+     "id": 22666,
+     "name": "Barif",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22668,
+     "name": "Gamlin",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22669,
+     "name": "Leogul",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14847,
+     "name": "Titan Ancient Book",
+     "n": 20,
+     "from": [
+      {
+       "id": 22661,
+       "name": "Lesser Giant Soldier",
+       "chance": 242.4
+      },
+      {
+       "id": 22662,
+       "name": "Lesser Giant Shooter",
+       "chance": 230.4
+      },
+      {
+       "id": 22663,
+       "name": "Lesser Giant Scout",
+       "chance": 230.4
+      },
+      {
+       "id": 22664,
+       "name": "Lesser Giant Mage",
+       "chance": 235.4
+      },
+      {
+       "id": 22665,
+       "name": "Lesser Giant Elder",
+       "chance": 232.4
+      },
+      {
+       "id": 22666,
+       "name": "Barif",
+       "chance": 27.6
+      },
+      {
+       "id": 22668,
+       "name": "Gamlin",
+       "chance": 24
+      },
+      {
+       "id": 22669,
+       "name": "Leogul",
+       "chance": 24
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Lesser Giant Soldier, Lesser Giant Shooter, Lesser Giant Scout for Titan Ancient Book x20",
+   "places": [
+    {
+     "mobs": [
+      22661,
+      22662,
+      22663,
+      22664,
+      22665,
+      22666,
+      22668,
+      22669
+     ],
+     "items": [
+      14847
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "giants-2-right-a",
+      "name": "Giant's Cave: Lower layer, right: Lesser Giant Elder room",
+      "at": [
+       186932,
+       56268,
+       -7237
+      ],
+      "radius": 1769,
+      "levels": [
+       81,
+       82
+      ],
+      "count": 27,
+      "region": "Giant's Cave",
+      "atlasKey": "room:giants-2-right-a",
+      "status": "ok",
+      "sec": 268,
+      "danger": 81,
+      "reachable": true,
+      "score": -157.53333333333333,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "giants-1-left-d",
+        "name": "Giant's Cave: Upper layer, left: Lesser Giant Soldier room",
+        "at": [
+         187659,
+         56133,
+         -4574
+        ],
+        "count": 26,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "giants-2-straight-a",
+        "name": "Giant's Cave: Lower layer, straight: Lesser Giant Elder room",
+        "at": [
+         187119,
+         61716,
+         -7232
+        ],
+        "count": 20,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "giants-2-straight-c",
+        "name": "Giant's Cave: Lower layer, straight: Lesser Giant Elder room",
+        "at": [
+         183365,
+         60085,
+         -7237
+        ],
+        "count": 18,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:giants-2-right-a",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 24912,
+      "sec": 268,
+      "via": ".aden > Aden -> Entrance to The Giant's Cave > floor Lower layer",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Entrance to The Giant's Cave",
+        "link": "entrance to the giant cave",
+        "price": 7400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 20002,
+        "how": "geodata",
+        "danger": 80
+       },
+       {
+        "do": "floor",
+        "npc": "Dwyph",
+        "link": null,
+        "floor": "Lower layer"
+       },
+       {
+        "do": "walk",
+        "len": 4910,
+        "how": "dungeon-rooms",
+        "danger": 82
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Entrance to The Giant's Cave"
+      },
+      "simple": false,
+      "pv": [
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174632,
+        51928,
+        -4360
+       ],
+       [
+        174632,
+        52728,
+        -4360
+       ],
+       [
+        175096,
+        53080,
+        -4360
+       ],
+       [
+        175416,
+        53432,
+        -4360
+       ],
+       [
+        175464,
+        54344,
+        -4352
+       ],
+       [
+        175464,
+        55336,
+        -4344
+       ],
+       [
+        175464,
+        56328,
+        -4344
+       ],
+       [
+        175464,
+        57320,
+        -4360
+       ],
+       [
+        175464,
+        58312,
+        -4360
+       ],
+       [
+        175528,
+        58808,
+        -4360
+       ],
+       [
+        175592,
+        59304,
+        -4360
+       ],
+       [
+        175592,
+        60280,
+        -4328
+       ],
+       [
+        175608,
+        60488,
+        -4368
+       ],
+       [
+        175720,
+        60616,
+        -4368
+       ],
+       [
+        176128,
+        61080,
+        -4368
+       ],
+       [
+        176536,
+        61544,
+        -4368
+       ],
+       [
+        176632,
+        61576,
+        -4368
+       ],
+       [
+        177624,
+        61576,
+        -4416
+       ],
+       [
+        177944,
+        61576,
+        -4416
+       ],
+       [
+        178936,
+        61528,
+        -4320
+       ],
+       [
+        179928,
+        61528,
+        -4224
+       ],
+       [
+        180840,
+        61576,
+        -4120
+       ],
+       [
+        181288,
+        61576,
+        -3992
+       ],
+       [
+        181784,
+        61728,
+        -3992
+       ],
+       [
+        182280,
+        61880,
+        -3992
+       ],
+       [
+        182904,
+        62504,
+        -3992
+       ],
+       [
+        182984,
+        62552,
+        -3992
+       ],
+       [
+        183032,
+        62552,
+        -3992
+       ],
+       [
+        183144,
+        62488,
+        -3992
+       ],
+       [
+        183640,
+        61992,
+        -3992
+       ],
+       [
+        184136,
+        61496,
+        -3992
+       ],
+       [
+        184456,
+        61448,
+        -3992
+       ],
+       [
+        190760,
+        56328,
+        -7528
+       ],
+       [
+        190488,
+        56328,
+        -7384
+       ],
+       [
+        189496,
+        56264,
+        -7280
+       ],
+       [
+        188504,
+        56264,
+        -7232
+       ],
+       [
+        187512,
+        56264,
+        -7232
+       ],
+       [
+        186936,
+        56264,
+        -7232
+       ]
+      ],
+      "maxDanger": 82,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 82,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "giants-2-right-a",
+    "name": "Giant's Cave: Lower layer, right: Lesser Giant Elder room",
+    "at": [
+     186932,
+     56268,
+     -7237
+    ],
+    "radius": 1769,
+    "levels": [
+     81,
+     82
+    ],
+    "count": 27,
+    "region": "Giant's Cave",
+    "atlasKey": "room:giants-2-right-a",
+    "status": "ok",
+    "sec": 268,
+    "danger": 81,
+    "reachable": true,
+    "score": -157.53333333333333,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "giants-1-left-d",
+      "name": "Giant's Cave: Upper layer, left: Lesser Giant Soldier room",
+      "at": [
+       187659,
+       56133,
+       -4574
+      ],
+      "count": 26,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "giants-2-straight-a",
+      "name": "Giant's Cave: Lower layer, straight: Lesser Giant Elder room",
+      "at": [
+       187119,
+       61716,
+       -7232
+      ],
+      "count": 20,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "giants-2-straight-c",
+      "name": "Giant's Cave: Lower layer, straight: Lesser Giant Elder room",
+      "at": [
+       183365,
+       60085,
+       -7237
+      ],
+      "count": 18,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:giants-2-right-a",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 24912,
+    "sec": 268,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave > floor Lower layer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 20002,
+      "how": "geodata",
+      "danger": 80
+     },
+     {
+      "do": "floor",
+      "npc": "Dwyph",
+      "link": null,
+      "floor": "Lower layer"
+     },
+     {
+      "do": "walk",
+      "len": 4910,
+      "how": "dungeon-rooms",
+      "danger": 82
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": false,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174632,
+      51928,
+      -4360
+     ],
+     [
+      174632,
+      52728,
+      -4360
+     ],
+     [
+      175096,
+      53080,
+      -4360
+     ],
+     [
+      175416,
+      53432,
+      -4360
+     ],
+     [
+      175464,
+      54344,
+      -4352
+     ],
+     [
+      175464,
+      55336,
+      -4344
+     ],
+     [
+      175464,
+      56328,
+      -4344
+     ],
+     [
+      175464,
+      57320,
+      -4360
+     ],
+     [
+      175464,
+      58312,
+      -4360
+     ],
+     [
+      175528,
+      58808,
+      -4360
+     ],
+     [
+      175592,
+      59304,
+      -4360
+     ],
+     [
+      175592,
+      60280,
+      -4328
+     ],
+     [
+      175608,
+      60488,
+      -4368
+     ],
+     [
+      175720,
+      60616,
+      -4368
+     ],
+     [
+      176128,
+      61080,
+      -4368
+     ],
+     [
+      176536,
+      61544,
+      -4368
+     ],
+     [
+      176632,
+      61576,
+      -4368
+     ],
+     [
+      177624,
+      61576,
+      -4416
+     ],
+     [
+      177944,
+      61576,
+      -4416
+     ],
+     [
+      178936,
+      61528,
+      -4320
+     ],
+     [
+      179928,
+      61528,
+      -4224
+     ],
+     [
+      180840,
+      61576,
+      -4120
+     ],
+     [
+      181288,
+      61576,
+      -3992
+     ],
+     [
+      181784,
+      61728,
+      -3992
+     ],
+     [
+      182280,
+      61880,
+      -3992
+     ],
+     [
+      182904,
+      62504,
+      -3992
+     ],
+     [
+      182984,
+      62552,
+      -3992
+     ],
+     [
+      183032,
+      62552,
+      -3992
+     ],
+     [
+      183144,
+      62488,
+      -3992
+     ],
+     [
+      183640,
+      61992,
+      -3992
+     ],
+     [
+      184136,
+      61496,
+      -3992
+     ],
+     [
+      184456,
+      61448,
+      -3992
+     ],
+     [
+      190760,
+      56328,
+      -7528
+     ],
+     [
+      190488,
+      56328,
+      -7384
+     ],
+     [
+      189496,
+      56264,
+      -7280
+     ],
+     [
+      188504,
+      56264,
+      -7232
+     ],
+     [
+      187512,
+      56264,
+      -7232
+     ],
+     [
+      186936,
+      56264,
+      -7232
+     ]
+    ],
+    "maxDanger": 82,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 82,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 493,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31147",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Stop searching."
+   ],
+   "npc": {
+    "id": 31147,
+    "name": "Sobling",
+    "title": "Head Researcher",
+    "town": "Aden",
+    "at": [
+     174473,
+     52854,
+     -4360
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sobling",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31147@174473,52854",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 1914,
+    "sec": 61,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 1914,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174472,
+      51928,
+      -4360
+     ],
+     [
+      174472,
+      52856,
+      -4360
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:22660": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "optional: Lesser Giant 22660 / Barif's Pet 22667 have no spawn (spawnlist.sql, no minion entry in stats/npcs/22600-22699.xml); item 14847 also drops from 8 spawned Giant's Cave lower-layer monsters of step c1:hunt, and the engine hunts only spawned ones.",
+    "editedAt": "2026-10-27T10:06:26.451Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.451Z",
+  "by": "quest-fixer batch 5"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:38.405Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "chance-garbled",
+   "area-partial"
+  ]
+ }
+}

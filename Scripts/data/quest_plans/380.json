@@ -1,0 +1,1259 @@
+{
+ "id": 380,
+ "name": "Bring Out the Flavor of Ingredients!",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.896Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 24,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dion",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "runtime-cond",
+   "text": "setCond with a runtime value: the next step is decided by the script"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 23,
+ "refLevel": 24,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30069",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Would I ever!\""
+   ],
+   "npc": {
+    "id": 30069,
+    "name": "Rollant",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     16236,
+     142153,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rollant – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30069@16236,142153",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1735,
+    "sec": 34,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1735,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16232,
+      142184,
+      -2688
+     ],
+     [
+      16232,
+      142152,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 64,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20205,
+     "name": "Dire Wolf",
+     "level": 24,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 69,
+     "questSpawned": false
+    },
+    {
+     "id": 20206,
+     "name": "Kadif Werewolf",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20225,
+     "name": "Giant Mist Leech",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5895,
+     "name": "Ritron's Fruit",
+     "n": 4,
+     "from": [
+      {
+       "id": 20205,
+       "name": "Dire Wolf",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 5896,
+     "name": "Moon Face Flower",
+     "n": 4,
+     "from": [
+      {
+       "id": 20206,
+       "name": "Kadif Werewolf",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 5897,
+     "name": "Leech Fluids",
+     "n": 4,
+     "from": [
+      {
+       "id": 20225,
+       "name": "Giant Mist Leech",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Dire Wolf, Kadif Werewolf, Giant Mist Leech for Ritron's Fruit x4, Moon Face Flower x4, Leech Fluids x4",
+   "places": [
+    {
+     "mobs": [
+      20205
+     ],
+     "items": [
+      5895
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dion-outskirts-26",
+      "name": "Dion outskirts 26: Dire Wolf area (east)",
+      "at": [
+       33176,
+       136424,
+       -3112
+      ],
+      "radius": 5093,
+      "levels": [
+       23,
+       25
+      ],
+      "count": 10,
+      "region": "Dion outskirts",
+      "atlasKey": "area:dion-outskirts-26",
+      "status": "ok",
+      "sec": 189,
+      "danger": 25,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -56.85,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dion-outskirts-20",
+        "name": "Dion outskirts 20: Tumran Bugbear area (north-east)",
+        "at": [
+         29336,
+         134920,
+         -3000
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-4",
+        "name": "Plains of Dion 4: Kadif Werewolf area (north-east)",
+        "at": [
+         4568,
+         173592,
+         -3264
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dion-outskirts-24",
+        "name": "Dion outskirts 24: Dire Wolf area (south-east)",
+        "at": [
+         29240,
+         153192,
+         -2888
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dion-outskirts-26",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 20320,
+      "sec": 189,
+      "via": ".dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "walk",
+        "len": 5763,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 14557,
+        "how": "field-areas",
+        "danger": 25
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        15472,
+        142880,
+        -2688
+       ],
+       [
+        20936,
+        142408,
+        -3328
+       ],
+       [
+        21928,
+        142408,
+        -3416
+       ],
+       [
+        22920,
+        142408,
+        -3272
+       ],
+       [
+        23912,
+        142408,
+        -3208
+       ],
+       [
+        24904,
+        142408,
+        -2976
+       ],
+       [
+        25896,
+        142408,
+        -2888
+       ],
+       [
+        26632,
+        142328,
+        -2872
+       ],
+       [
+        27624,
+        141800,
+        -2816
+       ],
+       [
+        27768,
+        141656,
+        -2816
+       ],
+       [
+        28760,
+        140840,
+        -2888
+       ],
+       [
+        29752,
+        139848,
+        -3072
+       ],
+       [
+        30744,
+        138856,
+        -3136
+       ],
+       [
+        31736,
+        137864,
+        -3136
+       ],
+       [
+        32728,
+        136872,
+        -3120
+       ],
+       [
+        33176,
+        136424,
+        -3112
+       ]
+      ],
+      "maxDanger": 25,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 25,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20206
+     ],
+     "items": [
+      5896
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-dion-4",
+      "name": "Plains of Dion 4: Kadif Werewolf area (north-east)",
+      "at": [
+       4568,
+       173592,
+       -3264
+      ],
+      "radius": 5177,
+      "levels": [
+       23,
+       26
+      ],
+      "count": 10,
+      "region": "Plains of Dion",
+      "atlasKey": "area:plains-of-dion-4",
+      "status": "ok",
+      "sec": 105,
+      "danger": 26,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -58.25,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-dion-2",
+        "name": "Plains of Dion 2: Kadif Werewolf area (north)",
+        "at": [
+         808,
+         176552,
+         -3472
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-3",
+        "name": "Plains of Dion 3: Glass Jaguar area (south-east)",
+        "at": [
+         3336,
+         184072,
+         -3440
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-17",
+        "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+        "at": [
+         3720,
+         166904,
+         -3464
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-dion-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 7148,
+      "sec": 105,
+      "via": ".dion > Dion -> Plains of Dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Plains of Dion",
+        "link": "plains of dion",
+        "price": 1500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7148,
+        "how": "field-areas",
+        "danger": 26
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Plains of Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        632,
+        179192,
+        -3720
+       ],
+       [
+        632,
+        178200,
+        -3664
+       ],
+       [
+        952,
+        177208,
+        -3528
+       ],
+       [
+        1944,
+        176216,
+        -3272
+       ],
+       [
+        2936,
+        175224,
+        -3192
+       ],
+       [
+        3928,
+        174232,
+        -3256
+       ],
+       [
+        4568,
+        173592,
+        -3264
+       ]
+      ],
+      "maxDanger": 26,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 26,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20225
+     ],
+     "items": [
+      5897
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-marshlands-3",
+      "name": "Cruma Marshlands 3: Giant Mist Leech area (north)",
+      "at": [
+       5304,
+       114792,
+       -3744
+      ],
+      "radius": 5445,
+      "levels": [
+       25,
+       27
+      ],
+      "count": 12,
+      "region": "Cruma Marshlands",
+      "atlasKey": "area:cruma-marshlands-3",
+      "status": "ok",
+      "sec": 146,
+      "danger": 27,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.56666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-2",
+        "name": "Cruma Marshlands 2: Gray Ant area (north-east)",
+        "at": [
+         12088,
+         120296,
+         -3680
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-8",
+        "name": "Cruma Marshlands 8: Stinger Wasp area (north)",
+        "at": [
+         7032,
+         110072,
+         -3696
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-marshlands-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 12081,
+      "sec": 146,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12081,
+        "how": "field-areas",
+        "danger": 34
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17224,
+        114168,
+        -3440
+       ],
+       [
+        16232,
+        114168,
+        -3560
+       ],
+       [
+        15240,
+        114168,
+        -3576
+       ],
+       [
+        14248,
+        114168,
+        -3608
+       ],
+       [
+        13256,
+        114168,
+        -3680
+       ],
+       [
+        12264,
+        114168,
+        -3752
+       ],
+       [
+        11272,
+        114168,
+        -3680
+       ],
+       [
+        10280,
+        114168,
+        -3688
+       ],
+       [
+        9288,
+        114168,
+        -3640
+       ],
+       [
+        8296,
+        114168,
+        -3752
+       ],
+       [
+        7304,
+        114168,
+        -3648
+       ],
+       [
+        6328,
+        114200,
+        -3720
+       ],
+       [
+        5336,
+        114760,
+        -3736
+       ],
+       [
+        5304,
+        114792,
+        -3744
+       ]
+      ],
+      "maxDanger": 34,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 34,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Toad Lord",
+         "lv": 32,
+         "n": 1
+        },
+        {
+         "name": "Marsh Stakato Worker",
+         "lv": 31,
+         "n": 2
+        },
+        {
+         "name": "Stinger Wasp",
+         "lv": 30,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dion-outskirts-26",
+    "name": "Dion outskirts 26: Dire Wolf area (east)",
+    "at": [
+     33176,
+     136424,
+     -3112
+    ],
+    "radius": 5093,
+    "levels": [
+     23,
+     25
+    ],
+    "count": 10,
+    "region": "Dion outskirts",
+    "atlasKey": "area:dion-outskirts-26",
+    "status": "ok",
+    "sec": 189,
+    "danger": 25,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -56.85,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dion-outskirts-20",
+      "name": "Dion outskirts 20: Tumran Bugbear area (north-east)",
+      "at": [
+       29336,
+       134920,
+       -3000
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-4",
+      "name": "Plains of Dion 4: Kadif Werewolf area (north-east)",
+      "at": [
+       4568,
+       173592,
+       -3264
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dion-outskirts-24",
+      "name": "Dion outskirts 24: Dire Wolf area (south-east)",
+      "at": [
+       29240,
+       153192,
+       -2888
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dion-outskirts-26",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 20320,
+    "sec": 189,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5763,
+      "how": "field-areas-gap",
+      "danger": 20
+     },
+     {
+      "do": "walk",
+      "len": 14557,
+      "how": "field-areas",
+      "danger": 25
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15472,
+      142880,
+      -2688
+     ],
+     [
+      20936,
+      142408,
+      -3328
+     ],
+     [
+      21928,
+      142408,
+      -3416
+     ],
+     [
+      22920,
+      142408,
+      -3272
+     ],
+     [
+      23912,
+      142408,
+      -3208
+     ],
+     [
+      24904,
+      142408,
+      -2976
+     ],
+     [
+      25896,
+      142408,
+      -2888
+     ],
+     [
+      26632,
+      142328,
+      -2872
+     ],
+     [
+      27624,
+      141800,
+      -2816
+     ],
+     [
+      27768,
+      141656,
+      -2816
+     ],
+     [
+      28760,
+      140840,
+      -2888
+     ],
+     [
+      29752,
+      139848,
+      -3072
+     ],
+     [
+      30744,
+      138856,
+      -3136
+     ],
+     [
+      31736,
+      137864,
+      -3136
+     ],
+     [
+      32728,
+      136872,
+      -3120
+     ],
+     [
+      33176,
+      136424,
+      -3112
+     ]
+    ],
+    "maxDanger": 25,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 25,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1189,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30069",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30069,
+    "name": "Rollant",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     16236,
+     142153,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Bring Antidote x2 to Rollant",
+   "needs": [
+    {
+     "id": 1831,
+     "name": "Antidote",
+     "n": 2
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30069@16236,142153",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1735,
+    "sec": 34,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1735,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16232,
+      142184,
+      -2688
+     ],
+     [
+      16232,
+      142152,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 59,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c5:talk:30069",
+   "cond": 5,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30069,
+    "name": "Rollant",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     16236,
+     142153,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rollant",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30069@16236,142153",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1735,
+    "sec": 34,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1735,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16232,
+      142184,
+      -2688
+     ],
+     [
+      16232,
+      142152,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 59,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

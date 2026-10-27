@@ -1,0 +1,1066 @@
+{
+ "id": 663,
+ "name": "Seductive Whispers",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.139Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 50,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 212,
+ "refLevel": 50,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30846",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'd like to play.\""
+   ],
+   "npc": {
+    "id": 30846,
+    "name": "Wilbert",
+    "title": "Blacksmith",
+    "town": "Aden",
+    "at": [
+     150608,
+     28510,
+     -2247
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wilbert – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30846@150608,28510",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6305,
+    "sec": 73,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6305,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150552,
+      28088,
+      -2248
+     ],
+     [
+      150616,
+      28264,
+      -2248
+     ],
+     [
+      150616,
+      28504,
+      -2248
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20974,
+     "name": "Spiteful Soul Leader",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 20674,
+     "name": "Doom Knight",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 71,
+     "questSpawned": false
+    },
+    {
+     "id": 20678,
+     "name": "Tortured Undead",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20956,
+     "name": "Past Knight",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    },
+    {
+     "id": 20959,
+     "name": "Dark Guard",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 20963,
+     "name": "Bloody Lord",
+     "level": 68,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20996,
+     "name": "Spiteful Ghost of Ruins",
+     "level": 50,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20997,
+     "name": "Soldier of Grief",
+     "level": 51,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 20998,
+     "name": "Cruel Punisher",
+     "level": 52,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20999,
+     "name": "Roving Soul",
+     "level": 53,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 21000,
+     "name": "Soul of Ruins",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 21001,
+     "name": "Wretched Archer",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 21002,
+     "name": "Doom Scout",
+     "level": 56,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 21006,
+     "name": "Doom Servant",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 21007,
+     "name": "Doom Guard",
+     "level": 61,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21008,
+     "name": "Doom Archer",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21009,
+     "name": "Doom Trooper",
+     "level": 63,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 71,
+     "questSpawned": false
+    },
+    {
+     "id": 21010,
+     "name": "Doom Warrior",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8766,
+     "name": "Spirit Bead",
+     "n": 50,
+     "from": [
+      {
+       "id": 20974,
+       "name": "Spiteful Soul Leader",
+       "chance": 10.1
+      },
+      {
+       "id": 20974,
+       "name": "Spiteful Soul Leader",
+       "chance": 89.9
+      },
+      {
+       "id": 20674,
+       "name": "Doom Knight",
+       "chance": 100
+      },
+      {
+       "id": 20678,
+       "name": "Tortured Undead",
+       "chance": 100
+      },
+      {
+       "id": 20956,
+       "name": "Past Knight",
+       "chance": 100
+      },
+      {
+       "id": 20959,
+       "name": "Dark Guard",
+       "chance": 100
+      },
+      {
+       "id": 20963,
+       "name": "Bloody Lord",
+       "chance": 100
+      },
+      {
+       "id": 20996,
+       "name": "Spiteful Ghost of Ruins",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Spiteful Soul Leader, Doom Knight, Tortured Undead for Spirit Bead x50",
+   "places": [
+    {
+     "mobs": [
+      20974,
+      20674,
+      20678,
+      20956,
+      20959,
+      20963,
+      20996
+     ],
+     "items": [
+      8766
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "seal-of-shilen-15",
+      "name": "Seal of Shilen 15: Tortured Undead area (west)",
+      "at": [
+       173096,
+       21128,
+       -3248
+      ],
+      "radius": 4099,
+      "levels": [
+       53,
+       54
+      ],
+      "count": 8,
+      "region": "Seal of Shilen",
+      "atlasKey": "area:seal-of-shilen-15",
+      "status": "ok",
+      "sec": 147,
+      "danger": 54,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -45.55,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-15",
+        "name": "Fields of Massacre 15: Doom Knight area (north-west)",
+        "at": [
+         175848,
+         -24008,
+         -3672
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-16",
+        "name": "Fields of Massacre 16: Doom Knight area (south-east)",
+        "at": [
+         187144,
+         -11864,
+         -1936
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ancient-battleground-9",
+        "name": "Ancient Battleground 9: Bloody Lord area (east)",
+        "at": [
+         120712,
+         -4776,
+         -3768
+        ],
+        "count": 12,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:seal-of-shilen-15",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 12198,
+      "sec": 147,
+      "via": ".aden > Aden -> Seal of Shilen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Seal of Shilen",
+        "link": "seal of shilen",
+        "price": 3000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 5018,
+        "how": "field-areas-gap",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 7180,
+        "how": "field-areas",
+        "danger": 55
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Seal of Shilen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        184742,
+        19745,
+        -3168
+       ],
+       [
+        179912,
+        19864,
+        -3184
+       ],
+       [
+        179128,
+        20056,
+        -3184
+       ],
+       [
+        178136,
+        20056,
+        -3248
+       ],
+       [
+        177144,
+        20056,
+        -3248
+       ],
+       [
+        176152,
+        20056,
+        -3248
+       ],
+       [
+        175800,
+        20168,
+        -3240
+       ],
+       [
+        174808,
+        20184,
+        -3240
+       ],
+       [
+        173816,
+        20408,
+        -3240
+       ],
+       [
+        173096,
+        21128,
+        -3248
+       ]
+      ],
+      "maxDanger": 62,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 62,
+       "dangerVsLevel": 12,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "seal-of-shilen-15",
+    "name": "Seal of Shilen 15: Tortured Undead area (west)",
+    "at": [
+     173096,
+     21128,
+     -3248
+    ],
+    "radius": 4099,
+    "levels": [
+     53,
+     54
+    ],
+    "count": 8,
+    "region": "Seal of Shilen",
+    "atlasKey": "area:seal-of-shilen-15",
+    "status": "ok",
+    "sec": 147,
+    "danger": 54,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -45.55,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-15",
+      "name": "Fields of Massacre 15: Doom Knight area (north-west)",
+      "at": [
+       175848,
+       -24008,
+       -3672
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-16",
+      "name": "Fields of Massacre 16: Doom Knight area (south-east)",
+      "at": [
+       187144,
+       -11864,
+       -1936
+      ],
+      "count": 11,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ancient-battleground-9",
+      "name": "Ancient Battleground 9: Bloody Lord area (east)",
+      "at": [
+       120712,
+       -4776,
+       -3768
+      ],
+      "count": 12,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:seal-of-shilen-15",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 12198,
+    "sec": 147,
+    "via": ".aden > Aden -> Seal of Shilen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Seal of Shilen",
+      "link": "seal of shilen",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5018,
+      "how": "field-areas-gap",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 7180,
+      "how": "field-areas",
+      "danger": 55
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Seal of Shilen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      184742,
+      19745,
+      -3168
+     ],
+     [
+      179912,
+      19864,
+      -3184
+     ],
+     [
+      179128,
+      20056,
+      -3184
+     ],
+     [
+      178136,
+      20056,
+      -3248
+     ],
+     [
+      177144,
+      20056,
+      -3248
+     ],
+     [
+      176152,
+      20056,
+      -3248
+     ],
+     [
+      175800,
+      20168,
+      -3240
+     ],
+     [
+      174808,
+      20184,
+      -3240
+     ],
+     [
+      173816,
+      20408,
+      -3240
+     ],
+     [
+      173096,
+      21128,
+      -3248
+     ]
+    ],
+    "maxDanger": 62,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 62,
+     "dangerVsLevel": 12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 12547,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30846",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I don't want to play this game anymore.\""
+   ],
+   "npc": {
+    "id": 30846,
+    "name": "Wilbert",
+    "title": "Blacksmith",
+    "town": "Aden",
+    "at": [
+     150608,
+     28510,
+     -2247
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wilbert",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30846@150608,28510",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6305,
+    "sec": 73,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6305,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147608,
+      26808,
+      -2200
+     ],
+     [
+      147800,
+      27000,
+      -2200
+     ],
+     [
+      147944,
+      27016,
+      -2200
+     ],
+     [
+      148088,
+      27160,
+      -2200
+     ],
+     [
+      148152,
+      27336,
+      -2200
+     ],
+     [
+      148344,
+      27528,
+      -2240
+     ],
+     [
+      148520,
+      27624,
+      -2256
+     ],
+     [
+      148792,
+      27624,
+      -2200
+     ],
+     [
+      149064,
+      27624,
+      -2216
+     ],
+     [
+      149336,
+      27624,
+      -2264
+     ],
+     [
+      149608,
+      27624,
+      -2264
+     ],
+     [
+      149672,
+      27640,
+      -2264
+     ],
+     [
+      149896,
+      27688,
+      -2264
+     ],
+     [
+      150168,
+      27736,
+      -2264
+     ],
+     [
+      150440,
+      27688,
+      -2264
+     ],
+     [
+      150712,
+      27704,
+      -2264
+     ],
+     [
+      150904,
+      27688,
+      -2264
+     ],
+     [
+      150840,
+      27704,
+      -2264
+     ],
+     [
+      150600,
+      27848,
+      -2264
+     ],
+     [
+      150552,
+      28056,
+      -2240
+     ],
+     [
+      150552,
+      28088,
+      -2248
+     ],
+     [
+      150616,
+      28264,
+      -2248
+     ],
+     [
+      150616,
+      28504,
+      -2248
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:20954": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "optional: these monster ids have no spawn in the datapack (spawnlist.sql, no minion entry in stats/npcs); item 8766 also drops from 18 spawned monster(s) of the hunt step at this cond (quest record drops), and the engine (qeHuntAction) hunts only the spawned ones.",
+    "editedAt": "2026-10-27T10:06:26.457Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.457Z",
+  "by": "quest-fixer batch 5"
+ }
+}

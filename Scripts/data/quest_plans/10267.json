@@ -1,0 +1,285 @@
+{
+ "id": 10267,
+ "name": "Journey to Gracia",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.348Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 2,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30857",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"How do I get there?\""
+   ],
+   "npc": {
+    "id": 30857,
+    "name": "Orven",
+    "title": "High Priest",
+    "town": "Aden",
+    "at": [
+     147456,
+     22576,
+     -1989
+    ],
+    "alt": []
+   },
+   "text": "Talk to Orven – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30857@147456,22576",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3996,
+    "sec": 53,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3996,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147464,
+      23752,
+      -1984
+     ],
+     [
+      147448,
+      23672,
+      -1984
+     ],
+     [
+      147448,
+      23400,
+      -1984
+     ],
+     [
+      147464,
+      23128,
+      -1984
+     ],
+     [
+      147464,
+      22856,
+      -1984
+     ],
+     [
+      147464,
+      22584,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32548",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Show him the letter from high Priest Orven."
+   ],
+   "npc": {
+    "id": 32548,
+    "name": "Keucereus",
+    "title": "Admiral",
+    "town": "Talking Island",
+    "at": [
+     -186399,
+     242412,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Keucereus",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32564",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Show him High Priest Orven's letter."
+   ],
+   "npc": {
+    "id": 32564,
+    "name": "Papiku",
+    "title": "Magister",
+    "town": "Talking Island",
+    "at": [
+     -149484,
+     253680,
+     -184
+    ],
+    "alt": []
+   },
+   "text": "Talk to Papiku",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

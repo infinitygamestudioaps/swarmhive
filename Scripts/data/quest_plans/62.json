@@ -1,0 +1,3115 @@
+{
+ "id": 62,
+ "name": "Path Of The Trooper",
+ "version": 1,
+ "generated": "2026-10-27T11:14:56.381Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "races": [
+   "KAMAEL"
+  ],
+  "classes": [
+   "Kamael Soldier M"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: KAMAEL"
+  },
+  {
+   "code": "class-only",
+   "text": "classes: Kamael Soldier M"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: route-aggro"
+  },
+  {
+   "code": "dryrun:route-aggro",
+   "text": "step 3 (c2:hunt): area:fellmere-harvest-grounds-5: aggressive Turek Orc Sentinel 25 x1 on the walk (character 18)"
+  }
+ ],
+ "expectedMin": 23,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32197",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will do it."
+   ],
+   "npc": {
+    "id": 32197,
+    "name": "Gwain",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13489,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Talk to Master Gwain – Accept the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32197@-13489,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7215,
+    "sec": 80,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7215,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13496,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32194",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"So...?\""
+   ],
+   "npc": {
+    "id": 32194,
+    "name": "Shubain",
+    "title": "Master",
+    "town": "Gludin",
+    "at": [
+     -84773,
+     153134,
+     -3160
+    ],
+    "alt": []
+   },
+   "text": "Talk to Shubain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32194@-84773,153134",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6348,
+    "sec": 73,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6348,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -83048,
+      152680,
+      -3168
+     ],
+     [
+      -83224,
+      152760,
+      -3168
+     ],
+     [
+      -83400,
+      152760,
+      -3168
+     ],
+     [
+      -83672,
+      152744,
+      -3168
+     ],
+     [
+      -83928,
+      152760,
+      -3168
+     ],
+     [
+      -84200,
+      152744,
+      -3168
+     ],
+     [
+      -84472,
+      152776,
+      -3168
+     ],
+     [
+      -84504,
+      152952,
+      -3168
+     ],
+     [
+      -84584,
+      153176,
+      -3168
+     ],
+     [
+      -84776,
+      153128,
+      -3160
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:hunt",
+   "cond": 2,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20014,
+     "name": "Felim Lizardman Warrior",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9749,
+     "name": "Felim Lizardman Head",
+     "n": 5,
+     "from": [
+      {
+       "id": 20014,
+       "name": "Felim Lizardman Warrior",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Felim Lizardman Warrior for Felim Lizardman Head x5",
+   "places": [
+    {
+     "mobs": [
+      20014
+     ],
+     "items": [
+      9749
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-5",
+      "name": "Fellmere Harvest Grounds 5: Felim Lizardman Warrior area (south-west)",
+      "at": [
+       -66408,
+       106408,
+       -3744
+      ],
+      "radius": 5131,
+      "levels": [
+       14,
+       22
+      ],
+      "count": 11,
+      "region": "Fellmere Harvest Grounds",
+      "atlasKey": "area:fellmere-harvest-grounds-5",
+      "status": "ok",
+      "sec": 243,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -61.95,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-1",
+        "name": "Fellmere Harvest Grounds 1: Felim Lizardman area (south-west)",
+        "at": [
+         -64680,
+         103736,
+         -3512
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-7",
+        "name": "Fellmere Harvest Grounds 7: Gora Werewolf area (west)",
+        "at": [
+         -71176,
+         103592,
+         -3824
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-3",
+        "name": "Fellmere Harvest Grounds 3: Felim Lizardman Scout area (west)",
+        "at": [
+         -66744,
+         102600,
+         -3728
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fellmere-harvest-grounds-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 23703,
+      "sec": 243,
+      "via": ".gludin > Gludin -> Orc Barracks",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Orc Barracks",
+        "link": "orc barracks",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 23703,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Orc Barracks"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -89768,
+        105352,
+        -3576
+       ],
+       [
+        -88776,
+        105352,
+        -3304
+       ],
+       [
+        -87784,
+        105352,
+        -3320
+       ],
+       [
+        -86792,
+        105352,
+        -3304
+       ],
+       [
+        -85800,
+        105384,
+        -3552
+       ],
+       [
+        -85240,
+        105368,
+        -3568
+       ],
+       [
+        -85224,
+        105336,
+        -3576
+       ],
+       [
+        -84536,
+        105320,
+        -3640
+       ],
+       [
+        -83544,
+        105320,
+        -3696
+       ],
+       [
+        -82552,
+        105320,
+        -3744
+       ],
+       [
+        -81560,
+        105320,
+        -3824
+       ],
+       [
+        -80568,
+        105320,
+        -3816
+       ],
+       [
+        -79576,
+        105320,
+        -3760
+       ],
+       [
+        -78584,
+        105320,
+        -3616
+       ],
+       [
+        -77592,
+        105320,
+        -3592
+       ],
+       [
+        -76600,
+        105320,
+        -3656
+       ],
+       [
+        -75608,
+        105320,
+        -3648
+       ],
+       [
+        -74872,
+        105384,
+        -3632
+       ],
+       [
+        -73880,
+        105384,
+        -3608
+       ],
+       [
+        -72888,
+        105384,
+        -3640
+       ],
+       [
+        -71896,
+        105384,
+        -3760
+       ],
+       [
+        -70904,
+        105384,
+        -3848
+       ],
+       [
+        -69912,
+        105384,
+        -3856
+       ],
+       [
+        -68920,
+        105384,
+        -3856
+       ],
+       [
+        -68088,
+        105848,
+        -3864
+       ],
+       [
+        -67096,
+        105848,
+        -3808
+       ],
+       [
+        -66408,
+        106408,
+        -3744
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "fellmere-harvest-grounds-5",
+    "name": "Fellmere Harvest Grounds 5: Felim Lizardman Warrior area (south-west)",
+    "at": [
+     -66408,
+     106408,
+     -3744
+    ],
+    "radius": 5131,
+    "levels": [
+     14,
+     22
+    ],
+    "count": 11,
+    "region": "Fellmere Harvest Grounds",
+    "atlasKey": "area:fellmere-harvest-grounds-5",
+    "status": "ok",
+    "sec": 243,
+    "danger": 24,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -61.95,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-1",
+      "name": "Fellmere Harvest Grounds 1: Felim Lizardman area (south-west)",
+      "at": [
+       -64680,
+       103736,
+       -3512
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-7",
+      "name": "Fellmere Harvest Grounds 7: Gora Werewolf area (west)",
+      "at": [
+       -71176,
+       103592,
+       -3824
+      ],
+      "count": 1,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-3",
+      "name": "Fellmere Harvest Grounds 3: Felim Lizardman Scout area (west)",
+      "at": [
+       -66744,
+       102600,
+       -3728
+      ],
+      "count": 1,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:fellmere-harvest-grounds-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 23703,
+    "sec": 243,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 23703,
+      "how": "field-areas",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89768,
+      105352,
+      -3576
+     ],
+     [
+      -88776,
+      105352,
+      -3304
+     ],
+     [
+      -87784,
+      105352,
+      -3320
+     ],
+     [
+      -86792,
+      105352,
+      -3304
+     ],
+     [
+      -85800,
+      105384,
+      -3552
+     ],
+     [
+      -85240,
+      105368,
+      -3568
+     ],
+     [
+      -85224,
+      105336,
+      -3576
+     ],
+     [
+      -84536,
+      105320,
+      -3640
+     ],
+     [
+      -83544,
+      105320,
+      -3696
+     ],
+     [
+      -82552,
+      105320,
+      -3744
+     ],
+     [
+      -81560,
+      105320,
+      -3824
+     ],
+     [
+      -80568,
+      105320,
+      -3816
+     ],
+     [
+      -79576,
+      105320,
+      -3760
+     ],
+     [
+      -78584,
+      105320,
+      -3616
+     ],
+     [
+      -77592,
+      105320,
+      -3592
+     ],
+     [
+      -76600,
+      105320,
+      -3656
+     ],
+     [
+      -75608,
+      105320,
+      -3648
+     ],
+     [
+      -74872,
+      105384,
+      -3632
+     ],
+     [
+      -73880,
+      105384,
+      -3608
+     ],
+     [
+      -72888,
+      105384,
+      -3640
+     ],
+     [
+      -71896,
+      105384,
+      -3760
+     ],
+     [
+      -70904,
+      105384,
+      -3848
+     ],
+     [
+      -69912,
+      105384,
+      -3856
+     ],
+     [
+      -68920,
+      105384,
+      -3856
+     ],
+     [
+      -68088,
+      105848,
+      -3864
+     ],
+     [
+      -67096,
+      105848,
+      -3808
+     ],
+     [
+      -66408,
+      106408,
+      -3744
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 368,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:hunt",
+   "cond": 3,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20038,
+     "name": "Venomous Spider",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 81,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9750,
+     "name": "Venomous Spider's Leg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20038,
+       "name": "Venomous Spider",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Venomous Spider for Venomous Spider's Leg x10",
+   "places": [
+    {
+     "mobs": [
+      20038
+     ],
+     "items": [
+      9750
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "spider-nest-4",
+      "name": "Spider Nest 4: Venomous Spider area (north-west)",
+      "at": [
+       -64328,
+       72296,
+       -3248
+      ],
+      "radius": 3700,
+      "levels": [
+       16,
+       18
+      ],
+      "count": 9,
+      "region": "Spider Nest",
+      "atlasKey": "area:spider-nest-4",
+      "status": "ok",
+      "sec": 106,
+      "danger": 18,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -52.233333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "windmill-hill-4",
+        "name": "Windmill Hill 4: Vuku Orc Fighter area (north-east)",
+        "at": [
+         -73128,
+         163656,
+         -3672
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "spider-nest-15",
+        "name": "Spider Nest 15: Tumran Orc Brigand area (east)",
+        "at": [
+         -50088,
+         77416,
+         -3288
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "spider-nest-2",
+        "name": "Spider Nest 2: Venomous Spider area (south)",
+        "at": [
+         -59896,
+         78184,
+         -3480
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:spider-nest-4",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 4315,
+      "sec": 106,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Spider Nest",
+        "link": "spider nest",
+        "price": 3600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4315,
+        "how": "field-areas",
+        "danger": 18
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -61096,
+        75112,
+        -3352
+       ],
+       [
+        -62088,
+        74536,
+        -3328
+       ],
+       [
+        -63080,
+        73544,
+        -3296
+       ],
+       [
+        -64072,
+        72552,
+        -3248
+       ],
+       [
+        -64328,
+        72296,
+        -3248
+       ]
+      ],
+      "maxDanger": 18,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 18,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "spider-nest-4",
+    "name": "Spider Nest 4: Venomous Spider area (north-west)",
+    "at": [
+     -64328,
+     72296,
+     -3248
+    ],
+    "radius": 3700,
+    "levels": [
+     16,
+     18
+    ],
+    "count": 9,
+    "region": "Spider Nest",
+    "atlasKey": "area:spider-nest-4",
+    "status": "ok",
+    "sec": 106,
+    "danger": 18,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -52.233333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "windmill-hill-4",
+      "name": "Windmill Hill 4: Vuku Orc Fighter area (north-east)",
+      "at": [
+       -73128,
+       163656,
+       -3672
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-15",
+      "name": "Spider Nest 15: Tumran Orc Brigand area (east)",
+      "at": [
+       -50088,
+       77416,
+       -3288
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "spider-nest-2",
+      "name": "Spider Nest 2: Venomous Spider area (south)",
+      "at": [
+       -59896,
+       78184,
+       -3480
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:spider-nest-4",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4315,
+    "sec": 106,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4315,
+      "how": "field-areas",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61096,
+      75112,
+      -3352
+     ],
+     [
+      -62088,
+      74536,
+      -3328
+     ],
+     [
+      -63080,
+      73544,
+      -3296
+     ],
+     [
+      -64072,
+      72552,
+      -3248
+     ],
+     [
+      -64328,
+      72296,
+      -3248
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 356,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:talk:32197",
+   "cond": 4,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 32197,
+    "name": "Gwain",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13489,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gwain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32197@-13489,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7215,
+    "sec": 80,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7215,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13496,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 105,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:hunt",
+   "cond": 5,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20062,
+     "name": "Tumran Bugbear",
+     "level": 23,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9751,
+     "name": "Tumran Bugbear Heart",
+     "n": 1,
+     "from": [
+      {
+       "id": 20062,
+       "name": "Tumran Bugbear",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Tumran Bugbear for Tumran Bugbear Heart x1",
+   "places": [
+    {
+     "mobs": [
+      20062
+     ],
+     "items": [
+      9751
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dion-outskirts-20",
+      "name": "Dion outskirts 20: Tumran Bugbear area (north-east)",
+      "at": [
+       29336,
+       134920,
+       -3000
+      ],
+      "radius": 4140,
+      "levels": [
+       23,
+       24
+      ],
+      "count": 10,
+      "region": "Dion outskirts",
+      "atlasKey": "area:dion-outskirts-20",
+      "status": "ok",
+      "sec": 162,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -57.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dion-outskirts-9",
+        "name": "Dion outskirts 9: Tumran Bugbear area (east)",
+        "at": [
+         24472,
+         140920,
+         -3232
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dion-outskirts-12",
+        "name": "Dion outskirts 12: Tumran Bugbear area (south-east)",
+        "at": [
+         22008,
+         149736,
+         -3304
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-11",
+        "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+        "at": [
+         -50456,
+         115016,
+         -3288
+        ],
+        "count": 4,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dion-outskirts-20",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 17082,
+      "sec": 162,
+      "via": ".dion",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "walk",
+        "len": 5779,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 11303,
+        "how": "field-areas",
+        "danger": 24
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Dion"
+      },
+      "simple": true,
+      "pv": [
+       [
+        15472,
+        142880,
+        -2688
+       ],
+       [
+        20936,
+        142408,
+        -3328
+       ],
+       [
+        21928,
+        141896,
+        -3424
+       ],
+       [
+        22920,
+        140904,
+        -3408
+       ],
+       [
+        23912,
+        139912,
+        -3432
+       ],
+       [
+        24152,
+        139672,
+        -3448
+       ],
+       [
+        25144,
+        138776,
+        -3360
+       ],
+       [
+        26136,
+        137784,
+        -3280
+       ],
+       [
+        26264,
+        137656,
+        -3272
+       ],
+       [
+        26568,
+        137384,
+        -3232
+       ],
+       [
+        27560,
+        136648,
+        -3184
+       ],
+       [
+        27832,
+        136376,
+        -3128
+       ],
+       [
+        28824,
+        135432,
+        -3096
+       ],
+       [
+        29336,
+        134920,
+        -3000
+       ]
+      ],
+      "maxDanger": 24,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 24,
+       "dangerVsLevel": 6,
+       "aggro": [
+        {
+         "name": "Dire Wolf",
+         "lv": 24,
+         "n": 3
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dion-outskirts-20",
+    "name": "Dion outskirts 20: Tumran Bugbear area (north-east)",
+    "at": [
+     29336,
+     134920,
+     -3000
+    ],
+    "radius": 4140,
+    "levels": [
+     23,
+     24
+    ],
+    "count": 10,
+    "region": "Dion outskirts",
+    "atlasKey": "area:dion-outskirts-20",
+    "status": "ok",
+    "sec": 162,
+    "danger": 24,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -57.3,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dion-outskirts-9",
+      "name": "Dion outskirts 9: Tumran Bugbear area (east)",
+      "at": [
+       24472,
+       140920,
+       -3232
+      ],
+      "count": 8,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dion-outskirts-12",
+      "name": "Dion outskirts 12: Tumran Bugbear area (south-east)",
+      "at": [
+       22008,
+       149736,
+       -3304
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "count": 4,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dion-outskirts-20",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 17082,
+    "sec": 162,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5779,
+      "how": "field-areas-gap",
+      "danger": 20
+     },
+     {
+      "do": "walk",
+      "len": 11303,
+      "how": "field-areas",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15472,
+      142880,
+      -2688
+     ],
+     [
+      20936,
+      142408,
+      -3328
+     ],
+     [
+      21928,
+      141896,
+      -3424
+     ],
+     [
+      22920,
+      140904,
+      -3408
+     ],
+     [
+      23912,
+      139912,
+      -3432
+     ],
+     [
+      24152,
+      139672,
+      -3448
+     ],
+     [
+      25144,
+      138776,
+      -3360
+     ],
+     [
+      26136,
+      137784,
+      -3280
+     ],
+     [
+      26264,
+      137656,
+      -3272
+     ],
+     [
+      26568,
+      137384,
+      -3232
+     ],
+     [
+      27560,
+      136648,
+      -3184
+     ],
+     [
+      27832,
+      136376,
+      -3128
+     ],
+     [
+      28824,
+      135432,
+      -3096
+     ],
+     [
+      29336,
+      134920,
+      -3000
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": 6,
+     "aggro": [
+      {
+       "name": "Dire Wolf",
+       "lv": 24,
+       "n": 3
+      }
+     ]
+    }
+   },
+   "expectedSec": 212,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ],
+   "override": {
+    "route": [
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      16472,
+      143064,
+      -2720
+     ],
+     [
+      16872,
+      143432,
+      -2880
+     ],
+     [
+      17256,
+      143432,
+      -3032
+     ],
+     [
+      17288,
+      143400,
+      -3032
+     ],
+     [
+      17384,
+      143208,
+      -3032
+     ],
+     [
+      17816,
+      142920,
+      -3048
+     ],
+     [
+      17832,
+      142936,
+      -3048
+     ],
+     [
+      18792,
+      142376,
+      -3048
+     ],
+     [
+      19704,
+      142408,
+      -3072
+     ],
+     [
+      20632,
+      142408,
+      -3136
+     ],
+     [
+      20952,
+      142536,
+      -3248
+     ],
+     [
+      21944,
+      142408,
+      -3416
+     ],
+     [
+      22104,
+      142408,
+      -3392
+     ],
+     [
+      23096,
+      142408,
+      -3264
+     ],
+     [
+      24088,
+      142408,
+      -3184
+     ],
+     [
+      24504,
+      142408,
+      -3104
+     ],
+     [
+      25496,
+      142328,
+      -2912
+     ],
+     [
+      26488,
+      142280,
+      -2880
+     ],
+     [
+      26712,
+      142280,
+      -2872
+     ],
+     [
+      26824,
+      142328,
+      -2864
+     ],
+     [
+      26872,
+      141336,
+      -2808
+     ],
+     [
+      26872,
+      140344,
+      -2960
+     ],
+     [
+      26872,
+      139976,
+      -3040
+     ],
+     [
+      26968,
+      138984,
+      -3104
+     ],
+     [
+      27032,
+      137992,
+      -3256
+     ],
+     [
+      26968,
+      137672,
+      -3256
+     ],
+     [
+      26904,
+      137816,
+      -3264
+     ],
+     [
+      26008,
+      137400,
+      -3280
+     ],
+     [
+      26296,
+      136408,
+      -3152
+     ],
+     [
+      26792,
+      135880,
+      -3200
+     ],
+     [
+      26984,
+      135288,
+      -3080
+     ],
+     [
+      27448,
+      135096,
+      -3016
+     ],
+     [
+      28440,
+      135096,
+      -3072
+     ],
+     [
+      29016,
+      134920,
+      -3016
+     ],
+     [
+      29336,
+      134920,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "note": "Tumran Bugbear area (Dion outskirts 20): walk from the .dion landing; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Dire Wolf 24 x3 (aggro_h5 + spawns_h5) -> the Dire Wolves stand at the hunting place itself; run it at level 20+ or as a party (quest min level 18).",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "points": [
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      16472,
+      143064,
+      -2720
+     ],
+     [
+      16872,
+      143432,
+      -2880
+     ],
+     [
+      17256,
+      143432,
+      -3032
+     ],
+     [
+      17288,
+      143400,
+      -3032
+     ],
+     [
+      17384,
+      143208,
+      -3032
+     ],
+     [
+      17816,
+      142920,
+      -3048
+     ],
+     [
+      17832,
+      142936,
+      -3048
+     ],
+     [
+      18792,
+      142376,
+      -3048
+     ],
+     [
+      19704,
+      142408,
+      -3072
+     ],
+     [
+      20632,
+      142408,
+      -3136
+     ],
+     [
+      20952,
+      142536,
+      -3248
+     ],
+     [
+      21944,
+      142408,
+      -3416
+     ],
+     [
+      22104,
+      142408,
+      -3392
+     ],
+     [
+      23096,
+      142408,
+      -3264
+     ],
+     [
+      24088,
+      142408,
+      -3184
+     ],
+     [
+      24504,
+      142408,
+      -3104
+     ],
+     [
+      25496,
+      142328,
+      -2912
+     ],
+     [
+      26488,
+      142280,
+      -2880
+     ],
+     [
+      26712,
+      142280,
+      -2872
+     ],
+     [
+      26824,
+      142328,
+      -2864
+     ],
+     [
+      26872,
+      141336,
+      -2808
+     ],
+     [
+      26872,
+      140344,
+      -2960
+     ],
+     [
+      26872,
+      139976,
+      -3040
+     ],
+     [
+      26968,
+      138984,
+      -3104
+     ],
+     [
+      27032,
+      137992,
+      -3256
+     ],
+     [
+      26968,
+      137672,
+      -3256
+     ],
+     [
+      26904,
+      137816,
+      -3264
+     ],
+     [
+      26008,
+      137400,
+      -3280
+     ],
+     [
+      26296,
+      136408,
+      -3152
+     ],
+     [
+      26792,
+      135880,
+      -3200
+     ],
+     [
+      26984,
+      135288,
+      -3080
+     ],
+     [
+      27448,
+      135096,
+      -3016
+     ],
+     [
+      28440,
+      135096,
+      -3072
+     ],
+     [
+      29016,
+      134920,
+      -3016
+     ],
+     [
+      29336,
+      134920,
+      -3000
+     ]
+    ],
+    "pv": [
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      16472,
+      143064,
+      -2720
+     ],
+     [
+      16872,
+      143432,
+      -2880
+     ],
+     [
+      17256,
+      143432,
+      -3032
+     ],
+     [
+      17288,
+      143400,
+      -3032
+     ],
+     [
+      17384,
+      143208,
+      -3032
+     ],
+     [
+      17816,
+      142920,
+      -3048
+     ],
+     [
+      17832,
+      142936,
+      -3048
+     ],
+     [
+      18792,
+      142376,
+      -3048
+     ],
+     [
+      19704,
+      142408,
+      -3072
+     ],
+     [
+      20632,
+      142408,
+      -3136
+     ],
+     [
+      20952,
+      142536,
+      -3248
+     ],
+     [
+      21944,
+      142408,
+      -3416
+     ],
+     [
+      22104,
+      142408,
+      -3392
+     ],
+     [
+      23096,
+      142408,
+      -3264
+     ],
+     [
+      24088,
+      142408,
+      -3184
+     ],
+     [
+      24504,
+      142408,
+      -3104
+     ],
+     [
+      25496,
+      142328,
+      -2912
+     ],
+     [
+      26488,
+      142280,
+      -2880
+     ],
+     [
+      26712,
+      142280,
+      -2872
+     ],
+     [
+      26824,
+      142328,
+      -2864
+     ],
+     [
+      26872,
+      141336,
+      -2808
+     ],
+     [
+      26872,
+      140344,
+      -2960
+     ],
+     [
+      26872,
+      139976,
+      -3040
+     ],
+     [
+      26968,
+      138984,
+      -3104
+     ],
+     [
+      27032,
+      137992,
+      -3256
+     ],
+     [
+      26968,
+      137672,
+      -3256
+     ],
+     [
+      26904,
+      137816,
+      -3264
+     ],
+     [
+      26008,
+      137400,
+      -3280
+     ],
+     [
+      26296,
+      136408,
+      -3152
+     ],
+     [
+      26792,
+      135880,
+      -3200
+     ],
+     [
+      26984,
+      135288,
+      -3080
+     ],
+     [
+      27448,
+      135096,
+      -3016
+     ],
+     [
+      28440,
+      135096,
+      -3072
+     ],
+     [
+      29016,
+      134920,
+      -3016
+     ],
+     [
+      29336,
+      134920,
+      -3000
+     ]
+    ],
+    "length": 22540,
+    "checks": {
+     "aggro": [
+      {
+       "name": "Dire Wolf",
+       "lv": 24,
+       "n": 3
+      }
+     ]
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c5:deliver:32197",
+   "cond": 5,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32197,
+    "name": "Gwain",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13489,
+     125562,
+     -3128
+    ],
+    "alt": []
+   },
+   "text": "Bring Tumran Bugbear Heart to Gwain",
+   "needs": [
+    {
+     "id": 9751,
+     "name": "Tumran Bugbear Heart",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32197@-13489,125562",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7215,
+    "sec": 80,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 7215,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14344,
+      123016,
+      -3112
+     ],
+     [
+      -14392,
+      123288,
+      -3112
+     ],
+     [
+      -14408,
+      123560,
+      -3112
+     ],
+     [
+      -14424,
+      123624,
+      -3112
+     ],
+     [
+      -14408,
+      123736,
+      -3112
+     ],
+     [
+      -14344,
+      124008,
+      -3112
+     ],
+     [
+      -14360,
+      124280,
+      -3112
+     ],
+     [
+      -14328,
+      124552,
+      -3112
+     ],
+     [
+      -14296,
+      124824,
+      -3120
+     ],
+     [
+      -14088,
+      124936,
+      -3120
+     ],
+     [
+      -13912,
+      124936,
+      -3128
+     ],
+     [
+      -13640,
+      124936,
+      -3120
+     ],
+     [
+      -13560,
+      125080,
+      -3128
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125688,
+      -3136
+     ],
+     [
+      -13672,
+      125416,
+      -3136
+     ],
+     [
+      -13672,
+      125240,
+      -3128
+     ],
+     [
+      -13400,
+      125272,
+      -3128
+     ],
+     [
+      -13320,
+      125448,
+      -3136
+     ],
+     [
+      -13496,
+      125560,
+      -3128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 105,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c5:hunt": {
+    "route": [
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      16472,
+      143064,
+      -2720
+     ],
+     [
+      16872,
+      143432,
+      -2880
+     ],
+     [
+      17256,
+      143432,
+      -3032
+     ],
+     [
+      17288,
+      143400,
+      -3032
+     ],
+     [
+      17384,
+      143208,
+      -3032
+     ],
+     [
+      17816,
+      142920,
+      -3048
+     ],
+     [
+      17832,
+      142936,
+      -3048
+     ],
+     [
+      18792,
+      142376,
+      -3048
+     ],
+     [
+      19704,
+      142408,
+      -3072
+     ],
+     [
+      20632,
+      142408,
+      -3136
+     ],
+     [
+      20952,
+      142536,
+      -3248
+     ],
+     [
+      21944,
+      142408,
+      -3416
+     ],
+     [
+      22104,
+      142408,
+      -3392
+     ],
+     [
+      23096,
+      142408,
+      -3264
+     ],
+     [
+      24088,
+      142408,
+      -3184
+     ],
+     [
+      24504,
+      142408,
+      -3104
+     ],
+     [
+      25496,
+      142328,
+      -2912
+     ],
+     [
+      26488,
+      142280,
+      -2880
+     ],
+     [
+      26712,
+      142280,
+      -2872
+     ],
+     [
+      26824,
+      142328,
+      -2864
+     ],
+     [
+      26872,
+      141336,
+      -2808
+     ],
+     [
+      26872,
+      140344,
+      -2960
+     ],
+     [
+      26872,
+      139976,
+      -3040
+     ],
+     [
+      26968,
+      138984,
+      -3104
+     ],
+     [
+      27032,
+      137992,
+      -3256
+     ],
+     [
+      26968,
+      137672,
+      -3256
+     ],
+     [
+      26904,
+      137816,
+      -3264
+     ],
+     [
+      26008,
+      137400,
+      -3280
+     ],
+     [
+      26296,
+      136408,
+      -3152
+     ],
+     [
+      26792,
+      135880,
+      -3200
+     ],
+     [
+      26984,
+      135288,
+      -3080
+     ],
+     [
+      27448,
+      135096,
+      -3016
+     ],
+     [
+      28440,
+      135096,
+      -3072
+     ],
+     [
+      29016,
+      134920,
+      -3016
+     ],
+     [
+      29336,
+      134920,
+      -3000
+     ]
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "note": "Tumran Bugbear area (Dion outskirts 20): walk from the .dion landing; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27. LEVEL NOTE: the danger-weighted search cannot avoid Dire Wolf 24 x3 (aggro_h5 + spawns_h5) -> the Dire Wolves stand at the hunting place itself; run it at level 20+ or as a party (quest min level 18).",
+    "fixed": [
+     "aggro-on-way"
+    ],
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:56.430Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "route-aggro",
+    "t": "step 3 (c2:hunt): area:fellmere-harvest-grounds-5: aggressive Turek Orc Sentinel 25 x1 on the walk (character 18)"
+   },
+   {
+    "code": "route-aggro",
+    "t": "step 6 (c5:hunt): override c5:hunt: aggressive Dire Wolf 24 x3 on the walk (character 18)"
+   }
+  ],
+  "warns": []
+ }
+}

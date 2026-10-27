@@ -1,0 +1,764 @@
+{
+ "id": 382,
+ "name": "Kail's Magic Coin",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.926Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 55,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {
+  "items": [
+   {
+    "id": 5898,
+    "name": "Royal Membership"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Royal Membership"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 4,
+ "refLevel": 55,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30687",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will trade with you.\""
+   ],
+   "npc": {
+    "id": 30687,
+    "name": "Vergara",
+    "title": "Head Blacksmith",
+    "town": "Hunters Village",
+    "at": [
+     117649,
+     75415,
+     -2646
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vergara – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30687@117649,75415",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1751,
+    "sec": 35,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1751,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75624,
+      -2664
+     ],
+     [
+      117448,
+      75416,
+      -2648
+     ],
+     [
+      117656,
+      75416,
+      -2648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 65,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21022,
+     "name": "Fallen Orc Captain",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 21017,
+     "name": "Fallen Orc",
+     "level": 55,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21019,
+     "name": "Fallen Orc Archer",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 21020,
+     "name": "Fallen Orc Shaman",
+     "level": 58,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 25,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "engine-manual"
+   ],
+   "text": "Hunt Fallen Orc Captain, Fallen Orc, Fallen Orc Archer",
+   "places": [
+    {
+     "mobs": [
+      21022,
+      21017,
+      21019,
+      21020
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "forsaken-plains-8",
+      "name": "Forsaken Plains 8: Fallen Orc Shaman area (east)",
+      "at": [
+       180792,
+       39912,
+       -3704
+      ],
+      "radius": 5003,
+      "levels": [
+       56,
+       59
+      ],
+      "count": 20,
+      "region": "Forsaken Plains",
+      "atlasKey": "area:forsaken-plains-8",
+      "status": "ok",
+      "sec": 156,
+      "danger": 60,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -117.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "silent-valley-1",
+        "name": "Silent Valley 1: Ancient Gargoyle area (north-west)",
+        "at": [
+         166984,
+         50728,
+         -4112
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forsaken-plains-3",
+        "name": "Forsaken Plains 3: Yintzu area (south-east)",
+        "at": [
+         170872,
+         42120,
+         -4888
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "silent-valley-2",
+        "name": "Silent Valley 2: Sharp Talon Tiger area (west)",
+        "at": [
+         168088,
+         56840,
+         -4160
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:forsaken-plains-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 13344,
+      "sec": 156,
+      "via": ".aden > Aden -> Forsaken Plains",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Forsaken Plains",
+        "link": "forsaken plains",
+        "price": 1900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 2921,
+        "how": "field-areas-gap",
+        "danger": 58
+       },
+       {
+        "do": "walk",
+        "len": 10423,
+        "how": "field-areas",
+        "danger": 60
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Forsaken Plains"
+      },
+      "simple": true,
+      "pv": [
+       [
+        168217,
+        37990,
+        -4072
+       ],
+       [
+        171112,
+        37992,
+        -4432
+       ],
+       [
+        172104,
+        38072,
+        -4592
+       ],
+       [
+        173096,
+        39064,
+        -4624
+       ],
+       [
+        173576,
+        39544,
+        -4560
+       ],
+       [
+        173576,
+        39560,
+        -4544
+       ],
+       [
+        173592,
+        39576,
+        -4528
+       ],
+       [
+        173608,
+        39592,
+        -4504
+       ],
+       [
+        173624,
+        39608,
+        -4480
+       ],
+       [
+        173640,
+        39624,
+        -4464
+       ],
+       [
+        173656,
+        39640,
+        -4440
+       ],
+       [
+        173672,
+        39656,
+        -4416
+       ],
+       [
+        173688,
+        39672,
+        -4400
+       ],
+       [
+        173704,
+        39688,
+        -4368
+       ],
+       [
+        173720,
+        39704,
+        -4336
+       ],
+       [
+        173736,
+        39720,
+        -4296
+       ],
+       [
+        173752,
+        39736,
+        -4264
+       ],
+       [
+        173768,
+        39752,
+        -4224
+       ],
+       [
+        173784,
+        39768,
+        -4192
+       ],
+       [
+        173800,
+        39784,
+        -4160
+       ],
+       [
+        173816,
+        39800,
+        -4120
+       ],
+       [
+        173832,
+        39816,
+        -4104
+       ],
+       [
+        174824,
+        39848,
+        -4120
+       ],
+       [
+        175816,
+        39848,
+        -4120
+       ],
+       [
+        176808,
+        39848,
+        -4072
+       ],
+       [
+        177800,
+        39848,
+        -3936
+       ],
+       [
+        178792,
+        39848,
+        -3816
+       ],
+       [
+        179784,
+        39848,
+        -3752
+       ],
+       [
+        180776,
+        39896,
+        -3704
+       ],
+       [
+        180792,
+        39912,
+        -3704
+       ]
+      ],
+      "maxDanger": 60,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 60,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "forsaken-plains-8",
+    "name": "Forsaken Plains 8: Fallen Orc Shaman area (east)",
+    "at": [
+     180792,
+     39912,
+     -3704
+    ],
+    "radius": 5003,
+    "levels": [
+     56,
+     59
+    ],
+    "count": 20,
+    "region": "Forsaken Plains",
+    "atlasKey": "area:forsaken-plains-8",
+    "status": "ok",
+    "sec": 156,
+    "danger": 60,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -117.4,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "silent-valley-1",
+      "name": "Silent Valley 1: Ancient Gargoyle area (north-west)",
+      "at": [
+       166984,
+       50728,
+       -4112
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "forsaken-plains-3",
+      "name": "Forsaken Plains 3: Yintzu area (south-east)",
+      "at": [
+       170872,
+       42120,
+       -4888
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "silent-valley-2",
+      "name": "Silent Valley 2: Sharp Talon Tiger area (west)",
+      "at": [
+       168088,
+       56840,
+       -4160
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:forsaken-plains-8",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 13344,
+    "sec": 156,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2921,
+      "how": "field-areas-gap",
+      "danger": 58
+     },
+     {
+      "do": "walk",
+      "len": 10423,
+      "how": "field-areas",
+      "danger": 60
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      171112,
+      37992,
+      -4432
+     ],
+     [
+      172104,
+      38072,
+      -4592
+     ],
+     [
+      173096,
+      39064,
+      -4624
+     ],
+     [
+      173576,
+      39544,
+      -4560
+     ],
+     [
+      173576,
+      39560,
+      -4544
+     ],
+     [
+      173592,
+      39576,
+      -4528
+     ],
+     [
+      173608,
+      39592,
+      -4504
+     ],
+     [
+      173624,
+      39608,
+      -4480
+     ],
+     [
+      173640,
+      39624,
+      -4464
+     ],
+     [
+      173656,
+      39640,
+      -4440
+     ],
+     [
+      173672,
+      39656,
+      -4416
+     ],
+     [
+      173688,
+      39672,
+      -4400
+     ],
+     [
+      173704,
+      39688,
+      -4368
+     ],
+     [
+      173720,
+      39704,
+      -4336
+     ],
+     [
+      173736,
+      39720,
+      -4296
+     ],
+     [
+      173752,
+      39736,
+      -4264
+     ],
+     [
+      173768,
+      39752,
+      -4224
+     ],
+     [
+      173784,
+      39768,
+      -4192
+     ],
+     [
+      173800,
+      39784,
+      -4160
+     ],
+     [
+      173816,
+      39800,
+      -4120
+     ],
+     [
+      173832,
+      39816,
+      -4104
+     ],
+     [
+      174824,
+      39848,
+      -4120
+     ],
+     [
+      175816,
+      39848,
+      -4120
+     ],
+     [
+      176808,
+      39848,
+      -4072
+     ],
+     [
+      177800,
+      39848,
+      -3936
+     ],
+     [
+      178792,
+      39848,
+      -3816
+     ],
+     [
+      179784,
+      39848,
+      -3752
+     ],
+     [
+      180776,
+      39896,
+      -3704
+     ],
+     [
+      180792,
+      39912,
+      -3704
+     ]
+    ],
+    "maxDanger": 60,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 60,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 181,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

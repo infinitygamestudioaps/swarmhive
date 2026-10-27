@@ -1,0 +1,614 @@
+{
+ "id": 10277,
+ "name": "Mutated Kaneus - Dion",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.423Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 28,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dion",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 9,
+ "refLevel": 28,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30071",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30071,
+    "name": "Lucas",
+    "title": "Captain",
+    "town": "Dion",
+    "at": [
+     18199,
+     146081,
+     -3080
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lucas – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30071@18199,146081",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 4622,
+    "sec": 59,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 4622,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17368,
+      145384,
+      -3064
+     ],
+     [
+      17592,
+      145544,
+      -3080
+     ],
+     [
+      17816,
+      145704,
+      -3096
+     ],
+     [
+      18008,
+      145896,
+      -3112
+     ],
+     [
+      18200,
+      146088,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18558",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18558,
+     "name": "Crimson Hatu Otis",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18559,
+     "name": "Seer Flouros",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13832,
+     "name": "Crimson Hatu Otis' Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18558,
+       "name": "Crimson Hatu Otis",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13833,
+     "name": "Seer Flouros' Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18559,
+       "name": "Seer Flouros",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "owner-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (18558, 18559) only appear through the quest script and no trigger is known"
+   },
+   "text": "Kill Crimson Hatu (Kamaloka 33) + Seer Flouros (Kamaloka 36) and report",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ],
+   "override": {
+    "manual": true,
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): the kill targets are KAMALOKA bosses (instances/Kamaloka/Kamaloka.java BOSS[] / LEVEL[]): 10276 = Tomlan Kamos 18554 (Hall of the Abyss lvl 23) + Ol Ariosh 18555 (lvl 26), captain Bathis 30332 Gludio; 10277 = Crimson Hatu 18558 (33) + Seer Flouros 18559 (36), captain Lucas 30071 Dion; 10281 = White Allosce 18577 (73), captain Mathias 31340 Rune. The engine must run the Kamaloka mission (leaderMission(\"kamaloka\", level)) for each; on L2Toggle one Hall kill locks the other Halls for the day (#2100, CLAUDE.md), so 10276 / 10277 take two days.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30071",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30071,
+    "name": "Lucas",
+    "title": "Captain",
+    "town": "Dion",
+    "at": [
+     18199,
+     146081,
+     -3080
+    ],
+    "alt": []
+   },
+   "text": "Kill Crimson Hatu (Kamaloka 33) + Seer Flouros (Kamaloka 36) and report",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30071@18199,146081",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 4622,
+    "sec": 59,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 4622,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17368,
+      145384,
+      -3064
+     ],
+     [
+      17592,
+      145544,
+      -3080
+     ],
+     [
+      17816,
+      145704,
+      -3096
+     ],
+     [
+      18008,
+      145896,
+      -3112
+     ],
+     [
+      18200,
+      146088,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 84,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30461",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30461,
+    "name": "Mirien",
+    "title": "Magister",
+    "town": "Dion",
+    "at": [
+     16427,
+     142131,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Kill Crimson Hatu (Kamaloka 33) + Seer Flouros (Kamaloka 36) and report",
+   "needs": [
+    {
+     "id": 13832,
+     "name": "Crimson Hatu Otis' Cellular Tissue",
+     "n": 1
+    },
+    {
+     "id": 13833,
+     "name": "Seer Flouros' Cellular Tissue",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30461@16427,142131",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1935,
+    "sec": 36,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1935,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16376,
+      142264,
+      -2688
+     ],
+     [
+      16424,
+      142136,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 61,
+   "engineWhy": "the monsters (18558, 18559) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:18558": {
+    "manual": true,
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): the kill targets are KAMALOKA bosses (instances/Kamaloka/Kamaloka.java BOSS[] / LEVEL[]): 10276 = Tomlan Kamos 18554 (Hall of the Abyss lvl 23) + Ol Ariosh 18555 (lvl 26), captain Bathis 30332 Gludio; 10277 = Crimson Hatu 18558 (33) + Seer Flouros 18559 (36), captain Lucas 30071 Dion; 10281 = White Allosce 18577 (73), captain Mathias 31340 Rune. The engine must run the Kamaloka mission (leaderMission(\"kamaloka\", level)) for each; on L2Toggle one Hall kill locks the other Halls for the day (#2100, CLAUDE.md), so 10276 / 10277 take two days.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

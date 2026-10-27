@@ -1,0 +1,341 @@
+{
+ "id": 18,
+ "name": "Meeting With The Golden Ram",
+ "version": 1,
+ "generated": "2026-10-27T11:14:36.582Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 66,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Rune",
+ "requirements": {
+  "other": [
+   "(npcId == DONAL)"
+  ]
+ },
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 3,
+ "refLevel": 66,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31314",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you are interested."
+   ],
+   "npc": {
+    "id": 31314,
+    "name": "Donal",
+    "title": "Warehouse Chief",
+    "town": "Rune",
+    "at": [
+     43560,
+     -48912,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Meet Prerequisite",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31314@43560,-48912",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1054,
+    "sec": 29,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1054,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48328,
+      -792
+     ],
+     [
+      43880,
+      -48600,
+      -792
+     ],
+     [
+      43736,
+      -48808,
+      -792
+     ],
+     [
+      43560,
+      -48904,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 59,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31555",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Here's the box.\""
+   ],
+   "npc": {
+    "id": 31555,
+    "name": "Abercrombie",
+    "title": "Mercenary Supplier",
+    "town": "Rune",
+    "at": [
+     69348,
+     -50408,
+     -3288
+    ],
+    "alt": []
+   },
+   "text": "Talk to Abercrombie",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31553@69248,-50160",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 102,
+    "sec": 46,
+    "via": ".rune > Rune -> Swamp of Screams",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Swamp of Screams",
+      "link": "swamp of screams",
+      "price": 3000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 102,
+      "how": "adjacent",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Swamp of Screams"
+    },
+    "simple": true,
+    "pv": [
+     [
+      69340,
+      -50203,
+      -3288
+     ],
+     [
+      69248,
+      -50160,
+      -3288
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": 3,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31553@69248,-50160",
+     "name": "Pierce"
+    },
+    "points": [
+     [
+      69340,
+      -50203,
+      -3288
+     ],
+     [
+      69248,
+      -50160,
+      -3288
+     ]
+    ]
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31315",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"You can count on me.\""
+   ],
+   "npc": {
+    "id": 31315,
+    "name": "Daisy",
+    "title": "Warehouse Keeper",
+    "town": "Rune",
+    "at": [
+     43556,
+     -48640,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Talk to Daisy",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31315@43556,-48640",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 786,
+    "sec": 27,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 786,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43880,
+      -48312,
+      -792
+     ],
+     [
+      43736,
+      -48552,
+      -792
+     ],
+     [
+      43560,
+      -48632,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 52,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:36.603Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

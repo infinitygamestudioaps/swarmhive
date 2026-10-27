@@ -1,0 +1,665 @@
+{
+ "id": 130,
+ "name": "Path To Hellbound",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.446Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 78,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Floran",
+ "requirements": {
+  "other": [
+   "(!HellboundEngine.getInstance().isLocked())"
+  ]
+ },
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 8,
+ "refLevel": 78,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30612",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Is there another way?\""
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": -39,
+     "aggro": []
+    }
+   },
+   "expectedSec": 197,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32292",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Elder Casian mentioned your name to me.\""
+   ],
+   "npc": {
+    "id": 32292,
+    "name": "Galate",
+    "title": "",
+    "town": "Heine",
+    "at": [
+     112017,
+     219528,
+     -3671
+    ],
+    "alt": []
+   },
+   "text": "Talk to Galate",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31688@112336,220128",
+    "status": "ok",
+    "flags": [],
+    "from": ".heine",
+    "length": 2569,
+    "sec": 41,
+    "via": ".heine",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Heine",
+      "cmd": ".heine"
+     },
+     {
+      "do": "walk",
+      "len": 2281,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Heine"
+    },
+    "simple": true,
+    "pv": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111464,
+      219000,
+      -3536
+     ],
+     [
+      111720,
+      219080,
+      -3536
+     ],
+     [
+      111992,
+      219096,
+      -3536
+     ],
+     [
+      112264,
+      219096,
+      -3536
+     ],
+     [
+      112536,
+      219128,
+      -3536
+     ],
+     [
+      112616,
+      219304,
+      -3536
+     ],
+     [
+      112616,
+      219576,
+      -3536
+     ],
+     [
+      112568,
+      219720,
+      -3536
+     ],
+     [
+      112472,
+      219976,
+      -3584
+     ],
+     [
+      112344,
+      220136,
+      -3592
+     ],
+     [
+      112024,
+      219816,
+      -3664
+     ],
+     [
+      112024,
+      219528,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31688@112336,220128",
+     "name": "Grand Olympiad Manager"
+    },
+    "points": [
+     [
+      111381,
+      218981,
+      -3544
+     ],
+     [
+      111384,
+      218968,
+      -3536
+     ],
+     [
+      111464,
+      219000,
+      -3536
+     ],
+     [
+      111720,
+      219080,
+      -3536
+     ],
+     [
+      111992,
+      219096,
+      -3536
+     ],
+     [
+      112264,
+      219096,
+      -3536
+     ],
+     [
+      112536,
+      219128,
+      -3536
+     ],
+     [
+      112616,
+      219304,
+      -3536
+     ],
+     [
+      112616,
+      219576,
+      -3536
+     ],
+     [
+      112568,
+      219720,
+      -3536
+     ],
+     [
+      112472,
+      219976,
+      -3584
+     ],
+     [
+      112344,
+      220136,
+      -3592
+     ],
+     [
+      112024,
+      219816,
+      -3664
+     ],
+     [
+      112024,
+      219528,
+      -3664
+     ]
+    ]
+   },
+   "expectedSec": 66,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30612",
+   "cond": 2,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"I need your Blue Crystal.\""
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": -39,
+     "aggro": []
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.511Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

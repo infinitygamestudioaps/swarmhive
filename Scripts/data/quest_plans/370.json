@@ -1,0 +1,1429 @@
+{
+ "id": 370,
+ "name": "An Elder Sows Seeds",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.302Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 28,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Floran",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 0
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  }
+ ],
+ "expectedMin": 104,
+ "refLevel": 28,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30612",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"You can count on me.\""
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Talk to Casian – accept the quest",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Skeletal Mercenary",
+       "lv": 39,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 197,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20082,
+     "name": "Ant Recruit",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20086,
+     "name": "Ant Guard",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20090,
+     "name": "Noble Ant Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20084,
+     "name": "Ant Patrol",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20089,
+     "name": "Noble Ant",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5916,
+     "name": "Spellbook Page",
+     "n": 20,
+     "from": [
+      {
+       "id": 20082,
+       "name": "Ant Recruit",
+       "chance": 9
+      },
+      {
+       "id": 20086,
+       "name": "Ant Guard",
+       "chance": 9
+      },
+      {
+       "id": 20090,
+       "name": "Noble Ant Leader",
+       "chance": 22
+      },
+      {
+       "id": 20084,
+       "name": "Ant Patrol",
+       "chance": 10.1
+      },
+      {
+       "id": 20089,
+       "name": "Noble Ant",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "engine-manual",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Ant Recruit, Ant Guard, Noble Ant Leader for Spellbook Page x20",
+   "places": [
+    {
+     "mobs": [
+      20082,
+      20086,
+      20090,
+      20084,
+      20089
+     ],
+     "items": [
+      5916
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "antnest-1-straight-l",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -25328,
+       180192,
+       -5406
+      ],
+      "radius": 1747,
+      "levels": [
+       34,
+       37
+      ],
+      "count": 34,
+      "region": "Ant Nest",
+      "atlasKey": "room:antnest-1-straight-l",
+      "status": "ok",
+      "sec": 254,
+      "danger": 36,
+      "reachable": true,
+      "score": -175.76666666666668,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "antnest-1-straight-p",
+        "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+        "at": [
+         -28065,
+         182298,
+         -5365
+        ],
+        "count": 29,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-left-b",
+        "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+        "at": [
+         -14207,
+         180247,
+         -5387
+        ],
+        "count": 26,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "antnest-1-left-a",
+        "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+        "at": [
+         -13622,
+         179364,
+         -5389
+        ],
+        "count": 22,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:antnest-1-straight-l",
+      "status": "ok",
+      "flags": [
+       "long-walk"
+      ],
+      "from": ".gludio",
+      "length": 25103,
+      "sec": 254,
+      "via": ".gludio > Gludio -> Ant Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ant Cave",
+        "link": "ant nest",
+        "price": 2100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 27
+       },
+       {
+        "do": "walk",
+        "len": 25103,
+        "how": "dungeon-rooms",
+        "danger": 38
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ant Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -9959,
+        176184,
+        -4160
+       ],
+       [
+        -10136,
+        175208,
+        -4176
+       ],
+       [
+        -10152,
+        175064,
+        -4224
+       ],
+       [
+        -10216,
+        174936,
+        -4264
+       ],
+       [
+        -10328,
+        174808,
+        -4312
+       ],
+       [
+        -10936,
+        174328,
+        -4576
+       ],
+       [
+        -11448,
+        174120,
+        -4640
+       ],
+       [
+        -11848,
+        174216,
+        -4792
+       ],
+       [
+        -11896,
+        174216,
+        -4816
+       ],
+       [
+        -12344,
+        174616,
+        -5008
+       ],
+       [
+        -12520,
+        174680,
+        -5112
+       ],
+       [
+        -12680,
+        174808,
+        -5136
+       ],
+       [
+        -13352,
+        175784,
+        -5304
+       ],
+       [
+        -13960,
+        176248,
+        -5288
+       ],
+       [
+        -13992,
+        176360,
+        -5296
+       ],
+       [
+        -13944,
+        177080,
+        -5304
+       ],
+       [
+        -13864,
+        177160,
+        -5304
+       ],
+       [
+        -13640,
+        177432,
+        -5304
+       ],
+       [
+        -13576,
+        177544,
+        -5304
+       ],
+       [
+        -13560,
+        177624,
+        -5304
+       ],
+       [
+        -13560,
+        177704,
+        -5304
+       ],
+       [
+        -13608,
+        177800,
+        -5304
+       ],
+       [
+        -13800,
+        178056,
+        -5304
+       ],
+       [
+        -14632,
+        178472,
+        -5304
+       ],
+       [
+        -15240,
+        178984,
+        -5304
+       ],
+       [
+        -16232,
+        179976,
+        -5384
+       ],
+       [
+        -16744,
+        180104,
+        -5424
+       ],
+       [
+        -17032,
+        180200,
+        -5520
+       ],
+       [
+        -18024,
+        181192,
+        -5520
+       ],
+       [
+        -19016,
+        182184,
+        -5536
+       ],
+       [
+        -19528,
+        182776,
+        -5528
+       ],
+       [
+        -19528,
+        183544,
+        -5600
+       ],
+       [
+        -19592,
+        183640,
+        -5600
+       ],
+       [
+        -19624,
+        183672,
+        -5600
+       ],
+       [
+        -19864,
+        183784,
+        -5600
+       ],
+       [
+        -20856,
+        183784,
+        -5712
+       ],
+       [
+        -21848,
+        183784,
+        -5712
+       ],
+       [
+        -22840,
+        183832,
+        -5720
+       ],
+       [
+        -22952,
+        183944,
+        -5696
+       ],
+       [
+        -23224,
+        184024,
+        -5664
+       ],
+       [
+        -23320,
+        183992,
+        -5640
+       ],
+       [
+        -23464,
+        183896,
+        -5600
+       ],
+       [
+        -23592,
+        183784,
+        -5600
+       ],
+       [
+        -23960,
+        183224,
+        -5600
+       ],
+       [
+        -23960,
+        182232,
+        -5600
+       ],
+       [
+        -23960,
+        181496,
+        -5592
+       ],
+       [
+        -23992,
+        181400,
+        -5592
+       ],
+       [
+        -24984,
+        180408,
+        -5408
+       ],
+       [
+        -25320,
+        180200,
+        -5408
+       ]
+      ],
+      "maxDanger": 38,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 38,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Noble Ant Leader",
+         "lv": 38,
+         "n": 8
+        },
+        {
+         "name": "Noble Ant",
+         "lv": 37,
+         "n": 30
+        },
+        {
+         "name": "Guard Ant",
+         "lv": 37,
+         "n": 8
+        },
+        {
+         "name": "Ant Warrior Captain",
+         "lv": 36,
+         "n": 27
+        },
+        {
+         "name": "Ant Soldier",
+         "lv": 35,
+         "n": 23
+        },
+        {
+         "name": "Ant Guard",
+         "lv": 35,
+         "n": 12
+        },
+        {
+         "name": "Ant Patrol",
+         "lv": 34,
+         "n": 9
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36
+      },
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36
+      },
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36
+      },
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36
+      },
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36
+      },
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "antnest-1-straight-l",
+    "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+    "at": [
+     -25328,
+     180192,
+     -5406
+    ],
+    "radius": 1747,
+    "levels": [
+     34,
+     37
+    ],
+    "count": 34,
+    "region": "Ant Nest",
+    "atlasKey": "room:antnest-1-straight-l",
+    "status": "ok",
+    "sec": 254,
+    "danger": 36,
+    "reachable": true,
+    "score": -175.76666666666668,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "antnest-1-straight-p",
+      "name": "Ant Nest: Nest tunnels, straight: Noble Ant room",
+      "at": [
+       -28065,
+       182298,
+       -5365
+      ],
+      "count": 29,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-left-b",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -14207,
+       180247,
+       -5387
+      ],
+      "count": 26,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "antnest-1-left-a",
+      "name": "Ant Nest: Nest tunnels, left: Ant Patrol room",
+      "at": [
+       -13622,
+       179364,
+       -5389
+      ],
+      "count": 22,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:antnest-1-straight-l",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".gludio",
+    "length": 25103,
+    "sec": 254,
+    "via": ".gludio > Gludio -> Ant Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ant Cave",
+      "link": "ant nest",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 27
+     },
+     {
+      "do": "walk",
+      "len": 25103,
+      "how": "dungeon-rooms",
+      "danger": 38
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ant Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -10136,
+      175208,
+      -4176
+     ],
+     [
+      -10152,
+      175064,
+      -4224
+     ],
+     [
+      -10216,
+      174936,
+      -4264
+     ],
+     [
+      -10328,
+      174808,
+      -4312
+     ],
+     [
+      -10936,
+      174328,
+      -4576
+     ],
+     [
+      -11448,
+      174120,
+      -4640
+     ],
+     [
+      -11848,
+      174216,
+      -4792
+     ],
+     [
+      -11896,
+      174216,
+      -4816
+     ],
+     [
+      -12344,
+      174616,
+      -5008
+     ],
+     [
+      -12520,
+      174680,
+      -5112
+     ],
+     [
+      -12680,
+      174808,
+      -5136
+     ],
+     [
+      -13352,
+      175784,
+      -5304
+     ],
+     [
+      -13960,
+      176248,
+      -5288
+     ],
+     [
+      -13992,
+      176360,
+      -5296
+     ],
+     [
+      -13944,
+      177080,
+      -5304
+     ],
+     [
+      -13864,
+      177160,
+      -5304
+     ],
+     [
+      -13640,
+      177432,
+      -5304
+     ],
+     [
+      -13576,
+      177544,
+      -5304
+     ],
+     [
+      -13560,
+      177624,
+      -5304
+     ],
+     [
+      -13560,
+      177704,
+      -5304
+     ],
+     [
+      -13608,
+      177800,
+      -5304
+     ],
+     [
+      -13800,
+      178056,
+      -5304
+     ],
+     [
+      -14632,
+      178472,
+      -5304
+     ],
+     [
+      -15240,
+      178984,
+      -5304
+     ],
+     [
+      -16232,
+      179976,
+      -5384
+     ],
+     [
+      -16744,
+      180104,
+      -5424
+     ],
+     [
+      -17032,
+      180200,
+      -5520
+     ],
+     [
+      -18024,
+      181192,
+      -5520
+     ],
+     [
+      -19016,
+      182184,
+      -5536
+     ],
+     [
+      -19528,
+      182776,
+      -5528
+     ],
+     [
+      -19528,
+      183544,
+      -5600
+     ],
+     [
+      -19592,
+      183640,
+      -5600
+     ],
+     [
+      -19624,
+      183672,
+      -5600
+     ],
+     [
+      -19864,
+      183784,
+      -5600
+     ],
+     [
+      -20856,
+      183784,
+      -5712
+     ],
+     [
+      -21848,
+      183784,
+      -5712
+     ],
+     [
+      -22840,
+      183832,
+      -5720
+     ],
+     [
+      -22952,
+      183944,
+      -5696
+     ],
+     [
+      -23224,
+      184024,
+      -5664
+     ],
+     [
+      -23320,
+      183992,
+      -5640
+     ],
+     [
+      -23464,
+      183896,
+      -5600
+     ],
+     [
+      -23592,
+      183784,
+      -5600
+     ],
+     [
+      -23960,
+      183224,
+      -5600
+     ],
+     [
+      -23960,
+      182232,
+      -5600
+     ],
+     [
+      -23960,
+      181496,
+      -5592
+     ],
+     [
+      -23992,
+      181400,
+      -5592
+     ],
+     [
+      -24984,
+      180408,
+      -5408
+     ],
+     [
+      -25320,
+      180200,
+      -5408
+     ]
+    ],
+    "maxDanger": 38,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 38,
+     "dangerVsLevel": 10,
+     "aggro": [
+      {
+       "name": "Noble Ant Leader",
+       "lv": 38,
+       "n": 8
+      },
+      {
+       "name": "Noble Ant",
+       "lv": 37,
+       "n": 30
+      },
+      {
+       "name": "Guard Ant",
+       "lv": 37,
+       "n": 8
+      },
+      {
+       "name": "Ant Warrior Captain",
+       "lv": 36,
+       "n": 27
+      },
+      {
+       "name": "Ant Soldier",
+       "lv": 35,
+       "n": 23
+      },
+      {
+       "name": "Ant Guard",
+       "lv": 35,
+       "n": 12
+      },
+      {
+       "name": "Ant Patrol",
+       "lv": 34,
+       "n": 9
+      }
+     ]
+    }
+   },
+   "expectedSec": 5829,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30612",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "\"I have brought all four chapters of \"Kranvel's Spellbook\".\""
+   ],
+   "npc": {
+    "id": 30612,
+    "name": "Casian",
+    "title": "Elder",
+    "town": "Floran",
+    "at": [
+     -16895,
+     194229,
+     -4207
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Casian (repeatable: then hunt again)",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30612@-16895,194229",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14637,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14637,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16707,
+      207540,
+      -3664
+     ],
+     [
+      -16888,
+      207048,
+      -3664
+     ],
+     [
+      -16904,
+      206056,
+      -3592
+     ],
+     [
+      -17288,
+      205464,
+      -3568
+     ],
+     [
+      -17288,
+      205304,
+      -3528
+     ],
+     [
+      -17088,
+      204808,
+      -3496
+     ],
+     [
+      -16888,
+      204312,
+      -3464
+     ],
+     [
+      -16888,
+      203320,
+      -3552
+     ],
+     [
+      -16872,
+      202328,
+      -3664
+     ],
+     [
+      -16856,
+      202248,
+      -3664
+     ],
+     [
+      -16888,
+      201256,
+      -3920
+     ],
+     [
+      -16792,
+      200616,
+      -3920
+     ],
+     [
+      -16888,
+      199624,
+      -4200
+     ],
+     [
+      -16888,
+      198632,
+      -4200
+     ],
+     [
+      -17192,
+      197736,
+      -4200
+     ],
+     [
+      -17208,
+      196840,
+      -4200
+     ],
+     [
+      -17144,
+      196760,
+      -4192
+     ],
+     [
+      -17144,
+      195832,
+      -4200
+     ],
+     [
+      -17432,
+      195544,
+      -4208
+     ],
+     [
+      -17496,
+      195432,
+      -4160
+     ],
+     [
+      -17528,
+      195288,
+      -4152
+     ],
+     [
+      -17576,
+      194872,
+      -4208
+     ],
+     [
+      -17576,
+      194728,
+      -4208
+     ],
+     [
+      -16888,
+      194232,
+      -4208
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 11,
+     "aggro": [
+      {
+       "name": "Skeletal Mercenary",
+       "lv": 39,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 192,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

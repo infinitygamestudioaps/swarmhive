@@ -1,0 +1,218 @@
+{
+ "id": 10268,
+ "name": "To the Seed of Infinity",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.351Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32548",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What's the mission?\""
+   ],
+   "npc": {
+    "id": 32548,
+    "name": "Keucereus",
+    "title": "Admiral",
+    "town": "Talking Island",
+    "at": [
+     -186399,
+     242412,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Keucereus – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 30,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Keucereus (-186399,242412,2552); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "length": 1197,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32603",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32603,
+    "name": "Tepios",
+    "title": "Officer",
+    "town": "Talking Island",
+    "at": [
+     -183282,
+     205703,
+     -12896
+    ],
+    "alt": []
+   },
+   "text": "Talk to Tepios",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32548": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Keucereus (-186399,242412,2552); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

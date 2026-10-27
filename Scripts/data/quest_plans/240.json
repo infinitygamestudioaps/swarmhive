@@ -1,0 +1,1086 @@
+{
+ "id": 240,
+ "name": "I'm the Only One You Can Trust",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.636Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 81,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 15,
+ "refLevel": 81,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32640",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will accept the mission.\""
+   ],
+   "npc": {
+    "id": 32640,
+    "name": "Kintaijin",
+    "title": "Bounty Hunter",
+    "town": "Rune",
+    "at": [
+     89480,
+     -44457,
+     -2136
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kintaijin – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32640@89480,-44457",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 346,
+    "sec": 48,
+    "via": ".rune > Rune -> Stakato Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Stakato Nest",
+      "link": "stakato nest",
+      "price": 9100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 346,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Stakato Nest"
+    },
+    "simple": true,
+    "pv": [
+     [
+      89513,
+      -44800,
+      -2136
+     ],
+     [
+      89480,
+      -44456,
+      -2136
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 22617,
+     "name": "Spiked Stakato",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 22618,
+     "name": "Spiked Stakato Worker",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 22621,
+     "name": "Male Spiked Stakato",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 22623,
+     "name": "Spiked Stakato Sorcerer",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 22625,
+     "name": "Cannibalistic Stakato Leader",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 35,
+     "questSpawned": false
+    },
+    {
+     "id": 22627,
+     "name": "Spiked Stakato Soldier",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 22628,
+     "name": "Spiked Stakato Drone",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 22630,
+     "name": "Spiked Stakato Nurse",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 22633,
+     "name": "Spiked Stakato Shaman",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14879,
+     "name": "Stakato Fang",
+     "n": 25,
+     "from": [
+      {
+       "id": 22617,
+       "name": "Spiked Stakato",
+       "chance": 100
+      },
+      {
+       "id": 22618,
+       "name": "Spiked Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 22621,
+       "name": "Male Spiked Stakato",
+       "chance": 100
+      },
+      {
+       "id": 22623,
+       "name": "Spiked Stakato Sorcerer",
+       "chance": 100
+      },
+      {
+       "id": 22625,
+       "name": "Cannibalistic Stakato Leader",
+       "chance": 100
+      },
+      {
+       "id": 22627,
+       "name": "Spiked Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 22628,
+       "name": "Spiked Stakato Drone",
+       "chance": 100
+      },
+      {
+       "id": 22630,
+       "name": "Spiked Stakato Nurse",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Spiked Stakato, Spiked Stakato Worker, Male Spiked Stakato for Stakato Fang x25",
+   "places": [
+    {
+     "mobs": [
+      22617,
+      22618,
+      22621,
+      22623,
+      22625,
+      22627,
+      22628,
+      22630
+     ],
+     "items": [
+      14879
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22625@84432,-47941",
+      "name": "Cannibalistic Stakato Leader (Stakato Nest / Swamp Fortress)",
+      "at": [
+       84432,
+       -47941,
+       -4791
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 13,
+      "region": "Stakato Nest / Swamp Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 12,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22628@84831,-48381",
+        "name": "Spiked Stakato Drone (Stakato Nest / Swamp Fortress)",
+        "at": [
+         84831,
+         -48381,
+         -4786
+        ],
+        "count": 10,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22617@84301,-45891",
+        "name": "Spiked Stakato (Stakato Nest / Swamp Fortress)",
+        "at": [
+         84301,
+         -45891,
+         -4639
+        ],
+        "count": 9,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22617@78308,-46451",
+        "name": "Spiked Stakato (Stakato Nest / Swamp Fortress)",
+        "at": [
+         78308,
+         -46451,
+         -5128
+        ],
+        "count": 7,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:stakato-nest-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 9386,
+      "sec": 124,
+      "via": ".rune > Rune -> Stakato Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Stakato Nest",
+        "link": "stakato nest",
+        "price": 9100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4043,
+        "how": "field-areas-gap",
+        "danger": 68
+       },
+       {
+        "do": "walk",
+        "len": 3839,
+        "how": "field-areas",
+        "danger": 70
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Stakato Nest"
+      },
+      "simple": true,
+      "pv": [
+       [
+        89513,
+        -44800,
+        -2136
+       ],
+       [
+        85896,
+        -45832,
+        -2656
+       ],
+       [
+        84904,
+        -45832,
+        -3016
+       ],
+       [
+        83912,
+        -45832,
+        -3224
+       ],
+       [
+        82920,
+        -45832,
+        -3216
+       ],
+       [
+        82216,
+        -45800,
+        -3200
+       ],
+       [
+        82104,
+        -45688,
+        -3208
+       ],
+       [
+        83656,
+        -46712,
+        -3184
+       ],
+       [
+        84440,
+        -47704,
+        -3168
+       ],
+       [
+        84440,
+        -47944,
+        -3160
+       ]
+      ],
+      "maxDanger": 70,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 70,
+       "dangerVsLevel": -11,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:stakato-nest-1",
+       "name": "Stakato Nest 1: Splinter Stakato Worker area (west)"
+      },
+      "points": [
+       [
+        89513,
+        -44800,
+        -2136
+       ],
+       [
+        85896,
+        -45832,
+        -2656
+       ],
+       [
+        84904,
+        -45832,
+        -3016
+       ],
+       [
+        83912,
+        -45832,
+        -3224
+       ],
+       [
+        82920,
+        -45832,
+        -3216
+       ],
+       [
+        82216,
+        -45800,
+        -3200
+       ],
+       [
+        82104,
+        -45688,
+        -3208
+       ],
+       [
+        83656,
+        -46712,
+        -3184
+       ],
+       [
+        84440,
+        -47704,
+        -3168
+       ],
+       [
+        84440,
+        -47944,
+        -3160
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      22617,
+      22618,
+      22621,
+      22623,
+      22625,
+      22627,
+      22628,
+      22630,
+      22633
+     ],
+     "items": [],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22625@84432,-47941",
+      "name": "Cannibalistic Stakato Leader (Stakato Nest / Swamp Fortress)",
+      "at": [
+       84432,
+       -47941,
+       -4791
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 13,
+      "region": "Stakato Nest / Swamp Fortress",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 12,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22628@84831,-48381",
+        "name": "Spiked Stakato Drone (Stakato Nest / Swamp Fortress)",
+        "at": [
+         84831,
+         -48381,
+         -4786
+        ],
+        "count": 10,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22617@84301,-45891",
+        "name": "Spiked Stakato (Stakato Nest / Swamp Fortress)",
+        "at": [
+         84301,
+         -45891,
+         -4639
+        ],
+        "count": 9,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22617@78308,-46451",
+        "name": "Spiked Stakato (Stakato Nest / Swamp Fortress)",
+        "at": [
+         78308,
+         -46451,
+         -5128
+        ],
+        "count": 7,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "area:stakato-nest-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 9386,
+      "sec": 124,
+      "via": ".rune > Rune -> Stakato Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Stakato Nest",
+        "link": "stakato nest",
+        "price": 9100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4043,
+        "how": "field-areas-gap",
+        "danger": 68
+       },
+       {
+        "do": "walk",
+        "len": 3839,
+        "how": "field-areas",
+        "danger": 70
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Stakato Nest"
+      },
+      "simple": true,
+      "pv": [
+       [
+        89513,
+        -44800,
+        -2136
+       ],
+       [
+        85896,
+        -45832,
+        -2656
+       ],
+       [
+        84904,
+        -45832,
+        -3016
+       ],
+       [
+        83912,
+        -45832,
+        -3224
+       ],
+       [
+        82920,
+        -45832,
+        -3216
+       ],
+       [
+        82216,
+        -45800,
+        -3200
+       ],
+       [
+        82104,
+        -45688,
+        -3208
+       ],
+       [
+        83656,
+        -46712,
+        -3184
+       ],
+       [
+        84440,
+        -47704,
+        -3168
+       ],
+       [
+        84440,
+        -47944,
+        -3160
+       ]
+      ],
+      "maxDanger": 70,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 70,
+       "dangerVsLevel": -11,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "area:stakato-nest-1",
+       "name": "Stakato Nest 1: Splinter Stakato Worker area (west)"
+      },
+      "points": [
+       [
+        89513,
+        -44800,
+        -2136
+       ],
+       [
+        85896,
+        -45832,
+        -2656
+       ],
+       [
+        84904,
+        -45832,
+        -3016
+       ],
+       [
+        83912,
+        -45832,
+        -3224
+       ],
+       [
+        82920,
+        -45832,
+        -3216
+       ],
+       [
+        82216,
+        -45800,
+        -3200
+       ],
+       [
+        82104,
+        -45688,
+        -3208
+       ],
+       [
+        83656,
+        -46712,
+        -3184
+       ],
+       [
+        84440,
+        -47704,
+        -3168
+       ],
+       [
+        84440,
+        -47944,
+        -3160
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22625@84432,-47941",
+    "name": "Cannibalistic Stakato Leader (Stakato Nest / Swamp Fortress)",
+    "at": [
+     84432,
+     -47941,
+     -4791
+    ],
+    "radius": 1500,
+    "levels": [
+     83,
+     83
+    ],
+    "count": 13,
+    "region": "Stakato Nest / Swamp Fortress",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 12,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22628@84831,-48381",
+      "name": "Spiked Stakato Drone (Stakato Nest / Swamp Fortress)",
+      "at": [
+       84831,
+       -48381,
+       -4786
+      ],
+      "count": 10,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22617@84301,-45891",
+      "name": "Spiked Stakato (Stakato Nest / Swamp Fortress)",
+      "at": [
+       84301,
+       -45891,
+       -4639
+      ],
+      "count": 9,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22617@78308,-46451",
+      "name": "Spiked Stakato (Stakato Nest / Swamp Fortress)",
+      "at": [
+       78308,
+       -46451,
+       -5128
+      ],
+      "count": 7,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:stakato-nest-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 9386,
+    "sec": 124,
+    "via": ".rune > Rune -> Stakato Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Stakato Nest",
+      "link": "stakato nest",
+      "price": 9100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4043,
+      "how": "field-areas-gap",
+      "danger": 68
+     },
+     {
+      "do": "walk",
+      "len": 3839,
+      "how": "field-areas",
+      "danger": 70
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Stakato Nest"
+    },
+    "simple": true,
+    "pv": [
+     [
+      89513,
+      -44800,
+      -2136
+     ],
+     [
+      85896,
+      -45832,
+      -2656
+     ],
+     [
+      84904,
+      -45832,
+      -3016
+     ],
+     [
+      83912,
+      -45832,
+      -3224
+     ],
+     [
+      82920,
+      -45832,
+      -3216
+     ],
+     [
+      82216,
+      -45800,
+      -3200
+     ],
+     [
+      82104,
+      -45688,
+      -3208
+     ],
+     [
+      83656,
+      -46712,
+      -3184
+     ],
+     [
+      84440,
+      -47704,
+      -3168
+     ],
+     [
+      84440,
+      -47944,
+      -3160
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -11,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:stakato-nest-1",
+     "name": "Stakato Nest 1: Splinter Stakato Worker area (west)"
+    },
+    "points": [
+     [
+      89513,
+      -44800,
+      -2136
+     ],
+     [
+      85896,
+      -45832,
+      -2656
+     ],
+     [
+      84904,
+      -45832,
+      -3016
+     ],
+     [
+      83912,
+      -45832,
+      -3224
+     ],
+     [
+      82920,
+      -45832,
+      -3216
+     ],
+     [
+      82216,
+      -45800,
+      -3200
+     ],
+     [
+      82104,
+      -45688,
+      -3208
+     ],
+     [
+      83656,
+      -46712,
+      -3184
+     ],
+     [
+      84440,
+      -47704,
+      -3168
+     ],
+     [
+      84440,
+      -47944,
+      -3160
+     ]
+    ]
+   },
+   "expectedSec": 749,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "note": "Monsters 22619,22620,22622,22624,22626,22629,22631,22632 have no spawn: removed from the drop / kill lists of quests/240.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; ai/group_template/StakatoNest.java spawns them on kill / attack of the nest stakatos (22630 nurse -> 22629 captain, 22621 male -> 22619 guard, minions of 22625 / 22630), so they come while hunting the spawned stakatos",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.948Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c2:deliver:32640",
+   "cond": 2,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32640,
+    "name": "Kintaijin",
+    "title": "Bounty Hunter",
+    "town": "Rune",
+    "at": [
+     89480,
+     -44457,
+     -2136
+    ],
+    "alt": []
+   },
+   "text": "Bring Stakato Fang x25 to Kintaijin",
+   "needs": [
+    {
+     "id": 14879,
+     "name": "Stakato Fang",
+     "n": 25
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32640@89480,-44457",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 346,
+    "sec": 48,
+    "via": ".rune > Rune -> Stakato Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Stakato Nest",
+      "link": "stakato nest",
+      "price": 9100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 346,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Stakato Nest"
+    },
+    "simple": true,
+    "pv": [
+     [
+      89513,
+      -44800,
+      -2136
+     ],
+     [
+      89480,
+      -44456,
+      -2136
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "note": "Monsters 22619,22620,22622,22624,22626,22629,22631,22632 have no spawn: removed from the drop / kill lists of quests/240.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; ai/group_template/StakatoNest.java spawns them on kill / attack of the nest stakatos (22630 nurse -> 22629 captain, 22621 male -> 22619 guard, minions of 22625 / 22630), so they come while hunting the spawned stakatos",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.948Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T09:55:32.948Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.657Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

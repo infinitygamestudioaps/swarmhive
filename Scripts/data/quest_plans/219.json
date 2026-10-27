@@ -1,0 +1,6002 @@
+{
+ "id": 219,
+ "name": "Testimony Of Fate",
+ "version": 1,
+ "generated": "2026-10-27T11:15:15.816Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 37,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Giran",
+ "requirements": {
+  "races": [
+   "DARK_ELF"
+  ],
+  "categories": [
+   "DELF_2ND_GROUP"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DARK_ELF"
+  },
+  {
+   "code": "class-only",
+   "text": "classes: DELF_2ND_GROUP"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 28,
+ "refLevel": 37,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30476",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Ask about brother Alder."
+   ],
+   "npc": {
+    "id": 30476,
+    "name": "Kaira",
+    "title": "Magister",
+    "town": "Giran",
+    "at": [
+     78928,
+     149041,
+     -3596
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kaira – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30476@78928,149041",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6002,
+    "sec": 70,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6002,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      79928,
+      148616,
+      -3528
+     ],
+     [
+      79656,
+      148616,
+      -3528
+     ],
+     [
+      79384,
+      148616,
+      -3528
+     ],
+     [
+      79192,
+      148568,
+      -3528
+     ],
+     [
+      79064,
+      148616,
+      -3584
+     ],
+     [
+      79016,
+      148872,
+      -3592
+     ],
+     [
+      79016,
+      148904,
+      -3592
+     ],
+     [
+      78936,
+      149048,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 100,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20157,
+     "name": "Marsh Stakato",
+     "level": 29,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 20230,
+     "name": "Marsh Stakato Worker",
+     "level": 31,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 59,
+     "questSpawned": false
+    },
+    {
+     "id": 20232,
+     "name": "Marsh Stakato Soldier",
+     "level": 33,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 46,
+     "questSpawned": false
+    },
+    {
+     "id": 20234,
+     "name": "Marsh Stakato Drone",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 20158,
+     "name": "Medusa",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 20192,
+     "name": "Tyrant",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    },
+    {
+     "id": 20193,
+     "name": "Tyrant Kingpin",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20202,
+     "name": "Dead Seeker",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 20233,
+     "name": "Marsh Spider",
+     "level": 34,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    },
+    {
+     "id": 20144,
+     "name": "Hangman Tree",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 20,
+     "questSpawned": false
+    },
+    {
+     "id": 20270,
+     "name": "Breka Orc Overlord",
+     "level": 35,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 20554,
+     "name": "Grandis",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 44,
+     "questSpawned": false
+    },
+    {
+     "id": 20582,
+     "name": "Leto Lizardman Overlord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 20600,
+     "name": "Karul Bugbear",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 27079,
+     "name": "Black Willow Lurker",
+     "level": 39,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3175,
+     "name": "Kasandra's Remains",
+     "n": 1,
+     "from": [
+      {
+       "id": 20144,
+       "name": "Hangman Tree",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3178,
+     "name": "Medusa's Ichor",
+     "n": 10,
+     "from": [
+      {
+       "id": 20158,
+       "name": "Medusa",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3179,
+     "name": "Marsh Spider's Fluids",
+     "n": 10,
+     "from": [
+      {
+       "id": 20233,
+       "name": "Marsh Spider",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3180,
+     "name": "Dead Seeker Dung",
+     "n": 10,
+     "from": [
+      {
+       "id": 20202,
+       "name": "Dead Seeker",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3181,
+     "name": "Tyrant's Blood",
+     "n": 10,
+     "from": [
+      {
+       "id": 20192,
+       "name": "Tyrant",
+       "chance": 100
+      },
+      {
+       "id": 20193,
+       "name": "Tyrant Kingpin",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3182,
+     "name": "Nightshade Root",
+     "n": 10,
+     "from": [
+      {
+       "id": 20157,
+       "name": "Marsh Stakato",
+       "chance": 100
+      },
+      {
+       "id": 20230,
+       "name": "Marsh Stakato Worker",
+       "chance": 100
+      },
+      {
+       "id": 20232,
+       "name": "Marsh Stakato Soldier",
+       "chance": 100
+      },
+      {
+       "id": 20234,
+       "name": "Marsh Stakato Drone",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Marsh Stakato, Marsh Stakato Worker, Marsh Stakato Soldier for Kasandra's Remains x1, Medusa's Ichor x10, Marsh Spider's Fluids x10, Dead Seeker Dung x10, Tyrant's Blood x10, Nightshade Root x10",
+   "places": [
+    {
+     "mobs": [
+      20144
+     ],
+     "items": [
+      3175
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-8",
+      "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+      "at": [
+       46776,
+       150968,
+       -2808
+      ],
+      "radius": 5224,
+      "levels": [
+       28,
+       35
+      ],
+      "count": 4,
+      "region": "Tanor Canyon",
+      "atlasKey": "area:tanor-canyon-8",
+      "status": "ok",
+      "sec": 236,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -20.066666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+        "at": [
+         48008,
+         144920,
+         -3608
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-9",
+        "name": "Tanor Canyon 9: Hangman Tree area (north-west)",
+        "at": [
+         49480,
+         146728,
+         -3464
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-9",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 9: Amber Basilisk area (north-west)",
+        "at": [
+         43256,
+         142888,
+         -3280
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 22934,
+      "sec": 236,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18144,
+        "how": "field-areas-gap",
+        "danger": 47
+       },
+       {
+        "do": "walk",
+        "len": 4790,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        48504,
+        155128,
+        -2528
+       ],
+       [
+        48504,
+        154136,
+        -2720
+       ],
+       [
+        48504,
+        153144,
+        -2736
+       ],
+       [
+        47960,
+        152152,
+        -2760
+       ],
+       [
+        46968,
+        151160,
+        -2808
+       ],
+       [
+        46776,
+        150968,
+        -2808
+       ]
+      ],
+      "maxDanger": 47,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 47,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20158
+     ],
+     "items": [
+      3178
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "antharas-lair-14",
+      "name": "Antharas Lair 14: Medusa area (south-west)",
+      "at": [
+       118472,
+       129032,
+       -3096
+      ],
+      "radius": 4053,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Antharas Lair",
+      "atlasKey": "area:antharas-lair-14",
+      "status": "ok",
+      "sec": 244,
+      "danger": 37,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -31.933333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "antharas-lair-10",
+        "name": "Antharas Lair 10: Medusa area (south-west)",
+        "at": [
+         123160,
+         129928,
+         -3232
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "antharas-lair-15",
+        "name": "Antharas Lair 15: Wyrm area (south-west)",
+        "at": [
+         121240,
+         132936,
+         -3552
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "brekas-stronghold-14",
+        "name": "Brekas Stronghold 14: Turak Bugbear area (east)",
+        "at": [
+         104904,
+         136328,
+         -3560
+        ],
+        "count": 1,
+        "status": "unverified"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:antharas-lair-14",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 23872,
+      "sec": 244,
+      "via": ".hunters > Hunters -> Antharas Lair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Antharas Lair",
+        "link": "antharas lair",
+        "price": 7000,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17368,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 6504,
+        "how": "field-areas",
+        "danger": 37
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Antharas Lair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        131557,
+        114509,
+        -3712
+       ],
+       [
+        124056,
+        126488,
+        -2840
+       ],
+       [
+        123480,
+        126792,
+        -2944
+       ],
+       [
+        122520,
+        127752,
+        -3000
+       ],
+       [
+        122376,
+        127880,
+        -3024
+       ],
+       [
+        122008,
+        128008,
+        -3032
+       ],
+       [
+        121480,
+        128168,
+        -3064
+       ],
+       [
+        120488,
+        128168,
+        -2952
+       ],
+       [
+        119496,
+        128168,
+        -2800
+       ],
+       [
+        118888,
+        128760,
+        -3000
+       ],
+       [
+        118616,
+        129032,
+        -3088
+       ],
+       [
+        118472,
+        129032,
+        -3096
+       ]
+      ],
+      "maxDanger": 37,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 37,
+       "dangerVsLevel": 0,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20233
+     ],
+     "items": [
+      3179
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 6,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -33.88333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-7",
+        "name": "Cruma Tower 7: Toad Lord area (north-east)",
+        "at": [
+         18568,
+         102440,
+         -3696
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-8",
+        "name": "Cruma Tower 8: Marsh Stakato Soldier area (north-east)",
+        "at": [
+         24552,
+         102888,
+         -3688
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20202
+     ],
+     "items": [
+      3180
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "tanor-canyon-8",
+      "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+      "at": [
+       46776,
+       150968,
+       -2808
+      ],
+      "radius": 5224,
+      "levels": [
+       28,
+       35
+      ],
+      "count": 7,
+      "region": "Tanor Canyon",
+      "atlasKey": "area:tanor-canyon-8",
+      "status": "ok",
+      "sec": 236,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -38.06666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-1",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 1: Ghoul area (north-west)",
+        "at": [
+         44152,
+         147160,
+         -3584
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+        "at": [
+         48008,
+         144920,
+         -3608
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "tanor-canyon-cruma-tower-tanor-fortress-far-3",
+        "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 3: Hangman Tree area (north-west)",
+        "at": [
+         46536,
+         144936,
+         -3688
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:tanor-canyon-8",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 22934,
+      "sec": 236,
+      "via": ".dion > Dion -> Tanor Canyon",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Tanor Canyon",
+        "link": "tanor canyon",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 18144,
+        "how": "field-areas-gap",
+        "danger": 47
+       },
+       {
+        "do": "walk",
+        "len": 4790,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Tanor Canyon"
+      },
+      "simple": true,
+      "pv": [
+       [
+        60374,
+        164301,
+        -2856
+       ],
+       [
+        48504,
+        155128,
+        -2528
+       ],
+       [
+        48504,
+        154136,
+        -2720
+       ],
+       [
+        48504,
+        153144,
+        -2736
+       ],
+       [
+        47960,
+        152152,
+        -2760
+       ],
+       [
+        46968,
+        151160,
+        -2808
+       ],
+       [
+        46776,
+        150968,
+        -2808
+       ]
+      ],
+      "maxDanger": 47,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 47,
+       "dangerVsLevel": 10,
+       "aggro": [
+        {
+         "name": "Nightmare Lord",
+         "lv": 47,
+         "n": 7
+        }
+       ]
+      }
+     }
+    },
+    {
+     "mobs": [
+      20192,
+      20193
+     ],
+     "items": [
+      3181
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "red-rock-ridge-24",
+      "name": "Red Rock Ridge 24: Tyrant Kingpin area (north-east)",
+      "at": [
+       -30840,
+       181208,
+       -4312
+      ],
+      "radius": 5516,
+      "levels": [
+       34,
+       36
+      ],
+      "count": 16,
+      "region": "Red Rock Ridge",
+      "atlasKey": "area:red-rock-ridge-24",
+      "status": "ok",
+      "sec": 226,
+      "danger": 36,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -92.23333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "red-rock-ridge-22",
+        "name": "Red Rock Ridge 22: Tyrant area (north-east)",
+        "at": [
+         -26072,
+         185640,
+         -4168
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wastelands-17",
+        "name": "Wastelands 17: Tyrant area (north-west)",
+        "at": [
+         -24456,
+         192808,
+         -4168
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-15",
+        "name": "Windawood Manor 15: Granite Golem area (south)",
+        "at": [
+         -27608,
+         174616,
+         -4112
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:red-rock-ridge-24",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 21683,
+      "sec": 226,
+      "via": ".gludin > Gludin -> Red Rock Ridge",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Red Rock Ridge",
+        "link": "red rock ridge",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15253,
+        "how": "field-areas-gap",
+        "danger": 35
+       },
+       {
+        "do": "walk",
+        "len": 6430,
+        "how": "field-areas",
+        "danger": 36
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Red Rock Ridge"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -42256,
+        198333,
+        -2800
+       ],
+       [
+        -34296,
+        186504,
+        -4032
+       ],
+       [
+        -33944,
+        185752,
+        -4040
+       ],
+       [
+        -33176,
+        184776,
+        -4224
+       ],
+       [
+        -32184,
+        183784,
+        -4208
+       ],
+       [
+        -32120,
+        183704,
+        -4208
+       ],
+       [
+        -31704,
+        182712,
+        -4208
+       ],
+       [
+        -31496,
+        182504,
+        -4208
+       ],
+       [
+        -31144,
+        181512,
+        -4312
+       ],
+       [
+        -30840,
+        181208,
+        -4312
+       ]
+      ],
+      "maxDanger": 36,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 36,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20157,
+      20230,
+      20232,
+      20234
+     ],
+     "items": [
+      3182
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "cruma-tower-far-3",
+      "name": "Cruma Tower 3: Marsh Stakato Soldier area (north-east)",
+      "at": [
+       19400,
+       106312,
+       -3672
+      ],
+      "radius": 4429,
+      "levels": [
+       33,
+       35
+      ],
+      "count": 15,
+      "region": "Cruma Tower",
+      "atlasKey": "area:cruma-tower-far-3",
+      "status": "ok",
+      "sec": 127,
+      "danger": 35,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.88333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fortress-of-resistance-34",
+        "name": "Fortress of Resistance 34: Marsh Stakato Drone area (west)",
+        "at": [
+         28920,
+         108584,
+         -3704
+        ],
+        "count": 15,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-marshlands-13",
+        "name": "Cruma Marshlands 13: Marsh Stakato Worker area (north-east)",
+        "at": [
+         16184,
+         109992,
+         -3728
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "cruma-tower-far-4",
+        "name": "Cruma Tower 4: Marsh Stakato Worker area (north)",
+        "at": [
+         12488,
+         103176,
+         -3736
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:cruma-tower-far-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".dion",
+      "length": 9850,
+      "sec": 127,
+      "via": ".dion > Dion -> Cruma Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Dion",
+        "cmd": ".dion"
+       },
+       {
+        "do": "gk",
+        "from": "Dion",
+        "desc": "Dion -> Cruma Tower",
+        "link": "cruma tower",
+        "price": 2300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 1154,
+        "how": "field-areas-gap",
+        "danger": 34
+       },
+       {
+        "do": "walk",
+        "len": 8696,
+        "how": "field-areas",
+        "danger": 35
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Dion",
+       "desc": "Dion -> Cruma Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        17225,
+        114173,
+        -3440
+       ],
+       [
+        16360,
+        114008,
+        -3576
+       ],
+       [
+        16488,
+        113560,
+        -3576
+       ],
+       [
+        16616,
+        112968,
+        -3576
+       ],
+       [
+        16616,
+        111976,
+        -3656
+       ],
+       [
+        16616,
+        110984,
+        -3696
+       ],
+       [
+        16616,
+        109992,
+        -3752
+       ],
+       [
+        17240,
+        109000,
+        -3720
+       ],
+       [
+        17320,
+        108920,
+        -3728
+       ],
+       [
+        17944,
+        107928,
+        -3744
+       ],
+       [
+        18936,
+        106936,
+        -3672
+       ],
+       [
+        19256,
+        106616,
+        -3656
+       ],
+       [
+        19400,
+        106312,
+        -3672
+       ]
+      ],
+      "maxDanger": 35,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 35,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "tanor-canyon-8",
+    "name": "Tanor Canyon 8: Dead Seeker area (north-west)",
+    "at": [
+     46776,
+     150968,
+     -2808
+    ],
+    "radius": 5224,
+    "levels": [
+     28,
+     35
+    ],
+    "count": 4,
+    "region": "Tanor Canyon",
+    "atlasKey": "area:tanor-canyon-8",
+    "status": "ok",
+    "sec": 236,
+    "danger": 35,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -20.066666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-5",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 5: Hangman Tree area (north-west)",
+      "at": [
+       48008,
+       144920,
+       -3608
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-9",
+      "name": "Tanor Canyon 9: Hangman Tree area (north-west)",
+      "at": [
+       49480,
+       146728,
+       -3464
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "tanor-canyon-cruma-tower-tanor-fortress-far-9",
+      "name": "Tanor Canyon / Cruma Tower / Tanor Fortress 9: Amber Basilisk area (north-west)",
+      "at": [
+       43256,
+       142888,
+       -3280
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:tanor-canyon-8",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 22934,
+    "sec": 236,
+    "via": ".dion > Dion -> Tanor Canyon",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Tanor Canyon",
+      "link": "tanor canyon",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 18144,
+      "how": "field-areas-gap",
+      "danger": 47
+     },
+     {
+      "do": "walk",
+      "len": 4790,
+      "how": "field-areas",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Tanor Canyon"
+    },
+    "simple": true,
+    "pv": [
+     [
+      60374,
+      164301,
+      -2856
+     ],
+     [
+      48504,
+      155128,
+      -2528
+     ],
+     [
+      48504,
+      154136,
+      -2720
+     ],
+     [
+      48504,
+      153144,
+      -2736
+     ],
+     [
+      47960,
+      152152,
+      -2760
+     ],
+     [
+      46968,
+      151160,
+      -2808
+     ],
+     [
+      46776,
+      150968,
+      -2808
+     ]
+    ],
+    "maxDanger": 47,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 47,
+     "dangerVsLevel": 10,
+     "aggro": [
+      {
+       "name": "Nightmare Lord",
+       "lv": 47,
+       "n": 7
+      }
+     ]
+    }
+   },
+   "expectedSec": 486,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30210",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30210,
+    "name": "Norman",
+    "title": "Warehouse Keeper",
+    "town": "Gludin",
+    "at": [
+     -81857,
+     153545,
+     -3171
+    ],
+    "alt": []
+   },
+   "text": "Bring Palus Charm, Arkenia's Letter to Norman",
+   "needs": [
+    {
+     "id": 3190,
+     "name": "Palus Charm",
+     "n": 1
+    },
+    {
+     "id": 3202,
+     "name": "Arkenia's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30210@-81857,153545",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8109,
+    "sec": 88,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 8109,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -82984,
+      152168,
+      -3120
+     ],
+     [
+      -83032,
+      152424,
+      -3128
+     ],
+     [
+      -83032,
+      152696,
+      -3168
+     ],
+     [
+      -82904,
+      152888,
+      -3168
+     ],
+     [
+      -82904,
+      153000,
+      -3168
+     ],
+     [
+      -82904,
+      152888,
+      -3168
+     ],
+     [
+      -83032,
+      152888,
+      -3168
+     ],
+     [
+      -83080,
+      153160,
+      -3168
+     ],
+     [
+      -83208,
+      153320,
+      -3168
+     ],
+     [
+      -83368,
+      153480,
+      -3168
+     ],
+     [
+      -83336,
+      153752,
+      -3168
+     ],
+     [
+      -83336,
+      153880,
+      -3168
+     ],
+     [
+      -83128,
+      153944,
+      -3168
+     ],
+     [
+      -82856,
+      153928,
+      -3168
+     ],
+     [
+      -82856,
+      153864,
+      -3176
+     ],
+     [
+      -82856,
+      153896,
+      -3168
+     ],
+     [
+      -82584,
+      153944,
+      -3168
+     ],
+     [
+      -82376,
+      153768,
+      -3168
+     ],
+     [
+      -82360,
+      153672,
+      -3168
+     ],
+     [
+      -82328,
+      153688,
+      -3168
+     ],
+     [
+      -82280,
+      153608,
+      -3168
+     ],
+     [
+      -82248,
+      153336,
+      -3168
+     ],
+     [
+      -81992,
+      153320,
+      -3168
+     ],
+     [
+      -81864,
+      153496,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 113,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30419",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 18,
+   "links": [
+    "Begin the Initiation Ceremony"
+   ],
+   "npc": {
+    "id": 30419,
+    "name": "Arkenia",
+    "title": "Witch",
+    "town": "Gludio",
+    "at": [
+     -44015,
+     79683,
+     -3648
+    ],
+    "alt": []
+   },
+   "text": "Bring Arkenia's Note, Red Fairy Dust, Blight Treant Sap to Arkenia",
+   "needs": [
+    {
+     "id": 3192,
+     "name": "Arkenia's Note",
+     "n": 1
+    },
+    {
+     "id": 3198,
+     "name": "Red Fairy Dust",
+     "n": 1
+    },
+    {
+     "id": 3201,
+     "name": "Blight Treant Sap",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30419@-44015,79683",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".oren",
+    "length": 8728,
+    "sec": 118,
+    "via": ".oren > Oren -> Necropolis of Devotion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Necropolis of Devotion",
+      "link": "necropolis of devotion",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8728,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Necropolis of Devotion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -52724,
+      79104,
+      -4739
+     ],
+     [
+      -44015,
+      79683,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -52724,79104 (the start is a closed pocket of 5280 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Sepulcher Sage",
+       "lv": 62,
+       "n": 2
+      },
+      {
+       "name": "Nephilim Bishop",
+       "lv": 60,
+       "n": 2
+      },
+      {
+       "name": "Sepulcher Guardian",
+       "lv": 60,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 143,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17
+   ],
+   "override": {
+    "route": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "note": "Route: Gludin -> Fellmere Harvest Grounds landing -> -44015,79683,-3648, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 43 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 35022 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "points": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "pv": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "length": 33957,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified",
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30476",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 15,
+   "links": [
+    "\"Yes, that is my wish.\""
+   ],
+   "npc": {
+    "id": 30476,
+    "name": "Kaira",
+    "title": "Magister",
+    "town": "Giran",
+    "at": [
+     78928,
+     149041,
+     -3596
+    ],
+    "alt": []
+   },
+   "text": "Bring Revelations Manuscript to Kaira",
+   "needs": [
+    {
+     "id": 3187,
+     "name": "Revelations Manuscript",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30476@78928,149041",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6002,
+    "sec": 70,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6002,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      79928,
+      148616,
+      -3528
+     ],
+     [
+      79656,
+      148616,
+      -3528
+     ],
+     [
+      79384,
+      148616,
+      -3528
+     ],
+     [
+      79192,
+      148568,
+      -3528
+     ],
+     [
+      79064,
+      148616,
+      -3584
+     ],
+     [
+      79016,
+      148872,
+      -3592
+     ],
+     [
+      79016,
+      148904,
+      -3592
+     ],
+     [
+      78936,
+      149048,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30114",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 12,
+   "links": [
+    "\"Even though you cover it with your hands, the moon still shines.\""
+   ],
+   "npc": {
+    "id": 30114,
+    "name": "Roa",
+    "title": "Magister",
+    "town": "Giran",
+    "at": [
+     85297,
+     152963,
+     -3494
+    ],
+    "alt": []
+   },
+   "text": "Bring Alders Skull to Roa",
+   "needs": [
+    {
+     "id": 3185,
+     "name": "Alders Skull",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30114@85297,152963",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7000,
+    "sec": 78,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7000,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148792,
+      -3400
+     ],
+     [
+      83480,
+      149064,
+      -3400
+     ],
+     [
+      83608,
+      149304,
+      -3400
+     ],
+     [
+      83752,
+      149528,
+      -3400
+     ],
+     [
+      83992,
+      149560,
+      -3400
+     ],
+     [
+      84104,
+      149576,
+      -3400
+     ],
+     [
+      84376,
+      149576,
+      -3400
+     ],
+     [
+      84648,
+      149592,
+      -3400
+     ],
+     [
+      84920,
+      149592,
+      -3400
+     ],
+     [
+      85192,
+      149624,
+      -3392
+     ],
+     [
+      85464,
+      149688,
+      -3392
+     ],
+     [
+      85640,
+      149688,
+      -3392
+     ],
+     [
+      85816,
+      149784,
+      -3392
+     ],
+     [
+      85816,
+      150056,
+      -3392
+     ],
+     [
+      85816,
+      150328,
+      -3440
+     ],
+     [
+      85816,
+      150600,
+      -3528
+     ],
+     [
+      85816,
+      150872,
+      -3528
+     ],
+     [
+      85800,
+      151144,
+      -3528
+     ],
+     [
+      85800,
+      151416,
+      -3528
+     ],
+     [
+      85816,
+      151688,
+      -3528
+     ],
+     [
+      85816,
+      151960,
+      -3528
+     ],
+     [
+      85816,
+      152232,
+      -3528
+     ],
+     [
+      85768,
+      152408,
+      -3528
+     ],
+     [
+      85704,
+      152456,
+      -3528
+     ],
+     [
+      85816,
+      152584,
+      -3496
+     ],
+     [
+      85816,
+      152856,
+      -3496
+     ],
+     [
+      85768,
+      153032,
+      -3496
+     ],
+     [
+      85496,
+      153080,
+      -3496
+     ],
+     [
+      85320,
+      153000,
+      -3496
+     ],
+     [
+      85304,
+      152968,
+      -3496
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30614",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30614,
+    "name": "Metheus",
+    "title": "Brother",
+    "town": "Giran",
+    "at": [
+     87509,
+     149655,
+     -3402
+    ],
+    "alt": []
+   },
+   "text": "Bring Belladonna to Metheus",
+   "needs": [
+    {
+     "id": 3183,
+     "name": "Belladonna",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30614@87509,149655",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 5664,
+    "sec": 67,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 5664,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148792,
+      -3400
+     ],
+     [
+      83480,
+      149064,
+      -3400
+     ],
+     [
+      83608,
+      149304,
+      -3400
+     ],
+     [
+      83752,
+      149528,
+      -3400
+     ],
+     [
+      83992,
+      149560,
+      -3400
+     ],
+     [
+      84104,
+      149576,
+      -3400
+     ],
+     [
+      84376,
+      149576,
+      -3400
+     ],
+     [
+      84648,
+      149592,
+      -3400
+     ],
+     [
+      84920,
+      149592,
+      -3400
+     ],
+     [
+      85192,
+      149624,
+      -3392
+     ],
+     [
+      85464,
+      149688,
+      -3392
+     ],
+     [
+      85624,
+      149688,
+      -3392
+     ],
+     [
+      85800,
+      149768,
+      -3392
+     ],
+     [
+      85816,
+      150040,
+      -3392
+     ],
+     [
+      85912,
+      150168,
+      -3400
+     ],
+     [
+      86184,
+      150152,
+      -3400
+     ],
+     [
+      86456,
+      150216,
+      -3400
+     ],
+     [
+      86440,
+      149992,
+      -3400
+     ],
+     [
+      86680,
+      149848,
+      -3400
+     ],
+     [
+      86728,
+      149800,
+      -3400
+     ],
+     [
+      86776,
+      149800,
+      -3400
+     ],
+     [
+      87032,
+      149720,
+      -3400
+     ],
+     [
+      87256,
+      149576,
+      -3400
+     ],
+     [
+      87512,
+      149528,
+      -3400
+     ],
+     [
+      87512,
+      149656,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30463",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30463,
+    "name": "Ixia",
+    "title": "Master",
+    "town": "Dion",
+    "at": [
+     17384,
+     146605,
+     -3085
+    ],
+    "alt": []
+   },
+   "text": "Bring Ixia's List to Ixia",
+   "needs": [
+    {
+     "id": 3177,
+     "name": "Ixia's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30463@17384,146605",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5871,
+    "sec": 69,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5871,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17304,
+      146776,
+      -3080
+     ],
+     [
+      17336,
+      146616,
+      -3080
+     ],
+     [
+      17384,
+      146600,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c8:deliver:30463",
+   "cond": 8,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30463,
+    "name": "Ixia",
+    "title": "Master",
+    "town": "Dion",
+    "at": [
+     17384,
+     146605,
+     -3085
+    ],
+    "alt": []
+   },
+   "text": "Bring Herbalism Textbook to Ixia",
+   "needs": [
+    {
+     "id": 3176,
+     "name": "Herbalism Textbook",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30463@17384,146605",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 5871,
+    "sec": 69,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 5871,
+      "how": "town-graph",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15784,
+      143112,
+      -2712
+     ],
+     [
+      15976,
+      143304,
+      -2768
+     ],
+     [
+      16168,
+      143496,
+      -2824
+     ],
+     [
+      16216,
+      143544,
+      -2832
+     ],
+     [
+      16296,
+      143624,
+      -2856
+     ],
+     [
+      16488,
+      143816,
+      -2912
+     ],
+     [
+      16616,
+      144056,
+      -2960
+     ],
+     [
+      16744,
+      144296,
+      -2992
+     ],
+     [
+      16792,
+      144392,
+      -2992
+     ],
+     [
+      16856,
+      144664,
+      -3000
+     ],
+     [
+      16952,
+      144920,
+      -3008
+     ],
+     [
+      17112,
+      145128,
+      -3032
+     ],
+     [
+      17288,
+      145336,
+      -3056
+     ],
+     [
+      17528,
+      145480,
+      -3072
+     ],
+     [
+      17736,
+      145640,
+      -3088
+     ],
+     [
+      17784,
+      145672,
+      -3088
+     ],
+     [
+      17976,
+      145864,
+      -3104
+     ],
+     [
+      17992,
+      146136,
+      -3104
+     ],
+     [
+      17880,
+      146392,
+      -3104
+     ],
+     [
+      17752,
+      146536,
+      -3104
+     ],
+     [
+      17752,
+      146552,
+      -3112
+     ],
+     [
+      17608,
+      146792,
+      -3112
+     ],
+     [
+      17384,
+      146808,
+      -3080
+     ],
+     [
+      17304,
+      146776,
+      -3080
+     ],
+     [
+      17336,
+      146616,
+      -3080
+     ],
+     [
+      17384,
+      146600,
+      -3080
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": -15,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    8
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c9:deliver:30614",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30614,
+    "name": "Metheus",
+    "title": "Brother",
+    "town": "Giran",
+    "at": [
+     87509,
+     149655,
+     -3402
+    ],
+    "alt": []
+   },
+   "text": "Bring Herbalism Textbook, Ixia's List to Metheus",
+   "needs": [
+    {
+     "id": 3176,
+     "name": "Herbalism Textbook",
+     "n": 1
+    },
+    {
+     "id": 3177,
+     "name": "Ixia's List",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30614@87509,149655",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 5664,
+    "sec": 67,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 5664,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148792,
+      -3400
+     ],
+     [
+      83480,
+      149064,
+      -3400
+     ],
+     [
+      83608,
+      149304,
+      -3400
+     ],
+     [
+      83752,
+      149528,
+      -3400
+     ],
+     [
+      83992,
+      149560,
+      -3400
+     ],
+     [
+      84104,
+      149576,
+      -3400
+     ],
+     [
+      84376,
+      149576,
+      -3400
+     ],
+     [
+      84648,
+      149592,
+      -3400
+     ],
+     [
+      84920,
+      149592,
+      -3400
+     ],
+     [
+      85192,
+      149624,
+      -3392
+     ],
+     [
+      85464,
+      149688,
+      -3392
+     ],
+     [
+      85624,
+      149688,
+      -3392
+     ],
+     [
+      85800,
+      149768,
+      -3392
+     ],
+     [
+      85816,
+      150040,
+      -3392
+     ],
+     [
+      85912,
+      150168,
+      -3400
+     ],
+     [
+      86184,
+      150152,
+      -3400
+     ],
+     [
+      86456,
+      150216,
+      -3400
+     ],
+     [
+      86440,
+      149992,
+      -3400
+     ],
+     [
+      86680,
+      149848,
+      -3400
+     ],
+     [
+      86728,
+      149800,
+      -3400
+     ],
+     [
+      86776,
+      149800,
+      -3400
+     ],
+     [
+      87032,
+      149720,
+      -3400
+     ],
+     [
+      87256,
+      149576,
+      -3400
+     ],
+     [
+      87512,
+      149528,
+      -3400
+     ],
+     [
+      87512,
+      149656,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c15:deliver:30476",
+   "cond": 15,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30476,
+    "name": "Kaira",
+    "title": "Magister",
+    "town": "Giran",
+    "at": [
+     78928,
+     149041,
+     -3596
+    ],
+    "alt": []
+   },
+   "text": "Bring Alders Skull, Alder's Receipt to Kaira",
+   "needs": [
+    {
+     "id": 3185,
+     "name": "Alders Skull",
+     "n": 1
+    },
+    {
+     "id": 3186,
+     "name": "Alder's Receipt",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30476@78928,149041",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6002,
+    "sec": 70,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6002,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83304,
+      148616,
+      -3400
+     ],
+     [
+      83032,
+      148616,
+      -3464
+     ],
+     [
+      82792,
+      148664,
+      -3464
+     ],
+     [
+      82616,
+      148840,
+      -3464
+     ],
+     [
+      82600,
+      148856,
+      -3464
+     ],
+     [
+      82408,
+      149048,
+      -3464
+     ],
+     [
+      82200,
+      149208,
+      -3464
+     ],
+     [
+      81928,
+      149208,
+      -3464
+     ],
+     [
+      81656,
+      149208,
+      -3464
+     ],
+     [
+      81384,
+      149160,
+      -3464
+     ],
+     [
+      81192,
+      148984,
+      -3464
+     ],
+     [
+      81176,
+      148968,
+      -3464
+     ],
+     [
+      81096,
+      148856,
+      -3464
+     ],
+     [
+      80920,
+      148664,
+      -3464
+     ],
+     [
+      80696,
+      148616,
+      -3464
+     ],
+     [
+      80424,
+      148616,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80616,
+      148376,
+      -3528
+     ],
+     [
+      80376,
+      148504,
+      -3528
+     ],
+     [
+      80200,
+      148616,
+      -3528
+     ],
+     [
+      79928,
+      148616,
+      -3528
+     ],
+     [
+      79656,
+      148616,
+      -3528
+     ],
+     [
+      79384,
+      148616,
+      -3528
+     ],
+     [
+      79192,
+      148568,
+      -3528
+     ],
+     [
+      79064,
+      148616,
+      -3584
+     ],
+     [
+      79016,
+      148872,
+      -3592
+     ],
+     [
+      79016,
+      148904,
+      -3592
+     ],
+     [
+      78936,
+      149048,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    15
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c18:deliver:30419",
+   "cond": 18,
+   "kind": "deliver",
+   "to": 17,
+   "links": [
+    "Ask about the ink"
+   ],
+   "npc": {
+    "id": 30419,
+    "name": "Arkenia",
+    "title": "Witch",
+    "town": "Gludio",
+    "at": [
+     -44015,
+     79683,
+     -3648
+    ],
+    "alt": []
+   },
+   "text": "Bring Thifiell's Letter to Arkenia",
+   "needs": [
+    {
+     "id": 3191,
+     "name": "Thifiell's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30419@-44015,79683",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".oren",
+    "length": 8728,
+    "sec": 118,
+    "via": ".oren > Oren -> Necropolis of Devotion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Necropolis of Devotion",
+      "link": "necropolis of devotion",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8728,
+      "how": "straight",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Necropolis of Devotion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -52724,
+      79104,
+      -4739
+     ],
+     [
+      -44015,
+      79683,
+      -3648
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -52724,79104 (the start is a closed pocket of 5280 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": [
+      {
+       "name": "Sepulcher Sage",
+       "lv": 62,
+       "n": 2
+      },
+      {
+       "name": "Nephilim Bishop",
+       "lv": 60,
+       "n": 2
+      },
+      {
+       "name": "Sepulcher Guardian",
+       "lv": 60,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 143,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    18
+   ],
+   "override": {
+    "route": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "note": "Route: Gludin -> Fellmere Harvest Grounds landing -> -44015,79683,-3648, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 43 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 35022 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "points": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "pv": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "length": 33957,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-unverified",
+    "aggro-on-way"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c18:deliver:30419": {
+    "route": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "note": "Route: Gludin -> Fellmere Harvest Grounds landing -> -44015,79683,-3648, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 43 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 35022 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   },
+   "c1:deliver:30419": {
+    "route": [
+     [
+      -63592,
+      101368,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63464,
+      101400,
+      -3488
+     ],
+     [
+      -63416,
+      101384,
+      -3496
+     ],
+     [
+      -63384,
+      101368,
+      -3544
+     ],
+     [
+      -62392,
+      100376,
+      -3528
+     ],
+     [
+      -61432,
+      99400,
+      -3680
+     ],
+     [
+      -61384,
+      99400,
+      -3688
+     ],
+     [
+      -60392,
+      98408,
+      -3688
+     ],
+     [
+      -59400,
+      97512,
+      -3456
+     ],
+     [
+      -59032,
+      97448,
+      -3448
+     ],
+     [
+      -58632,
+      97432,
+      -3664
+     ],
+     [
+      -58472,
+      97416,
+      -3672
+     ],
+     [
+      -58200,
+      97272,
+      -3608
+     ],
+     [
+      -58008,
+      97160,
+      -3504
+     ],
+     [
+      -57832,
+      97160,
+      -3552
+     ],
+     [
+      -57576,
+      97016,
+      -3384
+     ],
+     [
+      -56584,
+      96024,
+      -3464
+     ],
+     [
+      -55592,
+      95080,
+      -3304
+     ],
+     [
+      -54600,
+      94088,
+      -3168
+     ],
+     [
+      -54232,
+      93656,
+      -2864
+     ],
+     [
+      -53240,
+      93096,
+      -2824
+     ],
+     [
+      -52360,
+      93080,
+      -2824
+     ],
+     [
+      -52152,
+      92840,
+      -2824
+     ],
+     [
+      -52312,
+      91848,
+      -2824
+     ],
+     [
+      -52552,
+      90904,
+      -2824
+     ],
+     [
+      -52568,
+      90552,
+      -2824
+     ],
+     [
+      -53560,
+      89720,
+      -2824
+     ],
+     [
+      -54152,
+      89656,
+      -2824
+     ],
+     [
+      -54184,
+      89624,
+      -2824
+     ],
+     [
+      -54184,
+      89544,
+      -2824
+     ],
+     [
+      -54136,
+      89464,
+      -2824
+     ],
+     [
+      -53144,
+      88472,
+      -3000
+     ],
+     [
+      -52152,
+      87512,
+      -3344
+     ],
+     [
+      -51160,
+      86520,
+      -3416
+     ],
+     [
+      -50168,
+      85528,
+      -3552
+     ],
+     [
+      -49176,
+      84536,
+      -3560
+     ],
+     [
+      -48184,
+      83544,
+      -3504
+     ],
+     [
+      -47192,
+      82552,
+      -3392
+     ],
+     [
+      -46200,
+      81560,
+      -3120
+     ],
+     [
+      -45208,
+      81208,
+      -3288
+     ],
+     [
+      -45048,
+      81224,
+      -3240
+     ],
+     [
+      -44984,
+      81288,
+      -3248
+     ],
+     [
+      -44952,
+      81288,
+      -3280
+     ],
+     [
+      -44584,
+      80296,
+      -3736
+     ],
+     [
+      -44728,
+      80040,
+      -3744
+     ],
+     [
+      -44712,
+      80008,
+      -3728
+     ],
+     [
+      -44008,
+      79688,
+      -3648
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "note": "Route: Gludin -> Fellmere Harvest Grounds landing -> -44015,79683,-3648, geodata walk (raid_policy policyLeg: dry first, walls block) avoiding every aggressive monster >= level 43 (aggro_h5.json + spawns_h5.json circles + 150), checked: 0 aggro touches, 35022 long.",
+    "editedAt": "2026-10-27T11:05:18.265Z",
+    "by": "quest fixer batch 3"
+   }
+  },
+  "editedAt": "2026-10-27T11:05:18.265Z",
+  "by": "quest fixer batch 3"
+ }
+}

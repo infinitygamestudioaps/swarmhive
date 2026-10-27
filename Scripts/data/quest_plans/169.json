@@ -1,0 +1,1121 @@
+{
+ "id": 169,
+ "name": "Offspring of Nightmares",
+ "version": 1,
+ "generated": "2026-10-27T11:15:13.667Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 15,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dark Elf Village",
+ "requirements": {
+  "races": [
+   "DARK_ELF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DARK_ELF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 8,
+ "refLevel": 15,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30145",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will do the favor"
+   ],
+   "npc": {
+    "id": 30145,
+    "name": "Vlasty",
+    "title": "Magister",
+    "town": "Dark Elf Village",
+    "at": [
+     11258,
+     14431,
+     -4240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vlasty – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30145@11258,14431",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3026,
+    "sec": 70,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3026,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9784,
+      15640,
+      -4568
+     ],
+     [
+      10056,
+      15672,
+      -4568
+     ],
+     [
+      10328,
+      15624,
+      -4568
+     ],
+     [
+      10584,
+      15544,
+      -4568
+     ],
+     [
+      10616,
+      15352,
+      -4528
+     ],
+     [
+      10584,
+      15080,
+      -4336
+     ],
+     [
+      10712,
+      14952,
+      -4336
+     ],
+     [
+      10904,
+      15016,
+      -4336
+     ],
+     [
+      10920,
+      14744,
+      -4240
+     ],
+     [
+      10984,
+      14616,
+      -4240
+     ],
+     [
+      10888,
+      14568,
+      -4240
+     ],
+     [
+      10856,
+      14344,
+      -4240
+     ],
+     [
+      11112,
+      14248,
+      -4240
+     ],
+     [
+      11256,
+      14424,
+      -4240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 100,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20025,
+     "name": "Lesser Dark Horror",
+     "level": 15,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 78,
+     "questSpawned": false
+    },
+    {
+     "id": 20105,
+     "name": "Dark Horror",
+     "level": 16,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1031,
+     "name": "Perfect Skull",
+     "n": 1,
+     "from": [
+      {
+       "id": 20025,
+       "name": "Lesser Dark Horror",
+       "chance": 20
+      },
+      {
+       "id": 20105,
+       "name": "Dark Horror",
+       "chance": 20
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Lesser Dark Horror, Dark Horror for Perfect Skull x1",
+   "places": [
+    {
+     "mobs": [
+      20025,
+      20105
+     ],
+     "items": [
+      1031
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "swampland-18",
+      "name": "Swampland 18: Dark Horror area (south-east)",
+      "at": [
+       -12776,
+       50344,
+       -3760
+      ],
+      "radius": 3921,
+      "levels": [
+       15,
+       16
+      ],
+      "count": 14,
+      "region": "Swampland",
+      "atlasKey": "area:swampland-18",
+      "status": "ok",
+      "sec": 183,
+      "danger": 16,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -80.95,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "swampland-13",
+        "name": "Swampland 13: Lesser Dark Horror area (south)",
+        "at": [
+         -20440,
+         52088,
+         -3664
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-27",
+        "name": "Swampland 27: Lesser Dark Horror area (south)",
+        "at": [
+         -25704,
+         57608,
+         -3784
+        ],
+        "count": 12,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swampland-10",
+        "name": "Swampland 10: Marsh Zombie Lord area (south-west)",
+        "at": [
+         -27448,
+         47224,
+         -3672
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:swampland-18",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 13509,
+      "sec": 183,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Swampland",
+        "link": "swampland",
+        "price": 1100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 13509,
+        "how": "field-areas",
+        "danger": 39
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -21960,
+        40552,
+        -3192
+       ],
+       [
+        -21576,
+        41544,
+        -3456
+       ],
+       [
+        -20584,
+        42536,
+        -3672
+       ],
+       [
+        -19592,
+        43528,
+        -3760
+       ],
+       [
+        -18600,
+        44520,
+        -3736
+       ],
+       [
+        -17608,
+        45512,
+        -3760
+       ],
+       [
+        -16616,
+        46504,
+        -3768
+       ],
+       [
+        -15624,
+        47496,
+        -3768
+       ],
+       [
+        -14632,
+        48488,
+        -3760
+       ],
+       [
+        -13640,
+        49480,
+        -3688
+       ],
+       [
+        -12776,
+        50344,
+        -3760
+       ]
+      ],
+      "maxDanger": 39,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 39,
+       "dangerVsLevel": 24,
+       "aggro": [
+        {
+         "name": "Black Willow Lurker",
+         "lv": 39,
+         "n": 2
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "swampland-18",
+    "name": "Swampland 18: Dark Horror area (south-east)",
+    "at": [
+     -12776,
+     50344,
+     -3760
+    ],
+    "radius": 3921,
+    "levels": [
+     15,
+     16
+    ],
+    "count": 14,
+    "region": "Swampland",
+    "atlasKey": "area:swampland-18",
+    "status": "ok",
+    "sec": 183,
+    "danger": 16,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -80.95,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "swampland-13",
+      "name": "Swampland 13: Lesser Dark Horror area (south)",
+      "at": [
+       -20440,
+       52088,
+       -3664
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swampland-27",
+      "name": "Swampland 27: Lesser Dark Horror area (south)",
+      "at": [
+       -25704,
+       57608,
+       -3784
+      ],
+      "count": 12,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "swampland-10",
+      "name": "Swampland 10: Marsh Zombie Lord area (south-west)",
+      "at": [
+       -27448,
+       47224,
+       -3672
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:swampland-18",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 13509,
+    "sec": 183,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13509,
+      "how": "field-areas",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21960,
+      40552,
+      -3192
+     ],
+     [
+      -21576,
+      41544,
+      -3456
+     ],
+     [
+      -20584,
+      42536,
+      -3672
+     ],
+     [
+      -19592,
+      43528,
+      -3760
+     ],
+     [
+      -18600,
+      44520,
+      -3736
+     ],
+     [
+      -17608,
+      45512,
+      -3760
+     ],
+     [
+      -16616,
+      46504,
+      -3768
+     ],
+     [
+      -15624,
+      47496,
+      -3768
+     ],
+     [
+      -14632,
+      48488,
+      -3760
+     ],
+     [
+      -13640,
+      49480,
+      -3688
+     ],
+     [
+      -12776,
+      50344,
+      -3760
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 24,
+     "aggro": [
+      {
+       "name": "Black Willow Lurker",
+       "lv": 39,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 308,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "hunt"
+   },
+   "conds": [
+    1,
+    2
+   ],
+   "override": {
+    "route": [
+     [
+      -20968,
+      41544,
+      -3488
+     ],
+     [
+      -20472,
+      42376,
+      -3680
+     ],
+     [
+      -19752,
+      43368,
+      -3760
+     ],
+     [
+      -19592,
+      44360,
+      -3760
+     ],
+     [
+      -18888,
+      45352,
+      -3760
+     ],
+     [
+      -18504,
+      45400,
+      -3760
+     ],
+     [
+      -17512,
+      46392,
+      -3760
+     ],
+     [
+      -16520,
+      46888,
+      -3760
+     ],
+     [
+      -15656,
+      46760,
+      -3768
+     ],
+     [
+      -14664,
+      47464,
+      -3760
+     ],
+     [
+      -13672,
+      48456,
+      -3760
+     ],
+     [
+      -12776,
+      49448,
+      -3760
+     ],
+     [
+      -12808,
+      49736,
+      -3752
+     ],
+     [
+      -12776,
+      50344,
+      -3760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Swampland"
+    },
+    "note": "Dark Horror area (Swampland 18): gk link \"Swampland\" on the live menu Scripts/data/gk_live/Jasmine.json, away from the Black Willow Lurkers 39; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Swampland"
+    },
+    "points": [
+     [
+      -20968,
+      41544,
+      -3488
+     ],
+     [
+      -20472,
+      42376,
+      -3680
+     ],
+     [
+      -19752,
+      43368,
+      -3760
+     ],
+     [
+      -19592,
+      44360,
+      -3760
+     ],
+     [
+      -18888,
+      45352,
+      -3760
+     ],
+     [
+      -18504,
+      45400,
+      -3760
+     ],
+     [
+      -17512,
+      46392,
+      -3760
+     ],
+     [
+      -16520,
+      46888,
+      -3760
+     ],
+     [
+      -15656,
+      46760,
+      -3768
+     ],
+     [
+      -14664,
+      47464,
+      -3760
+     ],
+     [
+      -13672,
+      48456,
+      -3760
+     ],
+     [
+      -12776,
+      49448,
+      -3760
+     ],
+     [
+      -12808,
+      49736,
+      -3752
+     ],
+     [
+      -12776,
+      50344,
+      -3760
+     ]
+    ],
+    "pv": [
+     [
+      -20968,
+      41544,
+      -3488
+     ],
+     [
+      -20472,
+      42376,
+      -3680
+     ],
+     [
+      -19752,
+      43368,
+      -3760
+     ],
+     [
+      -19592,
+      44360,
+      -3760
+     ],
+     [
+      -18888,
+      45352,
+      -3760
+     ],
+     [
+      -18504,
+      45400,
+      -3760
+     ],
+     [
+      -17512,
+      46392,
+      -3760
+     ],
+     [
+      -16520,
+      46888,
+      -3760
+     ],
+     [
+      -15656,
+      46760,
+      -3768
+     ],
+     [
+      -14664,
+      47464,
+      -3760
+     ],
+     [
+      -13672,
+      48456,
+      -3760
+     ],
+     [
+      -12776,
+      49448,
+      -3760
+     ],
+     [
+      -12808,
+      49736,
+      -3752
+     ],
+     [
+      -12776,
+      50344,
+      -3760
+     ]
+    ],
+    "length": 13043,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "aggro-on-way"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:30145",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Ask what is wrong"
+   ],
+   "npc": {
+    "id": 30145,
+    "name": "Vlasty",
+    "title": "Magister",
+    "town": "Dark Elf Village",
+    "at": [
+     11258,
+     14431,
+     -4240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vlasty",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30145@11258,14431",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3026,
+    "sec": 70,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3026,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9784,
+      15640,
+      -4568
+     ],
+     [
+      10056,
+      15672,
+      -4568
+     ],
+     [
+      10328,
+      15624,
+      -4568
+     ],
+     [
+      10584,
+      15544,
+      -4568
+     ],
+     [
+      10616,
+      15352,
+      -4528
+     ],
+     [
+      10584,
+      15080,
+      -4336
+     ],
+     [
+      10712,
+      14952,
+      -4336
+     ],
+     [
+      10904,
+      15016,
+      -4336
+     ],
+     [
+      10920,
+      14744,
+      -4240
+     ],
+     [
+      10984,
+      14616,
+      -4240
+     ],
+     [
+      10888,
+      14568,
+      -4240
+     ],
+     [
+      10856,
+      14344,
+      -4240
+     ],
+     [
+      11112,
+      14248,
+      -4240
+     ],
+     [
+      11256,
+      14424,
+      -4240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "route": [
+     [
+      -20968,
+      41544,
+      -3488
+     ],
+     [
+      -20472,
+      42376,
+      -3680
+     ],
+     [
+      -19752,
+      43368,
+      -3760
+     ],
+     [
+      -19592,
+      44360,
+      -3760
+     ],
+     [
+      -18888,
+      45352,
+      -3760
+     ],
+     [
+      -18504,
+      45400,
+      -3760
+     ],
+     [
+      -17512,
+      46392,
+      -3760
+     ],
+     [
+      -16520,
+      46888,
+      -3760
+     ],
+     [
+      -15656,
+      46760,
+      -3768
+     ],
+     [
+      -14664,
+      47464,
+      -3760
+     ],
+     [
+      -13672,
+      48456,
+      -3760
+     ],
+     [
+      -12776,
+      49448,
+      -3760
+     ],
+     [
+      -12808,
+      49736,
+      -3752
+     ],
+     [
+      -12776,
+      50344,
+      -3760
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "DE Village",
+     "desc": "DE Village -> Swampland"
+    },
+    "note": "Dark Horror area (Swampland 18): gk link \"Swampland\" on the live menu Scripts/data/gk_live/Jasmine.json, away from the Black Willow Lurkers 39; geodata leg (raid_policy.policyLeg: dry first, walls block; danger circles for aggressive monsters >= quest level + 6), computed 2026-10-27",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:13.678Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-aggro-few",
+   "gk-menu-unknown"
+  ]
+ }
+}

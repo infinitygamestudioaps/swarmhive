@@ -1,0 +1,905 @@
+{
+ "id": 328,
+ "name": "Sense for Business",
+ "version": 1,
+ "generated": "2026-10-27T11:15:22.529Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 21,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Floran",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 14,
+ "refLevel": 21,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30436",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Accept proposal"
+   ],
+   "npc": {
+    "id": 30436,
+    "name": "Sarien",
+    "title": "Grocer",
+    "town": "Floran",
+    "at": [
+     -16832,
+     210256,
+     -3661
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sarien – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30436@-16832,210256",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 2304,
+    "sec": 64,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2304,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16675,
+      208532,
+      -3664
+     ],
+     [
+      -16824,
+      209032,
+      -3664
+     ],
+     [
+      -16696,
+      209816,
+      -3648
+     ],
+     [
+      -16824,
+      210264,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 94,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20055,
+     "name": "Wandering Eye",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20059,
+     "name": "Hungry Eye",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 101,
+     "questSpawned": false
+    },
+    {
+     "id": 20067,
+     "name": "Monster Eye Watcher",
+     "level": 25,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 33,
+     "questSpawned": false
+    },
+    {
+     "id": 20068,
+     "name": "Monster Eye Destroyer",
+     "level": 26,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 61,
+     "questSpawned": false
+    },
+    {
+     "id": 20070,
+     "name": "Lesser Basilisk",
+     "level": 27,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 20072,
+     "name": "Basilisk",
+     "level": 28,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 58,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1347,
+     "name": "Monster Eye Meat",
+     "n": 20,
+     "from": [
+      {
+       "id": 20055,
+       "name": "Wandering Eye",
+       "chance": 100
+      },
+      {
+       "id": 20059,
+       "name": "Hungry Eye",
+       "chance": 100
+      },
+      {
+       "id": 20067,
+       "name": "Monster Eye Watcher",
+       "chance": 100
+      },
+      {
+       "id": 20068,
+       "name": "Monster Eye Destroyer",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1348,
+     "name": "Basilisk's Gizzard",
+     "n": 20,
+     "from": [
+      {
+       "id": 20070,
+       "name": "Lesser Basilisk",
+       "chance": 100
+      },
+      {
+       "id": 20072,
+       "name": "Basilisk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1366,
+     "name": "Monster Eye's Lens",
+     "n": 20,
+     "from": [
+      {
+       "id": 20055,
+       "name": "Wandering Eye",
+       "chance": 100
+      },
+      {
+       "id": 20059,
+       "name": "Hungry Eye",
+       "chance": 100
+      },
+      {
+       "id": 20067,
+       "name": "Monster Eye Watcher",
+       "chance": 100
+      },
+      {
+       "id": 20068,
+       "name": "Monster Eye Destroyer",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Wandering Eye, Hungry Eye, Monster Eye Watcher for Monster Eye Meat x20, Basilisk's Gizzard x20, Monster Eye's Lens x20",
+   "places": [
+    {
+     "mobs": [
+      20055,
+      20059,
+      20067,
+      20068
+     ],
+     "items": [
+      1347,
+      1366
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-despair-10",
+      "name": "Ruins of Despair 10: Hungry Eye area (west)",
+      "at": [
+       -31416,
+       141256,
+       -3904
+      ],
+      "radius": 4241,
+      "levels": [
+       20,
+       22
+      ],
+      "count": 12,
+      "region": "Ruins of Despair",
+      "atlasKey": "area:ruins-of-despair-10",
+      "status": "ok",
+      "sec": 162,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -69.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-dion-17",
+        "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+        "at": [
+         3720,
+         166904,
+         -3464
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "windawood-manor-2",
+        "name": "Windawood Manor 2: Hungry Eye area (south-west)",
+        "at": [
+         -30152,
+         158520,
+         -3312
+        ],
+        "count": 7,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-4",
+        "name": "Plains of Dion 4: Kadif Werewolf area (north-east)",
+        "at": [
+         4568,
+         173592,
+         -3264
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-despair-10",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 14086,
+      "sec": 162,
+      "via": ".gludio > Gludio -> Ruins of Despair",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Despair",
+        "link": "ruins of despair",
+        "price": 610,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 13644,
+        "how": "field-areas-gap",
+        "danger": 22
+       },
+       {
+        "do": "walk",
+        "len": 442,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Despair"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -19120,
+        136816,
+        -3752
+       ],
+       [
+        -31112,
+        140936,
+        -3832
+       ],
+       [
+        -31352,
+        141176,
+        -3904
+       ],
+       [
+        -31416,
+        141256,
+        -3904
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20070,
+      20072
+     ],
+     "items": [
+      1348
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "wastelands-12",
+      "name": "Wastelands 12: Lesser Basilisk area (north-east)",
+      "at": [
+       -9960,
+       197176,
+       -3464
+      ],
+      "radius": 2388,
+      "levels": [
+       26,
+       28
+      ],
+      "count": 4,
+      "region": "Wastelands",
+      "atlasKey": "area:wastelands-12",
+      "status": "ok",
+      "sec": 162,
+      "danger": 28,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -21.3,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "windawood-manor-14",
+        "name": "Windawood Manor 14: Monster Eye Watcher area (south-west)",
+        "at": [
+         -36776,
+         170376,
+         -3664
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-dion-18",
+        "name": "Plains of Dion 18: Basilisk area (west)",
+        "at": [
+         -12920,
+         179624,
+         -4184
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "wastelands-1",
+        "name": "Wastelands 1: Basilisk area (north-west)",
+        "at": [
+         -19112,
+         203512,
+         -3784
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:wastelands-12",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 14031,
+      "sec": 162,
+      "via": ".gludin > Gludin -> Wastelands",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Wastelands",
+        "link": "wastelands",
+        "price": 3400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14031,
+        "how": "field-areas",
+        "danger": 28
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Wastelands"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -16520,
+        208040,
+        -3664
+       ],
+       [
+        -16520,
+        207048,
+        -3664
+       ],
+       [
+        -16824,
+        206504,
+        -3664
+       ],
+       [
+        -16888,
+        206360,
+        -3664
+       ],
+       [
+        -17192,
+        205560,
+        -3552
+       ],
+       [
+        -17288,
+        205464,
+        -3568
+       ],
+       [
+        -17256,
+        204632,
+        -3488
+       ],
+       [
+        -16344,
+        203640,
+        -3464
+       ],
+       [
+        -15352,
+        202648,
+        -3464
+       ],
+       [
+        -14360,
+        201656,
+        -3464
+       ],
+       [
+        -13896,
+        201192,
+        -3464
+       ],
+       [
+        -12984,
+        200200,
+        -3464
+       ],
+       [
+        -11992,
+        199208,
+        -3464
+       ],
+       [
+        -11000,
+        198216,
+        -3464
+       ],
+       [
+        -10008,
+        197224,
+        -3464
+       ],
+       [
+        -9960,
+        197176,
+        -3464
+       ]
+      ],
+      "maxDanger": 28,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 28,
+       "dangerVsLevel": 7,
+       "aggro": [
+        {
+         "name": "Basilisk",
+         "lv": 28,
+         "n": 3
+        },
+        {
+         "name": "Lesser Basilisk",
+         "lv": 27,
+         "n": 5
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ruins-of-despair-10",
+    "name": "Ruins of Despair 10: Hungry Eye area (west)",
+    "at": [
+     -31416,
+     141256,
+     -3904
+    ],
+    "radius": 4241,
+    "levels": [
+     20,
+     22
+    ],
+    "count": 12,
+    "region": "Ruins of Despair",
+    "atlasKey": "area:ruins-of-despair-10",
+    "status": "ok",
+    "sec": 162,
+    "danger": 22,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -69.3,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plains-of-dion-17",
+      "name": "Plains of Dion 17: Monster Eye Destroyer area (north)",
+      "at": [
+       3720,
+       166904,
+       -3464
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "windawood-manor-2",
+      "name": "Windawood Manor 2: Hungry Eye area (south-west)",
+      "at": [
+       -30152,
+       158520,
+       -3312
+      ],
+      "count": 7,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-dion-4",
+      "name": "Plains of Dion 4: Kadif Werewolf area (north-east)",
+      "at": [
+       4568,
+       173592,
+       -3264
+      ],
+      "count": 7,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ruins-of-despair-10",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14086,
+    "sec": 162,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13644,
+      "how": "field-areas-gap",
+      "danger": 22
+     },
+     {
+      "do": "walk",
+      "len": 442,
+      "how": "field-areas",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -31112,
+      140936,
+      -3832
+     ],
+     [
+      -31352,
+      141176,
+      -3904
+     ],
+     [
+      -31416,
+      141256,
+      -3904
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 662,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30436",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30436,
+    "name": "Sarien",
+    "title": "Grocer",
+    "town": "Floran",
+    "at": [
+     -16832,
+     210256,
+     -3661
+    ],
+    "alt": []
+   },
+   "text": "Hand in Monster Eye Meat, Monster Eye's Lens, Basilisk's Gizzard at Sarien (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 1347,
+     "name": "Monster Eye Meat",
+     "n": 20
+    },
+    {
+     "id": 1366,
+     "name": "Monster Eye's Lens",
+     "n": 20
+    },
+    {
+     "id": 1348,
+     "name": "Basilisk's Gizzard",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30436@-16832,210256",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 2304,
+    "sec": 64,
+    "via": ".gludin > Gludin -> Wastelands",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Wastelands",
+      "link": "wastelands",
+      "price": 3400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2304,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Wastelands"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -16526,
+      208032,
+      -3664
+     ],
+     [
+      -16675,
+      208532,
+      -3664
+     ],
+     [
+      -16824,
+      209032,
+      -3664
+     ],
+     [
+      -16696,
+      209816,
+      -3648
+     ],
+     [
+      -16824,
+      210264,
+      -3664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

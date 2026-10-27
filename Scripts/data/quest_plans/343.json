@@ -1,0 +1,1236 @@
+{
+ "id": 343,
+ "name": "Under The Shadow Of The Ivory Tower",
+ "version": 1,
+ "generated": "2026-10-27T11:15:27.898Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 40,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {
+  "categories": [
+   "WIZARD_GROUP"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: WIZARD_GROUP"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 0
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 5
+  }
+ ],
+ "expectedMin": 28,
+ "refLevel": 40,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30834",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I agree.\""
+   ],
+   "npc": {
+    "id": 30834,
+    "name": "Cema",
+    "title": "Magic Trader",
+    "town": "Hunters Village",
+    "at": [
+     105792,
+     114290,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Talk to Cema – accept the quest",
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30834@105792,114290",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 22068,
+    "sec": 229,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22068,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      105792,
+      114290,
+      -3136
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": 27,
+     "aggro": []
+    }
+   },
+   "expectedSec": 259,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20563,
+     "name": "Manashen Gargoyle",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 20564,
+     "name": "Enchanted Monstereye",
+     "level": 41,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20565,
+     "name": "Enchanted Stone Golem",
+     "level": 42,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 21,
+     "questSpawned": false
+    },
+    {
+     "id": 20566,
+     "name": "Enchanted Iron Golem",
+     "level": 43,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 4364,
+     "name": "Nebulite Orb",
+     "n": 11,
+     "from": [
+      {
+       "id": 20563,
+       "name": "Manashen Gargoyle",
+       "chance": 63
+      },
+      {
+       "id": 20564,
+       "name": "Enchanted Monstereye",
+       "chance": 63
+      },
+      {
+       "id": 20565,
+       "name": "Enchanted Stone Golem",
+       "chance": 65
+      },
+      {
+       "id": 20566,
+       "name": "Enchanted Iron Golem",
+       "chance": 68
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Manashen Gargoyle, Enchanted Monstereye, Enchanted Stone Golem for Nebulite Orb x11",
+   "places": [
+    {
+     "mobs": [
+      20563,
+      20564,
+      20565,
+      20566
+     ],
+     "items": [
+      4364
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ivory-tower-area-far-1",
+      "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+      "at": [
+       82888,
+       12520,
+       -5288
+      ],
+      "radius": 3429,
+      "levels": [
+       40,
+       43
+      ],
+      "count": 17,
+      "region": "Ivory Tower area",
+      "atlasKey": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "sec": 216,
+      "danger": 43,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -98.4,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-6",
+        "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+        "at": [
+         88408,
+         13224,
+         -5288
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ivory-tower-area-far-4",
+        "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+        "at": [
+         85624,
+         11208,
+         -5288
+        ],
+        "count": 10,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "sea-of-spores-25",
+        "name": "Sea of Spores 25: Shackle area (north-east)",
+        "at": [
+         81624,
+         16968,
+         -5288
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ivory-tower-area-far-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 20560,
+      "sec": 216,
+      "via": ".oren > Oren -> Ivory Tower",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Ivory Tower",
+        "link": "ivory tower",
+        "price": 3700,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 9569,
+        "how": "field-areas-gap",
+        "danger": 45
+       },
+       {
+        "do": "walk",
+        "len": 10991,
+        "how": "field-areas",
+        "danger": 45
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Ivory Tower"
+      },
+      "simple": true,
+      "pv": [
+       [
+        85391,
+        16228,
+        -3672
+       ],
+       [
+        85112,
+        22392,
+        -5240
+       ],
+       [
+        84968,
+        21992,
+        -5288
+       ],
+       [
+        84968,
+        21000,
+        -5288
+       ],
+       [
+        84664,
+        20008,
+        -5280
+       ],
+       [
+        83672,
+        19016,
+        -5256
+       ],
+       [
+        82680,
+        18024,
+        -5264
+       ],
+       [
+        82488,
+        17832,
+        -5264
+       ],
+       [
+        82488,
+        16840,
+        -5256
+       ],
+       [
+        82488,
+        15848,
+        -5264
+       ],
+       [
+        82488,
+        14856,
+        -5256
+       ],
+       [
+        82488,
+        13864,
+        -5288
+       ],
+       [
+        82536,
+        12872,
+        -5288
+       ],
+       [
+        82888,
+        12520,
+        -5288
+       ]
+      ],
+      "maxDanger": 45,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 45,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ivory-tower-area-far-1",
+    "name": "Ivory Tower area 1: Enchanted Stone Golem area (north-east)",
+    "at": [
+     82888,
+     12520,
+     -5288
+    ],
+    "radius": 3429,
+    "levels": [
+     40,
+     43
+    ],
+    "count": 17,
+    "region": "Ivory Tower area",
+    "atlasKey": "area:ivory-tower-area-far-1",
+    "status": "ok",
+    "sec": 216,
+    "danger": 43,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -98.4,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ivory-tower-area-far-6",
+      "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)",
+      "at": [
+       88408,
+       13224,
+       -5288
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ivory-tower-area-far-4",
+      "name": "Ivory Tower area 4: Manashen Gargoyle area (north-east)",
+      "at": [
+       85624,
+       11208,
+       -5288
+      ],
+      "count": 10,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "sea-of-spores-25",
+      "name": "Sea of Spores 25: Shackle area (north-east)",
+      "at": [
+       81624,
+       16968,
+       -5288
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ivory-tower-area-far-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 20560,
+    "sec": 216,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9569,
+      "how": "field-areas-gap",
+      "danger": 45
+     },
+     {
+      "do": "walk",
+      "len": 10991,
+      "how": "field-areas",
+      "danger": 45
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85112,
+      22392,
+      -5240
+     ],
+     [
+      84968,
+      21992,
+      -5288
+     ],
+     [
+      84968,
+      21000,
+      -5288
+     ],
+     [
+      84664,
+      20008,
+      -5280
+     ],
+     [
+      83672,
+      19016,
+      -5256
+     ],
+     [
+      82680,
+      18024,
+      -5264
+     ],
+     [
+      82488,
+      17832,
+      -5264
+     ],
+     [
+      82488,
+      16840,
+      -5256
+     ],
+     [
+      82488,
+      15848,
+      -5264
+     ],
+     [
+      82488,
+      14856,
+      -5256
+     ],
+     [
+      82488,
+      13864,
+      -5288
+     ],
+     [
+      82536,
+      12872,
+      -5288
+     ],
+     [
+      82888,
+      12520,
+      -5288
+     ]
+    ],
+    "maxDanger": 45,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 45,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 666,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30934",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "Play rock-paper-scissors."
+   ],
+   "npc": {
+    "id": 30934,
+    "name": "Marsha",
+    "title": "Collector",
+    "town": "Oren",
+    "at": [
+     85881,
+     14126,
+     -5257
+    ],
+    "alt": []
+   },
+   "text": "Bring Nebulite Orb x11 to Marsha",
+   "needs": [
+    {
+     "id": 4364,
+     "name": "Nebulite Orb",
+     "n": 11
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:ivory-tower-area-far-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 20343,
+    "sec": 215,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9599,
+      "how": "field-areas-gap",
+      "danger": 45
+     },
+     {
+      "do": "walk",
+      "len": 10180,
+      "how": "field-areas",
+      "danger": 45
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85560,
+      22392,
+      -5272
+     ],
+     [
+      85688,
+      21992,
+      -5288
+     ],
+     [
+      85688,
+      21000,
+      -5288
+     ],
+     [
+      85992,
+      20008,
+      -5288
+     ],
+     [
+      86984,
+      19016,
+      -5264
+     ],
+     [
+      87976,
+      18024,
+      -5256
+     ],
+     [
+      88184,
+      17816,
+      -5264
+     ],
+     [
+      88184,
+      16824,
+      -5256
+     ],
+     [
+      88184,
+      15832,
+      -5256
+     ],
+     [
+      88184,
+      14840,
+      -5256
+     ],
+     [
+      88184,
+      13848,
+      -5288
+     ],
+     [
+      88408,
+      13224,
+      -5288
+     ],
+     [
+      86424,
+      14024,
+      -5256
+     ],
+     [
+      86104,
+      14024,
+      -5256
+     ],
+     [
+      85880,
+      14120,
+      -5256
+     ]
+    ],
+    "maxDanger": 45,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 45,
+     "dangerVsLevel": 5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:ivory-tower-area-far-6",
+     "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)"
+    },
+    "points": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85560,
+      22392,
+      -5272
+     ],
+     [
+      85688,
+      21992,
+      -5288
+     ],
+     [
+      85688,
+      21000,
+      -5288
+     ],
+     [
+      85992,
+      20008,
+      -5288
+     ],
+     [
+      86984,
+      19016,
+      -5264
+     ],
+     [
+      87976,
+      18024,
+      -5256
+     ],
+     [
+      88184,
+      17816,
+      -5264
+     ],
+     [
+      88184,
+      16824,
+      -5256
+     ],
+     [
+      88184,
+      15832,
+      -5256
+     ],
+     [
+      88184,
+      14840,
+      -5256
+     ],
+     [
+      88184,
+      13848,
+      -5288
+     ],
+     [
+      88408,
+      13224,
+      -5288
+     ],
+     [
+      86424,
+      14024,
+      -5256
+     ],
+     [
+      86104,
+      14024,
+      -5256
+     ],
+     [
+      85880,
+      14120,
+      -5256
+     ]
+    ]
+   },
+   "expectedSec": 240,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c2:talk:30934",
+   "cond": 2,
+   "kind": "talk",
+   "to": 1,
+   "links": [
+    "Show scissors"
+   ],
+   "npc": {
+    "id": 30934,
+    "name": "Marsha",
+    "title": "Collector",
+    "town": "Oren",
+    "at": [
+     85881,
+     14126,
+     -5257
+    ],
+    "alt": []
+   },
+   "text": "Talk to Marsha",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:ivory-tower-area-far-6",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 20343,
+    "sec": 215,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9599,
+      "how": "field-areas-gap",
+      "danger": 45
+     },
+     {
+      "do": "walk",
+      "len": 10180,
+      "how": "field-areas",
+      "danger": 45
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85560,
+      22392,
+      -5272
+     ],
+     [
+      85688,
+      21992,
+      -5288
+     ],
+     [
+      85688,
+      21000,
+      -5288
+     ],
+     [
+      85992,
+      20008,
+      -5288
+     ],
+     [
+      86984,
+      19016,
+      -5264
+     ],
+     [
+      87976,
+      18024,
+      -5256
+     ],
+     [
+      88184,
+      17816,
+      -5264
+     ],
+     [
+      88184,
+      16824,
+      -5256
+     ],
+     [
+      88184,
+      15832,
+      -5256
+     ],
+     [
+      88184,
+      14840,
+      -5256
+     ],
+     [
+      88184,
+      13848,
+      -5288
+     ],
+     [
+      88408,
+      13224,
+      -5288
+     ],
+     [
+      86424,
+      14024,
+      -5256
+     ],
+     [
+      86104,
+      14024,
+      -5256
+     ],
+     [
+      85880,
+      14120,
+      -5256
+     ]
+    ],
+    "maxDanger": 45,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 45,
+     "dangerVsLevel": 5,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:ivory-tower-area-far-6",
+     "name": "Ivory Tower area 6: Enchanted Monstereye area (north-east)"
+    },
+    "points": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85560,
+      22392,
+      -5272
+     ],
+     [
+      85688,
+      21992,
+      -5288
+     ],
+     [
+      85688,
+      21000,
+      -5288
+     ],
+     [
+      85992,
+      20008,
+      -5288
+     ],
+     [
+      86984,
+      19016,
+      -5264
+     ],
+     [
+      87976,
+      18024,
+      -5256
+     ],
+     [
+      88184,
+      17816,
+      -5264
+     ],
+     [
+      88184,
+      16824,
+      -5256
+     ],
+     [
+      88184,
+      15832,
+      -5256
+     ],
+     [
+      88184,
+      14840,
+      -5256
+     ],
+     [
+      88184,
+      13848,
+      -5288
+     ],
+     [
+      88408,
+      13224,
+      -5288
+     ],
+     [
+      86424,
+      14024,
+      -5256
+     ],
+     [
+      86104,
+      14024,
+      -5256
+     ],
+     [
+      85880,
+      14120,
+      -5256
+     ]
+    ]
+   },
+   "expectedSec": 240,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:turnin:30834",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Receive money"
+   ],
+   "npc": {
+    "id": 30834,
+    "name": "Cema",
+    "title": "Magic Trader",
+    "town": "Hunters Village",
+    "at": [
+     105792,
+     114290,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Hand in Nebulite Orb at Cema (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 4364,
+     "name": "Nebulite Orb",
+     "n": 11
+    }
+   ],
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30834@105792,114290",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 22068,
+    "sec": 229,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22068,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      105792,
+      114290,
+      -3136
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": 27,
+     "aggro": []
+    }
+   },
+   "expectedSec": 254,
+   "turnin": true,
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

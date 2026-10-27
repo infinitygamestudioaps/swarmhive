@@ -1,0 +1,1611 @@
+{
+ "id": 461,
+ "name": "Rumble in the Base",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.067Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Oren",
+ "requirements": {
+  "quests": [
+   {
+    "id": 252,
+    "name": "Q00252_ItSmellsDelicious",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "252 completed"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 9,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30200",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will."
+   ],
+   "npc": {
+    "id": 30200,
+    "name": "Stan",
+    "title": "Guard",
+    "town": "Oren",
+    "at": [
+     81631,
+     56240,
+     -1522
+    ],
+    "alt": []
+   },
+   "text": "Talk to Stan – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31816@81692,56128",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 3405,
+    "sec": 48,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 3405,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81768,
+      55464,
+      -1520
+     ],
+     [
+      81576,
+      55656,
+      -1520
+     ],
+     [
+      81528,
+      55928,
+      -1520
+     ],
+     [
+      81688,
+      56136,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31816@81692,56128",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81768,
+      55464,
+      -1520
+     ],
+     [
+      81576,
+      55656,
+      -1520
+     ],
+     [
+      81528,
+      55928,
+      -1520
+     ],
+     [
+      81688,
+      56136,
+      -1520
+     ]
+    ]
+   },
+   "expectedSec": 78,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 18908,
+     "name": "Sel Mahum Chef",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22780,
+     "name": "Sel Mahum Recruit",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 108,
+     "questSpawned": false
+    },
+    {
+     "id": 22782,
+     "name": "Sel Mahum Recruit",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 268,
+     "questSpawned": false
+    },
+    {
+     "id": 22783,
+     "name": "Sel Mahum Soldier",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 92,
+     "questSpawned": false
+    },
+    {
+     "id": 22784,
+     "name": "Sel Mahum Recruit",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 22785,
+     "name": "Sel Mahum Soldier",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 15503,
+     "name": "Shiny Salmon",
+     "n": 5,
+     "from": [
+      {
+       "id": 18908,
+       "name": "Sel Mahum Chef",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 16382,
+     "name": "Shoes String of Sel Mahum",
+     "n": 10,
+     "from": [
+      {
+       "id": 22780,
+       "name": "Sel Mahum Recruit",
+       "chance": 100
+      },
+      {
+       "id": 22782,
+       "name": "Sel Mahum Recruit",
+       "chance": 100
+      },
+      {
+       "id": 22783,
+       "name": "Sel Mahum Soldier",
+       "chance": 100
+      },
+      {
+       "id": 22784,
+       "name": "Sel Mahum Recruit",
+       "chance": 100
+      },
+      {
+       "id": 22785,
+       "name": "Sel Mahum Soldier",
+       "chance": 100
+      },
+      {
+       "id": 18908,
+       "name": "Sel Mahum Chef",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Sel Mahum Chef, Sel Mahum Recruit, Sel Mahum Recruit for Shiny Salmon x5, Shoes String of Sel Mahum x10",
+   "places": [
+    {
+     "mobs": [
+      18908
+     ],
+     "items": [
+      15503
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "18908@87612,59356",
+      "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+      "at": [
+       87612,
+       59356,
+       -3552
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 2,
+      "region": "Sel Mahum Training Grounds",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 78,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "18908@83724,62668",
+        "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+        "at": [
+         83724,
+         62668,
+         -3472
+        ],
+        "count": 1,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "18908@85852,53212",
+        "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+        "at": [
+         85852,
+         53212,
+         -3624
+        ],
+        "count": 1,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "18908@93964,55692",
+        "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+        "at": [
+         93964,
+         55692,
+         -3352
+        ],
+        "count": 1,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:31002@92743,55523",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12053,
+      "sec": 145,
+      "via": ".oren > Oren -> Sel Mahum Training Grounds (Center)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sel Mahum Training Grounds (Center)",
+        "link": "sel mahum training grounds (center)",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8044,
+        "how": "geodata",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sel Mahum Training Grounds (Center)"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87448,
+        61460,
+        -3664
+       ],
+       [
+        87944,
+        60966,
+        -3640
+       ],
+       [
+        88440,
+        60472,
+        -3616
+       ],
+       [
+        88936,
+        59976,
+        -3608
+       ],
+       [
+        89432,
+        59480,
+        -3600
+       ],
+       [
+        89928,
+        58984,
+        -3684
+       ],
+       [
+        90424,
+        58488,
+        -3768
+       ],
+       [
+        90920,
+        57992,
+        -3720
+       ],
+       [
+        91416,
+        57496,
+        -3672
+       ],
+       [
+        91912,
+        57000,
+        -3560
+       ],
+       [
+        92408,
+        56504,
+        -3448
+       ],
+       [
+        92576,
+        56016,
+        -3432
+       ],
+       [
+        92744,
+        55528,
+        -3416
+       ],
+       [
+        90760,
+        57352,
+        -3584
+       ],
+       [
+        90680,
+        57304,
+        -3560
+       ],
+       [
+        90312,
+        57288,
+        -3632
+       ],
+       [
+        89368,
+        58280,
+        -3648
+       ],
+       [
+        88376,
+        59208,
+        -3544
+       ],
+       [
+        88024,
+        59400,
+        -3544
+       ],
+       [
+        87608,
+        59352,
+        -3552
+       ]
+      ],
+      "maxDanger": 0,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 0,
+       "dangerVsLevel": 0,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:31002@92743,55523",
+       "name": "Reorin"
+      },
+      "points": [
+       [
+        87448,
+        61460,
+        -3664
+       ],
+       [
+        87944,
+        60966,
+        -3640
+       ],
+       [
+        88440,
+        60472,
+        -3616
+       ],
+       [
+        88936,
+        59976,
+        -3608
+       ],
+       [
+        89432,
+        59480,
+        -3600
+       ],
+       [
+        89928,
+        58984,
+        -3684
+       ],
+       [
+        90424,
+        58488,
+        -3768
+       ],
+       [
+        90920,
+        57992,
+        -3720
+       ],
+       [
+        91416,
+        57496,
+        -3672
+       ],
+       [
+        91912,
+        57000,
+        -3560
+       ],
+       [
+        92408,
+        56504,
+        -3448
+       ],
+       [
+        92576,
+        56016,
+        -3432
+       ],
+       [
+        92744,
+        55528,
+        -3416
+       ],
+       [
+        90760,
+        57352,
+        -3584
+       ],
+       [
+        90680,
+        57304,
+        -3560
+       ],
+       [
+        90312,
+        57288,
+        -3632
+       ],
+       [
+        89368,
+        58280,
+        -3648
+       ],
+       [
+        88376,
+        59208,
+        -3544
+       ],
+       [
+        88024,
+        59400,
+        -3544
+       ],
+       [
+        87608,
+        59352,
+        -3552
+       ]
+      ]
+     }
+    },
+    {
+     "mobs": [
+      22780,
+      22782,
+      22783,
+      22784,
+      22785,
+      18908
+     ],
+     "items": [
+      16382
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "cluster",
+      "id": "22780@91874,62399",
+      "name": "Sel Mahum Recruit (Sel Mahum Training Grounds)",
+      "at": [
+       91874,
+       62399,
+       -3264
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 69,
+      "region": "Sel Mahum Training Grounds",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": -90,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22782@84946,59601",
+        "name": "Sel Mahum Recruit (Sel Mahum Training Grounds)",
+        "at": [
+         84946,
+         59601,
+         -3440
+        ],
+        "count": 88,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22782@89265,56019",
+        "name": "Sel Mahum Recruit (Sel Mahum Training Grounds)",
+        "at": [
+         89265,
+         56019,
+         -3527
+        ],
+        "count": 53,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22782@78817,66471",
+        "name": "Sel Mahum Recruit (Sel Mahum Training Grounds)",
+        "at": [
+         78817,
+         66471,
+         -3200
+        ],
+        "count": 46,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "computed",
+      "key": "npc:31002@92743,55523",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 12949,
+      "sec": 153,
+      "via": ".oren > Oren -> Sel Mahum Training Grounds (Center)",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Sel Mahum Training Grounds (Center)",
+        "link": "sel mahum training grounds (center)",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8044,
+        "how": "geodata",
+        "danger": 0
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Sel Mahum Training Grounds (Center)"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87448,
+        61460,
+        -3664
+       ],
+       [
+        87944,
+        60966,
+        -3640
+       ],
+       [
+        88440,
+        60472,
+        -3616
+       ],
+       [
+        88936,
+        59976,
+        -3608
+       ],
+       [
+        89432,
+        59480,
+        -3600
+       ],
+       [
+        89928,
+        58984,
+        -3684
+       ],
+       [
+        90424,
+        58488,
+        -3768
+       ],
+       [
+        90920,
+        57992,
+        -3720
+       ],
+       [
+        91416,
+        57496,
+        -3672
+       ],
+       [
+        91912,
+        57000,
+        -3560
+       ],
+       [
+        92408,
+        56504,
+        -3448
+       ],
+       [
+        92576,
+        56016,
+        -3432
+       ],
+       [
+        92744,
+        55528,
+        -3416
+       ],
+       [
+        91816,
+        57512,
+        -3592
+       ],
+       [
+        91992,
+        58456,
+        -3672
+       ],
+       [
+        91864,
+        59448,
+        -3512
+       ],
+       [
+        91880,
+        60440,
+        -3424
+       ],
+       [
+        91880,
+        61432,
+        -3272
+       ],
+       [
+        91880,
+        62392,
+        -3272
+       ]
+      ],
+      "maxDanger": 0,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 0,
+       "dangerVsLevel": 0,
+       "aggro": []
+      },
+      "anchor": {
+       "key": "npc:31002@92743,55523",
+       "name": "Reorin"
+      },
+      "points": [
+       [
+        87448,
+        61460,
+        -3664
+       ],
+       [
+        87944,
+        60966,
+        -3640
+       ],
+       [
+        88440,
+        60472,
+        -3616
+       ],
+       [
+        88936,
+        59976,
+        -3608
+       ],
+       [
+        89432,
+        59480,
+        -3600
+       ],
+       [
+        89928,
+        58984,
+        -3684
+       ],
+       [
+        90424,
+        58488,
+        -3768
+       ],
+       [
+        90920,
+        57992,
+        -3720
+       ],
+       [
+        91416,
+        57496,
+        -3672
+       ],
+       [
+        91912,
+        57000,
+        -3560
+       ],
+       [
+        92408,
+        56504,
+        -3448
+       ],
+       [
+        92576,
+        56016,
+        -3432
+       ],
+       [
+        92744,
+        55528,
+        -3416
+       ],
+       [
+        91816,
+        57512,
+        -3592
+       ],
+       [
+        91992,
+        58456,
+        -3672
+       ],
+       [
+        91864,
+        59448,
+        -3512
+       ],
+       [
+        91880,
+        60440,
+        -3424
+       ],
+       [
+        91880,
+        61432,
+        -3272
+       ],
+       [
+        91880,
+        62392,
+        -3272
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "18908@87612,59356",
+    "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+    "at": [
+     87612,
+     59356,
+     -3552
+    ],
+    "radius": 1500,
+    "levels": [
+     83,
+     83
+    ],
+    "count": 2,
+    "region": "Sel Mahum Training Grounds",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 78,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "18908@83724,62668",
+      "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+      "at": [
+       83724,
+       62668,
+       -3472
+      ],
+      "count": 1,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "18908@85852,53212",
+      "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+      "at": [
+       85852,
+       53212,
+       -3624
+      ],
+      "count": 1,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "18908@93964,55692",
+      "name": "Sel Mahum Chef (Sel Mahum Training Grounds)",
+      "at": [
+       93964,
+       55692,
+       -3352
+      ],
+      "count": 1,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31002@92743,55523",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 12053,
+    "sec": 145,
+    "via": ".oren > Oren -> Sel Mahum Training Grounds (Center)",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Sel Mahum Training Grounds (Center)",
+      "link": "sel mahum training grounds (center)",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8044,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Sel Mahum Training Grounds (Center)"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87448,
+      61460,
+      -3664
+     ],
+     [
+      87944,
+      60966,
+      -3640
+     ],
+     [
+      88440,
+      60472,
+      -3616
+     ],
+     [
+      88936,
+      59976,
+      -3608
+     ],
+     [
+      89432,
+      59480,
+      -3600
+     ],
+     [
+      89928,
+      58984,
+      -3684
+     ],
+     [
+      90424,
+      58488,
+      -3768
+     ],
+     [
+      90920,
+      57992,
+      -3720
+     ],
+     [
+      91416,
+      57496,
+      -3672
+     ],
+     [
+      91912,
+      57000,
+      -3560
+     ],
+     [
+      92408,
+      56504,
+      -3448
+     ],
+     [
+      92576,
+      56016,
+      -3432
+     ],
+     [
+      92744,
+      55528,
+      -3416
+     ],
+     [
+      90760,
+      57352,
+      -3584
+     ],
+     [
+      90680,
+      57304,
+      -3560
+     ],
+     [
+      90312,
+      57288,
+      -3632
+     ],
+     [
+      89368,
+      58280,
+      -3648
+     ],
+     [
+      88376,
+      59208,
+      -3544
+     ],
+     [
+      88024,
+      59400,
+      -3544
+     ],
+     [
+      87608,
+      59352,
+      -3552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31002@92743,55523",
+     "name": "Reorin"
+    },
+    "points": [
+     [
+      87448,
+      61460,
+      -3664
+     ],
+     [
+      87944,
+      60966,
+      -3640
+     ],
+     [
+      88440,
+      60472,
+      -3616
+     ],
+     [
+      88936,
+      59976,
+      -3608
+     ],
+     [
+      89432,
+      59480,
+      -3600
+     ],
+     [
+      89928,
+      58984,
+      -3684
+     ],
+     [
+      90424,
+      58488,
+      -3768
+     ],
+     [
+      90920,
+      57992,
+      -3720
+     ],
+     [
+      91416,
+      57496,
+      -3672
+     ],
+     [
+      91912,
+      57000,
+      -3560
+     ],
+     [
+      92408,
+      56504,
+      -3448
+     ],
+     [
+      92576,
+      56016,
+      -3432
+     ],
+     [
+      92744,
+      55528,
+      -3416
+     ],
+     [
+      90760,
+      57352,
+      -3584
+     ],
+     [
+      90680,
+      57304,
+      -3560
+     ],
+     [
+      90312,
+      57288,
+      -3632
+     ],
+     [
+      89368,
+      58280,
+      -3648
+     ],
+     [
+      88376,
+      59208,
+      -3544
+     ],
+     [
+      88024,
+      59400,
+      -3544
+     ],
+     [
+      87608,
+      59352,
+      -3552
+     ]
+    ]
+   },
+   "expectedSec": 395,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30200",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30200,
+    "name": "Stan",
+    "title": "Guard",
+    "town": "Oren",
+    "at": [
+     81631,
+     56240,
+     -1522
+    ],
+    "alt": []
+   },
+   "text": "Talk to Stan",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31816@81692,56128",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 3405,
+    "sec": 48,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 3405,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81768,
+      55464,
+      -1520
+     ],
+     [
+      81576,
+      55656,
+      -1520
+     ],
+     [
+      81528,
+      55928,
+      -1520
+     ],
+     [
+      81688,
+      56136,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31816@81692,56128",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81768,
+      55464,
+      -1520
+     ],
+     [
+      81576,
+      55656,
+      -1520
+     ],
+     [
+      81528,
+      55928,
+      -1520
+     ],
+     [
+      81688,
+      56136,
+      -1520
+     ]
+    ]
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:41.078Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-thin",
+   "area-partial"
+  ]
+ }
+}

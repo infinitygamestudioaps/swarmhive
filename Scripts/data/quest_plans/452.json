@@ -1,0 +1,748 @@
+{
+ "id": 452,
+ "name": "Finding the Lost Soldiers",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.021Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 84,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Gludin",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: engine-gap:start.kind=atlas, script-event-missing"
+  },
+  {
+   "code": "dryrun:engine-gap:start.kind=atlas",
+   "text": "c0:start:32773: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
+  },
+  {
+   "code": "dryrun:script-event-missing",
+   "text": "event \"corpse-2.html\" (to 2) not in the script"
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 84,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32773",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Nod in understanding."
+   ],
+   "npc": {
+    "id": 32773,
+    "name": "Jakan",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -180354,
+     186274,
+     -10584
+    ],
+    "alt": [],
+    "why": "npc-instance"
+   },
+   "text": "Talk to Jakan – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 30,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "npcAt": [
+     -180354,
+     186274,
+     -10584
+    ],
+    "note": "Jakan stands next to Ermian inside the Seed of Annihilation (spawns_h5.json, a field zone, not an instance); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from Ermian (nav atlas route, conditional: airship + Lionel + Klemis level 80)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "points": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "pv": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "length": 130,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "npc-instance",
+    "no-route"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32769",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Search the body of the Gracian Soldier."
+   ],
+   "npc": {
+    "id": 32769,
+    "name": "Gracian Soldier's Corpse",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -178104,
+     183412,
+     -10552
+    ],
+    "alt": [
+     [
+      -207123,
+      181046,
+      -12648
+     ],
+     [
+      -206201,
+      177767,
+      -11344
+     ],
+     [
+      -218812,
+      175373,
+      -11344
+     ]
+    ],
+    "why": "npc-instance"
+   },
+   "text": "Talk to Gracian Soldier's Corpse",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180232,
+      185272,
+      -10536
+     ],
+     [
+      -180232,
+      184744,
+      -10544
+     ],
+     [
+      -180152,
+      184648,
+      -10544
+     ],
+     [
+      -179928,
+      184424,
+      -10544
+     ],
+     [
+      -179864,
+      184088,
+      -10568
+     ],
+     [
+      -179944,
+      183656,
+      -10544
+     ],
+     [
+      -180232,
+      183192,
+      -10544
+     ],
+     [
+      -180184,
+      182696,
+      -10536
+     ],
+     [
+      -179896,
+      182568,
+      -10544
+     ],
+     [
+      -178904,
+      182440,
+      -10600
+     ],
+     [
+      -178632,
+      182344,
+      -10608
+     ],
+     [
+      -178344,
+      182472,
+      -10600
+     ],
+     [
+      -178104,
+      182888,
+      -10576
+     ],
+     [
+      -178104,
+      183416,
+      -10552
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "npcAt": [
+     -178104,
+     183412,
+     -10552
+    ],
+    "note": "Gracian Soldier's Corpse 32769-32772 spawn inside the Seed of Annihilation field (spawns_h5.json 56 spawns, not an instance); nearest one to Ermian; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "points": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180232,
+      185272,
+      -10536
+     ],
+     [
+      -180232,
+      184744,
+      -10544
+     ],
+     [
+      -180152,
+      184648,
+      -10544
+     ],
+     [
+      -179928,
+      184424,
+      -10544
+     ],
+     [
+      -179864,
+      184088,
+      -10568
+     ],
+     [
+      -179944,
+      183656,
+      -10544
+     ],
+     [
+      -180232,
+      183192,
+      -10544
+     ],
+     [
+      -180184,
+      182696,
+      -10536
+     ],
+     [
+      -179896,
+      182568,
+      -10544
+     ],
+     [
+      -178904,
+      182440,
+      -10600
+     ],
+     [
+      -178632,
+      182344,
+      -10608
+     ],
+     [
+      -178344,
+      182472,
+      -10600
+     ],
+     [
+      -178104,
+      182888,
+      -10576
+     ],
+     [
+      -178104,
+      183416,
+      -10552
+     ]
+    ],
+    "pv": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180232,
+      185272,
+      -10536
+     ],
+     [
+      -180232,
+      184744,
+      -10544
+     ],
+     [
+      -180152,
+      184648,
+      -10544
+     ],
+     [
+      -179928,
+      184424,
+      -10544
+     ],
+     [
+      -179864,
+      184088,
+      -10568
+     ],
+     [
+      -179944,
+      183656,
+      -10544
+     ],
+     [
+      -180232,
+      183192,
+      -10544
+     ],
+     [
+      -180184,
+      182696,
+      -10536
+     ],
+     [
+      -179896,
+      182568,
+      -10544
+     ],
+     [
+      -178904,
+      182440,
+      -10600
+     ],
+     [
+      -178632,
+      182344,
+      -10608
+     ],
+     [
+      -178344,
+      182472,
+      -10600
+     ],
+     [
+      -178104,
+      182888,
+      -10576
+     ],
+     [
+      -178104,
+      183416,
+      -10552
+     ]
+    ],
+    "length": 6707,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "npc-instance",
+    "no-route"
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32773",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32773,
+    "name": "Jakan",
+    "title": "Officer",
+    "town": "Gludin",
+    "at": [
+     -180354,
+     186274,
+     -10584
+    ],
+    "alt": [],
+    "why": "npc-instance"
+   },
+   "text": "Talk to Jakan",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ],
+   "override": {
+    "route": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "npcAt": [
+     -180354,
+     186274,
+     -10584
+    ],
+    "note": "Jakan; same way",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "points": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "pv": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "length": 130,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "npc-instance",
+    "no-route"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32773": {
+    "route": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "npcAt": [
+     -180354,
+     186274,
+     -10584
+    ],
+    "note": "Jakan stands next to Ermian inside the Seed of Annihilation (spawns_h5.json, a field zone, not an instance); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from Ermian (nav atlas route, conditional: airship + Lionel + Klemis level 80)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c2:talk:32773": {
+    "route": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180360,
+      186280,
+      -10584
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "npcAt": [
+     -180354,
+     186274,
+     -10584
+    ],
+    "note": "Jakan; same way",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32769": {
+    "route": [
+     [
+      -180232,
+      186256,
+      -10608
+     ],
+     [
+      -180232,
+      185272,
+      -10536
+     ],
+     [
+      -180232,
+      184744,
+      -10544
+     ],
+     [
+      -180152,
+      184648,
+      -10544
+     ],
+     [
+      -179928,
+      184424,
+      -10544
+     ],
+     [
+      -179864,
+      184088,
+      -10568
+     ],
+     [
+      -179944,
+      183656,
+      -10544
+     ],
+     [
+      -180232,
+      183192,
+      -10544
+     ],
+     [
+      -180184,
+      182696,
+      -10536
+     ],
+     [
+      -179896,
+      182568,
+      -10544
+     ],
+     [
+      -178904,
+      182440,
+      -10600
+     ],
+     [
+      -178632,
+      182344,
+      -10608
+     ],
+     [
+      -178344,
+      182472,
+      -10600
+     ],
+     [
+      -178104,
+      182888,
+      -10576
+     ],
+     [
+      -178104,
+      183416,
+      -10552
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32736@-180232,186256",
+     "desc": "nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)"
+    },
+    "npcAt": [
+     -178104,
+     183412,
+     -10552
+    ],
+    "note": "Gracian Soldier's Corpse 32769-32772 spawn inside the Seed of Annihilation field (spawns_h5.json 56 spawns, not an instance); nearest one to Ermian; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:41.037Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c0:start:32773: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
+   },
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c2:talk:32773: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
+   },
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c1:talk:32769: start \"atlas\" (nav atlas route to Ermian (airship > Lionel \"Seed of Annihilation Dock\" > Klemis \"Enter the Seed of Annihilation\", level >= 80)) — rsCustomTrip knows only town / gk"
+   },
+   {
+    "code": "script-event-missing",
+    "t": "event \"corpse-2.html\" (to 2) not in the script"
+   }
+  ],
+  "warns": []
+ }
+}

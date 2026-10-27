@@ -1,0 +1,816 @@
+{
+ "id": 8,
+ "name": "An Adventure Begins",
+ "version": 1,
+ "generated": "2026-10-27T11:14:35.550Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Dark Elf Village",
+ "requirements": {
+  "races": [
+   "DARK_ELF"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: DARK_ELF"
+  }
+ ],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 6,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30134",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"It sounds awesome! Can you send me there?\""
+   ],
+   "npc": {
+    "id": 30134,
+    "name": "Jasmine",
+    "title": "Gatekeeper",
+    "town": "Dark Elf Village",
+    "at": [
+     9670,
+     15537,
+     -4568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jasmine – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30134@9670,15537",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 163,
+    "sec": 46,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 163,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9672,
+      15544,
+      -4568
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30134",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"As I said, I want to go to Giran.\""
+   ],
+   "npc": {
+    "id": 30134,
+    "name": "Jasmine",
+    "title": "Gatekeeper",
+    "town": "Dark Elf Village",
+    "at": [
+     9670,
+     15537,
+     -4568
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sentry Roselyn",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30134@9670,15537",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 163,
+    "sec": 46,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 163,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9672,
+      15544,
+      -4568
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30144",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "Give her the note from Sentry Roselyn and explain the situation."
+   ],
+   "npc": {
+    "id": 30144,
+    "name": "Harne",
+    "title": "Magister",
+    "town": "Dark Elf Village",
+    "at": [
+     10344,
+     14445,
+     -4240
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sentry Roselyn",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30144@10344,14445",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2976,
+    "sec": 70,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2976,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9784,
+      15640,
+      -4568
+     ],
+     [
+      10056,
+      15672,
+      -4568
+     ],
+     [
+      10328,
+      15624,
+      -4568
+     ],
+     [
+      10584,
+      15544,
+      -4568
+     ],
+     [
+      10616,
+      15352,
+      -4528
+     ],
+     [
+      10584,
+      15080,
+      -4336
+     ],
+     [
+      10712,
+      14952,
+      -4336
+     ],
+     [
+      10904,
+      15016,
+      -4336
+     ],
+     [
+      10920,
+      14744,
+      -4240
+     ],
+     [
+      10984,
+      14616,
+      -4240
+     ],
+     [
+      10952,
+      14616,
+      -4240
+     ],
+     [
+      10808,
+      14392,
+      -4240
+     ],
+     [
+      10600,
+      14344,
+      -4240
+     ],
+     [
+      10344,
+      14440,
+      -4240
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30355",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "\"Gatekeeper Jasmine told me...\""
+   ],
+   "npc": {
+    "id": 30355,
+    "name": "Roselyn",
+    "title": "Sentry",
+    "town": "Dark Elf Village",
+    "at": [
+     15272,
+     16310,
+     -4376
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sentry Roselyn",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:30350@13763,17501",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8626,
+    "sec": 117,
+    "via": ".gludio > Gludio -> DE Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 6390,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10200,
+      16808,
+      -4584
+     ],
+     [
+      10392,
+      17000,
+      -4584
+     ],
+     [
+      10504,
+      17048,
+      -4584
+     ],
+     [
+      10696,
+      16984,
+      -4584
+     ],
+     [
+      10968,
+      16936,
+      -4656
+     ],
+     [
+      11224,
+      16840,
+      -4656
+     ],
+     [
+      11256,
+      16984,
+      -4656
+     ],
+     [
+      11448,
+      17176,
+      -4656
+     ],
+     [
+      11496,
+      17448,
+      -4608
+     ],
+     [
+      11560,
+      17608,
+      -4584
+     ],
+     [
+      11752,
+      17784,
+      -4584
+     ],
+     [
+      11816,
+      18056,
+      -4584
+     ],
+     [
+      11944,
+      18248,
+      -4568
+     ],
+     [
+      12216,
+      18296,
+      -4568
+     ],
+     [
+      12488,
+      18248,
+      -4568
+     ],
+     [
+      12760,
+      18216,
+      -4568
+     ],
+     [
+      12760,
+      18168,
+      -4568
+     ],
+     [
+      12760,
+      17896,
+      -4568
+     ],
+     [
+      12872,
+      17736,
+      -4568
+     ],
+     [
+      13128,
+      17656,
+      -4536
+     ],
+     [
+      13160,
+      17640,
+      -4536
+     ],
+     [
+      13432,
+      17592,
+      -4536
+     ],
+     [
+      13688,
+      17512,
+      -4536
+     ],
+     [
+      13512,
+      17208,
+      -4568
+     ],
+     [
+      13752,
+      16568,
+      -4584
+     ],
+     [
+      14744,
+      16312,
+      -4448
+     ],
+     [
+      15272,
+      16312,
+      -4376
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:30350@13763,17501",
+     "name": "Carlon"
+    },
+    "points": [
+     [
+      9709,
+      15566,
+      -4568
+     ],
+     [
+      9752,
+      15608,
+      -4568
+     ],
+     [
+      9944,
+      15800,
+      -4568
+     ],
+     [
+      9944,
+      16072,
+      -4568
+     ],
+     [
+      10008,
+      16344,
+      -4568
+     ],
+     [
+      10024,
+      16616,
+      -4568
+     ],
+     [
+      10200,
+      16808,
+      -4584
+     ],
+     [
+      10392,
+      17000,
+      -4584
+     ],
+     [
+      10504,
+      17048,
+      -4584
+     ],
+     [
+      10696,
+      16984,
+      -4584
+     ],
+     [
+      10968,
+      16936,
+      -4656
+     ],
+     [
+      11224,
+      16840,
+      -4656
+     ],
+     [
+      11256,
+      16984,
+      -4656
+     ],
+     [
+      11448,
+      17176,
+      -4656
+     ],
+     [
+      11496,
+      17448,
+      -4608
+     ],
+     [
+      11560,
+      17608,
+      -4584
+     ],
+     [
+      11752,
+      17784,
+      -4584
+     ],
+     [
+      11816,
+      18056,
+      -4584
+     ],
+     [
+      11944,
+      18248,
+      -4568
+     ],
+     [
+      12216,
+      18296,
+      -4568
+     ],
+     [
+      12488,
+      18248,
+      -4568
+     ],
+     [
+      12760,
+      18216,
+      -4568
+     ],
+     [
+      12760,
+      18168,
+      -4568
+     ],
+     [
+      12760,
+      17896,
+      -4568
+     ],
+     [
+      12872,
+      17736,
+      -4568
+     ],
+     [
+      13128,
+      17656,
+      -4536
+     ],
+     [
+      13160,
+      17640,
+      -4536
+     ],
+     [
+      13432,
+      17592,
+      -4536
+     ],
+     [
+      13688,
+      17512,
+      -4536
+     ],
+     [
+      13512,
+      17208,
+      -4568
+     ],
+     [
+      13752,
+      16568,
+      -4584
+     ],
+     [
+      14744,
+      16312,
+      -4448
+     ],
+     [
+      15272,
+      16312,
+      -4376
+     ]
+    ]
+   },
+   "expectedSec": 142,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:35.677Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "route-detour"
+  ]
+ }
+}

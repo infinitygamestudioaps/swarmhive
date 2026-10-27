@@ -1,0 +1,5409 @@
+{
+ "id": 404,
+ "name": "Path Of The Human Wizard",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.133Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludin",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 6
+  }
+ ],
+ "expectedMin": 41,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30391",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Perform quest of changing profession to a Human Wizard"
+   ],
+   "npc": {
+    "id": 30391,
+    "name": "Parina",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -80430,
+     150694,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Talk to Parina – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30391@-80430,150694",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5610,
+    "sec": 67,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 5610,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79320,
+      150824,
+      -3040
+     ],
+     [
+      -79592,
+      150824,
+      -3040
+     ],
+     [
+      -79864,
+      150824,
+      -3040
+     ],
+     [
+      -80136,
+      150824,
+      -3040
+     ],
+     [
+      -80360,
+      150824,
+      -3040
+     ],
+     [
+      -80456,
+      150808,
+      -3040
+     ],
+     [
+      -80424,
+      150696,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 97,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20021,
+     "name": "Red Bear",
+     "level": 14,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20359,
+     "name": "Ratman Warrior",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 27030,
+     "name": "Water Seer",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1281,
+     "name": "Key of Flame",
+     "n": 1,
+     "from": [
+      {
+       "id": 20359,
+       "name": "Ratman Warrior",
+       "chance": 80
+      }
+     ]
+    },
+    {
+     "id": 1287,
+     "name": "Sparkle Pebble",
+     "n": 2,
+     "from": [
+      {
+       "id": 27030,
+       "name": "Water Seer",
+       "chance": 80
+      }
+     ]
+    },
+    {
+     "id": 1290,
+     "name": "Red Soil",
+     "n": 1,
+     "from": [
+      {
+       "id": 20021,
+       "name": "Red Bear",
+       "chance": 20
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Red Bear, Ratman Warrior, Water Seer for Key of Flame x1, Sparkle Pebble x2, Red Soil x1",
+   "places": [
+    {
+     "mobs": [
+      20359
+     ],
+     "items": [
+      1281
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-21",
+      "name": "Ruins of Agony 21: Ratman Warrior area (west)",
+      "at": [
+       -54104,
+       128024,
+       -3080
+      ],
+      "radius": 2020,
+      "levels": [
+       19,
+       20
+      ],
+      "count": 4,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-21",
+      "status": "ok",
+      "sec": 169,
+      "danger": 20,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -21.183333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-2",
+        "name": "Ruins of Agony 2: Ratman Warrior area (south)",
+        "at": [
+         -43224,
+         128904,
+         -2840
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-9",
+        "name": "Ruins of Agony 9: Ratman Warrior area (south-west)",
+        "at": [
+         -49144,
+         129960,
+         -2560
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-7",
+        "name": "Ruins of Agony 7: Arachnid Predator area (west)",
+        "at": [
+         -50504,
+         124296,
+         -2936
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-21",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 14852,
+      "sec": 169,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 14852,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122856,
+        -2672
+       ],
+       [
+        -44216,
+        122856,
+        -2664
+       ],
+       [
+        -45208,
+        122856,
+        -2800
+       ],
+       [
+        -46200,
+        122856,
+        -2872
+       ],
+       [
+        -47192,
+        122856,
+        -2896
+       ],
+       [
+        -48184,
+        122856,
+        -2840
+       ],
+       [
+        -49176,
+        123336,
+        -2848
+       ],
+       [
+        -50104,
+        124264,
+        -2928
+       ],
+       [
+        -50952,
+        124984,
+        -2992
+       ],
+       [
+        -51944,
+        125976,
+        -3040
+       ],
+       [
+        -52328,
+        126360,
+        -3080
+       ],
+       [
+        -53320,
+        127240,
+        -3112
+       ],
+       [
+        -54104,
+        128024,
+        -3080
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27030
+     ],
+     "items": [
+      1287
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-32",
+      "name": "Ruins of Agony 32: Water Seer area (west)",
+      "at": [
+       -58648,
+       122168,
+       -3048
+      ],
+      "radius": 2533,
+      "levels": [
+       16,
+       20
+      ],
+      "count": 3,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-32",
+      "status": "ok",
+      "sec": 193,
+      "danger": 20,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -14.783333333333333,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-32",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 17747,
+      "sec": 193,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 17235,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 512,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41248,
+        122848,
+        -2904
+       ],
+       [
+        -58136,
+        122168,
+        -3040
+       ],
+       [
+        -58648,
+        122168,
+        -3048
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      20021
+     ],
+     "items": [
+      1290
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-2",
+      "name": "Fellmere Harvest Grounds 2: Red Bear area (north-west)",
+      "at": [
+       -65960,
+       99416,
+       -3704
+      ],
+      "radius": 2777,
+      "levels": [
+       14,
+       16
+      ],
+      "count": 5,
+      "region": "Fellmere Harvest Grounds",
+      "atlasKey": "area:fellmere-harvest-grounds-2",
+      "status": "ok",
+      "sec": 71,
+      "danger": 16,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -28.816666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-4",
+        "name": "Fellmere Harvest Grounds 4: Gora Werewolf area (north-west)",
+        "at": [
+         -65336,
+         97864,
+         -3704
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-6",
+        "name": "Fellmere Harvest Grounds 6: Felim Lizardman Scout area (west)",
+        "at": [
+         -69224,
+         99768,
+         -3800
+        ],
+        "count": 1,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-3",
+        "name": "Fellmere Harvest Grounds 3: Felim Lizardman Scout area (west)",
+        "at": [
+         -66744,
+         102600,
+         -3728
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fellmere-harvest-grounds-2",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 3069,
+      "sec": 71,
+      "via": ".gludin > Gludin -> Fellmere Harvest Grounds",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Fellmere Harvest Grounds",
+        "link": "fellmere harvesting grounds",
+        "price": 1400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3069,
+        "how": "field-areas",
+        "danger": 17
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Fellmere Harvest Grounds"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -63736,
+        101528,
+        -3552
+       ],
+       [
+        -63816,
+        101432,
+        -3552
+       ],
+       [
+        -64312,
+        100968,
+        -3592
+       ],
+       [
+        -65304,
+        100072,
+        -3680
+       ],
+       [
+        -65960,
+        99416,
+        -3704
+       ]
+      ],
+      "maxDanger": 17,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 17,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ruins-of-agony-21",
+    "name": "Ruins of Agony 21: Ratman Warrior area (west)",
+    "at": [
+     -54104,
+     128024,
+     -3080
+    ],
+    "radius": 2020,
+    "levels": [
+     19,
+     20
+    ],
+    "count": 4,
+    "region": "Ruins of Agony",
+    "atlasKey": "area:ruins-of-agony-21",
+    "status": "ok",
+    "sec": 169,
+    "danger": 20,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -21.183333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-2",
+      "name": "Ruins of Agony 2: Ratman Warrior area (south)",
+      "at": [
+       -43224,
+       128904,
+       -2840
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-9",
+      "name": "Ruins of Agony 9: Ratman Warrior area (south-west)",
+      "at": [
+       -49144,
+       129960,
+       -2560
+      ],
+      "count": 3,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-7",
+      "name": "Ruins of Agony 7: Arachnid Predator area (west)",
+      "at": [
+       -50504,
+       124296,
+       -2936
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ruins-of-agony-21",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 14852,
+    "sec": 169,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14852,
+      "how": "field-areas",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -44216,
+      122856,
+      -2664
+     ],
+     [
+      -45208,
+      122856,
+      -2800
+     ],
+     [
+      -46200,
+      122856,
+      -2872
+     ],
+     [
+      -47192,
+      122856,
+      -2896
+     ],
+     [
+      -48184,
+      122856,
+      -2840
+     ],
+     [
+      -49176,
+      123336,
+      -2848
+     ],
+     [
+      -50104,
+      124264,
+      -2928
+     ],
+     [
+      -50952,
+      124984,
+      -2992
+     ],
+     [
+      -51944,
+      125976,
+      -3040
+     ],
+     [
+      -52328,
+      126360,
+      -3080
+     ],
+     [
+      -53320,
+      127240,
+      -3112
+     ],
+     [
+      -54104,
+      128024,
+      -3080
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 294,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30391",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30391,
+    "name": "Parina",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -80430,
+     150694,
+     -3040
+    ],
+    "alt": []
+   },
+   "text": "Bring Flame Earring, Wind Bangle, Water Necklace, Earth Ring to Parina",
+   "needs": [
+    {
+     "id": 1282,
+     "name": "Flame Earring",
+     "n": 1
+    },
+    {
+     "id": 1285,
+     "name": "Wind Bangle",
+     "n": 1
+    },
+    {
+     "id": 1288,
+     "name": "Water Necklace",
+     "n": 1
+    },
+    {
+     "id": 1291,
+     "name": "Earth Ring",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30391@-80430,150694",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 5610,
+    "sec": 67,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 5610,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81160,
+      150296,
+      -3080
+     ],
+     [
+      -81368,
+      150440,
+      -3120
+     ],
+     [
+      -81384,
+      150664,
+      -3120
+     ],
+     [
+      -81160,
+      150824,
+      -3080
+     ],
+     [
+      -80888,
+      150824,
+      -3032
+     ],
+     [
+      -80616,
+      150824,
+      -3040
+     ],
+     [
+      -80344,
+      150824,
+      -3040
+     ],
+     [
+      -80072,
+      150824,
+      -3040
+     ],
+     [
+      -79800,
+      150824,
+      -3040
+     ],
+     [
+      -79528,
+      150824,
+      -3040
+     ],
+     [
+      -79256,
+      150824,
+      -3040
+     ],
+     [
+      -78984,
+      150824,
+      -3024
+     ],
+     [
+      -78968,
+      150728,
+      -3032
+     ],
+     [
+      -79144,
+      150760,
+      -3040
+     ],
+     [
+      -79320,
+      150824,
+      -3040
+     ],
+     [
+      -79592,
+      150824,
+      -3040
+     ],
+     [
+      -79864,
+      150824,
+      -3040
+     ],
+     [
+      -80136,
+      150824,
+      -3040
+     ],
+     [
+      -80360,
+      150824,
+      -3040
+     ],
+     [
+      -80456,
+      150808,
+      -3040
+     ],
+     [
+      -80424,
+      150696,
+      -3040
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 92,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30409",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 13,
+   "links": [],
+   "npc": {
+    "id": 30409,
+    "name": "Earth Snake",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -53760,
+     110720,
+     -3610
+    ],
+    "alt": []
+   },
+   "text": "Bring Rusty Coin, Red Soil to Earth Snake",
+   "needs": [
+    {
+     "id": 1289,
+     "name": "Rusty Coin",
+     "n": 1
+    },
+    {
+     "id": 1290,
+     "name": "Red Soil",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30409@-53760,110720",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13958,
+    "sec": 161,
+    "via": ".gludin > Gludin -> Fellmere Harvest Grounds",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Fellmere Harvest Grounds",
+      "link": "fellmere harvesting grounds",
+      "price": 1400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13958,
+      "how": "geodata",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -63736,
+      101522,
+      -3552
+     ],
+     [
+      -63608,
+      101384,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63448,
+      101432,
+      -3504
+     ],
+     [
+      -63384,
+      101480,
+      -3544
+     ],
+     [
+      -62888,
+      101976,
+      -3552
+     ],
+     [
+      -62392,
+      102472,
+      -3560
+     ],
+     [
+      -61896,
+      102944,
+      -3588
+     ],
+     [
+      -61400,
+      103416,
+      -3616
+     ],
+     [
+      -61304,
+      103416,
+      -3632
+     ],
+     [
+      -60808,
+      103912,
+      -3656
+     ],
+     [
+      -60312,
+      104408,
+      -3680
+     ],
+     [
+      -59816,
+      104904,
+      -3696
+     ],
+     [
+      -59320,
+      105400,
+      -3712
+     ],
+     [
+      -58832,
+      105896,
+      -3724
+     ],
+     [
+      -58344,
+      106392,
+      -3736
+     ],
+     [
+      -57848,
+      106888,
+      -3736
+     ],
+     [
+      -57352,
+      107384,
+      -3736
+     ],
+     [
+      -56920,
+      107832,
+      -3488
+     ],
+     [
+      -56424,
+      108328,
+      -3408
+     ],
+     [
+      -55928,
+      108824,
+      -3328
+     ],
+     [
+      -55432,
+      109320,
+      -3348
+     ],
+     [
+      -54936,
+      109816,
+      -3368
+     ],
+     [
+      -54680,
+      110072,
+      -3424
+     ],
+     [
+      -54648,
+      110072,
+      -3448
+     ],
+     [
+      -54248,
+      110488,
+      -3568
+     ],
+     [
+      -54200,
+      110584,
+      -3552
+     ],
+     [
+      -54040,
+      110728,
+      -3568
+     ],
+     [
+      -53752,
+      110728,
+      -3584
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 186,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30413",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30413,
+    "name": "Water Undine",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -60672,
+     126592,
+     -2957
+    ],
+    "alt": []
+   },
+   "text": "Bring Rama's Diary to Water Undine",
+   "needs": [
+    {
+     "id": 1286,
+     "name": "Rama's Diary",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30413@-60672,126592",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".gludio",
+    "length": 20747,
+    "sec": 300,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20747,
+      "how": "geodata",
+      "danger": 44
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41740,
+      123348,
+      -2888
+     ],
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -42728,
+      124336,
+      -2864
+     ],
+     [
+      -43224,
+      124824,
+      -2856
+     ],
+     [
+      -43944,
+      124824,
+      -2864
+     ],
+     [
+      -44200,
+      124888,
+      -2864
+     ],
+     [
+      -44696,
+      125080,
+      -2856
+     ],
+     [
+      -45192,
+      125272,
+      -2848
+     ],
+     [
+      -46184,
+      125272,
+      -2728
+     ],
+     [
+      -47176,
+      125272,
+      -2872
+     ],
+     [
+      -48168,
+      125272,
+      -2896
+     ],
+     [
+      -49160,
+      125272,
+      -2920
+     ],
+     [
+      -50152,
+      125272,
+      -2984
+     ],
+     [
+      -51144,
+      125272,
+      -3008
+     ],
+     [
+      -52136,
+      125272,
+      -3016
+     ],
+     [
+      -53128,
+      125304,
+      -3280
+     ],
+     [
+      -54120,
+      125304,
+      -3472
+     ],
+     [
+      -55112,
+      125304,
+      -3456
+     ],
+     [
+      -56104,
+      125304,
+      -3408
+     ],
+     [
+      -57096,
+      125304,
+      -3424
+     ],
+     [
+      -57736,
+      125304,
+      -3320
+     ],
+     [
+      -57848,
+      125416,
+      -3208
+     ],
+     [
+      -57976,
+      125416,
+      -3280
+     ],
+     [
+      -58472,
+      125560,
+      -3364
+     ],
+     [
+      -58968,
+      125704,
+      -3448
+     ],
+     [
+      -59528,
+      125704,
+      -3136
+     ],
+     [
+      -60024,
+      126152,
+      -3040
+     ],
+     [
+      -60520,
+      126600,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "maxDanger": 44,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 7051,
+      "maxSwim": 7051,
+      "overBreath": true
+     },
+     "danger": 44,
+     "dangerVsLevel": 26,
+     "aggro": []
+    }
+   },
+   "expectedSec": 325,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13
+   ],
+   "override": {
+    "route": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony",
+     "via": ".gludio"
+    },
+    "note": "Water Undine (-60672,126592,-2957): the atlas way swam 7051; new way = the dry geodata walk of nav atlas raid:25076 (raid policy, dry first) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (no swim)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony",
+     "via": ".gludio"
+    },
+    "points": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "pv": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "length": 25641,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-swim"
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30412",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 30412,
+    "name": "Wind Sylph",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -41452,
+     167329,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Bring Broken Bronze Mirror, Wind Feather to Wind Sylph",
+   "needs": [
+    {
+     "id": 1283,
+     "name": "Broken Bronze Mirror",
+     "n": 1
+    },
+    {
+     "id": 1284,
+     "name": "Wind Feather",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30412@-41452,167329",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 19751,
+    "sec": 210,
+    "via": ".gludio > Gludio -> Windawood Manor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Windawood Manor",
+      "link": "windawood manor",
+      "price": 1400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19751,
+      "how": "geodata",
+      "danger": 31
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Windawood Manor"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -28327,
+      155125,
+      -3496
+     ],
+     [
+      -28823,
+      155623,
+      -3648
+     ],
+     [
+      -29320,
+      156120,
+      -3800
+     ],
+     [
+      -29808,
+      156560,
+      -3852
+     ],
+     [
+      -30296,
+      157000,
+      -3904
+     ],
+     [
+      -31128,
+      157064,
+      -3904
+     ],
+     [
+      -32120,
+      157080,
+      -3904
+     ],
+     [
+      -33112,
+      157080,
+      -3952
+     ],
+     [
+      -33928,
+      157320,
+      -3792
+     ],
+     [
+      -34152,
+      157192,
+      -3552
+     ],
+     [
+      -34184,
+      157208,
+      -3520
+     ],
+     [
+      -34680,
+      157696,
+      -3140
+     ],
+     [
+      -35176,
+      158184,
+      -2760
+     ],
+     [
+      -35672,
+      158680,
+      -2292
+     ],
+     [
+      -36168,
+      159176,
+      -1824
+     ],
+     [
+      -36664,
+      159672,
+      -1716
+     ],
+     [
+      -37160,
+      160168,
+      -1608
+     ],
+     [
+      -37656,
+      160664,
+      -1236
+     ],
+     [
+      -38152,
+      161160,
+      -864
+     ],
+     [
+      -38648,
+      161656,
+      -1220
+     ],
+     [
+      -39144,
+      162152,
+      -1576
+     ],
+     [
+      -39640,
+      162648,
+      -1988
+     ],
+     [
+      -40136,
+      163144,
+      -2400
+     ],
+     [
+      -40632,
+      163640,
+      -2484
+     ],
+     [
+      -41128,
+      164136,
+      -2568
+     ],
+     [
+      -41448,
+      164968,
+      -2832
+     ],
+     [
+      -41448,
+      165960,
+      -3560
+     ],
+     [
+      -41448,
+      166952,
+      -3560
+     ],
+     [
+      -41448,
+      167336,
+      -3560
+     ]
+    ],
+    "maxDanger": 31,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 31,
+     "dangerVsLevel": 13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 235,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:talk:30410",
+   "cond": 1,
+   "kind": "talk",
+   "to": 6,
+   "links": [
+    "Talk about the noise"
+   ],
+   "npc": {
+    "id": 30410,
+    "name": "Wasteland Lizardman",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -45040,
+     179909,
+     -3680
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wasteland Lizardman",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30410@-45040,179909",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 14674,
+    "sec": 167,
+    "via": ".gludin > Gludin -> Forgotten Temple",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Forgotten Temple",
+      "link": "forgotten temple",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14674,
+      "how": "geodata",
+      "danger": 33
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Forgotten Temple"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -53001,
+      191425,
+      -3568
+     ],
+     [
+      -52544,
+      190933,
+      -3576
+     ],
+     [
+      -52088,
+      190440,
+      -3584
+     ],
+     [
+      -52024,
+      189944,
+      -3348
+     ],
+     [
+      -51960,
+      189448,
+      -3112
+     ],
+     [
+      -51960,
+      188456,
+      -2424
+     ],
+     [
+      -51976,
+      188184,
+      -2176
+     ],
+     [
+      -51960,
+      188152,
+      -2144
+     ],
+     [
+      -51464,
+      187656,
+      -1792
+     ],
+     [
+      -50968,
+      187160,
+      -1440
+     ],
+     [
+      -50472,
+      186664,
+      -1512
+     ],
+     [
+      -49976,
+      186168,
+      -1584
+     ],
+     [
+      -49480,
+      185672,
+      -2108
+     ],
+     [
+      -48984,
+      185176,
+      -2632
+     ],
+     [
+      -48560,
+      184728,
+      -2912
+     ],
+     [
+      -48136,
+      184280,
+      -3192
+     ],
+     [
+      -47640,
+      183784,
+      -3208
+     ],
+     [
+      -47144,
+      183288,
+      -3224
+     ],
+     [
+      -46720,
+      182808,
+      -3428
+     ],
+     [
+      -46296,
+      182328,
+      -3632
+     ],
+     [
+      -46056,
+      181992,
+      -3632
+     ],
+     [
+      -46056,
+      181912,
+      -3632
+     ],
+     [
+      -45560,
+      181416,
+      -3648
+     ],
+     [
+      -45064,
+      180920,
+      -3664
+     ],
+     [
+      -45032,
+      179928,
+      -3688
+     ],
+     [
+      -45032,
+      179912,
+      -3688
+     ]
+    ],
+    "maxDanger": 33,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 33,
+     "dangerVsLevel": 15,
+     "aggro": [
+      {
+       "name": "Lesser Warlike Tyrant",
+       "lv": 33,
+       "n": 2
+      },
+      {
+       "name": "Basilisk",
+       "lv": 28,
+       "n": 1
+      },
+      {
+       "name": "Monster Eye Watcher",
+       "lv": 25,
+       "n": 3
+      }
+     ]
+    }
+   },
+   "expectedSec": 192,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ],
+   "override": {
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Forgotten Temple",
+     "via": ".gludin"
+    },
+    "note": "Wasteland Lizardman 30410 stands in a level 25-33 area; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles | NOT stored as the route: aggressive monsters Ol Mahum Van Archer 32 x1, Magical Eye 31 x1, Lesser Basilisk 27 x2, Monster Eye Watcher 25 x4, Basilisk 28 x1 (>= quest level 18 + 6) touch it; needs a party of about level 30+ or another way",
+    "routeProposed": [
+     [
+      -53000,
+      191432,
+      -3568
+     ],
+     [
+      -52008,
+      191288,
+      -3608
+     ],
+     [
+      -51800,
+      191144,
+      -3616
+     ],
+     [
+      -50808,
+      191320,
+      -3344
+     ],
+     [
+      -50712,
+      191320,
+      -3304
+     ],
+     [
+      -49720,
+      191320,
+      -2784
+     ],
+     [
+      -48728,
+      191320,
+      -2216
+     ],
+     [
+      -48312,
+      191320,
+      -2256
+     ],
+     [
+      -47320,
+      191320,
+      -2656
+     ],
+     [
+      -46328,
+      191320,
+      -2608
+     ],
+     [
+      -45912,
+      191320,
+      -2744
+     ],
+     [
+      -45432,
+      190328,
+      -3168
+     ],
+     [
+      -45144,
+      189688,
+      -3208
+     ],
+     [
+      -45144,
+      188696,
+      -3256
+     ],
+     [
+      -45144,
+      187704,
+      -3248
+     ],
+     [
+      -45144,
+      187288,
+      -3160
+     ],
+     [
+      -45256,
+      186296,
+      -3096
+     ],
+     [
+      -45272,
+      185320,
+      -3632
+     ],
+     [
+      -45144,
+      184888,
+      -3632
+     ],
+     [
+      -45144,
+      183896,
+      -3632
+     ],
+     [
+      -45144,
+      182904,
+      -3632
+     ],
+     [
+      -45144,
+      182488,
+      -3632
+     ],
+     [
+      -45144,
+      181496,
+      -3632
+     ],
+     [
+      -45144,
+      180504,
+      -3688
+     ],
+     [
+      -45144,
+      180088,
+      -3704
+     ],
+     [
+      -45032,
+      179912,
+      -3688
+     ]
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30411",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30411,
+    "name": "Flame Salamander",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -20352,
+     144736,
+     -3840
+    ],
+    "alt": []
+   },
+   "text": "Bring Map of Luster, Flame Earring, Key of Flame to Flame Salamander",
+   "needs": [
+    {
+     "id": 1280,
+     "name": "Map of Luster",
+     "n": 1
+    },
+    {
+     "id": 1282,
+     "name": "Flame Earring",
+     "n": 1
+    },
+    {
+     "id": 1281,
+     "name": "Key of Flame",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30411@-20352,144736",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8480,
+    "sec": 116,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8480,
+      "how": "geodata",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -19612,
+      137316,
+      -3824
+     ],
+     [
+      -20104,
+      137816,
+      -3896
+     ],
+     [
+      -20344,
+      138440,
+      -3896
+     ],
+     [
+      -20344,
+      139432,
+      -3896
+     ],
+     [
+      -20344,
+      140424,
+      -3896
+     ],
+     [
+      -20344,
+      141416,
+      -3896
+     ],
+     [
+      -20136,
+      142104,
+      -3896
+     ],
+     [
+      -20104,
+      142408,
+      -3896
+     ],
+     [
+      -20104,
+      142472,
+      -3896
+     ],
+     [
+      -20440,
+      143304,
+      -3816
+     ],
+     [
+      -20456,
+      143448,
+      -3816
+     ],
+     [
+      -20344,
+      144440,
+      -3816
+     ],
+     [
+      -20344,
+      144744,
+      -3808
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 141,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c4:talk:30411",
+   "cond": 4,
+   "kind": "talk",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 30411,
+    "name": "Flame Salamander",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -20352,
+     144736,
+     -3840
+    ],
+    "alt": []
+   },
+   "text": "Talk to Flame Salamander",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30411@-20352,144736",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 8480,
+    "sec": 116,
+    "via": ".gludio > Gludio -> Ruins of Despair",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Despair",
+      "link": "ruins of despair",
+      "price": 610,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8480,
+      "how": "geodata",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Despair"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -19120,
+      136816,
+      -3752
+     ],
+     [
+      -19612,
+      137316,
+      -3824
+     ],
+     [
+      -20104,
+      137816,
+      -3896
+     ],
+     [
+      -20344,
+      138440,
+      -3896
+     ],
+     [
+      -20344,
+      139432,
+      -3896
+     ],
+     [
+      -20344,
+      140424,
+      -3896
+     ],
+     [
+      -20344,
+      141416,
+      -3896
+     ],
+     [
+      -20136,
+      142104,
+      -3896
+     ],
+     [
+      -20104,
+      142408,
+      -3896
+     ],
+     [
+      -20104,
+      142472,
+      -3896
+     ],
+     [
+      -20440,
+      143304,
+      -3816
+     ],
+     [
+      -20456,
+      143448,
+      -3816
+     ],
+     [
+      -20344,
+      144440,
+      -3816
+     ],
+     [
+      -20344,
+      144744,
+      -3808
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 141,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c7:deliver:30412",
+   "cond": 7,
+   "kind": "deliver",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30412,
+    "name": "Wind Sylph",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -41452,
+     167329,
+     -3560
+    ],
+    "alt": []
+   },
+   "text": "Bring Flame Earring to Wind Sylph",
+   "needs": [
+    {
+     "id": 1282,
+     "name": "Flame Earring",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30412@-41452,167329",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 19751,
+    "sec": 210,
+    "via": ".gludio > Gludio -> Windawood Manor",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Windawood Manor",
+      "link": "windawood manor",
+      "price": 1400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 19751,
+      "how": "geodata",
+      "danger": 31
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Windawood Manor"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -28327,
+      155125,
+      -3496
+     ],
+     [
+      -28823,
+      155623,
+      -3648
+     ],
+     [
+      -29320,
+      156120,
+      -3800
+     ],
+     [
+      -29808,
+      156560,
+      -3852
+     ],
+     [
+      -30296,
+      157000,
+      -3904
+     ],
+     [
+      -31128,
+      157064,
+      -3904
+     ],
+     [
+      -32120,
+      157080,
+      -3904
+     ],
+     [
+      -33112,
+      157080,
+      -3952
+     ],
+     [
+      -33928,
+      157320,
+      -3792
+     ],
+     [
+      -34152,
+      157192,
+      -3552
+     ],
+     [
+      -34184,
+      157208,
+      -3520
+     ],
+     [
+      -34680,
+      157696,
+      -3140
+     ],
+     [
+      -35176,
+      158184,
+      -2760
+     ],
+     [
+      -35672,
+      158680,
+      -2292
+     ],
+     [
+      -36168,
+      159176,
+      -1824
+     ],
+     [
+      -36664,
+      159672,
+      -1716
+     ],
+     [
+      -37160,
+      160168,
+      -1608
+     ],
+     [
+      -37656,
+      160664,
+      -1236
+     ],
+     [
+      -38152,
+      161160,
+      -864
+     ],
+     [
+      -38648,
+      161656,
+      -1220
+     ],
+     [
+      -39144,
+      162152,
+      -1576
+     ],
+     [
+      -39640,
+      162648,
+      -1988
+     ],
+     [
+      -40136,
+      163144,
+      -2400
+     ],
+     [
+      -40632,
+      163640,
+      -2484
+     ],
+     [
+      -41128,
+      164136,
+      -2568
+     ],
+     [
+      -41448,
+      164968,
+      -2832
+     ],
+     [
+      -41448,
+      165960,
+      -3560
+     ],
+     [
+      -41448,
+      166952,
+      -3560
+     ],
+     [
+      -41448,
+      167336,
+      -3560
+     ]
+    ],
+    "maxDanger": 31,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 31,
+     "dangerVsLevel": 13,
+     "aggro": []
+    }
+   },
+   "expectedSec": 235,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    7
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c10:deliver:30413",
+   "cond": 10,
+   "kind": "deliver",
+   "to": 8,
+   "links": [],
+   "npc": {
+    "id": 30413,
+    "name": "Water Undine",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -60672,
+     126592,
+     -2957
+    ],
+    "alt": []
+   },
+   "text": "Bring Wind Bangle to Water Undine",
+   "needs": [
+    {
+     "id": 1285,
+     "name": "Wind Bangle",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30413@-60672,126592",
+    "status": "ok",
+    "flags": [
+     "swim",
+     "long-swim",
+     "over-breath"
+    ],
+    "from": ".gludio",
+    "length": 20747,
+    "sec": 300,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20747,
+      "how": "geodata",
+      "danger": 44
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41740,
+      123348,
+      -2888
+     ],
+     [
+      -42232,
+      123848,
+      -2872
+     ],
+     [
+      -42728,
+      124336,
+      -2864
+     ],
+     [
+      -43224,
+      124824,
+      -2856
+     ],
+     [
+      -43944,
+      124824,
+      -2864
+     ],
+     [
+      -44200,
+      124888,
+      -2864
+     ],
+     [
+      -44696,
+      125080,
+      -2856
+     ],
+     [
+      -45192,
+      125272,
+      -2848
+     ],
+     [
+      -46184,
+      125272,
+      -2728
+     ],
+     [
+      -47176,
+      125272,
+      -2872
+     ],
+     [
+      -48168,
+      125272,
+      -2896
+     ],
+     [
+      -49160,
+      125272,
+      -2920
+     ],
+     [
+      -50152,
+      125272,
+      -2984
+     ],
+     [
+      -51144,
+      125272,
+      -3008
+     ],
+     [
+      -52136,
+      125272,
+      -3016
+     ],
+     [
+      -53128,
+      125304,
+      -3280
+     ],
+     [
+      -54120,
+      125304,
+      -3472
+     ],
+     [
+      -55112,
+      125304,
+      -3456
+     ],
+     [
+      -56104,
+      125304,
+      -3408
+     ],
+     [
+      -57096,
+      125304,
+      -3424
+     ],
+     [
+      -57736,
+      125304,
+      -3320
+     ],
+     [
+      -57848,
+      125416,
+      -3208
+     ],
+     [
+      -57976,
+      125416,
+      -3280
+     ],
+     [
+      -58472,
+      125560,
+      -3364
+     ],
+     [
+      -58968,
+      125704,
+      -3448
+     ],
+     [
+      -59528,
+      125704,
+      -3136
+     ],
+     [
+      -60024,
+      126152,
+      -3040
+     ],
+     [
+      -60520,
+      126600,
+      -2944
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "maxDanger": 44,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": {
+      "swimLen": 7051,
+      "maxSwim": 7051,
+      "overBreath": true
+     },
+     "danger": 44,
+     "dangerVsLevel": 26,
+     "aggro": []
+    }
+   },
+   "expectedSec": 325,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    10
+   ],
+   "override": {
+    "route": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony",
+     "via": ".gludio"
+    },
+    "note": "Water Undine (-60672,126592,-2957): the atlas way swam 7051; new way = the dry geodata walk of nav atlas raid:25076 (raid policy, dry first) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (no swim)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony",
+     "via": ".gludio"
+    },
+    "points": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "pv": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "length": 25641,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "route-swim"
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c13:deliver:30409",
+   "cond": 13,
+   "kind": "deliver",
+   "to": 11,
+   "links": [],
+   "npc": {
+    "id": 30409,
+    "name": "Earth Snake",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -53760,
+     110720,
+     -3610
+    ],
+    "alt": []
+   },
+   "text": "Bring Water Necklace to Earth Snake",
+   "needs": [
+    {
+     "id": 1288,
+     "name": "Water Necklace",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30409@-53760,110720",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13958,
+    "sec": 161,
+    "via": ".gludin > Gludin -> Fellmere Harvest Grounds",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Fellmere Harvest Grounds",
+      "link": "fellmere harvesting grounds",
+      "price": 1400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13958,
+      "how": "geodata",
+      "danger": 24
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Fellmere Harvest Grounds"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -63736,
+      101522,
+      -3552
+     ],
+     [
+      -63608,
+      101384,
+      -3552
+     ],
+     [
+      -63464,
+      101368,
+      -3512
+     ],
+     [
+      -63448,
+      101432,
+      -3504
+     ],
+     [
+      -63384,
+      101480,
+      -3544
+     ],
+     [
+      -62888,
+      101976,
+      -3552
+     ],
+     [
+      -62392,
+      102472,
+      -3560
+     ],
+     [
+      -61896,
+      102944,
+      -3588
+     ],
+     [
+      -61400,
+      103416,
+      -3616
+     ],
+     [
+      -61304,
+      103416,
+      -3632
+     ],
+     [
+      -60808,
+      103912,
+      -3656
+     ],
+     [
+      -60312,
+      104408,
+      -3680
+     ],
+     [
+      -59816,
+      104904,
+      -3696
+     ],
+     [
+      -59320,
+      105400,
+      -3712
+     ],
+     [
+      -58832,
+      105896,
+      -3724
+     ],
+     [
+      -58344,
+      106392,
+      -3736
+     ],
+     [
+      -57848,
+      106888,
+      -3736
+     ],
+     [
+      -57352,
+      107384,
+      -3736
+     ],
+     [
+      -56920,
+      107832,
+      -3488
+     ],
+     [
+      -56424,
+      108328,
+      -3408
+     ],
+     [
+      -55928,
+      108824,
+      -3328
+     ],
+     [
+      -55432,
+      109320,
+      -3348
+     ],
+     [
+      -54936,
+      109816,
+      -3368
+     ],
+     [
+      -54680,
+      110072,
+      -3424
+     ],
+     [
+      -54648,
+      110072,
+      -3448
+     ],
+     [
+      -54248,
+      110488,
+      -3568
+     ],
+     [
+      -54200,
+      110584,
+      -3552
+     ],
+     [
+      -54040,
+      110728,
+      -3568
+     ],
+     [
+      -53752,
+      110728,
+      -3584
+     ]
+    ],
+    "maxDanger": 24,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 24,
+     "dangerVsLevel": 6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 186,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:deliver:30413": {
+    "route": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony",
+     "via": ".gludio"
+    },
+    "note": "Water Undine (-60672,126592,-2957): the atlas way swam 7051; new way = the dry geodata walk of nav atlas raid:25076 (raid policy, dry first) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (no swim)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c10:deliver:30413": {
+    "route": [
+     [
+      -41248,
+      122848,
+      -2904
+     ],
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122856,
+      -2672
+     ],
+     [
+      -43640,
+      122856,
+      -2656
+     ],
+     [
+      -44632,
+      122856,
+      -2704
+     ],
+     [
+      -45624,
+      122856,
+      -2848
+     ],
+     [
+      -46040,
+      122856,
+      -2864
+     ],
+     [
+      -47032,
+      122856,
+      -2912
+     ],
+     [
+      -48024,
+      122856,
+      -2848
+     ],
+     [
+      -48440,
+      122856,
+      -2840
+     ],
+     [
+      -49432,
+      122856,
+      -2832
+     ],
+     [
+      -50104,
+      122888,
+      -2824
+     ],
+     [
+      -50840,
+      122856,
+      -2824
+     ],
+     [
+      -51336,
+      122736,
+      -2836
+     ],
+     [
+      -51832,
+      122616,
+      -2848
+     ],
+     [
+      -52664,
+      122408,
+      -2912
+     ],
+     [
+      -52744,
+      122616,
+      -2936
+     ],
+     [
+      -53736,
+      122712,
+      -2920
+     ],
+     [
+      -54728,
+      122712,
+      -3000
+     ],
+     [
+      -55048,
+      122712,
+      -3008
+     ],
+     [
+      -55224,
+      122664,
+      -3008
+     ],
+     [
+      -56216,
+      122776,
+      -2992
+     ],
+     [
+      -56712,
+      122840,
+      -2984
+     ],
+     [
+      -57208,
+      122904,
+      -2976
+     ],
+     [
+      -57368,
+      122824,
+      -2976
+     ],
+     [
+      -57384,
+      122776,
+      -2976
+     ],
+     [
+      -58376,
+      122840,
+      -3016
+     ],
+     [
+      -59368,
+      122776,
+      -3064
+     ],
+     [
+      -59544,
+      122696,
+      -3080
+     ],
+     [
+      -59736,
+      122744,
+      -3104
+     ],
+     [
+      -59752,
+      122760,
+      -3104
+     ],
+     [
+      -59720,
+      122840,
+      -3112
+     ],
+     [
+      -59816,
+      122776,
+      -3120
+     ],
+     [
+      -60312,
+      122896,
+      -3148
+     ],
+     [
+      -60808,
+      123016,
+      -3176
+     ],
+     [
+      -60872,
+      124008,
+      -3104
+     ],
+     [
+      -60872,
+      124088,
+      -3096
+     ],
+     [
+      -60936,
+      125080,
+      -2984
+     ],
+     [
+      -61000,
+      126008,
+      -2912
+     ],
+     [
+      -60984,
+      126392,
+      -2912
+     ],
+     [
+      -60936,
+      126424,
+      -2920
+     ],
+     [
+      -60968,
+      127416,
+      -2952
+     ],
+     [
+      -60968,
+      127560,
+      -2952
+     ],
+     [
+      -60664,
+      126600,
+      -2936
+     ]
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony",
+     "via": ".gludio"
+    },
+    "note": "Water Undine (-60672,126592,-2957): the atlas way swam 7051; new way = the dry geodata walk of nav atlas raid:25076 (raid policy, dry first) + geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer (no swim)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:30410": {
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Forgotten Temple",
+     "via": ".gludin"
+    },
+    "note": "Wasteland Lizardman 30410 stands in a level 25-33 area; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer with danger circles | NOT stored as the route: aggressive monsters Ol Mahum Van Archer 32 x1, Magical Eye 31 x1, Lesser Basilisk 27 x2, Monster Eye Watcher 25 x4, Basilisk 28 x1 (>= quest level 18 + 6) touch it; needs a party of about level 30+ or another way",
+    "routeProposed": [
+     [
+      -53000,
+      191432,
+      -3568
+     ],
+     [
+      -52008,
+      191288,
+      -3608
+     ],
+     [
+      -51800,
+      191144,
+      -3616
+     ],
+     [
+      -50808,
+      191320,
+      -3344
+     ],
+     [
+      -50712,
+      191320,
+      -3304
+     ],
+     [
+      -49720,
+      191320,
+      -2784
+     ],
+     [
+      -48728,
+      191320,
+      -2216
+     ],
+     [
+      -48312,
+      191320,
+      -2256
+     ],
+     [
+      -47320,
+      191320,
+      -2656
+     ],
+     [
+      -46328,
+      191320,
+      -2608
+     ],
+     [
+      -45912,
+      191320,
+      -2744
+     ],
+     [
+      -45432,
+      190328,
+      -3168
+     ],
+     [
+      -45144,
+      189688,
+      -3208
+     ],
+     [
+      -45144,
+      188696,
+      -3256
+     ],
+     [
+      -45144,
+      187704,
+      -3248
+     ],
+     [
+      -45144,
+      187288,
+      -3160
+     ],
+     [
+      -45256,
+      186296,
+      -3096
+     ],
+     [
+      -45272,
+      185320,
+      -3632
+     ],
+     [
+      -45144,
+      184888,
+      -3632
+     ],
+     [
+      -45144,
+      183896,
+      -3632
+     ],
+     [
+      -45144,
+      182904,
+      -3632
+     ],
+     [
+      -45144,
+      182488,
+      -3632
+     ],
+     [
+      -45144,
+      181496,
+      -3632
+     ],
+     [
+      -45144,
+      180504,
+      -3688
+     ],
+     [
+      -45144,
+      180088,
+      -3704
+     ],
+     [
+      -45032,
+      179912,
+      -3688
+     ]
+    ],
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

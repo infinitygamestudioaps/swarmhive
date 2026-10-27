@@ -1,0 +1,4079 @@
+{
+ "id": 236,
+ "name": "Seeds Of Chaos",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.557Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Kamael Village",
+ "requirements": {
+  "races": [
+   "KAMAEL"
+  ],
+  "quests": [
+   {
+    "id": 25,
+    "name": "Q00025_HidingBehindTheTruth",
+    "need": "completed",
+    "where": "somewhere in the script"
+   }
+  ],
+  "items": [
+   {
+    "id": 5011,
+    "name": "Star of Destiny"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "race-only",
+   "text": "races: KAMAEL"
+  },
+  {
+   "code": "prereq-quest",
+   "text": "25 completed"
+  },
+  {
+   "code": "needs-item",
+   "text": "Star of Destiny"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 2
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 3
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 57,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32138",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Tell him that you are ready."
+   ],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kekropus – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 124,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21516,
+     "name": "Needle Stakato Drone",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 89,
+     "questSpawned": false
+    },
+    {
+     "id": 21532,
+     "name": "Shout of Splendor",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 21533,
+     "name": "Alliance of Splendor",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    },
+    {
+     "id": 21535,
+     "name": "Signet of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 21536,
+     "name": "Crown of Splendor",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 21537,
+     "name": "Fang of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 21539,
+     "name": "Wailing of Splendor",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21588,
+     "name": "Vampire Wizard",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 21589,
+     "name": "Vampire Wizard",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9743,
+     "name": "Shining Medallion",
+     "n": 62,
+     "from": [
+      {
+       "id": 21532,
+       "name": "Shout of Splendor",
+       "chance": 70
+      },
+      {
+       "id": 21533,
+       "name": "Alliance of Splendor",
+       "chance": 70
+      },
+      {
+       "id": 21535,
+       "name": "Signet of Splendor",
+       "chance": 70
+      },
+      {
+       "id": 21536,
+       "name": "Crown of Splendor",
+       "chance": 70
+      },
+      {
+       "id": 21537,
+       "name": "Fang of Splendor",
+       "chance": 70
+      },
+      {
+       "id": 21539,
+       "name": "Wailing of Splendor",
+       "chance": 70
+      }
+     ]
+    },
+    {
+     "id": 9744,
+     "name": "Blood Jewel",
+     "n": 1,
+     "from": [
+      {
+       "id": 21588,
+       "name": "Vampire Wizard",
+       "chance": 8
+      },
+      {
+       "id": 21589,
+       "name": "Vampire Wizard",
+       "chance": 8
+      }
+     ]
+    },
+    {
+     "id": 9745,
+     "name": "Black Echo Crystal",
+     "n": 1,
+     "from": [
+      {
+       "id": 21516,
+       "name": "Needle Stakato Drone",
+       "chance": 20
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Needle Stakato Drone, Shout of Splendor, Alliance of Splendor for Shining Medallion x62, Blood Jewel x1, Black Echo Crystal x1",
+   "places": [
+    {
+     "mobs": [
+      21532,
+      21533,
+      21535,
+      21536,
+      21537,
+      21539
+     ],
+     "items": [
+      9743
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-5",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 5: Signet of Splendor area (north-east)",
+      "at": [
+       85816,
+       -90120,
+       -2760
+      ],
+      "radius": 3370,
+      "levels": [
+       66,
+       67
+      ],
+      "count": 16,
+      "region": "Valley of Saints / Monastic Fortress (unreachable)",
+      "atlasKey": "area:valley-of-saints-monastic-fortress-far-5",
+      "status": "ok",
+      "sec": 295,
+      "danger": 67,
+      "aggrShare": 1,
+      "reachable": false,
+      "score": -31.08333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "wild-beast-pastures-5",
+        "name": "Wild Beast Pastures 5: Shout of Splendor area (north)",
+        "at": [
+         70824,
+         -89304,
+         -2344
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-monastic-fortress-far-2",
+        "name": "Valley of Saints / Monastic Fortress (unreachable) 2: Alliance of Splendor area (north-east)",
+        "at": [
+         85512,
+         -85048,
+         -3576
+        ],
+        "count": 13,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "valley-of-saints-13",
+        "name": "Valley of Saints 13: Victory of Splendor area (north-east)",
+        "at": [
+         82936,
+         -83752,
+         -3608
+        ],
+        "count": 2,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:valley-of-saints-monastic-fortress-far-5",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 29966,
+      "sec": 295,
+      "via": ".rune > Rune -> Valley of Saints",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Valley of Saints",
+        "link": "valley of saints",
+        "price": 3800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8493,
+        "how": "geodata",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 21473,
+        "how": "field-areas",
+        "danger": 67
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Valley of Saints"
+      },
+      "simple": true,
+      "pv": [
+       [
+        65307,
+        -71445,
+        -3688
+       ],
+       [
+        65976,
+        -71960,
+        -3720
+       ],
+       [
+        66472,
+        -72456,
+        -3716
+       ],
+       [
+        66968,
+        -72952,
+        -3712
+       ],
+       [
+        67464,
+        -73448,
+        -3708
+       ],
+       [
+        67960,
+        -73944,
+        -3704
+       ],
+       [
+        68456,
+        -74440,
+        -3720
+       ],
+       [
+        68952,
+        -74936,
+        -3736
+       ],
+       [
+        69448,
+        -75432,
+        -3708
+       ],
+       [
+        69944,
+        -75928,
+        -3680
+       ],
+       [
+        69816,
+        -76200,
+        -3720
+       ],
+       [
+        69688,
+        -76824,
+        -3736
+       ],
+       [
+        69736,
+        -76920,
+        -3720
+       ],
+       [
+        69864,
+        -77112,
+        -3720
+       ],
+       [
+        70168,
+        -77240,
+        -3776
+       ],
+       [
+        70600,
+        -77240,
+        -4032
+       ],
+       [
+        71592,
+        -77240,
+        -4016
+       ],
+       [
+        72584,
+        -77240,
+        -3616
+       ],
+       [
+        73576,
+        -78168,
+        -3232
+       ],
+       [
+        74568,
+        -79160,
+        -3256
+       ],
+       [
+        74920,
+        -79512,
+        -3360
+       ],
+       [
+        75400,
+        -80120,
+        -3568
+       ],
+       [
+        75496,
+        -80216,
+        -3584
+       ],
+       [
+        75672,
+        -80360,
+        -3608
+       ],
+       [
+        76584,
+        -80456,
+        -3608
+       ],
+       [
+        77576,
+        -81448,
+        -3608
+       ],
+       [
+        78568,
+        -82440,
+        -3624
+       ],
+       [
+        78728,
+        -82584,
+        -3640
+       ],
+       [
+        78776,
+        -82584,
+        -3624
+       ],
+       [
+        78808,
+        -82616,
+        -3624
+       ],
+       [
+        79800,
+        -83208,
+        -3616
+       ],
+       [
+        80792,
+        -84200,
+        -3640
+       ],
+       [
+        81656,
+        -85064,
+        -3608
+       ],
+       [
+        82600,
+        -86056,
+        -3576
+       ],
+       [
+        83592,
+        -87048,
+        -3032
+       ],
+       [
+        83704,
+        -87160,
+        -2944
+       ],
+       [
+        83720,
+        -87176,
+        -2928
+       ],
+       [
+        83672,
+        -87976,
+        -2744
+       ],
+       [
+        83608,
+        -88056,
+        -2744
+       ],
+       [
+        83544,
+        -88168,
+        -2728
+       ],
+       [
+        83560,
+        -88712,
+        -2584
+       ],
+       [
+        83688,
+        -88840,
+        -2656
+       ],
+       [
+        83864,
+        -88904,
+        -2736
+       ],
+       [
+        84856,
+        -89160,
+        -2720
+       ],
+       [
+        85816,
+        -90120,
+        -2760
+       ]
+      ],
+      "maxDanger": 67,
+      "needs": [],
+      "why": [
+       "the nearest gatekeeper landing on foot (Rune -> Valley of Saints) is a 30.0k walk — more than the 25k walk limit"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 67,
+       "dangerVsLevel": -8,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21588,
+      21589
+     ],
+     "items": [
+      9744
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "rune-outskirts-7",
+      "name": "Rune outskirts 7: Vampire Magician area (south)",
+      "at": [
+       49496,
+       -37992,
+       -2024
+      ],
+      "radius": 2430,
+      "levels": [
+       71,
+       73
+      ],
+      "count": 3,
+      "region": "Rune outskirts",
+      "atlasKey": "area:rune-outskirts-7",
+      "status": "ok",
+      "sec": 190,
+      "danger": 73,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -14.833333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "rune-outskirts-8",
+        "name": "Rune outskirts 8: Behemoth Zombie area (south)",
+        "at": [
+         49400,
+         -36104,
+         -1528
+        ],
+        "count": 3,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "rune-outskirts-9",
+        "name": "Rune outskirts 9: Bone Scavenger area (south)",
+        "at": [
+         46680,
+         -36872,
+         -1632
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "forest-of-the-dead-23",
+        "name": "Forest of the Dead 23: Requiem Priest area (south-east)",
+        "at": [
+         57384,
+         -48184,
+         -3000
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:rune-outskirts-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 17379,
+      "sec": 190,
+      "via": ".rune > Rune -> Forest of the Dead",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Forest of the Dead",
+        "link": "forest of the dead",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 16059,
+        "how": "field-areas-gap",
+        "danger": 73
+       },
+       {
+        "do": "walk",
+        "len": 1320,
+        "how": "field-areas",
+        "danger": 73
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Forest of the Dead"
+      },
+      "simple": true,
+      "pv": [
+       [
+        52107,
+        -54328,
+        -3152
+       ],
+       [
+        50184,
+        -39112,
+        -1952
+       ],
+       [
+        49624,
+        -38120,
+        -2016
+       ],
+       [
+        49496,
+        -37992,
+        -2024
+       ]
+      ],
+      "maxDanger": 73,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 73,
+       "dangerVsLevel": -2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      21516
+     ],
+     "items": [
+      9745
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "stakato-nest-7",
+      "name": "Stakato Nest 7: Needle Stakato Drone area (north)",
+      "at": [
+       90424,
+       -54200,
+       -2576
+      ],
+      "radius": 5392,
+      "levels": [
+       70,
+       73
+      ],
+      "count": 7,
+      "region": "Stakato Nest",
+      "atlasKey": "area:stakato-nest-7",
+      "status": "ok",
+      "sec": 140,
+      "danger": 74,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -39.666666666666664,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "stakato-nest-11",
+        "name": "Stakato Nest 11: Needle Stakato Drone area (north)",
+        "at": [
+         86424,
+         -57560,
+         -2312
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "swamp-of-screams-20",
+        "name": "Swamp of Screams 20: Needle Stakato Drone area (north-east)",
+        "at": [
+         81736,
+         -62456,
+         -2304
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stakato-nest-5",
+        "name": "Stakato Nest 5: Needle Stakato Soldier area (north-west)",
+        "at": [
+         82392,
+         -52120,
+         -2208
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stakato-nest-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".rune",
+      "length": 11360,
+      "sec": 140,
+      "via": ".rune > Rune -> Stakato Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "gk",
+        "from": "Rune",
+        "desc": "Rune -> Stakato Nest",
+        "link": "stakato nest",
+        "price": 9100,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4639,
+        "how": "field-areas-gap",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 6721,
+        "how": "field-areas",
+        "danger": 74
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Rune",
+       "desc": "Rune -> Stakato Nest"
+      },
+      "simple": true,
+      "pv": [
+       [
+        89513,
+        -44800,
+        -2136
+       ],
+       [
+        87672,
+        -48584,
+        -3000
+       ],
+       [
+        88056,
+        -48904,
+        -3088
+       ],
+       [
+        88200,
+        -48984,
+        -3080
+       ],
+       [
+        88216,
+        -49000,
+        -3064
+       ],
+       [
+        88232,
+        -49016,
+        -3048
+       ],
+       [
+        88248,
+        -49032,
+        -3032
+       ],
+       [
+        88264,
+        -49048,
+        -3000
+       ],
+       [
+        88328,
+        -49176,
+        -2968
+       ],
+       [
+        88424,
+        -49272,
+        -2920
+       ],
+       [
+        88440,
+        -49288,
+        -2912
+       ],
+       [
+        88456,
+        -49304,
+        -2888
+       ],
+       [
+        88456,
+        -50296,
+        -2584
+       ],
+       [
+        88616,
+        -50632,
+        -2592
+       ],
+       [
+        88632,
+        -50744,
+        -2608
+       ],
+       [
+        88632,
+        -51736,
+        -2600
+       ],
+       [
+        88728,
+        -52504,
+        -2600
+       ],
+       [
+        89720,
+        -53496,
+        -2584
+       ],
+       [
+        90424,
+        -54200,
+        -2576
+       ]
+      ],
+      "maxDanger": 74,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 74,
+       "dangerVsLevel": -1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "valley-of-saints-monastic-fortress-far-5",
+    "name": "Valley of Saints / Monastic Fortress (unreachable) 5: Signet of Splendor area (north-east)",
+    "at": [
+     85816,
+     -90120,
+     -2760
+    ],
+    "radius": 3370,
+    "levels": [
+     66,
+     67
+    ],
+    "count": 16,
+    "region": "Valley of Saints / Monastic Fortress (unreachable)",
+    "atlasKey": "area:valley-of-saints-monastic-fortress-far-5",
+    "status": "ok",
+    "sec": 295,
+    "danger": 67,
+    "aggrShare": 1,
+    "reachable": false,
+    "score": -31.08333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "wild-beast-pastures-5",
+      "name": "Wild Beast Pastures 5: Shout of Splendor area (north)",
+      "at": [
+       70824,
+       -89304,
+       -2344
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-monastic-fortress-far-2",
+      "name": "Valley of Saints / Monastic Fortress (unreachable) 2: Alliance of Splendor area (north-east)",
+      "at": [
+       85512,
+       -85048,
+       -3576
+      ],
+      "count": 13,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "valley-of-saints-13",
+      "name": "Valley of Saints 13: Victory of Splendor area (north-east)",
+      "at": [
+       82936,
+       -83752,
+       -3608
+      ],
+      "count": 2,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:valley-of-saints-monastic-fortress-far-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 29966,
+    "sec": 295,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8493,
+      "how": "geodata",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 21473,
+      "how": "field-areas",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66472,
+      -72456,
+      -3716
+     ],
+     [
+      66968,
+      -72952,
+      -3712
+     ],
+     [
+      67464,
+      -73448,
+      -3708
+     ],
+     [
+      67960,
+      -73944,
+      -3704
+     ],
+     [
+      68456,
+      -74440,
+      -3720
+     ],
+     [
+      68952,
+      -74936,
+      -3736
+     ],
+     [
+      69448,
+      -75432,
+      -3708
+     ],
+     [
+      69944,
+      -75928,
+      -3680
+     ],
+     [
+      69816,
+      -76200,
+      -3720
+     ],
+     [
+      69688,
+      -76824,
+      -3736
+     ],
+     [
+      69736,
+      -76920,
+      -3720
+     ],
+     [
+      69864,
+      -77112,
+      -3720
+     ],
+     [
+      70168,
+      -77240,
+      -3776
+     ],
+     [
+      70600,
+      -77240,
+      -4032
+     ],
+     [
+      71592,
+      -77240,
+      -4016
+     ],
+     [
+      72584,
+      -77240,
+      -3616
+     ],
+     [
+      73576,
+      -78168,
+      -3232
+     ],
+     [
+      74568,
+      -79160,
+      -3256
+     ],
+     [
+      74920,
+      -79512,
+      -3360
+     ],
+     [
+      75400,
+      -80120,
+      -3568
+     ],
+     [
+      75496,
+      -80216,
+      -3584
+     ],
+     [
+      75672,
+      -80360,
+      -3608
+     ],
+     [
+      76584,
+      -80456,
+      -3608
+     ],
+     [
+      77576,
+      -81448,
+      -3608
+     ],
+     [
+      78568,
+      -82440,
+      -3624
+     ],
+     [
+      78728,
+      -82584,
+      -3640
+     ],
+     [
+      78776,
+      -82584,
+      -3624
+     ],
+     [
+      78808,
+      -82616,
+      -3624
+     ],
+     [
+      79800,
+      -83208,
+      -3616
+     ],
+     [
+      80792,
+      -84200,
+      -3640
+     ],
+     [
+      81656,
+      -85064,
+      -3608
+     ],
+     [
+      82600,
+      -86056,
+      -3576
+     ],
+     [
+      83592,
+      -87048,
+      -3032
+     ],
+     [
+      83704,
+      -87160,
+      -2944
+     ],
+     [
+      83720,
+      -87176,
+      -2928
+     ],
+     [
+      83672,
+      -87976,
+      -2744
+     ],
+     [
+      83608,
+      -88056,
+      -2744
+     ],
+     [
+      83544,
+      -88168,
+      -2728
+     ],
+     [
+      83560,
+      -88712,
+      -2584
+     ],
+     [
+      83688,
+      -88840,
+      -2656
+     ],
+     [
+      83864,
+      -88904,
+      -2736
+     ],
+     [
+      84856,
+      -89160,
+      -2720
+     ],
+     [
+      85816,
+      -90120,
+      -2760
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "the nearest gatekeeper landing on foot (Rune -> Valley of Saints) is a 30.0k walk — more than the 25k walk limit"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 2520,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32237",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Still?\""
+   ],
+   "npc": {
+    "id": 32237,
+    "name": "Rodenpicula",
+    "title": "",
+    "town": "Kamael Village",
+    "at": [
+     -119832,
+     87098,
+     -12608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Rodenpicula",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     -119832,
+     87098,
+     -12608
+    ],
+    "manual": true,
+    "note": "Rodenpicula: Nornil's Garden (quest) instance only (dp data/instances/NornilsGardenQuest.xml), entered by Mao 32190 with Q236 started (NornilsGardenQuest.java) - engine: instance entry",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:32239",
+   "cond": 1,
+   "kind": "talk",
+   "to": 20,
+   "links": [
+    "......"
+   ],
+   "npc": {
+    "id": 32239,
+    "name": "Mother Nornil",
+    "title": "",
+    "town": "Kamael Village",
+    "at": [
+     -120080,
+     87176,
+     -12608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mother Nornil",
+   "reasons": [
+    "route-unverified",
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32239@-120080,87176",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".gludio",
+    "length": 14164,
+    "sec": 188,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I free",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold I free",
+      "link": "stronghold i",
+      "price": 0,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 14164,
+      "how": "straight",
+      "danger": 5
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -122410,
+      73205,
+      -2872
+     ],
+     [
+      -120080,
+      87176,
+      -12608
+     ]
+    ],
+    "maxDanger": 5,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from -122410,73205 (gave up after 15000 ms)"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 5,
+     "dangerVsLevel": -70,
+     "aggro": []
+    }
+   },
+   "expectedSec": 213,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     -120080,
+     87176,
+     -12608
+    ],
+    "manual": true,
+    "note": "Mother Nornil: NornilsGardenQuest instance only (dp NornilsGardenQuest.xml) - engine: instance entry",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:32138",
+   "cond": 1,
+   "kind": "talk",
+   "to": 15,
+   "links": [
+    "Ask what you must do now."
+   ],
+   "npc": {
+    "id": 32138,
+    "name": "Kekropus",
+    "title": "Hierarch",
+    "town": "Kamael Village",
+    "at": [
+     -118080,
+     42835,
+     712
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kekropus",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32138@-118080,42835",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 5820,
+    "sec": 94,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5820,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -117256,
+      46776,
+      360
+     ],
+     [
+      -117208,
+      46520,
+      360
+     ],
+     [
+      -117096,
+      46264,
+      360
+     ],
+     [
+      -117048,
+      45992,
+      360
+     ],
+     [
+      -117048,
+      45944,
+      360
+     ],
+     [
+      -117080,
+      45800,
+      360
+     ],
+     [
+      -117128,
+      45528,
+      360
+     ],
+     [
+      -117304,
+      45320,
+      360
+     ],
+     [
+      -117528,
+      45240,
+      360
+     ],
+     [
+      -117704,
+      45032,
+      360
+     ],
+     [
+      -117880,
+      44840,
+      400
+     ],
+     [
+      -118072,
+      44696,
+      448
+     ],
+     [
+      -117976,
+      44664,
+      464
+     ],
+     [
+      -117784,
+      44472,
+      528
+     ],
+     [
+      -117560,
+      44312,
+      544
+     ],
+     [
+      -117304,
+      44312,
+      536
+     ],
+     [
+      -117112,
+      44120,
+      536
+     ],
+     [
+      -117112,
+      43848,
+      544
+     ],
+     [
+      -117144,
+      43576,
+      544
+     ],
+     [
+      -117320,
+      43496,
+      544
+     ],
+     [
+      -117592,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43512,
+      544
+     ],
+     [
+      -117736,
+      43480,
+      544
+     ],
+     [
+      -117736,
+      43208,
+      576
+     ],
+     [
+      -117752,
+      42936,
+      680
+     ],
+     [
+      -117928,
+      42888,
+      704
+     ],
+     [
+      -118072,
+      42840,
+      712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 119,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:32334",
+   "cond": 1,
+   "kind": "talk",
+   "to": 14,
+   "links": [
+    "Ask where she is."
+   ],
+   "npc": {
+    "id": 32334,
+    "name": "Harkilgamed",
+    "title": "",
+    "town": "",
+    "at": [
+     71722,
+     -78853,
+     -4464
+    ],
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Harkilgamed",
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     71722,
+     -78853,
+     -4464
+    ],
+    "note": "Harkilgamed is spawned at (71722,-78853,-4464) by the Rock 32238 dialog (\"Draw closer.\" / \"Call him.\", Q00236 addSpawn)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31649@71344,-82704",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 21048,
+    "sec": 221,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13743,
+      "how": "geodata",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66472,
+      -72456,
+      -3716
+     ],
+     [
+      66968,
+      -72952,
+      -3712
+     ],
+     [
+      67464,
+      -73448,
+      -3708
+     ],
+     [
+      67960,
+      -73944,
+      -3704
+     ],
+     [
+      68456,
+      -74440,
+      -3720
+     ],
+     [
+      68952,
+      -74936,
+      -3736
+     ],
+     [
+      69448,
+      -75432,
+      -3708
+     ],
+     [
+      69944,
+      -75928,
+      -3680
+     ],
+     [
+      69816,
+      -76200,
+      -3720
+     ],
+     [
+      69688,
+      -76824,
+      -3736
+     ],
+     [
+      69736,
+      -76920,
+      -3720
+     ],
+     [
+      69864,
+      -77112,
+      -3720
+     ],
+     [
+      70264,
+      -77608,
+      -3820
+     ],
+     [
+      70664,
+      -78104,
+      -3920
+     ],
+     [
+      70760,
+      -78392,
+      -3816
+     ],
+     [
+      70912,
+      -78888,
+      -3616
+     ],
+     [
+      71064,
+      -79384,
+      -3416
+     ],
+     [
+      71208,
+      -79880,
+      -3312
+     ],
+     [
+      71352,
+      -80376,
+      -3208
+     ],
+     [
+      71528,
+      -81064,
+      -3256
+     ],
+     [
+      71528,
+      -81128,
+      -3248
+     ],
+     [
+      71352,
+      -82008,
+      -3752
+     ],
+     [
+      71384,
+      -82424,
+      -4168
+     ],
+     [
+      71352,
+      -82664,
+      -4288
+     ],
+     [
+      71352,
+      -82696,
+      -4280
+     ],
+     [
+      71640,
+      -82952,
+      -4280
+     ],
+     [
+      71848,
+      -82824,
+      -4304
+     ],
+     [
+      72008,
+      -82616,
+      -4296
+     ],
+     [
+      71976,
+      -82232,
+      -4144
+     ],
+     [
+      70984,
+      -82232,
+      -3656
+     ],
+     [
+      70504,
+      -82520,
+      -3456
+     ],
+     [
+      70360,
+      -82488,
+      -3376
+     ],
+     [
+      70344,
+      -82472,
+      -3376
+     ],
+     [
+      71288,
+      -81480,
+      -3256
+     ],
+     [
+      71592,
+      -81144,
+      -3240
+     ],
+     [
+      71448,
+      -80152,
+      -3208
+     ],
+     [
+      71144,
+      -79768,
+      -3272
+     ],
+     [
+      70984,
+      -79256,
+      -3456
+     ],
+     [
+      71128,
+      -79160,
+      -3560
+     ],
+     [
+      71144,
+      -79160,
+      -4464
+     ],
+     [
+      71720,
+      -78856,
+      -4464
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31649@71344,-82704",
+     "name": "Tablet of Vision"
+    },
+    "points": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66472,
+      -72456,
+      -3716
+     ],
+     [
+      66968,
+      -72952,
+      -3712
+     ],
+     [
+      67464,
+      -73448,
+      -3708
+     ],
+     [
+      67960,
+      -73944,
+      -3704
+     ],
+     [
+      68456,
+      -74440,
+      -3720
+     ],
+     [
+      68952,
+      -74936,
+      -3736
+     ],
+     [
+      69448,
+      -75432,
+      -3708
+     ],
+     [
+      69944,
+      -75928,
+      -3680
+     ],
+     [
+      69816,
+      -76200,
+      -3720
+     ],
+     [
+      69688,
+      -76824,
+      -3736
+     ],
+     [
+      69736,
+      -76920,
+      -3720
+     ],
+     [
+      69864,
+      -77112,
+      -3720
+     ],
+     [
+      70264,
+      -77608,
+      -3820
+     ],
+     [
+      70664,
+      -78104,
+      -3920
+     ],
+     [
+      70760,
+      -78392,
+      -3816
+     ],
+     [
+      70912,
+      -78888,
+      -3616
+     ],
+     [
+      71064,
+      -79384,
+      -3416
+     ],
+     [
+      71208,
+      -79880,
+      -3312
+     ],
+     [
+      71352,
+      -80376,
+      -3208
+     ],
+     [
+      71528,
+      -81064,
+      -3256
+     ],
+     [
+      71528,
+      -81128,
+      -3248
+     ],
+     [
+      71352,
+      -82008,
+      -3752
+     ],
+     [
+      71384,
+      -82424,
+      -4168
+     ],
+     [
+      71352,
+      -82664,
+      -4288
+     ],
+     [
+      71352,
+      -82696,
+      -4280
+     ],
+     [
+      71640,
+      -82952,
+      -4280
+     ],
+     [
+      71848,
+      -82824,
+      -4304
+     ],
+     [
+      72008,
+      -82616,
+      -4296
+     ],
+     [
+      71976,
+      -82232,
+      -4144
+     ],
+     [
+      70984,
+      -82232,
+      -3656
+     ],
+     [
+      70504,
+      -82520,
+      -3456
+     ],
+     [
+      70360,
+      -82488,
+      -3376
+     ],
+     [
+      70344,
+      -82472,
+      -3376
+     ],
+     [
+      71288,
+      -81480,
+      -3256
+     ],
+     [
+      71592,
+      -81144,
+      -3240
+     ],
+     [
+      71448,
+      -80152,
+      -3208
+     ],
+     [
+      71144,
+      -79768,
+      -3272
+     ],
+     [
+      70984,
+      -79256,
+      -3456
+     ],
+     [
+      71128,
+      -79160,
+      -3560
+     ],
+     [
+      71144,
+      -79160,
+      -4464
+     ],
+     [
+      71720,
+      -78856,
+      -4464
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-quest-spawned"
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:talk:32236",
+   "cond": 1,
+   "kind": "talk",
+   "to": 12,
+   "links": [
+    "Agree."
+   ],
+   "npc": {
+    "id": 32236,
+    "name": "Harkilgamed",
+    "title": "",
+    "town": "",
+    "at": [
+     71722,
+     -78853,
+     -4464
+    ],
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Harkilgamed",
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     71722,
+     -78853,
+     -4464
+    ],
+    "note": "Harkilgamed is spawned at (71722,-78853,-4464) by the Rock 32238 dialog (\"Draw closer.\" / \"Call him.\", Q00236 addSpawn)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31649@71344,-82704",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 21048,
+    "sec": 221,
+    "via": ".rune > Rune -> Valley of Saints",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Valley of Saints",
+      "link": "valley of saints",
+      "price": 3800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13743,
+      "how": "geodata",
+      "danger": 76
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Valley of Saints"
+    },
+    "simple": true,
+    "pv": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66472,
+      -72456,
+      -3716
+     ],
+     [
+      66968,
+      -72952,
+      -3712
+     ],
+     [
+      67464,
+      -73448,
+      -3708
+     ],
+     [
+      67960,
+      -73944,
+      -3704
+     ],
+     [
+      68456,
+      -74440,
+      -3720
+     ],
+     [
+      68952,
+      -74936,
+      -3736
+     ],
+     [
+      69448,
+      -75432,
+      -3708
+     ],
+     [
+      69944,
+      -75928,
+      -3680
+     ],
+     [
+      69816,
+      -76200,
+      -3720
+     ],
+     [
+      69688,
+      -76824,
+      -3736
+     ],
+     [
+      69736,
+      -76920,
+      -3720
+     ],
+     [
+      69864,
+      -77112,
+      -3720
+     ],
+     [
+      70264,
+      -77608,
+      -3820
+     ],
+     [
+      70664,
+      -78104,
+      -3920
+     ],
+     [
+      70760,
+      -78392,
+      -3816
+     ],
+     [
+      70912,
+      -78888,
+      -3616
+     ],
+     [
+      71064,
+      -79384,
+      -3416
+     ],
+     [
+      71208,
+      -79880,
+      -3312
+     ],
+     [
+      71352,
+      -80376,
+      -3208
+     ],
+     [
+      71528,
+      -81064,
+      -3256
+     ],
+     [
+      71528,
+      -81128,
+      -3248
+     ],
+     [
+      71352,
+      -82008,
+      -3752
+     ],
+     [
+      71384,
+      -82424,
+      -4168
+     ],
+     [
+      71352,
+      -82664,
+      -4288
+     ],
+     [
+      71352,
+      -82696,
+      -4280
+     ],
+     [
+      71640,
+      -82952,
+      -4280
+     ],
+     [
+      71848,
+      -82824,
+      -4304
+     ],
+     [
+      72008,
+      -82616,
+      -4296
+     ],
+     [
+      71976,
+      -82232,
+      -4144
+     ],
+     [
+      70984,
+      -82232,
+      -3656
+     ],
+     [
+      70504,
+      -82520,
+      -3456
+     ],
+     [
+      70360,
+      -82488,
+      -3376
+     ],
+     [
+      70344,
+      -82472,
+      -3376
+     ],
+     [
+      71288,
+      -81480,
+      -3256
+     ],
+     [
+      71592,
+      -81144,
+      -3240
+     ],
+     [
+      71448,
+      -80152,
+      -3208
+     ],
+     [
+      71144,
+      -79768,
+      -3272
+     ],
+     [
+      70984,
+      -79256,
+      -3456
+     ],
+     [
+      71128,
+      -79160,
+      -3560
+     ],
+     [
+      71144,
+      -79160,
+      -4464
+     ],
+     [
+      71720,
+      -78856,
+      -4464
+     ]
+    ],
+    "maxDanger": 76,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 76,
+     "dangerVsLevel": 1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31649@71344,-82704",
+     "name": "Tablet of Vision"
+    },
+    "points": [
+     [
+      65307,
+      -71445,
+      -3688
+     ],
+     [
+      65976,
+      -71960,
+      -3720
+     ],
+     [
+      66472,
+      -72456,
+      -3716
+     ],
+     [
+      66968,
+      -72952,
+      -3712
+     ],
+     [
+      67464,
+      -73448,
+      -3708
+     ],
+     [
+      67960,
+      -73944,
+      -3704
+     ],
+     [
+      68456,
+      -74440,
+      -3720
+     ],
+     [
+      68952,
+      -74936,
+      -3736
+     ],
+     [
+      69448,
+      -75432,
+      -3708
+     ],
+     [
+      69944,
+      -75928,
+      -3680
+     ],
+     [
+      69816,
+      -76200,
+      -3720
+     ],
+     [
+      69688,
+      -76824,
+      -3736
+     ],
+     [
+      69736,
+      -76920,
+      -3720
+     ],
+     [
+      69864,
+      -77112,
+      -3720
+     ],
+     [
+      70264,
+      -77608,
+      -3820
+     ],
+     [
+      70664,
+      -78104,
+      -3920
+     ],
+     [
+      70760,
+      -78392,
+      -3816
+     ],
+     [
+      70912,
+      -78888,
+      -3616
+     ],
+     [
+      71064,
+      -79384,
+      -3416
+     ],
+     [
+      71208,
+      -79880,
+      -3312
+     ],
+     [
+      71352,
+      -80376,
+      -3208
+     ],
+     [
+      71528,
+      -81064,
+      -3256
+     ],
+     [
+      71528,
+      -81128,
+      -3248
+     ],
+     [
+      71352,
+      -82008,
+      -3752
+     ],
+     [
+      71384,
+      -82424,
+      -4168
+     ],
+     [
+      71352,
+      -82664,
+      -4288
+     ],
+     [
+      71352,
+      -82696,
+      -4280
+     ],
+     [
+      71640,
+      -82952,
+      -4280
+     ],
+     [
+      71848,
+      -82824,
+      -4304
+     ],
+     [
+      72008,
+      -82616,
+      -4296
+     ],
+     [
+      71976,
+      -82232,
+      -4144
+     ],
+     [
+      70984,
+      -82232,
+      -3656
+     ],
+     [
+      70504,
+      -82520,
+      -3456
+     ],
+     [
+      70360,
+      -82488,
+      -3376
+     ],
+     [
+      70344,
+      -82472,
+      -3376
+     ],
+     [
+      71288,
+      -81480,
+      -3256
+     ],
+     [
+      71592,
+      -81144,
+      -3240
+     ],
+     [
+      71448,
+      -80152,
+      -3208
+     ],
+     [
+      71144,
+      -79768,
+      -3272
+     ],
+     [
+      70984,
+      -79256,
+      -3456
+     ],
+     [
+      71128,
+      -79160,
+      -3560
+     ],
+     [
+      71144,
+      -79160,
+      -4464
+     ],
+     [
+      71720,
+      -78856,
+      -4464
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-quest-spawned"
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:talk:31387",
+   "cond": 1,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "Keep listening."
+   ],
+   "npc": {
+    "id": 31387,
+    "name": "Kurstin",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     58790,
+     -42646,
+     -3000
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kurstin",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:swamp-of-screams-22",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 14717,
+    "sec": 168,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4804,
+      "how": "field-areas-gap",
+      "danger": 71
+     },
+     {
+      "do": "walk",
+      "len": 9913,
+      "how": "field-areas",
+      "danger": 73
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      53032,
+      -49896,
+      -3576
+     ],
+     [
+      53464,
+      -49464,
+      -3400
+     ],
+     [
+      54312,
+      -48472,
+      -3320
+     ],
+     [
+      54616,
+      -48168,
+      -3344
+     ],
+     [
+      55240,
+      -47464,
+      -3272
+     ],
+     [
+      56184,
+      -46472,
+      -2792
+     ],
+     [
+      57176,
+      -45480,
+      -2760
+     ],
+     [
+      57208,
+      -45448,
+      -2736
+     ],
+     [
+      57224,
+      -45432,
+      -2720
+     ],
+     [
+      57944,
+      -44440,
+      -2632
+     ],
+     [
+      58760,
+      -43896,
+      -2992
+     ],
+     [
+      58888,
+      -43688,
+      -3000
+     ],
+     [
+      58984,
+      -42856,
+      -3000
+     ],
+     [
+      59336,
+      -42504,
+      -3000
+     ]
+    ],
+    "maxDanger": 73,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 73,
+     "dangerVsLevel": -2,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:swamp-of-screams-22",
+     "name": "Swamp of Screams 22: Vampire Magician area (south-west)"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      53032,
+      -49896,
+      -3576
+     ],
+     [
+      53464,
+      -49464,
+      -3400
+     ],
+     [
+      54312,
+      -48472,
+      -3320
+     ],
+     [
+      54616,
+      -48168,
+      -3344
+     ],
+     [
+      55240,
+      -47464,
+      -3272
+     ],
+     [
+      56184,
+      -46472,
+      -2792
+     ],
+     [
+      57176,
+      -45480,
+      -2760
+     ],
+     [
+      57208,
+      -45448,
+      -2736
+     ],
+     [
+      57224,
+      -45432,
+      -2720
+     ],
+     [
+      57944,
+      -44440,
+      -2632
+     ],
+     [
+      58760,
+      -43896,
+      -2992
+     ],
+     [
+      58888,
+      -43688,
+      -3000
+     ],
+     [
+      58984,
+      -42856,
+      -3000
+     ],
+     [
+      59336,
+      -42504,
+      -3000
+     ]
+    ]
+   },
+   "expectedSec": 193,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:deliver:32333",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 32333,
+    "name": "Katenar",
+    "title": "",
+    "town": "",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Bring Blood Jewel to Katenar",
+   "needs": [
+    {
+     "id": 9744,
+     "name": "Blood Jewel",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "note": "Katenar is spawned AT THE PLAYER by the Mysterious Wizard 31522 (51878,-54796,-3167) dialog (\"I am ready.\" / \"Yes.\", Q00236 addSpawn ... player); talk to him right there",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31522@51878,-54796",
+     "name": "Mysterious Wizard"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-quest-spawned"
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:talk:32332",
+   "cond": 1,
+   "kind": "talk",
+   "to": 8,
+   "links": [
+    "Tell him you understand."
+   ],
+   "npc": {
+    "id": 32332,
+    "name": "Katenar",
+    "title": "",
+    "town": "",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Katenar",
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "note": "Katenar is spawned AT THE PLAYER by the Mysterious Wizard 31522 (51878,-54796,-3167) dialog (\"I am ready.\" / \"Yes.\", Q00236 addSpawn ... player); talk to him right there",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31522@51878,-54796",
+     "name": "Mysterious Wizard"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-quest-spawned"
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c1:talk:31522",
+   "cond": 1,
+   "kind": "talk",
+   "to": 7,
+   "links": [],
+   "npc": {
+    "id": 31522,
+    "name": "Mysterious Wizard",
+    "title": "",
+    "town": "Rune",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mysterious Wizard",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -6,
+     "aggro": []
+    }
+   },
+   "expectedSec": 75,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c1:talk:32235",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "Wait."
+   ],
+   "npc": {
+    "id": 32235,
+    "name": "Katenar",
+    "title": "",
+    "town": "",
+    "at": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Katenar",
+   "reasons": [],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17,
+    18,
+    19,
+    20
+   ],
+   "override": {
+    "npcAt": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "note": "Katenar is spawned AT THE PLAYER by the Mysterious Wizard 31522 (51878,-54796,-3167) dialog (\"I am ready.\" / \"Yes.\", Q00236 addSpawn ... player); talk to him right there",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travel": {
+    "src": "computed",
+    "key": "npc:31522@51878,-54796",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 560,
+    "sec": 50,
+    "via": ".rune > Rune -> Forest of the Dead",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "gk",
+      "from": "Rune",
+      "desc": "Rune -> Forest of the Dead",
+      "link": "forest of the dead",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 560,
+      "how": "geodata",
+      "danger": 69
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Rune",
+     "desc": "Rune -> Forest of the Dead"
+    },
+    "simple": true,
+    "pv": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ],
+    "maxDanger": 69,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 69,
+     "dangerVsLevel": -6,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31522@51878,-54796",
+     "name": "Mysterious Wizard"
+    },
+    "points": [
+     [
+      52107,
+      -54328,
+      -3152
+     ],
+     [
+      51912,
+      -54568,
+      -3160
+     ],
+     [
+      51880,
+      -54584,
+      -3160
+     ],
+     [
+      51864,
+      -54600,
+      -3160
+     ],
+     [
+      51880,
+      -54792,
+      -3160
+     ]
+    ]
+   },
+   "fixedByOverride": [
+    "npc-quest-spawned"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:talk:32237": {
+    "npcAt": [
+     -119832,
+     87098,
+     -12608
+    ],
+    "manual": true,
+    "note": "Rodenpicula: Nornil's Garden (quest) instance only (dp data/instances/NornilsGardenQuest.xml), entered by Mao 32190 with Q236 started (NornilsGardenQuest.java) - engine: instance entry",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32239": {
+    "npcAt": [
+     -120080,
+     87176,
+     -12608
+    ],
+    "manual": true,
+    "note": "Mother Nornil: NornilsGardenQuest instance only (dp NornilsGardenQuest.xml) - engine: instance entry",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32235": {
+    "npcAt": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "note": "Katenar is spawned AT THE PLAYER by the Mysterious Wizard 31522 (51878,-54796,-3167) dialog (\"I am ready.\" / \"Yes.\", Q00236 addSpawn ... player); talk to him right there",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32332": {
+    "npcAt": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "note": "Katenar is spawned AT THE PLAYER by the Mysterious Wizard 31522 (51878,-54796,-3167) dialog (\"I am ready.\" / \"Yes.\", Q00236 addSpawn ... player); talk to him right there",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:deliver:32333": {
+    "npcAt": [
+     51878,
+     -54796,
+     -3167
+    ],
+    "note": "Katenar is spawned AT THE PLAYER by the Mysterious Wizard 31522 (51878,-54796,-3167) dialog (\"I am ready.\" / \"Yes.\", Q00236 addSpawn ... player); talk to him right there",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32236": {
+    "npcAt": [
+     71722,
+     -78853,
+     -4464
+    ],
+    "note": "Harkilgamed is spawned at (71722,-78853,-4464) by the Rock 32238 dialog (\"Draw closer.\" / \"Call him.\", Q00236 addSpawn)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32334": {
+    "npcAt": [
+     71722,
+     -78853,
+     -4464
+    ],
+    "note": "Harkilgamed is spawned at (71722,-78853,-4464) by the Rock 32238 dialog (\"Draw closer.\" / \"Call him.\", Q00236 addSpawn)",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

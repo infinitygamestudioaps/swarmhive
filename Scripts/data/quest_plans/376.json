@@ -1,0 +1,1019 @@
+{
+ "id": 376,
+ "name": "Exploration of the Giants' Cave - Part 1",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.378Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 79,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 33,
+ "refLevel": 79,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31147",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will help."
+   ],
+   "npc": {
+    "id": 31147,
+    "name": "Sobling",
+    "title": "Head Researcher",
+    "town": "Aden",
+    "at": [
+     174473,
+     52854,
+     -4360
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sobling – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31147@174473,52854",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 1914,
+    "sec": 61,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 1914,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174472,
+      51928,
+      -4360
+     ],
+     [
+      174472,
+      52856,
+      -4360
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 91,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22670,
+     "name": "Cursed Lord",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 22673,
+     "name": "Hirokai",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 72,
+     "questSpawned": false
+    },
+    {
+     "id": 22676,
+     "name": "Hamlet",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 67,
+     "questSpawned": false
+    },
+    {
+     "id": 22674,
+     "name": "Imagro",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 66,
+     "questSpawned": false
+    },
+    {
+     "id": 22675,
+     "name": "Palit",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 44,
+     "questSpawned": false
+    },
+    {
+     "id": 22677,
+     "name": "Klennot",
+     "level": 80,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14841,
+     "name": "Ancient Parchment",
+     "n": 20,
+     "from": [
+      {
+       "id": 22670,
+       "name": "Cursed Lord",
+       "chance": 31.4
+      },
+      {
+       "id": 22673,
+       "name": "Hirokai",
+       "chance": 25.8
+      },
+      {
+       "id": 22676,
+       "name": "Hamlet",
+       "chance": 25.8
+      },
+      {
+       "id": 22674,
+       "name": "Imagro",
+       "chance": 24.8
+      },
+      {
+       "id": 22675,
+       "name": "Palit",
+       "chance": 26.4
+      },
+      {
+       "id": 22677,
+       "name": "Klennot",
+       "chance": 26.6
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Cursed Lord, Hirokai, Hamlet for Ancient Parchment x20",
+   "places": [
+    {
+     "mobs": [
+      22670,
+      22673,
+      22676,
+      22674,
+      22675,
+      22677
+     ],
+     "items": [
+      14841
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "giants-1-left-c",
+      "name": "Giant's Cave: Upper layer, left: Imagro room",
+      "at": [
+       186015,
+       48671,
+       -4368
+      ],
+      "radius": 1489,
+      "levels": [
+       80,
+       80
+      ],
+      "count": 31,
+      "region": "Giant's Cave",
+      "atlasKey": "room:giants-1-left-c",
+      "status": "ok",
+      "sec": 218,
+      "danger": 80,
+      "reachable": true,
+      "score": -176.36666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "giants-1-left-e",
+        "name": "Giant's Cave: Upper layer, left: Hamlet room",
+        "at": [
+         190323,
+         52907,
+         -4368
+        ],
+        "count": 36,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "giants-1-left-i",
+        "name": "Giant's Cave: Upper layer, left: Hirokai room",
+        "at": [
+         193045,
+         52539,
+         -4368
+        ],
+        "count": 32,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "giants-1-straight-a",
+        "name": "Giant's Cave: Upper layer, straight: Palit room",
+        "at": [
+         174484,
+         55084,
+         -4368
+        ],
+        "count": 28,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:giants-1-left-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 20728,
+      "sec": 218,
+      "via": ".aden > Aden -> Entrance to The Giant's Cave",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Entrance to The Giant's Cave",
+        "link": "entrance to the giant cave",
+        "price": 7400,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 20728,
+        "how": "dungeon-rooms",
+        "danger": 80
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Entrance to The Giant's Cave"
+      },
+      "simple": true,
+      "pv": [
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174491,
+        50942,
+        -4360
+       ],
+       [
+        174264,
+        49960,
+        -4232
+       ],
+       [
+        173352,
+        48968,
+        -4096
+       ],
+       [
+        172824,
+        48440,
+        -4112
+       ],
+       [
+        172552,
+        48024,
+        -4120
+       ],
+       [
+        172552,
+        47992,
+        -4112
+       ],
+       [
+        172664,
+        47864,
+        -3944
+       ],
+       [
+        172856,
+        47704,
+        -3784
+       ],
+       [
+        172936,
+        47128,
+        -3912
+       ],
+       [
+        173464,
+        46984,
+        -3616
+       ],
+       [
+        174120,
+        46968,
+        -3552
+       ],
+       [
+        174344,
+        46744,
+        -3904
+       ],
+       [
+        174584,
+        46584,
+        -4008
+       ],
+       [
+        175224,
+        46200,
+        -4264
+       ],
+       [
+        176216,
+        45736,
+        -4208
+       ],
+       [
+        177208,
+        44744,
+        -4208
+       ],
+       [
+        177272,
+        44536,
+        -4232
+       ],
+       [
+        177304,
+        44552,
+        -4216
+       ],
+       [
+        177512,
+        44680,
+        -4024
+       ],
+       [
+        178472,
+        44536,
+        -3840
+       ],
+       [
+        178568,
+        44536,
+        -3776
+       ],
+       [
+        178808,
+        44664,
+        -3616
+       ],
+       [
+        179080,
+        44664,
+        -3744
+       ],
+       [
+        179320,
+        44904,
+        -3560
+       ],
+       [
+        179576,
+        44904,
+        -3992
+       ],
+       [
+        180088,
+        45560,
+        -3936
+       ],
+       [
+        180088,
+        45704,
+        -4064
+       ],
+       [
+        180632,
+        46248,
+        -4104
+       ],
+       [
+        180680,
+        46248,
+        -4120
+       ],
+       [
+        181384,
+        46456,
+        -4304
+       ],
+       [
+        181800,
+        46664,
+        -4360
+       ],
+       [
+        182792,
+        47240,
+        -4360
+       ],
+       [
+        183592,
+        47336,
+        -4360
+       ],
+       [
+        184088,
+        47112,
+        -4360
+       ],
+       [
+        184584,
+        47000,
+        -4360
+       ],
+       [
+        184632,
+        47000,
+        -4360
+       ],
+       [
+        185464,
+        47416,
+        -4344
+       ],
+       [
+        185736,
+        48088,
+        -4368
+       ],
+       [
+        186008,
+        48664,
+        -4368
+       ]
+      ],
+      "maxDanger": 80,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 80,
+       "dangerVsLevel": 1,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "giants-1-left-c",
+    "name": "Giant's Cave: Upper layer, left: Imagro room",
+    "at": [
+     186015,
+     48671,
+     -4368
+    ],
+    "radius": 1489,
+    "levels": [
+     80,
+     80
+    ],
+    "count": 31,
+    "region": "Giant's Cave",
+    "atlasKey": "room:giants-1-left-c",
+    "status": "ok",
+    "sec": 218,
+    "danger": 80,
+    "reachable": true,
+    "score": -176.36666666666667,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "giants-1-left-e",
+      "name": "Giant's Cave: Upper layer, left: Hamlet room",
+      "at": [
+       190323,
+       52907,
+       -4368
+      ],
+      "count": 36,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "giants-1-left-i",
+      "name": "Giant's Cave: Upper layer, left: Hirokai room",
+      "at": [
+       193045,
+       52539,
+       -4368
+      ],
+      "count": 32,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "giants-1-straight-a",
+      "name": "Giant's Cave: Upper layer, straight: Palit room",
+      "at": [
+       174484,
+       55084,
+       -4368
+      ],
+      "count": 28,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:giants-1-left-c",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20728,
+    "sec": 218,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 20728,
+      "how": "dungeon-rooms",
+      "danger": 80
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174264,
+      49960,
+      -4232
+     ],
+     [
+      173352,
+      48968,
+      -4096
+     ],
+     [
+      172824,
+      48440,
+      -4112
+     ],
+     [
+      172552,
+      48024,
+      -4120
+     ],
+     [
+      172552,
+      47992,
+      -4112
+     ],
+     [
+      172664,
+      47864,
+      -3944
+     ],
+     [
+      172856,
+      47704,
+      -3784
+     ],
+     [
+      172936,
+      47128,
+      -3912
+     ],
+     [
+      173464,
+      46984,
+      -3616
+     ],
+     [
+      174120,
+      46968,
+      -3552
+     ],
+     [
+      174344,
+      46744,
+      -3904
+     ],
+     [
+      174584,
+      46584,
+      -4008
+     ],
+     [
+      175224,
+      46200,
+      -4264
+     ],
+     [
+      176216,
+      45736,
+      -4208
+     ],
+     [
+      177208,
+      44744,
+      -4208
+     ],
+     [
+      177272,
+      44536,
+      -4232
+     ],
+     [
+      177304,
+      44552,
+      -4216
+     ],
+     [
+      177512,
+      44680,
+      -4024
+     ],
+     [
+      178472,
+      44536,
+      -3840
+     ],
+     [
+      178568,
+      44536,
+      -3776
+     ],
+     [
+      178808,
+      44664,
+      -3616
+     ],
+     [
+      179080,
+      44664,
+      -3744
+     ],
+     [
+      179320,
+      44904,
+      -3560
+     ],
+     [
+      179576,
+      44904,
+      -3992
+     ],
+     [
+      180088,
+      45560,
+      -3936
+     ],
+     [
+      180088,
+      45704,
+      -4064
+     ],
+     [
+      180632,
+      46248,
+      -4104
+     ],
+     [
+      180680,
+      46248,
+      -4120
+     ],
+     [
+      181384,
+      46456,
+      -4304
+     ],
+     [
+      181800,
+      46664,
+      -4360
+     ],
+     [
+      182792,
+      47240,
+      -4360
+     ],
+     [
+      183592,
+      47336,
+      -4360
+     ],
+     [
+      184088,
+      47112,
+      -4360
+     ],
+     [
+      184584,
+      47000,
+      -4360
+     ],
+     [
+      184632,
+      47000,
+      -4360
+     ],
+     [
+      185464,
+      47416,
+      -4344
+     ],
+     [
+      185736,
+      48088,
+      -4368
+     ],
+     [
+      186008,
+      48664,
+      -4368
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1818,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31147",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Stop searching."
+   ],
+   "npc": {
+    "id": 31147,
+    "name": "Sobling",
+    "title": "Head Researcher",
+    "town": "Aden",
+    "at": [
+     174473,
+     52854,
+     -4360
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sobling",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31147@174473,52854",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 1914,
+    "sec": 61,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 1914,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174472,
+      51928,
+      -4360
+     ],
+     [
+      174472,
+      52856,
+      -4360
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:22671": {
+    "fixed": [
+     "mob-no-spawn"
+    ],
+    "note": "optional: Cursed Guardian! 22671 / Cursed Seer 22672 have no spawn (spawnlist.sql, no minion entry in stats/npcs/22600-22699.xml); item 14841 also drops from 6 spawned Giant's Cave monsters of step c1:hunt (Q00376 drops), and the engine hunts only spawned ones.",
+    "editedAt": "2026-10-27T10:06:26.448Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:06:26.448Z",
+  "by": "quest-fixer batch 5"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:38.391Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "area-partial"
+  ]
+ }
+}

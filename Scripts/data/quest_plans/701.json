@@ -1,0 +1,595 @@
+{
+ "id": 701,
+ "name": "Proof of Existence",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.194Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 78,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10273,
+    "name": "Q10273_GoodDayToFly",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10273 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 34,
+ "refLevel": 78,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32559",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 32559,
+    "name": "Artius",
+    "title": "War Mage",
+    "town": "Talking Island",
+    "at": [
+     -186109,
+     242500,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Artius – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32559@-186109,242500",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 3499,
+    "sec": 514,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 1187,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186333,
+      243095,
+      2580
+     ],
+     [
+      -186104,
+      242600,
+      2552
+     ],
+     [
+      -186104,
+      242504,
+      2552
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 544,
+   "conds": [
+    0
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22606,
+     "name": "Floating Skull",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22607,
+     "name": "Floating Skull",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 22608,
+     "name": "Floating Zombie",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22609,
+     "name": "Floating Zombie",
+     "level": 76,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13875,
+     "name": "Deadman's Remains",
+     "n": 20,
+     "from": [
+      {
+       "id": 22606,
+       "name": "Floating Skull",
+       "chance": 51.8
+      },
+      {
+       "id": 22607,
+       "name": "Floating Skull",
+       "chance": 85.8
+      },
+      {
+       "id": 22608,
+       "name": "Floating Zombie",
+       "chance": 48.2
+      },
+      {
+       "id": 22609,
+       "name": "Floating Zombie",
+       "chance": 46.6
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Floating Skull, Floating Skull, Floating Zombie for Deadman's Remains x20",
+   "places": [
+    {
+     "mobs": [
+      22606,
+      22607,
+      22608,
+      22609
+     ],
+     "items": [
+      13875
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22607@-186235,210037",
+      "name": "Floating Skull",
+      "at": [
+       -186235,
+       210037,
+       2885
+      ],
+      "radius": 1500,
+      "levels": [
+       77,
+       77
+      ],
+      "count": 4,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 66,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22606@-185696,209896",
+        "name": "Floating Skull",
+        "at": [
+         -185696,
+         209896,
+         4582
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22608@-186963,211022",
+        "name": "Floating Zombie",
+        "at": [
+         -186963,
+         211022,
+         2677
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22606@-179610,209634",
+        "name": "Floating Skull",
+        "at": [
+         -179610,
+         209634,
+         2068
+        ],
+        "count": 2,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22607@-186235,210037",
+    "name": "Floating Skull",
+    "at": [
+     -186235,
+     210037,
+     2885
+    ],
+    "radius": 1500,
+    "levels": [
+     77,
+     77
+    ],
+    "count": 4,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 66,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22606@-185696,209896",
+      "name": "Floating Skull",
+      "at": [
+       -185696,
+       209896,
+       4582
+      ],
+      "count": 3,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22608@-186963,211022",
+      "name": "Floating Zombie",
+      "at": [
+       -186963,
+       211022,
+       2677
+      ],
+      "count": 3,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22606@-179610,209634",
+      "name": "Floating Skull",
+      "at": [
+       -179610,
+       209634,
+       2068
+      ],
+      "count": 2,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 975,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32559",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 32559,
+    "name": "Artius",
+    "title": "War Mage",
+    "town": "Talking Island",
+    "at": [
+     -186109,
+     242500,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Artius",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32559@-186109,242500",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 3499,
+    "sec": 514,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 1187,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186333,
+      243095,
+      2580
+     ],
+     [
+      -186104,
+      242600,
+      2552
+     ],
+     [
+      -186104,
+      242504,
+      2552
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 539,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32559": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32559": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

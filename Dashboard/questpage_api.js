@@ -9,6 +9,7 @@
 //   GET  /api/quests/chars           { ok, chars[] }               own characters (level / class / race / party) + their quest_state
 //                                     summary + fits[] (ids of every quest they may take now)
 //   GET  /api/quests/live[?id=<id>]  { ok, chars[], quest }      live progress per character (Dashboard/questlive_api.js, QUEST LIVE 2026-10-12)
+//   GET/POST /api/quests/plan[?id=]  GET /api/quests/planstatus     the bot plan + route override (Dashboard/questplan_api.js, QUESTPLAN-2026-10-27)
 //   GET  /api/quests/beginner        { ok, data, plan }            beginner gear chain (forum 78) + who should do what (2026-10-12)
 //   GET  /api/quests/farm            { ok, cfg, meta, plan, stats[], names[] }
 //   POST /api/quests/farm            body { on, collector, chars[], tradeAbove, keep, override{} } -> writes ONLY these fields of
@@ -20,7 +21,8 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const STATIC = { '/questpage.js': 'application/javascript; charset=utf-8', '/questpage.css': 'text/css; charset=utf-8',
-  '/questlive.js': 'application/javascript; charset=utf-8', '/questlive.css': 'text/css; charset=utf-8' };   // QUEST LIVE 2026-10-12 (Dashboard/questlive*.js)
+  '/questlive.js': 'application/javascript; charset=utf-8', '/questlive.css': 'text/css; charset=utf-8',   // QUEST LIVE 2026-10-12 (Dashboard/questlive*.js)
+  '/questplan.js': 'application/javascript; charset=utf-8', '/questplan.css': 'text/css; charset=utf-8' };   // QUESTPLAN-2026-10-27 (Dashboard/questplan*.js)
 
 // ---------------------------------------------------------------- class id -> L2J ClassId enum name (requirements.classes use these) + race
 const CLASS_ENUM = { 0: 'fighter', 1: 'warrior', 2: 'gladiator', 3: 'warlord', 4: 'knight', 5: 'paladin', 6: 'darkAvenger', 7: 'rogue', 8: 'treasureHunter', 9: 'hawkeye',
@@ -347,6 +349,7 @@ async function handle(req, res, url, ctx) {
     if (p === '/api/quests/chars') { ctx.json(res, 200, { ok: true, chars: charsOut(ctx) }); return true; }
     if (p === '/api/quests/beginner') { const d = beginnerGet(ctx); ctx.json(res, d.ok ? 200 : 404, d); return true; }   // BEGINNER GEAR 2026-10-12
     if (p === '/api/quests/live') { const d = require('./questlive_api.js').live(ctx, url.searchParams.get('id')); ctx.json(res, d.ok ? 200 : (d.code || 404), d); return true; }   // QUEST LIVE 2026-10-12
+    if (p === '/api/quests/plan' || p === '/api/quests/planstatus') { if (await require('./questplan_api.js').handle(req, res, url, ctx)) return true; }   // QUESTPLAN-2026-10-27
     if (p === '/api/quests/farm') {
       if (req.method === 'POST') { const r = farmPost(ctx, await readBody(req, ctx)); ctx.json(res, r.code, r.body); return true; }
       ctx.json(res, 200, farmGet(ctx)); return true;

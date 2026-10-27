@@ -1,0 +1,488 @@
+{
+ "id": 10281,
+ "name": "Mutated Kaneus - Rune",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.437Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 68,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 3
+  }
+ ],
+ "expectedMin": 9,
+ "refLevel": 68,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31340",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 31340,
+    "name": "Mathias",
+    "title": "Captain",
+    "town": "Rune",
+    "at": [
+     42596,
+     -47988,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mathias – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31340@42596,-47988",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1449,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1449,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43640,
+      -48104,
+      -792
+     ],
+     [
+      43368,
+      -48104,
+      -792
+     ],
+     [
+      43096,
+      -48152,
+      -792
+     ],
+     [
+      42824,
+      -48136,
+      -792
+     ],
+     [
+      42600,
+      -47992,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18577",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18577,
+     "name": "White Allosce",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13840,
+     "name": "White Allosce's Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18577,
+       "name": "White Allosce",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "owner-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (18577) only appear through the quest script and no trigger is known"
+   },
+   "text": "Kill White Allosce (Kamaloka 73) and report",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ],
+   "override": {
+    "manual": true,
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): the kill targets are KAMALOKA bosses (instances/Kamaloka/Kamaloka.java BOSS[] / LEVEL[]): 10276 = Tomlan Kamos 18554 (Hall of the Abyss lvl 23) + Ol Ariosh 18555 (lvl 26), captain Bathis 30332 Gludio; 10277 = Crimson Hatu 18558 (33) + Seer Flouros 18559 (36), captain Lucas 30071 Dion; 10281 = White Allosce 18577 (73), captain Mathias 31340 Rune. The engine must run the Kamaloka mission (leaderMission(\"kamaloka\", level)) for each; on L2Toggle one Hall kill locks the other Halls for the day (#2100, CLAUDE.md), so 10276 / 10277 take two days.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31340",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 31340,
+    "name": "Mathias",
+    "title": "Captain",
+    "town": "Rune",
+    "at": [
+     42596,
+     -47988,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Kill White Allosce (Kamaloka 73) and report",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31340@42596,-47988",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1449,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1449,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43640,
+      -48104,
+      -792
+     ],
+     [
+      43368,
+      -48104,
+      -792
+     ],
+     [
+      43096,
+      -48152,
+      -792
+     ],
+     [
+      42824,
+      -48136,
+      -792
+     ],
+     [
+      42600,
+      -47992,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 57,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:31335",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31335,
+    "name": "Kayan",
+    "title": "Magister",
+    "town": "Rune",
+    "at": [
+     38512,
+     -49552,
+     -1105
+    ],
+    "alt": []
+   },
+   "text": "Kill White Allosce (Kamaloka 73) and report",
+   "needs": [
+    {
+     "id": 13840,
+     "name": "White Allosce's Cellular Tissue",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31335@38512,-49552",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 8141,
+    "sec": 88,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 8141,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      40696,
+      -48424,
+      -768
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48904,
+      -1128
+     ],
+     [
+      37432,
+      -49160,
+      -1128
+     ],
+     [
+      37928,
+      -49352,
+      -1128
+     ],
+     [
+      38424,
+      -49544,
+      -1128
+     ],
+     [
+      38440,
+      -49544,
+      -1128
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 113,
+   "engineWhy": "the monsters (18577) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:spawn:18577": {
+    "manual": true,
+    "note": "ENGINE NEED (docs/plan/quest_engine_needs/batch2.md): the kill targets are KAMALOKA bosses (instances/Kamaloka/Kamaloka.java BOSS[] / LEVEL[]): 10276 = Tomlan Kamos 18554 (Hall of the Abyss lvl 23) + Ol Ariosh 18555 (lvl 26), captain Bathis 30332 Gludio; 10277 = Crimson Hatu 18558 (33) + Seer Flouros 18559 (36), captain Lucas 30071 Dion; 10281 = White Allosce 18577 (73), captain Mathias 31340 Rune. The engine must run the Kamaloka mission (leaderMission(\"kamaloka\", level)) for each; on L2Toggle one Hall kill locks the other Halls for the day (#2100, CLAUDE.md), so 10276 / 10277 take two days.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

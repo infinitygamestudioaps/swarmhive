@@ -4000,12 +4000,14 @@ const hshXmlOff = { ids: null };
 function hshXmlOffFile() { return `${SWARM_ROOT}\\Logs\\hsh_xml_off_${Me.Name}.json`; }
 function hshXmlOffLoad() { if (hshXmlOff.ids) return hshXmlOff.ids; hshXmlOff.ids = {}; try { if (File.Exists(hshXmlOffFile())) Object.assign(hshXmlOff.ids, JSON.parse(String(File.ReadAllText(hshXmlOffFile()))) || {}); } catch (e) { } return hshXmlOff.ids; }
 function hshXmlOffSave() { try { File.WriteAllText(hshXmlOffFile(), JSON.stringify(hshXmlOff.ids || {})); } catch (e) { } }
+// INSTRUMENT-2026-10-27: L2Swarm 3.10.x renamed the auto-skill row property Skill -> Instrument (the XML element is still <Skill>); a.Skill alone
+// read id 0, so L2Swarm's own Self Heal was never switched off on healers (tester: "my bishops now use Self Heal")
 /** switch every AutoSkillsList entry this script switched off back ON (Hive heals OFF / 'keep' / script stop) */
 function hshXmlRestore(why) {
   const ids = hshXmlOffLoad(); if (!Object.keys(ids).length) return 0;
   let list = null; try { list = Options.AutoSkillsList; } catch (e) { list = null; }
   const back = [];
-  hsEach(list, (a) => { let id = 0; try { id = num(a.Skill && a.Skill.Id); } catch (e) { return; } if (!ids[id]) return; try { if (!a.IsEnabled) { a.IsEnabled = true; back.push(String((a.Skill && a.Skill.Name) || id)); } } catch (e) { } });
+  hsEach(list, (a) => { let id = 0; try { id = num((a.Instrument || a.Skill) && (a.Instrument || a.Skill).Id); } catch (e) { return; } if (!ids[id]) return; try { if (!a.IsEnabled) { a.IsEnabled = true; back.push(String(((a.Instrument || a.Skill) && (a.Instrument || a.Skill).Name) || id)); } } catch (e) { } });
   hshXmlOff.ids = {}; hshXmlOffSave();
   if (back.length) { try { note(`healing: L2Swarm's own auto-skill ${back.join(', ')} switched back ON (${why})`); } catch (e) { } }
   return back.length;
@@ -4027,10 +4029,10 @@ setInterval(() => {
     // check (a cheap field write), and a list we cannot read is reported as 'unknown', never as 'off'.
     let rows = 0;
     hsEach(list, (a) => {
-      let id = 0, on = false; try { id = num(a.Skill && a.Skill.Id); on = !!a.IsEnabled; } catch (e) { return; }
+      let id = 0, on = false; try { id = num((a.Instrument || a.Skill) && (a.Instrument || a.Skill).Id); on = !!a.IsEnabled; } catch (e) { return; }
       rows++;
       if (!off.has(id)) return;
-      try { a.IsEnabled = false; rec[id] = true; if (on) changed.push(String((a.Skill && a.Skill.Name) || id)); } catch (e) { }
+      try { a.IsEnabled = false; rec[id] = true; if (on) changed.push(String(((a.Instrument || a.Skill) && (a.Instrument || a.Skill).Name) || id)); } catch (e) { }
     });
     hshXmlOffSave();
     HSH.xml = rows ? 'off' : 'unknown';
@@ -36060,6 +36062,53 @@ function qfPickId(cfg, me, getQuest) {
   for (let i = 0; i < L.length; i++) { const q = getQuest(L[i]); if (q && qeEligible(q, me).ok) return Number(L[i]); }
   return null;
 }
+// QUESTPLAN-2026-10-27 (owner: "Each quest should be setup so the bot can run it automatically. Step by step ... follow live ... change the pathfinding
+// for a specific quest IF it should NOT work"): Scripts/data/quest_plans/<id>.json (docs/plan/tools/quest_plan_build.js) = per step WHAT / WHERE / HOW
+// TO GET THERE + the owner's override section (dashboard Quests -> Bot plan, Dashboard/questplan_api.js). override > plan > the engine's own choice.
+/** the plan step for an engine action a at cond -> { i, n, step, ov, place } | null */
+function qePlanMatch(plan, a, cond) {
+  if (!plan || !Array.isArray(plan.steps) || !a) return null;
+  const S = plan.steps, start = a.kind === 'start', c = start ? 0 : (Number(cond) >= 1 ? Number(cond) : 1), at = (s) => (s.conds || [s.cond]).map(Number).indexOf(c) >= 0;
+  let st = null;
+  if (a.act === 'talk' || a.act === 'turnin') {
+    const ids = (a.npcs || []).map(Number), ok = (s) => s.npc && ids.indexOf(Number(s.npc.id)) >= 0 && start === (s.kind === 'start');
+    st = S.find(s => at(s) && ok(s)) || S.find(ok) || null;
+  } else if (a.act === 'hunt' || a.act === 'spawn') {
+    const ids = [].concat(a.monsters || [], a.target != null ? [a.target] : [], a.triggerMobs || []).map(Number);
+    st = S.find(s => at(s) && (s.kind === 'hunt' || s.kind === 'spawn') && (s.monsters || []).some(m => ids.indexOf(Number(m.id)) >= 0))
+      || S.find(s => at(s) && (s.places || []).some(p => (p.mobs || []).some(m => ids.indexOf(Number(m)) >= 0))) || null;
+  }
+  if (!st) return null;
+  const ov = (plan.override && plan.override.steps && plan.override.steps[st.key]) || null;
+  let place = null; const P = st.places || [];
+  if (P.length > 1 && a.monsters) { const ids = a.monsters.map(Number), hit = (p) => (p.mobs || []).filter(m => ids.indexOf(Number(m)) >= 0).length; place = P.slice().sort((x, y) => hit(y) - hit(x))[0]; }
+  else if (P.length) place = P[0];
+  return { i: S.indexOf(st), n: S.length, step: st, ov, place };
+}
+/** where to hunt from the plan: override area > the plan's place -> { x, y, z, name, points[], landing, src } | null */
+function qePlanSpot(m) {
+  if (!m) return null;
+  const o = m.ov, ar = (m.place && m.place.area) || m.step.area || null;
+  const A = o && o.area && Array.isArray(o.area.at) ? { at: o.area.at, name: o.area.name || 'your hunting place', src: 'override' } : ar && Array.isArray(ar.at) ? { at: ar.at, name: ar.name, src: 'plan' } : null;
+  if (!A) return null;
+  return { x: Number(A.at[0]), y: Number(A.at[1]), z: Number(A.at[2]) || 0, name: A.name, points: [], landing: null, src: A.src };
+}
+/** the route to walk for this step: override route > the plan's computed route (a place the nav atlas does not have) -> { points[{x,y,z}], start, src } | null */
+function qePlanRoute(m) {
+  if (!m) return null;
+  const o = m.ov, pts = (arr) => (arr || []).filter(p => Array.isArray(p) && p.length >= 2).map(p => ({ x: Number(p[0]), y: Number(p[1]), z: Number(p[2]) || 0 }));
+  if (o && Array.isArray(o.route) && o.route.length >= 2) return { points: pts(o.route), start: o.start || null, src: 'override' };
+  if (o && (o.area || o.npcAt)) return null;                                  // your own place without your own route: the normal travel goes there
+  const t = (m.place && m.place.travel) || m.step.travel;
+  if (t && t.src === 'computed' && Array.isArray(t.points) && t.points.length >= 2 && t.start && /^(ok|unverified)$/.test(String(t.status))) return { points: pts(t.points), start: t.start, src: 'plan' };
+  return null;
+}
+/** the live line the dashboard shows (quest_state active.plan, swarm_state doing.quest.plan) */
+function qePlanLiveOf(plan, m, extra) {
+  if (!plan) return null;
+  const st = m && m.step;
+  return Object.assign({ status: plan.status || '', i: m ? m.i : null, n: m ? m.n : (plan.steps || []).length, key: st ? st.key : '', kind: st ? st.kind : '', text: st ? String(st.text || '').slice(0, 160) : '', ov: !!(m && m.ov), src: '' }, extra || {});
+}
 // QENGINE-PURE-END
 
 // ---- data (small files only: never quests_h5.json in a script engine) ----
@@ -36103,6 +36152,7 @@ function qePhase(phase, step, target, extra) {
   if (S.active.phase !== phase || !S.active.phaseSince) S.active.phaseSince = new Date().toISOString();   // QUESTLIVE-2026-10-12
   Object.assign(S.active, { kills: null, killsNeed: null, mobs: null }, { phase, step: String(step || '').slice(0, 200), phaseAt: new Date().toISOString(), target: target || null, started: !!Q.started, cond: Q.cond }, extra || {});   // QUESTLIVE-2026-10-12: kill fields reset
   questRun.stepText = (Q.q ? Q.q.id + ' ' : '') + phase + ': ' + String(step || '').slice(0, 120);
+  if (Q.planLive) { if (phase === 'wait') Q.planLive.waitWhy = String(step || '').slice(0, 160); else delete Q.planLive.waitWhy; S.active.plan = Q.planLive; }   // QUESTPLAN-2026-10-27
   setTask('quest ' + (Q.q ? Q.q.id + ' ' + Q.q.name : '') + ': ' + phase + (step ? ' — ' + String(step).slice(0, 120) : ''));
   qeSave(true);
 }
@@ -36194,6 +36244,41 @@ async function qeRouteTrip(q, cond, tgt, kind) {
   }
   return { stored: c.stored, res: null };
 }
+// QUESTPLAN-2026-10-27: the plan file (one kept, read again after 30 s), the live line, the step walk
+function qePlan(id) {
+  const Q = qeS(), k = String(Number(id)), c = Q.plans && Q.plans[k];
+  if (c && now() - c.at < 30000) return c.p;
+  const p = qeReadJson(qeFile(qeDataFile('quest_plans'), k + '.json'));
+  Q.plans = { [k]: { at: now(), p } };
+  return p;
+}
+function qePlanMark(q, a, cond, extra) {
+  const Q = qeS(); let m = null, pl = null; try { pl = qePlan(q.id); m = qePlanMatch(pl, a, cond); } catch (e) { }
+  if (!pl) { Q.planLive = null; return null; }
+  if (m || !Q.planLive) { Q.planM = m; Q.planLive = qePlanLiveOf(pl, m, extra); Q.planRoute = null; }
+  return m;
+}
+function qePlanNpcAt(npcId) { const m = qeS().planM; if (!m || !m.step || !m.step.npc || num(m.step.npc.id) !== num(npcId)) return null; const o = m.ov && Array.isArray(m.ov.npcAt) ? m.ov.npcAt : m.step.npc.at; return Array.isArray(o) && o.length >= 2 ? o : null; }
+/** the live line with the route point i / n (nearest point of the route being walked) */
+function qePlanLiveNow() {
+  const Q = QE; if (!Q || !Q.running || !Q.planLive) return null;
+  const L = Q.planLive, R = Q.planRoute;
+  if (R && R.length) { let bi = 0, bd = 1e18; R.forEach((p, i) => { const d = (p.x - Me.X) * (p.x - Me.X) + (p.y - Me.Y) * (p.y - Me.Y); if (d < bd) { bd = d; bi = i; } }); L.routeI = bi + 1; L.routeN = R.length; }
+  return L;
+}
+/** walk the plan's route for this step (your override / the computed one) before the normal travel -> { walked, ok, why } */
+async function qePlanWalk(q, m, label) {
+  const r = qePlanRoute(m); if (!r || !r.points.length) return { walked: false };
+  const end = r.points[r.points.length - 1];
+  if (distTo(end.x, end.y) < 1500) return { walked: false };
+  const Q = qeS(), team = !!(Q.spec && Q.spec.mode === 'party' && isLeader());
+  Q.planRoute = r.points; if (Q.planLive) Object.assign(Q.planLive, { src: r.src, routeN: r.points.length, routeI: 0 });
+  qeLog(q.id, 'step ' + (m.i + 1) + '/' + m.n + ': ' + (r.src === 'override' ? 'your own route' : 'the plan route') + ' to ' + label + ' (' + r.points.length + ' points' + (r.start ? ', from ' + (r.start.kind === 'town' ? '.' + String(r.start.town).toLowerCase() : r.start.desc) : '') + ')');
+  let res = null; try { res = await rsCustomTrip({ points: r.points, start: r.start }, label, { abort: qeStopped, team, why: 'quest ' + q.id }); } catch (e) { res = { ok: false, why: e.message }; }
+  qeLog(q.id, 'step ' + (m.i + 1) + ': ' + (res && res.ok ? 'route walked' : 'route stopped (' + ((res && res.why) || '?') + ') — the normal travel goes on'));
+  Q.planRoute = null;
+  return { walked: true, ok: !!(res && res.ok), why: res && res.why };
+}
 /** QUESTREACH-2026-10-23 (CLAUDE.md §0: stand right in front of an NPC before talking): before every quest link click — the server drops a quest
  *  bypass from more than 150 away without a word. Out of reach (or force) = stop, walk to the spot in front of it (max 15 s). Never far walks. */
 async function qeStayInFront(ref, force) {
@@ -36212,9 +36297,10 @@ async function qeGoNpc(q, npcId, a, before) {
   qePhase(Q.spec && Q.spec.mode === 'member' ? 'talk' : 'travel', 'to ' + nm, { kind: 'npc', name: nm });
   let rsq = null;   // ROUTESWITCH-2026-10-13: this quest step's route choice first
   if (a) { const cond = a.kind === 'start' ? 0 : before && before.cond != null ? before.cond : Q.cond; try { rsq = await qeRouteTrip(q, cond, { name: nm }, 'talk'); } catch (e) { logError('quest route switch', e); } if (qeStopped()) return { ref: qeLive(npcId), why: 'stopped' }; }
+  if (a && !(rsq && rsq.res && rsq.res.ok)) { const pm = Q.planM && Q.planM.step && Q.planM.step.npc && num(Q.planM.step.npc.id) === num(npcId) ? Q.planM : null; if (pm) { try { await qePlanWalk(q, pm, nm); } catch (e) { logError('quest plan walk', e); } ref = qeLive(npcId); if (ref) return { ref }; if (qeStopped()) return { ref: null, why: 'stopped' }; } }   // QUESTPLAN-2026-10-27
   let r = null; try { r = await goToNpc('#' + npcId, { solo, noTalk: true, abort: qeStopped, why: 'quest ' + q.id, routeUse: rsq && rsq.stored === 'atlas' ? 'atlas' : undefined }); } catch (e) { r = { ok: false, why: e.message }; }
   ref = qeLive(npcId); if (ref) return { ref };
-  const n = (q.npcs || []).concat(q.startNpcs || []).find(x => num(x.id) === num(npcId)), sp = n && n.spawns && n.spawns[0];
+  const n = (q.npcs || []).concat(q.startNpcs || []).find(x => num(x.id) === num(npcId)), sp = qePlanNpcAt(npcId) || (n && n.spawns && n.spawns[0]);   // QUESTPLAN-2026-10-27: your NPC place first
   if (sp && !qeStopped()) {
     try { if (distTo(sp[0], sp[1]) > 6000) await teleportNear(sp[0], sp[1], 'quest ' + q.id + ' -> ' + nm); } catch (e) { }
     await walkTo(sp[0], sp[1], sp[2], 250, 300000, qeStopped);
@@ -36348,7 +36434,8 @@ async function qeDoHunt(q, a, batch, opt) {
   const party = Q.spec && Q.spec.mode === 'party';
   if (isHealerRole() && !party) return { ok: false, fatal: true, msg: 'healers only heal (user rule) — run this quest in party mode' };
   const mobs = (o.mobs || a.monsters || []).map(Number), ids = new Set(mobs), names = mobs.map(id => qeMobName(q, id));
-  const spot = qeHuntSpot(q, mobs, { x: Me.X, y: Me.Y });
+  const pm = qePlanMark(q, Object.assign({}, a, { act: 'hunt', monsters: mobs }), a.cond != null ? a.cond : Q.cond), pspot = qePlanSpot(pm);   // QUESTPLAN-2026-10-27: override > plan > own pick
+  const spot = pspot || qeHuntSpot(q, mobs, { x: Me.X, y: Me.Y });
   if (!spot) return { ok: false, fatal: true, msg: 'no known spawn for ' + names.join(', ') };
   const tgt = { kind: 'area', name: spot.name, x: Math.round(spot.x), y: Math.round(spot.y), z: Math.round(spot.z) };
   const needLine = () => { const s1 = qeSense(q, batch); return (a.items || []).length ? qeNeedText(q, a.items, s1.have) : (a.kills ? 'kills ' + kills + '/' + a.kills : ''); };
@@ -36356,6 +36443,8 @@ async function qeDoHunt(q, a, batch, opt) {
   qePhase(o.phase || 'hunt', names.join('/') + ' — ' + needLine(), tgt, { need: (a.items || []).map(it => ({ id: it.id, n: it.n, have: itemCount(it.id), name: ((q.items || []).find(x => num(x.id) === it.id) || {}).name || '' })), kills, killsNeed: num(a.kills) || 0, mobs: mobs.slice(0, 8) });   // QUESTLIVE-2026-10-12
   if (distTo(spot.x, spot.y) > 2500 && !qeLiveMob(ids, 2000)) {
     qePhase('travel', 'to ' + spot.name, tgt);
+    try { await qePlanWalk(q, pm, spot.name); } catch (e) { logError('quest plan walk', e); }   // QUESTPLAN-2026-10-27
+    if (qeStopped()) return { ok: false, msg: 'stopped' };
     try { await qeRouteTrip(q, a.cond, { name: spot.name, x: spot.x, y: spot.y, z: spot.z }, 'hunt'); } catch (e) { logError('quest route switch', e); }   // ROUTESWITCH-2026-10-13
     if (qeStopped()) return { ok: false, msg: 'stopped' };
     try { if (distTo(spot.x, spot.y) > 6000) await teleportNear(spot.x, spot.y, 'quest ' + q.id + ': ' + spot.name); } catch (e) { logError('quest teleportNear', e); }
@@ -36488,6 +36577,8 @@ async function qeRun(spec) {
   const el = qeEligible(q, qeMe());
   if (!member && !spec.resumed && !el.ok) { S.quests[q.id] = Object.assign(S.quests[q.id] || { name: q.name, runs: 0, adena: 0 }, { status: 'cannot', lastMsg: el.why.join('; ') }); qeLog(q.id, q.name + ': cannot take it — ' + el.why.join('; '), true); return; }
   { const bag = member ? '' : qeBagNow(); if (bag) { S.quests[q.id] = Object.assign(S.quests[q.id] || { name: q.name, runs: 0, adena: 0 }, { status: 'failed', lastMsg: bag }); qeLog(q.id, q.name + ': not started — ' + bag + ' — free bag slots first (warehouse / sell / !stash), the server opens no quest window before that', true); return; } }   // QSYS-2026-10-13
+  { Q.planLive = null; Q.planM = null; Q.planRoute = null; const pl = member ? null : qePlan(q.id), po = pl && pl.override; if (pl && !member) qeLog(q.id, 'quest plan: ' + pl.status + ((pl.reasons || []).length ? ' (' + [...new Set(pl.reasons.map(r => r.code))].slice(0, 5).join(', ') + ')' : '') + ', ' + (pl.steps || []).length + ' steps');
+    if (po && po.skip && !spec.resumed) { S.quests[q.id] = Object.assign(S.quests[q.id] || { name: q.name, runs: 0, adena: 0 }, { status: 'cannot', lastMsg: 'skipped on the dashboard (quest plan)' + (po.note ? ': ' + po.note : '') }); qeLog(q.id, q.name + ': not started — the quest plan says skip' + (po.note ? ' (' + po.note + ')' : ''), true); return; } }   // QUESTPLAN-2026-10-27
   Object.assign(Q, { running: true, stop: false, why: '', spec: Object.assign({}, spec, { batch }), q, kicked: '', started: !!spec.started, cond: spec.cond || null, mates: {}, orderSeq: orderState.seq });
   { Q.apiSeen = false; Q.blindSaid = false; Q.ownReset = false; Q.startAt = 0; Q.blindNow = false; const own = (S.quests[q.id] || {}).own; if (!member && !spec.started && own && own.started && now() - num(own.atMs) < 30 * 86400000) { Q.started = true; Q.cond = own.cond || null; } }   // QSTATE-2026-10-13
   // the old runner's flag: every existing "busy with a quest" guard (town sell, gear share, follow restorer, stuck watchdog) sees the run.
@@ -36512,6 +36603,7 @@ async function qeRun(spec) {
       if (Me.IsDead) { qePhase('wait', 'dead — waiting for the revive'); deaths++; const t0 = now(); while (Me.IsDead && now() - t0 < 600000 && !qeStopped()) await sleep(3000); if (deaths > 6) { S.active.msg = 'died ' + deaths + ' times'; result = 'failed'; break; } await sleep(8000); continue; }
       const s = qeSense(q, batch), a = qeDecide(q, s);
       S.active.cond = s.cond; S.active.started = s.started;
+      { const pmk = qePlanMark(q, a, s.cond); if (pmk && pmk.ov && pmk.ov.manual && a.act !== 'manual') { S.active.msg = 'step ' + (pmk.i + 1) + ' (' + pmk.step.text + ') is marked "manual" on the dashboard' + (pmk.ov.note ? ': ' + pmk.ov.note : ''); result = 'failed'; qeLog(q.id, S.active.msg, true); break; } }   // QUESTPLAN-2026-10-27
       // QUESTRESUME-2026-10-23: party mode — a member BEHIND me (not started / an earlier stage, e.g. after a restart of a failed quest) catches up first
       if (spec.mode === 'party' && isLeader()) {
         const cu = qeCatchUpPick(s, qeMatesFresh(q).map(n => Object.assign({ name: n }, Q.mates[n])), cuTried);
@@ -36564,6 +36656,7 @@ async function qeRun(spec) {
     if (S.farm && Q.spec && Q.spec.farm) S.farm.quest = null;
     qeLog(q.id, 'run ended: ' + rec.status + (rec.lastMsg ? ' — ' + rec.lastMsg : '') + ' (' + num(S.active && S.active.runs) + ' runs)', true);
     if (questRun.qe) Object.assign(questRun, { active: false, qe: false, kick: null, stepText: '' });
+    Q.planLive = null; Q.planRoute = null; Q.planM = null;   // QUESTPLAN-2026-10-27
     Q.running = false; Q.spec = Q.spec || null;
     if (!member) releaseControl(ctl);
     if (!isLeader()) { try { Options.FollowName = CONFIG.leader; Options.ActiveFollow = followOk(!memberRoute.id); } catch (e) { } }
@@ -37931,7 +38024,7 @@ setInterval(() => {
       doing: {
         activity: (getActivity() || {}).type || null,
         escort: escort.active ? { owner: escort.owner, shared: !!escort.shared } : null,
-        quest: questRun.active ? { id: questRun.quest && questRun.quest.id, name: questRun.quest && questRun.quest.name, leg: questRun.leg, total: questRun.quest && questRun.quest.legs ? questRun.quest.legs.length : 0, step: questRun.stepText || null } : null,
+        quest: questRun.active ? { id: questRun.quest && questRun.quest.id, name: questRun.quest && questRun.quest.name, leg: questRun.leg, total: questRun.quest && questRun.quest.legs ? questRun.quest.legs.length : 0, step: questRun.stepText || null, plan: qePlanLiveNow() } : null,   // QUESTPLAN-2026-10-27: plan step i / n, route point i / n, why it waits
         autolevel: autoLvl.active ? { spot: autoLvl.spot ? autoLvl.spot.name : 'local', levels: autoLvl.spot ? autoLvl.spot.levelMin + '-' + autoLvl.spot.levelMax : '',
           kills5m: killsIn(300000),   // KILLCOUNT-2026-10-23: experience-based too (the hunt loop's own count missed most kills)
           avgMob: autoLvl.mobLevels.length ? Math.round(autoLvl.mobLevels.slice(-10).reduce((a, b) => a + b, 0) / Math.min(10, autoLvl.mobLevels.length) * 10) / 10 : null } : null,

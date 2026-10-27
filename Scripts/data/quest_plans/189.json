@@ -1,0 +1,616 @@
+{
+ "id": 189,
+ "name": "Contract Completion",
+ "version": 1,
+ "generated": "2026-10-27T11:15:14.360Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 42,
+  "max": 48
+ },
+ "type": "one-time",
+ "region": "Oren",
+ "requirements": {
+  "quests": [
+   {
+    "id": 186,
+    "name": "Q00186_ContractExecution",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "186 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 42,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31437",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 31437,
+    "name": "Luka",
+    "title": "Blueprint Seller",
+    "town": "Oren",
+    "at": [
+     83616,
+     55392,
+     -1510
+    ],
+    "alt": []
+   },
+   "text": "Talk to Luka – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31437@83616,55392",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 3744,
+    "sec": 51,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 3744,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      55064,
+      -1520
+     ],
+     [
+      82312,
+      55336,
+      -1520
+     ],
+     [
+      82472,
+      55544,
+      -1520
+     ],
+     [
+      82680,
+      55720,
+      -1520
+     ],
+     [
+      82952,
+      55752,
+      -1520
+     ],
+     [
+      82984,
+      55784,
+      -1520
+     ],
+     [
+      83160,
+      55608,
+      -1520
+     ],
+     [
+      83432,
+      55592,
+      -1504
+     ],
+     [
+      83656,
+      55528,
+      -1512
+     ],
+     [
+      83624,
+      55400,
+      -1512
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 81,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:30512",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Explain what has happened."
+   ],
+   "npc": {
+    "id": 30512,
+    "name": "Kusto",
+    "title": "Head Blacksmith",
+    "town": "Giran",
+    "at": [
+     77659,
+     148089,
+     -3595
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kusto",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30512@77659,148089",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 7785,
+    "sec": 85,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 7785,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83240,
+      148744,
+      -3400
+     ],
+     [
+      82920,
+      148888,
+      -3464
+     ],
+     [
+      82792,
+      149016,
+      -3464
+     ],
+     [
+      82296,
+      149280,
+      -3464
+     ],
+     [
+      81800,
+      149544,
+      -3464
+     ],
+     [
+      81608,
+      149736,
+      -3464
+     ],
+     [
+      81384,
+      150168,
+      -3528
+     ],
+     [
+      81288,
+      150264,
+      -3528
+     ],
+     [
+      81160,
+      150264,
+      -3528
+     ],
+     [
+      80664,
+      149992,
+      -3528
+     ],
+     [
+      80168,
+      149720,
+      -3528
+     ],
+     [
+      80104,
+      149720,
+      -3528
+     ],
+     [
+      79784,
+      149208,
+      -3528
+     ],
+     [
+      79752,
+      148824,
+      -3528
+     ],
+     [
+      79256,
+      148600,
+      -3560
+     ],
+     [
+      78760,
+      148376,
+      -3592
+     ],
+     [
+      78280,
+      148408,
+      -3592
+     ],
+     [
+      77576,
+      148424,
+      -3592
+     ],
+     [
+      77576,
+      148328,
+      -3592
+     ],
+     [
+      77656,
+      148088,
+      -3592
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30068",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [
+    "\"It was mentioned in an old record of the Giants we recovered from the ruins of the Tower of Cruma.\""
+   ],
+   "npc": {
+    "id": 30068,
+    "name": "Shegfield",
+    "title": "Priest",
+    "town": "Dion",
+    "at": [
+     16456,
+     142447,
+     -2688
+    ],
+    "alt": []
+   },
+   "text": "Talk to Shegfield",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30068@16456,142447",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1945,
+    "sec": 36,
+    "via": ".dion",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "walk",
+      "len": 1945,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Dion"
+    },
+    "simple": true,
+    "pv": [
+     [
+      15619,
+      143132,
+      -2688
+     ],
+     [
+      15480,
+      142888,
+      -2696
+     ],
+     [
+      15624,
+      142888,
+      -2696
+     ],
+     [
+      15688,
+      142888,
+      -2696
+     ],
+     [
+      15832,
+      142984,
+      -2696
+     ],
+     [
+      15976,
+      142872,
+      -2696
+     ],
+     [
+      15960,
+      142600,
+      -2680
+     ],
+     [
+      15896,
+      142472,
+      -2688
+     ],
+     [
+      16104,
+      142312,
+      -2688
+     ],
+     [
+      16376,
+      142312,
+      -2688
+     ],
+     [
+      16456,
+      142440,
+      -2688
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 61,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:30673",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [
+    "Give her the decoded document."
+   ],
+   "npc": {
+    "id": 30673,
+    "name": "Lorain",
+    "title": "Researcher",
+    "town": "Dion",
+    "at": [
+     16460,
+     113488,
+     -3575
+    ],
+    "alt": []
+   },
+   "text": "Talk to Lorain",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30673@16460,113488",
+    "status": "ok",
+    "flags": [],
+    "from": ".dion",
+    "length": 1436,
+    "sec": 57,
+    "via": ".dion > Dion -> Cruma Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Dion",
+      "cmd": ".dion"
+     },
+     {
+      "do": "gk",
+      "from": "Dion",
+      "desc": "Dion -> Cruma Tower",
+      "link": "cruma tower",
+      "price": 2300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1436,
+      "how": "geodata",
+      "danger": 34
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Dion",
+     "desc": "Dion -> Cruma Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      17225,
+      114173,
+      -3440
+     ],
+     [
+      16360,
+      114024,
+      -3528
+     ],
+     [
+      16488,
+      113560,
+      -3576
+     ],
+     [
+      16488,
+      113528,
+      -3576
+     ],
+     [
+      16456,
+      113496,
+      -3576
+     ]
+    ],
+    "maxDanger": 34,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 34,
+     "dangerVsLevel": -8,
+     "aggro": []
+    }
+   },
+   "expectedSec": 82,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

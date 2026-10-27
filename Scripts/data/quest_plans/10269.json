@@ -1,0 +1,369 @@
+{
+ "id": 10269,
+ "name": "To the Seed of Destruction",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.358Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: engine-gap:start.kind=atlas"
+  },
+  {
+   "code": "dryrun:engine-gap:start.kind=atlas",
+   "text": "c0:start:32548: start \"atlas\" (nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)) — rsCustomTrip knows only town / gk"
+  }
+ ],
+ "expectedMin": 1,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32548",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"What is it?\""
+   ],
+   "npc": {
+    "id": 32548,
+    "name": "Keucereus",
+    "title": "Admiral",
+    "town": "Talking Island",
+    "at": [
+     -186399,
+     242412,
+     2552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Keucereus – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 30,
+   "conds": [
+    0
+   ],
+   "override": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Keucereus (-186399,242412,2552); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "points": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "pv": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "length": 1197,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "no-route"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32526",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32526,
+    "name": "Allenos",
+    "title": "Sergeant",
+    "town": "Talking Island",
+    "at": [
+     -248793,
+     250271,
+     4328
+    ],
+    "alt": [],
+    "why": "npc-instance"
+   },
+   "text": "Talk to Allenos",
+   "reasons": [],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "route": [
+     [
+      -248535,
+      250273,
+      4336
+     ],
+     [
+      -248792,
+      250264,
+      4328
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32782@-183980,242722",
+     "desc": "nav atlas route to Lionel (Keucereus, airship)",
+     "then": {
+      "npc": "Lionel",
+      "id": 32782,
+      "link": "Seed of Destruction Dock",
+      "tpId": 15007,
+      "price": 150000,
+      "landing": [
+       -248535,
+       250273,
+       4336
+      ],
+      "src": "npc_atlas.json Lionel teleports (dp html/teleporter/32782-1.htm + teleport.sql 15007)"
+     }
+    },
+    "npcAt": [
+     -248793,
+     250271,
+     4328
+    ],
+    "note": "Allenos stands at the Seed of Destruction dock (spawns_h5.json), not in an instance: Lionel teleport \"Seed of Destruction Dock\" (150,000 adena) lands 260 away; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "travelOverride": {
+    "src": "override",
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32782@-183980,242722",
+     "desc": "nav atlas route to Lionel (Keucereus, airship)",
+     "then": {
+      "npc": "Lionel",
+      "id": 32782,
+      "link": "Seed of Destruction Dock",
+      "tpId": 15007,
+      "price": 150000,
+      "landing": [
+       -248535,
+       250273,
+       4336
+      ],
+      "src": "npc_atlas.json Lionel teleports (dp html/teleporter/32782-1.htm + teleport.sql 15007)"
+     }
+    },
+    "points": [
+     [
+      -248535,
+      250273,
+      4336
+     ],
+     [
+      -248792,
+      250264,
+      4328
+     ]
+    ],
+    "pv": [
+     [
+      -248535,
+      250273,
+      4336
+     ],
+     [
+      -248792,
+      250264,
+      4328
+     ]
+    ],
+    "length": 257,
+    "checks": {
+     "aggro": []
+    }
+   },
+   "fixedByOverride": [
+    "npc-instance",
+    "no-route"
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32548": {
+    "route": [
+     [
+      -186563,
+      243590,
+      2608
+     ],
+     [
+      -186392,
+      242600,
+      2552
+     ],
+     [
+      -186392,
+      242408,
+      2552
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32563@-186692,243539",
+     "desc": "nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)"
+    },
+    "note": "Keucereus (-186399,242412,2552); geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer from the airship oust point",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "c1:talk:32526": {
+    "route": [
+     [
+      -248535,
+      250273,
+      4336
+     ],
+     [
+      -248792,
+      250264,
+      4328
+     ]
+    ],
+    "start": {
+     "kind": "atlas",
+     "key": "npc:32782@-183980,242722",
+     "desc": "nav atlas route to Lionel (Keucereus, airship)",
+     "then": {
+      "npc": "Lionel",
+      "id": 32782,
+      "link": "Seed of Destruction Dock",
+      "tpId": 15007,
+      "price": 150000,
+      "landing": [
+       -248535,
+       250273,
+       4336
+      ],
+      "src": "npc_atlas.json Lionel teleports (dp html/teleporter/32782-1.htm + teleport.sql 15007)"
+     }
+    },
+    "npcAt": [
+     -248793,
+     250271,
+     4328
+    ],
+    "note": "Allenos stands at the Seed of Destruction dock (spawns_h5.json), not in an instance: Lionel teleport \"Seed of Destruction Dock\" (150,000 adena) lands 260 away; geodata leg: docs/plan/tools/raid_policy.js policyLeg (dry first, walls block) computed by the batch-1 fixer",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:16:38.376Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c0:start:32548: start \"atlas\" (nav atlas route to Plenos: .gludio > Bella \"Teleport to Gludio Airship Field.\" > Flight Control \"Board the Airship.\" (condition gracia-airship, waits for the docked ship) > oust at (-186563,243590,2608)) — rsCustomTrip knows only town / gk"
+   },
+   {
+    "code": "engine-gap:start.kind=atlas",
+    "t": "c1:talk:32526: start \"atlas\" (nav atlas route to Lionel (Keucereus, airship)) — rsCustomTrip knows only town / gk"
+   }
+  ],
+  "warns": []
+ }
+}

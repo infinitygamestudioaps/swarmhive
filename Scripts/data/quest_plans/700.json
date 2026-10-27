@@ -1,0 +1,648 @@
+{
+ "id": 700,
+ "name": "Cursed Life",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.190Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 75,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 27,
+ "refLevel": 75,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32560",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 32560,
+    "name": "Orbyu",
+    "title": "Soldier",
+    "town": "Talking Island",
+    "at": [
+     -186072,
+     241295,
+     2608
+    ],
+    "alt": []
+   },
+   "text": "Talk to Orbyu – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32560@-186072,241295",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 4729,
+    "sec": 524,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 2417,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186317,
+      243095,
+      2580
+     ],
+     [
+      -186072,
+      242600,
+      2552
+     ],
+     [
+      -186072,
+      241608,
+      2608
+     ],
+     [
+      -186072,
+      241288,
+      2608
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 554,
+   "conds": [
+    0
+   ],
+   "override": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   },
+   "fixedByOverride": [
+    "route-conditional"
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22602,
+     "name": "Mutant Bird",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22603,
+     "name": "Mutant Bird",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 22604,
+     "name": "Dra Hawk",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22605,
+     "name": "Dra Hawk",
+     "level": 75,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13872,
+     "name": "Swallowed Skull",
+     "n": 20,
+     "from": [
+      {
+       "id": 22602,
+       "name": "Mutant Bird",
+       "chance": 100
+      },
+      {
+       "id": 22603,
+       "name": "Mutant Bird",
+       "chance": 100
+      },
+      {
+       "id": 22604,
+       "name": "Dra Hawk",
+       "chance": 100
+      },
+      {
+       "id": 22605,
+       "name": "Dra Hawk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13873,
+     "name": "Swallowed Sternum",
+     "n": 20,
+     "from": [
+      {
+       "id": 22602,
+       "name": "Mutant Bird",
+       "chance": 100
+      },
+      {
+       "id": 22603,
+       "name": "Mutant Bird",
+       "chance": 100
+      },
+      {
+       "id": 22604,
+       "name": "Dra Hawk",
+       "chance": 100
+      },
+      {
+       "id": 22605,
+       "name": "Dra Hawk",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13874,
+     "name": "Swallowed Bones",
+     "n": 20,
+     "from": [
+      {
+       "id": 22602,
+       "name": "Mutant Bird",
+       "chance": 100
+      },
+      {
+       "id": 22603,
+       "name": "Mutant Bird",
+       "chance": 100
+      },
+      {
+       "id": 22604,
+       "name": "Dra Hawk",
+       "chance": 100
+      },
+      {
+       "id": 22605,
+       "name": "Dra Hawk",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "no-route"
+   ],
+   "text": "Hunt Mutant Bird, Mutant Bird, Dra Hawk for Swallowed Skull x20, Swallowed Sternum x20, Swallowed Bones x20",
+   "places": [
+    {
+     "mobs": [
+      22602,
+      22603,
+      22604,
+      22605
+     ],
+     "items": [
+      13872,
+      13873,
+      13874
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22602@-173613,216551",
+      "name": "Mutant Bird",
+      "at": [
+       -173613,
+       216551,
+       1961
+      ],
+      "radius": 1500,
+      "levels": [
+       73,
+       73
+      ],
+      "count": 2,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 78,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22603@-171356,221279",
+        "name": "Mutant Bird",
+        "at": [
+         -171356,
+         221279,
+         4337
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22603@-169702,222378",
+        "name": "Mutant Bird",
+        "at": [
+         -169702,
+         222378,
+         4436
+        ],
+        "count": 2,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22604@-169560,216163",
+        "name": "Dra Hawk",
+        "at": [
+         -169560,
+         216163,
+         3034
+        ],
+        "count": 2,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22602@-173613,216551",
+    "name": "Mutant Bird",
+    "at": [
+     -173613,
+     216551,
+     1961
+    ],
+    "radius": 1500,
+    "levels": [
+     73,
+     73
+    ],
+    "count": 2,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 78,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22603@-171356,221279",
+      "name": "Mutant Bird",
+      "at": [
+       -171356,
+       221279,
+       4337
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22603@-169702,222378",
+      "name": "Mutant Bird",
+      "at": [
+       -169702,
+       222378,
+       4436
+      ],
+      "count": 2,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22604@-169560,216163",
+      "name": "Dra Hawk",
+      "at": [
+       -169560,
+       216163,
+       3034
+      ],
+      "count": 2,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 500,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:32560",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 32560,
+    "name": "Orbyu",
+    "title": "Soldier",
+    "town": "Talking Island",
+    "at": [
+     -186072,
+     241295,
+     2608
+    ],
+    "alt": []
+   },
+   "text": "Hand in Swallowed Bones, Swallowed Sternum, Swallowed Skull at Orbyu (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 13874,
+     "name": "Swallowed Bones",
+     "n": 20
+    },
+    {
+     "id": 13873,
+     "name": "Swallowed Sternum",
+     "n": 20
+    },
+    {
+     "id": 13872,
+     "name": "Swallowed Skull",
+     "n": 20
+    }
+   ],
+   "reasons": [
+    "route-conditional"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32560@-186072,241295",
+    "status": "conditional",
+    "flags": [
+     "conditions"
+    ],
+    "from": ".gludio",
+    "length": 4729,
+    "sec": 524,
+    "via": ".gludio > enter Bella > enter Flight Control",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Bella",
+      "link": "Teleport to Gludio Airship Field."
+     },
+     {
+      "do": "walk",
+      "len": 2312,
+      "how": "geodata",
+      "danger": 70
+     },
+     {
+      "do": "enter",
+      "how": "vehicle",
+      "npc": "Flight Control",
+      "link": "Board the Airship."
+     },
+     {
+      "do": "walk",
+      "len": 2417,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -149406,
+      255247,
+      -80
+     ],
+     [
+      -149379,
+      254748,
+      -128
+     ],
+     [
+      -149352,
+      254248,
+      -176
+     ],
+     [
+      -149352,
+      253256,
+      -120
+     ],
+     [
+      -149352,
+      252936,
+      -136
+     ],
+     [
+      -186317,
+      243095,
+      2580
+     ],
+     [
+      -186072,
+      242600,
+      2552
+     ],
+     [
+      -186072,
+      241608,
+      2608
+     ],
+     [
+      -186072,
+      241288,
+      2608
+     ]
+    ],
+    "maxDanger": 70,
+    "needs": [
+     "gracia-airship"
+    ],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 70,
+     "dangerVsLevel": -5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 549,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32560": {
+    "fixed": [
+     "route-conditional"
+    ],
+    "note": "route-conditional handled by the engine: the nav atlas route has an \"enter / vehicle\" step (Flight Control \"Board the Airship.\", condition gracia-airship): swarm.js navAtlas enter handler boards, waits up to wait.sec and re-boards every retrySec until the ship lands (NAVATLAS2); nav_atlas condition src datapack gracia/vehicles/AirShipGludioGracia.java",
+    "editedAt": "2026-10-27T10:16:35.502Z",
+    "by": "quest-fixer batch1 2026-10-27"
+   }
+  },
+  "editedAt": "2026-10-27T10:16:35.502Z",
+  "by": "quest-fixer batch1 2026-10-27"
+ }
+}

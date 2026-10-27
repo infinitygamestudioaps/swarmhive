@@ -1,0 +1,2928 @@
+{
+ "id": 638,
+ "name": "Seekers Of The Holy Grail",
+ "version": 1,
+ "generated": "2026-10-27T11:16:14.052Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 73,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  },
+  {
+   "code": "route-conditional",
+   "text": "the way needs something (airship window, items, Seven Signs, adena for a special teleport ...)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 91,
+ "refLevel": 73,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31328",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "I'll do it."
+   ],
+   "npc": {
+    "id": 31328,
+    "name": "Innocentin",
+    "title": "High Priest",
+    "town": "Rune",
+    "at": [
+     36476,
+     -49032,
+     -1104
+    ],
+    "alt": []
+   },
+   "text": "Talk to Innocentin – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31328@36476,-49032",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7796,
+    "sec": 85,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7796,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40712,
+      -48352,
+      -784
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37272,
+      -49160,
+      -1128
+     ],
+     [
+      37160,
+      -49192,
+      -1128
+     ],
+     [
+      36872,
+      -49208,
+      -1128
+     ],
+     [
+      36552,
+      -49128,
+      -1128
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 115,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22136,
+     "name": "Doorman Zombie",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22141,
+     "name": "Forgotten Victim",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 22147,
+     "name": "Ritual Offering",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 22152,
+     "name": "Temple Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    },
+    {
+     "id": 22137,
+     "name": "Penance Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 36,
+     "questSpawned": false
+    },
+    {
+     "id": 22138,
+     "name": "Chapel Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 76,
+     "questSpawned": false
+    },
+    {
+     "id": 22139,
+     "name": "Old Aristocrat's Soldier",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 22140,
+     "name": "Zombie Worker",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 35,
+     "questSpawned": false
+    },
+    {
+     "id": 22142,
+     "name": "Triol's Layperson",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 23,
+     "questSpawned": false
+    },
+    {
+     "id": 22144,
+     "name": "Resurrected Temple Knight",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 22146,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 22149,
+     "name": "Ritual Offering",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 22153,
+     "name": "Temple Guard Captain",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 22143,
+     "name": "Triol's Believer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 37,
+     "questSpawned": false
+    },
+    {
+     "id": 22151,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 22145,
+     "name": "Ritual Sacrifice",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 11,
+     "questSpawned": false
+    },
+    {
+     "id": 22154,
+     "name": "Ritual Sacrifice",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 22155,
+     "name": "Triol's High Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 9,
+     "questSpawned": false
+    },
+    {
+     "id": 22159,
+     "name": "Triol's High Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 4,
+     "questSpawned": false
+    },
+    {
+     "id": 22167,
+     "name": "Triol's High Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22156,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 22158,
+     "name": "Triol's Believer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22160,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22162,
+     "name": "Triol's Believer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22164,
+     "name": "Triol's Believer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22170,
+     "name": "Triol's Believer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22174,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22157,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    },
+    {
+     "id": 22165,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22166,
+     "name": "Triol's Believer",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 5,
+     "questSpawned": false
+    },
+    {
+     "id": 22168,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    },
+    {
+     "id": 22173,
+     "name": "Triol's Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22161,
+     "name": "Ritual Sacrifice",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 6,
+     "questSpawned": false
+    },
+    {
+     "id": 22169,
+     "name": "Ritual Sacrifice",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22172,
+     "name": "Ritual Sacrifice",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22163,
+     "name": "Triol's High Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    },
+    {
+     "id": 22171,
+     "name": "Triol's High Priest",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22175,
+     "name": "Andreas' Captain of the Royal Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 22176,
+     "name": "Andreas' Royal Guards",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 22188,
+     "name": "Andreas' Captain of the Royal Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 1,
+     "questSpawned": false
+    },
+    {
+     "id": 22189,
+     "name": "Andreas' Royal Guards",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22190,
+     "name": "Ritual Sacrifice",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 3,
+     "questSpawned": false
+    },
+    {
+     "id": 22194,
+     "name": "Penance Guard",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 24,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 8068,
+     "name": "Pagan Totem",
+     "n": 20,
+     "from": [
+      {
+       "id": 22136,
+       "name": "Doorman Zombie",
+       "chance": 55
+      },
+      {
+       "id": 22141,
+       "name": "Forgotten Victim",
+       "chance": 55
+      },
+      {
+       "id": 22147,
+       "name": "Ritual Offering",
+       "chance": 55
+      },
+      {
+       "id": 22152,
+       "name": "Temple Guard",
+       "chance": 55
+      },
+      {
+       "id": 22137,
+       "name": "Penance Guard",
+       "chance": 6
+      },
+      {
+       "id": 22138,
+       "name": "Chapel Guard",
+       "chance": 6
+      },
+      {
+       "id": 22139,
+       "name": "Old Aristocrat's Soldier",
+       "chance": 54
+      },
+      {
+       "id": 22140,
+       "name": "Zombie Worker",
+       "chance": 54
+      }
+     ]
+    },
+    {
+     "id": 8273,
+     "name": "Anteroom Key",
+     "n": 20,
+     "from": [
+      {
+       "id": 22149,
+       "name": "Ritual Offering",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 8274,
+     "name": "Chapel Key",
+     "n": 20,
+     "from": [
+      {
+       "id": 22143,
+       "name": "Triol's Believer",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 8275,
+     "name": "Key of Darkness",
+     "n": 20,
+     "from": [
+      {
+       "id": 22146,
+       "name": "Triol's Priest",
+       "chance": 10
+      },
+      {
+       "id": 22151,
+       "name": "Triol's Priest",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "engine-manual",
+    "route-conditional"
+   ],
+   "text": "Hunt Doorman Zombie, Forgotten Victim, Ritual Offering for Pagan Totem x20, Anteroom Key x20, Chapel Key x20, Key of Darkness x20",
+   "places": [
+    {
+     "mobs": [
+      22136,
+      22141,
+      22147,
+      22152,
+      22137,
+      22138,
+      22139,
+      22140
+     ],
+     "items": [
+      8068
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "pagan-1-right-e",
+      "name": "Pagan Temple: Temple and chapel, right: Zombie Worker room",
+      "at": [
+       -12434,
+       -42612,
+       -10725
+      ],
+      "radius": 1258,
+      "levels": [
+       78,
+       78
+      ],
+      "count": 14,
+      "region": "Pagan Temple",
+      "atlasKey": "room:pagan-1-right-e",
+      "status": "conditional",
+      "sec": 231,
+      "danger": 78,
+      "reachable": true,
+      "score": -30.15,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-a",
+        "name": "Pagan Temple: Temple and chapel, straight: Zombie Worker room",
+        "at": [
+         -16342,
+         -41608,
+         -10725
+        ],
+        "count": 13,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-right-b",
+        "name": "Pagan Temple: Temple and chapel, right: Penance Guard room",
+        "at": [
+         -12786,
+         -39819,
+         -10758
+        ],
+        "count": 12,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-left-b",
+        "name": "Pagan Temple: Temple and chapel, left: Penance Guard room",
+        "at": [
+         -20225,
+         -39752,
+         -10758
+        ],
+        "count": 12,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:pagan-1-right-e",
+      "status": "conditional",
+      "flags": [
+       "unverified-walk",
+       "doors",
+       "conditions"
+      ],
+      "from": ".rune",
+      "length": 21140,
+      "sec": 231,
+      "via": ".rune > floor Temple and chapel > door temple_gate > door corridors_door_right03",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "walk",
+        "len": 9065,
+        "how": "straight",
+        "danger": 78
+       },
+       {
+        "do": "floor",
+        "npc": "Triol's Mirror",
+        "link": null,
+        "floor": "Temple and chapel"
+       },
+       {
+        "do": "walk",
+        "len": 3693,
+        "how": "geodata",
+        "danger": 78
+       },
+       {
+        "do": "walk",
+        "len": 144,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "temple_gate",
+        "need": {
+         "npc": [
+          {
+           "id": 32034,
+           "name": "Temple Gatekeeper",
+           "x": -15934,
+           "y": -36605,
+           "z": -10693
+          },
+          {
+           "id": 32035,
+           "name": "Temple Gatekeeper",
+           "x": -16722,
+           "y": -36928,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8064,
+          8065,
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple main gate: Temple Gatekeeper 32034 (outside) opens it for 10 s for a player holding Visitor's Mark 8064 / Faded Visitor's Mark 8065 / Pagan's Mark 8067; 32035 (inside) opens it for anyone (the way out)",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 5450,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "corridors_door_right03",
+        "need": {
+         "items": [
+          {
+           "id": 8273,
+           "name": "Anteroom Key",
+           "skillId": 2235,
+           "noEffect": true
+          }
+         ],
+         "unlock": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 2788,
+        "how": "dungeon-rooms",
+        "danger": 78
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Rune"
+      },
+      "simple": false,
+      "pv": [
+       [
+        43759,
+        -48122,
+        -792
+       ],
+       [
+        34842,
+        -49756,
+        -763
+       ],
+       [
+        -13259,
+        -35932,
+        -10852
+       ],
+       [
+        -13752,
+        -36024,
+        -10848
+       ],
+       [
+        -13960,
+        -36024,
+        -10832
+       ],
+       [
+        -14952,
+        -36072,
+        -10760
+       ],
+       [
+        -15352,
+        -36072,
+        -10728
+       ],
+       [
+        -15512,
+        -36136,
+        -10720
+       ],
+       [
+        -16312,
+        -36584,
+        -10720
+       ],
+       [
+        -16285,
+        -36733,
+        -10724
+       ],
+       [
+        -16152,
+        -37576,
+        -10720
+       ],
+       [
+        -16152,
+        -38568,
+        -10720
+       ],
+       [
+        -16136,
+        -39112,
+        -10720
+       ],
+       [
+        -15480,
+        -39912,
+        -10720
+       ],
+       [
+        -14680,
+        -40904,
+        -10720
+       ],
+       [
+        -14664,
+        -41608,
+        -10720
+       ],
+       [
+        -14617,
+        -41615,
+        -10720
+       ],
+       [
+        -13672,
+        -41752,
+        -10720
+       ],
+       [
+        -12680,
+        -42056,
+        -10720
+       ],
+       [
+        -12520,
+        -42056,
+        -10720
+       ],
+       [
+        -12408,
+        -42104,
+        -10720
+       ],
+       [
+        -12408,
+        -42264,
+        -10720
+       ],
+       [
+        -12440,
+        -42616,
+        -10720
+       ]
+      ],
+      "maxDanger": 78,
+      "needs": [
+       "pagan-temple-gate",
+       "door 19160004"
+      ],
+      "why": [
+       "walk not on the geodata from 43759,-48122 (the goal is a closed pocket of 5892 cells on the geodata (no walk in))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 78,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      22149
+     ],
+     "items": [
+      8273
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "pagan-1-straight-a",
+      "name": "Pagan Temple: Temple and chapel, straight: Zombie Worker room",
+      "at": [
+       -16342,
+       -41608,
+       -10725
+      ],
+      "radius": 1840,
+      "levels": [
+       78,
+       78
+      ],
+      "count": 4,
+      "region": "Pagan Temple",
+      "atlasKey": "room:pagan-1-straight-a",
+      "status": "conditional",
+      "sec": 196,
+      "danger": 78,
+      "reachable": true,
+      "score": 29.266666666666666,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-c",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -17499,
+         -45591,
+         -10725
+        ],
+        "count": 4,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-b",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -15333,
+         -45553,
+         -10725
+        ],
+        "count": 2,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-u",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -15240,
+         -47192,
+         -10816
+        ],
+        "count": 2,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:pagan-1-straight-a",
+      "status": "conditional",
+      "flags": [
+       "unverified-walk",
+       "doors",
+       "conditions"
+      ],
+      "from": ".rune",
+      "length": 18078,
+      "sec": 196,
+      "via": ".rune > floor Temple and chapel > door temple_gate",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "walk",
+        "len": 9065,
+        "how": "straight",
+        "danger": 78
+       },
+       {
+        "do": "floor",
+        "npc": "Triol's Mirror",
+        "link": null,
+        "floor": "Temple and chapel"
+       },
+       {
+        "do": "walk",
+        "len": 3693,
+        "how": "geodata",
+        "danger": 78
+       },
+       {
+        "do": "walk",
+        "len": 142,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "temple_gate",
+        "need": {
+         "npc": [
+          {
+           "id": 32034,
+           "name": "Temple Gatekeeper",
+           "x": -15934,
+           "y": -36605,
+           "z": -10693
+          },
+          {
+           "id": 32035,
+           "name": "Temple Gatekeeper",
+           "x": -16722,
+           "y": -36928,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8064,
+          8065,
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple main gate: Temple Gatekeeper 32034 (outside) opens it for 10 s for a player holding Visitor's Mark 8064 / Faded Visitor's Mark 8065 / Pagan's Mark 8067; 32035 (inside) opens it for anyone (the way out)",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 5178,
+        "how": "dungeon-rooms",
+        "danger": 78
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Rune"
+      },
+      "simple": false,
+      "pv": [
+       [
+        43759,
+        -48122,
+        -792
+       ],
+       [
+        34842,
+        -49756,
+        -763
+       ],
+       [
+        -13259,
+        -35932,
+        -10852
+       ],
+       [
+        -13752,
+        -36024,
+        -10848
+       ],
+       [
+        -13960,
+        -36024,
+        -10832
+       ],
+       [
+        -14952,
+        -36072,
+        -10760
+       ],
+       [
+        -15352,
+        -36072,
+        -10728
+       ],
+       [
+        -15512,
+        -36136,
+        -10720
+       ],
+       [
+        -16312,
+        -36584,
+        -10720
+       ],
+       [
+        -16308,
+        -36733,
+        -10724
+       ],
+       [
+        -16312,
+        -37576,
+        -10720
+       ],
+       [
+        -16168,
+        -38568,
+        -10720
+       ],
+       [
+        -16152,
+        -39560,
+        -10720
+       ],
+       [
+        -15832,
+        -40424,
+        -10720
+       ],
+       [
+        -15832,
+        -41144,
+        -10720
+       ],
+       [
+        -15880,
+        -41240,
+        -10720
+       ],
+       [
+        -16344,
+        -41608,
+        -10720
+       ]
+      ],
+      "maxDanger": 78,
+      "needs": [
+       "pagan-temple-gate"
+      ],
+      "why": [
+       "walk not on the geodata from 43759,-48122 (the goal is a closed pocket of 5892 cells on the geodata (no walk in))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 78,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      22143
+     ],
+     "items": [
+      8274
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "pagan-1-straight-i",
+      "name": "Pagan Temple: Temple and chapel, straight: Triol's Believer room",
+      "at": [
+       -12930,
+       -47735,
+       -10821
+      ],
+      "radius": 1975,
+      "levels": [
+       78,
+       78
+      ],
+      "count": 7,
+      "region": "Pagan Temple",
+      "atlasKey": "room:pagan-1-straight-i",
+      "status": "conditional",
+      "sec": 299,
+      "danger": 78,
+      "reachable": true,
+      "score": 12.983333333333334,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-f",
+        "name": "Pagan Temple: Temple and chapel, straight: Triol's Layperson room",
+        "at": [
+         -12913,
+         -45558,
+         -10725
+        ],
+        "count": 5,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-r",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -13688,
+         -45096,
+         -10720
+        ],
+        "count": 3,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-g",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -19477,
+         -47289,
+         -10821
+        ],
+        "count": 3,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:pagan-1-straight-i",
+      "status": "conditional",
+      "flags": [
+       "unverified-walk",
+       "doors",
+       "conditions"
+      ],
+      "from": ".rune",
+      "length": 28083,
+      "sec": 299,
+      "via": ".rune > floor Temple and chapel > door temple_gate > door sanctuary_gate01 > door sanctuary_gate02",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "walk",
+        "len": 9065,
+        "how": "straight",
+        "danger": 78
+       },
+       {
+        "do": "floor",
+        "npc": "Triol's Mirror",
+        "link": null,
+        "floor": "Temple and chapel"
+       },
+       {
+        "do": "walk",
+        "len": 3693,
+        "how": "geodata",
+        "danger": 78
+       },
+       {
+        "do": "walk",
+        "len": 144,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "temple_gate",
+        "need": {
+         "npc": [
+          {
+           "id": 32034,
+           "name": "Temple Gatekeeper",
+           "x": -15934,
+           "y": -36605,
+           "z": -10693
+          },
+          {
+           "id": 32035,
+           "name": "Temple Gatekeeper",
+           "x": -16722,
+           "y": -36928,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8064,
+          8065,
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple main gate: Temple Gatekeeper 32034 (outside) opens it for 10 s for a player holding Visitor's Mark 8064 / Faded Visitor's Mark 8065 / Pagan's Mark 8067; 32035 (inside) opens it for anyone (the way out)",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 7521,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "sanctuary_gate01",
+        "need": {
+         "npc": [
+          {
+           "id": 32036,
+           "name": "Temple Gatekeeper",
+           "x": -15853,
+           "y": -43811,
+           "z": -10685
+          },
+          {
+           "id": 32037,
+           "name": "Temple Gatekeeper",
+           "x": -16629,
+           "y": -44290,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple sanctuary gate (left): Temple Gatekeeper 32036 opens 19160010 + 19160011 for 10 s only with Pagan's Mark 8067; 32037 (inside) for anyone",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 1,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "sanctuary_gate02",
+        "need": {
+         "npc": [
+          {
+           "id": 32036,
+           "name": "Temple Gatekeeper",
+           "x": -15853,
+           "y": -43811,
+           "z": -10685
+          },
+          {
+           "id": 32037,
+           "name": "Temple Gatekeeper",
+           "x": -16629,
+           "y": -44290,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple sanctuary gate (right): see 19160010",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 7659,
+        "how": "dungeon-rooms",
+        "danger": 78
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Rune"
+      },
+      "simple": false,
+      "pv": [
+       [
+        43759,
+        -48122,
+        -792
+       ],
+       [
+        34842,
+        -49756,
+        -763
+       ],
+       [
+        -13259,
+        -35932,
+        -10852
+       ],
+       [
+        -13752,
+        -36024,
+        -10848
+       ],
+       [
+        -13960,
+        -36024,
+        -10832
+       ],
+       [
+        -14952,
+        -36072,
+        -10760
+       ],
+       [
+        -15352,
+        -36072,
+        -10728
+       ],
+       [
+        -15512,
+        -36136,
+        -10720
+       ],
+       [
+        -16312,
+        -36584,
+        -10720
+       ],
+       [
+        -16285,
+        -36733,
+        -10724
+       ],
+       [
+        -16152,
+        -37576,
+        -10720
+       ],
+       [
+        -16152,
+        -38568,
+        -10720
+       ],
+       [
+        -16136,
+        -39112,
+        -10720
+       ],
+       [
+        -15832,
+        -40104,
+        -10720
+       ],
+       [
+        -15832,
+        -41096,
+        -10720
+       ],
+       [
+        -15832,
+        -42088,
+        -10720
+       ],
+       [
+        -16136,
+        -42424,
+        -10720
+       ],
+       [
+        -16152,
+        -43176,
+        -10720
+       ],
+       [
+        -16152,
+        -44081,
+        -10720
+       ],
+       [
+        -16152,
+        -44082,
+        -10720
+       ],
+       [
+        -16152,
+        -44168,
+        -10720
+       ],
+       [
+        -16088,
+        -45160,
+        -10720
+       ],
+       [
+        -16088,
+        -46152,
+        -10776
+       ],
+       [
+        -16088,
+        -47144,
+        -10816
+       ],
+       [
+        -16088,
+        -47768,
+        -10816
+       ],
+       [
+        -15880,
+        -47768,
+        -10816
+       ],
+       [
+        -14888,
+        -47000,
+        -10816
+       ],
+       [
+        -14552,
+        -46664,
+        -10816
+       ],
+       [
+        -14408,
+        -46664,
+        -10816
+       ],
+       [
+        -13416,
+        -47656,
+        -10816
+       ],
+       [
+        -12936,
+        -47736,
+        -10816
+       ]
+      ],
+      "maxDanger": 78,
+      "needs": [
+       "pagan-temple-gate",
+       "pagan-temple-sanctuary"
+      ],
+      "why": [
+       "walk not on the geodata from 43759,-48122 (the goal is a closed pocket of 5892 cells on the geodata (no walk in))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 78,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      22146,
+      22151
+     ],
+     "items": [
+      8275
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "pagan-1-straight-g",
+      "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+      "at": [
+       -19477,
+       -47289,
+       -10821
+      ],
+      "radius": 1364,
+      "levels": [
+       78,
+       78
+      ],
+      "count": 3,
+      "region": "Pagan Temple",
+      "atlasKey": "room:pagan-1-straight-g",
+      "status": "conditional",
+      "sec": 294,
+      "danger": 78,
+      "reachable": true,
+      "score": 36.9,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-k",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -19423,
+         -51456,
+         -11013
+        ],
+        "count": 3,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-d",
+        "name": "Pagan Temple: Temple and chapel, straight: Chapel Guard room",
+        "at": [
+         -19048,
+         -44780,
+         -10725
+        ],
+        "count": 2,
+        "status": "conditional"
+       },
+       {
+        "kind": "room",
+        "id": "pagan-1-straight-i",
+        "name": "Pagan Temple: Temple and chapel, straight: Triol's Believer room",
+        "at": [
+         -12930,
+         -47735,
+         -10821
+        ],
+        "count": 2,
+        "status": "conditional"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:pagan-1-straight-g",
+      "status": "conditional",
+      "flags": [
+       "unverified-walk",
+       "doors",
+       "conditions"
+      ],
+      "from": ".rune",
+      "length": 27536,
+      "sec": 294,
+      "via": ".rune > floor Temple and chapel > door temple_gate > door sanctuary_gate01 > door sanctuary_gate02",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Rune",
+        "cmd": ".rune"
+       },
+       {
+        "do": "walk",
+        "len": 9065,
+        "how": "straight",
+        "danger": 78
+       },
+       {
+        "do": "floor",
+        "npc": "Triol's Mirror",
+        "link": null,
+        "floor": "Temple and chapel"
+       },
+       {
+        "do": "walk",
+        "len": 3693,
+        "how": "geodata",
+        "danger": 78
+       },
+       {
+        "do": "walk",
+        "len": 147,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "temple_gate",
+        "need": {
+         "npc": [
+          {
+           "id": 32034,
+           "name": "Temple Gatekeeper",
+           "x": -15934,
+           "y": -36605,
+           "z": -10693
+          },
+          {
+           "id": 32035,
+           "name": "Temple Gatekeeper",
+           "x": -16722,
+           "y": -36928,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8064,
+          8065,
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple main gate: Temple Gatekeeper 32034 (outside) opens it for 10 s for a player holding Visitor's Mark 8064 / Faded Visitor's Mark 8065 / Pagan's Mark 8067; 32035 (inside) opens it for anyone (the way out)",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 7553,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "sanctuary_gate01",
+        "need": {
+         "npc": [
+          {
+           "id": 32036,
+           "name": "Temple Gatekeeper",
+           "x": -15853,
+           "y": -43811,
+           "z": -10685
+          },
+          {
+           "id": 32037,
+           "name": "Temple Gatekeeper",
+           "x": -16629,
+           "y": -44290,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple sanctuary gate (left): Temple Gatekeeper 32036 opens 19160010 + 19160011 for 10 s only with Pagan's Mark 8067; 32037 (inside) for anyone",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 1,
+        "how": "dungeon-rooms",
+        "danger": 78
+       },
+       {
+        "do": "door",
+        "name": "sanctuary_gate02",
+        "need": {
+         "npc": [
+          {
+           "id": 32036,
+           "name": "Temple Gatekeeper",
+           "x": -15853,
+           "y": -43811,
+           "z": -10685
+          },
+          {
+           "id": 32037,
+           "name": "Temple Gatekeeper",
+           "x": -16629,
+           "y": -44290,
+           "z": -10725
+          }
+         ],
+         "anyItem": [
+          8067
+         ],
+         "closesAfterSec": 10,
+         "note": "Pagan Temple sanctuary gate (right): see 19160010",
+         "unlockAlt": {
+          "skillId": 27,
+          "skill": "Unlock",
+          "classIds": [
+           7,
+           8,
+           22,
+           23,
+           35,
+           36,
+           93,
+           101,
+           108
+          ],
+          "chanceByLevel": [
+           30,
+           50,
+           75,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100,
+           100
+          ],
+          "sureFromSkillLevel": 4,
+          "consumes": {
+           "id": 1661,
+           "name": "Thief Key"
+          }
+         }
+        }
+       },
+       {
+        "do": "walk",
+        "len": 7077,
+        "how": "dungeon-rooms",
+        "danger": 78
+       }
+      ],
+      "start": {
+       "kind": "town",
+       "town": "Rune"
+      },
+      "simple": false,
+      "pv": [
+       [
+        43759,
+        -48122,
+        -792
+       ],
+       [
+        34842,
+        -49756,
+        -763
+       ],
+       [
+        -13259,
+        -35932,
+        -10852
+       ],
+       [
+        -13752,
+        -36024,
+        -10848
+       ],
+       [
+        -13960,
+        -36024,
+        -10832
+       ],
+       [
+        -14952,
+        -36072,
+        -10760
+       ],
+       [
+        -15352,
+        -36072,
+        -10728
+       ],
+       [
+        -15512,
+        -36136,
+        -10720
+       ],
+       [
+        -16312,
+        -36584,
+        -10720
+       ],
+       [
+        -16345,
+        -36733,
+        -10724
+       ],
+       [
+        -16568,
+        -37576,
+        -10720
+       ],
+       [
+        -16568,
+        -38568,
+        -10720
+       ],
+       [
+        -16584,
+        -39096,
+        -10720
+       ],
+       [
+        -16904,
+        -40088,
+        -10720
+       ],
+       [
+        -16904,
+        -41080,
+        -10720
+       ],
+       [
+        -16904,
+        -42072,
+        -10720
+       ],
+       [
+        -16584,
+        -42424,
+        -10720
+       ],
+       [
+        -16568,
+        -42856,
+        -10720
+       ],
+       [
+        -16584,
+        -43848,
+        -10720
+       ],
+       [
+        -16584,
+        -44082,
+        -10720
+       ],
+       [
+        -16584,
+        -44083,
+        -10720
+       ],
+       [
+        -16584,
+        -44264,
+        -10720
+       ],
+       [
+        -16664,
+        -45256,
+        -10720
+       ],
+       [
+        -16664,
+        -46248,
+        -10816
+       ],
+       [
+        -16664,
+        -47240,
+        -10816
+       ],
+       [
+        -16664,
+        -47768,
+        -10816
+       ],
+       [
+        -16888,
+        -47768,
+        -10816
+       ],
+       [
+        -17880,
+        -47048,
+        -10816
+       ],
+       [
+        -18264,
+        -46664,
+        -10816
+       ],
+       [
+        -18392,
+        -46664,
+        -10816
+       ],
+       [
+        -19384,
+        -47288,
+        -10816
+       ],
+       [
+        -19480,
+        -47288,
+        -10816
+       ]
+      ],
+      "maxDanger": 78,
+      "needs": [
+       "pagan-temple-gate",
+       "pagan-temple-sanctuary"
+      ],
+      "why": [
+       "walk not on the geodata from 43759,-48122 (the goal is a closed pocket of 5892 cells on the geodata (no walk in))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 1",
+       "water": false,
+       "danger": 78,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "pagan-1-right-e",
+    "name": "Pagan Temple: Temple and chapel, right: Zombie Worker room",
+    "at": [
+     -12434,
+     -42612,
+     -10725
+    ],
+    "radius": 1258,
+    "levels": [
+     78,
+     78
+    ],
+    "count": 14,
+    "region": "Pagan Temple",
+    "atlasKey": "room:pagan-1-right-e",
+    "status": "conditional",
+    "sec": 231,
+    "danger": 78,
+    "reachable": true,
+    "score": -30.15,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "pagan-1-straight-a",
+      "name": "Pagan Temple: Temple and chapel, straight: Zombie Worker room",
+      "at": [
+       -16342,
+       -41608,
+       -10725
+      ],
+      "count": 13,
+      "status": "conditional"
+     },
+     {
+      "kind": "room",
+      "id": "pagan-1-right-b",
+      "name": "Pagan Temple: Temple and chapel, right: Penance Guard room",
+      "at": [
+       -12786,
+       -39819,
+       -10758
+      ],
+      "count": 12,
+      "status": "conditional"
+     },
+     {
+      "kind": "room",
+      "id": "pagan-1-left-b",
+      "name": "Pagan Temple: Temple and chapel, left: Penance Guard room",
+      "at": [
+       -20225,
+       -39752,
+       -10758
+      ],
+      "count": 12,
+      "status": "conditional"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:pagan-1-right-e",
+    "status": "conditional",
+    "flags": [
+     "unverified-walk",
+     "doors",
+     "conditions"
+    ],
+    "from": ".rune",
+    "length": 21140,
+    "sec": 231,
+    "via": ".rune > floor Temple and chapel > door temple_gate > door corridors_door_right03",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 9065,
+      "how": "straight",
+      "danger": 78
+     },
+     {
+      "do": "floor",
+      "npc": "Triol's Mirror",
+      "link": null,
+      "floor": "Temple and chapel"
+     },
+     {
+      "do": "walk",
+      "len": 3693,
+      "how": "geodata",
+      "danger": 78
+     },
+     {
+      "do": "walk",
+      "len": 144,
+      "how": "dungeon-rooms",
+      "danger": 78
+     },
+     {
+      "do": "door",
+      "name": "temple_gate",
+      "need": {
+       "npc": [
+        {
+         "id": 32034,
+         "name": "Temple Gatekeeper",
+         "x": -15934,
+         "y": -36605,
+         "z": -10693
+        },
+        {
+         "id": 32035,
+         "name": "Temple Gatekeeper",
+         "x": -16722,
+         "y": -36928,
+         "z": -10725
+        }
+       ],
+       "anyItem": [
+        8064,
+        8065,
+        8067
+       ],
+       "closesAfterSec": 10,
+       "note": "Pagan Temple main gate: Temple Gatekeeper 32034 (outside) opens it for 10 s for a player holding Visitor's Mark 8064 / Faded Visitor's Mark 8065 / Pagan's Mark 8067; 32035 (inside) opens it for anyone (the way out)",
+       "unlockAlt": {
+        "skillId": 27,
+        "skill": "Unlock",
+        "classIds": [
+         7,
+         8,
+         22,
+         23,
+         35,
+         36,
+         93,
+         101,
+         108
+        ],
+        "chanceByLevel": [
+         30,
+         50,
+         75,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100
+        ],
+        "sureFromSkillLevel": 4,
+        "consumes": {
+         "id": 1661,
+         "name": "Thief Key"
+        }
+       }
+      }
+     },
+     {
+      "do": "walk",
+      "len": 5450,
+      "how": "dungeon-rooms",
+      "danger": 78
+     },
+     {
+      "do": "door",
+      "name": "corridors_door_right03",
+      "need": {
+       "items": [
+        {
+         "id": 8273,
+         "name": "Anteroom Key",
+         "skillId": 2235,
+         "noEffect": true
+        }
+       ],
+       "unlock": {
+        "skillId": 27,
+        "skill": "Unlock",
+        "classIds": [
+         7,
+         8,
+         22,
+         23,
+         35,
+         36,
+         93,
+         101,
+         108
+        ],
+        "chanceByLevel": [
+         30,
+         50,
+         75,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100,
+         100
+        ],
+        "sureFromSkillLevel": 4,
+        "consumes": {
+         "id": 1661,
+         "name": "Thief Key"
+        }
+       }
+      }
+     },
+     {
+      "do": "walk",
+      "len": 2788,
+      "how": "dungeon-rooms",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": false,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      34842,
+      -49756,
+      -763
+     ],
+     [
+      -13259,
+      -35932,
+      -10852
+     ],
+     [
+      -13752,
+      -36024,
+      -10848
+     ],
+     [
+      -13960,
+      -36024,
+      -10832
+     ],
+     [
+      -14952,
+      -36072,
+      -10760
+     ],
+     [
+      -15352,
+      -36072,
+      -10728
+     ],
+     [
+      -15512,
+      -36136,
+      -10720
+     ],
+     [
+      -16312,
+      -36584,
+      -10720
+     ],
+     [
+      -16285,
+      -36733,
+      -10724
+     ],
+     [
+      -16152,
+      -37576,
+      -10720
+     ],
+     [
+      -16152,
+      -38568,
+      -10720
+     ],
+     [
+      -16136,
+      -39112,
+      -10720
+     ],
+     [
+      -15480,
+      -39912,
+      -10720
+     ],
+     [
+      -14680,
+      -40904,
+      -10720
+     ],
+     [
+      -14664,
+      -41608,
+      -10720
+     ],
+     [
+      -14617,
+      -41615,
+      -10720
+     ],
+     [
+      -13672,
+      -41752,
+      -10720
+     ],
+     [
+      -12680,
+      -42056,
+      -10720
+     ],
+     [
+      -12520,
+      -42056,
+      -10720
+     ],
+     [
+      -12408,
+      -42104,
+      -10720
+     ],
+     [
+      -12408,
+      -42264,
+      -10720
+     ],
+     [
+      -12440,
+      -42616,
+      -10720
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [
+     "pagan-temple-gate",
+     "door 19160004"
+    ],
+    "why": [
+     "walk not on the geodata from 43759,-48122 (the goal is a closed pocket of 5892 cells on the geodata (no walk in))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 5231,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:31328",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Yes, I'm ready for my reward."
+   ],
+   "npc": {
+    "id": 31328,
+    "name": "Innocentin",
+    "title": "High Priest",
+    "town": "Rune",
+    "at": [
+     36476,
+     -49032,
+     -1104
+    ],
+    "alt": []
+   },
+   "text": "Hand in the batch at Innocentin (repeatable: then hunt again)",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31328@36476,-49032",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 7796,
+    "sec": 85,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 7796,
+      "how": "geodata",
+      "danger": 78
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43260,
+      -48361,
+      -792
+     ],
+     [
+      42760,
+      -48600,
+      -792
+     ],
+     [
+      42600,
+      -48440,
+      -792
+     ],
+     [
+      42440,
+      -48424,
+      -800
+     ],
+     [
+      41688,
+      -48424,
+      -800
+     ],
+     [
+      41208,
+      -48424,
+      -800
+     ],
+     [
+      40712,
+      -48352,
+      -784
+     ],
+     [
+      40216,
+      -48280,
+      -768
+     ],
+     [
+      39224,
+      -48328,
+      -888
+     ],
+     [
+      38792,
+      -48328,
+      -1048
+     ],
+     [
+      38408,
+      -48344,
+      -1152
+     ],
+     [
+      37912,
+      -48552,
+      -1140
+     ],
+     [
+      37416,
+      -48760,
+      -1128
+     ],
+     [
+      37384,
+      -48760,
+      -1128
+     ],
+     [
+      37272,
+      -49160,
+      -1128
+     ],
+     [
+      37160,
+      -49192,
+      -1128
+     ],
+     [
+      36872,
+      -49208,
+      -1128
+     ],
+     [
+      36552,
+      -49128,
+      -1128
+     ]
+    ],
+    "maxDanger": 78,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 78,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 110,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,1407 @@
+{
+ "id": 371,
+ "name": "Shrieks of Ghosts",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.308Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 59,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  }
+ ],
+ "expectedMin": 176,
+ "refLevel": 59,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30867",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will brave the tower.\""
+   ],
+   "npc": {
+    "id": 30867,
+    "name": "Reva",
+    "title": "Seer",
+    "town": "Aden",
+    "at": [
+     143856,
+     25696,
+     -2125
+    ],
+    "alt": []
+   },
+   "text": "Talk to Reva – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30867@143856,25696",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6383,
+    "sec": 73,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6383,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24328,
+      -2136
+     ],
+     [
+      145144,
+      24520,
+      -2136
+     ],
+     [
+      144968,
+      24728,
+      -2136
+     ],
+     [
+      144872,
+      24824,
+      -2136
+     ],
+     [
+      144600,
+      24824,
+      -2136
+     ],
+     [
+      144488,
+      24776,
+      -2136
+     ],
+     [
+      144440,
+      24792,
+      -2136
+     ],
+     [
+      144248,
+      24984,
+      -2136
+     ],
+     [
+      144200,
+      25256,
+      -2120
+     ],
+     [
+      144152,
+      25480,
+      -2120
+     ],
+     [
+      143960,
+      25672,
+      -2120
+     ],
+     [
+      143864,
+      25704,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20818,
+     "name": "Hallate's Warrior",
+     "level": 64,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 19,
+     "questSpawned": false
+    },
+    {
+     "id": 20820,
+     "name": "Hallate's Knight",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 20824,
+     "name": "Hallate's Commander",
+     "level": 67,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5903,
+     "name": "Ancient Ash Urn",
+     "n": 20,
+     "from": [
+      {
+       "id": 20818,
+       "name": "Hallate's Warrior",
+       "chance": 35
+      },
+      {
+       "id": 20820,
+       "name": "Hallate's Knight",
+       "chance": 58.3
+      },
+      {
+       "id": 20824,
+       "name": "Hallate's Commander",
+       "chance": 45.8
+      }
+     ]
+    },
+    {
+     "id": 6002,
+     "name": "Ancient Porcelain",
+     "n": 20,
+     "from": [
+      {
+       "id": 20818,
+       "name": "Hallate's Warrior",
+       "chance": 5
+      },
+      {
+       "id": 20820,
+       "name": "Hallate's Knight",
+       "chance": 9
+      },
+      {
+       "id": 20824,
+       "name": "Hallate's Commander",
+       "chance": 8
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Hallate's Warrior, Hallate's Knight, Hallate's Commander for Ancient Ash Urn x20, Ancient Porcelain x20",
+   "places": [
+    {
+     "mobs": [
+      20818,
+      20820,
+      20824
+     ],
+     "items": [
+      5903,
+      6002
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "toi-3-straight-c",
+      "name": "Tower of Insolence: 3rd floor, straight: Hallate's Knight room",
+      "at": [
+       115144,
+       15528,
+       -2120
+      ],
+      "radius": 2344,
+      "levels": [
+       63,
+       66
+      ],
+      "count": 7,
+      "region": "Tower of Insolence",
+      "atlasKey": "room:toi-3-straight-c",
+      "status": "ok",
+      "sec": 377,
+      "danger": 66,
+      "reachable": true,
+      "score": -35.71666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "toi-3-straight-a",
+        "name": "Tower of Insolence: 3rd floor, straight: Hallate's Knight room",
+        "at": [
+         115708,
+         15031,
+         -2123
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "toi-3-left-a",
+        "name": "Tower of Insolence: 3rd floor, left: Hallate's Royal Guard room",
+        "at": [
+         115781,
+         17184,
+         -2123
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "toi-4-right-a",
+        "name": "Tower of Insolence: 4th floor, right: Hallate's Warrior room",
+        "at": [
+         112997,
+         14728,
+         -641
+        ],
+        "count": 6,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:toi-3-straight-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 39852,
+      "sec": 377,
+      "via": ".aden > Aden -> ToI",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> ToI",
+        "link": "tower of insolence",
+        "price": 4200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 8964,
+        "how": "geodata",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 8519,
+        "how": "dungeon-rooms",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 5408,
+        "how": "geodata",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 2669,
+        "how": "geodata",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 7188,
+        "how": "dungeon-rooms",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 4199,
+        "how": "geodata",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 2905,
+        "how": "dungeon-rooms",
+        "danger": 66
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> ToI"
+      },
+      "simple": true,
+      "pv": [
+       [
+        114649,
+        11115,
+        -5120
+       ],
+       [
+        114840,
+        12104,
+        -5120
+       ],
+       [
+        115320,
+        12792,
+        -5108
+       ],
+       [
+        116504,
+        13432,
+        -5096
+       ],
+       [
+        117416,
+        14104,
+        -5120
+       ],
+       [
+        118056,
+        15176,
+        -5120
+       ],
+       [
+        118328,
+        15864,
+        -5120
+       ],
+       [
+        117464,
+        16152,
+        -5096
+       ],
+       [
+        116904,
+        17144,
+        -4864
+       ],
+       [
+        116520,
+        17784,
+        -4728
+       ],
+       [
+        116112,
+        18192,
+        -4700
+       ],
+       [
+        115704,
+        18584,
+        -4560
+       ],
+       [
+        114888,
+        18584,
+        -4376
+       ],
+       [
+        114480,
+        18456,
+        -4376
+       ],
+       [
+        114072,
+        18056,
+        -4376
+       ],
+       [
+        113664,
+        17648,
+        -4376
+       ],
+       [
+        113256,
+        17240,
+        -4376
+       ],
+       [
+        112848,
+        16832,
+        -4376
+       ],
+       [
+        112576,
+        16560,
+        -4376
+       ],
+       [
+        112232,
+        16216,
+        -4376
+       ],
+       [
+        111576,
+        16168,
+        -4376
+       ],
+       [
+        110984,
+        16200,
+        -4376
+       ],
+       [
+        111048,
+        16880,
+        -4336
+       ],
+       [
+        111168,
+        17152,
+        -4260
+       ],
+       [
+        111576,
+        18136,
+        -3992
+       ],
+       [
+        112600,
+        19160,
+        -3976
+       ],
+       [
+        113608,
+        19560,
+        -3704
+       ],
+       [
+        114536,
+        19720,
+        -3608
+       ],
+       [
+        114200,
+        18632,
+        -3608
+       ],
+       [
+        112848,
+        17856,
+        -3236
+       ],
+       [
+        112424,
+        17240,
+        -3152
+       ],
+       [
+        112216,
+        16712,
+        -2952
+       ],
+       [
+        112136,
+        16552,
+        -2896
+       ],
+       [
+        112456,
+        16488,
+        -2896
+       ],
+       [
+        112864,
+        16832,
+        -2896
+       ],
+       [
+        113272,
+        17240,
+        -2896
+       ],
+       [
+        113680,
+        17648,
+        -2896
+       ],
+       [
+        113952,
+        17920,
+        -2896
+       ],
+       [
+        114360,
+        18328,
+        -2896
+       ],
+       [
+        114688,
+        18736,
+        -2896
+       ],
+       [
+        114792,
+        19384,
+        -2896
+       ],
+       [
+        115064,
+        19720,
+        -2896
+       ],
+       [
+        115368,
+        19720,
+        -2880
+       ],
+       [
+        115776,
+        19520,
+        -2768
+       ],
+       [
+        116304,
+        19296,
+        -2620
+       ],
+       [
+        117208,
+        18648,
+        -2512
+       ],
+       [
+        117928,
+        17640,
+        -2368
+       ],
+       [
+        118296,
+        16760,
+        -2120
+       ],
+       [
+        116920,
+        15928,
+        -2120
+       ],
+       [
+        115144,
+        15528,
+        -2120
+       ]
+      ],
+      "maxDanger": 66,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 66,
+       "dangerVsLevel": 7,
+       "aggro": [
+        {
+         "name": "Hallate's Maid",
+         "lv": 66,
+         "n": 4
+        },
+        {
+         "name": "Hallate's Knight",
+         "lv": 65,
+         "n": 9
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "toi-3-straight-c",
+    "name": "Tower of Insolence: 3rd floor, straight: Hallate's Knight room",
+    "at": [
+     115144,
+     15528,
+     -2120
+    ],
+    "radius": 2344,
+    "levels": [
+     63,
+     66
+    ],
+    "count": 7,
+    "region": "Tower of Insolence",
+    "atlasKey": "room:toi-3-straight-c",
+    "status": "ok",
+    "sec": 377,
+    "danger": 66,
+    "reachable": true,
+    "score": -35.71666666666667,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "toi-3-straight-a",
+      "name": "Tower of Insolence: 3rd floor, straight: Hallate's Knight room",
+      "at": [
+       115708,
+       15031,
+       -2123
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "toi-3-left-a",
+      "name": "Tower of Insolence: 3rd floor, left: Hallate's Royal Guard room",
+      "at": [
+       115781,
+       17184,
+       -2123
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "toi-4-right-a",
+      "name": "Tower of Insolence: 4th floor, right: Hallate's Warrior room",
+      "at": [
+       112997,
+       14728,
+       -641
+      ],
+      "count": 6,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:toi-3-straight-c",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 39852,
+    "sec": 377,
+    "via": ".aden > Aden -> ToI",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> ToI",
+      "link": "tower of insolence",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 8964,
+      "how": "geodata",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 8519,
+      "how": "dungeon-rooms",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 5408,
+      "how": "geodata",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 2669,
+      "how": "geodata",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 7188,
+      "how": "dungeon-rooms",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 4199,
+      "how": "geodata",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 2905,
+      "how": "dungeon-rooms",
+      "danger": 66
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> ToI"
+    },
+    "simple": true,
+    "pv": [
+     [
+      114649,
+      11115,
+      -5120
+     ],
+     [
+      114840,
+      12104,
+      -5120
+     ],
+     [
+      115320,
+      12792,
+      -5108
+     ],
+     [
+      116504,
+      13432,
+      -5096
+     ],
+     [
+      117416,
+      14104,
+      -5120
+     ],
+     [
+      118056,
+      15176,
+      -5120
+     ],
+     [
+      118328,
+      15864,
+      -5120
+     ],
+     [
+      117464,
+      16152,
+      -5096
+     ],
+     [
+      116904,
+      17144,
+      -4864
+     ],
+     [
+      116520,
+      17784,
+      -4728
+     ],
+     [
+      116112,
+      18192,
+      -4700
+     ],
+     [
+      115704,
+      18584,
+      -4560
+     ],
+     [
+      114888,
+      18584,
+      -4376
+     ],
+     [
+      114480,
+      18456,
+      -4376
+     ],
+     [
+      114072,
+      18056,
+      -4376
+     ],
+     [
+      113664,
+      17648,
+      -4376
+     ],
+     [
+      113256,
+      17240,
+      -4376
+     ],
+     [
+      112848,
+      16832,
+      -4376
+     ],
+     [
+      112576,
+      16560,
+      -4376
+     ],
+     [
+      112232,
+      16216,
+      -4376
+     ],
+     [
+      111576,
+      16168,
+      -4376
+     ],
+     [
+      110984,
+      16200,
+      -4376
+     ],
+     [
+      111048,
+      16880,
+      -4336
+     ],
+     [
+      111168,
+      17152,
+      -4260
+     ],
+     [
+      111576,
+      18136,
+      -3992
+     ],
+     [
+      112600,
+      19160,
+      -3976
+     ],
+     [
+      113608,
+      19560,
+      -3704
+     ],
+     [
+      114536,
+      19720,
+      -3608
+     ],
+     [
+      114200,
+      18632,
+      -3608
+     ],
+     [
+      112848,
+      17856,
+      -3236
+     ],
+     [
+      112424,
+      17240,
+      -3152
+     ],
+     [
+      112216,
+      16712,
+      -2952
+     ],
+     [
+      112136,
+      16552,
+      -2896
+     ],
+     [
+      112456,
+      16488,
+      -2896
+     ],
+     [
+      112864,
+      16832,
+      -2896
+     ],
+     [
+      113272,
+      17240,
+      -2896
+     ],
+     [
+      113680,
+      17648,
+      -2896
+     ],
+     [
+      113952,
+      17920,
+      -2896
+     ],
+     [
+      114360,
+      18328,
+      -2896
+     ],
+     [
+      114688,
+      18736,
+      -2896
+     ],
+     [
+      114792,
+      19384,
+      -2896
+     ],
+     [
+      115064,
+      19720,
+      -2896
+     ],
+     [
+      115368,
+      19720,
+      -2880
+     ],
+     [
+      115776,
+      19520,
+      -2768
+     ],
+     [
+      116304,
+      19296,
+      -2620
+     ],
+     [
+      117208,
+      18648,
+      -2512
+     ],
+     [
+      117928,
+      17640,
+      -2368
+     ],
+     [
+      118296,
+      16760,
+      -2120
+     ],
+     [
+      116920,
+      15928,
+      -2120
+     ],
+     [
+      115144,
+      15528,
+      -2120
+     ]
+    ],
+    "maxDanger": 66,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 66,
+     "dangerVsLevel": 7,
+     "aggro": [
+      {
+       "name": "Hallate's Maid",
+       "lv": 66,
+       "n": 4
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65,
+       "n": 9
+      }
+     ]
+    }
+   },
+   "expectedSec": 10377,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "note": "aggro-on-way: Hallate's Maid 66 / Hallate's Knight 65 (aggressive, npcs_h5.json + aggro_h5.json) on the Tower of Insolence 3rd floor = where the quest targets live (Hallate's Warrior 64, Knight 65, Commander 67; Q00371_ShriekOfGhosts.java). No way around inside the tower: run it at level 61+ (66 < lvl+6), in a party.",
+    "editedAt": "2026-10-27T10:06:26.329Z",
+    "by": "quest-fixer batch 5"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:30867",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Hand over the Ancient Ash Urns."
+   ],
+   "npc": {
+    "id": 30867,
+    "name": "Reva",
+    "title": "Seer",
+    "town": "Aden",
+    "at": [
+     143856,
+     25696,
+     -2125
+    ],
+    "alt": []
+   },
+   "text": "Hand in Ancient Ash Urn at Reva (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 5903,
+     "name": "Ancient Ash Urn",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30867@143856,25696",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 6383,
+    "sec": 73,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 6383,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25768,
+      -2008
+     ],
+     [
+      147288,
+      25768,
+      -2008
+     ],
+     [
+      147016,
+      25800,
+      -2008
+     ],
+     [
+      146744,
+      25800,
+      -2008
+     ],
+     [
+      146488,
+      25752,
+      -2008
+     ],
+     [
+      146344,
+      25512,
+      -2008
+     ],
+     [
+      146344,
+      25272,
+      -2008
+     ],
+     [
+      146376,
+      25000,
+      -2008
+     ],
+     [
+      146424,
+      24728,
+      -2008
+     ],
+     [
+      146392,
+      24456,
+      -2008
+     ],
+     [
+      146200,
+      24264,
+      -2008
+     ],
+     [
+      145928,
+      24264,
+      -2048
+     ],
+     [
+      145768,
+      24264,
+      -2080
+     ],
+     [
+      145496,
+      24264,
+      -2128
+     ],
+     [
+      145320,
+      24328,
+      -2136
+     ],
+     [
+      145144,
+      24520,
+      -2136
+     ],
+     [
+      144968,
+      24728,
+      -2136
+     ],
+     [
+      144872,
+      24824,
+      -2136
+     ],
+     [
+      144600,
+      24824,
+      -2136
+     ],
+     [
+      144488,
+      24776,
+      -2136
+     ],
+     [
+      144440,
+      24792,
+      -2136
+     ],
+     [
+      144248,
+      24984,
+      -2136
+     ],
+     [
+      144200,
+      25256,
+      -2120
+     ],
+     [
+      144152,
+      25480,
+      -2120
+     ],
+     [
+      143960,
+      25672,
+      -2120
+     ],
+     [
+      143864,
+      25704,
+      -2120
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "note": "aggro-on-way: Hallate's Maid 66 / Hallate's Knight 65 (aggressive, npcs_h5.json + aggro_h5.json) on the Tower of Insolence 3rd floor = where the quest targets live (Hallate's Warrior 64, Knight 65, Commander 67; Q00371_ShriekOfGhosts.java). No way around inside the tower: run it at level 61+ (66 < lvl+6), in a party.",
+    "editedAt": "2026-10-27T10:06:26.329Z",
+    "by": "quest-fixer batch 5"
+   }
+  },
+  "editedAt": "2026-10-27T10:11:00.473Z",
+  "by": "quest-fixer batch 5"
+ }
+}

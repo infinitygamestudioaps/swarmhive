@@ -1,0 +1,170 @@
+{
+ "id": 350,
+ "name": "Enhance Your Weapon",
+ "version": 1,
+ "generated": "2026-10-27T11:15:28.149Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": null,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Giran",
+ "requirements": {
+  "other": [
+   "(event.endsWith(\"-04.htm\"))"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "level-unknown",
+   "text": "minimum level unknown"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 3,
+ "refLevel": 1,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30115",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [],
+   "npc": {
+    "id": 30115,
+    "name": "Jurek",
+    "title": "Grand Magister",
+    "town": "Giran",
+    "at": [
+     85823,
+     153248,
+     -3494
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jurek / Winonin / Gideon – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30115@85823,153248",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6335,
+    "sec": 73,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6335,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83704,
+      149304,
+      -3400
+     ],
+     [
+      84200,
+      149592,
+      -3400
+     ],
+     [
+      85176,
+      149688,
+      -3392
+     ],
+     [
+      85752,
+      149864,
+      -3392
+     ],
+     [
+      85816,
+      150856,
+      -3528
+     ],
+     [
+      85816,
+      151848,
+      -3528
+     ],
+     [
+      85816,
+      152840,
+      -3496
+     ],
+     [
+      85816,
+      153256,
+      -3496
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 103,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:manual",
+   "cond": 1,
+   "kind": "special",
+   "text": "step 1",
+   "reasons": [
+    "engine-manual"
+   ],
+   "engineWhy": "no automatic step at cond 1",
+   "expectedSec": 60,
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

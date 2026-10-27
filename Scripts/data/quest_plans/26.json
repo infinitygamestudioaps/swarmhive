@@ -1,0 +1,468 @@
+{
+ "id": 26,
+ "name": "Tired of Waiting",
+ "version": 1,
+ "generated": "2026-10-27T11:14:36.871Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Hunters Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 6,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30655",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Well, what is the favor that you wanted to ask me?\""
+   ],
+   "npc": {
+    "id": 30655,
+    "name": "Isael Silvershadow",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     115791,
+     75867,
+     -2714
+    ],
+    "alt": []
+   },
+   "text": "Talk to Isael Silvershadow – Start the Quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30655@115791,75867",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 965,
+    "sec": 28,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 965,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116456,
+      76152,
+      -2728
+     ],
+     [
+      116280,
+      76088,
+      -2728
+     ],
+     [
+      116024,
+      76008,
+      -2728
+     ],
+     [
+      115784,
+      75864,
+      -2712
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 58,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31045",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"I'll take the bone.\"",
+    "\"I'll take the Will.\"",
+    "\"May I take the crystal?\""
+   ],
+   "npc": {
+    "id": 31045,
+    "name": "Kitzka",
+    "title": "Valley Trader",
+    "town": "Hunters Village",
+    "at": [
+     99361,
+     109843,
+     -3664
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kitzka",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31045@99361,109843",
+    "status": "ok",
+    "flags": [
+     "long-walk"
+    ],
+    "from": ".hunters",
+    "length": 30369,
+    "sec": 298,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 30369,
+      "how": "geodata",
+      "danger": 83
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73024,
+      118485,
+      -3696
+     ],
+     [
+      73524,
+      117991,
+      -3732
+     ],
+     [
+      74024,
+      117496,
+      -3768
+     ],
+     [
+      74520,
+      117376,
+      -3728
+     ],
+     [
+      75016,
+      117256,
+      -3688
+     ],
+     [
+      75544,
+      117256,
+      -3688
+     ],
+     [
+      75816,
+      117112,
+      -3680
+     ],
+     [
+      76200,
+      116856,
+      -3584
+     ],
+     [
+      76280,
+      116776,
+      -3552
+     ],
+     [
+      76408,
+      116776,
+      -3656
+     ],
+     [
+      76904,
+      116632,
+      -3704
+     ],
+     [
+      77400,
+      116488,
+      -3752
+     ],
+     [
+      77464,
+      116488,
+      -3760
+     ],
+     [
+      78728,
+      115736,
+      -3716
+     ],
+     [
+      79224,
+      115240,
+      -3728
+     ],
+     [
+      79720,
+      114744,
+      -3724
+     ],
+     [
+      80216,
+      114248,
+      -3720
+     ],
+     [
+      80600,
+      113752,
+      -3692
+     ],
+     [
+      80984,
+      113256,
+      -3664
+     ],
+     [
+      81032,
+      113080,
+      -3640
+     ],
+     [
+      81656,
+      112312,
+      -3600
+     ],
+     [
+      82152,
+      111816,
+      -3624
+     ],
+     [
+      82648,
+      111320,
+      -3648
+     ],
+     [
+      83144,
+      110824,
+      -3712
+     ],
+     [
+      83640,
+      110328,
+      -3776
+     ],
+     [
+      84136,
+      110232,
+      -3788
+     ],
+     [
+      84632,
+      110136,
+      -3800
+     ],
+     [
+      84680,
+      110152,
+      -3800
+     ],
+     [
+      84760,
+      110152,
+      -3800
+     ],
+     [
+      85256,
+      110000,
+      -3744
+     ],
+     [
+      85752,
+      109848,
+      -3688
+     ],
+     [
+      86744,
+      109848,
+      -3712
+     ],
+     [
+      87288,
+      109928,
+      -3720
+     ],
+     [
+      87784,
+      110088,
+      -3720
+     ],
+     [
+      88280,
+      110248,
+      -3720
+     ],
+     [
+      88616,
+      110568,
+      -3720
+     ],
+     [
+      89496,
+      111016,
+      -3648
+     ],
+     [
+      89784,
+      111032,
+      -3656
+     ],
+     [
+      90616,
+      110760,
+      -3728
+     ],
+     [
+      90744,
+      110664,
+      -3736
+     ],
+     [
+      91240,
+      110256,
+      -3756
+     ],
+     [
+      91736,
+      109848,
+      -3776
+     ],
+     [
+      92728,
+      109848,
+      -3720
+     ],
+     [
+      93720,
+      109848,
+      -3672
+     ],
+     [
+      94712,
+      109848,
+      -3704
+     ],
+     [
+      95704,
+      109848,
+      -3624
+     ],
+     [
+      96696,
+      109848,
+      -3672
+     ],
+     [
+      97688,
+      109816,
+      -3664
+     ],
+     [
+      98680,
+      109848,
+      -3712
+     ],
+     [
+      99368,
+      109848,
+      -3672
+     ]
+    ],
+    "maxDanger": 83,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 83,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 323,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:14:36.921Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "script-flow-far"
+  ]
+ }
+}

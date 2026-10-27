@@ -1,0 +1,455 @@
+{
+ "id": 10280,
+ "name": "Mutated Kaneus - Schuttgart",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.434Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 58,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Schuttgart",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "spawn-script",
+   "text": "a monster / NPC is spawned by a timer / event / other script hook the engine does not do",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 7,
+ "refLevel": 58,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31981",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 31981,
+    "name": "Vishotsky",
+    "title": "Captain",
+    "town": "Schuttgart",
+    "at": [
+     85865,
+     -142153,
+     -1342
+    ],
+    "alt": []
+   },
+   "text": "Talk to Vishotsky – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31732@86514,-142340",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1368,
+    "sec": 31,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 1368,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87240,
+      -142472,
+      -1336
+     ],
+     [
+      86968,
+      -142520,
+      -1336
+     ],
+     [
+      86696,
+      -142584,
+      -1336
+     ],
+     [
+      86520,
+      -142504,
+      -1336
+     ],
+     [
+      86520,
+      -142344,
+      -1336
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31732@86514,-142340",
+     "name": "Adventure Guildsman"
+    },
+    "points": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87240,
+      -142472,
+      -1336
+     ],
+     [
+      86968,
+      -142520,
+      -1336
+     ],
+     [
+      86696,
+      -142584,
+      -1336
+     ],
+     [
+      86520,
+      -142504,
+      -1336
+     ],
+     [
+      86520,
+      -142344,
+      -1336
+     ]
+    ]
+   },
+   "expectedSec": 61,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18571",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18571,
+     "name": "Venomous Storace",
+     "level": 63,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18573,
+     "name": "Kel Bilette",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 13838,
+     "name": "Venomous Storace's Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18571,
+       "name": "Venomous Storace",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 13839,
+     "name": "Kel Bilette's Cellular Tissue",
+     "n": 1,
+     "from": [
+      {
+       "id": 18573,
+       "name": "Kel Bilette",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "spawn-script"
+   ],
+   "engine": {
+    "manual": "spawn of Venomous Storace by \"other\" is not automated"
+   },
+   "text": "Kill Venomous Storace (Kamaloka Hall lv 63) and Kel Bilette (Kamaloka Hall lv 66), then report",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:31972",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Beginning of a journey?\""
+   ],
+   "npc": {
+    "id": 31972,
+    "name": "Atraxia",
+    "title": "Magister",
+    "town": "Schuttgart",
+    "at": [
+     88660,
+     -145083,
+     -1293
+    ],
+    "alt": []
+   },
+   "text": "Kill Venomous Storace (Kamaloka Hall lv 63) and Kel Bilette (Kamaloka Hall lv 66), then report",
+   "needs": [
+    {
+     "id": 13838,
+     "name": "Venomous Storace's Cellular Tissue",
+     "n": 1
+    },
+    {
+     "id": 13839,
+     "name": "Kel Bilette's Cellular Tissue",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31972@88660,-145083",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 4917,
+    "sec": 61,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 4917,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87368,
+      -142520,
+      -1336
+     ],
+     [
+      87368,
+      -142792,
+      -1312
+     ],
+     [
+      87368,
+      -143064,
+      -1296
+     ],
+     [
+      87368,
+      -143336,
+      -1288
+     ],
+     [
+      87368,
+      -143608,
+      -1288
+     ],
+     [
+      87368,
+      -143880,
+      -1288
+     ],
+     [
+      87368,
+      -144152,
+      -1288
+     ],
+     [
+      87368,
+      -144424,
+      -1288
+     ],
+     [
+      87368,
+      -144696,
+      -1288
+     ],
+     [
+      87368,
+      -144968,
+      -1288
+     ],
+     [
+      87416,
+      -145224,
+      -1288
+     ],
+     [
+      87432,
+      -145240,
+      -1288
+     ],
+     [
+      87464,
+      -145368,
+      -1288
+     ],
+     [
+      87640,
+      -145544,
+      -1288
+     ],
+     [
+      87848,
+      -145592,
+      -1288
+     ],
+     [
+      88120,
+      -145560,
+      -1288
+     ],
+     [
+      88120,
+      -145512,
+      -1288
+     ],
+     [
+      88120,
+      -145544,
+      -1288
+     ],
+     [
+      88280,
+      -145576,
+      -1288
+     ],
+     [
+      88472,
+      -145384,
+      -1288
+     ],
+     [
+      88632,
+      -145176,
+      -1288
+     ],
+     [
+      88664,
+      -145080,
+      -1288
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 86,
+   "engineWhy": "spawn of Venomous Storace by \"other\" is not automated",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {},
+  "note": "Steps written from Q10280_MutatedKaneusSchuttgart.java. The two kills happen INSIDE Kamaloka (Hall of the Abyss lv 63 / 66, party instance, once a day): engine need, see docs/plan/quest_engine_needs/batch4.md",
+  "editedAt": "2026-10-27T10:10:55.592Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+ }
+}

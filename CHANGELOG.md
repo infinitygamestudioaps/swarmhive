@@ -2,6 +2,16 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.2 (2026-10-27)
+
+- L2Swarm 3.10.7 fixes: (1) account files written by older versions are refused at login ('The account options XML does not match the internal schema ... CombatSkill/RepeatDelaySeconds'): update.cmd now moves RepeatDelaySeconds to where 3.10.7 expects it in every Settings\*.xml (backup first)
+- (2) healers cast L2Swarm's own weak Self Heal again: 3.10.7 renamed the auto-skill field the Hive reads (Skill -> Instrument), so the Hive's Self Heal switch-off missed
+- fixed. Quests: every quest now has a bot plan (where each step happens and the route there), shipped in Scripts/data/quest_plans
+- the quest page shows it on a map with the live characters and the current step, and you can override the route / NPC place / hunting place per step (the bot follows your version first)
+- the live view shows quest, step i of n and route point
+- quest data re-read from the real quest scripts (a script-reading bug made many quests end at their start), the quest page and the bot now show the same steps
+- 151 quests are checked ready by a step-by-step dry run, more follow in the next updates.
+
 ## v1.12.1 (2026-10-27)
 
 - Quest walks: a character that meets an aggressive monster on the way stops walking, fights it to the end and then walks on (it used to walk away, get pulled back and drag the next pack along)

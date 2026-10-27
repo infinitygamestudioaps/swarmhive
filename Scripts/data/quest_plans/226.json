@@ -1,0 +1,3605 @@
+{
+ "id": 226,
+ "name": "Test Of The Healer",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.136Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 39,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Giran",
+ "requirements": {
+  "categories": [
+   "WHITE_MAGIC_GROUP"
+  ],
+  "other": [
+   "(player.getVariables().getInt(\"2ND_CLASS_DIAMOND_REWARD\", 0) == 0)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: WHITE_MAGIC_GROUP"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 12
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 13
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 52
+  }
+ ],
+ "expectedMin": 49,
+ "refLevel": 39,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30473",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will challenge the Test of the Healer\""
+   ],
+   "npc": {
+    "id": 30473,
+    "name": "Bandellos",
+    "title": "Priest",
+    "town": "Giran",
+    "at": [
+     85829,
+     148365,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bandellos – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30473@85829,148365",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 3092,
+    "sec": 46,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 3092,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148392,
+      -3400
+     ],
+     [
+      83592,
+      148216,
+      -3400
+     ],
+     [
+      83864,
+      148184,
+      -3392
+     ],
+     [
+      84136,
+      148216,
+      -3400
+     ],
+     [
+      84120,
+      148424,
+      -3400
+     ],
+     [
+      84184,
+      148600,
+      -3400
+     ],
+     [
+      84456,
+      148616,
+      -3400
+     ],
+     [
+      84728,
+      148616,
+      -3400
+     ],
+     [
+      85000,
+      148616,
+      -3400
+     ],
+     [
+      85272,
+      148616,
+      -3400
+     ],
+     [
+      85544,
+      148616,
+      -3400
+     ],
+     [
+      85720,
+      148552,
+      -3400
+     ],
+     [
+      85832,
+      148376,
+      -3400
+     ],
+     [
+      85832,
+      148360,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 76,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:27123",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27123,
+     "name": "Leto Lizardman Leader",
+     "level": 38,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27124,
+     "name": "Leto Lizardman Assassin",
+     "level": 37,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27125,
+     "name": "Leto Lizardman Sniper",
+     "level": 36,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27127,
+     "name": "Leto Lizardman Lord",
+     "level": 40,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 2816,
+     "name": "1st Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27123,
+       "name": "Leto Lizardman Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2817,
+     "name": "2nd Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27124,
+       "name": "Leto Lizardman Assassin",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2818,
+     "name": "3rd Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27125,
+       "name": "Leto Lizardman Sniper",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 2819,
+     "name": "4th Secret Letter",
+     "n": 1,
+     "from": [
+      {
+       "id": 27127,
+       "name": "Leto Lizardman Lord",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Leto Lizardman Leader, Leto Lizardman Assassin, Leto Lizardman Sniper, Leto Lizardman Lord appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30473",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Hand over the Golden Statue"
+   ],
+   "npc": {
+    "id": 30473,
+    "name": "Bandellos",
+    "title": "Priest",
+    "town": "Giran",
+    "at": [
+     85829,
+     148365,
+     -3392
+    ],
+    "alt": []
+   },
+   "text": "Bring Golden Statue to Bandellos",
+   "needs": [
+    {
+     "id": 2813,
+     "name": "Golden Statue",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30473@85829,148365",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 3092,
+    "sec": 46,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 3092,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148392,
+      -3400
+     ],
+     [
+      83592,
+      148216,
+      -3400
+     ],
+     [
+      83864,
+      148184,
+      -3392
+     ],
+     [
+      84136,
+      148216,
+      -3400
+     ],
+     [
+      84120,
+      148424,
+      -3400
+     ],
+     [
+      84184,
+      148600,
+      -3400
+     ],
+     [
+      84456,
+      148616,
+      -3400
+     ],
+     [
+      84728,
+      148616,
+      -3400
+     ],
+     [
+      85000,
+      148616,
+      -3400
+     ],
+     [
+      85272,
+      148616,
+      -3400
+     ],
+     [
+      85544,
+      148616,
+      -3400
+     ],
+     [
+      85720,
+      148552,
+      -3400
+     ],
+     [
+      85832,
+      148376,
+      -3400
+     ],
+     [
+      85832,
+      148360,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 71,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30327",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 23,
+   "links": [],
+   "npc": {
+    "id": 30327,
+    "name": "Sorius",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13440,
+     122643,
+     -3103
+    ],
+    "alt": []
+   },
+   "text": "Bring Kristina's Letter to Sorius",
+   "needs": [
+    {
+     "id": 2811,
+     "name": "Kristina's Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30327@-13440,122643",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3394,
+    "sec": 48,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 3394,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14264,
+      122776,
+      -3112
+     ],
+     [
+      -13992,
+      122776,
+      -3112
+     ],
+     [
+      -13720,
+      122776,
+      -3104
+     ],
+     [
+      -13672,
+      122776,
+      -3104
+     ],
+     [
+      -13432,
+      122648,
+      -3104
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:30665",
+   "cond": 1,
+   "kind": "talk",
+   "to": 22,
+   "links": [
+    "\"Please visit Master Sorius with me.\""
+   ],
+   "npc": {
+    "id": 30665,
+    "name": "Kristina",
+    "title": "Saint",
+    "town": "Gludio",
+    "at": [
+     -53664,
+     85862,
+     -3504
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kristina",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30665@-53664,85862",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 13817,
+    "sec": 185,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 13817,
+      "how": "geodata",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56632,
+      79576,
+      -3128
+     ],
+     [
+      -56136,
+      80072,
+      -3064
+     ],
+     [
+      -55640,
+      80568,
+      -3244
+     ],
+     [
+      -55144,
+      81064,
+      -3424
+     ],
+     [
+      -54632,
+      81640,
+      -3488
+     ],
+     [
+      -54144,
+      82136,
+      -3464
+     ],
+     [
+      -53656,
+      82632,
+      -3440
+     ],
+     [
+      -53656,
+      83624,
+      -3472
+     ],
+     [
+      -53656,
+      84616,
+      -3560
+     ],
+     [
+      -53656,
+      85608,
+      -3536
+     ],
+     [
+      -53656,
+      85864,
+      -3504
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": -21,
+     "aggro": []
+    }
+   },
+   "expectedSec": 210,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    23
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30662",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 21,
+   "links": [],
+   "npc": {
+    "id": 30662,
+    "name": "Piper Longbow",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -13742,
+     44298,
+     -3592
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Secret Letter, 3rd Secret Letter, 4th Secret Letter to Piper Longbow",
+   "needs": [
+    {
+     "id": 2817,
+     "name": "2nd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2818,
+     "name": "3rd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2819,
+     "name": "4th Secret Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30662@-13742,44298",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 9638,
+    "sec": 150,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Swampland",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Swampland",
+      "link": "swampland",
+      "price": 1100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9638,
+      "how": "geodata",
+      "danger": 39
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -21966,
+      40544,
+      -3192
+     ],
+     [
+      -21467,
+      41044,
+      -3340
+     ],
+     [
+      -20968,
+      41544,
+      -3488
+     ],
+     [
+      -20600,
+      41888,
+      -3600
+     ],
+     [
+      -20232,
+      42232,
+      -3712
+     ],
+     [
+      -19528,
+      42648,
+      -3768
+     ],
+     [
+      -19032,
+      43144,
+      -3740
+     ],
+     [
+      -18536,
+      43640,
+      -3712
+     ],
+     [
+      -18040,
+      43968,
+      -3704
+     ],
+     [
+      -17544,
+      44296,
+      -3696
+     ],
+     [
+      -16552,
+      44296,
+      -3720
+     ],
+     [
+      -15560,
+      44296,
+      -3672
+     ],
+     [
+      -14568,
+      44296,
+      -3616
+     ],
+     [
+      -13736,
+      44296,
+      -3592
+     ]
+    ],
+    "maxDanger": 39,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 39,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 175,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:deliver:30663",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 21,
+   "links": [],
+   "npc": {
+    "id": 30663,
+    "name": "Slein Shining Blade",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -42525,
+     80087,
+     -3856
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Secret Letter, 3rd Secret Letter, 4th Secret Letter to Slein Shining Blade",
+   "needs": [
+    {
+     "id": 2817,
+     "name": "2nd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2818,
+     "name": "3rd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2819,
+     "name": "4th Secret Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30663@-42525,80087",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 20528,
+    "sec": 241,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 20528,
+      "how": "geodata",
+      "danger": 65
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60599,
+      75604,
+      -3348
+     ],
+     [
+      -60104,
+      76104,
+      -3344
+     ],
+     [
+      -59608,
+      76600,
+      -3376
+     ],
+     [
+      -59112,
+      77096,
+      -3408
+     ],
+     [
+      -58616,
+      77592,
+      -3440
+     ],
+     [
+      -58120,
+      78088,
+      -3472
+     ],
+     [
+      -57624,
+      78584,
+      -3332
+     ],
+     [
+      -57128,
+      79080,
+      -3192
+     ],
+     [
+      -56672,
+      79456,
+      -3104
+     ],
+     [
+      -56216,
+      79832,
+      -3016
+     ],
+     [
+      -55224,
+      79832,
+      -3032
+     ],
+     [
+      -54232,
+      79832,
+      -3216
+     ],
+     [
+      -53240,
+      79832,
+      -3360
+     ],
+     [
+      -52248,
+      79832,
+      -3416
+     ],
+     [
+      -51256,
+      79832,
+      -3368
+     ],
+     [
+      -50264,
+      79832,
+      -3304
+     ],
+     [
+      -49272,
+      79832,
+      -3224
+     ],
+     [
+      -48280,
+      79832,
+      -3112
+     ],
+     [
+      -47288,
+      79832,
+      -3072
+     ],
+     [
+      -46296,
+      79832,
+      -3728
+     ],
+     [
+      -45304,
+      79832,
+      -3744
+     ],
+     [
+      -44312,
+      79832,
+      -3648
+     ],
+     [
+      -43816,
+      79832,
+      -3648
+     ],
+     [
+      -42856,
+      80088,
+      -3776
+     ],
+     [
+      -42520,
+      80088,
+      -3856
+     ]
+    ],
+    "maxDanger": 65,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 65,
+     "dangerVsLevel": 26,
+     "aggro": []
+    }
+   },
+   "expectedSec": 266,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:deliver:30664",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 21,
+   "links": [],
+   "npc": {
+    "id": 30664,
+    "name": "Cain Flying Knife",
+    "title": "",
+    "town": "Gludio",
+    "at": [
+     -59997,
+     79458,
+     -3528
+    ],
+    "alt": []
+   },
+   "text": "Bring 2nd Secret Letter, 3rd Secret Letter, 4th Secret Letter to Cain Flying Knife",
+   "needs": [
+    {
+     "id": 2817,
+     "name": "2nd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2818,
+     "name": "3rd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2819,
+     "name": "4th Secret Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30664@-59997,79458",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4683,
+    "sec": 109,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4683,
+      "how": "geodata",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60823,
+      75604,
+      -3356
+     ],
+     [
+      -60552,
+      76104,
+      -3360
+     ],
+     [
+      -60392,
+      76600,
+      -3396
+     ],
+     [
+      -60232,
+      77096,
+      -3432
+     ],
+     [
+      -60232,
+      78088,
+      -3480
+     ],
+     [
+      -60232,
+      79080,
+      -3496
+     ],
+     [
+      -60232,
+      79176,
+      -3496
+     ],
+     [
+      -60248,
+      79192,
+      -3496
+     ],
+     [
+      -60248,
+      79240,
+      -3496
+     ],
+     [
+      -60184,
+      79352,
+      -3496
+     ],
+     [
+      -60088,
+      79400,
+      -3496
+     ],
+     [
+      -59992,
+      79464,
+      -3528
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": -21,
+     "aggro": []
+    }
+   },
+   "expectedSec": 134,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:talk:30661",
+   "cond": 1,
+   "kind": "talk",
+   "to": 20,
+   "links": [],
+   "npc": {
+    "id": 30661,
+    "name": "Mysterious Dark Elf",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -59985,
+     79234,
+     -3496
+    ],
+    "alt": [
+     [
+      -44358,
+      79442,
+      -3704
+     ],
+     [
+      -14158,
+      44933,
+      -3592
+     ]
+    ]
+   },
+   "text": "Talk to Mysterious Dark Elf",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30661@-59985,79234",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4472,
+    "sec": 107,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4472,
+      "how": "geodata",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60823,
+      75604,
+      -3356
+     ],
+     [
+      -60552,
+      76104,
+      -3360
+     ],
+     [
+      -60264,
+      76600,
+      -3392
+     ],
+     [
+      -59976,
+      77096,
+      -3424
+     ],
+     [
+      -59976,
+      78088,
+      -3480
+     ],
+     [
+      -59944,
+      79080,
+      -3496
+     ],
+     [
+      -59912,
+      79112,
+      -3496
+     ],
+     [
+      -59912,
+      79144,
+      -3496
+     ],
+     [
+      -59992,
+      79240,
+      -3496
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": -21,
+     "aggro": []
+    }
+   },
+   "expectedSec": 132,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:deliver:30674",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 13,
+   "links": [],
+   "npc": {
+    "id": 30674,
+    "name": "Daurin Hammercrush",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -97611,
+     106574,
+     -3388
+    ],
+    "alt": []
+   },
+   "text": "Bring 1st Secret Letter, Order of Sorius to Daurin Hammercrush",
+   "needs": [
+    {
+     "id": 2816,
+     "name": "1st Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2815,
+     "name": "Order of Sorius",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30674@-97611,106574",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8191,
+    "sec": 113,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8191,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -90392,
+      105592,
+      -3624
+     ],
+     [
+      -90888,
+      106000,
+      -3720
+     ],
+     [
+      -91384,
+      106408,
+      -3816
+     ],
+     [
+      -92376,
+      106408,
+      -3720
+     ],
+     [
+      -93000,
+      106408,
+      -3696
+     ],
+     [
+      -93496,
+      106480,
+      -3696
+     ],
+     [
+      -93992,
+      106552,
+      -3696
+     ],
+     [
+      -94984,
+      106552,
+      -3552
+     ],
+     [
+      -95976,
+      106552,
+      -3448
+     ],
+     [
+      -96488,
+      106552,
+      -3376
+     ],
+     [
+      -97240,
+      106584,
+      -3400
+     ],
+     [
+      -97608,
+      106568,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c1:talk:30658",
+   "cond": 1,
+   "kind": "talk",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30658,
+    "name": "Gupu",
+    "title": "Father",
+    "town": "Gludio",
+    "at": [
+     -28103,
+     120634,
+     -3724
+    ],
+    "alt": []
+   },
+   "text": "Talk to Gupu",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30658@-28103,120634",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 16261,
+    "sec": 156,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 16261,
+      "how": "geodata",
+      "danger": 27
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14872,
+      120808,
+      -3008
+     ],
+     [
+      -15368,
+      120720,
+      -3080
+     ],
+     [
+      -15864,
+      120632,
+      -3152
+     ],
+     [
+      -16856,
+      120632,
+      -3152
+     ],
+     [
+      -17848,
+      120632,
+      -3224
+     ],
+     [
+      -18840,
+      120632,
+      -3264
+     ],
+     [
+      -19832,
+      120632,
+      -3328
+     ],
+     [
+      -20824,
+      120632,
+      -3416
+     ],
+     [
+      -20968,
+      120648,
+      -3424
+     ],
+     [
+      -21960,
+      120632,
+      -3504
+     ],
+     [
+      -22808,
+      120616,
+      -3568
+     ],
+     [
+      -23800,
+      120632,
+      -3632
+     ],
+     [
+      -24792,
+      120632,
+      -3696
+     ],
+     [
+      -25112,
+      120600,
+      -3704
+     ],
+     [
+      -26104,
+      120632,
+      -3720
+     ],
+     [
+      -27096,
+      120632,
+      -3720
+     ],
+     [
+      -27752,
+      120664,
+      -3720
+     ],
+     [
+      -28104,
+      120632,
+      -3720
+     ]
+    ],
+    "maxDanger": 27,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 27,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 181,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c1:deliver:30660",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 8,
+   "links": [
+    "\"You should go back home now!\""
+   ],
+   "npc": {
+    "id": 30660,
+    "name": "Windy Shaoring",
+    "title": "",
+    "town": "Floran",
+    "at": [
+     -21101,
+     178989,
+     -4094
+    ],
+    "alt": []
+   },
+   "text": "Bring Picture of Windy to Windy Shaoring",
+   "needs": [
+    {
+     "id": 2812,
+     "name": "Picture of Windy",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30660@-21101,178989",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 12718,
+    "sec": 151,
+    "via": ".gludio > Gludio -> Ant Cave",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ant Cave",
+      "link": "ant nest",
+      "price": 2100,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12718,
+      "how": "geodata",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ant Cave"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -9959,
+      176184,
+      -4160
+     ],
+     [
+      -10455,
+      176680,
+      -4064
+     ],
+     [
+      -10952,
+      177176,
+      -3968
+     ],
+     [
+      -11448,
+      177672,
+      -4032
+     ],
+     [
+      -11944,
+      178168,
+      -4096
+     ],
+     [
+      -12440,
+      178576,
+      -4140
+     ],
+     [
+      -12936,
+      178984,
+      -4184
+     ],
+     [
+      -13928,
+      178984,
+      -4136
+     ],
+     [
+      -14440,
+      179336,
+      -4112
+     ],
+     [
+      -14968,
+      179656,
+      -4200
+     ],
+     [
+      -15480,
+      179848,
+      -4208
+     ],
+     [
+      -15656,
+      179896,
+      -4208
+     ],
+     [
+      -16472,
+      179960,
+      -4208
+     ],
+     [
+      -17304,
+      179960,
+      -4208
+     ],
+     [
+      -18072,
+      179896,
+      -4208
+     ],
+     [
+      -18584,
+      179768,
+      -4208
+     ],
+     [
+      -19032,
+      179448,
+      -4104
+     ],
+     [
+      -19528,
+      179216,
+      -4092
+     ],
+     [
+      -20024,
+      178984,
+      -4080
+     ],
+     [
+      -21016,
+      178984,
+      -4088
+     ],
+     [
+      -21096,
+      178984,
+      -4096
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 176,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 12,
+   "key": "c1:talk:30424",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [],
+   "npc": {
+    "id": 30424,
+    "name": "Allana",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -92310,
+     154223,
+     -3284
+    ],
+    "alt": []
+   },
+   "text": "Talk to Allana",
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30424@-92310,154223",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13024,
+    "sec": 129,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13024,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -83144,
+      152488,
+      -3120
+     ],
+     [
+      -83640,
+      152688,
+      -3144
+     ],
+     [
+      -84136,
+      152888,
+      -3168
+     ],
+     [
+      -84904,
+      152888,
+      -3168
+     ],
+     [
+      -85048,
+      152904,
+      -3160
+     ],
+     [
+      -85240,
+      153048,
+      -3152
+     ],
+     [
+      -85736,
+      153496,
+      -3128
+     ],
+     [
+      -86232,
+      153944,
+      -3104
+     ],
+     [
+      -87160,
+      153944,
+      -3264
+     ],
+     [
+      -88152,
+      153976,
+      -3632
+     ],
+     [
+      -89144,
+      153976,
+      -3640
+     ],
+     [
+      -90136,
+      153976,
+      -3720
+     ],
+     [
+      -91128,
+      153976,
+      -3552
+     ],
+     [
+      -91624,
+      154096,
+      -3428
+     ],
+     [
+      -92120,
+      154216,
+      -3304
+     ],
+     [
+      -92312,
+      154216,
+      -3280
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 13,
+   "key": "c1:talk:30428",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [],
+   "npc": {
+    "id": 30428,
+    "name": "Perrin",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -93275,
+     147654,
+     -2674
+    ],
+    "alt": []
+   },
+   "text": "Talk to Perrin",
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30428@-93275,147654",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13415,
+    "sec": 132,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13415,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      148024,
+      -3236
+     ],
+     [
+      -85480,
+      147784,
+      -3264
+     ],
+     [
+      -86456,
+      147784,
+      -3072
+     ],
+     [
+      -87448,
+      147720,
+      -3064
+     ],
+     [
+      -88440,
+      147720,
+      -3064
+     ],
+     [
+      -89432,
+      147720,
+      -3088
+     ],
+     [
+      -90424,
+      147720,
+      -3296
+     ],
+     [
+      -90760,
+      147720,
+      -3152
+     ],
+     [
+      -91752,
+      147656,
+      -2968
+     ],
+     [
+      -92744,
+      147656,
+      -2760
+     ],
+     [
+      -93272,
+      147656,
+      -2672
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 157,
+   "engineWhy": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+   ]
+  },
+  {
+   "i": 14,
+   "key": "c4:deliver:30428",
+   "cond": 4,
+   "kind": "deliver",
+   "to": 2,
+   "links": [
+    "\"Tell me the truth or you will get hurt!\""
+   ],
+   "npc": {
+    "id": 30428,
+    "name": "Perrin",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -93275,
+     147654,
+     -2674
+    ],
+    "alt": []
+   },
+   "text": "Bring Report of Perrin to Perrin",
+   "needs": [
+    {
+     "id": 2810,
+     "name": "Report of Perrin",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "engine-manual"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30428@-93275,147654",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13415,
+    "sec": 132,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13415,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      148024,
+      -3236
+     ],
+     [
+      -85480,
+      147784,
+      -3264
+     ],
+     [
+      -86456,
+      147784,
+      -3072
+     ],
+     [
+      -87448,
+      147720,
+      -3064
+     ],
+     [
+      -88440,
+      147720,
+      -3064
+     ],
+     [
+      -89432,
+      147720,
+      -3088
+     ],
+     [
+      -90424,
+      147720,
+      -3296
+     ],
+     [
+      -90760,
+      147720,
+      -3152
+     ],
+     [
+      -91752,
+      147656,
+      -2968
+     ],
+     [
+      -92744,
+      147656,
+      -2760
+     ],
+     [
+      -93272,
+      147656,
+      -2672
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 157,
+   "engineWhy": "the monsters (27123, 27124, 27125, 27127) only appear through the quest script and no trigger is known",
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 15,
+   "key": "c9:deliver:30658",
+   "cond": 9,
+   "kind": "deliver",
+   "to": 7,
+   "links": [
+    "Say you will donate that amount"
+   ],
+   "npc": {
+    "id": 30658,
+    "name": "Gupu",
+    "title": "Father",
+    "town": "Gludio",
+    "at": [
+     -28103,
+     120634,
+     -3724
+    ],
+    "alt": []
+   },
+   "text": "Bring Adena x100000 to Gupu",
+   "needs": [
+    {
+     "id": 57,
+     "name": "Adena",
+     "n": 100000
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30658@-28103,120634",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 16261,
+    "sec": 156,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 16261,
+      "how": "geodata",
+      "danger": 27
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -13224,
+      122632,
+      -3048
+     ],
+     [
+      -13352,
+      122424,
+      -2984
+     ],
+     [
+      -13928,
+      121976,
+      -2984
+     ],
+     [
+      -14328,
+      121480,
+      -2984
+     ],
+     [
+      -14728,
+      120984,
+      -2984
+     ],
+     [
+      -14872,
+      120808,
+      -3008
+     ],
+     [
+      -15368,
+      120720,
+      -3080
+     ],
+     [
+      -15864,
+      120632,
+      -3152
+     ],
+     [
+      -16856,
+      120632,
+      -3152
+     ],
+     [
+      -17848,
+      120632,
+      -3224
+     ],
+     [
+      -18840,
+      120632,
+      -3264
+     ],
+     [
+      -19832,
+      120632,
+      -3328
+     ],
+     [
+      -20824,
+      120632,
+      -3416
+     ],
+     [
+      -20968,
+      120648,
+      -3424
+     ],
+     [
+      -21960,
+      120632,
+      -3504
+     ],
+     [
+      -22808,
+      120616,
+      -3568
+     ],
+     [
+      -23800,
+      120632,
+      -3632
+     ],
+     [
+      -24792,
+      120632,
+      -3696
+     ],
+     [
+      -25112,
+      120600,
+      -3704
+     ],
+     [
+      -26104,
+      120632,
+      -3720
+     ],
+     [
+      -27096,
+      120632,
+      -3720
+     ],
+     [
+      -27752,
+      120664,
+      -3720
+     ],
+     [
+      -28104,
+      120632,
+      -3720
+     ]
+    ],
+    "maxDanger": 27,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 27,
+     "dangerVsLevel": -12,
+     "aggro": []
+    }
+   },
+   "expectedSec": 181,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    9
+   ]
+  },
+  {
+   "i": 16,
+   "key": "c13:talk:30674",
+   "cond": 13,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"Leave the rest to me.\""
+   ],
+   "npc": {
+    "id": 30674,
+    "name": "Daurin Hammercrush",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -97611,
+     106574,
+     -3388
+    ],
+    "alt": []
+   },
+   "text": "Talk to Daurin Hammercrush",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30674@-97611,106574",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 8191,
+    "sec": 113,
+    "via": ".gludin > Gludin -> Orc Barracks",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Orc Barracks",
+      "link": "orc barracks",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8191,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Orc Barracks"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -89763,
+      105359,
+      -3576
+     ],
+     [
+      -90392,
+      105592,
+      -3624
+     ],
+     [
+      -90888,
+      106000,
+      -3720
+     ],
+     [
+      -91384,
+      106408,
+      -3816
+     ],
+     [
+      -92376,
+      106408,
+      -3720
+     ],
+     [
+      -93000,
+      106408,
+      -3696
+     ],
+     [
+      -93496,
+      106480,
+      -3696
+     ],
+     [
+      -93992,
+      106552,
+      -3696
+     ],
+     [
+      -94984,
+      106552,
+      -3552
+     ],
+     [
+      -95976,
+      106552,
+      -3448
+     ],
+     [
+      -96488,
+      106552,
+      -3376
+     ],
+     [
+      -97240,
+      106584,
+      -3400
+     ],
+     [
+      -97608,
+      106568,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 138,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    13
+   ]
+  },
+  {
+   "i": 17,
+   "key": "c20:deliver:30661",
+   "cond": 20,
+   "kind": "deliver",
+   "to": 18,
+   "links": [],
+   "npc": {
+    "id": 30661,
+    "name": "Mysterious Dark Elf",
+    "title": "",
+    "town": "Dark Elf Village",
+    "at": [
+     -59985,
+     79234,
+     -3496
+    ],
+    "alt": [
+     [
+      -44358,
+      79442,
+      -3704
+     ],
+     [
+      -14158,
+      44933,
+      -3592
+     ]
+    ]
+   },
+   "text": "Bring 1st Secret Letter, 2nd Secret Letter, 3rd Secret Letter to Mysterious Dark Elf",
+   "needs": [
+    {
+     "id": 2816,
+     "name": "1st Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2817,
+     "name": "2nd Secret Letter",
+     "n": 1
+    },
+    {
+     "id": 2818,
+     "name": "3rd Secret Letter",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30661@-59985,79234",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 4472,
+    "sec": 107,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4472,
+      "how": "geodata",
+      "danger": 18
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -60823,
+      75604,
+      -3356
+     ],
+     [
+      -60552,
+      76104,
+      -3360
+     ],
+     [
+      -60264,
+      76600,
+      -3392
+     ],
+     [
+      -59976,
+      77096,
+      -3424
+     ],
+     [
+      -59976,
+      78088,
+      -3480
+     ],
+     [
+      -59944,
+      79080,
+      -3496
+     ],
+     [
+      -59912,
+      79112,
+      -3496
+     ],
+     [
+      -59912,
+      79144,
+      -3496
+     ],
+     [
+      -59992,
+      79240,
+      -3496
+     ]
+    ],
+    "maxDanger": 18,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 18,
+     "dangerVsLevel": -21,
+     "aggro": []
+    }
+   },
+   "expectedSec": 132,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    20
+   ]
+  },
+  {
+   "i": 18,
+   "key": "c23:talk:30327",
+   "cond": 23,
+   "kind": "talk",
+   "to": 10,
+   "links": [],
+   "npc": {
+    "id": 30327,
+    "name": "Sorius",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13440,
+     122643,
+     -3103
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorius",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30327@-13440,122643",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3394,
+    "sec": 48,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 3394,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14264,
+      122776,
+      -3112
+     ],
+     [
+      -13992,
+      122776,
+      -3112
+     ],
+     [
+      -13720,
+      122776,
+      -3104
+     ],
+     [
+      -13672,
+      122776,
+      -3104
+     ],
+     [
+      -13432,
+      122648,
+      -3104
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "manual",
+    "hasItems": "talk"
+   },
+   "conds": [
+    23
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

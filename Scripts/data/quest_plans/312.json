@@ -1,0 +1,1149 @@
+{
+ "id": 312,
+ "name": "Take Advantage of the Crisis!",
+ "version": 1,
+ "generated": "2026-10-27T11:15:19.609Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Dwarven Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 1
+  }
+ ],
+ "expectedMin": 39,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30535",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say yes."
+   ],
+   "npc": {
+    "id": 30535,
+    "name": "Filaur",
+    "title": "Gray Pillar Member",
+    "town": "Dwarven Village",
+    "at": [
+     116103,
+     -178407,
+     -944
+    ],
+    "alt": []
+   },
+   "text": "Talk to Filaur – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30535@116103,-178407",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 1638,
+    "sec": 59,
+    "via": ".schuttgart > Schuttgart -> Dwarven Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Dwarven Village",
+      "link": "dwarven village",
+      "price": 4400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 1638,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Dwarven Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      115120,
+      -178224,
+      -880
+     ],
+     [
+      115128,
+      -178216,
+      -896
+     ],
+     [
+      115256,
+      -178456,
+      -920
+     ],
+     [
+      115256,
+      -178728,
+      -920
+     ],
+     [
+      115256,
+      -178808,
+      -920
+     ],
+     [
+      115416,
+      -178648,
+      -936
+     ],
+     [
+      115624,
+      -178536,
+      -944
+     ],
+     [
+      115896,
+      -178536,
+      -944
+     ],
+     [
+      116072,
+      -178488,
+      -944
+     ],
+     [
+      116104,
+      -178408,
+      -944
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 89,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22678,
+     "name": "Grave Robber Summoner",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 34,
+     "questSpawned": false
+    },
+    {
+     "id": 22679,
+     "name": "Grave Robber Magician",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 49,
+     "questSpawned": false
+    },
+    {
+     "id": 22680,
+     "name": "Grave Robber Worker",
+     "level": 81,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 32,
+     "questSpawned": false
+    },
+    {
+     "id": 22681,
+     "name": "Grave Robber Warrior",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 38,
+     "questSpawned": false
+    },
+    {
+     "id": 22682,
+     "name": "Grave Robber Warrior of Light",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 22688,
+     "name": "Evil Spirits of the Mine",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 7,
+     "questSpawned": false
+    },
+    {
+     "id": 22689,
+     "name": "Mine Bug",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 84,
+     "questSpawned": false
+    },
+    {
+     "id": 22690,
+     "name": "Earthworm's Descendant",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 14875,
+     "name": "Mineral Fragment",
+     "n": 20,
+     "from": [
+      {
+       "id": 22678,
+       "name": "Grave Robber Summoner",
+       "chance": 29.1
+      },
+      {
+       "id": 22679,
+       "name": "Grave Robber Magician",
+       "chance": 59.6
+      },
+      {
+       "id": 22680,
+       "name": "Grave Robber Worker",
+       "chance": 61
+      },
+      {
+       "id": 22681,
+       "name": "Grave Robber Warrior",
+       "chance": 62.6
+      },
+      {
+       "id": 22682,
+       "name": "Grave Robber Warrior of Light",
+       "chance": 69.2
+      },
+      {
+       "id": 22688,
+       "name": "Evil Spirits of the Mine",
+       "chance": 41.6
+      },
+      {
+       "id": 22689,
+       "name": "Mine Bug",
+       "chance": 21.2
+      },
+      {
+       "id": 22690,
+       "name": "Earthworm's Descendant",
+       "chance": 74.8
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "engine-manual",
+    "route-unverified"
+   ],
+   "text": "Collect Mineral Fragments in the Mithril Mines; exchange them at Filaur (multisell 312)",
+   "places": [
+    {
+     "mobs": [
+      22678,
+      22679,
+      22680,
+      22681,
+      22682,
+      22688,
+      22689,
+      22690
+     ],
+     "items": [
+      14875
+     ],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "mithril-3-atentry-a",
+      "name": "Mithril Mines: Lower tunnels, at entry: Grave Robber Magician room",
+      "at": [
+       179617,
+       -183287,
+       -1900
+      ],
+      "radius": 1629,
+      "levels": [
+       82,
+       82
+      ],
+      "count": 20,
+      "region": "Mithril Mines",
+      "atlasKey": "room:mithril-3-atentry-a",
+      "status": "unverified",
+      "sec": 507,
+      "danger": 82,
+      "reachable": true,
+      "score": -86.55,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "mithril-1-straight-b",
+        "name": "Mithril Mines: Upper tunnels (west entrance side), straight: Grave Robber Summoner room",
+        "at": [
+         176896,
+         -178937,
+         2021
+        ],
+        "count": 14,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "mithril-4-straight-a",
+        "name": "Mithril Mines: Deepest hall, straight: Mine Bug room",
+        "at": [
+         180979,
+         -175111,
+         -3571
+        ],
+        "count": 19,
+        "status": "unverified"
+       },
+       {
+        "kind": "room",
+        "id": "mithril-1-left-c",
+        "name": "Mithril Mines: Upper tunnels (west entrance side), left: Mine Bug room",
+        "at": [
+         174303,
+         -178949,
+         1046
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:mithril-3-atentry-a",
+      "status": "unverified",
+      "flags": [
+       "unverified-walk",
+       "long-walk"
+      ],
+      "from": ".schuttgart",
+      "length": 50068,
+      "sec": 507,
+      "via": ".schuttgart > Schuttgart -> Mithril Mines > floor Upper tunnels (west entrance side) > floor Middle tunnels > floor Lower tunnels",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Mithril Mines",
+        "link": "mithril mines",
+        "price": 5300,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 292,
+        "how": "geodata",
+        "danger": 81
+       },
+       {
+        "do": "floor",
+        "npc": "Krun",
+        "link": null,
+        "floor": "Upper tunnels (west entrance side)"
+       },
+       {
+        "do": "walk",
+        "len": 11934,
+        "how": "straight",
+        "danger": 81
+       },
+       {
+        "do": "floor",
+        "npc": "Tarun",
+        "link": null,
+        "floor": "Middle tunnels"
+       },
+       {
+        "do": "walk",
+        "len": 1440,
+        "how": "straight",
+        "danger": 0
+       },
+       {
+        "do": "floor",
+        "npc": "Tarun",
+        "link": null,
+        "floor": "Lower tunnels"
+       },
+       {
+        "do": "walk",
+        "len": 36402,
+        "how": "dungeon-rooms",
+        "danger": 82
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Mithril Mines"
+      },
+      "simple": false,
+      "pv": [
+       [
+        171946,
+        -173352,
+        3440
+       ],
+       [
+        172200,
+        -173496,
+        3480
+       ],
+       [
+        178884,
+        -184227,
+        -336
+       ],
+       [
+        179528,
+        -182152,
+        -48
+       ],
+       [
+        179528,
+        -181160,
+        216
+       ],
+       [
+        179512,
+        -180984,
+        248
+       ],
+       [
+        179624,
+        -179000,
+        248
+       ],
+       [
+        179624,
+        -178008,
+        248
+       ],
+       [
+        179624,
+        -177016,
+        248
+       ],
+       [
+        179640,
+        -176408,
+        248
+       ],
+       [
+        179672,
+        -175384,
+        464
+       ],
+       [
+        179784,
+        -174664,
+        544
+       ],
+       [
+        180776,
+        -174664,
+        312
+       ],
+       [
+        181640,
+        -174584,
+        312
+       ],
+       [
+        181640,
+        -173496,
+        40
+       ],
+       [
+        180872,
+        -173528,
+        -184
+       ],
+       [
+        179880,
+        -173960,
+        -232
+       ],
+       [
+        177896,
+        -173960,
+        -232
+       ],
+       [
+        177480,
+        -173960,
+        -232
+       ],
+       [
+        176504,
+        -174168,
+        -232
+       ],
+       [
+        176328,
+        -174344,
+        -232
+       ],
+       [
+        176136,
+        -174392,
+        -232
+       ],
+       [
+        176088,
+        -174808,
+        -232
+       ],
+       [
+        176056,
+        -175608,
+        -232
+       ],
+       [
+        176088,
+        -176600,
+        -416
+       ],
+       [
+        176200,
+        -177400,
+        -512
+       ],
+       [
+        177192,
+        -178392,
+        -512
+       ],
+       [
+        178184,
+        -178424,
+        -512
+       ],
+       [
+        179176,
+        -178424,
+        -600
+       ],
+       [
+        181016,
+        -178424,
+        -784
+       ],
+       [
+        181736,
+        -178440,
+        -784
+       ],
+       [
+        181992,
+        -178472,
+        -784
+       ],
+       [
+        182120,
+        -178568,
+        -784
+       ],
+       [
+        182200,
+        -179112,
+        -792
+       ],
+       [
+        182200,
+        -180104,
+        -1032
+       ],
+       [
+        182232,
+        -180584,
+        -1088
+       ],
+       [
+        182120,
+        -181992,
+        -1240
+       ],
+       [
+        183096,
+        -182136,
+        -1648
+       ],
+       [
+        183432,
+        -182184,
+        -1656
+       ],
+       [
+        183464,
+        -182184,
+        -1656
+       ],
+       [
+        183560,
+        -182504,
+        -1656
+       ],
+       [
+        183512,
+        -182840,
+        -1656
+       ],
+       [
+        183400,
+        -182952,
+        -1656
+       ],
+       [
+        182408,
+        -182952,
+        -1656
+       ],
+       [
+        181096,
+        -182824,
+        -1656
+       ],
+       [
+        181064,
+        -182840,
+        -1664
+       ],
+       [
+        180952,
+        -183288,
+        -1736
+       ],
+       [
+        180920,
+        -183272,
+        -1784
+       ],
+       [
+        179784,
+        -183288,
+        -1896
+       ],
+       [
+        179624,
+        -183288,
+        -1896
+       ]
+      ],
+      "maxDanger": 82,
+      "needs": [],
+      "why": [
+       "walk not on the geodata from 173147,-173762 (gave up after 2000001 cells (too far or no way))",
+       "walk not on the geodata from 179560,-182956 (no way through (searched 29335 cells))"
+      ],
+      "checks": {
+       "reachable": true,
+       "walls": "straight legs not wall-checked: 2",
+       "water": false,
+       "danger": 82,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "mithril-3-atentry-a",
+    "name": "Mithril Mines: Lower tunnels, at entry: Grave Robber Magician room",
+    "at": [
+     179617,
+     -183287,
+     -1900
+    ],
+    "radius": 1629,
+    "levels": [
+     82,
+     82
+    ],
+    "count": 20,
+    "region": "Mithril Mines",
+    "atlasKey": "room:mithril-3-atentry-a",
+    "status": "unverified",
+    "sec": 507,
+    "danger": 82,
+    "reachable": true,
+    "score": -86.55,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "mithril-1-straight-b",
+      "name": "Mithril Mines: Upper tunnels (west entrance side), straight: Grave Robber Summoner room",
+      "at": [
+       176896,
+       -178937,
+       2021
+      ],
+      "count": 14,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "mithril-4-straight-a",
+      "name": "Mithril Mines: Deepest hall, straight: Mine Bug room",
+      "at": [
+       180979,
+       -175111,
+       -3571
+      ],
+      "count": 19,
+      "status": "unverified"
+     },
+     {
+      "kind": "room",
+      "id": "mithril-1-left-c",
+      "name": "Mithril Mines: Upper tunnels (west entrance side), left: Mine Bug room",
+      "at": [
+       174303,
+       -178949,
+       1046
+      ],
+      "count": 13,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:mithril-3-atentry-a",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk",
+     "long-walk"
+    ],
+    "from": ".schuttgart",
+    "length": 50068,
+    "sec": 507,
+    "via": ".schuttgart > Schuttgart -> Mithril Mines > floor Upper tunnels (west entrance side) > floor Middle tunnels > floor Lower tunnels",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Mithril Mines",
+      "link": "mithril mines",
+      "price": 5300,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 292,
+      "how": "geodata",
+      "danger": 81
+     },
+     {
+      "do": "floor",
+      "npc": "Krun",
+      "link": null,
+      "floor": "Upper tunnels (west entrance side)"
+     },
+     {
+      "do": "walk",
+      "len": 11934,
+      "how": "straight",
+      "danger": 81
+     },
+     {
+      "do": "floor",
+      "npc": "Tarun",
+      "link": null,
+      "floor": "Middle tunnels"
+     },
+     {
+      "do": "walk",
+      "len": 1440,
+      "how": "straight",
+      "danger": 0
+     },
+     {
+      "do": "floor",
+      "npc": "Tarun",
+      "link": null,
+      "floor": "Lower tunnels"
+     },
+     {
+      "do": "walk",
+      "len": 36402,
+      "how": "dungeon-rooms",
+      "danger": 82
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Mithril Mines"
+    },
+    "simple": false,
+    "pv": [
+     [
+      171946,
+      -173352,
+      3440
+     ],
+     [
+      172200,
+      -173496,
+      3480
+     ],
+     [
+      178884,
+      -184227,
+      -336
+     ],
+     [
+      179528,
+      -182152,
+      -48
+     ],
+     [
+      179528,
+      -181160,
+      216
+     ],
+     [
+      179512,
+      -180984,
+      248
+     ],
+     [
+      179624,
+      -179000,
+      248
+     ],
+     [
+      179624,
+      -178008,
+      248
+     ],
+     [
+      179624,
+      -177016,
+      248
+     ],
+     [
+      179640,
+      -176408,
+      248
+     ],
+     [
+      179672,
+      -175384,
+      464
+     ],
+     [
+      179784,
+      -174664,
+      544
+     ],
+     [
+      180776,
+      -174664,
+      312
+     ],
+     [
+      181640,
+      -174584,
+      312
+     ],
+     [
+      181640,
+      -173496,
+      40
+     ],
+     [
+      180872,
+      -173528,
+      -184
+     ],
+     [
+      179880,
+      -173960,
+      -232
+     ],
+     [
+      177896,
+      -173960,
+      -232
+     ],
+     [
+      177480,
+      -173960,
+      -232
+     ],
+     [
+      176504,
+      -174168,
+      -232
+     ],
+     [
+      176328,
+      -174344,
+      -232
+     ],
+     [
+      176136,
+      -174392,
+      -232
+     ],
+     [
+      176088,
+      -174808,
+      -232
+     ],
+     [
+      176056,
+      -175608,
+      -232
+     ],
+     [
+      176088,
+      -176600,
+      -416
+     ],
+     [
+      176200,
+      -177400,
+      -512
+     ],
+     [
+      177192,
+      -178392,
+      -512
+     ],
+     [
+      178184,
+      -178424,
+      -512
+     ],
+     [
+      179176,
+      -178424,
+      -600
+     ],
+     [
+      181016,
+      -178424,
+      -784
+     ],
+     [
+      181736,
+      -178440,
+      -784
+     ],
+     [
+      181992,
+      -178472,
+      -784
+     ],
+     [
+      182120,
+      -178568,
+      -784
+     ],
+     [
+      182200,
+      -179112,
+      -792
+     ],
+     [
+      182200,
+      -180104,
+      -1032
+     ],
+     [
+      182232,
+      -180584,
+      -1088
+     ],
+     [
+      182120,
+      -181992,
+      -1240
+     ],
+     [
+      183096,
+      -182136,
+      -1648
+     ],
+     [
+      183432,
+      -182184,
+      -1656
+     ],
+     [
+      183464,
+      -182184,
+      -1656
+     ],
+     [
+      183560,
+      -182504,
+      -1656
+     ],
+     [
+      183512,
+      -182840,
+      -1656
+     ],
+     [
+      183400,
+      -182952,
+      -1656
+     ],
+     [
+      182408,
+      -182952,
+      -1656
+     ],
+     [
+      181096,
+      -182824,
+      -1656
+     ],
+     [
+      181064,
+      -182840,
+      -1664
+     ],
+     [
+      180952,
+      -183288,
+      -1736
+     ],
+     [
+      180920,
+      -183272,
+      -1784
+     ],
+     [
+      179784,
+      -183288,
+      -1896
+     ],
+     [
+      179624,
+      -183288,
+      -1896
+     ]
+    ],
+    "maxDanger": 82,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 173147,-173762 (gave up after 2000001 cells (too far or no way))",
+     "walk not on the geodata from 179560,-182956 (no way through (searched 29335 cells))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 2",
+     "water": false,
+     "danger": 82,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 2232,
+   "engineWhy": "no automatic step at cond 1 (Collect Mineral Fragments in the Mithril Mines; exchange them at Filaur (multisell 312))",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ],
+   "override": {
+    "note": "Monsters 22683,22684,22685,22686,22687 have no spawn: removed from the drop / kill lists of quests/312.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; spawned by no AI script in the datapack (ai/, gracia/, hellbound/, instances/ searched). Item 14875 also drops from the 8 spawned Mithril Mines monsters",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.992Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   },
+   "fixedByOverride": []
+  }
+ ],
+ "override": {
+  "steps": {
+   "c1:hunt": {
+    "note": "Monsters 22683,22684,22685,22686,22687 have no spawn: removed from the drop / kill lists of quests/312.json (manual). Source: datapack sql/spawnlist.sql + raidboss_spawnlist.sql + spawnlist/*.xml + spawnZones/*.xml: 0 rows; spawned by no AI script in the datapack (ai/, gracia/, hellbound/, instances/ searched). Item 14875 also drops from the 8 spawned Mithril Mines monsters",
+    "fixed": [],
+    "editedAt": "2026-10-27T09:55:32.992Z",
+    "by": "quest fixer batch 4 (phase 2, 2026-10-27)"
+   }
+  },
+  "editedAt": "2026-10-27T10:17:51.019Z",
+  "by": "quest fixer batch 4 (phase 2, 2026-10-27)",
+  "note": "Fragments are traded at Filaur's multisell 312 (an exchange): the bot collects, the owner exchanges (see docs/plan/quest_engine_needs/batch4.md)"
+ }
+}

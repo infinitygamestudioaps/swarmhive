@@ -1,0 +1,463 @@
+{
+ "id": 113,
+ "name": "Status of the Beacon Tower",
+ "version": 1,
+ "generated": "2026-10-27T11:15:12.112Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Schuttgart",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 4,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31979",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Why the Beacon Tower?\""
+   ],
+   "npc": {
+    "id": 31979,
+    "name": "Moira",
+    "title": "Seer",
+    "town": "Schuttgart",
+    "at": [
+     89986,
+     -143186,
+     -1527
+    ],
+    "alt": []
+   },
+   "text": "Talk to Moira – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31979@89986,-143186",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5498,
+    "sec": 66,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 5498,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141928,
+      -1536
+     ],
+     [
+      89912,
+      -142024,
+      -1536
+     ],
+     [
+      90040,
+      -142264,
+      -1536
+     ],
+     [
+      90152,
+      -142520,
+      -1536
+     ],
+     [
+      90360,
+      -142680,
+      -1536
+     ],
+     [
+      90552,
+      -142872,
+      -1536
+     ],
+     [
+      90568,
+      -143080,
+      -1536
+     ],
+     [
+      90360,
+      -143192,
+      -1520
+     ],
+     [
+      90136,
+      -143272,
+      -1520
+     ],
+     [
+      89944,
+      -143448,
+      -1520
+     ],
+     [
+      90056,
+      -143352,
+      -1520
+     ],
+     [
+      90088,
+      -143320,
+      -1520
+     ],
+     [
+      89992,
+      -143192,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 96,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32016",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Here it is.\""
+   ],
+   "npc": {
+    "id": 32016,
+    "name": "Torrant",
+    "title": "Beacon Tower Manager",
+    "town": "Schuttgart",
+    "at": [
+     71232,
+     -113952,
+     -1736
+    ],
+    "alt": []
+   },
+   "text": "Talk to Torrant",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32655@71136,-114412",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5346,
+    "sec": 90,
+    "via": ".schuttgart > Schuttgart -> Den of Evil",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Den of Evil",
+      "link": "den of evil",
+      "price": 7500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5102,
+      "how": "geodata",
+      "danger": 82
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Den of Evil"
+    },
+    "simple": true,
+    "pv": [
+     [
+      68693,
+      -110438,
+      -1904
+     ],
+     [
+      69191,
+      -110935,
+      -1848
+     ],
+     [
+      69688,
+      -111432,
+      -1792
+     ],
+     [
+      70184,
+      -111888,
+      -1760
+     ],
+     [
+      70680,
+      -112344,
+      -1728
+     ],
+     [
+      70760,
+      -112344,
+      -1728
+     ],
+     [
+      70872,
+      -112376,
+      -1728
+     ],
+     [
+      71144,
+      -112664,
+      -1736
+     ],
+     [
+      71096,
+      -113656,
+      -1736
+     ],
+     [
+      71080,
+      -113704,
+      -1736
+     ],
+     [
+      71160,
+      -114152,
+      -1736
+     ],
+     [
+      71144,
+      -114408,
+      -1736
+     ],
+     [
+      71368,
+      -114152,
+      -1736
+     ],
+     [
+      71240,
+      -113944,
+      -1736
+     ]
+    ],
+    "maxDanger": 82,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 82,
+     "dangerVsLevel": 2,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32655@71136,-114412",
+     "name": "Chairen"
+    },
+    "points": [
+     [
+      68693,
+      -110438,
+      -1904
+     ],
+     [
+      69191,
+      -110935,
+      -1848
+     ],
+     [
+      69688,
+      -111432,
+      -1792
+     ],
+     [
+      70184,
+      -111888,
+      -1760
+     ],
+     [
+      70680,
+      -112344,
+      -1728
+     ],
+     [
+      70760,
+      -112344,
+      -1728
+     ],
+     [
+      70872,
+      -112376,
+      -1728
+     ],
+     [
+      71144,
+      -112664,
+      -1736
+     ],
+     [
+      71096,
+      -113656,
+      -1736
+     ],
+     [
+      71080,
+      -113704,
+      -1736
+     ],
+     [
+      71160,
+      -114152,
+      -1736
+     ],
+     [
+      71144,
+      -114408,
+      -1736
+     ],
+     [
+      71368,
+      -114152,
+      -1736
+     ],
+     [
+      71240,
+      -113944,
+      -1736
+     ]
+    ]
+   },
+   "expectedSec": 115,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:12.136Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

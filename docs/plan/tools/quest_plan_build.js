@@ -77,9 +77,12 @@ if (has('--worker')) {
 // =============================================================================================================================== ORCHESTRATOR
 if (!has('--plan')) {
   const pass = ARG.filter(a => a !== '--no-walks');
-  const run = (args) => cp.spawnSync(process.execPath, ['--max-old-space-size=1400', __filename, '--plan'].concat(args), { stdio: 'inherit', windowsHide: true }).status;
-  let st = run(pass.concat(['--write-jobs']));
-  if (st === 0 && !has('--no-walks') && !has('--report-only')) {
+  const run = (args) => cp.spawnSync(process.execPath, ['--max-old-space-size=' + (args.includes('--gate') ? 3000 : 1400), __filename, '--plan'].concat(args), { stdio: 'inherit', windowsHide: true }).status;   // the gate loads geodata (dry run)
+  // READY GATE (2026-10-27): the LAST plan pass runs the dry run for every plan the builder calls ready (--no-gate: off)
+  const gateArg = has('--no-gate') ? [] : ['--gate'];
+  const oneRun = has('--no-walks') || has('--report-only');
+  let st = run(pass.concat(['--write-jobs'], oneRun ? gateArg : []));
+  if (st === 0 && !oneRun) {
     let done = 0;
     for (let round = 0; round < 1000; round++) {
       const left = (tryJ(JOBS, { jobs: [] }).jobs || []).length; if (!left) break;
@@ -91,7 +94,7 @@ if (!has('--plan')) {
       if (r.status !== 0 && r.status !== 75) { console.log(`quest_plan_build: worker ended with ${r.status}`); break; }
       console.log(`quest_plan_build: legs batch ${round + 1} done (${pend} were pending before it)`);
     }
-    st = run(pass);
+    st = run(pass.concat(gateArg));
   }
   process.exit(st || 0);
 }
@@ -99,8 +102,32 @@ if (!has('--plan')) {
 // =============================================================================================================================== PLAN
 const SRC = fs.readFileSync(path.join(ROOT, 'Scripts_dev', 'swarm.js'), 'utf8');
 const pa = SRC.indexOf('// QENGINE-PURE-BEGIN'), pb = SRC.indexOf('// QENGINE-PURE-END');
-const E = new Function(SRC.slice(pa, pb) + '\nreturn { qeDecide, qeStartTrans, qeTransAt, qeNeedList, qeDropsAt, qeDropMobs, qeSpawnOnly, qeHuntAction, qeLinksOf, qeIsQuit, qeTr, qeNeeds, qeDefaultBatch, qeRepeatable };')();
+const E = new Function(SRC.slice(pa, pb) + '\nreturn { qeDecide, qeStartTrans, qeTransAt, qeNeedList, qeDropsAt, qeDropMobs, qeSpawnOnly, qeHuntAction, qeLinksOf, qeIsQuit, qeTr, qeNeeds, qeDefaultBatch, qeRepeatable, qeTurnIn };')();
 const mg = require('./manual_guard');
+// READY GATE (2026-10-27, owner via coordinator: "ready ONLY when quest_dryrun.js passes"): a plan the builder would call ready is checked by the
+// independent dry run (docs/plan/tools/quest_dryrun.js verifyOne: script vs data, engine flow, override fields the engine reads, geodata routes,
+// aggressive monsters 6+ on every walk). Not passed = 'fixable' with 'dryrun-fail' + one 'dryrun:<code>' reason per failing check.
+// The caller holds Logs/quest_build.lock (the dry run never takes it in this mode). Java source: --src <datapack root | dir of <id>.java>,
+// env QUEST_JAVA_DIR / L2J_DP, else the last one given (Logs/quest_java_src.json). No source = not ready ('dryrun-no-script').
+const GATE = has('--gate'), GATE_GEO = !has('--gate-no-geo');
+const JAVA_SRC = (() => { const mem = path.join(LOGS, 'quest_java_src.json'); let s = argv('--src', process.env.QUEST_JAVA_DIR || process.env.L2J_DP || '');
+  if (s && fs.existsSync(s)) { try { atomic(mem, JSON.stringify({ src: s, at: new Date().toISOString() })); } catch (e) { } } else s = (tryJ(mem, {}) || {}).src || '';
+  return s && fs.existsSync(s) ? s : ''; })();
+let DRY = null; const dryMod = () => DRY || (DRY = require('./quest_dryrun.js'));
+/** the ready gate for one written plan file -> the plan (status / reasons / dryrun updated) */
+function readyGate(plan, pf) {
+  if (!GATE || plan.status !== 'ready') return plan;
+  const r = JAVA_SRC ? dryMod().verifyOne(plan.id, { src: JAVA_SRC, lockOwned: true, noGeo: !GATE_GEO }) : null;
+  if (!r) { plan.status = 'fixable'; plan.reasons.push({ code: 'dryrun-no-script', text: REASON['dryrun-no-script'][1] }); plan.dryrun = { at: new Date().toISOString(), pass: false, fails: [{ code: 'no-script-source' }] }; return plan; }
+  const codes = [...new Set(r.fails.map(x => x.code))];
+  plan.dryrun = { at: new Date().toISOString(), pass: !codes.length, geo: GATE_GEO, fails: r.fails.slice(0, 30), warns: [...new Set((r.warns || []).map(w => w.code))] };
+  if (codes.length) {
+    plan.status = 'fixable';
+    plan.reasons.push({ code: 'dryrun-fail', text: 'dry run: ' + codes.join(', ') });
+    codes.forEach(c => plan.reasons.push({ code: 'dryrun:' + c, text: String((r.fails.find(x => x.code === c) || {}).t || c).slice(0, 300) }));
+  }
+  return plan;
+}
 
 // ---- data ----
 const IDX = tryJ(path.join(ATL, 'index.json'), { targets: [] });
@@ -125,7 +152,7 @@ const ROOMS_BY_MOB = new Map();
 (DR || []).forEach(d => (d.floors || []).forEach(F => (F.rooms || []).forEach(r => { r._d = d.name; r._f = F.name; (r.monsters || []).forEach(m => { if (!ROOMS_BY_MOB.has(m.id)) ROOMS_BY_MOB.set(m.id, []); ROOMS_BY_MOB.get(m.id).push(r); }); })));
 const NPCS = tryJ(path.join(DATA, 'npcs_h5.json'), {}), AGGRO = tryJ(path.join(DATA, 'aggro_h5.json'), {});
 const AGG = new Map(); const AG = 4096;
-for (const sp of tryJ(path.join(DATA, 'spawns_h5.json'), [])) { const n = NPCS[sp.id]; if (!n || !n.l) continue; const r = AGGRO[sp.name || n.n]; if (!r) continue; const k = Math.floor(sp.x / AG) + ',' + Math.floor(sp.y / AG); if (!AGG.has(k)) AGG.set(k, []); AGG.get(k).push({ x: sp.x, y: sp.y, z: sp.z, lv: n.l, r, name: sp.name || n.n }); }
+for (const sp of tryJ(path.join(DATA, 'spawns_h5.json'), [])) { const n = NPCS[sp.id]; if (!n || !n.l) continue; const r = AGGRO[sp.name || n.n]; if (!r) continue; const k = Math.floor(sp.x / AG) + ',' + Math.floor(sp.y / AG); if (!AGG.has(k)) AGG.set(k, []); AGG.get(k).push({ x: sp.x, y: sp.y, z: sp.z, lv: n.l, r, name: sp.name || n.n, id: sp.id }); }
 const DANGER = tryJ(path.join(DATA, 'danger_grid.json'), { data: {} });
 function dangerAt(x, y, z) { const D = DANGER; if (!D || !D.data) return 0; const gx = Math.floor((x - D.x0) / D.size), gy = Math.floor((y - D.y0) / D.size); const c = D.data[gy * D.w + gx]; if (!c) return 0; let m = 0; c.forEach(([b, lv]) => { if (Math.abs(b * D.band - z) <= D.band * 1.5 && lv > m) m = lv; }); return m; }
 const WCACHE = tryJ(CACHE, { walks: {} }).walks || {};
@@ -152,6 +179,14 @@ function aggroOn(pts, ref) {
     }
   }
   return [...hit.values()].map(h => ({ name: h.name, lv: h.lv, n: h.spawns.size })).sort((x, y) => y.lv - x.lv || y.n - x.n).slice(0, 8);
+}
+/** aggressive non-target spawns ref+8 and up inside a hunting area (the dry run's area-aggro rule: 3+ = too dangerous) -> [{ name, lv }] */
+function areaAggro(area, mobs, ref) {
+  const out = [], tg = new Set((mobs || []).map(Number)), at = area && area.at; if (!at) return out;
+  for (let dx = -2; dx <= 2; dx++) for (let dy = -2; dy <= 2; dy++) (AGG.get((Math.floor(at[0] / AG) + dx) + ',' + (Math.floor(at[1] / AG) + dy)) || []).forEach(m => {
+    if (m.lv >= ref + 8 && Math.abs(m.z - at[2]) < 800 && Math.hypot(m.x - at[0], m.y - at[1]) <= (area.radius || 1500) && !tg.has(Number(m.id))) out.push({ name: m.name, lv: m.lv });
+  });
+  return out;
 }
 /** a nav atlas route -> the plan's travel block (compact steps, the walk points, the checks) */
 function travelFromAtlas(r, ref, extraPts, extra) {
@@ -250,7 +285,9 @@ const REASON = {
   'route-unverified': ['fixable', 'a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu'],
   'route-swim': ['fixable', 'the way has a swim longer than one breath'],
   'aggro-on-way': ['fixable', 'aggressive monsters 6+ levels above the quest level touch the route'],
-  'area-danger': ['fixable', 'the hunting place holds aggressive monsters 10+ levels above the quest level'],
+  'area-danger': ['fixable', 'the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)'],
+  'dryrun-fail': ['fixable', 'the independent dry run (docs/plan/tools/quest_dryrun.js) does not pass: see the dryrun:<code> reasons'],
+  'dryrun-no-script': ['fixable', 'no Java source for the dry run (pass --src <datapack root> once; Logs/quest_java_src.json remembers it)'],
   'no-hunt-place': ['fixable', 'no hunting place (field area / room / spawn cluster) for the monsters of a step'],
   'item-from-elsewhere': ['fixable', 'a step needs an item the quest does not give or drop (bought / crafted / another quest)'],
   'needs-party': ['fixable', 'a raid boss / party-only kill: needs the party (party mode) and a strong enough team'],
@@ -265,7 +302,7 @@ function reasonsFromParse(q) {
   (q.parse && q.parse.reasons || []).forEach(t => {
     if (/no script in the datapack|no state transitions found/.test(t)) o.push('steps-unknown');
     else if (/saga template/.test(t)) o.push('saga-template');
-    else if (/memo-state machine|memo state computed/.test(t)) o.push('memo-state');
+    else if (/memo-state machine|memo state computed|memo-state sub-stages/.test(t)) o.push('memo-state');
     else if (/setCond with a runtime value/.test(t)) o.push('runtime-cond');
     else if (/^unresolved:/.test(t)) o.push('unresolved-ids');
     else if (/drop item not resolved|drop chance not resolved/.test(t)) o.push('drop-unresolved');
@@ -385,7 +422,8 @@ function buildQuest(q, prev) {
         { const km = [...new Set([].concat(...kills.map(k => (k.monsters || []).map(Number))))].filter(id => nat.includes(id)); if (km.length) gOf(km).kills = killN; }
         if (!groups.length) gOf(nat);
         s.places = groups.map(g => { const area = huntPlace(q, g.mobs, ref); const pl = { mobs: g.mobs, items: g.items, kills: g.kills || null, area };
-          if (area) { pl.travel = placeTravel(area.atlasKey, area.at, ref, area.name); if (area.danger && area.danger - ref >= 10 && (area.aggrShare || 0) > 0) pl.danger = true; } return pl; });
+          if (area) { pl.travel = placeTravel(area.atlasKey, area.at, ref, area.name); if (area.danger && area.danger - ref >= 10 && (area.aggrShare || 0) > 0) pl.danger = true;
+            const ag = areaAggro(area, g.mobs, ref); if (ag.length >= 3) { pl.danger = true; pl.aggro = ag.slice(0, 6); } } return pl; });
         s.area = (s.places[0] || {}).area || null; s.travel = (s.places[0] || {}).travel;
         if (s.places.some(p => !p.area)) s.reasons.push('no-hunt-place');
         if (s.places.some(p => p.danger)) s.reasons.push('area-danger');
@@ -432,15 +470,28 @@ function buildQuest(q, prev) {
     [a0, a1].forEach(a => { if (a.act === 'manual') { const cs = steps.filter(s => s.cond === c); const tgt = cs[cs.length - 1]; if (tgt) { if (!tgt.reasons.includes('engine-manual')) tgt.reasons.push('engine-manual'); tgt.engineWhy = a.why; } else steps.push({ i: steps.length, key: 'c' + c + ':manual', cond: c, kind: 'special', text: title(c) || 'step ' + c, reasons: ['engine-manual'], engineWhy: a.why, expectedSec: 60 }); } });
     steps.filter(s => s.cond === c).forEach(s => { s.engine = s.engine || { act: a0.act, hasItems: a1.act }; });
   });
+  // TURN-IN STEP (2026-10-27, verifier finding 6): a repeatable / endless quest hands its batch in at the turn-in NPC (qeDecide act 'turnin');
+  // qePlanMatch needs a non-start step with that NPC, else the live line shows no plan step and the plan route is not used.
+  { const ti = E.qeTurnIn(q), tn = ti && ti.trigger && (ti.trigger.npcs || [])[0];
+    if (tn && !steps.some(s => s.kind !== 'start' && s.npc && Number(s.npc.id) === Number(tn))) {
+      const tc = (ti.from || []).length ? ti.from.map(Number) : [...new Set(steps.filter(s => s.kind === 'hunt' || s.kind === 'spawn').map(s => s.cond))];
+      const needs = (ti.takes || []).filter(x => x && x.id && Number(x.id) !== 57).map(x => ({ id: Number(x.id), n: Math.min(E.qeDefaultBatch(q), Number(x.count) > 0 ? Number(x.count) : E.qeDefaultBatch(q)) }));
+      const s = pushTalk('deliver', tc[0] || 1, tn, E.qeLinksOf([ti]), tc[0] || 1, needs);
+      s.key = 'c' + (tc[0] || 1) + ':turnin:' + tn; s.turnin = true;
+      s.text = 'Hand in ' + (needs.length ? needs.map(x => itemName(q, x.id)).join(', ') : 'the batch') + ' at ' + s.npc.name + ' (repeatable: then hunt again)';
+      s.turninConds = tc.length ? tc : [1];
+    } }
   // the same step offered at several conds (transitions without 'from', branch quests): listed once, with every cond it belongs to
   { const seen = new Map(), out = [];
     steps.forEach(s => { const sig = [s.kind, s.npc ? s.npc.id : '', (s.needs || []).map(x => x.id + 'x' + x.n).join('+'), (s.monsters || []).map(m => m.id).join('+'), (s.items || []).map(x => x.id).join('+'), s.trigger || ''].join('|');
       s.conds = [s.cond];
       if (s.kind !== 'start' && seen.has(sig)) { const o = seen.get(sig); if (!o.conds.includes(s.cond)) o.conds.push(s.cond); (s.reasons || []).forEach(r => { if (!o.reasons.includes(r)) o.reasons.push(r); }); return; }
       seen.set(sig, s); out.push(s); });
-    steps.length = 0; steps.push(...out); }
+    steps.length = 0; steps.push(...out);
+    steps.forEach(s => { if (s.turnin) { s.conds = [...new Set(s.turninConds)]; delete s.turninConds; } }); }
   // step-level travel reasons
-  steps.forEach(s => {
+  const ROUTE_CODES = ['no-route', 'route-pending', 'route-blocked', 'route-conditional', 'route-unverified', 'route-swim', 'aggro-on-way'];
+  const travelReasons = (s) => {
     const t = s.travel; if (!t) return;
     if (t.status === 'unreachable') s.reasons.push('no-route');
     else if (t.status === 'pending') s.reasons.push('route-pending');
@@ -449,7 +500,10 @@ function buildQuest(q, prev) {
     else if (t.status === 'unverified') s.reasons.push('route-unverified');
     if (t.checks && t.checks.water && t.checks.water.overBreath) s.reasons.push('route-swim');
     if (t.checks && (t.checks.aggro || []).some(a => a.lv >= ref + 6)) s.reasons.push('aggro-on-way');
-  });
+    // DANGER ON EVERY WALK (2026-10-27, verifier finding 3): every hunting place of the step is walked, not only the worst-status one
+    (s.places || []).forEach(p => { const pt = p.travel; if (pt && pt !== t && pt.checks && (pt.checks.aggro || []).some(a => a.lv >= ref + 6)) s.reasons.push('aggro-on-way'); });
+  };
+  steps.forEach(travelReasons);
   if ((q.timers || []).some(t => t.by === 'timer')) addR('timer', 'the quest script runs timers (' + q.timers.slice(0, 2).map(t => t.name).join(', ') + ')');
   if ((q.spawns || []).some(x => x.by && x.by.type === 'timer')) addR('spawn-script', 'quest monsters / NPCs spawned by a timer');
   // ---- overrides (the dashboard / phase-2 fixers): they win ----
@@ -460,7 +514,17 @@ function buildQuest(q, prev) {
     const fixed = [];
     if (Array.isArray(o.npcAt) && o.npcAt.length >= 2 && s.npc) { s.npc.at = P3(o.npcAt); ['npc-no-spawn', 'npc-quest-spawned', 'npc-instance'].forEach(c => fixed.push(c)); }
     if (o.area && Array.isArray(o.area.at)) { s.area = Object.assign({ kind: 'override', id: 'override', name: o.area.name || 'your hunting place', radius: R0(o.area.radius) || 1500, count: 0 }, s.area ? { alt: [{ kind: s.area.kind, id: s.area.id, name: s.area.name, at: s.area.at }] } : {}, { at: P3(o.area.at), radius: R0(o.area.radius) || 1500 }); fixed.push('no-hunt-place', 'area-danger'); }
-    if (Array.isArray(o.route) && o.route.length >= 2) { fixed.push('no-route', 'route-pending', 'route-blocked', 'route-conditional', 'route-unverified', 'route-swim', 'aggro-on-way'); s.travelOverride = { src: 'override', start: o.start || null, points: o.route.map(P3), pv: thin(o.route.map(P3), 50), length: plen(o.route.map(P3)) }; }
+    // QUESTPLAN fix 2026-10-27: your own NPC / hunting place gets its own route (computed like any other place) and its own route checks
+    if ((Array.isArray(o.npcAt) && o.npcAt.length >= 2 && s.npc) || (o.area && Array.isArray(o.area.at))) {
+      s.travel = o.area && Array.isArray(o.area.at) ? placeTravel(null, s.area.at, ref, s.area.name) : npcTravel(s.npc.id, s.npc.at, ref, s.npc.name);
+      s.reasons = s.reasons.filter(c => !ROUTE_CODES.includes(c)); travelReasons(s);
+      if (s.places && s.places.length && o.area) s.places = [Object.assign({}, s.places[0], { area: s.area, travel: s.travel })].concat(s.places.slice(1));
+    }
+    if (Array.isArray(o.route) && o.route.length >= 2) {
+      // an override route fixes the route reasons of the plan's own travel, but its OWN walk is checked for aggressive monsters 6+ above (2026-10-27)
+      const ag = aggroOn(o.route.map(P3), ref);
+      fixed.push('no-route', 'route-pending', 'route-blocked', 'route-conditional', 'route-unverified', 'route-swim'); if (!ag.length) fixed.push('aggro-on-way'); else s.reasons.push('aggro-on-way');
+      s.travelOverride = { src: 'override', start: o.start || null, points: o.route.map(P3), pv: thin(o.route.map(P3), 50), length: plen(o.route.map(P3)), checks: { aggro: ag } }; }
     if (o.fixed && Array.isArray(o.fixed)) o.fixed.forEach(c => fixed.push(c));   // a fixer says the reason is handled (e.g. engine-manual after an engine change)
     s.fixedByOverride = s.reasons.filter(c => fixed.includes(c));
     s.reasons = s.reasons.filter(c => !fixed.includes(c));
@@ -495,6 +559,7 @@ for (const id of files) {
   let plan;
   try { plan = buildQuest(q, prev); } catch (e) { console.log(`quest ${id}: planner error ${e.stack}`); continue; }
   if (!has('--dry')) mg.writeGuarded(pf, plan, 'questplan', { indent: 1, quiet: true, who: 'quest_plan_build.js' });
+  if (!has('--dry') && GATE && plan.status === 'ready') { try { plan = readyGate(plan, pf); } catch (e) { plan.status = 'fixable'; plan.reasons.push({ code: 'dryrun-fail', text: 'dry run error: ' + e.message }); } mg.writeGuarded(pf, plan, 'questplan', { indent: 1, quiet: true, who: 'quest_plan_build.js (ready gate)' }); }
   statusRows[id] = { n: plan.name, status: plan.status, reasons: [...new Set(plan.reasons.map(r => r.code))], region: plan.region, level: plan.level && plan.level.min, steps: plan.steps.length, expectedMin: plan.expectedMin,
     restrictions: [...new Set(plan.restrictions.map(r => r.code))] };
   if (++n % 50 === 0) progress({ phase: 'plans', done: n, total: ONLY ? ONLY.size : files.length, sec: Math.round((Date.now() - t0) / 1000) });
@@ -512,7 +577,7 @@ atomic(path.join(DATA, 'quest_status.json'), JSON.stringify(SJ, null, 1));
 // docs/plan/quest_status.md
 const L = [];
 L.push('# Quest plans: status of every quest (generated)', '', `Generated ${SJ.generated} by \`node docs/plan/tools/quest_plan_build.js\` (do not edit by hand: the next run rewrites it).`, '',
-  'Every quest has a plan `Scripts/data/quest_plans/<id>.json` (format: docs/requirements/quests.md). **ready** = every step resolved (NPC place, hunting place, route with walls / water / danger checked, the engine has an action); **fixable** = at least one reason below; **not-for-bots** = PvP / territory war / clan / placeholder scripts / skipped by the owner.', '',
+  'Every quest has a plan `Scripts/data/quest_plans/<id>.json` (format: docs/requirements/quests.md). **ready** = every step resolved (NPC place, hunting place, route with walls / water / danger checked, the engine has an action) **and the independent dry run passes** (docs/plan/tools/quest_dryrun.js: script vs data, engine flow, override fields, geodata, aggressive monsters 6+ on every walk; `dryrun:<code>` reasons otherwise); **fixable** = at least one reason below; **not-for-bots** = PvP / territory war / clan / placeholder scripts / skipped by the owner.', '',
   `| status | quests |`, `|---|---|`, ...Object.entries(counts).map(([k, v]) => `| ${k} | ${v} |`), `| total | ${SJ.total} |`, '',
   `Geodata legs still to search: ${JOBLIST.size}${JOBLIST.size ? ' (run the tool again; they count as `route-pending`)' : ''}.`, '',
   '## Fixable: reasons (a quest can have several)', '', '| code | quests | meaning |', '|---|---|---|',

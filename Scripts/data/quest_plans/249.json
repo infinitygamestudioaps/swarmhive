@@ -1,0 +1,333 @@
+{
+ "id": 249,
+ "name": "Poisoned Plains of the Lizardmen",
+ "version": 1,
+ "generated": "2026-10-27T11:15:16.712Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Oren",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 3,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30196",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will."
+   ],
+   "npc": {
+    "id": 30196,
+    "name": "Mouen",
+    "title": "Captain",
+    "town": "Oren",
+    "at": [
+     81023,
+     56456,
+     -1552
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mouen – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30196@81023,56456",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 4176,
+    "sec": 55,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 4176,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80888,
+      55976,
+      -1552
+     ],
+     [
+      80840,
+      56248,
+      -1552
+     ],
+     [
+      81016,
+      56456,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 85,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32744",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Mention compensation."
+   ],
+   "npc": {
+    "id": 32744,
+    "name": "Johnny",
+    "title": "Chief Investigator",
+    "town": "Hunters Village",
+    "at": [
+     86522,
+     85792,
+     -2888
+    ],
+    "alt": []
+   },
+   "text": "Talk to Johnny",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:32742@86351,85797",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 976,
+    "sec": 53,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 953,
+      "how": "geodata",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      86360,
+      85800,
+      -2872
+     ],
+     [
+      86344,
+      85800,
+      -2872
+     ],
+     [
+      86536,
+      85816,
+      -2888
+     ],
+     [
+      86520,
+      85800,
+      -2888
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -47,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:32742@86351,85797",
+     "name": "Laki"
+    },
+    "points": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      86360,
+      85800,
+      -2872
+     ],
+     [
+      86344,
+      85800,
+      -2872
+     ],
+     [
+      86536,
+      85816,
+      -2888
+     ],
+     [
+      86520,
+      85800,
+      -2888
+     ]
+    ]
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:16.728Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": []
+ }
+}

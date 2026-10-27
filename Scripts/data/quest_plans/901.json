@@ -1,0 +1,160 @@
+{
+ "id": 901,
+ "name": "How Lavasauruses Are Made",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.287Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 76,
+  "max": null
+ },
+ "type": "daily",
+ "region": "",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "drop-unresolved",
+   "text": "a quest drop (item / chance) was not resolved"
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 1
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 2
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 76,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32049",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say that you will get them for him"
+   ],
+   "npc": {
+    "id": 32049,
+    "name": "Rooney",
+    "title": "Blacksmith of Wind",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Rooney – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:18799",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 18799,
+     "name": "Newborn Lavasaurus",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18800,
+     "name": "Fledgling Lavasaurus",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18801,
+     "name": "Adult Lavasaurus",
+     "level": 77,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 18802,
+     "name": "Elderly Lavasaurus",
+     "level": 78,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn"
+   ],
+   "engine": {
+    "manual": "the monsters (18799, 18800, 18801, 18802) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Newborn Lavasaurus, Fledgling Lavasaurus, Adult Lavasaurus, Elderly Lavasaurus appear and kill it",
+   "expectedSec": 300,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32049",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Totem of Body, please."
+   ],
+   "npc": {
+    "id": 32049,
+    "name": "Rooney",
+    "title": "Blacksmith of Wind",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Rooney",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

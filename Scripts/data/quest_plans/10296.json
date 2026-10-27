@@ -1,0 +1,333 @@
+{
+ "id": 10296,
+ "name": "Seven Signs, One Who Seeks the Power of the Seal",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.542Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 81,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "",
+ "requirements": {
+  "quests": [
+   {
+    "id": 10295,
+    "name": "Q10295_SevenSignsSolinasTomb",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "10295 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 0
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 1
+  },
+  {
+   "code": "route-unverified",
+   "text": "a walk on the way is a straight line not checked against the walls, or a gatekeeper link not seen on a live menu",
+   "step": 2
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 3
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 4
+  },
+  {
+   "code": "npc-no-spawn",
+   "text": "an NPC of a step has no spawn in the datapack",
+   "step": 5
+  }
+ ],
+ "expectedMin": 6,
+ "refLevel": 81,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32792",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Huh? What?\""
+   ],
+   "npc": {
+    "id": 32792,
+    "name": "Eris's Evil Thoughts",
+    "title": "Director",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Eris's Evil Thoughts / Odd Globe – accept the quest",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:32597",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "\"Great! Uh, do I get anything in return?\""
+   ],
+   "npc": {
+    "id": 32597,
+    "name": "Franz",
+    "title": "Witness of Dawn",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Franz",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30832",
+   "cond": 1,
+   "kind": "talk",
+   "to": 5,
+   "links": [
+    "\"Just get to the point.\""
+   ],
+   "npc": {
+    "id": 30832,
+    "name": "Hardin",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     105745,
+     114255,
+     -3136
+    ],
+    "alt": []
+   },
+   "text": "Talk to Hardin",
+   "reasons": [
+    "route-unverified"
+   ],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30832@105745,114255",
+    "status": "unverified",
+    "flags": [
+     "unverified-walk"
+    ],
+    "from": ".giran",
+    "length": 22123,
+    "sec": 229,
+    "via": ".giran > Giran -> Necropolis of Martyrdom",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "gk",
+      "from": "Giran",
+      "desc": "Giran -> Necropolis of Martyrdom",
+      "link": "necropolis of martyrdom",
+      "price": 5000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22123,
+      "how": "straight",
+      "danger": 67
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Giran",
+     "desc": "Giran -> Necropolis of Martyrdom"
+    },
+    "simple": true,
+    "pv": [
+     [
+      117793,
+      132810,
+      -4835
+     ],
+     [
+      105745,
+      114255,
+      -3136
+     ]
+    ],
+    "maxDanger": 67,
+    "needs": [],
+    "why": [
+     "walk not on the geodata from 117793,132810 (the start is a closed pocket of 5237 cells on the geodata (platform / island / sealed room: no walk out))"
+    ],
+    "checks": {
+     "reachable": true,
+     "walls": "straight legs not wall-checked: 1",
+     "water": false,
+     "danger": 67,
+     "dangerVsLevel": -14,
+     "aggro": []
+    }
+   },
+   "expectedSec": 254,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:talk:32784",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "\"How can I stop Embryo?\""
+   ],
+   "npc": {
+    "id": 32784,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:talk:32787",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 32787,
+    "name": "Elcadia",
+    "title": "Abyssal Saintess",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Elcadia",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    4,
+    5
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:32792",
+   "cond": 1,
+   "kind": "talk",
+   "to": 2,
+   "links": [],
+   "npc": {
+    "id": 32792,
+    "name": "Eris's Evil Thoughts",
+    "title": "Director",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-no-spawn"
+   },
+   "text": "Talk to Eris's Evil Thoughts",
+   "reasons": [
+    "npc-no-spawn"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    3,
+    4,
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

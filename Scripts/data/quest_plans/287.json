@@ -1,0 +1,549 @@
+{
+ "id": 287,
+ "name": "Figuring It Out!",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.761Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Hunters Village",
+ "requirements": {
+  "quests": [
+   {
+    "id": 250,
+    "name": "Q00250_WatchWhatYouEat",
+    "need": "completed"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "prereq-quest",
+   "text": "250 completed"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 412,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32742",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Agree to help."
+   ],
+   "npc": {
+    "id": 32742,
+    "name": "Laki",
+    "title": "Investigator",
+    "town": "Hunters Village",
+    "at": [
+     86351,
+     85797,
+     -2864
+    ],
+    "alt": []
+   },
+   "text": "Talk to Laki – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32742@86351,85797",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 953,
+    "sec": 53,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 953,
+      "how": "geodata",
+      "danger": 35
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      86360,
+      85800,
+      -2872
+     ],
+     [
+      86344,
+      85800,
+      -2872
+     ]
+    ],
+    "maxDanger": 35,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 35,
+     "dangerVsLevel": -47,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22768,
+     "name": "Tanta Lizardman Scout",
+     "level": 82,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 29,
+     "questSpawned": false
+    },
+    {
+     "id": 22769,
+     "name": "Tanta Lizardman Warrior",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 22770,
+     "name": "Tanta Lizardman Soldier",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 53,
+     "questSpawned": false
+    },
+    {
+     "id": 22771,
+     "name": "Tanta Lizardman Berserker",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 53,
+     "questSpawned": false
+    },
+    {
+     "id": 22772,
+     "name": "Tanta Lizardman Archer",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 65,
+     "questSpawned": false
+    },
+    {
+     "id": 22773,
+     "name": "Tanta Lizardman Magician",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 30,
+     "questSpawned": false
+    },
+    {
+     "id": 22774,
+     "name": "Tanta Lizardman Summoner",
+     "level": 84,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 41,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 15499,
+     "name": "Vial of Tanta Blood",
+     "n": 500,
+     "from": [
+      {
+       "id": 22768,
+       "name": "Tanta Lizardman Scout",
+       "chance": 50.9
+      },
+      {
+       "id": 22769,
+       "name": "Tanta Lizardman Warrior",
+       "chance": 68.9
+      },
+      {
+       "id": 22770,
+       "name": "Tanta Lizardman Soldier",
+       "chance": 12.3
+      },
+      {
+       "id": 22771,
+       "name": "Tanta Lizardman Berserker",
+       "chance": 15.9
+      },
+      {
+       "id": 22772,
+       "name": "Tanta Lizardman Archer",
+       "chance": 73.9
+      },
+      {
+       "id": 22773,
+       "name": "Tanta Lizardman Magician",
+       "chance": 73.7
+      },
+      {
+       "id": 22774,
+       "name": "Tanta Lizardman Summoner",
+       "chance": 26.1
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "engine-manual"
+   ],
+   "text": "Hunt Tanta Lizardman Scout, Tanta Lizardman Warrior, Tanta Lizardman Soldier for Vial of Tanta Blood x500",
+   "places": [
+    {
+     "mobs": [
+      22768,
+      22769,
+      22770,
+      22771,
+      22772,
+      22773,
+      22774
+     ],
+     "items": [
+      15499
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "plains-of-lizardmen-3",
+      "name": "Plains of Lizardmen 3: Energy Plant area (south-east)",
+      "at": [
+       91432,
+       87384,
+       -3464
+      ],
+      "radius": 2842,
+      "levels": [
+       83,
+       85
+      ],
+      "count": 23,
+      "region": "Plains of Lizardmen",
+      "atlasKey": "area:plains-of-lizardmen-3",
+      "status": "ok",
+      "sec": 86,
+      "danger": 85,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -136.56666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-18",
+        "name": "Plains of Lizardmen 18: Tanta Lizardman Archer area (south)",
+        "at": [
+         84856,
+         93720,
+         -3424
+        ],
+        "count": 23,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-4",
+        "name": "Plains of Lizardmen 4: Tanta Lizardman Soldier area (east)",
+        "at": [
+         92664,
+         84440,
+         -3672
+        ],
+        "count": 20,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "plains-of-lizardmen-9",
+        "name": "Plains of Lizardmen 9: Tanta Lizardman Archer area (south-east)",
+        "at": [
+         91224,
+         90648,
+         -3392
+        ],
+        "count": 20,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:plains-of-lizardmen-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".oren",
+      "length": 4925,
+      "sec": 86,
+      "via": ".oren > Oren -> Plains of Lizardmen",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Oren",
+        "cmd": ".oren"
+       },
+       {
+        "do": "gk",
+        "from": "Oren",
+        "desc": "Oren -> Plains of Lizardmen",
+        "link": "plains of the lizardmen",
+        "price": 3900,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 4370,
+        "how": "field-areas-gap",
+        "danger": 85
+       },
+       {
+        "do": "walk",
+        "len": 555,
+        "how": "field-areas",
+        "danger": 85
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Oren",
+       "desc": "Oren -> Plains of Lizardmen"
+      },
+      "simple": true,
+      "pv": [
+       [
+        87252,
+        85514,
+        -3056
+       ],
+       [
+        91016,
+        87016,
+        -3448
+       ],
+       [
+        91432,
+        87384,
+        -3464
+       ]
+      ],
+      "maxDanger": 85,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 85,
+       "dangerVsLevel": 3,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "plains-of-lizardmen-3",
+    "name": "Plains of Lizardmen 3: Energy Plant area (south-east)",
+    "at": [
+     91432,
+     87384,
+     -3464
+    ],
+    "radius": 2842,
+    "levels": [
+     83,
+     85
+    ],
+    "count": 23,
+    "region": "Plains of Lizardmen",
+    "atlasKey": "area:plains-of-lizardmen-3",
+    "status": "ok",
+    "sec": 86,
+    "danger": 85,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -136.56666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "plains-of-lizardmen-18",
+      "name": "Plains of Lizardmen 18: Tanta Lizardman Archer area (south)",
+      "at": [
+       84856,
+       93720,
+       -3424
+      ],
+      "count": 23,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-lizardmen-4",
+      "name": "Plains of Lizardmen 4: Tanta Lizardman Soldier area (east)",
+      "at": [
+       92664,
+       84440,
+       -3672
+      ],
+      "count": 20,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "plains-of-lizardmen-9",
+      "name": "Plains of Lizardmen 9: Tanta Lizardman Archer area (south-east)",
+      "at": [
+       91224,
+       90648,
+       -3392
+      ],
+      "count": 20,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:plains-of-lizardmen-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 4925,
+    "sec": 86,
+    "via": ".oren > Oren -> Plains of Lizardmen",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Plains of Lizardmen",
+      "link": "plains of the lizardmen",
+      "price": 3900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 4370,
+      "how": "field-areas-gap",
+      "danger": 85
+     },
+     {
+      "do": "walk",
+      "len": 555,
+      "how": "field-areas",
+      "danger": 85
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Plains of Lizardmen"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87252,
+      85514,
+      -3056
+     ],
+     [
+      91016,
+      87016,
+      -3448
+     ],
+     [
+      91432,
+      87384,
+      -3464
+     ]
+    ],
+    "maxDanger": 85,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 85,
+     "dangerVsLevel": 3,
+     "aggro": []
+    }
+   },
+   "expectedSec": 24661,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "hunt",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

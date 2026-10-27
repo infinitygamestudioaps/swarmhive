@@ -74,7 +74,9 @@ function findDp() {
   for (const c of cands) if (fs.existsSync(path.join(c, 'src/main/java/com/l2jserver/datapack/quests'))) return c;
   console.error('datapack not found; pass its root: node quest_extract.js <dp root> (see the header for the sparse clone)'); process.exit(1);
 }
-const DP = findDp();
+// required as a module (tests: docs/plan/tools/test_quest_extract.js) = no datapack needed, nothing runs or is written
+const IS_MAIN = require.main === module;
+const DP = IS_MAIN ? findDp() : (process.env.L2J_DP || '');
 const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').slice(7).split(',').filter(Boolean).map(Number);
 const QDIR = path.join(DP, 'src/main/java/com/l2jserver/datapack/quests');
 const NPCXML = path.join(DP, 'src/main/resources/data/stats/npcs');
@@ -212,17 +214,35 @@ function calls(s, name) {
   return out;
 }
 function takeLabels(s) {
-  let labels = null, m; const re = /^\s*(?:case\s+((?:"[^"]*"|[^:"\-]|-(?!>))+?)\s*(?::(?!:)|->)|default\s*(?::|->))/;
-  while ((m = re.exec(s))) { labels = labels || []; if (m[1]) labels.push(...splitTop(m[1])); else labels.push('default'); s = s.slice(m[0].length); }
-  return { labels, rest: s.trim() };
+  let labels = null, m, arrow = false; const re = /^\s*(?:case\s+((?:"[^"]*"|[^:"\-]|-(?!>))+?)\s*(?::(?!:)|->)|default\s*(?::|->))/;
+  while ((m = re.exec(s))) { labels = labels || []; if (m[1]) labels.push(...splitTop(m[1])); else labels.push('default'); if (/->$/.test(m[0])) arrow = true; s = s.slice(m[0].length); }
+  return { labels, rest: s.trim(), arrow };
 }
+// a statement that leaves its case block (no fall-through into the next case)
+const isTerminator = (s) => /^(break|continue)\b|^return\b|^throw\b/.test(String(s).trim());
 const isInit = (h) => /(=|\[\s*\]|,|\{|\breturn)\s*$/.test(h) || /^\s*$/.test(h) && false;
 
 // block walker: cb(stmt, frames[], labels)
+// CASE BLOCKS (2026-10-27, verifier quest_verify.md finding 1): every `case X:` of a switch opens its OWN pseudo frame (header '<case>',
+// labels = its case labels), so the statements of braceless cases are no longer one frame (buildQuest groups facts into actions BY FRAME:
+// Q6 `case "30006-03.htm": st.startQuest(); break; case "30006-06.html": ... st.exitQuest(...)` used to become ONE action start -> end).
+// Fall-through: a case whose block did not end with break / return / throw / continue runs on into the next case, so the next segment
+// carries both label sets (`case A: x(); case B: y(); break;` -> x under A, y under A and B). Arrow cases (`case X ->`) never fall through.
 function walk(src, cb, cbHead) {
   let fid = 0; const root = { id: fid++, header: '<root>', labels: null, curLabels: null, lastIf: null };
   const stack = [root]; let cur = '', paren = 0, i = 0; const n = src.length;
   const top = () => stack[stack.length - 1];
+  const isSwitchF = (f) => f && /^switch\s*\(/.test(f.header || '');
+  // a case label seen at the top of a switch (or of the current case segment): open the case segment frame
+  const openCase = (labels, arrow) => {
+    let t = top();
+    if (t.isCase) { stack.pop(); const prevOpen = !t.ended && !t.arrow && t.stmts > 0; const prevEmpty = !t.stmts && !t.ended; const inherit = (prevOpen || prevEmpty) ? t.labels : [];
+      labels = [...new Set(inherit.concat(labels))]; t = top(); }
+    if (!isSwitchF(t)) return null;
+    const f = { id: fid++, header: '<case>', labels, curLabels: null, lastIf: null, isCase: true, arrow: !!arrow, ended: false, stmts: 0 };
+    t.curLabels = labels; stack.push(f); return f;
+  };
+  const noteStmt = (s, pseudoLen) => { const t = top(); if (!t.isCase) { t.lastTerm = !pseudoLen && isTerminator(s); return; } t.stmts++; if (!pseudoLen && isTerminator(s)) t.ended = true; };
   const peel = (s, frames, labels) => { // braceless if / else prefixes become pseudo frames
     const pseudo = [];
     for (;;) {
@@ -248,7 +268,8 @@ function walk(src, cb, cbHead) {
     if (c === '{') {
       const h = cur.trim();
       if (isInit(h)) { const j = matchClose(src, i, '{', '}'); cur += src.slice(i, j + 1); i = j + 1; continue; }
-      cur = ''; const t = top(); const { labels, rest } = takeLabels(h); if (labels) t.curLabels = labels;
+      cur = ''; let t = top(); const { labels, rest, arrow } = takeLabels(h); if (labels) { if (openCase(labels, arrow)) t = top(); else t.curLabels = labels; }
+      if (t.isCase) t.stmts++;
       let header = rest, pseudo = [];
       if (!/^(if|else|switch|for|while|do|try|catch|finally|synchronized|static)\b/.test(header) && /^(else\s+)?if\s*\(|^else\b/.test(header) === false) { /* method / class / plain */ }
       // "if (a) x(); else {" style: the header may hold a braceless part; keep simple
@@ -258,7 +279,9 @@ function walk(src, cb, cbHead) {
       stack.push(f); i++; continue;
     }
     if (c === '}') {
+      if (top().isCase && stack.length > 2) stack.pop();   // the switch closes: its last case segment ends with it
       const f = stack.length > 1 ? stack.pop() : root; const t = top();
+      if (t.isCase && f.header === '' && f.lastTerm) t.ended = true;   // `case X: { ...; break; }`
       if (/^if\s*\(/.test(f.header)) t.lastIf = [f];
       else if (/^else\s+if\b/.test(f.header)) t.lastIf = (f.prevIf || []).concat([f]);
       else t.lastIf = null;
@@ -266,9 +289,10 @@ function walk(src, cb, cbHead) {
     }
     if (c === ';') {
       const s0 = cur.trim(); cur = ''; i++;
-      const t = top(); const { labels, rest } = takeLabels(s0); if (labels) t.curLabels = labels;
+      let t = top(); const { labels, rest, arrow } = takeLabels(s0); if (labels) { if (openCase(labels, arrow)) t = top(); else t.curLabels = labels; }
       if (!rest) continue;
       const { s, pseudo } = peel(rest, stack, t.curLabels);
+      noteStmt(s, pseudo.length);
       cb(s, stack.concat(pseudo), t.curLabels, pseudo.length ? pseudo[0].labels : t.curLabels);
       continue;
     }
@@ -424,7 +448,10 @@ function parseQuest(src, meta) {
     let m;
     const sc = /getRandomPartyMemberState\(\s*\w+\s*,\s*(-?\d+)\s*,/.exec(s) || /getRandomPartyMember\(\s*\w+\s*,\s*(\d+)\s*\)/.exec(s) || /getRandomPartyMember\(\s*\w+\s*,\s*"cond"\s*,\s*"(\d+)"\s*\)/.exec(s);
     if (sc && +sc[1] > 0) scoped[ctxFrames[ctxFrames.length - 1].id] = [+sc[1]];
-    let rm; if (!head && (rm = /^(?:final\s+)?(?:int|long|double|var)\s+(\w+)\s*=\s*getRandom\(\s*([\w.]+)\s*\)$/.exec(s))) { const N = evalExpr(env, rm[2]); if (typeof N === 'number') loc[rm[1]] = { rand: N }; }
+    // random locals are SCOPED (2026-10-27): Q330 declares `final int i0 = getRandom(100)` and `getRandom(10)` in different case blocks of
+    // one method; a method-wide binding gave 700 / -820 "percent". Each binding lives in its frame; a fact sees the nearest one on its path.
+    const fi = frameInfo.get(mkey); fi.rands = fi.rands || [];
+    let rm; if (!head && (rm = /^(?:final\s+)?(?:int|long|double|var)\s+(\w+)\s*=\s*getRandom\(\s*([\w.]+)\s*\)$/.exec(s))) { const N = evalExpr(env, rm[2]); if (typeof N === 'number') fi.rands.push({ name: rm[1], N, frame: ctxFrames[ctxFrames.length - 1].id }); }
     else if (!head && (m = /^(?:final\s+)?(?:long|int|var)\s+(\w+)\s*=\s*([\s\S]+)$/.exec(s))) {
       const rhs = m[2]; const c = calls(rhs, 'getQuestItemsCount')[0];
       if (c && unparen(rhs).startsWith(rhs.slice(c.at).trim().slice(0, 5)) && c.end >= rhs.trim().length - 2) { const ids = c.args.map(a => evalExpr(env, a)).filter(v => typeof v === 'number' && v > 50 || (v && v.id)); loc[m[1]] = { items: ids.map(v => v.id || v) }; }
@@ -435,9 +462,11 @@ function parseQuest(src, meta) {
     // labels of the innermost switch for this statement
     const path = inner.map(f => f.id);
     let sco = null; for (let k = path.length - 1; k >= 0 && !sco; k--) if (scoped[path[k]]) sco = scoped[path[k]];
+    let factLoc = loc;
+    if (fi.rands.length) { const vis = {}; for (const r of fi.rands) if (path.includes(r.frame)) vis[r.name] = { rand: r.N }; if (Object.keys(vis).length) factLoc = Object.assign({}, loc, vis); }
     const callFacts = []; for (const h of helperNames) if (s.indexOf(h) >= 0 && new RegExp('(^|[^.\\w])' + h + '\\s*\\(').test(s)) callFacts.push({ t: 'call', name: h });
     if (/executeForEachPlayer\s*\(/.test(s) && helperNames.has('actionForEachPlayer')) callFacts.push({ t: 'call', name: 'actionForEachPlayer' });
-    for (const fact of factsOf(env, s, loc).concat(callFacts)) { if (head && !/^(drop|give|take|adena|exp|spawn|count|timer|call)$/.test(fact.t)) continue; fact.method = method; fact.path = path; fact.ctx = ctx; fact.stmtLabels = lab; fact.loc = loc; if (sco) fact.scoped = sco; if (head) fact.inHeader = true; fact.stmt = s.length > 240 ? s.slice(0, 240) + '…' : s; facts.push(fact); }
+    for (const fact of factsOf(env, s, loc).concat(callFacts)) { if (head && !/^(drop|give|take|adena|exp|spawn|count|timer|call)$/.test(fact.t)) continue; fact.method = method; fact.path = path; fact.ctx = ctx; fact.stmtLabels = lab; fact.loc = factLoc; if (sco) fact.scoped = sco; if (head) fact.inHeader = true; fact.stmt = s.length > 240 ? s.slice(0, 240) + "…" : s; if (fact.t === "html") fact.full = s; facts.push(fact); }
   };
   walk(src, (s, frames, labels) => onStmt(s, frames, labels, false), (s, frames, labels) => onStmt(s, frames, labels, true));
   // inline helper methods at their call sites (two rounds: helpers calling helpers)
@@ -569,16 +598,25 @@ function readAtom(env, a, R, neg) {
   if ((m = /^(\w+)\s*(<|<=)\s*([\w.]+)$/.exec(a)) && R.loc && R.loc[m[1]] && R.loc[m[1]].rand) { const N = R.loc[m[1]].rand; const X = evalExpr(env, m[3]); if (typeof X !== 'number') return; const hi = X + (m[2] === '<=' ? 1 : 0);
     if (neg) { R.randLow[m[1]] = Math.max(R.randLow[m[1]] || 0, hi); return; } R.chance = Math.round((hi - (R.randLow[m[1]] || 0)) / N * 100 * 1000) / 1000; R.randVar = true; return; }
   if ((m = /getQuestItemsCount\(([^()]*)\)\s*(>=|==|>)\s*([\w.]+)/.exec(a)) && !neg) { const n = evalExpr(env, m[3]); const ids = splitTop(m[1]).map(x => evalExpr(env, x)).map(v => v && v.id !== undefined ? v.id : v).filter(v => typeof v === 'number' && v > 50); if (typeof n === 'number') for (const i of ids) R.itemCounts.push({ id: i, n: n + (m[2] === '>' ? 1 : 0) }); return; }
-  let rv = /getRandom\(\s*([\w.]+)\s*\)\s*(<|<=)\s*([\s\S]+)$/.exec(a);
-  if (!rv) { const r2 = /^([\s\S]+?)\s*(>|>=)\s*getRandom\(\s*([\w.]+)\s*\)$/.exec(a); if (r2) rv = [r2[0], r2[3], r2[2] === '>=' ? '<=' : '<', r2[1]]; }
+  // RANDOM CHANCES (2026-10-27): getRandom(N) < | <= | == X, X > | >= getRandom(N), per-mille (N = 1000) and other bases, X a constant, a map
+  // by npc id, or an array indexed by npc id (CHANCES[npc.getId() - FIRST]); `<=` counts X itself (X + 1 of N). Results are always percent.
+  const pct = (hits, N) => Math.round(hits / N * 100 * 1000) / 1000;
+  let rv = /getRandom\(\s*([\w.]+)\s*\)\s*(<=|<|==)\s*([\s\S]+)$/.exec(a);
+  if (!rv) { const r2 = /^([\s\S]+?)\s*(>=|>|==)\s*getRandom\(\s*([\w.]+)\s*\)$/.exec(a); if (r2) rv = [r2[0], r2[3], r2[2] === '>=' ? '<=' : r2[2] === '==' ? '==' : '<', r2[1]]; }
   if ((m = rv)) {
-    const N = evalExpr(env, m[1]); const X = m[3].trim(); if (neg) return;
-    const xv = evalExpr(env, X);
-    if (neg) { if (typeof N === 'number' && typeof xv === 'number') R.negChance = Math.round((xv + (m[2] === '<=' ? 1 : 0)) / N * 100 * 1000) / 1000; return; }
-    if (typeof N === 'number' && typeof xv === 'number') R.chance = Math.round((xv + (m[2] === '<=' ? 1 : 0)) / N * 100 * 1000) / 1000;
-    else { const mm = /^([A-Z_]\w*)\.get\(\s*(?:npc\.getId\(\)|npcId)\s*\)(?:\[(\d+)\]|\.(\w+)\(\))?$/.exec(X); if (mm && typeof N === 'number') { const map = evalExpr(env, mm[1]); if (map && map.map) { const t = {};
-      for (const [k, v] of map.map) { let val = v; if (mm[2] !== undefined && Array.isArray(v)) val = v[+mm[2]]; if (mm[3] && v && typeof v === 'object') val = /chance/i.test(mm[3]) ? v.chance : v[mm[3]]; if (typeof val === 'number') t[k] = Math.round(val / N * 100 * 1000) / 1000; }
-      R.chanceByNpc = t; } } else R.chanceRaw = a; }
+    const N = evalExpr(env, m[1]); const X = unparen(m[3].trim());
+    const xv = evalExpr(env, X), plus = m[2] === '<=' ? 1 : 0;
+    const hitsOf = (x) => m[2] === '==' ? ((typeof x === 'number' && x >= 0 && x < N) ? 1 : 0) : Math.max(0, Math.min(N, x + plus));
+    if (neg && typeof N === 'number' && N > 0 && typeof xv === 'number') { R.negChance = pct(hitsOf(xv), N); return; }
+    const byNpc = (t) => { if (neg) R.negChanceByNpc = t; else R.chanceByNpc = t; };   // else-branch of a per-npc roll = 100 - chance
+    if (typeof N === 'number' && N > 0 && typeof xv === 'number') { R.chance = pct(hitsOf(xv), N); return; }
+    let mm;
+    if ((mm = /^([A-Z_]\w*)\.get\(\s*(?:npc\.getId\(\)|npcId)\s*\)(?:\[(\d+)\]|\.(\w+)\(\))?$/.exec(X)) && typeof N === 'number') { const map = evalExpr(env, mm[1]); if (map && map.map && map.map.length) { const t = {};
+      for (const [k, v] of map.map) { let val = v; if (mm[2] !== undefined && Array.isArray(v)) val = v[+mm[2]]; if (mm[3] && v && typeof v === 'object') val = /chance/i.test(mm[3]) ? v.chance : v[mm[3]]; if (typeof val === 'number') t[k] = pct(hitsOf(val), N); }
+      byNpc(t); return; } }
+    if ((mm = /^([A-Z_]\w*)\s*\[\s*(?:npc\.getId\(\)|npcId)\s*-\s*([\w.]+)\s*\]$/.exec(X)) && typeof N === 'number') { const arr = evalExpr(env, mm[1]), base = evalExpr(env, mm[2]);
+      if (Array.isArray(arr) && typeof base === 'number') { const t = {}; arr.forEach((v, i) => { if (typeof v === 'number') t[base + i] = pct(hitsOf(v), N); }); byNpc(t); return; } }
+    if (!neg) R.chanceRaw = a;
     return; }
   if (/getRandomBoolean\(\)/.test(a)) { if (!neg) R.chance = 50; else R.negChance = 50; return; }
   if ((m = /getLevel\(\)\s*(>=|>|<=|<|==)\s*([\w.]+)/.exec(a))) { const v = evalExpr(env, m[2]); R.level.push({ op: m[1], v, name: m[2], neg }); return; }
@@ -617,6 +655,7 @@ function interp(env, fact) {
     if (/^else$/.test(h)) { for (const p of negPrev) negAtoms(env, p, R); if ((negPrev.some(p => /getRandom/.test(p)) || Object.keys(R.randLow).length) && R.randomDepth < 0) R.randomDepth = k;
       if (R.chance === null && Object.keys(R.randLow).length) { const v = Object.keys(R.randLow)[0]; const N = R.loc[v] && R.loc[v].rand; if (N) R.chance = Math.round((N - R.randLow[v]) / N * 100 * 1000) / 1000; } continue; }
   }
+  if (R.chance === null && !R.chanceByNpc && R.negChanceByNpc && R.randomDepth >= 0) R.chanceByNpc = Object.fromEntries(Object.entries(R.negChanceByNpc).map(([k, v]) => [k, Math.round((100 - v) * 1000) / 1000]));
   if (R.chance === null && R.negChance !== null && R.randomDepth >= 0) R.chance = Math.round((100 - R.negChance) * 1000) / 1000;
   return R;
 }
@@ -657,6 +696,115 @@ function mobInfo(id) {
       return { at: c, count: L.length, place: placeOf(c[0], c[1], c[2]), landing: nearestLanding(c[0], c[1]) }; });
   }
   return r;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+// race / class rules from the OFFER path (2026-10-27)
+// L2J ClassId enum names -> client class names (Dashboard/data/classes.json spelling; swarm.js qeEligible compares them without spaces)
+const CLASSID_ENUM = ['fighter', 'warrior', 'gladiator', 'warlord', 'knight', 'paladin', 'darkAvenger', 'rogue', 'treasureHunter', 'hawkeye', 'mage', 'wizard',
+  'sorceror', 'necromancer', 'warlock', 'cleric', 'bishop', 'prophet', 'elvenFighter', 'elvenKnight', 'templeKnight', 'swordSinger', 'elvenScout', 'plainsWalker',
+  'silverRanger', 'elvenMage', 'elvenWizard', 'spellsinger', 'elementalSummoner', 'oracle', 'elder', 'darkFighter', 'palusKnight', 'shillienKnight', 'bladedancer',
+  'assassin', 'abyssWalker', 'phantomRanger', 'darkMage', 'darkWizard', 'spellhowler', 'phantomSummoner', 'shillienOracle', 'shillenElder', 'orcFighter', 'orcRaider',
+  'destroyer', 'orcMonk', 'tyrant', 'orcMage', 'orcShaman', 'overlord', 'warcryer', 'dwarvenFighter', 'scavenger', 'bountyHunter', 'artisan', 'warsmith'];
+const CLASSID_ENUM2 = { 88: ['duelist', 'dreadnought', 'phoenixKnight', 'hellKnight', 'sagittarius', 'adventurer', 'archmage', 'soultaker', 'arcanaLord', 'cardinal', 'hierophant',
+  'evaTemplar', 'swordMuse', 'windRider', 'moonlightSentinel', 'mysticMuse', 'elementalMaster', 'evaSaint', 'shillienTemplar', 'spectralDancer', 'ghostHunter',
+  'ghostSentinel', 'stormScreamer', 'spectralMaster', 'shillienSaint', 'titan', 'grandKhavatari', 'dominator', 'doomcryer', 'fortuneSeeker', 'maestro'],
+  123: ['maleSoldier', 'femaleSoldier', 'trooper', 'warder', 'berserker', 'maleSoulbreaker', 'femaleSoulbreaker', 'arbalester', 'doombringer', 'maleSoulhound', 'femaleSoulhound',
+    'trickster', 'inspector', 'judicator'] };
+const CLASS_NAMES = rd(path.join(ROOT, 'Dashboard', 'data', 'classes.json'), {});
+const classIdOfEnum = (e) => { let i = CLASSID_ENUM.indexOf(e); if (i >= 0) return i; for (const [b, L] of Object.entries(CLASSID_ENUM2)) { i = L.indexOf(e); if (i >= 0) return +b + i; } return null; };
+/** ClassId enum name / class id -> the client class name ("fighter" -> "Human Fighter"); unknown stays as it is */
+function classDisplay(c) { const id = typeof c === 'number' ? c : classIdOfEnum(String(c)); return (id != null && CLASS_NAMES[id]) ? CLASS_NAMES[id] : c; }
+/** top-level ternary split: "c ? a : b" -> [c, a, b] (null when expr is no ternary) */
+function splitTernary(expr) {
+  let d = 0, q = -1;
+  for (let i = 0; i < expr.length; i++) { const c = expr[i];
+    if (c === '"' || c === "'") { let j = i + 1; while (j < expr.length && expr[j] !== c) { if (expr[j] === '\\') j++; j++; } i = j; continue; }
+    if ('([{'.includes(c)) d++; else if (')]}'.includes(c)) d--;
+    else if (!d && c === '?') { q = i; break; } }
+  if (q < 0) return null;
+  let n = 0; d = 0;
+  for (let i = q + 1; i < expr.length; i++) { const c = expr[i];
+    if (c === '"' || c === "'") { let j = i + 1; while (j < expr.length && expr[j] !== c) { if (expr[j] === '\\') j++; j++; } i = j; continue; }
+    if ('([{'.includes(c)) d++; else if (')]}'.includes(c)) d--;
+    else if (!d && c === '?') n++;
+    else if (!d && c === ':' && expr[i + 1] !== ':' && expr[i - 1] !== ':') { if (!n) return [expr.slice(0, q).trim(), expr.slice(q + 1, i).trim(), expr.slice(i + 1).trim()]; n--; } }
+  return null;
+}
+/** every condition path [{c, pos}] through the (nested) ternary expr to a leaf for which isLeaf(leafText) is true */
+function ternaryPaths(expr, isLeaf, depth = 0) {
+  expr = unparen(String(expr).trim()); if (depth > 12) return [];
+  const t = splitTernary(expr); if (!t) return isLeaf(expr) ? [[]] : [];
+  return ternaryPaths(t[1], isLeaf, depth + 1).map(p => [{ c: t[0], pos: true }].concat(p)).concat(ternaryPaths(t[2], isLeaf, depth + 1).map(p => [{ c: t[0], pos: false }].concat(p)));
+}
+/** conditions of the frames around a fact (if = true, else / later else-if = the earlier ifs false) */
+function framePath(fact) {
+  const out = [];
+  for (const f of fact.ctx || []) {
+    const cond = (h) => (/^(?:else\s+)?if\s*(\([\s\S]*\))$/.exec(h || '') || [])[1];
+    (f.prevIf || []).forEach(p => { const c = cond(p.header); if (c) out.push({ c, pos: false }); });
+    const c = cond(f.header); if (c) out.push({ c, pos: true });
+  }
+  return out;
+}
+/** race / class / category facts of one condition with polarity -> R { races:Set, notRaces:Set, classes:Set, notClasses:Set, cats:Set } */
+function ruleAtoms(env, c, pos, R, depth = 0) {
+  c = unparen(String(c).trim()); if (depth > 8) return;
+  if (/^!/.test(c) && unparen(c.slice(1)) !== c.slice(1).trim() || /^!\s*[\w.]+\([^()]*\)$/.test(c)) { ruleAtoms(env, c.slice(1), !pos, R, depth + 1); return; }
+  const or = splitTop(c, '||'), and = splitTop(c, '&&');
+  const atom = (a) => { let m; a = unparen(a);
+    if ((m = /getRace\(\)\s*(==|!=)\s*Race\.(\w+)$/.exec(a))) return { k: 'race', v: m[2], eq: m[1] === '==' };
+    if ((m = /getClassId\(\)(?:\.getId\(\))?\s*(==|!=)\s*(?:ClassId\.)?([\w.()]+)$/.exec(a))) { const v = evalExpr(env, m[2].replace(/\.getId\(\)$/, '')); const cv = v && v.cls ? v.cls : (typeof v === 'number' ? v : m[2]); return { k: 'class', v: classDisplay(cv), eq: m[1] === '==' }; }
+    if ((m = /^(!?)\s*\w+\.isInCategory\(\s*CategoryType\.(\w+)\s*\)$/.exec(a))) return { k: 'cat', v: m[2], eq: !m[1] };
+    if ((m = /^(!?)\s*(?:\w+\.)?(?:hasQuestItems|hasItem|hasAllItems)\(([^()]*)\)$/.exec(a))) { const ids = splitTop(m[2]).flatMap(x => idsOf(env, x)).filter(v => typeof v === 'number' && v > 50); if (ids.length) return { k: 'item', v: ids, eq: !m[1] }; }
+    return null; };
+  if (or.length > 1) {
+    const at = or.map(atom);
+    if (pos) { // A || B: only a rule when every alternative is a race == (or class ==)
+      if (at.every(x => x && x.k === 'race' && x.eq)) at.forEach(x => R.races.add(x.v));
+      else if (at.every(x => x && x.k === 'class' && x.eq)) at.forEach(x => R.classes.add(x.v));
+      else if (at.every(x => x && x.k === 'cat' && x.eq)) at.forEach(x => R.cats.add(x.v));
+    } else or.forEach(o => ruleAtoms(env, o, false, R, depth + 1));   // !(A || B) = !A && !B
+    return;
+  }
+  if (and.length > 1) {
+    if (pos) { and.forEach(a => ruleAtoms(env, a, true, R, depth + 1)); return; }
+    const at = and.map(atom);   // !(A && B) = !A || !B: a rule only when every part is a race != / class !=  -> race is one of them
+    if (at.every(x => x && x.k === 'race' && !x.eq)) at.forEach(x => R.races.add(x.v));
+    else if (at.every(x => x && x.k === 'class' && !x.eq)) at.forEach(x => R.classes.add(x.v));
+    return;
+  }
+  const a = atom(c); if (!a) return;
+  const eq = pos ? a.eq : !a.eq;
+  if (a.k === 'race') (eq ? R.races : R.notRaces).add(a.v);
+  else if (a.k === 'class') (eq ? R.classes : R.notClasses).add(a.v);
+  else if (a.k === 'cat' && eq) R.cats.add(a.v);
+  else if (a.k === 'item' && eq) a.v.forEach(v => R.items.add(v));   // start items (Mark of Traveler 7570 for 45-49 ...)
+}
+/** the race / class rule of a quest from the conditions on the way to its offer page(s); null = no offer page found */
+function offerPathRules(env, facts, htmls, startFacts) {
+  const startEvents = new Set(startFacts.flatMap(f => [...f.I.events]));
+  const linksOf = {}; for (const [file, html] of Object.entries(htmls)) linksOf[file] = htmlLinks(html).map(l => (/^Quest\s+\S+\s+([\s\S]+)$/i.exec(l.action) || [])[1]).filter(Boolean).map(s => s.trim());
+  // offer pages: link to a start event; then pages that link to an offer page (event name = file name), 4 rounds
+  const offer = new Set(); for (const [f, L] of Object.entries(linksOf)) if (L.some(e => startEvents.has(e))) offer.add(f);
+  for (let r = 0; r < 4; r++) for (const [f, L] of Object.entries(linksOf)) if (!offer.has(f) && L.some(e => offer.has(e) && !startEvents.has(f))) offer.add(f);
+  const paths = [];
+  const notStarted = (f) => !f.I.states.has('STARTED') && !f.I.states.has('COMPLETED') && !(f.I.conds && f.I.conds.size);
+  for (const f of facts) {
+    if (f.t !== 'html' || !offer.has(f.file) || !notStarted(f) || startEvents.has(f.file) && f.I.events.has(f.file)) continue;
+    const base = framePath(f);
+    const m = /^(?:return\s+|[\w.]+\s*=(?!=)\s*)([\s\S]+)$/.exec(f.full || f.stmt || '');
+    const lit = '"' + f.file + '"';
+    const tp = m ? ternaryPaths(m[1], (leaf) => leaf.indexOf(lit) >= 0) : [[]];
+    (tp.length ? tp : [[]]).forEach(p => paths.push(base.concat(p)));
+  }
+  if (!paths.length) for (const f of startFacts) paths.push(framePath(f));   // no offer page: the start statement's own conditions
+  if (!paths.length) return null;
+  const Rs = paths.map(p => { const R = { races: new Set(), notRaces: new Set(), classes: new Set(), notClasses: new Set(), cats: new Set(), items: new Set() }; p.forEach(x => ruleAtoms(env, x.c, x.pos, R)); return R; });
+  const unionIfAll = (k) => Rs.every(R => R[k].size) ? [...new Set(Rs.flatMap(R => [...R[k]]))] : [];
+  const inter = (k) => { const [a, ...rest] = Rs; return [...a[k]].filter(v => rest.every(R => R[k].has(v))); };
+  const races = unionIfAll('races');
+  return { races, notRaces: races.length ? [] : inter('notRaces'), classes: unionIfAll('classes'), notClasses: inter('notClasses'), categories: unionIfAll('cats'), items: inter('items') };
 }
 
 function buildQuest(dirName, javaFile, htmls, opts = {}) {
@@ -732,6 +880,7 @@ function buildQuest(dirName, javaFile, htmls, opts = {}) {
     const ad = sumAdena(a.members); if (ad !== null) t.adena = ad; const ex = sumExp(a.members, 'exp'); if (ex !== null) { t.exp = ex; t.sp = sumExp(a.members, 'sp'); }
     const sps = a.members.filter(x => x.t === 'spawn'); if (sps.length) t.spawns = sps.map(x => ({ npc: x.npc, at: x.at }));
     if (a.members.some(x => x.I.randomDepth >= 0)) t.random = true;
+    { const rk = a.keys.concat([f]).find(x => x.I.randomDepth >= 0 && (x.I.chance != null || x.I.chanceByNpc)); if (rk) { t.random = true; if (rk.I.chanceByNpc) t.chanceByNpc = rk.I.chanceByNpc; else t.chance = rk.I.chance; } else if (a.keys.some(x => x.I.randomDepth >= 0 && x.I.chanceRaw)) { t.random = true; t.chanceRaw = a.keys.find(x => x.I.chanceRaw).I.chanceRaw; } }   // a stage reached on a random roll (Q151: 20 % per kill)
     if (f.I.level.length) t.level = f.I.level.map(l => `${l.neg ? 'not ' : ''}level ${l.op} ${l.v}`);
     transitions.push(t);
   }
@@ -768,6 +917,10 @@ function buildQuest(dirName, javaFile, htmls, opts = {}) {
   // limits from count checks
   const limits = {};
   { const re = /getQuestItemsCount\(([^()]*)\)\s*(>=|==|>)\s*([\w.]+)/g; let mm; while ((mm = re.exec(P.src))) { const n = evalExpr(env, mm[3]); if (typeof n !== 'number' || n <= 1) continue; for (const x of splitTop(mm[1])) { const v = evalExpr(env, x); const iid = v && v.id !== undefined ? v.id : v; if (typeof iid === 'number' && iid > 50) limits[iid] = Math.max(limits[iid] || 0, n + (mm[2] === '>' ? 1 : 0)); } } }
+  // counts kept in a local (324: `long sacs = st.getQuestItemsCount(VENOM_SAC); if (sacs < REQUIRED_COUNT)`)
+  { const re = /\b(?:long|int|var)\s+(\w+)\s*=\s*(?:\w+\.)?getQuestItemsCount\(([^()]*)\)\s*;/g; let mm; while ((mm = re.exec(P.src))) {
+      const ids = splitTop(mm[2]).map(x => evalExpr(env, x)).map(v => v && v.id !== undefined ? v.id : v).filter(v => typeof v === 'number' && v > 50); if (!ids.length) continue;
+      const rc = new RegExp('\\b' + mm[1] + '\\b\\s*(<|>=|==)\\s*([\\w.]+)', 'g'); let c2; while ((c2 = rc.exec(P.src))) { const n = evalExpr(env, c2[2]); if (typeof n === 'number' && n > 1) ids.forEach(i => { limits[i] = Math.max(limits[i] || 0, n); }); } } }
   for (const f of facts.filter(f => f.t === 'count')) { if (/>=|==/.test(f.op) && typeof f.n === 'number' && f.n > 0) limits[f.item] = Math.max(limits[f.item] || 0, f.n); if (f.op === '<' && f.n > 0) limits[f.item] = Math.max(limits[f.item] || 0, f.n); if (f.op === '>' && f.n >= 0) limits[f.item] = Math.max(limits[f.item] || 0, f.n + 1); }
   { const ex = []; for (let i = drops.length - 1; i >= 0; i--) { const d = drops[i]; const src = d._f;
       if (src && src.itemByNpc) { drops.splice(i, 1); const by = {}; for (const [n, it] of Object.entries(src.itemByNpc)) { if (d.monsters.length && !d.monsters.includes(+n)) continue; (by[it] = by[it] || []).push(+n); }
@@ -778,7 +931,13 @@ function buildQuest(dirName, javaFile, htmls, opts = {}) {
   // merge drops (same item / conds / chance)
   const DM = []; { const by = {}; for (const d of drops) { const k = JSON.stringify([d.item, d.conds, d.memos, d.chance, d.chanceByNpc, d.amount, d.limit, d.needItems, d.on]); if (by[k]) { by[k].monsters = [...new Set(by[k].monsters.concat(d.monsters))]; continue; } by[k] = d; DM.push(d); } }
   // kills without items (counters): onKill transitions
-  const kills = T.filter(t => t.trigger.type === 'kill').map(t => ({ monsters: t.trigger.npcs, conds: t.from || [], to: t.to }));
+  const kills = T.filter(t => t.trigger.type === 'kill').map(t => { const k = { monsters: t.trigger.npcs, conds: t.from || [], to: t.to }; if (t.random) { k.random = true; if (t.chance != null) k.chance = t.chance; if (t.chanceByNpc) k.chanceByNpc = t.chanceByNpc; if (t.chanceRaw) k.chanceRaw = t.chanceRaw;
+      // the engine hunts kills[].count monsters for a kill stage: a stage reached on a random roll gets the count that reaches it 95 % of the time (Q151: 20 % -> 14)
+      const ps = [].concat(t.chance != null ? [t.chance] : [], t.chanceByNpc ? Object.values(t.chanceByNpc) : []).map(Number).filter(v => v > 0 && v < 100); if (ps.length) { const p = Math.min(...ps) / 100;
+        // the roll gives an item and the stage moves at L items (324: 10 Venom Sacs at 26-30 %): 95 % of the negative binomial, else one hit
+        const L = Math.max(0, ...DM.filter(d => d.limit > 1 && (d.monsters || []).some(m => k.monsters.includes(m)) && (!(d.conds || []).length || (d.conds || []).some(c => k.conds.includes(c)))).map(d => Number(d.limit) || 0));
+        k.count = L > 1 ? Math.ceil((L + 1.645 * Math.sqrt(L * (1 - p))) / p) : Math.ceil(Math.log(0.05) / Math.log(1 - p));
+        k.countWhy = 'random stage: ' + Math.round(p * 1000) / 10 + ' % per kill' + (L > 1 ? ', ' + L + ' items' : '') + ', ' + k.count + ' kills = 95 %'; } } return k; });
   for (const f of facts.filter(f => f.method === 'onKill' && f.t === 'count')) { /* item counts handled as limits */ }
   { const cnt = facts.filter(f => f.method === 'onKill' && /set\(\s*"|setMemoStateEx|getInt\(|incrementKill|KILL_COUNT|kills?\b/i.test(f.stmt || '')); if (cnt.length) { const nums = []; for (const f of facts.filter(f => f.method === 'onKill')) for (const r of f.I.raw) { const mm = /(?:>=|==)\s*(\d+)/.exec(r); if (mm && +mm[1] > 1) nums.push(+mm[1]); } if (nums.length && kills.length) kills.forEach(k => { k.count = Math.max(...nums); }); } }
   // spawns
@@ -837,6 +996,11 @@ function buildQuest(dirName, javaFile, htmls, opts = {}) {
     // the quest file also checks other quests anywhere near the start (constructor-level helpers)
     const re6 = /hasQuestCompleted\(\s*(Q(\d{5})_\w+)\.class/g; while ((m = re6.exec(P.src))) if (!requirements.quests.some(q => q.id === +m[2])) requirements.quests.push({ id: +m[2], name: m[1], need: 'completed', where: 'somewhere in the script' });
     requirements.items = [...new Set(requirements.items)].map(i => ({ id: i, name: itemName(i) }));
+    // OFFER PATH (2026-10-27): race / class rules from the conditions that lead to the OFFER page (polarity-aware, incl. nested ternaries);
+    // replaces the ternary guess above, which read only the first condition and kept refusal branches unflipped (Q2, Q9, 401-418).
+    const op = offerPathRules(env, facts, htmls, startFacts);
+    if (op) { requirements.races = op.races; requirements.notRaces = op.notRaces; requirements.classes = op.classes; requirements.notClasses = op.notClasses; requirements.categories = op.categories; (op.items || []).forEach(v => { if (!requirements.items.some(x => x.id === v)) requirements.items.push({ id: v, name: itemName(v) }); }); }
+    else requirements.classes = requirements.classes.map(classDisplay);
     for (const k of ['races', 'notRaces', 'classes', 'notClasses', 'categories']) requirements[k] = [...new Set(requirements[k])];
     const seenQ = new Set(); requirements.quests = requirements.quests.filter(q => { if (seenQ.has(q.id) || q.id === id) return false; seenQ.add(q.id); return true; });
     requirements.other = [...new Set(requirements.other)].slice(0, 8);
@@ -918,7 +1082,10 @@ function buildQuest(dirName, javaFile, htmls, opts = {}) {
   const condTs = T.filter(t => typeof t.to === 'number' || t.to === 'end');
   if (!condTs.length) reasons.push('no state transitions found');
   if (!facts.some(f => f.t === 'cond') && facts.some(f => f.t === 'memo')) reasons.push('memo-state machine (no setCond): steps listed by memo state');
-  const maxCond = Math.max(0, ...[...condVals]);
+  // 2026-10-27 (verifier finding 2): setCond AND setMemoState = hidden sub-stages the engine cannot see (61, 65, 418 were "full")
+  else if (facts.some(f => f.t === 'memo') && T.some(t => t.to === null || t.to === undefined || (t.fromMemo && t.fromMemo.length && !(t.from || []).length))) reasons.push('memo-state sub-stages besides setCond: ' + facts.filter(f => f.t === 'memo').length + ' setMemoState calls, stages the engine cannot see');
+  // a dummy script: no start, no stage, only exitQuest (646)
+  if (!facts.some(f => f.t === 'start' || f.t === 'cond' || f.t === 'memo') && facts.some(f => f.t === 'exit')) reasons.push('dummy script: only exits the quest (no start, no stage)');  const maxCond = Math.max(0, ...[...condVals]);
   for (const c of condVals) { if (c === maxCond) continue; if (!T.some(t => (t.from || []).includes(c)) && !DM.some(d => d.conds.includes(c)) && !T.some(t => !t.from && t.trigger.type !== 'talk')) { reasons.push(`cond ${c}: no way forward found`); break; } }
   if (DM.some(d => d.chance === null && !d.chanceByNpc)) reasons.push('drop chance not resolved: ' + DM.filter(d => d.chance === null && !d.chanceByNpc).map(d => d.chanceRaw || itemName(d.item)).slice(0, 3).join(' | '));
   if (reg.kill.length && !DM.length && !kills.length && !T.some(t => t.trigger.type === 'kill')) reasons.push('kill NPCs registered but no drop / kill step parsed');
@@ -965,7 +1132,7 @@ function sagaSource(sub) {
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 // main
-(function main() {
+if (IS_MAIN) (function main() {
   const out = {}; const fails = [];
   const dirs = fs.readdirSync(QDIR);
   const files = [];
@@ -1011,3 +1178,4 @@ function sagaSource(sub) {
   console.log(JSON.stringify(show, null, 1));
   if (fails.length) console.log('FAILED:', fails.slice(0, 10));
 })();
+module.exports = { walk, takeLabels, parseQuest, interp, buildQuest, splitTernary, ternaryPaths, offerPathRules, classDisplay, readAtom, makeEnv, evalExpr, stripComments };

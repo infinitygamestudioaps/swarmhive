@@ -1,0 +1,901 @@
+{
+ "id": 307,
+ "name": "Control Device of the Giants",
+ "version": 1,
+ "generated": "2026-10-27T11:15:19.325Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 79,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 1
+  }
+ ],
+ "expectedMin": 17,
+ "refLevel": 79,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32711",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Accept."
+   ],
+   "npc": {
+    "id": 32711,
+    "name": "Droph",
+    "title": "Dwarf Adventurer",
+    "town": "Aden",
+    "at": [
+     191391,
+     57074,
+     -7616
+    ],
+    "alt": []
+   },
+   "text": "Talk to Droph – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32711@191391,57074",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20491,
+    "sec": 231,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave > floor Lower layer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 20002,
+      "how": "geodata",
+      "danger": 80
+     },
+     {
+      "do": "floor",
+      "npc": "Dwyph",
+      "link": null,
+      "floor": "Lower layer"
+     },
+     {
+      "do": "walk",
+      "len": 489,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": false,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174632,
+      51928,
+      -4360
+     ],
+     [
+      174632,
+      52728,
+      -4360
+     ],
+     [
+      175096,
+      53080,
+      -4360
+     ],
+     [
+      175416,
+      53432,
+      -4360
+     ],
+     [
+      175464,
+      54344,
+      -4352
+     ],
+     [
+      175464,
+      55336,
+      -4344
+     ],
+     [
+      175464,
+      56328,
+      -4344
+     ],
+     [
+      175464,
+      57320,
+      -4360
+     ],
+     [
+      175464,
+      58312,
+      -4360
+     ],
+     [
+      175528,
+      58808,
+      -4360
+     ],
+     [
+      175592,
+      59304,
+      -4360
+     ],
+     [
+      175592,
+      60280,
+      -4328
+     ],
+     [
+      175608,
+      60488,
+      -4368
+     ],
+     [
+      175720,
+      60616,
+      -4368
+     ],
+     [
+      176128,
+      61080,
+      -4368
+     ],
+     [
+      176536,
+      61544,
+      -4368
+     ],
+     [
+      176632,
+      61576,
+      -4368
+     ],
+     [
+      177624,
+      61576,
+      -4416
+     ],
+     [
+      177944,
+      61576,
+      -4416
+     ],
+     [
+      178936,
+      61528,
+      -4320
+     ],
+     [
+      179928,
+      61528,
+      -4224
+     ],
+     [
+      180840,
+      61576,
+      -4120
+     ],
+     [
+      181288,
+      61576,
+      -3992
+     ],
+     [
+      181784,
+      61728,
+      -3992
+     ],
+     [
+      182280,
+      61880,
+      -3992
+     ],
+     [
+      182904,
+      62504,
+      -3992
+     ],
+     [
+      182984,
+      62552,
+      -3992
+     ],
+     [
+      183032,
+      62552,
+      -3992
+     ],
+     [
+      183144,
+      62488,
+      -3992
+     ],
+     [
+      183640,
+      61992,
+      -3992
+     ],
+     [
+      184136,
+      61496,
+      -3992
+     ],
+     [
+      184456,
+      61448,
+      -3992
+     ],
+     [
+      191384,
+      57080,
+      -7616
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 261,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:25681",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25681,
+     "name": "Gorgolos",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25684,
+     "name": "Last Titan Utenus",
+     "level": 83,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25680,
+     "name": "Giant Marpanak",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25687,
+     "name": "Hekaton Prime",
+     "level": 83,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [],
+   "kills": 1,
+   "reasons": [
+    "needs-party"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     32711
+    ]
+   },
+   "text": "Make Gorgolos, Last Titan Utenus, Giant Marpanak, Hekaton Prime appear and kill it",
+   "npc": {
+    "id": 32711,
+    "name": "Droph",
+    "title": "Dwarf Adventurer",
+    "town": "Aden",
+    "at": [
+     191391,
+     57074,
+     -7616
+    ],
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32711@191391,57074",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20491,
+    "sec": 231,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave > floor Lower layer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 20002,
+      "how": "geodata",
+      "danger": 80
+     },
+     {
+      "do": "floor",
+      "npc": "Dwyph",
+      "link": null,
+      "floor": "Lower layer"
+     },
+     {
+      "do": "walk",
+      "len": 489,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": false,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174632,
+      51928,
+      -4360
+     ],
+     [
+      174632,
+      52728,
+      -4360
+     ],
+     [
+      175096,
+      53080,
+      -4360
+     ],
+     [
+      175416,
+      53432,
+      -4360
+     ],
+     [
+      175464,
+      54344,
+      -4352
+     ],
+     [
+      175464,
+      55336,
+      -4344
+     ],
+     [
+      175464,
+      56328,
+      -4344
+     ],
+     [
+      175464,
+      57320,
+      -4360
+     ],
+     [
+      175464,
+      58312,
+      -4360
+     ],
+     [
+      175528,
+      58808,
+      -4360
+     ],
+     [
+      175592,
+      59304,
+      -4360
+     ],
+     [
+      175592,
+      60280,
+      -4328
+     ],
+     [
+      175608,
+      60488,
+      -4368
+     ],
+     [
+      175720,
+      60616,
+      -4368
+     ],
+     [
+      176128,
+      61080,
+      -4368
+     ],
+     [
+      176536,
+      61544,
+      -4368
+     ],
+     [
+      176632,
+      61576,
+      -4368
+     ],
+     [
+      177624,
+      61576,
+      -4416
+     ],
+     [
+      177944,
+      61576,
+      -4416
+     ],
+     [
+      178936,
+      61528,
+      -4320
+     ],
+     [
+      179928,
+      61528,
+      -4224
+     ],
+     [
+      180840,
+      61576,
+      -4120
+     ],
+     [
+      181288,
+      61576,
+      -3992
+     ],
+     [
+      181784,
+      61728,
+      -3992
+     ],
+     [
+      182280,
+      61880,
+      -3992
+     ],
+     [
+      182904,
+      62504,
+      -3992
+     ],
+     [
+      182984,
+      62552,
+      -3992
+     ],
+     [
+      183032,
+      62552,
+      -3992
+     ],
+     [
+      183144,
+      62488,
+      -3992
+     ],
+     [
+      183640,
+      61992,
+      -3992
+     ],
+     [
+      184136,
+      61496,
+      -3992
+     ],
+     [
+      184456,
+      61448,
+      -3992
+     ],
+     [
+      191384,
+      57080,
+      -7616
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "area": {
+    "kind": "spawn",
+    "id": "spawn",
+    "name": "quest spawn",
+    "at": [
+     191777,
+     56197,
+     -7624
+    ],
+    "radius": 800,
+    "count": 1
+   },
+   "expectedSec": 531,
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:talk:32711",
+   "cond": 2,
+   "kind": "talk",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 32711,
+    "name": "Droph",
+    "title": "Dwarf Adventurer",
+    "town": "Aden",
+    "at": [
+     191391,
+     57074,
+     -7616
+    ],
+    "alt": []
+   },
+   "text": "Talk to Droph",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:32711@191391,57074",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20491,
+    "sec": 231,
+    "via": ".aden > Aden -> Entrance to The Giant's Cave > floor Lower layer",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Entrance to The Giant's Cave",
+      "link": "entrance to the giant cave",
+      "price": 7400,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 20002,
+      "how": "geodata",
+      "danger": 80
+     },
+     {
+      "do": "floor",
+      "npc": "Dwyph",
+      "link": null,
+      "floor": "Lower layer"
+     },
+     {
+      "do": "walk",
+      "len": 489,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Entrance to The Giant's Cave"
+    },
+    "simple": false,
+    "pv": [
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174491,
+      50942,
+      -4360
+     ],
+     [
+      174632,
+      51928,
+      -4360
+     ],
+     [
+      174632,
+      52728,
+      -4360
+     ],
+     [
+      175096,
+      53080,
+      -4360
+     ],
+     [
+      175416,
+      53432,
+      -4360
+     ],
+     [
+      175464,
+      54344,
+      -4352
+     ],
+     [
+      175464,
+      55336,
+      -4344
+     ],
+     [
+      175464,
+      56328,
+      -4344
+     ],
+     [
+      175464,
+      57320,
+      -4360
+     ],
+     [
+      175464,
+      58312,
+      -4360
+     ],
+     [
+      175528,
+      58808,
+      -4360
+     ],
+     [
+      175592,
+      59304,
+      -4360
+     ],
+     [
+      175592,
+      60280,
+      -4328
+     ],
+     [
+      175608,
+      60488,
+      -4368
+     ],
+     [
+      175720,
+      60616,
+      -4368
+     ],
+     [
+      176128,
+      61080,
+      -4368
+     ],
+     [
+      176536,
+      61544,
+      -4368
+     ],
+     [
+      176632,
+      61576,
+      -4368
+     ],
+     [
+      177624,
+      61576,
+      -4416
+     ],
+     [
+      177944,
+      61576,
+      -4416
+     ],
+     [
+      178936,
+      61528,
+      -4320
+     ],
+     [
+      179928,
+      61528,
+      -4224
+     ],
+     [
+      180840,
+      61576,
+      -4120
+     ],
+     [
+      181288,
+      61576,
+      -3992
+     ],
+     [
+      181784,
+      61728,
+      -3992
+     ],
+     [
+      182280,
+      61880,
+      -3992
+     ],
+     [
+      182904,
+      62504,
+      -3992
+     ],
+     [
+      182984,
+      62552,
+      -3992
+     ],
+     [
+      183032,
+      62552,
+      -3992
+     ],
+     [
+      183144,
+      62488,
+      -3992
+     ],
+     [
+      183640,
+      61992,
+      -3992
+     ],
+     [
+      184136,
+      61496,
+      -3992
+     ],
+     [
+      184456,
+      61448,
+      -3992
+     ],
+     [
+      191384,
+      57080,
+      -7616
+     ]
+    ],
+    "maxDanger": 80,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 80,
+     "dangerVsLevel": 1,
+     "aggro": []
+    }
+   },
+   "expectedSec": 256,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    2
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

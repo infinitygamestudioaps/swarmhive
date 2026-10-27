@@ -1,0 +1,781 @@
+{
+ "id": 359,
+ "name": "For a Sleepless Deadman",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.239Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 60,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Aden",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  }
+ ],
+ "expectedMin": 73,
+ "refLevel": 60,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30857",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I will bring you the remains of the heroes.\""
+   ],
+   "npc": {
+    "id": 30857,
+    "name": "Orven",
+    "title": "High Priest",
+    "town": "Aden",
+    "at": [
+     147456,
+     22576,
+     -1989
+    ],
+    "alt": []
+   },
+   "text": "Talk to Orven – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30857@147456,22576",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3996,
+    "sec": 53,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3996,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147464,
+      23752,
+      -1984
+     ],
+     [
+      147448,
+      23672,
+      -1984
+     ],
+     [
+      147448,
+      23400,
+      -1984
+     ],
+     [
+      147464,
+      23128,
+      -1984
+     ],
+     [
+      147464,
+      22856,
+      -1984
+     ],
+     [
+      147464,
+      22584,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 83,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 21006,
+     "name": "Doom Servant",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 56,
+     "questSpawned": false
+    },
+    {
+     "id": 21007,
+     "name": "Doom Guard",
+     "level": 61,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 21008,
+     "name": "Doom Archer",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 15,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 5869,
+     "name": "Remains of Aden Residents",
+     "n": 60,
+     "from": [
+      {
+       "id": 21006,
+       "name": "Doom Servant",
+       "chance": 36.5
+      },
+      {
+       "id": 21007,
+       "name": "Doom Guard",
+       "chance": 39.2
+      },
+      {
+       "id": 21008,
+       "name": "Doom Archer",
+       "chance": 50.3
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Doom Servant, Doom Guard, Doom Archer for Remains of Aden Residents x60",
+   "places": [
+    {
+     "mobs": [
+      21006,
+      21007,
+      21008
+     ],
+     "items": [
+      5869
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "fields-of-massacre-7",
+      "name": "Fields of Massacre 7: Doom Guard area (east)",
+      "at": [
+       187256,
+       -16136,
+       -1320
+      ],
+      "radius": 4345,
+      "levels": [
+       61,
+       63
+      ],
+      "count": 11,
+      "region": "Fields of Massacre",
+      "atlasKey": "area:fields-of-massacre-7",
+      "status": "ok",
+      "sec": 110,
+      "danger": 65,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -64.16666666666667,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-10",
+        "name": "Fields of Massacre 10: Doom Guard area (north-east)",
+        "at": [
+         188184,
+         -22504,
+         -1520
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-20",
+        "name": "Fields of Massacre 20: Doom Servant area (west)",
+        "at": [
+         171736,
+         -16920,
+         -3128
+        ],
+        "count": 9,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-4",
+        "name": "Fields of Massacre 4: Doom Trooper area (north-east)",
+        "at": [
+         187816,
+         -18136,
+         -1336
+        ],
+        "count": 8,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fields-of-massacre-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 7854,
+      "sec": 110,
+      "via": ".aden > Aden -> Fields of Massacre",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Fields of Massacre",
+        "link": "fields of massacre",
+        "price": 6500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7854,
+        "how": "field-areas",
+        "danger": 65
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Fields of Massacre"
+      },
+      "simple": true,
+      "pv": [
+       [
+        183544,
+        -14968,
+        -2776
+       ],
+       [
+        183544,
+        -15960,
+        -2712
+       ],
+       [
+        184104,
+        -16952,
+        -2680
+       ],
+       [
+        184440,
+        -17288,
+        -2672
+       ],
+       [
+        185240,
+        -17960,
+        -2568
+       ],
+       [
+        185848,
+        -18504,
+        -2280
+       ],
+       [
+        186104,
+        -18680,
+        -2176
+       ],
+       [
+        186424,
+        -18632,
+        -2008
+       ],
+       [
+        186856,
+        -18200,
+        -1648
+       ],
+       [
+        187032,
+        -17880,
+        -1424
+       ],
+       [
+        187032,
+        -16888,
+        -1288
+       ],
+       [
+        187256,
+        -16136,
+        -1320
+       ]
+      ],
+      "maxDanger": 65,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 65,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "fields-of-massacre-7",
+    "name": "Fields of Massacre 7: Doom Guard area (east)",
+    "at": [
+     187256,
+     -16136,
+     -1320
+    ],
+    "radius": 4345,
+    "levels": [
+     61,
+     63
+    ],
+    "count": 11,
+    "region": "Fields of Massacre",
+    "atlasKey": "area:fields-of-massacre-7",
+    "status": "ok",
+    "sec": 110,
+    "danger": 65,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -64.16666666666667,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-10",
+      "name": "Fields of Massacre 10: Doom Guard area (north-east)",
+      "at": [
+       188184,
+       -22504,
+       -1520
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-20",
+      "name": "Fields of Massacre 20: Doom Servant area (west)",
+      "at": [
+       171736,
+       -16920,
+       -3128
+      ],
+      "count": 9,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fields-of-massacre-4",
+      "name": "Fields of Massacre 4: Doom Trooper area (north-east)",
+      "at": [
+       187816,
+       -18136,
+       -1336
+      ],
+      "count": 8,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:fields-of-massacre-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 7854,
+    "sec": 110,
+    "via": ".aden > Aden -> Fields of Massacre",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Fields of Massacre",
+      "link": "fields of massacre",
+      "price": 6500,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 7854,
+      "how": "field-areas",
+      "danger": 65
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Fields of Massacre"
+    },
+    "simple": true,
+    "pv": [
+     [
+      183544,
+      -14968,
+      -2776
+     ],
+     [
+      183544,
+      -15960,
+      -2712
+     ],
+     [
+      184104,
+      -16952,
+      -2680
+     ],
+     [
+      184440,
+      -17288,
+      -2672
+     ],
+     [
+      185240,
+      -17960,
+      -2568
+     ],
+     [
+      185848,
+      -18504,
+      -2280
+     ],
+     [
+      186104,
+      -18680,
+      -2176
+     ],
+     [
+      186424,
+      -18632,
+      -2008
+     ],
+     [
+      186856,
+      -18200,
+      -1648
+     ],
+     [
+      187032,
+      -17880,
+      -1424
+     ],
+     [
+      187032,
+      -16888,
+      -1288
+     ],
+     [
+      187256,
+      -16136,
+      -1320
+     ]
+    ],
+    "maxDanger": 65,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 65,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 4235,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:30857",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Wait until he finishes praying."
+   ],
+   "npc": {
+    "id": 30857,
+    "name": "Orven",
+    "title": "High Priest",
+    "town": "Aden",
+    "at": [
+     147456,
+     22576,
+     -1989
+    ],
+    "alt": []
+   },
+   "text": "Talk to Orven",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30857@147456,22576",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 3996,
+    "sec": 53,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 3996,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147624,
+      25752,
+      -2008
+     ],
+     [
+      147464,
+      25592,
+      -2008
+     ],
+     [
+      147480,
+      25320,
+      -1992
+     ],
+     [
+      147672,
+      25272,
+      -1992
+     ],
+     [
+      147496,
+      25224,
+      -1992
+     ],
+     [
+      147448,
+      24952,
+      -1984
+     ],
+     [
+      147448,
+      24680,
+      -1984
+     ],
+     [
+      147448,
+      24408,
+      -1984
+     ],
+     [
+      147448,
+      24296,
+      -1984
+     ],
+     [
+      147448,
+      24024,
+      -1984
+     ],
+     [
+      147464,
+      23752,
+      -1984
+     ],
+     [
+      147448,
+      23672,
+      -1984
+     ],
+     [
+      147448,
+      23400,
+      -1984
+     ],
+     [
+      147464,
+      23128,
+      -1984
+     ],
+     [
+      147464,
+      22856,
+      -1984
+     ],
+     [
+      147464,
+      22584,
+      -1984
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,3998 @@
+{
+ "id": 503,
+ "name": "Pursuit Of Clan Ambition",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.152Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 5,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Oren",
+ "requirements": {
+  "items": [
+   {
+    "id": 3870,
+    "name": "Seal of Aspiration"
+   }
+  ],
+  "clan": {
+   "leader": true,
+   "minLevel": null
+  },
+  "other": [
+   "(clan != null)"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Seal of Aspiration"
+  }
+ ],
+ "status": "not-for-bots",
+ "reasons": [
+  {
+   "code": "clan",
+   "text": "clan quest (clan leader only)"
+  },
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "spawn-script",
+   "text": "quest monsters / NPCs spawned by a timer"
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 2
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 4
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 8
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 9
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 10
+  },
+  {
+   "code": "npc-quest-spawned",
+   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
+   "step": 11
+  }
+ ],
+ "expectedMin": 71,
+ "refLevel": 5,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30760",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"I'll do all I can, sir.\""
+   ],
+   "npc": {
+    "id": 30760,
+    "name": "Sir Gustav Athebaldt",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     80036,
+     56568,
+     -1557
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Gustav Athebaldt – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31092@80129,56947",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31092@80129,56947",
+     "name": "Black Marketeer of Mammon"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ]
+   },
+   "expectedSec": 95,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20137,
+     "name": "Drake",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20243,
+     "name": "Thunder Wyrm",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 20974,
+     "name": "Spiteful Soul Leader",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 13,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 3839,
+     "name": "Mist Drake's Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20137,
+       "name": "Drake",
+       "chance": 10
+      },
+      {
+       "id": 20285,
+       "name": "Drake",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 3840,
+     "name": "Blitz Wyrm Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 27178,
+       "name": "Blitz Wyrm",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3841,
+     "name": "Drake's Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20137,
+       "name": "Drake",
+       "chance": 50
+      },
+      {
+       "id": 20285,
+       "name": "Drake",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 3842,
+     "name": "Thunder Wyrm Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20243,
+       "name": "Thunder Wyrm",
+       "chance": 50
+      },
+      {
+       "id": 20282,
+       "name": "Thunder Wyrm",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 3847,
+     "name": "Imperial Key",
+     "n": 6,
+     "from": [
+      {
+       "id": 27179,
+       "name": "Grave Keymaster",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 14855,
+     "name": "Spiteful Soul Energy",
+     "n": 10,
+     "from": [
+      {
+       "id": 20974,
+       "name": "Spiteful Soul Leader",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Drake, Thunder Wyrm, Spiteful Soul Leader for Mist Drake's Egg x10, Blitz Wyrm Egg x10, Drake's Egg x10, Thunder Wyrm Egg x10, Imperial Key x6, Spiteful Soul Energy x10",
+   "places": [
+    {
+     "mobs": [
+      20137
+     ],
+     "items": [
+      3839,
+      3841
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-13",
+      "name": "Dragon Valley 13: Drake area (north-west)",
+      "at": [
+       65048,
+       105864,
+       -3624
+      ],
+      "radius": 4392,
+      "levels": [
+       36,
+       57
+      ],
+      "count": 11,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-13",
+      "status": "ok",
+      "sec": 176,
+      "danger": 57,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": 112.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-5",
+        "name": "Dragon Valley 5: Drake area (west)",
+        "at": [
+         65144,
+         116344,
+         -3648
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-7",
+        "name": "Dragon Valley 7: Drake area (north-west)",
+        "at": [
+         66472,
+         110264,
+         -3680
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-13",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 15732,
+      "sec": 176,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15732,
+        "how": "field-areas",
+        "danger": 57
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        73032,
+        117496,
+        -3688
+       ],
+       [
+        73032,
+        116504,
+        -3664
+       ],
+       [
+        72168,
+        115512,
+        -3704
+       ],
+       [
+        71176,
+        114520,
+        -3720
+       ],
+       [
+        70184,
+        113528,
+        -3728
+       ],
+       [
+        69192,
+        112536,
+        -3704
+       ],
+       [
+        68728,
+        112024,
+        -3720
+       ],
+       [
+        68584,
+        111688,
+        -3696
+       ],
+       [
+        68584,
+        110696,
+        -3656
+       ],
+       [
+        68520,
+        110472,
+        -3664
+       ],
+       [
+        68424,
+        109528,
+        -3632
+       ],
+       [
+        67704,
+        108536,
+        -3688
+       ],
+       [
+        66840,
+        107656,
+        -3680
+       ],
+       [
+        66824,
+        107640,
+        -3672
+       ],
+       [
+        65832,
+        106648,
+        -3552
+       ],
+       [
+        65048,
+        105864,
+        -3624
+       ]
+      ],
+      "maxDanger": 57,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 57,
+       "dangerVsLevel": 52,
+       "aggro": [
+        {
+         "name": "Drake",
+         "lv": 57,
+         "n": 3
+        },
+        {
+         "name": "Thunder Wyrm",
+         "lv": 54,
+         "n": 1
+        },
+        {
+         "name": "Road Scavenger",
+         "lv": 37,
+         "n": 4
+        },
+        {
+         "name": "Guardian Basilisk",
+         "lv": 36,
+         "n": 4
+        },
+        {
+         "name": "Wyrm",
+         "lv": 35,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20243
+     ],
+     "items": [
+      3842
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "dragon-valley-13",
+      "name": "Dragon Valley 13: Drake area (north-west)",
+      "at": [
+       65048,
+       105864,
+       -3624
+      ],
+      "radius": 4392,
+      "levels": [
+       36,
+       57
+      ],
+      "count": 10,
+      "region": "Dragon Valley",
+      "atlasKey": "area:dragon-valley-13",
+      "status": "ok",
+      "sec": 176,
+      "danger": 57,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": 118.93333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "dragon-valley-5",
+        "name": "Dragon Valley 5: Drake area (west)",
+        "at": [
+         65144,
+         116344,
+         -3648
+        ],
+        "count": 4,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "dragon-valley-7",
+        "name": "Dragon Valley 7: Drake area (north-west)",
+        "at": [
+         66472,
+         110264,
+         -3680
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:dragon-valley-13",
+      "status": "ok",
+      "flags": [],
+      "from": ".hunters",
+      "length": 15732,
+      "sec": 176,
+      "via": ".hunters > Hunters -> Dragon Valley",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Hunters",
+        "cmd": ".hunters"
+       },
+       {
+        "do": "gk",
+        "from": "Hunters",
+        "desc": "Hunters -> Dragon Valley",
+        "link": "dragon valley",
+        "price": 1800,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 15732,
+        "how": "field-areas",
+        "danger": 57
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Hunters",
+       "desc": "Hunters -> Dragon Valley"
+      },
+      "simple": true,
+      "pv": [
+       [
+        73032,
+        118488,
+        -3696
+       ],
+       [
+        73032,
+        117496,
+        -3688
+       ],
+       [
+        73032,
+        116504,
+        -3664
+       ],
+       [
+        72168,
+        115512,
+        -3704
+       ],
+       [
+        71176,
+        114520,
+        -3720
+       ],
+       [
+        70184,
+        113528,
+        -3728
+       ],
+       [
+        69192,
+        112536,
+        -3704
+       ],
+       [
+        68728,
+        112024,
+        -3720
+       ],
+       [
+        68584,
+        111688,
+        -3696
+       ],
+       [
+        68584,
+        110696,
+        -3656
+       ],
+       [
+        68520,
+        110472,
+        -3664
+       ],
+       [
+        68424,
+        109528,
+        -3632
+       ],
+       [
+        67704,
+        108536,
+        -3688
+       ],
+       [
+        66840,
+        107656,
+        -3680
+       ],
+       [
+        66824,
+        107640,
+        -3672
+       ],
+       [
+        65832,
+        106648,
+        -3552
+       ],
+       [
+        65048,
+        105864,
+        -3624
+       ]
+      ],
+      "maxDanger": 57,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 57,
+       "dangerVsLevel": 52,
+       "aggro": [
+        {
+         "name": "Drake",
+         "lv": 57,
+         "n": 3
+        },
+        {
+         "name": "Thunder Wyrm",
+         "lv": 54,
+         "n": 1
+        },
+        {
+         "name": "Road Scavenger",
+         "lv": 37,
+         "n": 4
+        },
+        {
+         "name": "Guardian Basilisk",
+         "lv": 36,
+         "n": 4
+        },
+        {
+         "name": "Wyrm",
+         "lv": 35,
+         "n": 2
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      },
+      {
+       "name": "Drake",
+       "lv": 57
+      }
+     ]
+    },
+    {
+     "mobs": [
+      20974
+     ],
+     "items": [
+      14855
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "fields-of-massacre-15",
+      "name": "Fields of Massacre 15: Doom Knight area (north-west)",
+      "at": [
+       175848,
+       -24008,
+       -3672
+      ],
+      "radius": 3796,
+      "levels": [
+       63,
+       65
+      ],
+      "count": 2,
+      "region": "Fields of Massacre",
+      "atlasKey": "area:fields-of-massacre-15",
+      "status": "ok",
+      "sec": 146,
+      "danger": 65,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": 198.43333333333334,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-16",
+        "name": "Fields of Massacre 16: Doom Knight area (south-east)",
+        "at": [
+         187144,
+         -11864,
+         -1936
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-17",
+        "name": "Fields of Massacre 17: Grave Predator area (west)",
+        "at": [
+         172472,
+         -11352,
+         -2912
+        ],
+        "count": 2,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fields-of-massacre-6",
+        "name": "Fields of Massacre 6: Dismal Pole area (north)",
+        "at": [
+         181000,
+         -21672,
+         -2864
+        ],
+        "count": 1,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:fields-of-massacre-15",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 12118,
+      "sec": 146,
+      "via": ".aden > Aden -> Fields of Massacre",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> Fields of Massacre",
+        "link": "fields of massacre",
+        "price": 6500,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 7120,
+        "how": "field-areas-gap",
+        "danger": 65
+       },
+       {
+        "do": "walk",
+        "len": 4998,
+        "how": "field-areas",
+        "danger": 65
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> Fields of Massacre"
+      },
+      "simple": true,
+      "pv": [
+       [
+        183543,
+        -14974,
+        -2776
+       ],
+       [
+        179448,
+        -20616,
+        -3008
+       ],
+       [
+        178472,
+        -21160,
+        -3352
+       ],
+       [
+        178184,
+        -21448,
+        -3392
+       ],
+       [
+        177512,
+        -22344,
+        -3456
+       ],
+       [
+        176520,
+        -23336,
+        -3552
+       ],
+       [
+        175848,
+        -24008,
+        -3672
+       ]
+      ],
+      "maxDanger": 65,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 65,
+       "dangerVsLevel": 60,
+       "aggro": [
+        {
+         "name": "Doom Knight",
+         "lv": 65,
+         "n": 6
+        },
+        {
+         "name": "Spiteful Soul Leader",
+         "lv": 65,
+         "n": 2
+        },
+        {
+         "name": "Doom Warrior",
+         "lv": 64,
+         "n": 7
+        },
+        {
+         "name": "Doom Trooper",
+         "lv": 63,
+         "n": 5
+        },
+        {
+         "name": "Doom Servant",
+         "lv": 60,
+         "n": 3
+        },
+        {
+         "name": "Grave Predator",
+         "lv": 59,
+         "n": 3
+        },
+        {
+         "name": "Dismal Pole",
+         "lv": 58,
+         "n": 3
+        },
+        {
+         "name": "Wretched Archer",
+         "lv": 55,
+         "n": 1
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Doom Knight",
+       "lv": 65
+      },
+      {
+       "name": "Doom Trooper",
+       "lv": 63
+      },
+      {
+       "name": "Doom Trooper",
+       "lv": 63
+      },
+      {
+       "name": "Doom Trooper",
+       "lv": 63
+      },
+      {
+       "name": "Doom Warrior",
+       "lv": 64
+      },
+      {
+       "name": "Doom Knight",
+       "lv": 65
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "dragon-valley-13",
+    "name": "Dragon Valley 13: Drake area (north-west)",
+    "at": [
+     65048,
+     105864,
+     -3624
+    ],
+    "radius": 4392,
+    "levels": [
+     36,
+     57
+    ],
+    "count": 11,
+    "region": "Dragon Valley",
+    "atlasKey": "area:dragon-valley-13",
+    "status": "ok",
+    "sec": 176,
+    "danger": 57,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": 112.93333333333334,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "dragon-valley-5",
+      "name": "Dragon Valley 5: Drake area (west)",
+      "at": [
+       65144,
+       116344,
+       -3648
+      ],
+      "count": 4,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "dragon-valley-7",
+      "name": "Dragon Valley 7: Drake area (north-west)",
+      "at": [
+       66472,
+       110264,
+       -3680
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:dragon-valley-13",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 15732,
+    "sec": 176,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15732,
+      "how": "field-areas",
+      "danger": 57
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73032,
+      117496,
+      -3688
+     ],
+     [
+      73032,
+      116504,
+      -3664
+     ],
+     [
+      72168,
+      115512,
+      -3704
+     ],
+     [
+      71176,
+      114520,
+      -3720
+     ],
+     [
+      70184,
+      113528,
+      -3728
+     ],
+     [
+      69192,
+      112536,
+      -3704
+     ],
+     [
+      68728,
+      112024,
+      -3720
+     ],
+     [
+      68584,
+      111688,
+      -3696
+     ],
+     [
+      68584,
+      110696,
+      -3656
+     ],
+     [
+      68520,
+      110472,
+      -3664
+     ],
+     [
+      68424,
+      109528,
+      -3632
+     ],
+     [
+      67704,
+      108536,
+      -3688
+     ],
+     [
+      66840,
+      107656,
+      -3680
+     ],
+     [
+      66824,
+      107640,
+      -3672
+     ],
+     [
+      65832,
+      106648,
+      -3552
+     ],
+     [
+      65048,
+      105864,
+      -3624
+     ]
+    ],
+    "maxDanger": 57,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 57,
+     "dangerVsLevel": 52,
+     "aggro": [
+      {
+       "name": "Drake",
+       "lv": 57,
+       "n": 3
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54,
+       "n": 1
+      },
+      {
+       "name": "Road Scavenger",
+       "lv": 37,
+       "n": 4
+      },
+      {
+       "name": "Guardian Basilisk",
+       "lv": 36,
+       "n": 4
+      },
+      {
+       "name": "Wyrm",
+       "lv": 35,
+       "n": 2
+      }
+     ]
+    }
+   },
+   "expectedSec": 2676,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:20285",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 20285,
+     "name": "Drake",
+     "level": 57,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 20282,
+     "name": "Thunder Wyrm",
+     "level": 54,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 27178,
+     "name": "Blitz Wyrm",
+     "level": 60,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27179,
+     "name": "Grave Keymaster",
+     "level": 65,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 3839,
+     "name": "Mist Drake's Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20137,
+       "name": "Drake",
+       "chance": 10
+      },
+      {
+       "id": 20285,
+       "name": "Drake",
+       "chance": 10
+      }
+     ]
+    },
+    {
+     "id": 3840,
+     "name": "Blitz Wyrm Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 27178,
+       "name": "Blitz Wyrm",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 3841,
+     "name": "Drake's Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20137,
+       "name": "Drake",
+       "chance": 50
+      },
+      {
+       "id": 20285,
+       "name": "Drake",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 3842,
+     "name": "Thunder Wyrm Egg",
+     "n": 10,
+     "from": [
+      {
+       "id": 20243,
+       "name": "Thunder Wyrm",
+       "chance": 50
+      },
+      {
+       "id": 20282,
+       "name": "Thunder Wyrm",
+       "chance": 50
+      }
+     ]
+    },
+    {
+     "id": 3847,
+     "name": "Imperial Key",
+     "n": 6,
+     "from": [
+      {
+       "id": 27179,
+       "name": "Grave Keymaster",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 14855,
+     "name": "Spiteful Soul Energy",
+     "n": 10,
+     "from": [
+      {
+       "id": 20974,
+       "name": "Spiteful Soul Leader",
+       "chance": 10
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob",
+    "aggro-on-way"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     30761
+    ]
+   },
+   "text": "Make Drake, Thunder Wyrm, Blitz Wyrm, Grave Keymaster appear and kill it",
+   "npc": {
+    "id": 30761,
+    "name": "Corpse Of Fritz",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     64819,
+     115911,
+     -3632
+    ],
+    "alt": []
+   },
+   "travel": {
+    "src": "computed",
+    "key": "area:dragon-valley-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 8708,
+    "sec": 118,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8708,
+      "how": "field-areas",
+      "danger": 57
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72040,
+      118488,
+      -3648
+     ],
+     [
+      71048,
+      118472,
+      -3656
+     ],
+     [
+      70056,
+      118472,
+      -3520
+     ],
+     [
+      69064,
+      118472,
+      -3504
+     ],
+     [
+      68072,
+      118472,
+      -3600
+     ],
+     [
+      67080,
+      118280,
+      -3664
+     ],
+     [
+      66088,
+      117288,
+      -3712
+     ],
+     [
+      65144,
+      116344,
+      -3648
+     ]
+    ],
+    "maxDanger": 57,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 57,
+     "dangerVsLevel": 52,
+     "aggro": [
+      {
+       "name": "Drake",
+       "lv": 57,
+       "n": 2
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54,
+       "n": 3
+      },
+      {
+       "name": "Guardian Basilisk",
+       "lv": 36,
+       "n": 1
+      },
+      {
+       "name": "Wyrm",
+       "lv": 35,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:dragon-valley-5",
+     "name": "Dragon Valley 5: Drake area (west)"
+    },
+    "points": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72040,
+      118488,
+      -3648
+     ],
+     [
+      71048,
+      118472,
+      -3656
+     ],
+     [
+      70056,
+      118472,
+      -3520
+     ],
+     [
+      69064,
+      118472,
+      -3504
+     ],
+     [
+      68072,
+      118472,
+      -3600
+     ],
+     [
+      67080,
+      118280,
+      -3664
+     ],
+     [
+      66088,
+      117288,
+      -3712
+     ],
+     [
+      65144,
+      116344,
+      -3648
+     ]
+    ]
+   },
+   "expectedSec": 418,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30760",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "\"Here, take it.\""
+   ],
+   "npc": {
+    "id": 30760,
+    "name": "Sir Gustav Athebaldt",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     80036,
+     56568,
+     -1557
+    ],
+    "alt": []
+   },
+   "text": "Bring Scepter of Judgment to Sir Gustav Athebaldt",
+   "needs": [
+    {
+     "id": 3869,
+     "name": "Scepter of Judgment",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31092@80129,56947",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 5395,
+    "sec": 65,
+    "via": ".oren",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "walk",
+      "len": 5076,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Oren"
+    },
+    "simple": true,
+    "pv": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31092@80129,56947",
+     "name": "Black Marketeer of Mammon"
+    },
+    "points": [
+     [
+      82760,
+      53578,
+      -1470
+     ],
+     [
+      82424,
+      53736,
+      -1488
+     ],
+     [
+      82408,
+      53752,
+      -1488
+     ],
+     [
+      82360,
+      54024,
+      -1488
+     ],
+     [
+      82360,
+      54296,
+      -1488
+     ],
+     [
+      82360,
+      54568,
+      -1520
+     ],
+     [
+      82264,
+      54792,
+      -1520
+     ],
+     [
+      82280,
+      54904,
+      -1520
+     ],
+     [
+      82280,
+      55176,
+      -1520
+     ],
+     [
+      82184,
+      55400,
+      -1520
+     ],
+     [
+      82008,
+      55480,
+      -1520
+     ],
+     [
+      81800,
+      55384,
+      -1520
+     ],
+     [
+      81624,
+      55576,
+      -1520
+     ],
+     [
+      81384,
+      55688,
+      -1520
+     ],
+     [
+      81272,
+      55704,
+      -1528
+     ],
+     [
+      81080,
+      55784,
+      -1552
+     ],
+     [
+      80872,
+      55960,
+      -1552
+     ],
+     [
+      80648,
+      56104,
+      -1552
+     ],
+     [
+      80424,
+      56184,
+      -1552
+     ],
+     [
+      80232,
+      56376,
+      -1552
+     ],
+     [
+      80072,
+      56584,
+      -1552
+     ],
+     [
+      80040,
+      56856,
+      -1552
+     ],
+     [
+      80136,
+      56952,
+      -1552
+     ],
+     [
+      80040,
+      56872,
+      -1552
+     ],
+     [
+      80072,
+      56600,
+      -1552
+     ],
+     [
+      80040,
+      56568,
+      -1552
+     ]
+    ]
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30766",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [
+    "Show her the Scepter of Judgment"
+   ],
+   "npc": {
+    "id": 30766,
+    "name": "Cleo",
+    "title": "Witch",
+    "town": "Aden",
+    "at": [
+     160611,
+     21236,
+     -3714
+    ],
+    "alt": []
+   },
+   "text": "Bring Scepter of Judgment to Cleo",
+   "needs": [
+    {
+     "id": 3869,
+     "name": "Scepter of Judgment",
+     "n": 1
+    }
+   ],
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:aden-outskirts-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 20067,
+    "sec": 212,
+    "via": ".aden > Aden -> Forsaken Plains",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> Forsaken Plains",
+      "link": "forsaken plains",
+      "price": 1900,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 9326,
+      "how": "field-areas-gap",
+      "danger": 58
+     },
+     {
+      "do": "walk",
+      "len": 10517,
+      "how": "field-areas",
+      "danger": 47
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> Forsaken Plains"
+    },
+    "simple": true,
+    "pv": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      166808,
+      30104,
+      -3768
+     ],
+     [
+      166808,
+      29112,
+      -3736
+     ],
+     [
+      166728,
+      28840,
+      -3704
+     ],
+     [
+      166728,
+      27848,
+      -3656
+     ],
+     [
+      166728,
+      26856,
+      -3672
+     ],
+     [
+      166728,
+      25864,
+      -3336
+     ],
+     [
+      166728,
+      25288,
+      -3352
+     ],
+     [
+      165736,
+      24296,
+      -3344
+     ],
+     [
+      164744,
+      23304,
+      -3648
+     ],
+     [
+      164136,
+      22696,
+      -3664
+     ],
+     [
+      163368,
+      21704,
+      -3632
+     ],
+     [
+      162824,
+      21160,
+      -3608
+     ],
+     [
+      160840,
+      21240,
+      -3704
+     ],
+     [
+      160616,
+      21240,
+      -3712
+     ]
+    ],
+    "maxDanger": 58,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 58,
+     "dangerVsLevel": 53,
+     "aggro": [
+      {
+       "name": "Fallen Orc Shaman",
+       "lv": 58,
+       "n": 1
+      },
+      {
+       "name": "Ancient Gargoyle",
+       "lv": 56,
+       "n": 1
+      },
+      {
+       "name": "Fallen Orc",
+       "lv": 55,
+       "n": 1
+      },
+      {
+       "name": "Hatar Ratman Thief",
+       "lv": 47,
+       "n": 4
+      },
+      {
+       "name": "Archer of Greed",
+       "lv": 46,
+       "n": 4
+      },
+      {
+       "name": "Grave Wanderer",
+       "lv": 45,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:aden-outskirts-11",
+     "name": "Aden outskirts 11: Hatar Ratman Thief area (east)"
+    },
+    "points": [
+     [
+      168217,
+      37990,
+      -4072
+     ],
+     [
+      166808,
+      30104,
+      -3768
+     ],
+     [
+      166808,
+      29112,
+      -3736
+     ],
+     [
+      166728,
+      28840,
+      -3704
+     ],
+     [
+      166728,
+      27848,
+      -3656
+     ],
+     [
+      166728,
+      26856,
+      -3672
+     ],
+     [
+      166728,
+      25864,
+      -3336
+     ],
+     [
+      166728,
+      25288,
+      -3352
+     ],
+     [
+      165736,
+      24296,
+      -3344
+     ],
+     [
+      164744,
+      23304,
+      -3648
+     ],
+     [
+      164136,
+      22696,
+      -3664
+     ],
+     [
+      163368,
+      21704,
+      -3632
+     ],
+     [
+      162824,
+      21160,
+      -3608
+     ],
+     [
+      160840,
+      21240,
+      -3704
+     ],
+     [
+      160616,
+      21240,
+      -3712
+     ]
+    ]
+   },
+   "expectedSec": 237,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:talk:30868",
+   "cond": 1,
+   "kind": "talk",
+   "to": 11,
+   "links": [
+    "\"What do you mean by this?\""
+   ],
+   "npc": {
+    "id": 30868,
+    "name": "Sir Eric Rodemai",
+    "title": "",
+    "town": "Aden",
+    "at": [
+     147456,
+     27488,
+     -2204
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sir Eric Rodemai",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31690@147504,27408",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 2165,
+    "sec": 38,
+    "via": ".aden",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "walk",
+      "len": 2165,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Aden"
+    },
+    "simple": true,
+    "pv": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31690@147504,27408",
+     "name": "Monument of Heroes"
+    },
+    "points": [
+     [
+      147448,
+      25816,
+      -2008
+     ],
+     [
+      147768,
+      25752,
+      -2008
+     ],
+     [
+      147560,
+      25832,
+      -2008
+     ],
+     [
+      147464,
+      26008,
+      -2008
+     ],
+     [
+      147464,
+      26280,
+      -2104
+     ],
+     [
+      147448,
+      26328,
+      -2128
+     ],
+     [
+      147448,
+      26600,
+      -2200
+     ],
+     [
+      147464,
+      26872,
+      -2200
+     ],
+     [
+      147464,
+      27144,
+      -2200
+     ],
+     [
+      147512,
+      27416,
+      -2200
+     ]
+    ]
+   },
+   "expectedSec": 63,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 6,
+   "key": "c1:talk:30764",
+   "cond": 1,
+   "kind": "talk",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30764,
+    "name": "Balthazar",
+    "title": "",
+    "town": "Hunters Village",
+    "at": [
+     117380,
+     75616,
+     -2664
+    ],
+    "alt": []
+   },
+   "text": "Talk to Balthazar",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31669@117572,75592",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 1677,
+    "sec": 34,
+    "via": ".hunters",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "walk",
+      "len": 1661,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Hunters"
+    },
+    "simple": true,
+    "pv": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75640,
+      -2664
+     ],
+     [
+      117384,
+      75496,
+      -2648
+     ],
+     [
+      117528,
+      75592,
+      -2648
+     ],
+     [
+      117576,
+      75592,
+      -2648
+     ],
+     [
+      117368,
+      75624,
+      -2664
+     ],
+     [
+      117384,
+      75624,
+      -2664
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31669@117572,75592",
+     "name": "Onyx"
+    },
+    "points": [
+     [
+      116589,
+      76268,
+      -3000
+     ],
+     [
+      116568,
+      76152,
+      -2728
+     ],
+     [
+      116712,
+      76152,
+      -2728
+     ],
+     [
+      116984,
+      76152,
+      -2728
+     ],
+     [
+      117208,
+      76008,
+      -2728
+     ],
+     [
+      117400,
+      75832,
+      -2664
+     ],
+     [
+      117304,
+      75640,
+      -2664
+     ],
+     [
+      117384,
+      75496,
+      -2648
+     ],
+     [
+      117528,
+      75592,
+      -2648
+     ],
+     [
+      117576,
+      75592,
+      -2648
+     ],
+     [
+      117368,
+      75624,
+      -2664
+     ],
+     [
+      117384,
+      75624,
+      -2664
+     ]
+    ]
+   },
+   "expectedSec": 59,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 7,
+   "key": "c1:talk:30645",
+   "cond": 1,
+   "kind": "talk",
+   "to": 3,
+   "links": [],
+   "npc": {
+    "id": 30645,
+    "name": "Martien",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     84274,
+     143740,
+     -3403
+    ],
+    "alt": []
+   },
+   "text": "Talk to Martien",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30645@84274,143740",
+    "status": "ok",
+    "flags": [],
+    "from": ".giran",
+    "length": 6030,
+    "sec": 70,
+    "via": ".giran",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Giran",
+      "cmd": ".giran"
+     },
+     {
+      "do": "walk",
+      "len": 6030,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Giran"
+    },
+    "simple": true,
+    "pv": [
+     [
+      83473,
+      148554,
+      -3400
+     ],
+     [
+      83480,
+      148552,
+      -3400
+     ],
+     [
+      83480,
+      148488,
+      -3400
+     ],
+     [
+      83480,
+      148216,
+      -3400
+     ],
+     [
+      83592,
+      147960,
+      -3400
+     ],
+     [
+      83736,
+      147720,
+      -3400
+     ],
+     [
+      83944,
+      147720,
+      -3400
+     ],
+     [
+      83976,
+      147912,
+      -3400
+     ],
+     [
+      83992,
+      147640,
+      -3400
+     ],
+     [
+      83944,
+      147432,
+      -3400
+     ],
+     [
+      83752,
+      147256,
+      -3400
+     ],
+     [
+      83704,
+      147224,
+      -3400
+     ],
+     [
+      83864,
+      147224,
+      -3400
+     ],
+     [
+      83896,
+      146952,
+      -3400
+     ],
+     [
+      83896,
+      146680,
+      -3400
+     ],
+     [
+      83896,
+      146616,
+      -3400
+     ],
+     [
+      83896,
+      146568,
+      -3400
+     ],
+     [
+      83896,
+      146296,
+      -3400
+     ],
+     [
+      83912,
+      146024,
+      -3400
+     ],
+     [
+      83976,
+      145752,
+      -3400
+     ],
+     [
+      83960,
+      145480,
+      -3400
+     ],
+     [
+      83960,
+      145208,
+      -3400
+     ],
+     [
+      83944,
+      144984,
+      -3400
+     ],
+     [
+      83928,
+      144712,
+      -3400
+     ],
+     [
+      83960,
+      144440,
+      -3400
+     ],
+     [
+      83960,
+      144168,
+      -3400
+     ],
+     [
+      83944,
+      143896,
+      -3400
+     ],
+     [
+      84136,
+      143704,
+      -3400
+     ],
+     [
+      84280,
+      143736,
+      -3400
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 8,
+   "key": "c1:talk:30761",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Open the bag"
+   ],
+   "npc": {
+    "id": 30761,
+    "name": "Corpse Of Fritz",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     64819,
+     115911,
+     -3632
+    ],
+    "alt": []
+   },
+   "text": "Talk to Corpse Of Fritz",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:dragon-valley-5",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 8708,
+    "sec": 118,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8708,
+      "how": "field-areas",
+      "danger": 57
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72040,
+      118488,
+      -3648
+     ],
+     [
+      71048,
+      118472,
+      -3656
+     ],
+     [
+      70056,
+      118472,
+      -3520
+     ],
+     [
+      69064,
+      118472,
+      -3504
+     ],
+     [
+      68072,
+      118472,
+      -3600
+     ],
+     [
+      67080,
+      118280,
+      -3664
+     ],
+     [
+      66088,
+      117288,
+      -3712
+     ],
+     [
+      65144,
+      116344,
+      -3648
+     ]
+    ],
+    "maxDanger": 57,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 57,
+     "dangerVsLevel": 52,
+     "aggro": [
+      {
+       "name": "Drake",
+       "lv": 57,
+       "n": 2
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54,
+       "n": 3
+      },
+      {
+       "name": "Guardian Basilisk",
+       "lv": 36,
+       "n": 1
+      },
+      {
+       "name": "Wyrm",
+       "lv": 35,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:dragon-valley-5",
+     "name": "Dragon Valley 5: Drake area (west)"
+    },
+    "points": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      72040,
+      118488,
+      -3648
+     ],
+     [
+      71048,
+      118472,
+      -3656
+     ],
+     [
+      70056,
+      118472,
+      -3520
+     ],
+     [
+      69064,
+      118472,
+      -3504
+     ],
+     [
+      68072,
+      118472,
+      -3600
+     ],
+     [
+      67080,
+      118280,
+      -3664
+     ],
+     [
+      66088,
+      117288,
+      -3712
+     ],
+     [
+      65144,
+      116344,
+      -3648
+     ]
+    ]
+   },
+   "expectedSec": 143,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 9,
+   "key": "c1:talk:30762",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Open the bag"
+   ],
+   "npc": {
+    "id": 30762,
+    "name": "Corpse Of Lutz",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     65205,
+     109495,
+     -3664
+    ],
+    "alt": []
+   },
+   "text": "Talk to Corpse Of Lutz",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:dragon-valley-7",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 11109,
+    "sec": 137,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 10853,
+      "how": "field-areas",
+      "danger": 57
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73032,
+      117496,
+      -3688
+     ],
+     [
+      72696,
+      116504,
+      -3712
+     ],
+     [
+      71704,
+      115512,
+      -3688
+     ],
+     [
+      70712,
+      114520,
+      -3712
+     ],
+     [
+      69720,
+      113528,
+      -3720
+     ],
+     [
+      68728,
+      112536,
+      -3752
+     ],
+     [
+      67736,
+      111544,
+      -3720
+     ],
+     [
+      66760,
+      110552,
+      -3688
+     ],
+     [
+      66472,
+      110264,
+      -3680
+     ],
+     [
+      65464,
+      109496,
+      -3664
+     ],
+     [
+      65208,
+      109496,
+      -3664
+     ]
+    ],
+    "maxDanger": 57,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 57,
+     "dangerVsLevel": 52,
+     "aggro": [
+      {
+       "name": "Drake",
+       "lv": 57,
+       "n": 3
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54,
+       "n": 4
+      },
+      {
+       "name": "Road Scavenger",
+       "lv": 37,
+       "n": 4
+      },
+      {
+       "name": "Guardian Basilisk",
+       "lv": 36,
+       "n": 5
+      },
+      {
+       "name": "Wyrm",
+       "lv": 35,
+       "n": 1
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:dragon-valley-7",
+     "name": "Dragon Valley 7: Drake area (north-west)"
+    },
+    "points": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73032,
+      117496,
+      -3688
+     ],
+     [
+      72696,
+      116504,
+      -3712
+     ],
+     [
+      71704,
+      115512,
+      -3688
+     ],
+     [
+      70712,
+      114520,
+      -3712
+     ],
+     [
+      69720,
+      113528,
+      -3720
+     ],
+     [
+      68728,
+      112536,
+      -3752
+     ],
+     [
+      67736,
+      111544,
+      -3720
+     ],
+     [
+      66760,
+      110552,
+      -3688
+     ],
+     [
+      66472,
+      110264,
+      -3680
+     ],
+     [
+      65464,
+      109496,
+      -3664
+     ],
+     [
+      65208,
+      109496,
+      -3664
+     ]
+    ]
+   },
+   "expectedSec": 162,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 10,
+   "key": "c1:talk:30763",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "\"Hey! Are you OK?\""
+   ],
+   "npc": {
+    "id": 30763,
+    "name": "Corpse Of Kurtz",
+    "title": "",
+    "town": "Giran",
+    "at": [
+     64113,
+     103060,
+     -3544
+    ],
+    "alt": []
+   },
+   "text": "Talk to Corpse Of Kurtz",
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "area:dragon-valley-13",
+    "status": "ok",
+    "flags": [],
+    "from": ".hunters",
+    "length": 17069,
+    "sec": 187,
+    "via": ".hunters > Hunters -> Dragon Valley",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Hunters",
+      "cmd": ".hunters"
+     },
+     {
+      "do": "gk",
+      "from": "Hunters",
+      "desc": "Hunters -> Dragon Valley",
+      "link": "dragon valley",
+      "price": 1800,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15732,
+      "how": "field-areas",
+      "danger": 57
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Hunters",
+     "desc": "Hunters -> Dragon Valley"
+    },
+    "simple": true,
+    "pv": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73032,
+      117496,
+      -3688
+     ],
+     [
+      73032,
+      116504,
+      -3664
+     ],
+     [
+      72168,
+      115512,
+      -3704
+     ],
+     [
+      71176,
+      114520,
+      -3720
+     ],
+     [
+      70184,
+      113528,
+      -3728
+     ],
+     [
+      69192,
+      112536,
+      -3704
+     ],
+     [
+      68728,
+      112024,
+      -3720
+     ],
+     [
+      68584,
+      111688,
+      -3696
+     ],
+     [
+      68584,
+      110696,
+      -3656
+     ],
+     [
+      68520,
+      110472,
+      -3664
+     ],
+     [
+      68424,
+      109528,
+      -3632
+     ],
+     [
+      67704,
+      108536,
+      -3688
+     ],
+     [
+      66840,
+      107656,
+      -3680
+     ],
+     [
+      66824,
+      107640,
+      -3672
+     ],
+     [
+      65832,
+      106648,
+      -3552
+     ],
+     [
+      65048,
+      105864,
+      -3624
+     ],
+     [
+      64936,
+      103880,
+      -3712
+     ],
+     [
+      64952,
+      103848,
+      -3688
+     ],
+     [
+      64664,
+      103560,
+      -3592
+     ],
+     [
+      64104,
+      103240,
+      -3544
+     ],
+     [
+      64024,
+      103160,
+      -3544
+     ],
+     [
+      64120,
+      103064,
+      -3552
+     ]
+    ],
+    "maxDanger": 57,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 57,
+     "dangerVsLevel": 52,
+     "aggro": [
+      {
+       "name": "Drake",
+       "lv": 57,
+       "n": 4
+      },
+      {
+       "name": "Thunder Wyrm",
+       "lv": 54,
+       "n": 2
+      },
+      {
+       "name": "Road Scavenger",
+       "lv": 37,
+       "n": 4
+      },
+      {
+       "name": "Guardian Basilisk",
+       "lv": 36,
+       "n": 4
+      },
+      {
+       "name": "Wyrm",
+       "lv": 35,
+       "n": 2
+      }
+     ]
+    },
+    "anchor": {
+     "key": "area:dragon-valley-13",
+     "name": "Dragon Valley 13: Drake area (north-west)"
+    },
+    "points": [
+     [
+      73032,
+      118488,
+      -3696
+     ],
+     [
+      73032,
+      117496,
+      -3688
+     ],
+     [
+      73032,
+      116504,
+      -3664
+     ],
+     [
+      72168,
+      115512,
+      -3704
+     ],
+     [
+      71176,
+      114520,
+      -3720
+     ],
+     [
+      70184,
+      113528,
+      -3728
+     ],
+     [
+      69192,
+      112536,
+      -3704
+     ],
+     [
+      68728,
+      112024,
+      -3720
+     ],
+     [
+      68584,
+      111688,
+      -3696
+     ],
+     [
+      68584,
+      110696,
+      -3656
+     ],
+     [
+      68520,
+      110472,
+      -3664
+     ],
+     [
+      68424,
+      109528,
+      -3632
+     ],
+     [
+      67704,
+      108536,
+      -3688
+     ],
+     [
+      66840,
+      107656,
+      -3680
+     ],
+     [
+      66824,
+      107640,
+      -3672
+     ],
+     [
+      65832,
+      106648,
+      -3552
+     ],
+     [
+      65048,
+      105864,
+      -3624
+     ],
+     [
+      64936,
+      103880,
+      -3712
+     ],
+     [
+      64952,
+      103848,
+      -3688
+     ],
+     [
+      64664,
+      103560,
+      -3592
+     ],
+     [
+      64104,
+      103240,
+      -3544
+     ],
+     [
+      64024,
+      103160,
+      -3544
+     ],
+     [
+      64120,
+      103064,
+      -3552
+     ]
+    ]
+   },
+   "expectedSec": 212,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "i": 11,
+   "key": "c1:talk:30765",
+   "cond": 1,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Open coffer"
+   ],
+   "npc": {
+    "id": 30765,
+    "name": "Imperial Coffer",
+    "title": "",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Imperial Coffer",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

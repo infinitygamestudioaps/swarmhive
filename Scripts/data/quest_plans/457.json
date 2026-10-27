@@ -1,0 +1,96 @@
+{
+ "id": 457,
+ "name": "Lost and Found",
+ "version": 1,
+ "generated": "2026-10-27T11:15:41.061Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "daily",
+ "region": "",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "kill-parse",
+   "text": "kill NPCs registered but no drop / kill step parsed"
+  },
+  {
+   "code": "timer",
+   "text": "the quest script runs timers (CHECK, TIME_LIMIT)"
+  },
+  {
+   "code": "npc-quest-spawned",
+   "text": "an NPC of a step is spawned by the quest script (appears only during the quest)",
+   "step": 0
+  },
+  {
+   "code": "timer",
+   "text": "the quest uses timers (despawns / waits) the engine does not watch",
+   "step": 1
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 2,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32759",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "\"Follow me then, and don't get lost.\""
+   ],
+   "npc": {
+    "id": 32759,
+    "name": "Gumiel",
+    "title": "Treasure Seeker",
+    "town": "",
+    "at": null,
+    "alt": [],
+    "why": "npc-quest-spawned"
+   },
+   "text": "Talk to Gumiel – accept the quest",
+   "reasons": [
+    "npc-quest-spawned"
+   ],
+   "expectedSec": 30,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:special",
+   "cond": 1,
+   "kind": "special",
+   "text": "script trigger \"timer\"",
+   "trigger": "timer",
+   "reasons": [
+    "timer",
+    "engine-manual"
+   ],
+   "expectedSec": 60,
+   "engineWhy": "no automatic step at cond 1",
+   "engine": {
+    "act": "manual",
+    "hasItems": "manual"
+   },
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

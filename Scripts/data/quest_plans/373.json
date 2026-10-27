@@ -1,0 +1,1242 @@
+{
+ "id": 373,
+ "name": "Supplier of Reagents",
+ "version": 1,
+ "generated": "2026-10-27T11:15:38.369Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 57,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Oren",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "area-danger",
+   "text": "the hunting place holds aggressive monsters 10+ levels above the quest level (or 3+ aggressive non-target spawns 8+ above)",
+   "step": 1
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 10,
+ "refLevel": 57,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30166",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Listen to the job description."
+   ],
+   "npc": {
+    "id": 30166,
+    "name": "Wesley",
+    "title": "Magic Trader",
+    "town": "Oren",
+    "at": [
+     85655,
+     16767,
+     -4271
+    ],
+    "alt": []
+   },
+   "text": "Talk to Wesley – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30166@85655,16767",
+    "status": "ok",
+    "flags": [],
+    "from": ".oren",
+    "length": 1086,
+    "sec": 69,
+    "via": ".oren > Oren -> Ivory Tower > enter Verona",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "enter",
+      "how": "npc-teleport",
+      "npc": "Verona",
+      "link": "Underground Shopping Area"
+     },
+     {
+      "do": "walk",
+      "len": 1086,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": false,
+    "pv": [
+     [
+      84915,
+      15969,
+      -4294
+     ],
+     [
+      85080,
+      16184,
+      -4288
+     ],
+     [
+      85656,
+      16760,
+      -4272
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 99,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 21061,
+     "name": "Hallate's Guardian",
+     "level": 69,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 17,
+     "questSpawned": false
+    },
+    {
+     "id": 20822,
+     "name": "Hallate's Maid",
+     "level": 66,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21115,
+     "name": "Hames Orc Shaman",
+     "level": 74,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 42,
+     "questSpawned": false
+    },
+    {
+     "id": 21111,
+     "name": "Lava Wyrm",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    },
+    {
+     "id": 20813,
+     "name": "Crendion",
+     "level": 62,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 14,
+     "questSpawned": false
+    },
+    {
+     "id": 21066,
+     "name": "Platinum Guardian Shaman",
+     "level": 73,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 22,
+     "questSpawned": false
+    },
+    {
+     "id": 20828,
+     "name": "Platinum Tribe Shaman",
+     "level": 70,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 8,
+     "questSpawned": false
+    }
+   ],
+   "items": [],
+   "kills": null,
+   "reasons": [
+    "area-danger",
+    "aggro-on-way"
+   ],
+   "text": "Hunt Hallate's Guardian, Hallate's Maid, Hames Orc Shaman",
+   "places": [
+    {
+     "mobs": [
+      21061,
+      20822,
+      21115,
+      21111,
+      20813,
+      21066,
+      20828
+     ],
+     "items": [],
+     "kills": null,
+     "area": {
+      "kind": "room",
+      "id": "toi-3-straight-c",
+      "name": "Tower of Insolence: 3rd floor, straight: Hallate's Knight room",
+      "at": [
+       115144,
+       15528,
+       -2120
+      ],
+      "radius": 2344,
+      "levels": [
+       63,
+       66
+      ],
+      "count": 7,
+      "region": "Tower of Insolence",
+      "atlasKey": "room:toi-3-straight-c",
+      "status": "ok",
+      "sec": 377,
+      "danger": 66,
+      "reachable": true,
+      "score": -31.71666666666667,
+      "alt": [
+       {
+        "kind": "room",
+        "id": "toi-3-left-a",
+        "name": "Tower of Insolence: 3rd floor, left: Hallate's Royal Guard room",
+        "at": [
+         115781,
+         17184,
+         -2123
+        ],
+        "count": 6,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "toi-2-straight-a",
+        "name": "Tower of Insolence: 2nd floor, straight: Crendion room",
+        "at": [
+         113653,
+         14903,
+         -3605
+        ],
+        "count": 5,
+        "status": "ok"
+       },
+       {
+        "kind": "room",
+        "id": "toi-3-straight-b",
+        "name": "Tower of Insolence: 3rd floor, straight: Hallate's Royal Guard room",
+        "at": [
+         113711,
+         14881,
+         -2123
+        ],
+        "count": 5,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "room:toi-3-straight-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".aden",
+      "length": 39852,
+      "sec": 377,
+      "via": ".aden > Aden -> ToI",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Aden",
+        "cmd": ".aden"
+       },
+       {
+        "do": "gk",
+        "from": "Aden",
+        "desc": "Aden -> ToI",
+        "link": "tower of insolence",
+        "price": 4200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 0
+       },
+       {
+        "do": "walk",
+        "len": 8964,
+        "how": "geodata",
+        "danger": 62
+       },
+       {
+        "do": "walk",
+        "len": 8519,
+        "how": "dungeon-rooms",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 5408,
+        "how": "geodata",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 2669,
+        "how": "geodata",
+        "danger": 63
+       },
+       {
+        "do": "walk",
+        "len": 7188,
+        "how": "dungeon-rooms",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 4199,
+        "how": "geodata",
+        "danger": 66
+       },
+       {
+        "do": "walk",
+        "len": 2905,
+        "how": "dungeon-rooms",
+        "danger": 66
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Aden",
+       "desc": "Aden -> ToI"
+      },
+      "simple": true,
+      "pv": [
+       [
+        114649,
+        11115,
+        -5120
+       ],
+       [
+        114840,
+        12104,
+        -5120
+       ],
+       [
+        115320,
+        12792,
+        -5108
+       ],
+       [
+        116504,
+        13432,
+        -5096
+       ],
+       [
+        117416,
+        14104,
+        -5120
+       ],
+       [
+        118056,
+        15176,
+        -5120
+       ],
+       [
+        118328,
+        15864,
+        -5120
+       ],
+       [
+        117464,
+        16152,
+        -5096
+       ],
+       [
+        116904,
+        17144,
+        -4864
+       ],
+       [
+        116520,
+        17784,
+        -4728
+       ],
+       [
+        116112,
+        18192,
+        -4700
+       ],
+       [
+        115704,
+        18584,
+        -4560
+       ],
+       [
+        114888,
+        18584,
+        -4376
+       ],
+       [
+        114480,
+        18456,
+        -4376
+       ],
+       [
+        114072,
+        18056,
+        -4376
+       ],
+       [
+        113664,
+        17648,
+        -4376
+       ],
+       [
+        113256,
+        17240,
+        -4376
+       ],
+       [
+        112848,
+        16832,
+        -4376
+       ],
+       [
+        112576,
+        16560,
+        -4376
+       ],
+       [
+        112232,
+        16216,
+        -4376
+       ],
+       [
+        111576,
+        16168,
+        -4376
+       ],
+       [
+        110984,
+        16200,
+        -4376
+       ],
+       [
+        111048,
+        16880,
+        -4336
+       ],
+       [
+        111168,
+        17152,
+        -4260
+       ],
+       [
+        111576,
+        18136,
+        -3992
+       ],
+       [
+        112600,
+        19160,
+        -3976
+       ],
+       [
+        113608,
+        19560,
+        -3704
+       ],
+       [
+        114536,
+        19720,
+        -3608
+       ],
+       [
+        114200,
+        18632,
+        -3608
+       ],
+       [
+        112848,
+        17856,
+        -3236
+       ],
+       [
+        112424,
+        17240,
+        -3152
+       ],
+       [
+        112216,
+        16712,
+        -2952
+       ],
+       [
+        112136,
+        16552,
+        -2896
+       ],
+       [
+        112456,
+        16488,
+        -2896
+       ],
+       [
+        112864,
+        16832,
+        -2896
+       ],
+       [
+        113272,
+        17240,
+        -2896
+       ],
+       [
+        113680,
+        17648,
+        -2896
+       ],
+       [
+        113952,
+        17920,
+        -2896
+       ],
+       [
+        114360,
+        18328,
+        -2896
+       ],
+       [
+        114688,
+        18736,
+        -2896
+       ],
+       [
+        114792,
+        19384,
+        -2896
+       ],
+       [
+        115064,
+        19720,
+        -2896
+       ],
+       [
+        115368,
+        19720,
+        -2880
+       ],
+       [
+        115776,
+        19520,
+        -2768
+       ],
+       [
+        116304,
+        19296,
+        -2620
+       ],
+       [
+        117208,
+        18648,
+        -2512
+       ],
+       [
+        117928,
+        17640,
+        -2368
+       ],
+       [
+        118296,
+        16760,
+        -2120
+       ],
+       [
+        116920,
+        15928,
+        -2120
+       ],
+       [
+        115144,
+        15528,
+        -2120
+       ]
+      ],
+      "maxDanger": 66,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 66,
+       "dangerVsLevel": 9,
+       "aggro": [
+        {
+         "name": "Hallate's Maid",
+         "lv": 66,
+         "n": 4
+        },
+        {
+         "name": "Hallate's Knight",
+         "lv": 65,
+         "n": 9
+        },
+        {
+         "name": "Corrupt Sage",
+         "lv": 64,
+         "n": 4
+        },
+        {
+         "name": "Hallate's Royal Guard",
+         "lv": 63,
+         "n": 10
+        },
+        {
+         "name": "Hound Dog of Hallate",
+         "lv": 63,
+         "n": 2
+        },
+        {
+         "name": "Slaughter Bathin",
+         "lv": 63,
+         "n": 1
+        }
+       ]
+      }
+     },
+     "danger": true,
+     "aggro": [
+      {
+       "name": "Hallate's Knight",
+       "lv": 65
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65
+      }
+     ]
+    }
+   ],
+   "area": {
+    "kind": "room",
+    "id": "toi-3-straight-c",
+    "name": "Tower of Insolence: 3rd floor, straight: Hallate's Knight room",
+    "at": [
+     115144,
+     15528,
+     -2120
+    ],
+    "radius": 2344,
+    "levels": [
+     63,
+     66
+    ],
+    "count": 7,
+    "region": "Tower of Insolence",
+    "atlasKey": "room:toi-3-straight-c",
+    "status": "ok",
+    "sec": 377,
+    "danger": 66,
+    "reachable": true,
+    "score": -31.71666666666667,
+    "alt": [
+     {
+      "kind": "room",
+      "id": "toi-3-left-a",
+      "name": "Tower of Insolence: 3rd floor, left: Hallate's Royal Guard room",
+      "at": [
+       115781,
+       17184,
+       -2123
+      ],
+      "count": 6,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "toi-2-straight-a",
+      "name": "Tower of Insolence: 2nd floor, straight: Crendion room",
+      "at": [
+       113653,
+       14903,
+       -3605
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "room",
+      "id": "toi-3-straight-b",
+      "name": "Tower of Insolence: 3rd floor, straight: Hallate's Royal Guard room",
+      "at": [
+       113711,
+       14881,
+       -2123
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "room:toi-3-straight-c",
+    "status": "ok",
+    "flags": [],
+    "from": ".aden",
+    "length": 39852,
+    "sec": 377,
+    "via": ".aden > Aden -> ToI",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Aden",
+      "cmd": ".aden"
+     },
+     {
+      "do": "gk",
+      "from": "Aden",
+      "desc": "Aden -> ToI",
+      "link": "tower of insolence",
+      "price": 4200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 0,
+      "how": "adjacent",
+      "danger": 0
+     },
+     {
+      "do": "walk",
+      "len": 8964,
+      "how": "geodata",
+      "danger": 62
+     },
+     {
+      "do": "walk",
+      "len": 8519,
+      "how": "dungeon-rooms",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 5408,
+      "how": "geodata",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 2669,
+      "how": "geodata",
+      "danger": 63
+     },
+     {
+      "do": "walk",
+      "len": 7188,
+      "how": "dungeon-rooms",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 4199,
+      "how": "geodata",
+      "danger": 66
+     },
+     {
+      "do": "walk",
+      "len": 2905,
+      "how": "dungeon-rooms",
+      "danger": 66
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Aden",
+     "desc": "Aden -> ToI"
+    },
+    "simple": true,
+    "pv": [
+     [
+      114649,
+      11115,
+      -5120
+     ],
+     [
+      114840,
+      12104,
+      -5120
+     ],
+     [
+      115320,
+      12792,
+      -5108
+     ],
+     [
+      116504,
+      13432,
+      -5096
+     ],
+     [
+      117416,
+      14104,
+      -5120
+     ],
+     [
+      118056,
+      15176,
+      -5120
+     ],
+     [
+      118328,
+      15864,
+      -5120
+     ],
+     [
+      117464,
+      16152,
+      -5096
+     ],
+     [
+      116904,
+      17144,
+      -4864
+     ],
+     [
+      116520,
+      17784,
+      -4728
+     ],
+     [
+      116112,
+      18192,
+      -4700
+     ],
+     [
+      115704,
+      18584,
+      -4560
+     ],
+     [
+      114888,
+      18584,
+      -4376
+     ],
+     [
+      114480,
+      18456,
+      -4376
+     ],
+     [
+      114072,
+      18056,
+      -4376
+     ],
+     [
+      113664,
+      17648,
+      -4376
+     ],
+     [
+      113256,
+      17240,
+      -4376
+     ],
+     [
+      112848,
+      16832,
+      -4376
+     ],
+     [
+      112576,
+      16560,
+      -4376
+     ],
+     [
+      112232,
+      16216,
+      -4376
+     ],
+     [
+      111576,
+      16168,
+      -4376
+     ],
+     [
+      110984,
+      16200,
+      -4376
+     ],
+     [
+      111048,
+      16880,
+      -4336
+     ],
+     [
+      111168,
+      17152,
+      -4260
+     ],
+     [
+      111576,
+      18136,
+      -3992
+     ],
+     [
+      112600,
+      19160,
+      -3976
+     ],
+     [
+      113608,
+      19560,
+      -3704
+     ],
+     [
+      114536,
+      19720,
+      -3608
+     ],
+     [
+      114200,
+      18632,
+      -3608
+     ],
+     [
+      112848,
+      17856,
+      -3236
+     ],
+     [
+      112424,
+      17240,
+      -3152
+     ],
+     [
+      112216,
+      16712,
+      -2952
+     ],
+     [
+      112136,
+      16552,
+      -2896
+     ],
+     [
+      112456,
+      16488,
+      -2896
+     ],
+     [
+      112864,
+      16832,
+      -2896
+     ],
+     [
+      113272,
+      17240,
+      -2896
+     ],
+     [
+      113680,
+      17648,
+      -2896
+     ],
+     [
+      113952,
+      17920,
+      -2896
+     ],
+     [
+      114360,
+      18328,
+      -2896
+     ],
+     [
+      114688,
+      18736,
+      -2896
+     ],
+     [
+      114792,
+      19384,
+      -2896
+     ],
+     [
+      115064,
+      19720,
+      -2896
+     ],
+     [
+      115368,
+      19720,
+      -2880
+     ],
+     [
+      115776,
+      19520,
+      -2768
+     ],
+     [
+      116304,
+      19296,
+      -2620
+     ],
+     [
+      117208,
+      18648,
+      -2512
+     ],
+     [
+      117928,
+      17640,
+      -2368
+     ],
+     [
+      118296,
+      16760,
+      -2120
+     ],
+     [
+      116920,
+      15928,
+      -2120
+     ],
+     [
+      115144,
+      15528,
+      -2120
+     ]
+    ],
+    "maxDanger": 66,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 66,
+     "dangerVsLevel": 9,
+     "aggro": [
+      {
+       "name": "Hallate's Maid",
+       "lv": 66,
+       "n": 4
+      },
+      {
+       "name": "Hallate's Knight",
+       "lv": 65,
+       "n": 9
+      },
+      {
+       "name": "Corrupt Sage",
+       "lv": 64,
+       "n": 4
+      },
+      {
+       "name": "Hallate's Royal Guard",
+       "lv": 63,
+       "n": 10
+      },
+      {
+       "name": "Hound Dog of Hallate",
+       "lv": 63,
+       "n": 2
+      },
+      {
+       "name": "Slaughter Bathin",
+       "lv": 63,
+       "n": 1
+      }
+     ]
+    }
+   },
+   "expectedSec": 402,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1324
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:31149",
+   "cond": 1,
+   "kind": "talk",
+   "to": 0,
+   "links": [
+    "Insert a mixing stone into the dent."
+   ],
+   "npc": {
+    "id": 31149,
+    "name": "Alchemist's Mixing Urn",
+    "title": "",
+    "town": "Oren",
+    "at": [
+     85515,
+     16192,
+     -4272
+    ],
+    "alt": []
+   },
+   "text": "Talk to Alchemist's Mixing Urn",
+   "reasons": [
+    "no-route"
+   ],
+   "travel": {
+    "src": "computed",
+    "key": "npc:31812@85373,16200",
+    "status": "unreachable",
+    "flags": [],
+    "from": ".oren",
+    "length": 33,
+    "sec": 45,
+    "via": ".oren > Oren -> Ivory Tower",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Oren",
+      "cmd": ".oren"
+     },
+     {
+      "do": "gk",
+      "from": "Oren",
+      "desc": "Oren -> Ivory Tower",
+      "link": "ivory tower",
+      "price": 3700,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 33,
+      "how": "adjacent",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Oren",
+     "desc": "Oren -> Ivory Tower"
+    },
+    "simple": true,
+    "pv": [
+     [
+      85391,
+      16228,
+      -3672
+     ],
+     [
+      85373,
+      16200,
+      -3665
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [
+     "no walk on the geodata from Adventure Guildsman: no way through (searched 71132 cells); no way through (flooded 13465 cells, the goal side ran out); plain: no way through (searched 101169 cells)"
+    ],
+    "checks": {
+     "reachable": false,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "npc:31812@85373,16200",
+     "name": "Adventure Guildsman"
+    }
+   },
+   "expectedSec": 70,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    1324
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

@@ -1,0 +1,533 @@
+{
+ "id": 902,
+ "name": "Reclaim Our Era",
+ "version": 1,
+ "generated": "2026-10-27T11:16:38.290Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 80,
+  "max": null
+ },
+ "type": "daily",
+ "region": "Rune",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 2
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 2
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 2
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 3
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 3
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 3
+  },
+  {
+   "code": "mob-no-spawn",
+   "text": "a monster of a step has no spawn and no known trigger",
+   "step": 4
+  },
+  {
+   "code": "needs-party",
+   "text": "a raid boss / party-only kill: needs the party (party mode) and a strong enough team",
+   "step": 4
+  },
+  {
+   "code": "engine-manual",
+   "text": "the swarm.js quest engine has no automatic action at a step (qeDecide = manual)",
+   "step": 4
+  }
+ ],
+ "expectedMin": 17,
+ "refLevel": 80,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:31340",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Hmmm, likely to be killed... sure why not."
+   ],
+   "npc": {
+    "id": 31340,
+    "name": "Mathias",
+    "title": "Captain",
+    "town": "Rune",
+    "at": [
+     42596,
+     -47988,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mathias – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31340@42596,-47988",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1449,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1449,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43640,
+      -48104,
+      -792
+     ],
+     [
+      43368,
+      -48104,
+      -792
+     ],
+     [
+      43096,
+      -48152,
+      -792
+     ],
+     [
+      42824,
+      -48136,
+      -792
+     ],
+     [
+      42600,
+      -47992,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 62,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:talk:31340",
+   "cond": 1,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Anais"
+   ],
+   "npc": {
+    "id": 31340,
+    "name": "Mathias",
+    "title": "Captain",
+    "town": "Rune",
+    "at": [
+     42596,
+     -47988,
+     -800
+    ],
+    "alt": []
+   },
+   "text": "Talk to Mathias",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31340@42596,-47988",
+    "status": "ok",
+    "flags": [],
+    "from": ".rune",
+    "length": 1449,
+    "sec": 32,
+    "via": ".rune",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Rune",
+      "cmd": ".rune"
+     },
+     {
+      "do": "walk",
+      "len": 1449,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Rune"
+    },
+    "simple": true,
+    "pv": [
+     [
+      43759,
+      -48122,
+      -792
+     ],
+     [
+      43880,
+      -48120,
+      -792
+     ],
+     [
+      43640,
+      -48104,
+      -792
+     ],
+     [
+      43368,
+      -48104,
+      -792
+     ],
+     [
+      43096,
+      -48152,
+      -792
+     ],
+     [
+      42824,
+      -48136,
+      -792
+     ],
+     [
+      42600,
+      -47992,
+      -792
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 57,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    5
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c2:spawn:25299",
+   "cond": 2,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25299,
+     "name": "Ketra's Hero Hekaton",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25302,
+     "name": "Ketra's Commander Tayr",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25305,
+     "name": "Ketra's Chief Brakki",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25309,
+     "name": "Varka's Hero Shadith",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25312,
+     "name": "Varka's Commander Mos",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25315,
+     "name": "Varka's Chief Horus",
+     "level": 80,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21997,
+     "name": "Shattered Bones",
+     "n": 1,
+     "from": [
+      {
+       "id": 25299,
+       "name": "Ketra's Hero Hekaton",
+       "chance": 100
+      },
+      {
+       "id": 25302,
+       "name": "Ketra's Commander Tayr",
+       "chance": 100
+      },
+      {
+       "id": 25305,
+       "name": "Ketra's Chief Brakki",
+       "chance": 100
+      },
+      {
+       "id": 25309,
+       "name": "Varka's Hero Shadith",
+       "chance": 100
+      },
+      {
+       "id": 25312,
+       "name": "Varka's Commander Mos",
+       "chance": 100
+      },
+      {
+       "id": 25315,
+       "name": "Varka's Chief Horus",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (25299, 25302, 25305, 25309, 25312, 25315) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Ketra's Hero Hekaton, Ketra's Commander Tayr, Ketra's Chief Brakki, Varka's Hero Shadith, Varka's Commander Mos, Varka's Chief Horus appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (25299, 25302, 25305, 25309, 25312, 25315) only appear through the quest script and no trigger is known",
+   "conds": [
+    2
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:spawn:25667",
+   "cond": 3,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25667,
+     "name": "Cannibalistic Stakato Chief",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25668,
+     "name": "Cannibalistic Stakato Chief",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25669,
+     "name": "Cannibalistic Stakato Chief",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    },
+    {
+     "id": 25670,
+     "name": "Cannibalistic Stakato Chief",
+     "level": 82,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21998,
+     "name": "Cannibalistic Stakato Leader Claw",
+     "n": 1,
+     "from": [
+      {
+       "id": 25667,
+       "name": "Cannibalistic Stakato Chief",
+       "chance": 100
+      },
+      {
+       "id": 25668,
+       "name": "Cannibalistic Stakato Chief",
+       "chance": 100
+      },
+      {
+       "id": 25669,
+       "name": "Cannibalistic Stakato Chief",
+       "chance": 100
+      },
+      {
+       "id": 25670,
+       "name": "Cannibalistic Stakato Chief",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (25667, 25668, 25669, 25670) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Cannibalistic Stakato Chief, Cannibalistic Stakato Chief, Cannibalistic Stakato Chief, Cannibalistic Stakato Chief appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (25667, 25668, 25669, 25670) only appear through the quest script and no trigger is known",
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:spawn:25701",
+   "cond": 4,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 25701,
+     "name": "Anais",
+     "level": 84,
+     "aggressive": false,
+     "raid": true,
+     "spawns": 0,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 21999,
+     "name": "Anais Scroll",
+     "n": 1,
+     "from": [
+      {
+       "id": 25701,
+       "name": "Anais",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "mob-no-spawn",
+    "needs-party",
+    "engine-manual"
+   ],
+   "engine": {
+    "manual": "the monsters (25701) only appear through the quest script and no trigger is known"
+   },
+   "text": "Make Anais appear and kill it",
+   "expectedSec": 300,
+   "engineWhy": "the monsters (25701) only appear through the quest script and no trigger is known",
+   "conds": [
+    4
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

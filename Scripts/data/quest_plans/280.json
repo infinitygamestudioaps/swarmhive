@@ -1,0 +1,1205 @@
+{
+ "id": 280,
+ "name": "The Food Chain",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.186Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 3,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Kamael Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "ready",
+ "reasons": [],
+ "expectedMin": 17,
+ "refLevel": 3,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32175",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Agree to help."
+   ],
+   "npc": {
+    "id": 32175,
+    "name": "Bixon",
+    "title": "Marksman",
+    "town": "Kamael Village",
+    "at": [
+     -119830,
+     51860,
+     -792
+    ],
+    "alt": []
+   },
+   "text": "Talk to Bixon – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7525,
+    "sec": 108,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5289,
+      "how": "field-areas-gap",
+      "danger": 2
+     },
+     {
+      "do": "walk",
+      "len": 951,
+      "how": "field-areas",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -118264,
+      49528,
+      -848
+     ],
+     [
+      -117368,
+      49848,
+      -912
+     ],
+     [
+      -118760,
+      51832,
+      -1104
+     ],
+     [
+      -119128,
+      52168,
+      -1024
+     ],
+     [
+      -119368,
+      52152,
+      -888
+     ],
+     [
+      -119832,
+      51864,
+      -792
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-2",
+     "name": "Kamael Village outskirts 2: Young Grey Keltir area (south)"
+    },
+    "points": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -118264,
+      49528,
+      -848
+     ],
+     [
+      -117368,
+      49848,
+      -912
+     ],
+     [
+      -118760,
+      51832,
+      -1104
+     ],
+     [
+      -119128,
+      52168,
+      -1024
+     ],
+     [
+      -119368,
+      52152,
+      -888
+     ],
+     [
+      -119832,
+      51864,
+      -792
+     ]
+    ]
+   },
+   "expectedSec": 138,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22229,
+     "name": "Young Grey Keltir",
+     "level": 1,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 79,
+     "questSpawned": false
+    },
+    {
+     "id": 22230,
+     "name": "Grey Keltir",
+     "level": 2,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 51,
+     "questSpawned": false
+    },
+    {
+     "id": 22231,
+     "name": "Dominant Grey Keltir",
+     "level": 3,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 16,
+     "questSpawned": false
+    },
+    {
+     "id": 22232,
+     "name": "Black Wolf",
+     "level": 4,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 18,
+     "questSpawned": false
+    },
+    {
+     "id": 22233,
+     "name": "Dominant Black Wolf",
+     "level": 5,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 39,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 9809,
+     "name": "Grey Keltir Tooth",
+     "n": 20,
+     "from": [
+      {
+       "id": 22229,
+       "name": "Young Grey Keltir",
+       "chance": 100
+      },
+      {
+       "id": 22230,
+       "name": "Grey Keltir",
+       "chance": 150
+      },
+      {
+       "id": 22231,
+       "name": "Dominant Grey Keltir",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 9810,
+     "name": "Black Wolf Tooth",
+     "n": 20,
+     "from": [
+      {
+       "id": 22232,
+       "name": "Black Wolf",
+       "chance": 100
+      },
+      {
+       "id": 22233,
+       "name": "Dominant Black Wolf",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [],
+   "text": "Hunt Young Grey Keltir, Grey Keltir, Dominant Grey Keltir for Grey Keltir Tooth x20, Black Wolf Tooth x20",
+   "places": [
+    {
+     "mobs": [
+      22229,
+      22230,
+      22231
+     ],
+     "items": [
+      9809
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "kamael-village-outskirts-3",
+      "name": "Kamael Village outskirts 3: Young Grey Keltir area (south-west)",
+      "at": [
+       -120488,
+       52856,
+       -1208
+      ],
+      "radius": 2455,
+      "levels": [
+       1,
+       2
+      ],
+      "count": 24,
+      "region": "Kamael Village outskirts",
+      "atlasKey": "area:kamael-village-outskirts-3",
+      "status": "ok",
+      "sec": 255,
+      "danger": 2,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -139.75,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "kamael-village-outskirts-2",
+        "name": "Kamael Village outskirts 2: Young Grey Keltir area (south)",
+        "at": [
+         -117368,
+         49848,
+         -912
+        ],
+        "count": 20,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "kamael-village-outskirts-4",
+        "name": "Kamael Village outskirts 4: Young Grey Keltir area (west)",
+        "at": [
+         -124088,
+         44968,
+         888
+        ],
+        "count": 20,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "kamael-village-outskirts-6",
+        "name": "Kamael Village outskirts 6: Young Grey Keltir area (south-west)",
+        "at": [
+         -122984,
+         54888,
+         -1664
+        ],
+        "count": 15,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:kamael-village-outskirts-3",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 22181,
+      "sec": 255,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold I",
+        "link": "stronghold i",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 22181,
+        "how": "field-areas",
+        "danger": 5
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -122408,
+        73208,
+        -2872
+       ],
+       [
+        -122344,
+        72792,
+        -2872
+       ],
+       [
+        -122344,
+        71800,
+        -3000
+       ],
+       [
+        -122344,
+        70808,
+        -2872
+       ],
+       [
+        -122728,
+        69816,
+        -2976
+       ],
+       [
+        -123400,
+        69016,
+        -3032
+       ],
+       [
+        -123528,
+        68744,
+        -3016
+       ],
+       [
+        -123752,
+        68248,
+        -2968
+       ],
+       [
+        -123768,
+        68200,
+        -2960
+       ],
+       [
+        -123816,
+        67800,
+        -2888
+       ],
+       [
+        -123880,
+        67736,
+        -2880
+       ],
+       [
+        -124088,
+        66760,
+        -2744
+       ],
+       [
+        -124088,
+        65768,
+        -2688
+       ],
+       [
+        -124088,
+        64776,
+        -2704
+       ],
+       [
+        -123992,
+        63992,
+        -2664
+       ],
+       [
+        -123992,
+        63000,
+        -2720
+       ],
+       [
+        -123992,
+        62008,
+        -2752
+       ],
+       [
+        -123992,
+        61016,
+        -2696
+       ],
+       [
+        -123992,
+        60024,
+        -2624
+       ],
+       [
+        -123992,
+        59032,
+        -2448
+       ],
+       [
+        -123992,
+        58040,
+        -2296
+       ],
+       [
+        -123992,
+        57048,
+        -2216
+       ],
+       [
+        -123688,
+        56056,
+        -1904
+       ],
+       [
+        -122696,
+        55064,
+        -1640
+       ],
+       [
+        -121704,
+        54072,
+        -1448
+       ],
+       [
+        -120712,
+        53080,
+        -1264
+       ],
+       [
+        -120488,
+        52856,
+        -1208
+       ]
+      ],
+      "maxDanger": 5,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 5,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      22232,
+      22233
+     ],
+     "items": [
+      9810
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "stronghold-i-7",
+      "name": "Stronghold I 7: Black Wolf area (north)",
+      "at": [
+       -122968,
+       63352,
+       -2608
+      ],
+      "radius": 2746,
+      "levels": [
+       4,
+       5
+      ],
+      "count": 15,
+      "region": "Stronghold I",
+      "atlasKey": "area:stronghold-i-7",
+      "status": "ok",
+      "sec": 159,
+      "danger": 5,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -87.35,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "kamael-village-outskirts-10",
+        "name": "Kamael Village outskirts 10: Black Wolf area (south-west)",
+        "at": [
+         -124168,
+         58232,
+         -2336
+        ],
+        "count": 11,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-8",
+        "name": "Stronghold I 8: Black Wolf area (north-west)",
+        "at": [
+         -127160,
+         62536,
+         -2680
+        ],
+        "count": 8,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "stronghold-i-1",
+        "name": "Stronghold I 1: Black Wolf area (north)",
+        "at": [
+         -122584,
+         71944,
+         -3008
+        ],
+        "count": 7,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:stronghold-i-7",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 10702,
+      "sec": 159,
+      "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Kamael Village",
+        "link": "kamael village",
+        "price": 12000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "Kamael",
+        "desc": "Kamael Vilage -> Stronghold I",
+        "link": "stronghold i",
+        "price": 2600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 10702,
+        "how": "field-areas",
+        "danger": 5
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Kamael Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -122408,
+        73208,
+        -2872
+       ],
+       [
+        -122344,
+        72792,
+        -2872
+       ],
+       [
+        -122344,
+        71800,
+        -3000
+       ],
+       [
+        -122344,
+        70808,
+        -2872
+       ],
+       [
+        -122728,
+        69816,
+        -2976
+       ],
+       [
+        -123400,
+        69016,
+        -3032
+       ],
+       [
+        -123528,
+        68744,
+        -3016
+       ],
+       [
+        -123752,
+        68248,
+        -2968
+       ],
+       [
+        -123768,
+        68200,
+        -2960
+       ],
+       [
+        -123816,
+        67800,
+        -2888
+       ],
+       [
+        -123880,
+        67736,
+        -2880
+       ],
+       [
+        -124088,
+        66760,
+        -2744
+       ],
+       [
+        -124088,
+        65768,
+        -2688
+       ],
+       [
+        -124088,
+        64776,
+        -2704
+       ],
+       [
+        -123400,
+        63784,
+        -2648
+       ],
+       [
+        -122968,
+        63352,
+        -2608
+       ]
+      ],
+      "maxDanger": 5,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 5,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "kamael-village-outskirts-3",
+    "name": "Kamael Village outskirts 3: Young Grey Keltir area (south-west)",
+    "at": [
+     -120488,
+     52856,
+     -1208
+    ],
+    "radius": 2455,
+    "levels": [
+     1,
+     2
+    ],
+    "count": 24,
+    "region": "Kamael Village outskirts",
+    "atlasKey": "area:kamael-village-outskirts-3",
+    "status": "ok",
+    "sec": 255,
+    "danger": 2,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -139.75,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "kamael-village-outskirts-2",
+      "name": "Kamael Village outskirts 2: Young Grey Keltir area (south)",
+      "at": [
+       -117368,
+       49848,
+       -912
+      ],
+      "count": 20,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "kamael-village-outskirts-4",
+      "name": "Kamael Village outskirts 4: Young Grey Keltir area (west)",
+      "at": [
+       -124088,
+       44968,
+       888
+      ],
+      "count": 20,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "kamael-village-outskirts-6",
+      "name": "Kamael Village outskirts 6: Young Grey Keltir area (south-west)",
+      "at": [
+       -122984,
+       54888,
+       -1664
+      ],
+      "count": 15,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:kamael-village-outskirts-3",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 22181,
+    "sec": 255,
+    "via": ".gludio > Gludio -> Kamael Village > Kamael Vilage -> Stronghold I",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Kamael",
+      "desc": "Kamael Vilage -> Stronghold I",
+      "link": "stronghold i",
+      "price": 2600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 22181,
+      "how": "field-areas",
+      "danger": 5
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -122408,
+      73208,
+      -2872
+     ],
+     [
+      -122344,
+      72792,
+      -2872
+     ],
+     [
+      -122344,
+      71800,
+      -3000
+     ],
+     [
+      -122344,
+      70808,
+      -2872
+     ],
+     [
+      -122728,
+      69816,
+      -2976
+     ],
+     [
+      -123400,
+      69016,
+      -3032
+     ],
+     [
+      -123528,
+      68744,
+      -3016
+     ],
+     [
+      -123752,
+      68248,
+      -2968
+     ],
+     [
+      -123768,
+      68200,
+      -2960
+     ],
+     [
+      -123816,
+      67800,
+      -2888
+     ],
+     [
+      -123880,
+      67736,
+      -2880
+     ],
+     [
+      -124088,
+      66760,
+      -2744
+     ],
+     [
+      -124088,
+      65768,
+      -2688
+     ],
+     [
+      -124088,
+      64776,
+      -2704
+     ],
+     [
+      -123992,
+      63992,
+      -2664
+     ],
+     [
+      -123992,
+      63000,
+      -2720
+     ],
+     [
+      -123992,
+      62008,
+      -2752
+     ],
+     [
+      -123992,
+      61016,
+      -2696
+     ],
+     [
+      -123992,
+      60024,
+      -2624
+     ],
+     [
+      -123992,
+      59032,
+      -2448
+     ],
+     [
+      -123992,
+      58040,
+      -2296
+     ],
+     [
+      -123992,
+      57048,
+      -2216
+     ],
+     [
+      -123688,
+      56056,
+      -1904
+     ],
+     [
+      -122696,
+      55064,
+      -1640
+     ],
+     [
+      -121704,
+      54072,
+      -1448
+     ],
+     [
+      -120712,
+      53080,
+      -1264
+     ],
+     [
+      -120488,
+      52856,
+      -1208
+     ]
+    ],
+    "maxDanger": 5,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 5,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 755,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "turnin"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:turnin:32175",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 1,
+   "links": [
+    "Exchange teeth for Adena."
+   ],
+   "npc": {
+    "id": 32175,
+    "name": "Bixon",
+    "title": "Marksman",
+    "town": "Kamael Village",
+    "at": [
+     -119830,
+     51860,
+     -792
+    ],
+    "alt": []
+   },
+   "text": "Hand in Grey Keltir Tooth, Black Wolf Tooth at Bixon (repeatable: then hunt again)",
+   "needs": [
+    {
+     "id": 9809,
+     "name": "Grey Keltir Tooth",
+     "n": 20
+    },
+    {
+     "id": 9810,
+     "name": "Black Wolf Tooth",
+     "n": 20
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "computed",
+    "key": "area:kamael-village-outskirts-2",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 7525,
+    "sec": 108,
+    "via": ".gludio > Gludio -> Kamael Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Kamael Village",
+      "link": "kamael village",
+      "price": 12000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 5289,
+      "how": "field-areas-gap",
+      "danger": 2
+     },
+     {
+      "do": "walk",
+      "len": 951,
+      "how": "field-areas",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Kamael Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -118264,
+      49528,
+      -848
+     ],
+     [
+      -117368,
+      49848,
+      -912
+     ],
+     [
+      -118760,
+      51832,
+      -1104
+     ],
+     [
+      -119128,
+      52168,
+      -1024
+     ],
+     [
+      -119368,
+      52152,
+      -888
+     ],
+     [
+      -119832,
+      51864,
+      -792
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -1,
+     "aggro": []
+    },
+    "anchor": {
+     "key": "area:kamael-village-outskirts-2",
+     "name": "Kamael Village outskirts 2: Young Grey Keltir area (south)"
+    },
+    "points": [
+     [
+      -117251,
+      46771,
+      360
+     ],
+     [
+      -118264,
+      49528,
+      -848
+     ],
+     [
+      -117368,
+      49848,
+      -912
+     ],
+     [
+      -118760,
+      51832,
+      -1104
+     ],
+     [
+      -119128,
+      52168,
+      -1024
+     ],
+     [
+      -119368,
+      52152,
+      -888
+     ],
+     [
+      -119832,
+      51864,
+      -792
+     ]
+    ]
+   },
+   "expectedSec": 133,
+   "turnin": true,
+   "conds": [
+    1
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:18.453Z",
+  "pass": true,
+  "geo": true,
+  "fails": [],
+  "warns": [
+   "chance-garbled"
+  ]
+ }
+}

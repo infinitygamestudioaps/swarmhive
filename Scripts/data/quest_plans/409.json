@@ -1,0 +1,1226 @@
+{
+ "id": 409,
+ "name": "Path of the Elven Oracle",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.201Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "items": [
+   {
+    "id": 1235,
+    "name": "Leaf of Oracle"
+   }
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "needs-item",
+   "text": "Leaf of Oracle"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 1
+  }
+ ],
+ "expectedMin": 17,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30293",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you will take the task"
+   ],
+   "npc": {
+    "id": 30293,
+    "name": "Manuel",
+    "title": "Priest",
+    "town": "Gludio",
+    "at": [
+     -13487,
+     121541,
+     -2966
+    ],
+    "alt": []
+   },
+   "text": "Talk to Manuel – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30293@-13487,121541",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2818,
+    "sec": 43,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2818,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13160,
+      122280,
+      -2984
+     ],
+     [
+      -13048,
+      122280,
+      -2984
+     ],
+     [
+      -13096,
+      122024,
+      -2952
+     ],
+     [
+      -13048,
+      121752,
+      -2968
+     ],
+     [
+      -12776,
+      121704,
+      -2952
+     ],
+     [
+      -12824,
+      121704,
+      -2952
+     ],
+     [
+      -13048,
+      121704,
+      -2968
+     ],
+     [
+      -13320,
+      121704,
+      -2968
+     ],
+     [
+      -13480,
+      121544,
+      -2968
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:spawn:27032",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27032,
+     "name": "Lizardman Warrior",
+     "level": 13,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27033,
+     "name": "Lizardman Scout",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27034,
+     "name": "Lizardman Soldier",
+     "level": 11,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    },
+    {
+     "id": 27035,
+     "name": "Tamil",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 1234,
+     "name": "Lizard Captain Order",
+     "n": 1,
+     "from": [
+      {
+       "id": 27032,
+       "name": "Lizardman Warrior",
+       "chance": 100
+      },
+      {
+       "id": 27033,
+       "name": "Lizardman Scout",
+       "chance": 100
+      },
+      {
+       "id": 27034,
+       "name": "Lizardman Soldier",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1275,
+     "name": "Tamil's Necklace",
+     "n": 1,
+     "from": [
+      {
+       "id": 27035,
+       "name": "Tamil",
+       "chance": 100
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "talk",
+    "trigger": [
+     30424
+    ]
+   },
+   "text": "Make Lizardman Warrior, Lizardman Scout, Lizardman Soldier, Tamil appear and kill it",
+   "npc": {
+    "id": 30424,
+    "name": "Allana",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -92310,
+     154223,
+     -3284
+    ],
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30424@-92310,154223",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13024,
+    "sec": 129,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13024,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -83144,
+      152488,
+      -3120
+     ],
+     [
+      -83640,
+      152688,
+      -3144
+     ],
+     [
+      -84136,
+      152888,
+      -3168
+     ],
+     [
+      -84904,
+      152888,
+      -3168
+     ],
+     [
+      -85048,
+      152904,
+      -3160
+     ],
+     [
+      -85240,
+      153048,
+      -3152
+     ],
+     [
+      -85736,
+      153496,
+      -3128
+     ],
+     [
+      -86232,
+      153944,
+      -3104
+     ],
+     [
+      -87160,
+      153944,
+      -3264
+     ],
+     [
+      -88152,
+      153976,
+      -3632
+     ],
+     [
+      -89144,
+      153976,
+      -3640
+     ],
+     [
+      -90136,
+      153976,
+      -3720
+     ],
+     [
+      -91128,
+      153976,
+      -3552
+     ],
+     [
+      -91624,
+      154096,
+      -3428
+     ],
+     [
+      -92120,
+      154216,
+      -3304
+     ],
+     [
+      -92312,
+      154216,
+      -3280
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 429,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30293",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30293,
+    "name": "Manuel",
+    "title": "Priest",
+    "town": "Gludio",
+    "at": [
+     -13487,
+     121541,
+     -2966
+    ],
+    "alt": []
+   },
+   "text": "Bring Crystal Medallion, Swindler's Money, Allana's Diary, Lizard Captain Order, Half of Diary to Manuel",
+   "needs": [
+    {
+     "id": 1231,
+     "name": "Crystal Medallion",
+     "n": 1
+    },
+    {
+     "id": 1232,
+     "name": "Swindler's Money",
+     "n": 1
+    },
+    {
+     "id": 1233,
+     "name": "Allana's Diary",
+     "n": 1
+    },
+    {
+     "id": 1234,
+     "name": "Lizard Captain Order",
+     "n": 1
+    },
+    {
+     "id": 1236,
+     "name": "Half of Diary",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30293@-13487,121541",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 2818,
+    "sec": 43,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 2818,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13160,
+      122280,
+      -2984
+     ],
+     [
+      -13048,
+      122280,
+      -2984
+     ],
+     [
+      -13096,
+      122024,
+      -2952
+     ],
+     [
+      -13048,
+      121752,
+      -2968
+     ],
+     [
+      -12776,
+      121704,
+      -2952
+     ],
+     [
+      -12824,
+      121704,
+      -2952
+     ],
+     [
+      -13048,
+      121704,
+      -2968
+     ],
+     [
+      -13320,
+      121704,
+      -2968
+     ],
+     [
+      -13480,
+      121544,
+      -2968
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 68,
+   "engine": {
+    "act": "spawn",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30424",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 9,
+   "links": [],
+   "npc": {
+    "id": 30424,
+    "name": "Allana",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -92310,
+     154223,
+     -3284
+    ],
+    "alt": []
+   },
+   "text": "Bring Crystal Medallion, Swindler's Money, Allana's Diary, Lizard Captain Order, Half of Diary to Allana",
+   "needs": [
+    {
+     "id": 1231,
+     "name": "Crystal Medallion",
+     "n": 1
+    },
+    {
+     "id": 1232,
+     "name": "Swindler's Money",
+     "n": 1
+    },
+    {
+     "id": 1233,
+     "name": "Allana's Diary",
+     "n": 1
+    },
+    {
+     "id": 1234,
+     "name": "Lizard Captain Order",
+     "n": 1
+    },
+    {
+     "id": 1236,
+     "name": "Half of Diary",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30424@-92310,154223",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13024,
+    "sec": 129,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13024,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -83144,
+      152488,
+      -3120
+     ],
+     [
+      -83640,
+      152688,
+      -3144
+     ],
+     [
+      -84136,
+      152888,
+      -3168
+     ],
+     [
+      -84904,
+      152888,
+      -3168
+     ],
+     [
+      -85048,
+      152904,
+      -3160
+     ],
+     [
+      -85240,
+      153048,
+      -3152
+     ],
+     [
+      -85736,
+      153496,
+      -3128
+     ],
+     [
+      -86232,
+      153944,
+      -3104
+     ],
+     [
+      -87160,
+      153944,
+      -3264
+     ],
+     [
+      -88152,
+      153976,
+      -3632
+     ],
+     [
+      -89144,
+      153976,
+      -3640
+     ],
+     [
+      -90136,
+      153976,
+      -3720
+     ],
+     [
+      -91128,
+      153976,
+      -3552
+     ],
+     [
+      -91624,
+      154096,
+      -3428
+     ],
+     [
+      -92120,
+      154216,
+      -3304
+     ],
+     [
+      -92312,
+      154216,
+      -3280
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 154,
+   "engine": {
+    "act": "spawn",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:30428",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30428,
+    "name": "Perrin",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -93275,
+     147654,
+     -2674
+    ],
+    "alt": []
+   },
+   "text": "Bring Crystal Medallion, Lizard Captain Order, Half of Diary, Tamil's Necklace to Perrin",
+   "needs": [
+    {
+     "id": 1231,
+     "name": "Crystal Medallion",
+     "n": 1
+    },
+    {
+     "id": 1234,
+     "name": "Lizard Captain Order",
+     "n": 1
+    },
+    {
+     "id": 1236,
+     "name": "Half of Diary",
+     "n": 1
+    },
+    {
+     "id": 1275,
+     "name": "Tamil's Necklace",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30428@-93275,147654",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13415,
+    "sec": 132,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13415,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      148024,
+      -3236
+     ],
+     [
+      -85480,
+      147784,
+      -3264
+     ],
+     [
+      -86456,
+      147784,
+      -3072
+     ],
+     [
+      -87448,
+      147720,
+      -3064
+     ],
+     [
+      -88440,
+      147720,
+      -3064
+     ],
+     [
+      -89432,
+      147720,
+      -3088
+     ],
+     [
+      -90424,
+      147720,
+      -3296
+     ],
+     [
+      -90760,
+      147720,
+      -3152
+     ],
+     [
+      -91752,
+      147656,
+      -2968
+     ],
+     [
+      -92744,
+      147656,
+      -2760
+     ],
+     [
+      -93272,
+      147656,
+      -2672
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 157,
+   "engine": {
+    "act": "spawn",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c6:talk:30428",
+   "cond": 6,
+   "kind": "talk",
+   "to": null,
+   "links": [
+    "Go ahead and hit me as much as you want!"
+   ],
+   "npc": {
+    "id": 30428,
+    "name": "Perrin",
+    "title": "",
+    "town": "Gludin",
+    "at": [
+     -93275,
+     147654,
+     -2674
+    ],
+    "alt": []
+   },
+   "text": "Talk to Perrin",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30428@-93275,147654",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 13415,
+    "sec": 132,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 13415,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81285,
+      150218,
+      -3080
+     ],
+     [
+      -81784,
+      150184,
+      -3120
+     ],
+     [
+      -82536,
+      150184,
+      -3120
+     ],
+     [
+      -83320,
+      149576,
+      -3120
+     ],
+     [
+      -83496,
+      149288,
+      -3120
+     ],
+     [
+      -83496,
+      149256,
+      -3120
+     ],
+     [
+      -83992,
+      148760,
+      -3164
+     ],
+     [
+      -84488,
+      148264,
+      -3208
+     ],
+     [
+      -84984,
+      148024,
+      -3236
+     ],
+     [
+      -85480,
+      147784,
+      -3264
+     ],
+     [
+      -86456,
+      147784,
+      -3072
+     ],
+     [
+      -87448,
+      147720,
+      -3064
+     ],
+     [
+      -88440,
+      147720,
+      -3064
+     ],
+     [
+      -89432,
+      147720,
+      -3088
+     ],
+     [
+      -90424,
+      147720,
+      -3296
+     ],
+     [
+      -90760,
+      147720,
+      -3152
+     ],
+     [
+      -91752,
+      147656,
+      -2968
+     ],
+     [
+      -92744,
+      147656,
+      -2760
+     ],
+     [
+      -93272,
+      147656,
+      -2672
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 157,
+   "engine": {
+    "act": "spawn",
+    "hasItems": "talk"
+   },
+   "conds": [
+    6
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

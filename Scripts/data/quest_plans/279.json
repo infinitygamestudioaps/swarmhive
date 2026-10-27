@@ -1,0 +1,638 @@
+{
+ "id": 279,
+ "name": "Target of Opportunity",
+ "version": 1,
+ "generated": "2026-10-27T11:15:18.178Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 82,
+  "max": null
+ },
+ "type": "repeatable",
+ "region": "Talking Island",
+ "requirements": {
+  "other": [
+   "(st.getState() == State.CREATED)"
+  ]
+ },
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 0
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 0
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 1
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 1
+  },
+  {
+   "code": "no-route",
+   "text": "no route to a step place (atlas unreachable / no geodata walk)",
+   "step": 2
+  },
+  {
+   "code": "owner-manual",
+   "text": "marked \"manual\" on the dashboard (plan override)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 3,
+ "refLevel": 82,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:32302",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Continue listening."
+   ],
+   "npc": {
+    "id": 32302,
+    "name": "Jerian",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     13276,
+     282020,
+     -7551
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jerian – accept the quest",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 30,
+   "conds": [
+    0
+   ],
+   "override": {
+    "manual": true,
+    "note": "HELLBOUND: Jerian 32302 (13276,282020,-7551) stands in Hellbound (Tower of Infinitum entrance). Hellbound needs quest 130 / 133 done + level 78 + the Warpgate 32314, and the walk passes the gates that open only at a server Hellbound level (HellboundEngine DOOR_LIST: 19250001/2 >= 5, 20250002 >= 7, 20250001 >= 9; docs/plan/unreachable_research.md section 6). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 22373,
+     "name": "Cosmic Scout",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 40,
+     "questSpawned": false
+    },
+    {
+     "id": 22374,
+     "name": "Cosmic Watcher",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 28,
+     "questSpawned": false
+    },
+    {
+     "id": 22375,
+     "name": "Cosmic Priest",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    },
+    {
+     "id": 22376,
+     "name": "Cosmic Lord",
+     "level": 83,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 26,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 15517,
+     "name": "Seal Components Part 1",
+     "n": 1,
+     "from": [
+      {
+       "id": 22373,
+       "name": "Cosmic Scout",
+       "chance": 31.1
+      }
+     ]
+    },
+    {
+     "id": 15518,
+     "name": "Seal Components Part 2",
+     "n": 1,
+     "from": [
+      {
+       "id": 22374,
+       "name": "Cosmic Watcher",
+       "chance": 31.1
+      }
+     ]
+    },
+    {
+     "id": 15519,
+     "name": "Seal Components Part 3",
+     "n": 1,
+     "from": [
+      {
+       "id": 22375,
+       "name": "Cosmic Priest",
+       "chance": 31.1
+      }
+     ]
+    },
+    {
+     "id": 15520,
+     "name": "Seal Components Part 4",
+     "n": 1,
+     "from": [
+      {
+       "id": 22376,
+       "name": "Cosmic Lord",
+       "chance": 31.1
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "text": "Hunt Cosmic Scout, Cosmic Watcher, Cosmic Priest for Seal Components Part 1 x1, Seal Components Part 2 x1, Seal Components Part 3 x1, Seal Components Part 4 x1",
+   "places": [
+    {
+     "mobs": [
+      22373
+     ],
+     "items": [
+      15517
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22373@-22391,279652",
+      "name": "Cosmic Scout",
+      "at": [
+       -22391,
+       279652,
+       -13376
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 5,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 60,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22373@-22246,278395",
+        "name": "Cosmic Scout",
+        "at": [
+         -22246,
+         278395,
+         -13376
+        ],
+        "count": 5,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22373@-22171,279924",
+        "name": "Cosmic Scout",
+        "at": [
+         -22171,
+         279924,
+         -15040
+        ],
+        "count": 4,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    },
+    {
+     "mobs": [
+      22374
+     ],
+     "items": [
+      15518
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22374@-22486,278519",
+      "name": "Cosmic Watcher",
+      "at": [
+       -22486,
+       278519,
+       -9920
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 4,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 66,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22374@-21435,278217",
+        "name": "Cosmic Watcher",
+        "at": [
+         -21435,
+         278217,
+         -15040
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22374@-22195,279781",
+        "name": "Cosmic Watcher",
+        "at": [
+         -22195,
+         279781,
+         -11648
+        ],
+        "count": 3,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    },
+    {
+     "mobs": [
+      22375
+     ],
+     "items": [
+      15519
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22375@-22210,278216",
+      "name": "Cosmic Priest",
+      "at": [
+       -22210,
+       278216,
+       -11648
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 3,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 72,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22375@-21479,278487",
+        "name": "Cosmic Priest",
+        "at": [
+         -21479,
+         278487,
+         -9920
+        ],
+        "count": 3,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22375@-18541,278177",
+        "name": "Cosmic Priest",
+        "at": [
+         -18541,
+         278177,
+         -9920
+        ],
+        "count": 3,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    },
+    {
+     "mobs": [
+      22376
+     ],
+     "items": [
+      15520
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "22376@-19252,278490",
+      "name": "Cosmic Lord",
+      "at": [
+       -19252,
+       278490,
+       -13376
+      ],
+      "radius": 1500,
+      "levels": [
+       83,
+       83
+      ],
+      "count": 5,
+      "region": "",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 60,
+      "alt": [
+       {
+        "kind": "cluster",
+        "id": "22376@-19020,279847",
+        "name": "Cosmic Lord",
+        "at": [
+         -19020,
+         279847,
+         -8256
+        ],
+        "count": 4,
+        "status": "none"
+       },
+       {
+        "kind": "cluster",
+        "id": "22376@-18616,278109",
+        "name": "Cosmic Lord",
+        "at": [
+         -18616,
+         278109,
+         -9920
+        ],
+        "count": 3,
+        "status": "none"
+       }
+      ]
+     },
+     "travel": {
+      "src": "none",
+      "status": "unreachable",
+      "why": [
+       "no atlas route within 16 km to start from"
+      ],
+      "checks": {
+       "reachable": false
+      },
+      "pv": []
+     }
+    }
+   ],
+   "area": {
+    "kind": "cluster",
+    "id": "22373@-22391,279652",
+    "name": "Cosmic Scout",
+    "at": [
+     -22391,
+     279652,
+     -13376
+    ],
+    "radius": 1500,
+    "levels": [
+     83,
+     83
+    ],
+    "count": 5,
+    "region": "",
+    "atlasKey": null,
+    "status": "none",
+    "sec": 900,
+    "danger": 0,
+    "reachable": true,
+    "score": 60,
+    "alt": [
+     {
+      "kind": "cluster",
+      "id": "22373@-22246,278395",
+      "name": "Cosmic Scout",
+      "at": [
+       -22246,
+       278395,
+       -13376
+      ],
+      "count": 5,
+      "status": "none"
+     },
+     {
+      "kind": "cluster",
+      "id": "22373@-22171,279924",
+      "name": "Cosmic Scout",
+      "at": [
+       -22171,
+       279924,
+       -15040
+      ],
+      "count": 4,
+      "status": "none"
+     }
+    ]
+   },
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 100,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ],
+   "override": {
+    "manual": true,
+    "note": "HELLBOUND (see the start step): Tower of Infinitum monsters 22373-22376 (z -13376 / -7551 floors).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  },
+  {
+   "i": 2,
+   "key": "c1:talk:32302",
+   "cond": 1,
+   "kind": "talk",
+   "to": "end",
+   "links": [
+    "Hand over the fragments."
+   ],
+   "npc": {
+    "id": 32302,
+    "name": "Jerian",
+    "title": "",
+    "town": "Talking Island",
+    "at": [
+     13276,
+     282020,
+     -7551
+    ],
+    "alt": []
+   },
+   "text": "Talk to Jerian",
+   "reasons": [
+    "no-route",
+    "owner-manual"
+   ],
+   "travel": {
+    "src": "none",
+    "status": "unreachable",
+    "why": [
+     "no atlas route within 16 km to start from"
+    ],
+    "checks": {
+     "reachable": false
+    },
+    "pv": []
+   },
+   "expectedSec": 25,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2
+   ],
+   "override": {
+    "manual": true,
+    "note": "HELLBOUND (see the start step): Tower of Infinitum monsters 22373-22376 (z -13376 / -7551 floors).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "fixedByOverride": []
+  }
+ ],
+ "override": {
+  "steps": {
+   "c0:start:32302": {
+    "manual": true,
+    "note": "HELLBOUND: Jerian 32302 (13276,282020,-7551) stands in Hellbound (Tower of Infinitum entrance). Hellbound needs quest 130 / 133 done + level 78 + the Warpgate 32314, and the walk passes the gates that open only at a server Hellbound level (HellboundEngine DOOR_LIST: 19250001/2 >= 5, 20250002 >= 7, 20250001 >= 9; docs/plan/unreachable_research.md section 6). Not automatic.",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:hunt": {
+    "manual": true,
+    "note": "HELLBOUND (see the start step): Tower of Infinitum monsters 22373-22376 (z -13376 / -7551 floors).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   },
+   "c1:talk:32302": {
+    "manual": true,
+    "note": "HELLBOUND (see the start step): Tower of Infinitum monsters 22373-22376 (z -13376 / -7551 floors).",
+    "editedAt": "2026-10-27T10:22:10.684Z",
+    "by": "quest fixer batch 2 (Claude)"
+   }
+  },
+  "editedAt": "2026-10-27T10:22:10.684Z",
+  "by": "quest fixer batch 2 (Claude)"
+ }
+}

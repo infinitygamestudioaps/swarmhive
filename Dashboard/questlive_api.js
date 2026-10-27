@@ -157,7 +157,8 @@ function row(ctx, name, qs, st, id, opt) {
     fails: Number(a.fails) || 0, cond: finite(a.cond) ? Number(a.cond) : null, started: a.started !== false,
     stepNo: s.no, stepTotal: s.total, stepText: s.text, need: needOf(q, a), kills: killsOf(a),
     hp: st && finite(st.hp) ? Number(st.hp) : null, mp: st && finite(st.mp) ? Number(st.mp) : null, dead: !!(st && st.dead),
-    x: st && finite(st.x) ? Number(st.x) : null, y: st && finite(st.y) ? Number(st.y) : null };
+    x: st && finite(st.x) ? Number(st.x) : null, y: st && finite(st.y) ? Number(st.y) : null,
+    plan: (() => { const dq = st && st.doing && st.doing.quest, o = Object.assign({}, a.plan || {}, (dq && Number(dq.id) === Number(a.id) && dq.plan) || {}); return Object.keys(o).length ? o : null; })() };   // QUESTPLAN-2026-10-27: plan step i / n, route point i / n, why it waits (swarm_state is fresher)
   if (!run) r.endedAt = a.phaseAt || null;
   if (opt && opt.detail) {
     r.doing = run ? doingOf(st) : null;

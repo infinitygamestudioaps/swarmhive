@@ -1,0 +1,1711 @@
+{
+ "id": 414,
+ "name": "Path Of The Orc Raider",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.277Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Orc Village",
+ "requirements": {},
+ "restrictions": [],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "memo-state",
+   "text": "memo-state machine (no setCond): the engine cannot read the step"
+  },
+  {
+   "code": "aggro-on-way",
+   "text": "aggressive monsters 6+ levels above the quest level touch the route",
+   "step": 1
+  },
+  {
+   "code": "item-from-quest-mob",
+   "text": "a quest item drops from a monster the quest script spawns (trigger known: the engine kills the trigger first)",
+   "step": 2
+  }
+ ],
+ "expectedMin": 23,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30570",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Say you want to be an Orc Raider"
+   ],
+   "npc": {
+    "id": 30570,
+    "name": "Karukia",
+    "title": "Prefect",
+    "town": "Orc Village",
+    "at": [
+     -45952,
+     -114496,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Talk to Karukia – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30570@-45952,-114496",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2355,
+    "sec": 65,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2355,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44808,
+      -113000,
+      -240
+     ],
+     [
+      -45000,
+      -113176,
+      -240
+     ],
+     [
+      -45240,
+      -113304,
+      -240
+     ],
+     [
+      -45400,
+      -113528,
+      -240
+     ],
+     [
+      -45416,
+      -113800,
+      -240
+     ],
+     [
+      -45592,
+      -114008,
+      -240
+     ],
+     [
+      -45736,
+      -114232,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 95,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": null,
+   "monsters": [
+    {
+     "id": 20320,
+     "name": "Goblin Tomb Raider Leader",
+     "level": 12,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 48,
+     "questSpawned": false
+    },
+    {
+     "id": 27054,
+     "name": "Umbar Orc",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    },
+    {
+     "id": 27320,
+     "name": "Timora Orc",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 2,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1580,
+     "name": "Kuruka Ratman Tooth",
+     "n": 10,
+     "from": [
+      {
+       "id": 27045,
+       "name": "Kuruka Ratman Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1591,
+     "name": "Head of Betrayer",
+     "n": 2,
+     "from": [
+      {
+       "id": 27054,
+       "name": "Umbar Orc",
+       "chance": 20
+      }
+     ]
+    },
+    {
+     "id": 8544,
+     "name": "Timora Orc's Head",
+     "n": 1,
+     "from": [
+      {
+       "id": 27320,
+       "name": "Timora Orc",
+       "chance": 60
+      }
+     ]
+    }
+   ],
+   "kills": null,
+   "reasons": [
+    "aggro-on-way"
+   ],
+   "text": "Hunt Goblin Tomb Raider Leader, Umbar Orc, Timora Orc for Kuruka Ratman Tooth x10, Head of Betrayer x2, Timora Orc's Head x1",
+   "places": [
+    {
+     "mobs": [
+      27054
+     ],
+     "items": [
+      1591
+     ],
+     "kills": null,
+     "area": {
+      "kind": "field",
+      "id": "windy-hill-9",
+      "name": "Windy Hill 9: Umbar Orc area (east)",
+      "at": [
+       -74440,
+       83336,
+       -3344
+      ],
+      "radius": 3847,
+      "levels": [
+       18,
+       20
+      ],
+      "count": 7,
+      "region": "Windy Hill",
+      "atlasKey": "area:windy-hill-9",
+      "status": "ok",
+      "sec": 209,
+      "danger": 20,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -38.516666666666666,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "spider-nest-20",
+        "name": "Spider Nest 20: Umbar Orc area (south-west)",
+        "at": [
+         -73800,
+         81912,
+         -3424
+        ],
+        "count": 3,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:windy-hill-9",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 16634,
+      "sec": 209,
+      "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> DE Village",
+        "link": "dark elf village",
+        "price": 10000,
+        "live": true
+       },
+       {
+        "do": "gk",
+        "from": "DarkElf",
+        "desc": "DE Village -> Spider Nest",
+        "link": "spider nest",
+        "price": 3600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 8640,
+        "how": "field-areas-gap",
+        "danger": 20
+       },
+       {
+        "do": "walk",
+        "len": 7994,
+        "how": "field-areas",
+        "danger": 20
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> DE Village"
+      },
+      "simple": false,
+      "pv": [
+       [
+        -61095,
+        75104,
+        -3352
+       ],
+       [
+        -68056,
+        79304,
+        -3368
+       ],
+       [
+        -69048,
+        80280,
+        -3408
+       ],
+       [
+        -70040,
+        81272,
+        -3288
+       ],
+       [
+        -70072,
+        81304,
+        -3296
+       ],
+       [
+        -70600,
+        81512,
+        -3336
+       ],
+       [
+        -71592,
+        81512,
+        -3416
+       ],
+       [
+        -72584,
+        81512,
+        -3416
+       ],
+       [
+        -73576,
+        82472,
+        -3408
+       ],
+       [
+        -74440,
+        83336,
+        -3344
+       ]
+      ],
+      "maxDanger": 20,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 20,
+       "dangerVsLevel": 2,
+       "aggro": []
+      }
+     }
+    },
+    {
+     "mobs": [
+      27320
+     ],
+     "items": [
+      8544
+     ],
+     "kills": null,
+     "area": {
+      "kind": "cluster",
+      "id": "27320@56889,-117294",
+      "name": "Timora Orc (Crypts of Disgrace Crypts: Crypts, right: Contaminated Morek Warrior room)",
+      "at": [
+       56889,
+       -117294,
+       -3672
+      ],
+      "radius": 1500,
+      "levels": [
+       20,
+       20
+      ],
+      "count": 2,
+      "region": "Crypts of Disgrace Crypts: Crypts, right: Contaminated Morek Warrior room",
+      "atlasKey": null,
+      "status": "none",
+      "sec": 900,
+      "danger": 0,
+      "reachable": true,
+      "score": 78,
+      "alt": []
+     },
+     "travel": {
+      "src": "computed",
+      "key": "room:crypts-1-right-c",
+      "status": "ok",
+      "flags": [],
+      "from": ".schuttgart",
+      "length": 8180,
+      "sec": 113,
+      "via": ".schuttgart > Schuttgart -> Crypt of Disgrace",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Schuttgart",
+        "cmd": ".schuttgart"
+       },
+       {
+        "do": "gk",
+        "from": "Schuttgart",
+        "desc": "Schuttgart -> Crypt of Disgrace",
+        "link": "crypts of disgrace",
+        "price": 9600,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 0,
+        "how": "adjacent",
+        "danger": 81
+       },
+       {
+        "do": "walk",
+        "len": 7332,
+        "how": "dungeon-rooms",
+        "danger": 81
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Schuttgart",
+       "desc": "Schuttgart -> Crypt of Disgrace"
+      },
+      "simple": true,
+      "pv": [
+       [
+        47692,
+        -115745,
+        -3744
+       ],
+       [
+        47692,
+        -115745,
+        -3744
+       ],
+       [
+        47816,
+        -115528,
+        -3744
+       ],
+       [
+        48024,
+        -115512,
+        -3744
+       ],
+       [
+        48168,
+        -115512,
+        -3744
+       ],
+       [
+        48600,
+        -115560,
+        -3792
+       ],
+       [
+        49592,
+        -115560,
+        -3800
+       ],
+       [
+        50584,
+        -115560,
+        -3656
+       ],
+       [
+        51064,
+        -115560,
+        -3600
+       ],
+       [
+        52056,
+        -116024,
+        -3112
+       ],
+       [
+        53048,
+        -116024,
+        -3200
+       ],
+       [
+        54040,
+        -116024,
+        -3400
+       ],
+       [
+        54792,
+        -116024,
+        -3480
+       ],
+       [
+        56280,
+        -116888,
+        -3472
+       ],
+       [
+        56488,
+        -116808,
+        -3592
+       ],
+       [
+        56888,
+        -117288,
+        -3672
+       ]
+      ],
+      "maxDanger": 81,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 81,
+       "dangerVsLevel": 63,
+       "aggro": [
+        {
+         "name": "Contaminated Morek Warrior",
+         "lv": 81,
+         "n": 5
+        }
+       ]
+      },
+      "anchor": {
+       "key": "room:crypts-1-right-c",
+       "name": "Crypts of Disgrace: Crypts, right: Contaminated Morek Warrior room"
+      },
+      "points": [
+       [
+        47692,
+        -115745,
+        -3744
+       ],
+       [
+        47692,
+        -115745,
+        -3744
+       ],
+       [
+        47816,
+        -115528,
+        -3744
+       ],
+       [
+        48024,
+        -115512,
+        -3744
+       ],
+       [
+        48168,
+        -115512,
+        -3744
+       ],
+       [
+        48600,
+        -115560,
+        -3792
+       ],
+       [
+        49592,
+        -115560,
+        -3800
+       ],
+       [
+        50584,
+        -115560,
+        -3656
+       ],
+       [
+        51064,
+        -115560,
+        -3600
+       ],
+       [
+        52056,
+        -116024,
+        -3112
+       ],
+       [
+        53048,
+        -116024,
+        -3200
+       ],
+       [
+        54040,
+        -116024,
+        -3400
+       ],
+       [
+        54792,
+        -116024,
+        -3480
+       ],
+       [
+        56280,
+        -116888,
+        -3472
+       ],
+       [
+        56488,
+        -116808,
+        -3592
+       ],
+       [
+        56888,
+        -117288,
+        -3672
+       ]
+      ]
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "windy-hill-9",
+    "name": "Windy Hill 9: Umbar Orc area (east)",
+    "at": [
+     -74440,
+     83336,
+     -3344
+    ],
+    "radius": 3847,
+    "levels": [
+     18,
+     20
+    ],
+    "count": 7,
+    "region": "Windy Hill",
+    "atlasKey": "area:windy-hill-9",
+    "status": "ok",
+    "sec": 209,
+    "danger": 20,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -38.516666666666666,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "spider-nest-20",
+      "name": "Spider Nest 20: Umbar Orc area (south-west)",
+      "at": [
+       -73800,
+       81912,
+       -3424
+      ],
+      "count": 3,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:windy-hill-9",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 16634,
+    "sec": 209,
+    "via": ".gludio > Gludio -> DE Village > DE Village -> Spider Nest",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> DE Village",
+      "link": "dark elf village",
+      "price": 10000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "DarkElf",
+      "desc": "DE Village -> Spider Nest",
+      "link": "spider nest",
+      "price": 3600,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 8640,
+      "how": "field-areas-gap",
+      "danger": 20
+     },
+     {
+      "do": "walk",
+      "len": 7994,
+      "how": "field-areas",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> DE Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -61095,
+      75104,
+      -3352
+     ],
+     [
+      -68056,
+      79304,
+      -3368
+     ],
+     [
+      -69048,
+      80280,
+      -3408
+     ],
+     [
+      -70040,
+      81272,
+      -3288
+     ],
+     [
+      -70072,
+      81304,
+      -3296
+     ],
+     [
+      -70600,
+      81512,
+      -3336
+     ],
+     [
+      -71592,
+      81512,
+      -3416
+     ],
+     [
+      -72584,
+      81512,
+      -3416
+     ],
+     [
+      -73576,
+      82472,
+      -3408
+     ],
+     [
+      -74440,
+      83336,
+      -3344
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 459,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:spawn:27045",
+   "cond": 1,
+   "kind": "spawn",
+   "monsters": [
+    {
+     "id": 27045,
+     "name": "Kuruka Ratman Leader",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 0,
+     "questSpawned": true
+    }
+   ],
+   "items": [
+    {
+     "id": 1580,
+     "name": "Kuruka Ratman Tooth",
+     "n": 10,
+     "from": [
+      {
+       "id": 27045,
+       "name": "Kuruka Ratman Leader",
+       "chance": 100
+      }
+     ]
+    },
+    {
+     "id": 1591,
+     "name": "Head of Betrayer",
+     "n": 2,
+     "from": [
+      {
+       "id": 27054,
+       "name": "Umbar Orc",
+       "chance": 20
+      }
+     ]
+    },
+    {
+     "id": 8544,
+     "name": "Timora Orc's Head",
+     "n": 1,
+     "from": [
+      {
+       "id": 27320,
+       "name": "Timora Orc",
+       "chance": 60
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [
+    "item-from-quest-mob"
+   ],
+   "engine": {
+    "how": "kill",
+    "trigger": [
+     20320
+    ]
+   },
+   "text": "Make Kuruka Ratman Leader appear and kill it",
+   "area": {
+    "kind": "field",
+    "id": "immortal-plateau-southern-region-13",
+    "name": "Immortal Plateau,Southern Region 13: Grizzly area (north)",
+    "at": [
+     -5768,
+     -94360,
+     -2440
+    ],
+    "radius": 2444,
+    "levels": [
+     11,
+     12
+    ],
+    "count": 7,
+    "region": "Immortal Plateau,Southern Region",
+    "atlasKey": "area:immortal-plateau-southern-region-13",
+    "status": "ok",
+    "sec": 216,
+    "danger": 18,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -38.4,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-7",
+      "name": "The Immortal Plateau 7: Grizzly area (north-west)",
+      "at": [
+       -15928,
+       -125944,
+       -1784
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "frozen-waterfall-10",
+      "name": "Frozen Waterfall 10: Maraku Werewolf Chieftain area (south-west)",
+      "at": [
+       -3848,
+       -133192,
+       -2784
+      ],
+      "count": 5,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "the-immortal-plateau-9",
+      "name": "The Immortal Plateau 9: Grizzly area (north)",
+      "at": [
+       -12664,
+       -131672,
+       -2840
+      ],
+      "count": 5,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:immortal-plateau-southern-region-13",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 17558,
+    "sec": 216,
+    "via": ".schuttgart > Schuttgart -> Orc Village > Orc Village -> Immortal Plateau,Southern Region",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "gk",
+      "from": "Orc",
+      "desc": "Orc Village -> Immortal Plateau,Southern Region",
+      "link": "immortal plateau, southern region",
+      "price": 2000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 15735,
+      "how": "field-areas-gap",
+      "danger": 20
+     },
+     {
+      "do": "walk",
+      "len": 1823,
+      "how": "field-areas",
+      "danger": 20
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": false,
+    "pv": [
+     [
+      -4190,
+      -80040,
+      -2696
+     ],
+     [
+      -4488,
+      -93064,
+      -2384
+     ],
+     [
+      -4504,
+      -93096,
+      -2352
+     ],
+     [
+      -5496,
+      -94088,
+      -2368
+     ],
+     [
+      -5768,
+      -94360,
+      -2440
+     ]
+    ],
+    "maxDanger": 20,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 20,
+     "dangerVsLevel": 2,
+     "aggro": []
+    }
+   },
+   "expectedSec": 516,
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c1:deliver:30501",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30501,
+    "name": "Kasman",
+    "title": "Prefect",
+    "town": "Gludin",
+    "at": [
+     -80448,
+     153408,
+     -3176
+    ],
+    "alt": []
+   },
+   "text": "Bring Head of Betrayer x2 to Kasman",
+   "needs": [
+    {
+     "id": 1591,
+     "name": "Head of Betrayer",
+     "n": 2
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30501@-80448,153408",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 7337,
+    "sec": 81,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 7337,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -80648,
+      149960,
+      -3040
+     ],
+     [
+      -80728,
+      150056,
+      -3040
+     ],
+     [
+      -80920,
+      150248,
+      -3040
+     ],
+     [
+      -81128,
+      150296,
+      -3056
+     ],
+     [
+      -81352,
+      150344,
+      -3120
+     ],
+     [
+      -81544,
+      150536,
+      -3120
+     ],
+     [
+      -81752,
+      150712,
+      -3120
+     ],
+     [
+      -81960,
+      150792,
+      -3120
+     ],
+     [
+      -82008,
+      150840,
+      -3120
+     ],
+     [
+      -82104,
+      150936,
+      -3120
+     ],
+     [
+      -82328,
+      151096,
+      -3120
+     ],
+     [
+      -82568,
+      151240,
+      -3120
+     ],
+     [
+      -82760,
+      151416,
+      -3120
+     ],
+     [
+      -82936,
+      151608,
+      -3120
+     ],
+     [
+      -82952,
+      151880,
+      -3120
+     ],
+     [
+      -82968,
+      152152,
+      -3120
+     ],
+     [
+      -83032,
+      152408,
+      -3128
+     ],
+     [
+      -82984,
+      152680,
+      -3168
+     ],
+     [
+      -82712,
+      152728,
+      -3168
+     ],
+     [
+      -82552,
+      152728,
+      -3168
+     ],
+     [
+      -82344,
+      152744,
+      -3168
+     ],
+     [
+      -82072,
+      152744,
+      -3168
+     ],
+     [
+      -81800,
+      152744,
+      -3168
+     ],
+     [
+      -81528,
+      152744,
+      -3168
+     ],
+     [
+      -81256,
+      152744,
+      -3168
+     ],
+     [
+      -80984,
+      152744,
+      -3168
+     ],
+     [
+      -80824,
+      152744,
+      -3168
+     ],
+     [
+      -80808,
+      152760,
+      -3168
+     ],
+     [
+      -80760,
+      152952,
+      -3168
+     ],
+     [
+      -80728,
+      153224,
+      -3168
+     ],
+     [
+      -80536,
+      153416,
+      -3168
+     ],
+     [
+      -80440,
+      153432,
+      -3168
+     ],
+     [
+      -80440,
+      153416,
+      -3168
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 106,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c1:deliver:31978",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 31978,
+    "name": "Tazeer",
+    "title": "Prefect",
+    "town": "Schuttgart",
+    "at": [
+     90000,
+     -143286,
+     -1527
+    ],
+    "alt": []
+   },
+   "text": "Bring Timora Orc's Head to Tazeer",
+   "needs": [
+    {
+     "id": 8544,
+     "name": "Timora Orc's Head",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:31978@90000,-143286",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 5386,
+    "sec": 65,
+    "via": ".schuttgart",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "walk",
+      "len": 5386,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Schuttgart"
+    },
+    "simple": true,
+    "pv": [
+     [
+      87355,
+      -142095,
+      -1336
+     ],
+     [
+      87416,
+      -142296,
+      -1336
+     ],
+     [
+      87448,
+      -142328,
+      -1336
+     ],
+     [
+      87656,
+      -142488,
+      -1336
+     ],
+     [
+      87912,
+      -142600,
+      -1336
+     ],
+     [
+      88152,
+      -142648,
+      -1336
+     ],
+     [
+      88424,
+      -142616,
+      -1336
+     ],
+     [
+      88648,
+      -142472,
+      -1336
+     ],
+     [
+      88856,
+      -142312,
+      -1336
+     ],
+     [
+      89080,
+      -142168,
+      -1376
+     ],
+     [
+      89096,
+      -142152,
+      -1392
+     ],
+     [
+      89320,
+      -141992,
+      -1448
+     ],
+     [
+      89544,
+      -141832,
+      -1536
+     ],
+     [
+      89640,
+      -141928,
+      -1536
+     ],
+     [
+      89736,
+      -141928,
+      -1536
+     ],
+     [
+      89912,
+      -142024,
+      -1536
+     ],
+     [
+      90040,
+      -142264,
+      -1536
+     ],
+     [
+      90152,
+      -142520,
+      -1536
+     ],
+     [
+      90360,
+      -142680,
+      -1536
+     ],
+     [
+      90552,
+      -142872,
+      -1536
+     ],
+     [
+      90568,
+      -143080,
+      -1536
+     ],
+     [
+      90360,
+      -143192,
+      -1520
+     ],
+     [
+      90136,
+      -143272,
+      -1520
+     ],
+     [
+      89944,
+      -143448,
+      -1520
+     ],
+     [
+      90056,
+      -143352,
+      -1520
+     ],
+     [
+      90024,
+      -143320,
+      -1520
+     ],
+     [
+      90024,
+      -143288,
+      -1520
+     ],
+     [
+      90008,
+      -143288,
+      -1520
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c1:deliver:30570",
+   "cond": 1,
+   "kind": "deliver",
+   "to": 5,
+   "links": [
+    "\"I want to go to the Town of Schuttgart.\""
+   ],
+   "npc": {
+    "id": 30570,
+    "name": "Karukia",
+    "title": "Prefect",
+    "town": "Orc Village",
+    "at": [
+     -45952,
+     -114496,
+     -200
+    ],
+    "alt": []
+   },
+   "text": "Bring Kuruka Ratman Tooth x10, Goblin Dwelling Map to Karukia",
+   "needs": [
+    {
+     "id": 1580,
+     "name": "Kuruka Ratman Tooth",
+     "n": 10
+    },
+    {
+     "id": 1579,
+     "name": "Goblin Dwelling Map",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30570@-45952,-114496",
+    "status": "ok",
+    "flags": [],
+    "from": ".schuttgart",
+    "length": 2355,
+    "sec": 65,
+    "via": ".schuttgart > Schuttgart -> Orc Village",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Schuttgart",
+      "cmd": ".schuttgart"
+     },
+     {
+      "do": "gk",
+      "from": "Schuttgart",
+      "desc": "Schuttgart -> Orc Village",
+      "link": "orc village",
+      "price": 13000,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 2355,
+      "how": "town-graph",
+      "danger": 2
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Schuttgart",
+     "desc": "Schuttgart -> Orc Village"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -45158,
+      -112583,
+      -240
+     ],
+     [
+      -45160,
+      -112584,
+      -240
+     ],
+     [
+      -44952,
+      -112632,
+      -240
+     ],
+     [
+      -44760,
+      -112824,
+      -240
+     ],
+     [
+      -44696,
+      -112888,
+      -240
+     ],
+     [
+      -44808,
+      -113000,
+      -240
+     ],
+     [
+      -45000,
+      -113176,
+      -240
+     ],
+     [
+      -45240,
+      -113304,
+      -240
+     ],
+     [
+      -45400,
+      -113528,
+      -240
+     ],
+     [
+      -45416,
+      -113800,
+      -240
+     ],
+     [
+      -45592,
+      -114008,
+      -240
+     ],
+     [
+      -45736,
+      -114232,
+      -240
+     ]
+    ],
+    "maxDanger": 2,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 2,
+     "dangerVsLevel": -16,
+     "aggro": []
+    }
+   },
+   "expectedSec": 90,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ }
+}

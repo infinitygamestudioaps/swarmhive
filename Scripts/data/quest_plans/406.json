@@ -1,0 +1,1386 @@
+{
+ "id": 406,
+ "name": "Path Of The Elven Knight",
+ "version": 1,
+ "generated": "2026-10-27T11:15:39.151Z",
+ "tool": "docs/plan/tools/quest_plan_build.js",
+ "level": {
+  "min": 18,
+  "max": null
+ },
+ "type": "one-time",
+ "region": "Gludio",
+ "requirements": {
+  "classes": [
+   "elvenFighter"
+  ]
+ },
+ "restrictions": [
+  {
+   "code": "class-only",
+   "text": "classes: elvenFighter"
+  }
+ ],
+ "status": "fixable",
+ "reasons": [
+  {
+   "code": "dryrun-fail",
+   "text": "dry run: plan-stage-unknown"
+  },
+  {
+   "code": "dryrun:plan-stage-unknown",
+   "text": "plan stage(s) 2, 5 never set by the script"
+  }
+ ],
+ "expectedMin": 38,
+ "refLevel": 18,
+ "steps": [
+  {
+   "i": 0,
+   "key": "c0:start:30327",
+   "cond": 0,
+   "kind": "start",
+   "to": 1,
+   "links": [
+    "Challenge the test"
+   ],
+   "npc": {
+    "id": 30327,
+    "name": "Sorius",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13440,
+     122643,
+     -3103
+    ],
+    "alt": []
+   },
+   "text": "Talk to Sorius – accept the quest",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30327@-13440,122643",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3394,
+    "sec": 48,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 3394,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14264,
+      122776,
+      -3112
+     ],
+     [
+      -13992,
+      122776,
+      -3112
+     ],
+     [
+      -13720,
+      122776,
+      -3104
+     ],
+     [
+      -13672,
+      122776,
+      -3104
+     ],
+     [
+      -13432,
+      122648,
+      -3104
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 78,
+   "conds": [
+    0
+   ]
+  },
+  {
+   "i": 1,
+   "key": "c1:hunt",
+   "cond": 1,
+   "kind": "hunt",
+   "to": 2,
+   "monsters": [
+    {
+     "id": 20035,
+     "name": "Skeleton Tracker",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 31,
+     "questSpawned": false
+    },
+    {
+     "id": 20042,
+     "name": "Skeleton Tracker Leader",
+     "level": 18,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 55,
+     "questSpawned": false
+    },
+    {
+     "id": 20045,
+     "name": "Skeleton Scout",
+     "level": 19,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 45,
+     "questSpawned": false
+    },
+    {
+     "id": 20051,
+     "name": "Skeleton Bowman",
+     "level": 20,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 12,
+     "questSpawned": false
+    },
+    {
+     "id": 20054,
+     "name": "Ruin Spartoi",
+     "level": 21,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 43,
+     "questSpawned": false
+    },
+    {
+     "id": 20060,
+     "name": "Raging Spartoi",
+     "level": 22,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 23,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1205,
+     "name": "Topaz Piece",
+     "n": 20,
+     "from": [
+      {
+       "id": 20035,
+       "name": "Skeleton Tracker",
+       "chance": 70
+      },
+      {
+       "id": 20042,
+       "name": "Skeleton Tracker Leader",
+       "chance": 70
+      },
+      {
+       "id": 20045,
+       "name": "Skeleton Scout",
+       "chance": 70
+      },
+      {
+       "id": 20051,
+       "name": "Skeleton Bowman",
+       "chance": 70
+      },
+      {
+       "id": 20054,
+       "name": "Ruin Spartoi",
+       "chance": 70
+      },
+      {
+       "id": 20060,
+       "name": "Raging Spartoi",
+       "chance": 70
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Skeleton Tracker, Skeleton Tracker Leader, Skeleton Scout for Topaz Piece x20",
+   "places": [
+    {
+     "mobs": [
+      20035,
+      20042,
+      20045,
+      20051,
+      20054,
+      20060
+     ],
+     "items": [
+      1205
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "ruins-of-agony-11",
+      "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+      "at": [
+       -50456,
+       115016,
+       -3288
+      ],
+      "radius": 5846,
+      "levels": [
+       17,
+       23
+      ],
+      "count": 32,
+      "region": "Ruins of Agony",
+      "atlasKey": "area:ruins-of-agony-11",
+      "status": "ok",
+      "sec": 148,
+      "danger": 24,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -177.53333333333333,
+      "alt": [
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-12",
+        "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+        "at": [
+         -58232,
+         110552,
+         -3336
+        ],
+        "count": 18,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "fellmere-harvest-grounds-17",
+        "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+        "at": [
+         -54760,
+         112264,
+         -3240
+        ],
+        "count": 16,
+        "status": "ok"
+       },
+       {
+        "kind": "field",
+        "id": "ruins-of-agony-5",
+        "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+        "at": [
+         -48072,
+         120920,
+         -3128
+        ],
+        "count": 13,
+        "status": "ok"
+       }
+      ]
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:ruins-of-agony-11",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludio",
+      "length": 12362,
+      "sec": 148,
+      "via": ".gludio > Gludio -> Ruins of Agony",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludio",
+        "cmd": ".gludio"
+       },
+       {
+        "do": "gk",
+        "from": "Gludio",
+        "desc": "Gludio -> Ruins of Agony",
+        "link": "ruins of agony",
+        "price": 790,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 12362,
+        "how": "field-areas",
+        "danger": 23
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludio",
+       "desc": "Gludio -> Ruins of Agony"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -41240,
+        122856,
+        -2904
+       ],
+       [
+        -42232,
+        122856,
+        -2936
+       ],
+       [
+        -43224,
+        122024,
+        -2736
+       ],
+       [
+        -44216,
+        121080,
+        -3000
+       ],
+       [
+        -44568,
+        120728,
+        -3072
+       ],
+       [
+        -45560,
+        119912,
+        -3424
+       ],
+       [
+        -46552,
+        118920,
+        -3208
+       ],
+       [
+        -47544,
+        117928,
+        -3216
+       ],
+       [
+        -48536,
+        116936,
+        -3552
+       ],
+       [
+        -49528,
+        115944,
+        -3360
+       ],
+       [
+        -50456,
+        115016,
+        -3288
+       ]
+      ],
+      "maxDanger": 23,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 23,
+       "dangerVsLevel": 5,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "ruins-of-agony-11",
+    "name": "Ruins of Agony 11: Ruin Spartoi area (north-west)",
+    "at": [
+     -50456,
+     115016,
+     -3288
+    ],
+    "radius": 5846,
+    "levels": [
+     17,
+     23
+    ],
+    "count": 32,
+    "region": "Ruins of Agony",
+    "atlasKey": "area:ruins-of-agony-11",
+    "status": "ok",
+    "sec": 148,
+    "danger": 24,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -177.53333333333333,
+    "alt": [
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-12",
+      "name": "Fellmere Harvest Grounds 12: Skeleton Tracker area (south-east)",
+      "at": [
+       -58232,
+       110552,
+       -3336
+      ],
+      "count": 18,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "fellmere-harvest-grounds-17",
+      "name": "Fellmere Harvest Grounds 17: Skeleton Scout area (south-east)",
+      "at": [
+       -54760,
+       112264,
+       -3240
+      ],
+      "count": 16,
+      "status": "ok"
+     },
+     {
+      "kind": "field",
+      "id": "ruins-of-agony-5",
+      "name": "Ruins of Agony 5: Skeleton Tracker Leader area (west)",
+      "at": [
+       -48072,
+       120920,
+       -3128
+      ],
+      "count": 13,
+      "status": "ok"
+     }
+    ]
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:ruins-of-agony-11",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 12362,
+    "sec": 148,
+    "via": ".gludio > Gludio -> Ruins of Agony",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "gk",
+      "from": "Gludio",
+      "desc": "Gludio -> Ruins of Agony",
+      "link": "ruins of agony",
+      "price": 790,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 12362,
+      "how": "field-areas",
+      "danger": 23
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludio",
+     "desc": "Gludio -> Ruins of Agony"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -41240,
+      122856,
+      -2904
+     ],
+     [
+      -42232,
+      122856,
+      -2936
+     ],
+     [
+      -43224,
+      122024,
+      -2736
+     ],
+     [
+      -44216,
+      121080,
+      -3000
+     ],
+     [
+      -44568,
+      120728,
+      -3072
+     ],
+     [
+      -45560,
+      119912,
+      -3424
+     ],
+     [
+      -46552,
+      118920,
+      -3208
+     ],
+     [
+      -47544,
+      117928,
+      -3216
+     ],
+     [
+      -48536,
+      116936,
+      -3552
+     ],
+     [
+      -49528,
+      115944,
+      -3360
+     ],
+     [
+      -50456,
+      115016,
+      -3288
+     ]
+    ],
+    "maxDanger": 23,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 23,
+     "dangerVsLevel": 5,
+     "aggro": []
+    }
+   },
+   "expectedSec": 873,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1
+   ]
+  },
+  {
+   "i": 2,
+   "key": "c1:deliver:30327",
+   "cond": 1,
+   "kind": "deliver",
+   "to": "end",
+   "links": [],
+   "npc": {
+    "id": 30327,
+    "name": "Sorius",
+    "title": "Master",
+    "town": "Gludio",
+    "at": [
+     -13440,
+     122643,
+     -3103
+    ],
+    "alt": []
+   },
+   "text": "Bring Kluto Box to Sorius",
+   "needs": [
+    {
+     "id": 1203,
+     "name": "Kluto Box",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30327@-13440,122643",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludio",
+    "length": 3394,
+    "sec": 48,
+    "via": ".gludio",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludio",
+      "cmd": ".gludio"
+     },
+     {
+      "do": "walk",
+      "len": 3394,
+      "how": "town-graph",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludio"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -12712,
+      122776,
+      -3116
+     ],
+     [
+      -12792,
+      122776,
+      -3112
+     ],
+     [
+      -12856,
+      122712,
+      -3112
+     ],
+     [
+      -13112,
+      122664,
+      -3088
+     ],
+     [
+      -13320,
+      122712,
+      -3048
+     ],
+     [
+      -13288,
+      122440,
+      -2984
+     ],
+     [
+      -13368,
+      122264,
+      -2984
+     ],
+     [
+      -13640,
+      122248,
+      -2984
+     ],
+     [
+      -13864,
+      122200,
+      -2984
+     ],
+     [
+      -14040,
+      122136,
+      -2984
+     ],
+     [
+      -14136,
+      122216,
+      -2984
+     ],
+     [
+      -14136,
+      122488,
+      -3112
+     ],
+     [
+      -14248,
+      122728,
+      -3112
+     ],
+     [
+      -14280,
+      122760,
+      -3112
+     ],
+     [
+      -14264,
+      122776,
+      -3112
+     ],
+     [
+      -13992,
+      122776,
+      -3112
+     ],
+     [
+      -13720,
+      122776,
+      -3104
+     ],
+     [
+      -13672,
+      122776,
+      -3104
+     ],
+     [
+      -13432,
+      122648,
+      -3104
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 73,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "i": 3,
+   "key": "c3:talk:30317",
+   "cond": 3,
+   "kind": "talk",
+   "to": 4,
+   "links": [
+    "Ask about the favor"
+   ],
+   "npc": {
+    "id": 30317,
+    "name": "Kluto",
+    "title": "Blacksmith",
+    "town": "Gludin",
+    "at": [
+     -83172,
+     155483,
+     -3174
+    ],
+    "alt": []
+   },
+   "text": "Talk to Kluto",
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30317@-83172,155483",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6343,
+    "sec": 73,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6343,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -82912,
+      152248,
+      -3144
+     ],
+     [
+      -83048,
+      152744,
+      -3168
+     ],
+     [
+      -83048,
+      153736,
+      -3168
+     ],
+     [
+      -83048,
+      154728,
+      -3168
+     ],
+     [
+      -83048,
+      155320,
+      -3176
+     ],
+     [
+      -83176,
+      155480,
+      -3176
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    3
+   ]
+  },
+  {
+   "i": 4,
+   "key": "c4:hunt",
+   "cond": 4,
+   "kind": "hunt",
+   "to": 5,
+   "monsters": [
+    {
+     "id": 20782,
+     "name": "Ol Mahum Novice",
+     "level": 17,
+     "aggressive": false,
+     "raid": false,
+     "spawns": 10,
+     "questSpawned": false
+    }
+   ],
+   "items": [
+    {
+     "id": 1206,
+     "name": "Emerald Piece",
+     "n": 20,
+     "from": [
+      {
+       "id": 20782,
+       "name": "Ol Mahum Novice",
+       "chance": 50
+      }
+     ]
+    }
+   ],
+   "kills": 1,
+   "reasons": [],
+   "text": "Hunt Ol Mahum Novice for Emerald Piece x20",
+   "places": [
+    {
+     "mobs": [
+      20782
+     ],
+     "items": [
+      1206
+     ],
+     "kills": 1,
+     "area": {
+      "kind": "field",
+      "id": "abandoned-camp-1",
+      "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+      "at": [
+       -49064,
+       150024,
+       -2824
+      ],
+      "radius": 4947,
+      "levels": [
+       17,
+       22
+      ],
+      "count": 10,
+      "region": "Abandoned Camp",
+      "atlasKey": "area:abandoned-camp-1",
+      "status": "ok",
+      "sec": 72,
+      "danger": 22,
+      "aggrShare": 1,
+      "reachable": true,
+      "score": -58.8,
+      "alt": []
+     },
+     "travel": {
+      "src": "atlas",
+      "key": "area:abandoned-camp-1",
+      "status": "ok",
+      "flags": [],
+      "from": ".gludin",
+      "length": 3211,
+      "sec": 72,
+      "via": ".gludin > Gludin -> Abandoned Camp",
+      "steps": [
+       {
+        "do": "town",
+        "town": "Gludin",
+        "cmd": ".gludin"
+       },
+       {
+        "do": "gk",
+        "from": "Gludin",
+        "desc": "Gludin -> Abandoned Camp",
+        "link": "abandoned camp",
+        "price": 1200,
+        "live": true
+       },
+       {
+        "do": "walk",
+        "len": 3211,
+        "how": "field-areas",
+        "danger": 22
+       }
+      ],
+      "start": {
+       "kind": "gk",
+       "from": "Gludin",
+       "desc": "Gludin -> Abandoned Camp"
+      },
+      "simple": true,
+      "pv": [
+       [
+        -49848,
+        147096,
+        -2792
+       ],
+       [
+        -49848,
+        148088,
+        -2784
+       ],
+       [
+        -49848,
+        149080,
+        -2744
+       ],
+       [
+        -49064,
+        150024,
+        -2824
+       ]
+      ],
+      "maxDanger": 22,
+      "needs": [],
+      "why": [],
+      "checks": {
+       "reachable": true,
+       "walls": "geodata / saved / graph walks (walls block)",
+       "water": false,
+       "danger": 22,
+       "dangerVsLevel": 4,
+       "aggro": []
+      }
+     }
+    }
+   ],
+   "area": {
+    "kind": "field",
+    "id": "abandoned-camp-1",
+    "name": "Abandoned Camp 1: Ol Mahum Novice area (south)",
+    "at": [
+     -49064,
+     150024,
+     -2824
+    ],
+    "radius": 4947,
+    "levels": [
+     17,
+     22
+    ],
+    "count": 10,
+    "region": "Abandoned Camp",
+    "atlasKey": "area:abandoned-camp-1",
+    "status": "ok",
+    "sec": 72,
+    "danger": 22,
+    "aggrShare": 1,
+    "reachable": true,
+    "score": -58.8,
+    "alt": []
+   },
+   "travel": {
+    "src": "atlas",
+    "key": "area:abandoned-camp-1",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 3211,
+    "sec": 72,
+    "via": ".gludin > Gludin -> Abandoned Camp",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "gk",
+      "from": "Gludin",
+      "desc": "Gludin -> Abandoned Camp",
+      "link": "abandoned camp",
+      "price": 1200,
+      "live": true
+     },
+     {
+      "do": "walk",
+      "len": 3211,
+      "how": "field-areas",
+      "danger": 22
+     }
+    ],
+    "start": {
+     "kind": "gk",
+     "from": "Gludin",
+     "desc": "Gludin -> Abandoned Camp"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -49848,
+      147096,
+      -2792
+     ],
+     [
+      -49848,
+      148088,
+      -2784
+     ],
+     [
+      -49848,
+      149080,
+      -2744
+     ],
+     [
+      -49064,
+      150024,
+      -2824
+     ]
+    ],
+    "maxDanger": 22,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 22,
+     "dangerVsLevel": 4,
+     "aggro": []
+    }
+   },
+   "expectedSec": 1072,
+   "engine": {
+    "act": "hunt",
+    "hasItems": "talk"
+   },
+   "conds": [
+    4
+   ]
+  },
+  {
+   "i": 5,
+   "key": "c5:deliver:30317",
+   "cond": 5,
+   "kind": "deliver",
+   "to": 6,
+   "links": [],
+   "npc": {
+    "id": 30317,
+    "name": "Kluto",
+    "title": "Blacksmith",
+    "town": "Gludin",
+    "at": [
+     -83172,
+     155483,
+     -3174
+    ],
+    "alt": []
+   },
+   "text": "Bring 20 Emerald Pieces to Kluto",
+   "needs": [
+    {
+     "id": 1205,
+     "name": "Topaz Piece",
+     "n": 20
+    },
+    {
+     "id": 1206,
+     "name": "Emerald Piece",
+     "n": 20
+    },
+    {
+     "id": 1276,
+     "name": "Kluto's Memo",
+     "n": 1
+    }
+   ],
+   "reasons": [],
+   "travel": {
+    "src": "atlas",
+    "key": "npc:30317@-83172,155483",
+    "status": "ok",
+    "flags": [],
+    "from": ".gludin",
+    "length": 6343,
+    "sec": 73,
+    "via": ".gludin",
+    "steps": [
+     {
+      "do": "town",
+      "town": "Gludin",
+      "cmd": ".gludin"
+     },
+     {
+      "do": "walk",
+      "len": 6343,
+      "how": "geodata",
+      "danger": 0
+     }
+    ],
+    "start": {
+     "kind": "town",
+     "town": "Gludin"
+    },
+    "simple": true,
+    "pv": [
+     [
+      -80786,
+      150251,
+      -3040
+     ],
+     [
+      -81224,
+      150552,
+      -3112
+     ],
+     [
+      -81720,
+      151048,
+      -3116
+     ],
+     [
+      -82216,
+      151544,
+      -3120
+     ],
+     [
+      -82616,
+      151672,
+      -3120
+     ],
+     [
+      -82776,
+      151752,
+      -3120
+     ],
+     [
+      -82912,
+      152248,
+      -3144
+     ],
+     [
+      -83048,
+      152744,
+      -3168
+     ],
+     [
+      -83048,
+      153736,
+      -3168
+     ],
+     [
+      -83048,
+      154728,
+      -3168
+     ],
+     [
+      -83048,
+      155320,
+      -3176
+     ],
+     [
+      -83176,
+      155480,
+      -3176
+     ]
+    ],
+    "maxDanger": 0,
+    "needs": [],
+    "why": [],
+    "checks": {
+     "reachable": true,
+     "walls": "geodata / saved / graph walks (walls block)",
+     "water": false,
+     "danger": 0,
+     "dangerVsLevel": 0,
+     "aggro": []
+    }
+   },
+   "expectedSec": 98,
+   "engine": {
+    "act": "talk",
+    "hasItems": "talk"
+   },
+   "conds": [
+    5
+   ]
+  }
+ ],
+ "override": {
+  "steps": {}
+ },
+ "dryrun": {
+  "at": "2026-10-27T11:15:39.162Z",
+  "pass": false,
+  "geo": true,
+  "fails": [
+   {
+    "code": "plan-stage-unknown",
+    "t": "plan stage(s) 2, 5 never set by the script"
+   }
+  ],
+  "warns": [
+   "script-runtime-cond"
+  ]
+ }
+}
