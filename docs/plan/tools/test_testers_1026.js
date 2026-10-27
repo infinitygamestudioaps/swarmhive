@@ -37,5 +37,9 @@ const n = cf(() => mobs, Number, (nm) => nm === 'aggro' ? 300 : 0)(0, 0, 250);
 ok(n === 3, `AOEFIGHT: target + one fighting + one aggressive = 3, idle passive ones not counted (got ${n})`);
 ok((src.match(/countFightMobsNear\(/g) || []).length >= 4, 'AOEFIGHT: castPick paths use it (skill plan, hunt, member fight)');
 
+// NOJUNK (owner 2026-10-26: "WHY DID YOU SELL SOMETHING I NEVER ASKED YOU TO ... YOU CAN NEVER DO THIS"): gear is never sold as junk
+ok(/sell: { enabled: true, junk: false,/.test(src), "NOJUNK: CONFIG.sell.junk is false (only items the owner marks are sold)");
+// NOAUTOSELL (owner 2026-10-26: "automatic selling should be default OFF for all characters"): every sale path passes the sellAt guard
+ok(src.includes("if (!only && !/^!/.test(String(why || '')) && !pautoOn('sell')) {"), 'NOAUTOSELL: sellAt refuses without the owner order / sell switch');
 console.log(`testers 2026-10-26: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -504,7 +504,9 @@ function createHost(o) {
   // + watch every Options key swarm.js is known to read (docs/plan/new_engine/host_api.md §2), so the first read already has the live value
   const PREWATCH = ['ActiveFollow', 'FollowName', 'FollowAtk', 'FollowDistance', 'EnableJSOnIncomingPacket', 'CombatZoneType', 'PickUp', 'PickUpPattern', 'SendParty', 'AutoResurrect',
     'CombatSkillsList', 'UseCombatZLimit', 'CombatZLimit', 'CombatRange'];
-  H.onAttach = () => { optWritten.forEach((v, k) => link.set('Options.' + k, optWire(k, v))); PREWATCH.forEach(k => { optWatched.add(k); link.watch('opt', k); }); };
+  // CPUOPT-2026-10-26 (brain_traffic.md): a worker restart inside a 4 s packet capture left the agent's packet hook ON (every packet into V8) for up to
+  // 10 min, and 4 accounts had it on in their L2Swarm config: unless this script switched it on itself, a (re)attach switches it OFF.
+  H.onAttach = () => { optWritten.forEach((v, k) => link.set('Options.' + k, optWire(k, v))); if (!optWritten.has('EnableJSOnIncomingPacket')) { link.set('Options.EnableJSOnIncomingPacket', false); link.watch('packets', false); } PREWATCH.forEach(k => { optWatched.add(k); link.watch('opt', k); }); };
   H.global = g; H.mirror = mirror; H.views = V; H.setRealm = (r) => { Object.assign(realm, r); };
   H.coverage = () => {
     const c = {};

@@ -233,7 +233,7 @@
         const w = c && c.shotWarn;
         if (w && t - (Date.parse(w.at) || 0) < 3600000) out.push(`<div class="psb-warn" role="alert"><b>NO SHOTS</b> ${esc(c.name)}: ${esc(w.text)}</div>`);
         const lh = c && c.levelHealth;   // LEVELHEALTH-2026-10-23: the leader's last self-repair of a slow hunt
-        if (lh && t - (Date.parse(lh.at) || 0) < 1800000) out.push(`<div class="psb-warn" role="status"><b>SLOW HUNTING</b> ${esc(c.name)}: ${esc(lh.why)}</div>`);
+        if (lh && t - (Date.parse(lh.at) || 0) < 1800000) { const ago = Math.max(0, Math.round((t - (Date.parse(lh.at) || t)) / 60000)); out.push(`<div class="psb-warn" role="status"><b>SLOW HUNTING</b> ${esc(c.name)} (${ago ? ago + ' min ago' : 'just now'}): ${esc(lh.why)}</div>`); }   // SLOWSTALE-2026-10-26: say how old it is
       });
       return out.join('');
     } catch (e) { return ''; }

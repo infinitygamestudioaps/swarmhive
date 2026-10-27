@@ -1027,15 +1027,10 @@ async function createCharacter({ login, password, startClass, sex, name }) {
   const charName = name || randomName();
   try { log.push(await mcpCall('open_account', { config_path: file })); } catch (e) { log.push('open: ' + e.message); }
   const [race, classId, st] = cls;
-  const src = `(async () => {
-  const log = (t) => File.AppendAllText('${ROOT_FWD}/Logs/create_chars.txt', new Date().toISOString() + ' [${login}] ' + t + '\\r\\n');
-  log('waiting for character select to create ${charName}');
-  for (let i = 0; i < 360; i++) {
-    await sleep(5000);
-    try { if (Me && Me.Name) { log('in game as ' + Me.Name); return; } } catch (e) { }
-    try { Send.NewCharacter(); await sleep(1500); Send.CharacterCreate('${charName}', ${race}, ${sex ? 1 : 0}, ${classId}, ${st.join(', ')}, 0, 0, 0); if (i % 6 === 0) log('CharacterCreate sent'); } catch (e) { }
-  }
-})();`;
+  // CREATEFIX-2026-10-26 (tester Vykaax: "Character creation is stuck?" - 'CharacterCreate sent' for 39 min): this old script never read the
+  // server's answer, so a refused name / full account looped silently. Now the Add-account script: CharCreateOk / CharCreateFail (reason) are read,
+  // 6 tries at most, then 'RESULT FAIL <name> was refused (no free character slot | name taken or not allowed)' in Logs/create_chars.txt.
+  const src = require('./addaccount_api.js').buildCreateScript(ROOT_FWD, login.toLowerCase(), { race, sex: sex ? 1 : 0, classId, stats: st }, charName);
   log.push(await mcpCall('manage_account_scripts', { account_name: login.toLowerCase(), action: 'create', script_name: 'create_char.js', source: src }));
   const scriptName = (log[log.length - 1].match(/mcp_script_[0-9a-f]+\.js/) || [])[0];
   if (scriptName) log.push(await mcpCall('manage_account_scripts', { account_name: login.toLowerCase(), action: 'start', script_name: scriptName }));

@@ -145,6 +145,7 @@ const inBox = (d, m) => d.lines.every(l => { for (let i = 0; i + 1 < l.length; i
   console.log(`--- B: browser 390x844 (${freeGB.toFixed(1)} GB free)`);
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'tp-edge-')), DBG = 9300 + Math.floor(Math.random() * 500);
   const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', '--disable-extensions', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  process.on('exit', () => { try { cp.execSync('taskkill /PID ' + br.pid + ' /T /F', { stdio: 'ignore' }); } catch (e) { } });   // BROWSERLEAK 2026-10-26: br.kill() left Chrome's child processes (60+ after one publish) - the whole tree goes on every exit
   const done = async () => { try { cp.execSync('taskkill /PID ' + br.pid + ' /T /F', { stdio: 'ignore' }); } catch (e) { } srv.close(); await sleep(600); try { fs.rmSync(prof, { recursive: true, force: true }); } catch (e) { } };
   try {
     let ws = null;

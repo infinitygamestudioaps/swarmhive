@@ -72,7 +72,7 @@ const cut = (a, b) => { const i = src.indexOf(a), j = src.indexOf(b, i + 1); if 
   // ---- 6) ENGAGEDFOCUS + SURRENDERBOSS ------------------------------------------------------------------------------------------
   ok(/(?:const|let) minsAll = bossMinions\(boss\)\.filter\(engaged\)/.test(src) && /Math\.hypot\(m\.X - Me\.X, m\.Y - Me\.Y\) < 900; \};/.test(src), 'focus: only minions in the fight (hitting us / within 900 of the tank); loose far ones are the tank\'s job');
   ok(/aggroAge: raidCtl\.aggroAt \? now\(\) - raidCtl\.aggroAt/.test(src) && /if \(isFinite\(ag\) && ag >= 0 && !raidCtl\.aggroAt\) raidCtl\.aggroAt = now\(\) - ag;/.test(src), 'members learn the pull time from the focus broadcast (2.5 s opening works in every window)');
-  ok(/if \(bossObj && !bossObj\.IsDead && \(raidCtl\.aggroAt \|\| num\(bossObj\.HpPercent\) < 99\) && await teamSurrenderStep\(bossObj, true\)\) continue;/.test(src), 'raid: the team Surrender goes on the BOSS (not the focus minion)');
+  ok(/if \(bossObj && !bossObj\.IsDead && \(raidCtl\.aggroAt \|\| num\(bossObj\.HpPercent\) < 99\) && await teamSurrenderStep\(bossObj, true\)\) (?:\{ rw\('team surrender cast'\); )?continue;/.test(src), 'raid: the team Surrender goes on the BOSS (not the focus minion)');
   const SM = new Function('now', 'surTrack', cut('function surrenderMissed()', '/** the team\'s Surrender on my target') + '\nreturn surrenderMissed;');
   const st = { 77: { at: 1000, dur: 30 }, __last: { oid: 77, at: 1000 } };
   SM(() => 3000, st)();

@@ -14,9 +14,9 @@ const fnSrc = (name) => { const i = src.indexOf('function ' + name + '('); if (i
 // ---- R1 ----
 const own = fnSrc('hovForMyJob'), busy = fnSrc('hovBusyWhy');
 check(!!own && !!busy, 'hovForMyJob + hovBusyWhy exist');
-const mk = (ijBusy, files) => new Function('IJ', 'hovLoad', 'Me', 'userTaskWhy', 'inRaid', 'inKamaInstance', 'state', 'STASH', 'WH', 'now', 'lastAttackerOnMe',
+const mk = (ijBusy, files) => new Function('IJ', 'hovLoad', 'Me', 'userTaskWhy', 'inRaid', 'inKamaInstance', 'state', 'STASH', 'WH', 'now', 'lastAttackerOnMe', 'handsOffMe', 'HOV',   // HANDSOFF-2026-10-26: hovBusyWhy also asks the optional hands-off switch (off here)
   own + '\n' + busy + '\nreturn hovBusyWhy;')({ busy: ijBusy }, (id) => files[id] || null, { IsDead: false },
-  () => ijBusy ? 'your item job ' + ijBusy : '', () => false, () => false, { mode: '' }, { busy: false }, { busy: false }, () => 1e12, { at: 0 });
+  () => ijBusy ? 'your item job ' + ijBusy : '', () => false, () => false, { mode: '' }, { busy: false }, { busy: false }, () => 1e12, { at: 0 }, () => false, { busy: false, id: '' });
 const files = { ijh_bishop5_x: { why: 'item job ij_dagger1_mvgjeliq' }, ijh_other_y: { why: 'item job ij_dagger1_other' }, loot_a_b: { why: 'loot' } };
 check(mk('ij_dagger1_mvgjeliq', files)('ijh_bishop5_x') === '', 'receiver waiting in ITS item job: the job\'s own hand-over is not busy (the 2026-10-20 deadlock)');
 check(/your item job/.test(mk('ij_dagger1_mvgjeliq', files)('ijh_other_y')), 'a hand-over of ANOTHER item job still sees "busy"');

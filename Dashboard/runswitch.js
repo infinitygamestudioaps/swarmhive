@@ -35,15 +35,22 @@
     return `<div class="runline ${p.on ? 'on' : 'off'}" title="${E((p.on ? 'Running' : 'Stopped') + (p.at ? ' since ' + new Date(p.at).toLocaleString() : '') + (p.by ? ' by ' + p.by : '') + (p.why ? ' (' + p.why + ')' : '') + (p.on ? '' : ' — Start does: ' + (p.plan ? p.plan.text : 'its activity')))}">${txt}${E(warn)}${held}</div>`;
   }
   /** the character page: a leader's toggle is its party's; a member can be stopped on its own */
+  /** HANDSOFF-2026-10-26: the per-character "hands off" switch (Hive leaves it alone; only your own orders to it run). Shown once the
+   *  dashboard server sends handsOff (after its restart); default OFF. */
+  function handsOffBlock(name) {
+    const d = data(); if (!d || !d.handsOff || typeof d.handsOff !== 'object') return '';
+    const on = !!d.handsOff[name];
+    return `<span class="runc"><button class="runsw ${on ? 'on' : 'off'}" data-runsw="handsoff" data-name="${E(name)}" data-on="${on ? 0 : 1}" title="${on ? 'Hands off is ON — Hive does nothing with ' + E(name) + '. Click: Hive runs it again' : 'Hands off: Hive leaves ' + E(name) + ' completely alone (only your own orders to it run)'}">✋ Hands off: ${on ? 'ON' : 'OFF'}</button><span class="runct runho">${on ? 'Hive leaves it alone (no party orders, not waited for); your own orders still run' : 'Hive runs it · ON = Hive leaves it to you'}</span></span>`;
+  }
   function charBlock(name) {
     const p = partyOfChar(name);
-    if (!p) return '';
-    if (p.leader === name) return `<span class="runc">${partyButton(name)}<span class="runct">${p.on ? 'party running' : 'party stopped'}${(p.members || []).length > 1 ? ' (leads ' + (p.members.length) + ')' : ''}</span></span>`;
+    if (!p) return handsOffBlock(name);
+    if (p.leader === name) return `<span class="runc">${partyButton(name)}<span class="runct">${p.on ? 'party running' : 'party stopped'}${(p.members || []).length > 1 ? ' (leads ' + (p.members.length) + ')' : ''}</span></span>${handsOffBlock(name)}`;
     const d = data(), own = d && d.chars ? d.chars[name] : null, held = !!(own && own.on === false);
     const btn = held
       ? `<button class="runsw off" data-runsw="char" data-name="${E(name)}" data-on="1" title="Back with party ${E(p.leader)}: follows + assists again">▶ Start</button>`
       : `<button class="runsw on" data-runsw="char" data-name="${E(name)}" data-on="0" title="Stop only ${E(name)}: it stands still, the party goes on without it">■ Stop</button>`;
-    return `<span class="runc">${btn}<span class="runct">${held ? 'stopped on its own' : 'party ' + E(p.leader) + (p.on ? ' running' : ' stopped')}</span></span>`;
+    return `<span class="runc">${btn}<span class="runct">${held ? 'stopped on its own' : 'party ' + E(p.leader) + (p.on ? ' running' : ' stopped')}</span></span>${handsOffBlock(name)}`;
   }
   /** header: Start all / Stop all + how many parties run */
   function paintHeader() {
@@ -78,6 +85,14 @@
         body: [uiP('Every party stops now and does ', uiEm('nothing on its own'), ' until you press Start. Survival, trades and your orders still work.'), uiList(ps.map(p => p.leader))],
         confirmText: '■ Stop all', cancelText: 'Cancel' });
     }
+    if (kind === 'handsoff') {                                   // HANDSOFF-2026-10-26
+      return uiConfirm(on ? {
+        title: `Hands off ${name}?`,
+        body: [uiP(`Hive leaves ${name} completely alone: no hunting, leveling, follow, regroups, supplies, selling, trades, hand-overs, storing, Hive skills, heals or potions of its own, and no orders from its party leader.`),
+          uiList([`Its party does not wait for it and does not count it.`, `Your own orders sent to ${name} (its character page / commands) still run.`, `Its L2Swarm profile (and you, in the game) decide what it does. Hive gives back the skill / heal lists it had switched off.`])],
+        confirmText: '✋ Hands off', cancelText: 'Cancel' } : {
+        title: `Hive runs ${name} again?`, body: [uiP(`Hands off ends: ${name} is back with its party; the party's Start / Stop decides what it does.`)], confirmText: 'Hive runs it again', cancelText: 'Cancel' });
+    }
     const p = partyOfChar(name);
     return uiConfirm(on ? {
       title: `Start ${name} again?`, body: [uiP(`${name} follows and assists party ${p ? p.leader : ''} again; the party's switch (${p && p.on ? 'running' : 'stopped'}) decides what it does.`)], confirmText: '▶ Start', cancelText: 'Cancel' } : {
@@ -90,7 +105,7 @@
     if (BUSY) return; BUSY = true;
     try {
       if (!(await ask(kind, name, on))) return;
-      const body = kind === 'all' ? { all: true, on } : kind === 'party' ? { party: name, on } : { char: name, on: on ? null : false };
+      const body = kind === 'all' ? { all: true, on } : kind === 'party' ? { party: name, on } : kind === 'handsoff' ? { char: name, handsOff: !!on } : { char: name, on: on ? null : false };   // HANDSOFF-2026-10-26
       const r = await call('/api/runstate', { method: 'POST', body: JSON.stringify(body) });
       if (!r || r.error) { uiError((r && r.error) || 'no answer from the dashboard server', 'Not switched'); return; }
       if (r.state) { OWN = r.state; OWNAT = Date.now(); try { if (typeof STATE !== 'undefined' && STATE) STATE.run = r.state; } catch (e) { } }

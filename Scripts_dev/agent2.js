@@ -41,7 +41,8 @@ const now = () => Date.now();
 const ME_FIELDS = ('Name objId Id X Y Z HP MaxHP HpPercent MP MaxMP MpPercent CP MaxCP Level ClassId ClassName ClassType IsDead IsCasting IsInCombat IsAttacking IsSitting ' +
   'IsMoving IsRunning Exp ExpPercent SP PAtkSpd MAtkSpd PAtk MAtk PDef MDef RunSpeed WalkSpeed Speed Karma HennaSTR HennaDEX HennaCON HennaINT HennaWIT HennaMEN Title Heading ' +
   'Race Sex ExpertiseLevel IsStunned IsSleeping IsParalyzed IsOutOfControl Load MaxLoad PvPKills PKKills Fame Vitality IsNoble IsHero IsWeaponEquiped InventoryLimit').split(' ');   // QSYS-2026-10-13: InventoryLimit (bag slots, L2Swarm.Core get_InventoryLimit) for the quest engine's bag check; absent = skipped by pick()
-const CR_DROP = { Buffs: 1, Point: 1, Point3D: 1, dPoint3D: 1, Clan: 1, targetCrt: 1, DistanceString: 1, HPString: 1, MPString: 1, CPString: 1, LoadString: 1 };
+const CR_DROP = { Buffs: 1, Point: 1, Point3D: 1, dPoint3D: 1, Clan: 1, targetCrt: 1, DistanceString: 1, HPString: 1, MPString: 1, CPString: 1, LoadString: 1,
+  Distance: 1, LastCombatHitReceivedMs: 1, LastCombatThreatRegisteredMs: 1, LastCombatAggroTargetedMs: 1 };   // CPUOPT-2026-10-26: Distance = the brain computes it from my position (entities.js); the LastCombat*Ms are read nowhere
 const ITEM_FIELDS = 'objId Id Name Count IsEquiped IsQuest IsQuestItem IsStackable EnchantLvl Type Grade BodyPartTypes Price Weight PAtk MAtk PDef MDef'.split(' ');
 const SKILL_FIELDS = ('Id Level Name IsActive IsPassive IsReady IsToggle IsEnabled IsNeedTarget CastRange Range TargetType AffectScope MP HpConsume ItemConsumeId ItemConsumeCount ReuseDelay ' +
   'IsDebuff AbnormalType AbnormalLevel AbnormalTime OperateType IsMagic MagicLvl HitTime AttributeType Description').split(' ');
@@ -60,7 +61,9 @@ function plain(v) {
   if (t === 'function') return undefined;
   // .NET enums (Mob, PEACEZONE, FIGHTER, C, ...) -> their text. NOT collections (they have Count) and NOT other host objects, whose ToString()
   // is their type name ('L2Swarm.Core.L2Clan', 'System.Collections.ObjectModel.ObservableCollection`1[...]'): those get serialised field by field.
-  try { if (v.Count === undefined && typeof v.ToString === 'function') { const s = String(v); if (s !== '[object Object]' && !/[.`[]/.test(s)) return s; } } catch (e) { }
+  // ENUMFIX-2026-10-26 (ENUMPROBE live: zone / ClassType / Race were 'object/undef' on all 53 agents = the brain never got them): in this ClearScript
+  // String(enum) is '[object Object]'; then the enum's own ToString() gives its name. Only an ALL-CAPS name (PEACEZONE, MAGE, DARK_ELF) is taken as an enum.
+  try { if (v.Count === undefined && typeof v.ToString === 'function') { let s = String(v); if (s === '[object Object]') { const n = String(v.ToString()); if (/^[A-Z][A-Z0-9_]*$/.test(n)) return n; } if (s !== '[object Object]' && !/[.`[]/.test(s)) return s; } } catch (e) { }
   return undefined;
 }
 function pick(o, fields) { const r = {}; for (let i = 0; i < fields.length; i++) { const f = fields[i]; let v; try { v = o[f]; } catch (e) { continue; } if (v === undefined) continue; const p = plain(v); if (p !== undefined) r[f] = p; } return r; }
@@ -80,6 +83,19 @@ function pickMe(fields, edge) {   // edge: a fast-edge read (counted apart in AG
     const p = plain(v); if (p !== undefined) r[f] = p;
   }
   if (edge) AG.hrE = (AG.hrE || 0) + n; else AG.hr += n; return r;
+}
+// CPUOPT-2026-10-26 (#8, agent_tick.md P2): own stats from ONE Me snapshot instead of ~23 host reads. A field is taken from the snapshot only after
+// it matched the live read once (calibration: up to 6 reports, one more try every full report); the others are read live as before.
+const MESNAP = { ok: {}, tries: 0, off: false };
+function meFast(fields) {
+  if (MESNAP.off) return pickMe(fields);
+  let s = null; try { const o = Me, raw = typeof o.SnapshotJson === 'function' ? o.SnapshotJson() : typeof o.snapshotJson === 'function' ? o.snapshotJson() : null; s = raw === null || raw === undefined ? null : JSON.parse(String(raw)); } catch (e) { s = null; } AG.hr++;
+  if (!s || typeof s !== 'object' || Array.isArray(s)) { MESNAP.off = true; return pickMe(fields); }
+  if (MESNAP.tries < 6 && fields.some(k => !MESNAP.ok[k] && !DEADME[k])) { MESNAP.tries++; const live = pickMe(fields); fields.forEach(k => { if (k in s && live[k] !== undefined && sameV(s[k], live[k])) MESNAP.ok[k] = true; }); return live; }
+  const r = {}, miss = [];
+  for (let i = 0; i < fields.length; i++) { const k = fields[i]; if (DEADME[k]) continue; if (MESNAP.ok[k] && (k in s)) { const v = s[k]; if (v === null || typeof v !== 'object') r[k] = v; } else miss.push(k); }
+  if (miss.length) Object.assign(r, pickMe(miss));
+  return r;
 }
 function ser(v, d) {
   const p = plain(v); if (p !== undefined || v === null || v === undefined) return p === undefined ? null : p;
@@ -126,7 +142,7 @@ function agSlow(what, t0, err) {
 function agDrop() { try { if (AG.sock) AG.sock.Close(); } catch (e) { } if (AG.sock) AG.lostAt = now(); AG.sock = null; AG.st = null; }
 function agSend(o) {
   if (!AG.st) return false;
-  try { const b = Encoding.UTF8.GetBytes(JSON.stringify(o) + '\n'); AG.st.Write(b, 0, b.Length); AG.sent++; return true; } catch (e) { AG.errors++; agDrop(); return false; }
+  try { const b = (AG.u8 || (AG.u8 = Encoding.UTF8)).GetBytes(JSON.stringify(o) + '\n'); AG.st.Write(b, 0, b.Length); AG.sent++; return true; } catch (e) { AG.errors++; agDrop(); return false; }
 }
 function agRead() {
   if (!AG.st) return;
@@ -170,7 +186,7 @@ function agLines() {
     const line = AG.buf.slice(0, k); AG.buf = AG.buf.slice(k + 1);
     if (!line.trim()) continue;
     let m = null; try { m = JSON.parse(line); } catch (e) { continue; }
-    AG.got++; AG.lastRx = now(); if (m && m.a === 'ping') AG.pinged = true; else { const w = orderWake(m); if (w) wake(w); else wakeNote('noWake:' + orderName(m)); }   // TICKMODE: only a real action wakes (WAKE2)
+    AG.got++; AG.lastRx = now(); if (m && m.a === 'ping') AG.pinged = true; else { const w = orderWake(m); if (w) { if (/^order:Send.(MoveBackwardToLocation|MoveToLocation)$/.test(w)) walkNote(w); else wake(w); } else wakeNote('noWake:' + orderName(m)); }   // TICKMODE: only a real action wakes (WAKE2)
     try { agDo(m); } catch (e) { if (m && m.id) agSend({ t: 'res', id: m.id, ok: false, err: String(e && e.message || e).slice(0, 300) }); }
   }
 }
@@ -195,7 +211,7 @@ function utf8Chunk(rx, n) {
   let end = n, k = n - 1, back = 0;
   while (k >= start && back < 3 && (num(rx[k]) & 0xC0) === 0x80) { k--; back++; }
   if (k >= start) { const b = num(rx[k]) & 255; if (b >= 0xC0 && n - k < u8need(b)) end = k; }
-  if (end > start) s += Encoding.UTF8.GetString(rx, start, end - start);
+  if (end > start) s += (AG.u8 || (AG.u8 = Encoding.UTF8)).GetString(rx, start, end - start);   // CPUOPT small: the encoder looked up once
   for (let i = end; i < n; i++) AG.utail.push(num(rx[i]) & 255);
   return s;
 }
@@ -283,7 +299,7 @@ function agDo(m) {
     case 'set': {
       const p = String(m.path || ''); if (p.indexOf('Options.') !== 0) return;
       const el = /^Options\.(\w+)\[(\d+)\]\.(\w+)$/.exec(p);
-      if (el) { const L = Options[el[1]]; if (L && num(el[2]) < num(L.Count)) L[num(el[2])][el[3]] = unmarshal(m.v, 0); AG.watch.opt[el[1]] = 1; return; }
+      if (el) { const L = Options[el[1]]; if (L && num(el[2]) < num(L.Count)) L[num(el[2])][el[3]] = unmarshal(m.v, 0); AG.watch.opt[el[1]] = 1; delete AG.last.opt[el[1]]; return; }   /* CPUOPT: the list is re-read on the next report */
       const k = p.slice(8); let v = unmarshal(m.v, 0); if (OPT_ENUM[k] && (typeof v === 'string' || typeof v === 'number')) v = enumVal(OPT_ENUM[k], String(v));
       AG.watch.opt[k] = 1; delete AG.last.opt[k];                     // the next report sends what L2Swarm really has now (also after a refused set)
       try { Options[k] = v; } catch (e) { agSend({ t: 'log', text: 'set Options.' + k + ' refused: ' + String(e && e.message || e).slice(0, 200) }); }
@@ -320,7 +336,7 @@ function agDo(m) {
     }
     case 'resync': AG.full = true; AG.fullForce = true; return;
     case 'cfg': if (m.push !== undefined) { AG.push = !!m.push; if (AG.push) pushArm(); } if (m.slim !== undefined && !!m.slim !== !!AG.slim) { AG.slim = !!m.slim; AG.full = true; AG.fullForce = true; } return;   // SLIM-2026-10-20: the brain reads invd / partyd (one forced full report to start the deltas from)   // ENGINELAT PUSH switch from the brain
-    case 'hot': wake('hot'); return;                     // ENGINELAT: my party fights (brain hint) -> fast ticks
+    case 'hot': return;                                  // CPUOPT metrics: orderWake already woke it (was counted twice in wakes=)                     // ENGINELAT: my party fights (brain hint) -> fast ticks
     case 'ping': agSend({ t: 'pong', id: m.id, at: now() }); return;
     case 'bye': agDrop(); AG.connAt = now() + 60000; return;
   }
@@ -365,6 +381,8 @@ function calibrate(spec, S, rows) {
 function fastList(spec, coll) {
   const S = SNAPC[spec.name] || (SNAPC[spec.name] = { raw: null, out: null, trust: null, cache: {}, off: false, volUn: [], statUn: [] });
   if (S.off) return null;
+  if (S.tick === AG.tick && S.out) return S.out;     // CPUOPT-2026-10-26: skr + skills in the same tick read ONE snapshot (was two: 4 % of the agents' CPU)
+  S.tick = AG.tick;
   const raw = collSnap(coll); if (raw === null) { S.off = true; return null; }
   if (raw === S.raw && S.out && !S.volUn.length) return S.out;
   let rows = null; try { rows = JSON.parse(raw); } catch (e) { rows = null; }
@@ -462,10 +480,13 @@ const KIND = { Char: 0, Npc: 1, Mob: 2, Summon: 3 };
 // per creature job, 4 jobs a second per fighting agent = 0.3-0.4 core EACH: with two or three parties fighting L2Swarm saturated the PC, agent
 // ticks took 3-6 s (agent_slow.log 18:40-19:20: 'cr=3000-6400 ms' in 98 % of the slow ticks), orders waited for those ticks and casts got
 // 'no answer'. Now: the same values without a single read. Bench (field, 60 monsters): creature job 87 ms -> ~4 ms.
-const CR_CAP = { box: 3000 };                          // kept for old readers; nothing reads creatures live any more
+const CR_CAP = { box: 3000 };
+const CR_NEAR = 2000;                                 // CPUOPT-2026-10-26: the near tier (every cr run); the whole box every 4th run / full report                          // kept for old readers; nothing reads creatures live any more
 /** the creature snapshot TEXT (one host call), or null = no snapshot in this L2Swarm (PERF-2026-10-15: JOBS.cr compares it with the last one) */
-function crRaw() {
+function crRaw(near) {
   const c = CreaturesList;
+  // CPUOPT-2026-10-26 (agent_tick.md P1): the NEAR snapshot (L2Swarm 3.9.3 snapshotJsonNear: 3-9x cheaper than the whole 3000 box in a town)
+  if (near) { try { if (c && typeof c.snapshotJsonNear === 'function') return String(c.snapshotJsonNear(num(AG.last.me.X), num(AG.last.me.Y), CR_NEAR)); } catch (e) { } return null; }
   try { if (c && typeof c.snapshotJson === 'function') return String(c.snapshotJson()); } catch (e) { }
   try { if (c && typeof c.SnapshotJson === 'function') return String(c.SnapshotJson()); } catch (e) { }
   return null;
@@ -475,13 +496,13 @@ function creatures(raw) {
   if (!arr) { arr = snapArr(CreaturesList); AG.hr++; }
   if (!arr) { arr = []; try { CreaturesList.forEach(o => { const r = pick(o, 'objId Id Name X Y Z HP MaxHP HpPercent MP MaxMP MpPercent Level IsDead Title IsInCombat ClassId IsSpoiled IsSitting'.split(' ')); AG.hr += 20; let t = 3; try { const s = String(o.crtType); t = KIND[s] !== undefined ? KIND[s] : num(o.crtType); } catch (e) { } r.crtType = t; arr.push(r); }); } catch (e) { } }
   // L2Swarm 3.8.10+ snapshotJson lacks a few fields swarm.js reads on monsters / players near me (DESIGN.md §2.2): read them from the live object
-  const sup = arr.length && !('IsStunned' in arr[0]), supT = arr.length && !('TargetObjId' in arr[0]);
   const out = {};
   for (let i = 0; i < arr.length; i++) {
     const c = arr[i]; if (!c || c.objId === undefined) continue;
     const r = {}; for (const k in c) { if (CR_DROP[k]) continue; const v = c[k]; if (v === null || typeof v !== 'object') r[k] = v; }
     if (typeof r.crtType === 'string') r.crtType = KIND[r.crtType] !== undefined ? KIND[r.crtType] : 3;
     const id = num(c.objId);
+    const sup = !('IsStunned' in c), supT = !('TargetObjId' in c);   // CRROW-2026-10-26: per ROW (was row 0 for all: a monster first zeroed every player's TargetObjId)
     if ((sup || supT) && r.crtType !== 1) {             // ENGINELAT CRTYPED: the values the brain always got (see creatures() above), no host reads
       if (sup) { r.IsStunned = false; r.IsSleeping = false; r.IsParalyzed = false; r.IsOutOfControl = false; } if (supT) r.TargetObjId = 0;
     }
@@ -497,7 +518,10 @@ const STORE = { at: 0, map: {} };
 function storeTypes() {
   if (now() - STORE.at < 15000) return STORE.map;
   STORE.at = now(); const m = {};
-  try { CharList.forEach(o => { let v = ''; try { const t = o.StoreType; v = String(t && t.ToString ? t.ToString() : (t === undefined || t === null ? '' : t)); } catch (e) { } AG.hr++; if (v && v !== 'NONE' && v !== '0') m[num(o.objId)] = v; }); } catch (e) { }
+  // CPUOPT-2026-10-26 (#10): each player's StoreType is cached for 60 s (only the objId is read for a player seen in the last minute)
+  const C = STORE.cache || (STORE.cache = {}), t0 = now(), keep = {};
+  try { CharList.forEach(o => { const id = num(o.objId); AG.hr++; let c = C[id]; if (!c || t0 - c.at > 60000) { let v = ''; try { const t = o.StoreType; v = String(t && t.ToString ? t.ToString() : (t === undefined || t === null ? '' : t)); } catch (e) { } AG.hr++; c = { v, at: t0 }; } keep[id] = c; if (c.v && c.v !== 'NONE' && c.v !== '0') m[id] = c.v; }); } catch (e) { }
+  STORE.cache = keep;
   STORE.map = m; return m;   // (PERF-2026-10-15: JOBS.cr's same-snapshot shortcut only runs while this map cannot refresh: STORE.at < 15 s)
 }
 function section(name, build, msg, force) {
@@ -531,6 +555,17 @@ function partyRows() {
 // the report sections as jobs (AGENTPERF): run in this order, under the tick budget; what does not fit waits for the next tick (AG.pend)
 const JOBS = {
   skr: (msg) => {                                     // every report (TIMING; was every 2nd): readiness changes only
+    // CPUOPT-2026-10-26 (owner: "optimize"; skr was 17 % of the agents' CPU: the whole skills snapshot, 2.8 ms, 4x a second): a skill only turns
+    // NOT ready by a cast (my OnMagicSkillUse marks it 2) or a shared reuse; so 3 reports of 4 read just the skills on cooldown / marked (a few
+    // host reads), every 4th report (1 s) and every full one the whole list as before (a shared-reuse cooldown is seen within 1 s).
+    if (!AG.full && AG.rep % 4 !== 0) {
+      const ids = Object.keys(AG.last.skr).filter(k => AG.last.skr[k] !== 1);
+      if (ids.length <= 16) {
+        const q = {}; let qn = 0;
+        const SL = SkillsList; for (const k of ids) { const id = num(k); let s = null; try { s = SL.GetItemByID(id); } catch (e) { s = null; } AG.hr += 2; if (!s) continue; let r = 0; try { r = s.IsReady ? 1 : 0; } catch (e) { continue; } if (r) delete AG.cdAt[id]; if (AG.last.skr[id] !== r) { AG.last.skr[id] = r; q[id] = r ? [1] : [0, num(s.ReuseDelay), skEl(s, id)]; AG.hr += 2; qn++; } }
+        if (qn) msg.skr = q; AG.skrQuick = (AG.skrQuick || 0) + 1; return;
+      }
+    }
     const skr = {}; let n = 0; const rows = fastList(LS.skills, SkillsList);
     if (rows) rows.forEach(s => { const id = num(s.Id), r = s.IsReady ? 1 : 0; if (r) delete AG.cdAt[id]; if (AG.last.skr[id] !== r) { AG.last.skr[id] = r; skr[id] = r ? [1] : [0, num(s.ReuseDelay), skElId(id, s)]; n++; } });
     else { try { SkillsList.forEach(s => { const id = num(s.Id), r = s.IsReady ? 1 : 0; AG.hr += 2; if (r) delete AG.cdAt[id]; if (AG.last.skr[id] !== r) { AG.last.skr[id] = r; skr[id] = r ? [1] : [0, num(s.ReuseDelay), skEl(s, id)]; n++; } }); } catch (e) { } }   // a cooldown: [0, ReuseDelay, Elapsed] once; the brain counts Elapsed on
@@ -554,15 +589,20 @@ const JOBS = {
   cr: (msg, force) => {                               // creatures every 2nd report (500 ms); every report (250 ms) while I fight (TIMING: monster HP / TargetObjId)
     // PERF-2026-10-15: the same snapshot text as last time (nobody moved, no HP changed: idle in a quiet place) = the same rows = nothing to
     // send; the parse + the per-creature diff (2-10 ms for 80-340 creatures) are skipped. Not when the StoreType map would refresh in this run.
-    const raw = crRaw(); AG.hr++;
-    if (!force && raw !== null && raw === AG.last.crRaw && now() - STORE.at < 15000) return;
-    AG.last.crRaw = raw;
+    // CPUOPT-2026-10-26: 3 runs of 4 read only the creatures within CR_NEAR of me (set / upd, no deletes: a far row keeps its last values up to
+    // 1 s, OnDie still marks a death at once); every 4th run, every full report and force read the whole box as before (with deletes).
+    AG.crN = (AG.crN || 0) + 1;
+    let near = !force && !AG.full && AG.crN % 4 !== 0, raw = near ? crRaw(true) : null; if (near && raw === null) near = false;
+    if (!near) raw = crRaw(); AG.hr++;
+    const lastKey = near ? 'crRawN' : 'crRaw';
+    if (!force && raw !== null && raw === AG.last[lastKey] && now() - STORE.at < 15000) return;
+    AG.last[lastKey] = raw; AG.crNear = (AG.crNear || 0) + (near ? 1 : 0);
     const cur = creatures(raw), prev = AG.last.cr, set = [], upd = [], del = [];
     for (const id in cur) { const p = prev[id]; if (!p) { set.push(cur[id]); continue; } const d = diffObj(p, cur[id]); if (d) upd.push([num(id), d]); }
-    for (const id in prev) if (!cur[id]) del.push(num(id));
+    if (!near) for (const id in prev) if (!cur[id]) del.push(num(id));
     if (force) msg.cr = { all: true, set: Object.keys(cur).map(k => cur[k]) };
     else if (set.length || upd.length || del.length) msg.cr = { set, upd, del };
-    const keep = {}; for (const id in cur) keep[id] = prev[id] && !force ? prev[id] : Object.assign({}, cur[id]); AG.last.cr = keep;
+    const keep = near ? prev : {}; for (const id in cur) keep[id] = prev[id] && !force ? prev[id] : Object.assign({}, cur[id]); AG.last.cr = keep;
   },
   meSlow: (msg) => { const me = pickMe(ME_SLOW); const d = diffObj(AG.last.me, me); if (d) msg.me = Object.assign(msg.me || {}, d); },
   clan: (msg, force) => { try { const c = Me.Clan; AG.hr += 6; const cid = num(c && (c.Id || c.ClanId)); const cl = c ? { Id: cid, Name: plain(c.Name), Level: num(c.Level), ClanId: cid, AllyName: plain(c.AllyName) } : null; /* #12: swarm.js reads Me.Clan.Id */ const s = JSON.stringify(cl); if (force || s !== AG.last.clan) { AG.last.clan = s; (msg.me = msg.me || {}).Clan = cl; } } catch (e) { } },
@@ -590,10 +630,25 @@ const JOBS = {
     const a = rows.map(s => { const r = live ? pick(s, SKILL_FIELDS) : Object.assign({}, s); if (live) AG.hr += SKILL_FIELDS.length; if (!r.IsReady) { try { r._el = live ? skEl(s, num(s.Id)) : skElId(num(s.Id), r); } catch (e) { } } return r; });
     msg.skills = a; AG.last.skr = {}; a.forEach(s => { AG.last.skr[s.Id] = s.IsReady ? 1 : 0; });
   },
-  drops: (msg, force) => section('drops', () => { const a = []; DropList.forEach(x => { a.push(pick(x, DROP_FIELDS)); AG.hr += DROP_FIELDS.length; }); return a; }, msg, force),
-  buy: (msg, force) => section('buy', () => { try { return buyRows(); } catch (e) { return null; } }, msg, force),   // SHOPLIST: the merchant's real buy list (mirror.buy)
-  pets: (msg, force) => section('pets', () => { const a = []; PetList.forEach(x => { const r = pick(x, PET_FIELDS); AG.hr += PET_FIELDS.length; try { if (x.Skills) { r.Skills = []; x.Skills.forEach(s => r.Skills.push(pick(s, 'Id Level Name IsReady'.split(' ')))); } } catch (e) { } try { if (x.Buffs) { r.Buffs = []; x.Buffs.forEach(b => { const q = pick(b, BUFF_FIELDS); q.RemainTime = Math.round(num(q.RemainTime) / 5) * 5; r.Buffs.push(q); }); } } catch (e) { } a.push(r); }); return a; }, msg, force),
-  opt: (msg, force) => { const od = {}; let on = 0; for (const k in AG.watch.opt) { let v; try { v = optValue(Options[k]); } catch (e) { v = null; } AG.hr++; const sv = JSON.stringify(v); if (force || AG.last.opt[k] !== sv) { od[k] = v; AG.last.opt[k] = sv; on++; } } if (on) msg.opt = od; },
+  drops: (msg, force) => section('drops', () => {
+    // CPUOPT-2026-10-26 (#9): one DropList snapshot instead of 7 reads per item (the first row is compared with the live read until it matched once)
+    const D = AG.dsnap || (AG.dsnap = { ok: false, bad: 0, off: false });
+    if (!D.off) { const raw = collSnap(DropList); let arr = null; if (raw !== null) { try { arr = JSON.parse(raw); } catch (e) { arr = null; } }
+      if (!Array.isArray(arr)) D.off = true;
+      else { const rows = arr.map(x => { const r = {}; if (x && typeof x === 'object') DROP_FIELDS.forEach(k => { const v = x[k]; if (v !== undefined && (v === null || typeof v !== 'object')) r[k] = v; }); return r; });
+        if (D.ok || !rows.length) return rows;
+        let live = null; try { DropList.forEach(x => { if (!live) live = pick(x, DROP_FIELDS); }); } catch (e) { live = null; } AG.hr += DROP_FIELDS.length;
+        const sn = live && rows.find(r => num(r.objId) === num(live.objId));
+        if (sn && DROP_FIELDS.every(k => live[k] === undefined || sameV(sn[k], live[k]))) { D.ok = true; return rows; }
+        if (++D.bad >= 3) D.off = true; } }
+    const a = []; DropList.forEach(x => { a.push(pick(x, DROP_FIELDS)); AG.hr += DROP_FIELDS.length; }); return a;
+  }, msg, force),
+  buy: (msg, force) => (force || AG.full || now() - (AG.shopAt || 0) < 120000) && section('buy', () => { try { return buyRows(); } catch (e) { return null; } }, msg, force),   // SHOPLIST: the merchant's real buy list (mirror.buy)
+  pets: (msg, force) => section('pets', () => { const a = []; PetList.forEach(x => { const r = pick(x, PET_FIELDS); AG.hr += PET_FIELDS.length; try { if (x.Skills) { r.Skills = []; x.Skills.forEach(s => r.Skills.push(pick(s, 'Id Level Name IsReady'.split(' ')))); } } catch (e) { } try { if (x.Buffs) { r.Buffs = []; x.Buffs.forEach(b => { const q = pick(b, BUFF_FIELDS); q.RemainTime = Math.round(num(q.RemainTime) / 5) * 5; r.Buffs.push(q); }); } } catch (e) { } a.push(r); }); const pi = {}; a.forEach(p => { if (num(p.objId)) pi[num(p.objId)] = 1; }); AG.petIds = pi; return a; }, msg, force),   // CPUOPT #11: my pets' ids (evRelevant)
+  // CPUOPT-2026-10-26: a LIST option (CombatSkillsList: ~9 reads per entry, 4 ms a run = 6.5 % of the agents' CPU) only changes when the brain
+  // sets it (the set path clears AG.last.opt[k] -> read on the next report) or someone edits it in L2Swarm: re-read every 15 s, a full report always.
+  // CPUOPT-2026-10-26 (#9): a scalar option every 4th opt run (4 s) unless it was just set (AG.last.opt[k] cleared) / a full report; Options read once
+  opt: (msg, force) => { const od = {}; let on = 0; const AL = AG.optList || (AG.optList = {}); AG.optN = (AG.optN || 0) + 1; const every = force || AG.full || AG.optN % 4 === 0; let O = null; try { O = Options; } catch (e) { O = null; } for (const k in AG.watch.opt) { if (!force && !AG.full && AL[k] && AG.last.opt[k] !== undefined && now() - AL[k] < 15000) continue; if (!every && !AL[k] && AG.last.opt[k] !== undefined) continue; let v; try { v = optValue(O[k]); } catch (e) { v = null; } AG.hr++; if (Array.isArray(v)) AL[k] = now(); else delete AL[k]; const sv = JSON.stringify(v); if (force || AG.last.opt[k] !== sv) { od[k] = v; AG.last.opt[k] = sv; on++; } } if (on) msg.opt = od; },
   q: (msg, force) => { const qd = {}; let qn = 0; for (const k in AG.watch.quest) { let v = null; try { v = ser(GetQuestState(num(k)), 1); } catch (e) { } AG.hr++; const s = JSON.stringify(v); if (force || AG.last.q[k] !== s) { AG.last.q[k] = s; qd[k] = v; qn++; } } if (qn) msg.q = qd; },
   html: (msg, force) => { let html = ''; try { html = String(LastHTML || ''); } catch (e) { } AG.hr++; if (force || html !== AG.last.html) { AG.last.html = html; msg.html = html; } },
 };
@@ -607,7 +662,7 @@ function runPend(msg) {
     if (ran && AG.st && !AG.pr) agRead();             // ENGINELAT: an order that came in meanwhile runs now, not after the whole report
     const j = AG.pend.shift(), t0 = Date.now(); AGCUR.w = 'job ' + j.k;
     try { JOBS[j.k](msg, j.force); } catch (e) { AG.errors++; }
-    const ms = Date.now() - t0; if (ms >= 3) AG.tp[j.k] = (AG.tp[j.k] || 0) + ms; ran++;
+    const ms = Date.now() - t0; if (ms >= 3) AG.tp[j.k] = (AG.tp[j.k] || 0) + ms; jtNote(j.k, ms); ran++;
   }
   if (Object.keys(msg).length > 2 || msg.full) agSend(msg);
 }
@@ -621,18 +676,18 @@ function report() {
   // 2nd asleep report (4 s) reads the whole fast set as before. Anything that matters wakes the agent (an order, an attack on me, my cast,
   // a teleport, a dialog, moving > 40, a fight) and the next report is a normal one. Awake (fast / calm) nothing changed.
   const asleep = AG.mode === 'sleep' && !full; AG.slp = asleep ? (AG.slp || 0) + 1 : 0; const sk = AG.slp, deep = !asleep || sk % 2 === 0;
-  if (full) { for (const k in DEADME) delete DEADME[k]; const me = pickMe(ME_FIELDS); AG.last.me = Object.assign({}, me); msg.me = me; msg.full = true; }   // a full report probes the dead members again
-  else { const me = pickMe(deep ? ME_FAST : ME_CORE); const d = diffObj(AG.last.me, me); if (d) msg.me = d; }
-  const fl = deep ? { IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsEnabled: !!IsEnabled, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting, IsPartyLeader: !!IsPartyLeader,
-    IsInParty: !!IsInParty, IsFollowModeOn: !!IsFollowModeOn, IsFollowMaster: !!IsFollowMaster, CurrentZone: plain(CurrentZone) } : { IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting }; AG.hr += deep ? 10 : 4;
+  if (full) { MESNAP.tries = Math.min(MESNAP.tries, 5); for (const k in DEADME) delete DEADME[k]; const me = pickMe(ME_FIELDS); AG.last.me = Object.assign({}, me); msg.me = me; msg.full = true; }   // a full report probes the dead members again
+  else { const me = meFast(deep ? ME_FAST : ME_CORE); const d = diffObj(AG.last.me, me); if (d) msg.me = d; }
+  const fl = deep && (full || AG.rep % 4 === 0) ? {   /* CPUOPT-2026-10-26: enabled / leader / party / follow / zone every 4th report (1 s); the 4 core flags every report */ IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsEnabled: !!IsEnabled, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting, IsPartyLeader: !!IsPartyLeader,
+    IsInParty: !!IsInParty, IsFollowModeOn: !!IsFollowModeOn, IsFollowMaster: !!IsFollowMaster, CurrentZone: plain(CurrentZone) } : { IsConnected: !!IsConnected, IsInCombat: !!IsInCombat, IsAttacking: !!IsAttacking, IsSitting: !!IsSitting }; AG.hr += Object.keys(fl).length;
   if (full) { AG.last.fl = Object.assign({}, fl); msg.fl = fl; } else { const d = diffObj(AG.last.fl, fl); if (d) msg.fl = d; }
   let tg = 0; try { tg = Target ? num(Target.objId) : 0; } catch (e) { } AG.hr += 2;
   if (full || tg !== AG.last.tgt) { msg.tgt = tg; AG.last.tgt = tg; }
-  if (full) { AG.myId = num(msg.me && msg.me.objId); { const nx = num(msg.me && msg.me.X), ny = num(msg.me && msg.me.Y), p = AG.movePt; if (p && Math.abs(nx - p.x) + Math.abs(ny - p.y) > 40) wake('moving'); AG.movePt = { x: nx, y: ny }; }   /* a move seen by a full report counts too */ JOBS.clan(msg, true); AG.full = false; AG.lastFull = now(); agSend(msg); msg = { t: 'st', seq: AG.rep }; recalibrate(); }
-  { const ms = Date.now() - t0; if (ms >= 3) AG.tp.me = ms; }
+  if (full) { AG.myId = num(msg.me && msg.me.objId); { const nx = num(msg.me && msg.me.X), ny = num(msg.me && msg.me.Y), p = AG.movePt; if (p && Math.abs(nx - p.x) + Math.abs(ny - p.y) > 40) walkNote('moving'); AG.movePt = { x: nx, y: ny }; }   /* a move seen by a full report counts too */ JOBS.clan(msg, true); AG.full = false; AG.lastFull = now(); agSend(msg); msg = { t: 'st', seq: AG.rep }; recalibrate(); }
+  { const ms = Date.now() - t0; if (ms >= 3) AG.tp.me = ms; jtNote('me', ms); }
   const fight = !!AG.last.fl.IsAttacking || !!AG.last.me.IsInCombat || !!AG.last.me.IsCasting; const r = AG.rep;   // PERF-2026-10-15: = fighting(), from the values just read (IsAttacking flag, Me.IsInCombat, Me.IsCasting), no second read
   if (msg.me && msg.me.objId !== undefined) AG.myId = num(msg.me.objId);
-  if (fight) wake('fight'); else if (!full && msg.me && (msg.me.X !== undefined || msg.me.Y !== undefined)) { const mx = num(AG.last.me.X), my = num(AG.last.me.Y), p = AG.movePt || (AG.movePt = { x: mx, y: my }); if (Math.abs(mx - p.x) + Math.abs(my - p.y) > 40) { AG.movePt = { x: mx, y: my }; wake('moving'); } }   // TICKMODE: fighting / moving (> 40 units: no wake on position jitter) = fast ticks
+  if (fight) wake('fight'); else if (!full && msg.me && (msg.me.X !== undefined || msg.me.Y !== undefined)) { const mx = num(AG.last.me.X), my = num(AG.last.me.Y), p = AG.movePt || (AG.movePt = { x: mx, y: my }); if (Math.abs(mx - p.x) + Math.abs(my - p.y) > 40) { AG.movePt = { x: mx, y: my }; walkNote('moving'); } }   // TICKMODE: fighting / moving (> 40 units: no wake on position jitter) = fast ticks
   // PERF-2026-10-15 ASLEEP cadence (reports are 2 s apart): skill readiness every 4 s (every report while a cooldown runs), party every 2 s,
   // buffs / creatures every 4 s, the bag every 8 s (a bag change at once, as before: OnInventoryUpdate -> the next 1 s tick), slow Me fields
   // every 12 s, clan every 48 s, the rest (skills list, drops, buy list, pets, watched Options, quests, LastHTML) every 8 s. Was: a report every
@@ -642,7 +697,7 @@ function report() {
     meSlow: sk % 6 === 3, clan: sk % 24 === 5, inv: sk % 4 === 3 || AG.invDirty,
   } : {
     skr: !full, party: full || r % 2 === 1 || fight, buffs: full || r % 2 === 1 || fight, cr: full || r % 2 === 0 || fight,
-    meSlow: !full && r % 4 === 0, clan: !full && r % 24 === 0, inv: full || r % 4 === 0 || AG.invDirty,
+    meSlow: !full && r % 16 === 0,   /* CPUOPT-2026-10-26: stats / exp every 4 s (was 1 s; nothing in a fight reads them faster) */ clan: !full && r % 24 === 0, inv: full || r % 4 === 0 || AG.invDirty,
   };
   const dflt = asleep ? sk % 4 === 1 : (full || r % 4 === 0);
   const force = full && (AG.fullForce || !AG.slim);   // SLIM-2026-10-20: a timed full report (60 s) re-sends nothing that did not change
@@ -652,6 +707,16 @@ function report() {
 }
 
 // ---------------------------------------------------------------- events -> brain
+// CPUOPT-2026-10-26 (#11, brain_traffic.md #5): every member forwarded every fight event around it (17-20 / s each in party fights). An attack / cast /
+// target change between two OTHER players (neither side me, my party or a pet, the actor a known player) is no longer forwarded; a monster's
+// action, anything touching my team and everything for the party leader (raid view) still is.
+function evRelevant(a, b) {
+  try { if (AG.last.fl && AG.last.fl.IsPartyLeader) return true; } catch (e) { return true; }
+  a = num(a); b = num(b); const mine = (id) => !id || id === AG.myId || !!AG.partyIds[id] || !!(AG.petIds && AG.petIds[id]);
+  if (mine(a) || mine(b)) return true;
+  const ca = AG.last.cr && AG.last.cr[a]; if (!ca || ca.crtType !== 0) return true;   // a monster / summon / unknown actor: forwarded
+  AG.evDrop = (AG.evDrop || 0) + 1; return false;
+}
 function ev(h, a) { if (AG.st) agSend({ t: 'ev', h, a, at: now() }); }   // ENGINELAT: at = when L2Swarm handed it to me (the brain measures the rest)
 function OnLogin() { ev('OnLogin', []); AG.full = true; AG.fullForce = true; }
 function OnLogout() { ev('OnLogout', []); }
@@ -660,23 +725,23 @@ function OnSystemMessage(msgId, params) { ev('OnSystemMessage', [num(msgId), ser
 function OnAnnouncement(text) { ev('OnAnnouncement', [String(text)]); }
 function OnDie(objId) { if (num(objId) === AG.myId) wake('ev:die'); ev('OnDie', [num(objId)]); }
 function OnRevive(objId) { if (num(objId) === AG.myId) wake('ev:revive'); ev('OnRevive', [num(objId)]); }
-function OnAttack(atkId, targetId, isAOE) { if (num(atkId) === AG.myId) wake('ev:attackMine'); else if (num(targetId) === AG.myId) wake('ev:attackedMe'); ev('OnAttack', [num(atkId), num(targetId), !!isAOE]); }
+function OnAttack(atkId, targetId, isAOE) { if (num(atkId) === AG.myId) wake('ev:attackMine'); else if (num(targetId) === AG.myId) wake('ev:attackedMe'); if (evRelevant(atkId, targetId)) ev('OnAttack', [num(atkId), num(targetId), !!isAOE]); }
 // my own cast / target: the brain assumed something at this event (caps 'assume') -> re-send the real value next tick / report (markers)
 function OnMagicSkillUse(objId, targetId, skillId) {
   if (num(objId) === AG.myId) wake('ev:myCast'); else if (num(targetId) === AG.myId && !AG.partyIds[num(objId)]) wake('ev:castOnMe');   // a teammate's buff / heal on me does not wake (WAKE2)
-  ev('OnMagicSkillUse', [num(objId), num(targetId), num(skillId)]);
-  try { if (num(objId) === num(Me.objId)) { AG.last.me.IsCasting = null; const id = num(skillId); AG.cdAt[id] = now(); AG.last.skr[id] = 2; const q = AG.castReq[id]; if (q) { delete AG.castReq[id]; if (now() - q < 5000) latNote('cast', now() - q); } } } catch (e) { }   // ENGINELAT: my request ran -> server started it   // cdAt: skEl (cooldown start of my own cast)
+  if (evRelevant(objId, targetId)) ev('OnMagicSkillUse', [num(objId), num(targetId), num(skillId)]);
+  try { if (num(objId) === (AG.myId || num(Me.objId))) { AG.last.me.IsCasting = null; const id = num(skillId); AG.cdAt[id] = now(); AG.last.skr[id] = 2; const q = AG.castReq[id]; if (q) { delete AG.castReq[id]; if (now() - q < 5000) latNote('cast', now() - q); } } } catch (e) { }   // ENGINELAT: my request ran -> server started it   // cdAt: skEl (cooldown start of my own cast)
 }
-function OnTargetSelected(objId, targetObjId) { if (num(objId) === AG.myId && num(targetObjId) && num(targetObjId) !== AG.last.tgt && !AG.partyIds[num(targetObjId)]) wake('ev:myTarget');   /* WAKE2: a re-select / cancel / teammate target does not */ ev('OnTargetSelected', [num(objId), num(targetObjId)]); try { if (num(objId) === num(Me.objId)) AG.last.tgt = -1; } catch (e) { } }
-function OnTeleportToLocation(objId, X, Y, Z) { if (num(objId) === num(Me.objId)) { AG.full = true; AG.fullForce = true; wake('ev:teleport'); } ev('OnTeleportToLocation', [num(objId), num(X), num(Y), num(Z)]); }
-function OnNpcHtmlMessage(html) { wake('ev:html'); ev('OnNpcHtmlMessage', [String(html)]); }
+function OnTargetSelected(objId, targetObjId) { if (num(objId) === AG.myId && num(targetObjId) && num(targetObjId) !== AG.last.tgt && !AG.partyIds[num(targetObjId)]) wake('ev:myTarget');   /* WAKE2: a re-select / cancel / teammate target does not */ if (evRelevant(objId, targetObjId)) ev('OnTargetSelected', [num(objId), num(targetObjId)]); try { if (num(objId) === num(Me.objId)) AG.last.tgt = -1; } catch (e) { } }
+function OnTeleportToLocation(objId, X, Y, Z) { if (num(objId) === (AG.myId || num(Me.objId))) { AG.full = true; AG.fullForce = true; wake('ev:teleport'); } ev('OnTeleportToLocation', [num(objId), num(X), num(Y), num(Z)]); }
+function OnNpcHtmlMessage(html) { wake('ev:html'); AG.shopAt = now(); ev('OnNpcHtmlMessage', [String(html)]); }
 function OnNpcQuestHtmlMessage(html) { wake('ev:questHtml'); ev('OnNpcQuestHtmlMessage', [String(html)]); }
 function OnCommunityBoardHtmlMessage(html) { wake('ev:board'); ev('OnCommunityBoardHtmlMessage', [String(html)]); }
 function OnNpcDialogLink(link) { ev('OnNpcDialogLink', [String(link)]); }
 // SHOPLIST (2026-10-13): L2Swarm's OnShopList list is the SELL part of "Buy/Sell/Refund" (my own items, sell prices); the merchant's BUY list
 // is the BuyList global. The brain mirrored BuyList from OnShopList -> every gear buy said "not in Radia's list any more" (since 2026-10-12).
 // The real BuyList goes along as the 3rd argument (host.js prefers it) and in the 1 s report (section 'buy').
-function OnShopList(shopId, list) { wake('ev:shop'); let b = []; try { b = buyRows(); } catch (e) { b = []; } ev('OnShopList', [num(shopId), items(list), b]); }
+function OnShopList(shopId, list) { wake('ev:shop'); AG.shopAt = now(); let b = []; try { b = buyRows(); } catch (e) { b = []; } ev('OnShopList', [num(shopId), items(list), b]); }
 function OnTrade(traderObjId, list) { wake('ev:trade'); ev('OnTrade', [num(traderObjId), items(list)]); }
 function OnWindowOpenTrade(w) { wake('ev:tradeWindow'); ev('OnWindowOpenTrade', [null]); }
 function OnWareHouseDepositList(list) { ev('OnWareHouseDepositList', [items(list)]); }
@@ -721,6 +786,11 @@ function repGapTicks() {
 // AGENTPERF: one line per agent every 5 min (Logs/agent_perf.log + the brain log): ticks, average / max tick ms, host reads per second,
 // jobs deferred to a later tick, jobs still waiting. Evidence for the next "the agents are slow" question.
 AG.ps = { at: Date.now(), ticks: 0, ms: 0, max: 0, hr: 0, def: 0 };
+// CPUPARTS-2026-10-26 (owner: "cpu ... optimize"): where the tick time goes, per part (report jobs + me / read / edges): ms summed over the
+// 5 min and how often it ran. Date.now() steps are 1 ms, but over thousands of runs the sum is the real time (start points fall anywhere in a ms).
+AG.jt = {};
+function jtNote(k, ms) { const a = AG.jt[k] || (AG.jt[k] = [0, 0]); a[0] += ms; a[1]++; }
+function jtSum() { const j = AG.jt; AG.jt = {}; return Object.keys(j).sort((a, b) => j[b][0] - j[a][0]).map(k => k + ':' + j[k][0] + '/' + j[k][1]).join(',') || '-'; }
 // ENGINELAT-2026-10-13 timing probes (agent_perf.log + the brain log, per 5 min): ord = brain call -> run here (the brain stamps ts), cast = my
 // RequestMagicSkillUse ran -> my OnMagicSkillUse (server + L2Swarm), gap = time between two tick starts (L2Swarm timer / engine lock / CPU)
 AG.lat = { ord: [], cast: [], gap: [] }; AG.castReq = {}; AG.lastTk = 0;
@@ -732,12 +802,15 @@ function latSum() {
 }
 function modeSecs() { const m = Object.assign({}, AG.modeMs); m[AG.mode] = (m[AG.mode] || 0) + (now() - AG.modeAt); AG.modeMs = { fast: 0, calm: 0, sleep: 0 }; AG.modeAt = now(); return 'f' + Math.round(m.fast / 1000) + '/c' + Math.round(m.calm / 1000) + '/s' + Math.round(m.sleep / 1000); }
 function wakeSum() { const w = AG.wk; AG.wk = {}; return Object.keys(w).sort((a, b) => w[b] - w[a]).slice(0, 12).map(k => k.replace(/[ ,]/g, '_') + 'x' + w[k]).join(',') || '-'; }
+// ENUMPROBE-2026-10-26 (agent_tick.md side finding 2): does plain() turn the .NET enums (CurrentZone, ClassType, Race) into text, or into
+// undefined (= the brain never gets them)? One probe per perf line (3 reads every 5 min).
+function enumProbe() { const o = []; for (const [k, get] of [['zone', () => CurrentZone], ['ctype', () => Me.ClassType], ['race', () => Me.Race]]) { let v; try { v = get(); } catch (e) { v = 'ERR'; } let p; try { p = plain(v); } catch (e) { p = 'ERR'; } o.push(k + ':' + typeof v + '/' + (p === undefined ? 'undef' : String(p).slice(0, 20))); } return o.join(','); }
 function perfLine() {
   const P = AG.ps, t = Date.now(), sec = Math.max(1, (t - P.at) / 1000);
   if (sec < 300) return;
   let nm = ''; try { nm = String(Me.Name || ''); } catch (e) { }
   const line = new Date(t).toISOString() + ' [' + nm + '] perf ticks=' + P.ticks + ' avgMs=' + (P.ticks ? Math.round(P.ms / P.ticks) : 0) + ' maxMs=' + P.max +
-    ' hostReads/s=' + Math.round((AG.hr - P.hr) / sec) + ' edgeReads/s=' + Math.round(((AG.hrE || 0) - (P.hrE || 0)) / sec) + ' deferred=' + (AG.deferred - P.def) + ' pend=' + AG.pend.length + ' sent=' + AG.sent + ' mode=' + AG.mode + ' modeSec=' + modeSecs() + ' rearms=' + AG.rearms + ' lat[p50/p95/max ms]=' + latSum() + ' push=' + (AG.pushOff ? 'off:' + AG.pushErr.replace(/s/g, '_') : AG.push ? 'on:' + AG.pushN : 'no') + ' wakes=' + wakeSum();
+    ' hostReads/s=' + Math.round((AG.hr - P.hr) / sec) + ' edgeReads/s=' + Math.round(((AG.hrE || 0) - (P.hrE || 0)) / sec) + ' deferred=' + (AG.deferred - P.def) + ' pend=' + AG.pend.length + ' sent=' + AG.sent + ' mode=' + AG.mode + ' modeSec=' + modeSecs() + ' rearms=' + AG.rearms + ' lat[p50/p95/max ms]=' + latSum() + ' push=' + (AG.pushOff ? 'off:' + AG.pushErr.replace(/s/g, '_') : AG.push ? 'on:' + AG.pushN : 'no') + ' wakes=' + wakeSum() + ' evDrop=' + (AG.evDrop || 0) + ' parts=' + jtSum() + ' probe=' + enumProbe();
   AG.ps = { at: t, ticks: 0, ms: 0, max: 0, hr: AG.hr, hrE: AG.hrE || 0, def: AG.deferred };
   try { File.AppendAllText(__DIR__ + String.fromCharCode(92) + 'Logs' + String.fromCharCode(92) + 'agent_perf.log', line + String.fromCharCode(13, 10)); } catch (e) { }
   try { if (AG.st) agSend({ t: 'log', text: line.slice(line.indexOf('perf')) }); } catch (e) { }
@@ -763,6 +836,10 @@ function rearm(mode) {
 }
 /** activity: back to fast ticks now (no-op when already fast) */
 function wakeNote(r) { const k = String(r || '?').slice(0, 40); AG.wk[k] = (AG.wk[k] || 0) + 1; }
+// CPUOPT-2026-10-26 (owner: "optimize"; brain_traffic.md #1): walking alone is no FAST wake any more (a runner moves every report, so every
+// walker / follower sat in 62 ms ticks): it keeps the agent CALM (250 ms ticks, a report every 500 ms, never asleep while walking). A fight, an
+// attack on me, my cast, a dialog or a combat order still switch to fast at once.
+function walkNote(r) { wakeNote(r); AG.walkAt = now(); if (AG.mode === 'sleep') { AG.sinceRep = TMODE.calm.rep - 1; rearm('calm'); } }
 function wake(r) { wakeNote(r); AG.actAt = now(); if (AG.mode !== 'fast') { AG.sinceRep = TMODE.fast.rep - 1; rearm('fast'); } }   // the next tick reports
 // WAKE2-2026-10-13 (live 18:01-18:06: all 59 agents stayed fast with every party stopped): only orders that DO something in the game wake the
 // agent. Setters, reads, keepers that re-assert a state (Options writes, StopCombat / DisableBot, Select, target cancel, stand, combat-zone
@@ -783,7 +860,7 @@ function orderWake(m) {
 }
 function tickMode() {
   const idle = now() - AG.actAt;
-  const want = (AG.full || (AG.pend.length && AG.mode !== 'sleep') || AG.invDirty || idle < 10000) ? 'fast' : idle < 60000 ? 'calm' : 'sleep';   // PERF-2026-10-15: asleep, report jobs a slow tick left over run on the next 1 s tick (no fast-tick round trip + re-arm)
+  const want = (AG.full || (AG.pend.length && AG.mode !== 'sleep') || AG.invDirty || idle < 10000) ? 'fast' : (idle < 60000 || now() - (AG.walkAt || 0) < 10000) ? 'calm' : 'sleep';   // PERF-2026-10-15: asleep, report jobs a slow tick left over run on the next 1 s tick (no fast-tick round trip + re-arm)
   if (want !== AG.mode) rearm(want);
 }
 function agTick() {
@@ -795,11 +872,11 @@ function agTick() {
     if (!AG.sock) { agConnect(); reflex(); return; }
     if (AG.lastTk) latNote('gap', tk0 - AG.lastTk); AG.lastTk = tk0;
     pushCheck(); if (!AG.sock) return;
-    agRead();
+    { const r0 = Date.now(); agRead(); jtNote('read', Date.now() - r0); }
     if (AG.sock && AG.pinged) reflex();               // a silent (stuck) brain: potions meanwhile (brainSilent decides)
     if (++AG.sinceRep >= TMODE[AG.mode].rep || AG.full) {   // a report every 4th tick fast (250 ms), every 2nd calm (500 ms), every tick asleep (1 s)
       AG.sinceRep = 0; if (now() - AG.lastFull > 60000) AG.full = true; report(); }
-    else if (AG.sock) { fastEdges(); if (AG.invDirty) queueJob('inv', false); if (AG.pend.length) runPend({ t: 'st', seq: AG.rep }); }   // TIMING: the other ticks send what a cast / target / hit changed at once; #15: a bag change too; AGENTPERF: jobs a slow tick left over
+    else if (AG.sock) { { const e0 = Date.now(); fastEdges(); jtNote('edges', Date.now() - e0); } if (AG.invDirty) queueJob('inv', false); if (AG.pend.length) runPend({ t: 'st', seq: AG.rep }); }   // TIMING: the other ticks send what a cast / target / hit changed at once; #15: a bag change too; AGENTPERF: jobs a slow tick left over
     const el = Date.now() - tk0; AG.ps.ticks++; AG.ps.ms += el; if (el > AG.ps.max) AG.ps.max = el;
     agSlow('tick (read/report/edges)', tk0, '');
     if (el > AG.tickMs) AG.nextTick = now() + Math.min(2000, el * 2);   // el = real JS time spent, the wait on the agent clock   // ADAPT

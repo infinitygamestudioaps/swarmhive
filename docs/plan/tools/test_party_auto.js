@@ -159,7 +159,9 @@ function ltaEnv(cfg, me) {
   check(!/pauto/.test(caseSrc('!supply')) && !/pauto/.test(fnSrc('async function orderSupply(')), 'order !supply: no party-settings gate');
   check(!/pauto/.test(caseSrc('!sell')), 'order !sell: no party-settings gate');
   check(!/pauto/.test(caseSrc('!dyes')) && !/pauto/.test(fnSrc('async function dyeMine(why, dry) {')), 'order !dyes (dyeMine): no party-settings gate');
-  check(!/pauto/.test(fnSrc('async function sellAt(npc, why, grades, only) {')), 'sellAt (used by every order): no gate inside');
+  // NOAUTOSELL 2026-10-26 (owner: "automatic selling should be default OFF ... I never want that to happen again"): sellAt now carries the ONE gate every
+  // automatic sale passes; an order (why '!...') or the dashboard's chosen items (only) always pass it
+  check(fnSrc('async function sellAt(npc, why, grades, only) {').includes("if (!only && !/^!/.test(String(why || '')) && !pautoOn('sell')) {"), 'sellAt: the NOAUTOSELL gate (orders and chosen items pass, automatic sales need the sell switch)');
   check(/CONFIG\.sell\.enabled && pautoOn\('sell'\) && sellCandidates\(\)\.length/.test(src) && /toSell = CONFIG\.sell\.enabled && pautoOn\('sell'\)/.test(src), 'the old town-restock / Giran shopping sale paths ask the sell switch too');
 
   // ---- 4) FUNDGIVERS

@@ -55,7 +55,7 @@ function world(o) {
   W.File = { Exists: (f) => !!W.files[f], ReadAllText: (f) => { if (!W.files[f]) throw new Error('no file'); return W.files[f].text; } };
   W.put = (o2) => { W.files['C:\\L2\\Scripts\\data\\party_auto.json'] = { text: typeof o2 === 'string' ? o2 : JSON.stringify(o2), stamp: String(++W.t) }; };
   W.env = { File: W.File, __DIR__: 'C:\\L2', now: () => W.t, fileStamp: (f) => (W.files[f] ? W.files[f].stamp : ''), Me: { get Name() { return W.me; } }, CONFIG: { get leader() { return W.leader; } },
-    teamOf: (x) => x, note: (m) => W.notes.push(m) };
+    teamOf: (x) => x, note: (m) => W.notes.push(m), handsOffMe: () => false };   // HANDSOFF-2026-10-26: the optional switch, off here
   return W;
 }
 const hostFns = (W) => new Function('env', 'with (env) {\n' + HOST + '\nreturn { hiveSw, hiveSkillsOn, hiveHealsOn, hivePotionsOn, hiveToggles, HIVESW }; }')(W.env);
@@ -199,8 +199,8 @@ has(/soloScriptFight\(\) && !hiveOwnCombat\(\)/, 'solo character with skills OFF
 has(/if \(hiveOwnCombat\(\)\) \{ try \{ if \(!IsInCombat\) startCombatG\(\); \} catch \(e\) \{ \} \}\s+\/\/ HIVESW-2026-10-15: skills OFF = L2Swarm combat casts the player's Combat Skills on the focus/, 'raid dealer: L2Swarm combat on the focus with skills OFF');
 { // memberScriptFight decision on stubs
   const body = fnBody('function hiveOwnCombat()') + fnBody('function memberScriptFight(mob)');
-  const run = (skills, fixed, scriptFlag, leader) => { const calls = []; const f = new Function('hiveSkillsOn', 'recHold', 'deadlockFixed', 'UISAFE', 'isLeader', 'casterOwnsAttacks', 'srvAttack', 'selfDef', 'now', 'Target', 'Send', 'num', 'sfMember', body + '\nreturn memberScriptFight;')(
-    () => skills, () => false, () => fixed, { memberScriptFight: scriptFlag }, () => leader, () => false, (id) => calls.push(id), {}, () => 1, null, { Action() { } }, Number, () => false);
+  const run = (skills, fixed, scriptFlag, leader) => { const calls = []; const f = new Function('hiveSkillsOn', 'recHold', 'deadlockFixed', 'UISAFE', 'isLeader', 'casterOwnsAttacks', 'srvAttack', 'selfDef', 'now', 'Target', 'Send', 'num', 'sfMember', 'handsOffMe', body + '\nreturn memberScriptFight;')(
+    () => skills, () => false, () => fixed, { memberScriptFight: scriptFlag }, () => leader, () => false, (id) => calls.push(id), {}, () => 1, null, { Action() { } }, Number, () => false, () => false);   // HANDSOFF-2026-10-26: hands off = off here
     return { r: f({ objId: 7 }), calls }; };
   const a = run(false, true, true, false), b = run(false, false, true, false), c = run(true, true, true, false);
   check(a.r === false && !a.calls.length, 'stubs: skills OFF + 3.8.11+ -> L2Swarm combat (no script hit)');

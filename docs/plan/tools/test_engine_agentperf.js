@@ -192,7 +192,7 @@ function run(A, n) { const out = []; for (let i = 0; i < n; i++) { const t0 = Da
       runFor(70); vm.runInContext('OnAttack(300001, 200005, false); OnSay("Player9", "WTS stuff", 1)', F.g);
       ok(F.C.period === 1000, 'F10 other people\'s fights and shouts do not wake it');
       Wf.me.X += 300; step(F.C.period); step(F.C.period);
-      ok(F.C.period === 62, `F11 moving (position changed) -> fast (now ${F.C.period})`);
+      ok(F.C.period === 250, `F11 moving (position changed) -> CALM, not asleep (CPUOPT-2026-10-26: walking is no fast wake; now ${F.C.period})`);
       const st = F.msgs.filter(m => m.t === 'st'); const last = st[st.length - 1];
       ok(F.mirror.me.X === Wf.me.X, 'F12 the mirror has the new position');
       // WAKE2: keepers / setters / reads do not wake, real actions do

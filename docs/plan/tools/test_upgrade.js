@@ -21,13 +21,13 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
   t(/if \(l\.result === 'done'\) \{ res\.push/.test(run) && /l\.result = 'done'; l\.worn = !!on; ijSaveJob\(J\);/.test(run), 'A3 every line result is saved; a resumed job skips finished lines');
   t(/const fail = \(why\) => \{ l\.result = 'failed';[^\n]*going on with the next piece/.test(run), 'A4 one failed line does not stop the others');
   t(/worn0\.has\(o\) && !nowWorn\.has\(o\) && !keep\.has\(o\)/.test(run), 'A5 only pieces worn before, taken off by the new ones (and not a new piece) go to the collector');
-  t(/col && col !== me/.test(run) && /hovCommand\(\['!handover', hid\]\)/.test(run), 'A6 the replaced pieces go to the collector by the hand-over machinery (never to myself)');
+  t(/const UPGRADE_GIVE_REPLACED = false;/.test(SW) && /col !== me && UPGRADE_GIVE_REPLACED/.test(run), 'A6 KEEPOLD (owner 2026-10-26): the replaced pieces stay in my bag (no hand-over, no sale)');
   t(/it\.src === 'char'\) objId = ijFind\(it\.id, null, keep\)/.test(run) && /const nd = await ijNeeds\(l\.needs, id\)/.test(run), 'A7 another character\'s piece arrives through the needs step (CHARSRC hand-over) first');
   t(/num\(it\.enchant\) > WH_SAFE_ENCH && !J\.overSafeOk/.test(run) && /ijEnchant\(objId, num\(l\.enchant\.to\), num\(l\.enchant\.scroll\), id, it\.name, !!J\.overSafeOk\)/.test(run), 'A8 the safe +4 rule holds (warehouse pieces and enchanting)');
   t(/if \(e\.gone\) \{ fail\(e\.why\); continue; \}/.test(run), 'A9 a destroyed item ends only that line');
   // ---- page + API wiring ----
   t(/\/api\/upgrade\/plan/.test(PAGE) && /\/api\/upgrade\/start/.test(PAGE) && /uiConfirm/.test(PAGE) && !/\bconfirm\(|alert\(|prompt\(/.test(PAGE.replace(/uiConfirm\(/g, '')), 'B1 the page plans, asks with the shared dialog, never a browser confirm');
-  t(/ONLY the replaced pieces go to the collector/.test(PAGE), 'B2 the page says only the replaced pieces go to the collector');
+  t(/the replaced pieces stay in this character's bag/.test(PAGE), 'B2 the page says the replaced pieces stay in the bag');
   t(/data-uuse=/.test(PAGE) && /use\.wh && Number\(o\.wh\)/.test(API), 'B3 materials only from the sources the owner ticked');
   // ---- server (live data, mocked orders) ----
   const A = require(path.join(ROOT, 'Dashboard', 'itemspage_api.js')), U = require(path.join(ROOT, 'Dashboard', 'upgrade_api.js'));
@@ -59,7 +59,7 @@ const t = (ok, what, info) => { console.log((ok ? 'ok   ' : 'FAIL ') + what + (!
       }
     } finally { made.forEach(id => { ['', '_status'].forEach(x => { try { fs.unlinkSync(path.join(LOGS, 'itemjobs', id + x + '.json')); } catch (e) { } }); }); try { if (fs.existsSync(CMDLOG) && fs.statSync(CMDLOG).size > cmdLogSize) fs.truncateSync(CMDLOG, cmdLogSize); } catch (e) { } }
     // ---- UPGQUEUE-2026-10-25: wait for the next Giran visit (default), the dispatcher, Send now (party / alone), cancel ----
-    { const who = rich[0].name, field = { name: who, ageSec: 5, x: 113464, y: 16552, party: 'Somebody', leader: false }, sent0 = sent.length;
+    { const who = rich[0].name, field = { name: who, ageSec: 5, x: 113464, y: 16552, party: 'Somebody', leader: false, dead: false, combat: false, mode: '' }   /* live-independent: the real character may be dead / in a raid right now */, sent0 = sent.length;
       const real = states.find(x => x.name === who) || {}; field.level = real.level; field.classId = real.classId; field.cls = real.cls; field.adena = real.adena;
       let st2 = [field]; const ctx2 = Object.assign({}, ctx, { readStates: () => states.filter(x => x.name !== who).concat(st2.map(x => Object.assign({}, real, x))) });
       const one = { orders: [order.orders[0]], use: order.use }, made2 = [];

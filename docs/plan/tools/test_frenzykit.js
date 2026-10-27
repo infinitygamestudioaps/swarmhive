@@ -24,6 +24,7 @@ const results = []; const ok = (name, cond, info) => { results.push({ name, ok: 
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'fk-edge-'));
   const DBG = 9300 + Math.floor(Math.random() * 500);
   const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  process.on('exit', () => { try { cp.execSync('taskkill /PID ' + br.pid + ' /T /F', { stdio: 'ignore' }); } catch (e) { } });   // BROWSERLEAK 2026-10-26: br.kill() left Chrome's child processes (60+ after one publish) - the whole tree goes on every exit
   let ws = null;
   for (let i = 0; i < 60 && !ws; i++) { await sleep(250); try { const l = await (await fetch(`http://127.0.0.1:${DBG}/json/list`)).json(); const p = l.find(x => x.type === 'page'); if (p) ws = p.webSocketDebuggerUrl; } catch (e) { } }
   if (!ws) throw new Error('no browser');

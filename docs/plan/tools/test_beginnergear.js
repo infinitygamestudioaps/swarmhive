@@ -128,6 +128,7 @@ const T = require('./beginner_gear.js'), BL = require(path.join(ROOT, 'Dashboard
   for (let i = 0; i < 100 && !PORT; i++) await sleep(100);
   const prof = fs.mkdtempSync(path.join(os.tmpdir(), 'bg-edge-')), DBG = 9800 + Math.floor(Math.random() * 150);
   const br = cp.spawn(EDGE, ['--headless=new', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--no-first-run', '--no-default-browser-check', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, 'about:blank'], { stdio: 'ignore' });
+  process.on('exit', () => { try { cp.execSync('taskkill /PID ' + br.pid + ' /T /F', { stdio: 'ignore' }); } catch (e) { } });   // BROWSERLEAK 2026-10-26: br.kill() left Chrome's child processes (60+ after one publish) - the whole tree goes on every exit
   const cleanup = () => { try { br.kill(); srv.kill(); } catch (e) { } try { fs.rmSync(prof, { recursive: true, force: true }); } catch (e) { } };
   try {
     if (!PORT) throw new Error('sandbox server did not start');

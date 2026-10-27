@@ -50,6 +50,7 @@
   // PARTYAUTO 2026-10-13: the switches of the Supplies section (the same list as Dashboard/partyauto_api.js KINDS; the API's own list wins)
   const PA_KINDS = [
     { key: 'supplyWatch', char: false, label: 'Supply runs when someone runs low', help: 'The leader goes to Giran by himself when a character is low on escape / resurrection scrolls, shots, potions or arrows (or the bag is full), buys for everyone and hands it out.' },
+    { key: 'shotsOutRun', char: false, def: true, label: 'Supply run when shots run out (also with supply runs off)', help: 'On (default): when a character\'s shots really run out (fewer than 30) and a shop sells them, the leader makes a supply run even while "Supply runs when someone runs low" is off. Off: with supply runs off nobody goes to Giran by himself, also not for shots (they fight without; your Supply run now order still works).' },   // SHOTSOUTOPT-2026-10-26
     { key: 'sell', char: true, label: 'Sell junk on town visits', help: 'Items you marked "sell" are sold whenever a character idles in a town, and old gear + marked items are sold during supply runs (also the ones you order).' },
     { key: 'dyes', char: true, label: 'Draw symbols (dyes) in supply runs', help: 'During supply runs each character with a symbol plan buys the dyes and draws its next planned symbol at the Symbol Maker in Giran (also in the supply runs you order).' }];
   const PA_SHORT = { supplyWatch: 'supply runs', sell: 'selling', dyes: 'symbols', unload: 'loot to a teammate', storeCov: 'Chant of Victory', storeMagnus: "Magnus' Chant", vitality: 'Gift of Vitality' };   // UNLOADGATE-2026-10-16
@@ -385,8 +386,11 @@
     const s = PS.W.supplies, run = runOn(), K = supKinds();
     const items = K.map(k => {
       const own = s.party[k.key] !== null, eff = paParty(k.key), d = paDef(k.key);
-      const onTxt = (own ? 'On' : 'On — the setting for all parties') + (run ? '' : ' (works once you press Start)');
-      const offTxt = own ? OFF : 'Off — nothing happens until you switch it on (the setting for all parties).';
+      let onTxt = (own ? 'On' : 'On — the setting for all parties') + (run ? '' : ' (works once you press Start)');
+      let offTxt = own ? OFF : 'Off — nothing happens until you switch it on (the setting for all parties).';
+      // SHOTSOUTOPT-2026-10-26: the shots-out run is ON by default (today's rule); the supply-watch line says what still happens while it is off
+      if (k.key === 'shotsOutRun') { onTxt = 'On — shots that really run out start a supply run, also with supply runs off' + (own ? '' : ' (the setting for all parties)'); offTxt = 'Off — with supply runs off nobody goes to Giran for shots either' + (own ? '' : ' (the setting for all parties)'); }
+      else if (k.key === 'supplyWatch' && K.some(x => x.key === 'shotsOutRun')) offTxt += paParty('shotsOutRun') ? ' Only shots that really ran out still start a run (switch below).' : ' Shots that run out do not start a run either (switch below).';
       const reset = own ? `<button type="button" class="uk-btn ghost ps-reset" data-psreset="supplies.party.${E(k.key)}">Use the all-parties setting (${d ? 'on' : 'off'})</button>` : '';
       return item(sw('supplies.party.' + k.key, eff, k.label, onTxt, offTxt), E(k.help), reset + allLine('supplies', k.key, eff, d));   // ALLPARTIES
     }).join('');
@@ -395,7 +399,7 @@
       return `<div class="ps-mrow"><span class="ps-mn">${E(n)}${ck.some(k => c[k.key] !== null && c[k.key] !== undefined) ? ' <small>own</small>' : ''}</span>${ck.map(k => {
         const v = c[k.key], pe = paParty(k.key);
         return sel(`supplies.chars.${n}.${k.key}`, v === null || v === undefined ? '' : v ? 'on' : 'off', [['', `Like the party (${pe ? 'on' : 'off'})`], ['on', 'On'], ['off', 'Off']], k.key === 'sell' ? 'Selling' : 'Symbols', { kind: 'tri' }); }).join('')}</div>`; }).join('');
-    const onK = K.filter(k => paParty(k.key)).map(k => PA_SHORT[k.key] || k.key);
+    const onK = K.filter(k => k.key !== 'shotsOutRun' && paParty(k.key)).map(k => PA_SHORT[k.key] || k.key);   // SHOTSOUTOPT-2026-10-26: on by default, not listed (the summary stays as it was)
     if (s.pshop && s.pshop.on) onK.push('player-shop shots');   // PSHOP
     const sum = !onK.length ? 'Off — nothing by itself' : `${onK.join(' · ')}${run ? '' : ' (waits for Start)'}`;
     // SUPPLYAMT 2026-10-14: how much each character carries (every member uses the row of its own level)

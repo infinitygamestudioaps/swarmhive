@@ -130,6 +130,11 @@
         <label class="gp-autoopt"><input type="checkbox" data-gpautopol="keepArmorType" ${A.keepArmorType ? 'checked' : ''}> keep the armor type (heavy / light / robe)</label>
         <label class="gp-autoopt" title="Squire's Sword / Shirt / Pants, Apprentice's Wand / Tunic / Stockings, Training Gloves, Guild Member's Club: what happens to the starter piece an upgrade replaced. Never quest, enchanted or S.A. items.">replaced starter gear <select data-gpautostarter="1" aria-label="replaced starter gear">${[['sell', 'sell it (destroy if the shop refuses)'], ['destroy', 'destroy it'], ['keep', 'keep it in the bag']].map(([v, t]) => `<option value="${v}" ${(A.starterGear || 'sell') === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
         ${A.exists ? '' : '<span class="muted">no gear_auto.json yet: OFF for everyone</span>'}</div>
+      ${A.oldGear ? (() => { const O = A.oldGear, K = A.oldGearKeys || ['NONE', 'D', 'C', 'B', 'A', 'S', 'enchanted', 'special'];   // OLDGEAR-2026-10-26: optional, default keep (= today)
+        const lab = { NONE: 'no-grade', D: 'D', C: 'C', B: 'B', A: 'A', S: 'S', enchanted: 'enchanted (+1 and up)', special: 'with a Special Ability' };
+        return `<div class="gp-autotop" title="What happens to a piece an upgrade (Upgrade order or gear-up) replaced. Starter pieces follow the 'replaced starter gear' choice. Keep = it stays in the character's bag (default). Collector = handed to the Storage page's collector when he stands in the same town and is free; otherwise it is kept. Never sold."><b>Other replaced gear:</b>
+          ${K.map(k => `<label class="gp-autoopt">${esc(lab[k] || k)} <select data-gpoldgear="${esc(k)}" aria-label="replaced ${esc(lab[k] || k)} gear"><option value="keep" ${O[k] !== 'collector' ? 'selected' : ''}>keep in the bag</option><option value="collector" ${O[k] === 'collector' ? 'selected' : ''}>to the collector</option></select></label>`).join('')}
+          <span class="muted">${A.collector ? 'collector: ' + esc(A.collector) : 'no collector switched on (Storage page): everything is kept'} · never sold</span></div>`; })() : ''}
       ${(() => { const S = A.sources || {}, all = [].concat(...A.parties.map(p => p.members.map(m => m.name)));   // GEARDIST-2026-10-25
         return `<div class="gp-autotop" title="Before buying, the gear-up takes a planned piece from these, without asking (your choice 2026-10-25). A giver reserves the piece, so two characters never wait for the same one."><b>Before buying, use:</b>
           ${sw(S.ownWh, 'data-gpsrc="ownWh"', 'own bag + warehouse')}${sw(S.clan, 'data-gpsrc="clan"', 'clan warehouse')}${sw(S.bags, 'data-gpsrc="bags"', 'spare pieces of every character (in Giran)')}${sw(S.dist, 'data-gpsrc="dist"', 'distributors')}${sw(S.unseal, 'data-gpsrc="unseal"', 'sealed pieces (unseal at Pushkin)')}</div>
@@ -639,6 +644,14 @@
     if (d.gpskipgrade) { const L = [...document.querySelectorAll('[data-gpskipgrade]')].filter(x => x.checked).map(x => x.dataset.gpskipgrade); saveAuto({ scope: 'policy', skipGrades: L }, L.length ? 'saved: never buys ' + L.join(', ') + '-grade' : 'saved: every grade may be bought', ''); return; }   // SKIPGRADE-2026-10-14
     if (d.gpautopol) { saveAuto({ scope: 'policy', [d.gpautopol]: e.target.checked }, 'saved', ''); return; }
     if (d.gpdistadd !== undefined && e.target.value) { const S = (GP.auto && GP.auto.sources) || {}; saveAuto({ scope: 'sources', names: (S.names || []).concat(e.target.value) }, e.target.value + ' is a distributor now: it hands out gear from its bag in Giran', ''); return; }   // GEARDIST
+    if (d.gpoldgear) {                                                            // OLDGEAR-2026-10-26: replaced (non-starter) gear keep | collector, per grade
+      const k = d.gpoldgear, v = e.target.value === 'collector' ? 'collector' : 'keep', col = (GP.auto && GP.auto.collector) || '';
+      (async () => {
+        if (v === 'collector' && !await uiConfirm({ title: 'Give replaced gear to the collector?', body: [uiP(`After an upgrade, a replaced ${k === 'enchanted' ? 'enchanted' : k === 'special' ? 'Special Ability' : k === 'NONE' ? 'no-grade' : k + '-grade'} piece is handed to the collector${col ? ' (' + col + ')' : ''} instead of staying in the character's bag.`), uiNote('Only when the collector stands in the same town and is free; otherwise it is kept. Starter pieces follow their own choice. Nothing is ever sold.')], confirmText: 'Give to the collector', cancelText: 'Cancel' })) { renderAuto(); return; }
+        saveAuto({ scope: 'policy', oldGear: { [k]: v } }, `Replaced ${k} gear: ${v === 'collector' ? 'to the collector' : 'kept in the bag'}`, '');
+      })();
+      return;
+    }
     if (d.gpautostarter !== undefined) {                                          // TESTERS-2026-10-12: replaced starter gear sell | destroy | keep
       const v = e.target.value, txt = { sell: 'sold at Helvetia (destroyed when the shop refuses it)', destroy: 'destroyed', keep: 'kept in the bag' }[v] || v;
       (async () => {

@@ -166,7 +166,8 @@ function makeAgent(o) {
     A.brain({ a: 'hot' }); A.tick(1000);
     ok(A.ev("AG.mode") === 'fast' && A.period === 62, "{ a: 'hot' } -> fast ticks (62 ms)");
     const { Runner } = require(path.join(BH, 'runner.js'));
-    const mk = (name, fight, caps) => { const w = []; return { name, w, mirror: { fl: { IsInCombat: fight }, me: {}, agentCaps: caps || ['hot'] }, link: { connected: () => true, write: (m) => w.push(m) } }; };
+    // CPUOPT-2026-10-26: a fight = the server combat stance me.IsInCombat or attacking (fl.IsInCombat = L2Swarm's bot-combat flag is not one)
+    const mk = (name, fight, caps, pos) => { const w = []; return { name, w, mirror: { fl: { IsAttacking: fight }, me: Object.assign({ IsInCombat: fight, X: 0, Y: 0, ClassId: 0 }, pos || {}), agentCaps: caps || ['hot'] }, link: { connected: () => true, write: (m) => w.push(m) } }; };
     const R = { o: {}, st: {}, ctxs: new Map() };
     const a = mk('Tank', true), b = mk('Healer', false), c = mk('OldAgent', false, []);
     [a, b, c].forEach(x => R.ctxs.set(x.name, x));
@@ -174,14 +175,21 @@ function makeAgent(o) {
     ok(a.w.some(m => m.a === 'hot') && b.w.some(m => m.a === 'hot') && !c.w.length, 'a fighting party member -> hot to every agent of the party that knows it (an old agent gets nothing)');
     Runner.prototype.partyHot.call(R);
     ok(b.w.filter(m => m.a === 'hot').length === 1, 'throttled (once per 4 s)');
-    a.mirror.fl.IsInCombat = false; b.hotAt -= 5000; Runner.prototype.partyHot.call(R);
-    ok(b.w.filter(m => m.a === 'hot').length === 2, 'held after the fight (15 s)');
+    a.mirror.fl.IsAttacking = false; a.mirror.me.IsInCombat = false; b.hotAt -= 5000; Runner.prototype.partyHot.call(R);
+    ok(b.w.filter(m => m.a === 'hot').length === 2, 'held after the fight (6 s)');
     for (const k of R.hotUntilP.keys()) R.hotUntilP.set(k, Date.now() - 1); b.hotAt -= 5000; Runner.prototype.partyHot.call(R);   // FARMPERF: hold kept per party
     ok(b.w.filter(m => m.a === 'hot').length === 2, 'nobody fights and the hold is over: no hint');
     const RP = { o: { partyOf: (n) => n[0] }, st: {}, ctxs: new Map() };   // FARMPERF worker slots: two parties in one worker (party = first letter)
     const pa = mk('Atank', true), pb = mk('Ahealer', false), qa = mk('Bidle', false);
     [pa, pb, qa].forEach(x => RP.ctxs.set(x.name, x)); Runner.prototype.partyHot.call(RP);
     ok(pb.w.some(m => m.a === 'hot') && !qa.w.length, 'two parties in one worker: only the fighting party gets the hint');
+    { // CPUOPT-2026-10-26: only members near the fight (2000) get it; healers / buffers anywhere; the bot-combat flag alone is no fight
+      const RN = { o: {}, st: {}, ctxs: new Map() }, ft = mk('Fighter', true), far = mk('FarDD', false, null, { X: 5000 }), farHeal = mk('FarBishop', false, null, { X: 5000, ClassId: 97 }), near = mk('NearDD', false, null, { X: 1500 });
+      [ft, far, farHeal, near].forEach(x => RN.ctxs.set(x.name, x)); Runner.prototype.partyHot.call(RN);
+      ok(near.w.some(m => m.a === 'hot') && farHeal.w.some(m => m.a === 'hot') && !far.w.length, 'hot: near members + healers anywhere, not a damage dealer 5000 away');
+      const RB = { o: {}, st: {}, ctxs: new Map() }, bf = mk('BotFlag', false), bm = mk('Mate', false); bf.mirror.fl.IsInCombat = true; [bf, bm].forEach(x => RB.ctxs.set(x.name, x)); Runner.prototype.partyHot.call(RB);
+      ok(!bm.w.length, 'L2Swarm bot-combat flag alone (fl.IsInCombat) is no fight: no hint');
+    }
     const R2 = { o: { partyHot: false }, st: {}, ctxs: new Map([['T', mk('T', true)]]) }; Runner.prototype.partyHot.call(R2);
     ok(!R2.ctxs.get('T').w.length, 'partyHot false: off');
     const R3 = { o: { agentPush: ['Tank'] }, ctxs: new Map([['Tank', mk('Tank', false)], ['Healer', mk('Healer', false)]]) };

@@ -2,6 +2,25 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.0 (2026-10-27)
+
+- Automatic selling is OFF by default for every party and character: only your own order (!sell, dashboard-picked items) or a party sell switch you turn on sells, and every sale path checks it
+- gear is never sold as junk
+- replaced weapons, armor and accessories stay in the bag
+- automatic gear upgrades stay off unless you switch them on
+- new optional switches, all off or unchanged by default: Hands off per character (Hive leaves it completely alone), what happens to replaced gear per grade (keep or give to the collector), shots-out supply run per party
+- much less CPU in L2Swarm from the bots' script: skill readiness only for skills on cooldown, near-monster snapshot, own stats in one read, drops / settings / shop lists only when needed, walking characters in calm mode, other players' fights not forwarded, one clan-info request per clan
+- brain: party-fights signal only near the fight, no repeated StopMove or bridge messages
+- raid: a member that waits says why (party card / notes)
+- Accounts -> Create a character stops after 6 tries with the reason instead of looping 39 min
+- SETUP_PC_ALWAYS_ON dashboard keep-alive task path fixed (run it once more)
+- zone, race and class type reach the bots
+- Vanguard is never cast by itself
+- SLOW HUNTING clears when hunting recovers and shows its age
+- players' targets in the monster list are correct again
+- release tests no longer leave headless Chrome running
+- works with L2Swarm 3.10.7 (update L2Swarm too: it has server GC and the CPU fixes built in)
+
 ## v1.11.0 (2026-10-26)
 
 - Combat tab = the class guide: all 36 class lines / 103 classes with each skill's type, learn levels, weapon, when it is cast and an On/Off switch, plus your characters live (attacks, buffs, toggles, last casts with the monster hit), readable on phones

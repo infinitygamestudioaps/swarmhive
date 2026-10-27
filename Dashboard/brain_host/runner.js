@@ -25,6 +25,8 @@ const { GeoBridge } = require('./geobridge');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 
+// CPUOPT-2026-10-26: healers / buffers / summoners keep the party hot hint wherever they stand (their first heal / buff must not wait)
+const HOT_SUPPORT = new Set([15, 16, 97, 17, 98, 29, 30, 105, 42, 43, 112, 50, 51, 115, 52, 116, 21, 100, 34, 107, 14, 96, 28, 104, 41, 111]);
 class Runner {
   /**
    * opts: port (8094), host ('127.0.0.1'), script (Scripts_dev/swarm.js), root (C:\L2Swarm as swarm.js sees it), overlay (dir|null),
@@ -260,11 +262,18 @@ class Runner {
     // without it every context of this runner counts as one party, as before)
     const t = Date.now(), pOf = typeof this.o.partyOf === 'function' ? this.o.partyOf : () => '';
     const hot = this.hotUntilP || (this.hotUntilP = new Map());
-    for (const C of this.ctxs.values()) { const m = C.mirror; if (m && m.fl && (m.fl.IsInCombat || m.fl.IsAttacking || (m.me && m.me.IsCasting))) hot.set(pOf(C.name), t + (this.o.hotHoldMs || 15000)); }
+    // CPUOPT-2026-10-26 (owner: "optimize"; brain_traffic.md #2): hot kept 76 % of all agents fast, 14 % of agent time with ZERO own combat.
+    // A fight is now the SERVER combat stance (me.IsInCombat) or attacking - not L2Swarm's bot-combat flag fl.IsInCombat, not a buff cast;
+    // the hint goes to healers / buffers always and to the others only within 2000 of a fighting member; held 6 s (was 15 s).
+    const fighters = new Map();
+    for (const C of this.ctxs.values()) { const m = C.mirror; if (m && m.fl && m.me && (m.me.IsInCombat || m.fl.IsAttacking)) { const p = pOf(C.name); hot.set(p, t + (this.o.hotHoldMs || 6000)); (fighters.get(p) || fighters.set(p, []).get(p)).push([Number(m.me.X) || 0, Number(m.me.Y) || 0]); } }
     let any = false; for (const u of hot.values()) if (t <= u) { any = true; break; }
     if (!any) return;
+    const near = (C) => { const m = C.mirror, me = m && m.me; if (!me) return true; if (HOT_SUPPORT.has(Number(me.ClassId))) return true; const fs = fighters.get(pOf(C.name)); if (!fs || !fs.length) return true;   /* a hold without a fighter right now: as before */
+      const x = Number(me.X) || 0, y = Number(me.Y) || 0; return fs.some(([fx, fy]) => Math.hypot(fx - x, fy - y) <= (this.o.hotRange || 2000)); };
     for (const C of this.ctxs.values()) {
       const u = hot.get(pOf(C.name)); if (!u || t > u) continue;
+      if (!near(C)) continue;
       if (!C.link.connected() || !(Array.isArray(C.mirror.agentCaps) && C.mirror.agentCaps.includes('hot'))) continue;
       if (t - (C.hotAt || 0) < (this.o.hotEveryMs || 4000)) continue;
       C.hotAt = t; C.link.write({ a: 'hot' }); this.st.hot = (this.st.hot || 0) + 1;
@@ -390,6 +399,13 @@ class Runner {
     if (!target && this.o.bridgeIdleMs > 0) { const t = Date.now(); if (t - this.bridgeSince > this.o.bridgeIdleMs && t - this.foreignApAt > this.o.bridgeIdleMs) { this.st.bridgeQuiet++; return; } }
     const C = this.ctxByAccount(from);
     if (!C || !C.hello || !(Number(C.hello.v) >= 3) || !C.link.connected()) { this.st.bridgeNoAgent++; return; }
+    // CPUOPT-2026-10-26 (brain_traffic.md #4): a broadcast went to EVERY engine inside L2Swarm (each of the 79 agents' bridge callbacks ran and
+    // dropped it: ~220 / s, ~1,200 / s peak); now emitTo the foreign swarm.js engine(s) seen in the last bridgeIdleMs (none known = broadcast as before)
+    if (!target && this.foreignAccs && this.foreignAccs.size) {
+      const t = Date.now(), win = this.o.bridgeIdleMs > 0 ? this.o.bridgeIdleMs : 120000, to = [];
+      for (const [acc, at] of this.foreignAccs) { if (t - at > win) this.foreignAccs.delete(acc); else to.push(acc); }
+      if (to.length) { to.forEach(acc => C.link.write({ a: 'appemit', name: env.name, j: env.json, to: acc })); this.st.bridgeOut += to.length; this.st.bridgeTargeted = (this.st.bridgeTargeted || 0) + 1; return; }
+    }
     C.link.write(target ? { a: 'appemit', name: env.name, j: env.json, to: target } : { a: 'appemit', name: env.name, j: env.json });
     this.st.bridgeOut++;
   }
@@ -399,6 +415,7 @@ class Runner {
     const src = m.source || {};
     if (this.isBrainAccount(src.accountId)) { this.st.bridgeLoopDrops++; return; }   // our own emit coming back through another agent: already delivered in the brain
     this.foreignApAt = Date.now();                                    // PERF-2026-10-15: a swarm.js engine runs inside L2Swarm -> broadcasts go there (busOut)
+    if (src.accountId) (this.foreignAccs || (this.foreignAccs = new Map())).set(String(src.accountId), Date.now());   // CPUOPT-2026-10-26: who runs it there
     const json = typeof m.j === 'string' ? m.j : JSON.stringify(m.d === undefined ? null : m.d);
     this.st.bridgeIn++;
     this.injectFor(C, { id: String(m.id || ('l2' + this.st.bridgeIn)), name: m.name, sentAtUtc: m.sentAtUtc || new Date(this.clock.now()).toISOString(),
@@ -411,7 +428,10 @@ class Runner {
     const add = (a) => { a = String(a || ''); if (a && !seen.has(a)) { seen.add(a); brain.push(a); } };
     for (const C of this.ctxs.values()) if (C.brainOn !== false) this.accountIds(C).forEach(add);
     (this.o.extraBrainAccounts ? this.o.extraBrainAccounts() : []).forEach(a => { const C = this.ctxByAccount(a); if (!C || C.brainOn !== false) add(a); });
-    for (const C of this.ctxs.values()) if (C.hello && Number(C.hello.v) >= 3 && C.link.connected()) C.link.write({ a: 'bridge', on: true, names: this.o.bridgeNames || [], brain });
+    // CPUOPT-2026-10-26 (brain_traffic.md #6): the same ~5.5 KB went to every agent ~1,075 times in 2 h (every hello / link change / pool push): now
+    // only when it changed for that agent's connection (a new hello = a new connection = sent again)
+    const msg = { a: 'bridge', on: true, names: this.o.bridgeNames || [], brain }, sig = JSON.stringify(msg);
+    for (const C of this.ctxs.values()) if (C.hello && Number(C.hello.v) >= 3 && C.link.connected()) { if (C.bridgeSent && C.bridgeSent.hello === C.hello && C.bridgeSent.sig === sig) { this.st.bridgeSame = (this.st.bridgeSame || 0) + 1; continue; } C.bridgeSent = { hello: C.hello, sig }; C.link.write(msg); }
   }
   report() {
     const missing = new Map(), calls = new Map();

@@ -6,6 +6,7 @@
 //        { char, on: true|false|null } a member's own switch (false = it stands still; true / null = back to the party's switch; the bot's
 //                                      3 s watch applies it, no order is sent); a party leader's character = that party's switch
 //        { all: true, on }             every party (+ every character switch reset), !start / !stop to every party
+//        { char, handsOff: true|false } HANDSOFF-2026-10-26: that character's hands-off switch (handsOff.<name>; never reset by Start / Stop)
 //        send: false                   only write the file (tests)
 // File: Scripts/data/run_state.json (env SWARM_RUNSTATE_FILE overrides it), read by swarm.js runData() every 2 s. Missing = everything OFF.
 //   { v: 1, default: false, parties: { <leader>: { on, at, by, why } }, chars: { <member>: { on: false, at, by } } }
@@ -24,9 +25,15 @@ function runNorm(j) {
   const obj = (x) => x && typeof x === 'object' && !Array.isArray(x) ? x : {};
   return Object.assign({}, o, { v: 1, default: o.default === true, parties: obj(o.parties), chars: obj(o.chars) });
 }
+// HANDSOFF-2026-10-26: handsOff.<name> = { on: true, at, by } (own map: party Start / Stop / Start all never reset it; missing = OFF). = swarm.js runHandsOff
+function runHandsOff(j, name) {
+  const h = j && typeof j === 'object' && j.handsOff && typeof j.handsOff === 'object' && !Array.isArray(j.handsOff) ? j.handsOff[name] : null;
+  return !!(h && typeof h === 'object' && h.on === true);
+}
 function runEffective(j, me, leader) {
   const J = runNorm(j), p = J.parties[leader], c = me !== leader ? J.chars[me] : null;
   const pOn = p && typeof p.on === 'boolean' ? p.on : J.default;
+  if (runHandsOff(J, me)) { const h = J.handsOff[me]; return { on: false, held: me !== leader, partyOn: pOn, src: 'handsoff', at: h.at || null, by: h.by || '', why: 'hands off', handsOff: true }; }   // HANDSOFF-2026-10-26
   if (c && typeof c.on === 'boolean') return { on: c.on, held: c.on === false, partyOn: pOn, src: 'char', at: c.at || null, by: c.by || '', why: c.why || '' };
   return { on: pOn, held: false, partyOn: pOn, src: p && typeof p.on === 'boolean' ? 'party' : 'default', at: p ? p.at || null : null, by: p ? p.by || '' : '', why: p ? p.why || '' : '' };
 }
@@ -83,13 +90,14 @@ function summary(ctx, chars) {
   (chars || []).forEach(c => { byName[c.name] = c; });
   const parties = Object.keys(P).sort().map(leader => {
     const e = runEffective(J, leader, leader), lc = byName[leader] || null, members = P[leader];
-    const held = members.filter(n => n !== leader && runEffective(J, n, leader).held);
+    const held = members.filter(n => n !== leader && runEffective(J, n, leader).held && !runHandsOff(J, n));   // HANDSOFF: listed apart (handsOff)
     const seen = lc && lc.run && typeof lc.run.on === 'boolean' ? lc.run.on : null;   // what the leader's window sees (null = older swarm.js / offline)
     return { leader, on: !!e.on, src: e.src, at: e.at, by: e.by, why: e.why, members, held, task: lc ? String(lc.task || '') : '', online: !!(lc && lc.ageSec <= 30),
       seen, plan: startPlanFor(ctx, leader, members.length <= 1) };
   });
   const chars2 = {}; Object.keys(J.chars).forEach(n => { const c = J.chars[n]; if (c && typeof c.on === 'boolean') chars2[n] = { on: c.on, at: c.at || null, by: c.by || '' }; });
-  return { default: J.default, exists: R.exists, broken: R.broken || null, parties, chars: chars2, updated: J._updated || null };
+  const ho = {}; const H = J.handsOff && typeof J.handsOff === 'object' && !Array.isArray(J.handsOff) ? J.handsOff : {}; Object.keys(H).forEach(n => { if (runHandsOff(J, n)) ho[n] = { on: true, at: H[n].at || null, by: H[n].by || '' }; });   // HANDSOFF-2026-10-26
+  return { default: J.default, exists: R.exists, broken: R.broken || null, parties, chars: chars2, handsOff: ho, updated: J._updated || null };
 }
 
 // ---- write
@@ -124,6 +132,10 @@ async function post(ctx, b) {
     if (typeof b.on !== 'boolean') return bad(400, 'on (true / false) required');
     r = write(ctx, (J) => setParty(J, leader, b.on), `party ${leader} ${b.on ? 'ON' : 'OFF'}`, by);
     sends.push({ cmd: b.on ? '!start' : '!stop', target: 'party:' + leader });
+  } else if (b.char != null && b.handsOff !== undefined) {           // HANDSOFF-2026-10-26: { char, handsOff: true | false } — no order is sent, the bot reads it within 2 s
+    const name = String(b.char); if (!NAME_RE.test(name)) return bad(400, 'char (character name) required');
+    if (typeof b.handsOff !== 'boolean') return bad(400, 'handsOff: true (Hive leaves it alone) or false (back to normal)');
+    r = write(ctx, (J) => { const H = J.handsOff && typeof J.handsOff === 'object' && !Array.isArray(J.handsOff) ? J.handsOff : {}; if (b.handsOff) H[name] = { on: true, at, by }; else delete H[name]; if (Object.keys(H).length) J.handsOff = H; else delete J.handsOff; }, `char ${name} hands off ${b.handsOff ? 'ON' : 'OFF'}`, by);
   } else if (b.char != null) {
     const name = String(b.char); if (!NAME_RE.test(name)) return bad(400, 'char (character name) required');
     const leader = Object.keys(P).find(l => (P[l] || []).includes(name)) || null;
@@ -157,4 +169,4 @@ async function handle(req, res, url, ctx) {
   try { const r = await post(ctx, b) || bad(500, 'no result'); const code = r.code || 200; delete r.code; ctx.json(res, code, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { handle, summary, post, readState, fileOf, runNorm, runEffective, runStartPlan, startPlanFor, partiesOf };
+module.exports = { runHandsOff, handle, summary, post, readState, fileOf, runNorm, runEffective, runStartPlan, startPlanFor, partiesOf };

@@ -249,7 +249,7 @@ check(!/\b(alert|confirm|prompt)\(/.test(fs.readFileSync(path.join(ROOT, 'Dashbo
       boardOn: () => o.board !== false, needsBuff: () => W.buffs < 10 && o.board !== false, rkSelfBuffsAllowed: (board, need) => !board || !!need,
       buffSelf: async (why) => { W.log.push('board ' + why); W.t += 3000; if (o.boardOk !== false) { W.buffs = 20; return true; } return false; },
       longBuffCount: () => W.buffs, requestBuffTurn: (r) => W.log.push('buffturn ' + r), stopCombatG: () => W.log.push('stop combat'),
-      hiveSkillsOn: () => true, hiveHealsOn: () => true,   // HIVESW-2026-10-15: the default (Hive picks skills + heals)
+      hiveSkillsOn: () => true, hiveHealsOn: () => true, handsOffMe: () => false,   // HIVESW-2026-10-15: the default (Hive picks skills + heals); HANDSOFF-2026-10-26 off
     };
     // the pure block + the host block in one scope (the host reads RESX / resDecide ...)
     const names = Object.keys(S).filter(k => !Object.getOwnPropertyDescriptor(S, k).get);   // getters (IsEnabled, Target) stay globals (defined per world below)

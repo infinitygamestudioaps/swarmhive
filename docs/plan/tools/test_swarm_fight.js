@@ -93,7 +93,7 @@ const i0 = loop.indexOf('if (sfMode) { const sk'), i1 = loop.indexOf('moveOnWhy(
 check(i0 > 0 && i1 > i0 && i2 > i0 && i3 > i0, 'leader: the spot checks stay (move on, occupied, room rotation)');
 const attAt = src.indexOf("App.on('swarm.attacked', (event) => {\n  const d = event.data;"), att = src.slice(attAt, attAt + 600);   // the HIVE MIND help handler (4 handlers listen to swarm.attacked)
 check(/if \(swarmFightNow\(\)\) return;/.test(att), 'member: no Hive help-a-teammate attack in the phase');
-check(/  if \(swarmFightNow\(\)\) return;\s+\/\/ SWARMFIGHT: the L2Swarm profile fights, never a Hive self-defence fight on the side\n  if \(isHealerRole\(\) \|\| noMelee\(\)\) return;/.test(src), 'member: no Hive self-defence fight in the phase');
+check(/  if \(swarmFightNow\(\)\) return;\s+\/\/ SWARMFIGHT: the L2Swarm profile fights, never a Hive self-defence fight on the side\n(  if \(handsOffMe\(\)\) return;[^\n]*\n)?  if \(isHealerRole\(\) \|\| noMelee\(\)\) return;/.test(src), 'member: no Hive self-defence fight in the phase');   // HANDSOFF-2026-10-26: the optional hands-off line may sit between
 check(/isLeader\(\) \|\| stuckFollow\.busy \|\| benched\(\) \|\| swarmFightNow\(\)\) return;/.test(src), 'member: no back-to-the-middle walk in the phase');
 check(/now\(\) < \(state\.fleeUntil \|\| 0\) \|\| swarmFightNow\(\)\) \{ aloneFight\.since = 0; return; \}/.test(src), 'nobody: no Hive alone-in-a-fight escape in the phase');
 check(/function rgFollowTick\(\) \{[\s\S]{0,600}try \{ if \(swarmFightNow\(\)\) return false; \}/.test(src), 'member: no Hive room follow in the phase (L2Swarm Follow)');

@@ -13,6 +13,12 @@ const DEF = { auto: false, sameGradeSwap: false, keepArmorType: true };   // = s
 const STARTER_MODES = ['sell', 'destroy', 'keep'];                         // = swarm.js STARTERGEAR.modes (sgMode: anything else = 'sell')
 const starterOf = (F) => STARTER_MODES.includes(String((F && F.starterGear) || '').toLowerCase()) ? String(F.starterGear).toLowerCase() : 'sell';
 const GRADES = ['D', 'C', 'B', 'A', 'S', 'S80', 'S84'];   // SKIPGRADE-2026-10-14: grades nobody buys (swarm.js ggSkipGrades)
+// OLDGEAR-2026-10-26 (tester Vykaax's old-gear filter; owner: 'Add the last 3 as optional i dont want them to affect the system'): what happens to a
+// replaced NON-starter piece, per grade + enchanted + special (S.A.): 'keep' (default, = KEEPOLD today) | 'collector' (the Storage page's collector).
+// NEVER 'sell' (owner: no automatic selling). = swarm.js OLDGEAR / ogNorm.
+const OLDGEAR_KEYS = ['NONE', 'D', 'C', 'B', 'A', 'S', 'enchanted', 'special'], OLDGEAR_MODES = ['keep', 'collector'];
+const oldGearOf = (F) => { const o = F && F.oldGear && typeof F.oldGear === 'object' && !Array.isArray(F.oldGear) ? F.oldGear : {}, out = {}; OLDGEAR_KEYS.forEach(k => { out[k] = o[k] === 'collector' ? 'collector' : 'keep'; }); return out; };
+function collectorOf(ctx) { try { const j = JSON.parse(fs.readFileSync(path.join(path.dirname(fileOf(ctx)), 'stash_rules.json'), 'utf8').replace(/^﻿/, '')) || {}, c = j.collector; return c && c.on === true ? String(c.name || '(the clan leader)') : ''; } catch (e) { return ''; } }
 const skipOf = (F) => (Array.isArray(F && F.skipGrades) ? F.skipGrades : []).map(g => String(g).toUpperCase()).filter(g => GRADES.includes(g));
 function read(ctx) { try { const t = fs.readFileSync(fileOf(ctx), 'utf8'); return { exists: true, data: JSON.parse(t.replace(/^﻿/, '')) || {} }; } catch (e) { return { exists: false, data: {} }; } }
 /** the same resolution as swarm.js ggPolicy (character > party > file default > off) */
@@ -39,7 +45,7 @@ function sources(ctx) { let j = {}; try { j = JSON.parse(fs.readFileSync(srcFile
 function info(ctx) {
   const R = read(ctx), F = R.data;
   return { sources: sources(ctx), exists: R.exists, default: typeof F.default === 'boolean' ? F.default : DEF.auto, sameGradeSwap: typeof F.sameGradeSwap === 'boolean' ? F.sameGradeSwap : DEF.sameGradeSwap,
-    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : DEF.keepArmorType, starterGear: starterOf(F), skipGrades: skipOf(F),
+    keepArmorType: typeof F.keepArmorType === 'boolean' ? F.keepArmorType : DEF.keepArmorType, starterGear: starterOf(F), skipGrades: skipOf(F), oldGear: oldGearOf(F), oldGearKeys: OLDGEAR_KEYS, collector: collectorOf(ctx),
     parties: cfgParties(ctx).map(p => ({ leader: p.leader, auto: typeof ((F.parties || {})[p.leader] || {}).auto === 'boolean' ? F.parties[p.leader].auto : null,
       members: p.names.map(n => { const c = (F.chars || {})[n] || {}, e = policy(F, n, p.leader); return { name: n, auto: typeof c.auto === 'boolean' ? c.auto : null, lock: c.lock === true, eff: e.auto, from: e.from }; }) })) };
 }
@@ -73,6 +79,14 @@ function post(ctx, b) {
   } else if (scope === 'policy') {
     let n = 0; ['sameGradeSwap', 'keepArmorType'].forEach(k => { if (typeof b[k] === 'boolean') { F[k] = b[k]; n++; } });
     if (b.skipGrades !== undefined) { if (!Array.isArray(b.skipGrades)) return { code: 400, error: 'skipGrades must be a list like ["B"]' }; F.skipGrades = skipOf({ skipGrades: b.skipGrades }); n++; }
+    if (b.oldGear !== undefined) {   // OLDGEAR-2026-10-26: { <grade | enchanted | special>: keep | collector } (missing key = keep); never sell
+      if (!b.oldGear || typeof b.oldGear !== 'object' || Array.isArray(b.oldGear)) return { code: 400, error: 'oldGear must be a table like { "C": "collector" }' };
+      const bad = Object.keys(b.oldGear).filter(k => !OLDGEAR_KEYS.includes(k)); if (bad.length) return { code: 400, error: 'oldGear: unknown key ' + bad[0] + ' (' + OLDGEAR_KEYS.join(', ') + ')' };
+      const badV = Object.keys(b.oldGear).filter(k => !OLDGEAR_MODES.includes(String(b.oldGear[k]))); if (badV.length) return { code: 400, error: 'oldGear ' + badV[0] + ': keep | collector (never sell: the owner forbids automatic selling)' };
+      const cur = oldGearOf(F); Object.keys(b.oldGear).forEach(k => { cur[k] = String(b.oldGear[k]); });
+      if (OLDGEAR_KEYS.every(k => cur[k] === 'keep')) delete F.oldGear; else { F.oldGear = {}; OLDGEAR_KEYS.forEach(k => { if (cur[k] === 'collector') F.oldGear[k] = 'collector'; }); }
+      n++;
+    }
     if (b.starterGear !== undefined) { if (!STARTER_MODES.includes(String(b.starterGear))) return { code: 400, error: 'starterGear: sell | destroy | keep' }; F.starterGear = String(b.starterGear); n++; }
     if (!n) return { code: 400, error: 'sameGradeSwap / keepArmorType must be true or false, starterGear sell | destroy | keep' };
   } else if (scope === 'sources') {
@@ -86,7 +100,7 @@ function post(ctx, b) {
     try { if (ctx.LOGS) fs.appendFileSync(path.join(ctx.LOGS, 'dashboard_commands.log'), `${new Date().toISOString()}\tgearsources\t${JSON.stringify(j.distributors)} ownWh=${j.ownWh} clan=${j.clan} unseal=${j.unseal}\r\n`); } catch (e) { }
     return Object.assign({ code: 200, ok: true }, info(ctx));
   } else return { code: 400, error: 'scope: default | party | char | policy | sources' };
-  write(ctx, F, `${scope} ${name} ${JSON.stringify({ auto: v, lock: b.lock, sameGradeSwap: b.sameGradeSwap, keepArmorType: b.keepArmorType, starterGear: b.starterGear, skipGrades: b.skipGrades })}`);
+  write(ctx, F, `${scope} ${name} ${JSON.stringify({ auto: v, lock: b.lock, sameGradeSwap: b.sameGradeSwap, keepArmorType: b.keepArmorType, starterGear: b.starterGear, skipGrades: b.skipGrades, oldGear: b.oldGear })}`);
   return Object.assign({ code: 200, ok: true }, info(ctx));
 }
 async function handle(req, res, url, ctx) {
@@ -97,4 +111,4 @@ async function handle(req, res, url, ctx) {
   try { const r = post(ctx, b || {}); const c = r.code || 200; delete r.code; ctx.json(res, c, r); } catch (e) { ctx.json(res, 500, { error: e.message }); }
   return true;
 }
-module.exports = { sources, GRADES, skipOf, handle, info, post, policy, DEF, fileOf, STARTER_MODES, starterOf };
+module.exports = { OLDGEAR_KEYS, OLDGEAR_MODES, oldGearOf, sources, GRADES, skipOf, handle, info, post, policy, DEF, fileOf, STARTER_MODES, starterOf };

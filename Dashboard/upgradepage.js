@@ -220,7 +220,7 @@
       <div class="u-row"><span class="u-n">Scrolls, soul crystals, gemstones may come from:</span>
         ${['wh', 'clan', 'buy'].map(k => `<button class="${S.use[k] ? 'on' : ''}" data-uuse="${k}">${{ wh: 'own warehouse', clan: 'clan warehouse', buy: 'buy in Giran' }[k]}</button>`).join('')}</div>
       ${S.plan && S.plan.orders && S.plan.orders.some(o => o.lines.some(l => (l.overSafe || []).length)) ? `<label style="display:flex;gap:8px;align-items:flex-start;padding:6px 0"><input type="checkbox" id="upSafe" ${S.overSafeOk ? 'checked' : ''} style="min-height:auto;width:22px;height:22px;flex:0 0 auto"> <span class="u-bad">I accept the warnings above (above +4 a failed scroll destroys the item; big costs)</span></label>` : ''}
-      <div class="muted">After putting everything on, ONLY the replaced pieces go to the collector${S.plan && S.plan.collector ? ' (' + h(S.plan.collector) + ')' : ''}.</div></div>`;
+      <div class="muted">After putting everything on, the replaced pieces stay in this character's bag (never sold, never handed away).</div></div>`;
   }
   // ---- augment picker (AUGMENT-2026-10-25: "let me select the life stone augmentation I want to aim for") ----
   const JEWEL = /earring|ring|necklace|neck/i;

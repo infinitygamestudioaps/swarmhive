@@ -97,7 +97,7 @@ What happens after **Create**:
 2. The account is opened (logged in) in L2Swarm.
 3. A small one-off script is attached to the account. At character select it creates the character with the start class's base stats
    and keeps trying every 5 seconds (up to 30 minutes) until the account is in game.
-4. Progress lines go to `Logs/create_chars.txt` ("waiting for character select ...", "CharacterCreate sent", "in game as ...").
+4. Progress lines go to `Logs/create_chars.txt` ("waiting for the character list ...", "CharacterCreate sent: <name> (try n)", then "RESULT OK <name>" or "RESULT FAIL <name> was refused (no free character slot / name taken or not allowed)" after at most 6 tries).
 
 ![The message after Create](../img/accounts_create_sent_phone.png) ![The message after Create](../img/accounts_create_sent_desktop.png)
 
