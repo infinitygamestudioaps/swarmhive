@@ -4564,8 +4564,15 @@ async function crBuffStep(town) {
     if (b.a === 'mp' ? now() - (CR.buffAt[b.id] || 0) < 4000 : !BuffLow(b.id, 15)) { if (CR.noLand[b.id]) delete CR.noLand[b.id]; continue; }
     // NOLAND: cast, 60 s later still not on me (a stronger buff of its kind blocks it) -> after 2 such casts leave it 20 min
     const nl = b.a === 'mp' ? null : CR.noLand[b.id];
-    if (nl && nl.until > now()) continue;
-    if (nl && nl.cast && CR.buffAt[b.id]) { nl.n = (nl.n || 0) + 1; nl.cast = false; if (nl.n >= 2) { nl.until = now() + 20 * 60000; nl.n = 0; log(`${b.name}: cast twice, never landed (a stronger buff of its kind?) - not again for 20 min`); continue; } }
+    // NOLAND-3 (Raltru 21:37 after updating: "attack aura is still being used"): the 20 min pause ended in 2 more casts every ~22 min forever.
+    // The pause now grows (20 min -> 1 h -> 3 h) and ends early only when my buffs are mostly gone (death / dispel: the blocker is gone too)
+    const myBuffs = () => { let n = 0; try { (hostSnap.buffs() || BuffsList).forEach(x => { if (!x.IsDebuff) n++; }); } catch (e) { } return n; };
+    if (nl && nl.until > now()) { if (nl.withBuffs > 3 && myBuffs() * 2 < nl.withBuffs) { delete CR.noLand[b.id]; } else continue; }
+    if (nl && nl.cast && CR.buffAt[b.id]) {
+      nl.n = (nl.n || 0) + 1; nl.cast = false;
+      const need = nl.level ? 1 : 2;                                   // after a first block one more miss is enough
+      if (nl.n >= need) { nl.level = (nl.level || 0) + 1; const min = [20, 60, 180][Math.min(nl.level, 3) - 1]; nl.until = now() + min * 60000; nl.n = 0; nl.withBuffs = myBuffs(); log(`${b.name}: cast ${need === 2 ? 'twice' : 'again'}, never landed (a stronger buff of its kind?) - not again for ${min} min`); continue; }
+    }
     const k = SkillsList.GetItemByID(b.id); if (!k || !k.IsReady || num(Me.MP) < num(k.MP)) continue;
     if (!crWhenOk(w, b, x)) continue;
     CR.buffAt[b.id] = now();

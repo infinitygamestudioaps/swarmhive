@@ -2,6 +2,11 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.6 (2026-10-28)
+
+- Self-buffs that cannot land (Attack Aura under a stronger Might from a buffer / NPC) are no longer recast every ~22 min: after the first block the pause grows 20 min -> 1 h -> 3 h and ends early only when the character loses most of its buffs (death, dispel) or the buff really lands (thanks Raltru)
+- Checked against L2Swarm 3.10.9
+
 ## v1.12.5 (2026-10-28)
 
 - Attack Aura (and other self-buffs) no longer spammed: a stronger buff of its kind (Greater Might, a buffer's Might) counts as on, and a buff cast twice without landing is left alone for 20 min (thanks Raltru, Dialis)
