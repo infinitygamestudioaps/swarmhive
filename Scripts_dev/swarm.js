@@ -1765,7 +1765,9 @@ function rkRosterLearn(name, role) {
   } catch (e) { }
 }
 function boardOn() {
-  if (now() - RKH.boardAt > 10000) { RKH.boardAt = now(); try { RKH.board = rkBoardBuffs(SWARM_CFG, teamOf(Me.Name), buffPlansFile(), bbLearned()); } catch (e) { RKH.board = true; } }   // dashboard switch: live within ~10-20 s
+  if (now() - RKH.boardAt > 10000) { RKH.boardAt = now(); try { RKH.board = rkBoardBuffs(SWARM_CFG, teamOf(Me.Name), buffPlansFile(), bbLearned()); } catch (e) { RKH.board = true; }   // dashboard switch: live within ~10-20 s
+    // SRVBUFF-2026-10-28: the party's own "Where buffs come from" list without the Community Board = no board for this party (Hero: Newbie Helper only)
+    try { if (RKH.board && typeof soMine === 'function') { const e = soMine(); if (e.src.buffSources !== 'builtin' && e.buffSources.indexOf('board') < 0) RKH.board = false; } } catch (e) { } }
   return RKH.board;
 }
 /** my learned skills as a plain list (snapshot), cached on the skill count (re-read every 20 s anyway) */
@@ -7017,6 +7019,14 @@ function aggroRange(name) {
   if (!aggroTable) { try { aggroTable = JSON.parse(File.ReadAllText(`${__SCRIPTS__}\\data\\aggro_h5.json`)); } catch (e) { aggroTable = {}; } }
   return aggroTable[name] || 0;
 }
+// SOLONEAR-2026-10-28 (Hero: "the moment hp hits 49% it runs away and does nothing and dies"; "escaping: HP 49% with 1 attacker, 5 monsters
+// near"): the solo flee counted every monster within 900 whose datapack aggro range > 0 — that range is set for PASSIVE monsters too. Now the
+// L2Toggle title decides ('LvL: 17 A' = aggressive), the datapack only when there is no title; 0 = passive.
+function mobAggrRange(m) {
+  const ttl = String((m && m.Title) || ''), tagged = /^LvL:\s*\d+/i.test(ttl);
+  const aggressive = tagged ? /\sA\s*$/.test(ttl) : aggroRange(m && m.Name) > 0;
+  return aggressive ? Math.min(aggroRange(m.Name) || 600, 1000) : 0;
+}
 /** Aggressive monsters (or any monster that is fighting one of us) and the points they threaten. */
 function dangerMobs() {
   const out = [];
@@ -8524,7 +8534,7 @@ function escAttackers() {
       const flag = m.IsSleeping ? 'sleep' : m.IsParalyzed ? 'hold' : m.IsStunned ? 'stun' : '';
       const recOn = rec && rec.ok && now() < rec.until && !(rec.kind === 'sleep' && hitId === id);   // a sleeping monster that hits me woke up
       out.push({ id, n: String(m.Name || ''), x: Math.round(m.X), y: Math.round(m.Y), z: Math.round(m.Z || me.Z), dist: d, lvl: num(m.Level),
-        targetsMe: num(m.TargetObjId) === myId, hitMe: hitId === id, cc: flag || (recOn ? rec.kind : null) });
+        targetsMe: num(m.TargetObjId) === myId, hitMe: hitId === id, cc: flag || (recOn ? rec.kind : null), aggr: mobAggrRange(m) });
     });
   } catch (e) { }
   return out;
@@ -27503,7 +27513,7 @@ function multiDecide(s) {
   if (s.live > 0) return { action: 'stay', why: `${s.live} monsters here`, expect };
   const ts = st[cur.key] || {};
   const emptyFor = ts.emptySince ? t - ts.emptySince : 0;
-  if (emptyFor < MULTI.emptyMs) return { action: 'wait', why: `no monster for ${Math.round(emptyFor / 1000)} s`, expect };
+  if (emptyFor < (Number(s.emptyMs) > 0 ? Number(s.emptyMs) : MULTI.emptyMs)) return { action: 'wait', why: `no monster for ${Math.round(emptyFor / 1000)} s`, expect };   // SPOTEMPTY-2026-10-28: the party's own wait
   if (!others.length) return s.auto && emptyFor >= MULTI.staleMs ? { action: 'repick', why: `has had no monster for ${Math.round(emptyFor / 1000)} s and no other area of the pool is free — picking another place`, expect }   // ROTATEFIX-2026-10-23: an automatic pool never sits in an empty area for hours
     : { action: 'stay', why: 'no other chosen one is free', expect };
   const due = multiDue(cur, ts, t, t + MULTI.windowSec * 1000);
@@ -27888,7 +27898,8 @@ function multiTick(spot, solo) {
   ts.live = live; ts.liveAt = now();
   const sel = Object.assign({}, spot.multi); if (spot.manualStay) sel.stay = true;   // STAYMULTI-2026-10-24 (tester FindStuff8, Cruma 2nd floor: 'stay' ON, left the room because 2 players walked through): occupied marks never block a stay choice
   const T = multiTargets(sel);
-  const d = multiDecide({ now: now(), cur: key, targets: T, st: multiSt.st, live, fighting, order: sel.order, auto: !!sel.auto });
+  let emptyMs = 0; try { const es = num(partyTactics(CONFIG.leader).spotEmptySec); if (es >= 10) emptyMs = Math.min(600, es) * 1000; } catch (e) { }   // SPOTEMPTY-2026-10-28: party setting
+  const d = multiDecide({ now: now(), cur: key, targets: T, st: multiSt.st, live, fighting, order: sel.order, auto: !!sel.auto, emptyMs });
   multiSt.last = { at: now(), action: d.action, why: d.why, to: d.to || '', expect: d.expect || {}, due: d.due || 0 };
   if (d.action === 'repick') {                                          // ROTATEFIX-2026-10-23: automatic pool, all empty / taken -> the loop picks another place
     ts.leftAt = now(); ts.leftLive = live; ts.emptySince = 0; autoLvl.bad[key] = now() + 1800000;
@@ -34117,8 +34128,15 @@ async function spoilerStep() {
   let T = null; try { T = Target; } catch (e) { T = null; }
   const tm = T ? mobById(num(T.objId)) : null;
   if (!tm || tm.IsDead) return mpPct < C.mpReserve ? { next: 300 } : null;
-  if (!IsAttacking && !Me.IsInCombat) return null;                       // not fighting it (yet)
   const tid = num(tm.objId), tx = num(tm.X), ty = num(tm.Y);
+  // SPOILFIRST-2026-10-28 (Vykaax: "the spoil is delayed. On these dwarves with low spoil, they are killing the outdoor mob in 2-4 hits with
+  // soulshots and often don't even try to cast spoil until the mob is like 10-20%"): Spoil waited for IsAttacking / combat, so the first hits
+  // (and the kill) came before it. Now a targeted, wanted, not yet spoiled monster within 900 gets its FIRST Spoil before the first hit.
+  if (!IsAttacking && !Me.IsInCombat) {
+    const opener = !spoilState.ok[tid] && !tm.IsSpoiled && !spoilState.gaveUp[tid] && !num(spoilState.tries[tid] && spoilState.tries[tid].n)
+      && Math.hypot(tx - num(Me.X), ty - num(Me.Y)) <= 900 && spoilWantedMob(tm) && !currentTownKey();
+    if (!opener) return null;                                            // not fighting it (yet)
+  }
   const near = []; try { snapMobs().forEach(m => { const id = num(m.objId); if (id === tid) return; const d = Math.hypot(num(m.X) - tx, num(m.Y) - ty); if (d > C.festivalRadius) return; near.push({ id, d, dead: !!m.IsDead, wanted: spoilWantedMob(m), ok: !!spoilState.ok[id] || !!m.IsSpoiled, gaveUp: !!spoilState.gaveUp[id] || !!spoilState.festTried[id] }); }); } catch (e) { }
   const sk = spoilSkill(SPOIL_ID.spoil), fe = spoilSkill(SPOIL_ID.fest);
   const target = { id: tid, wanted: spoilWantedMob(tm), ok: !!spoilState.ok[tid] || !!tm.IsSpoiled, tries: num(spoilState.tries[tid] && spoilState.tries[tid].n), gaveUp: !!spoilState.gaveUp[tid] };
@@ -34485,7 +34503,7 @@ setInterval(() => {
   if (!soloChar() || !IsCharacterReady() || Me.IsDead || currentTownKey() || inRaid() || inst.on || state.escaping || ESC.on || state.gkBusy || tradeState) return;
   if (now() - SOLO.fleeAt < 3000 || now() - lastAttackerOnMe.at > SOLOSAFE.hitMs || Me.HpPercent >= SOLO.fleeBelow) return;
   let attackers = 0, near = 0;
-  try { escAttackers().forEach(a => { if (a.cc) return; if (a.targetsMe || a.hitMe) attackers++; if (a.dist <= SOLOSAFE.nearR && (a.targetsMe || a.hitMe || aggroRange(a.n) > 0)) near++; }); } catch (e) { }
+  try { escAttackers().forEach(a => { if (a.cc) return; if (a.targetsMe || a.hitMe) attackers++; if (a.dist <= SOLOSAFE.nearR && (a.targetsMe || a.hitMe || (a.aggr > 0 && a.dist <= a.aggr + 150))) near++; }); } catch (e) { }   // SOLONEAR-2026-10-28
   const atk = mobById(lastAttackerOnMe.id);
   const d = soloFleeDecide({ hp: num(Me.HpPercent), hitAgo: now() - lastAttackerOnMe.at, attackers: Math.max(attackers, 1), near, atkHp: atk ? num(atk.HpPercent) : 0,
     sinceEsc: ESC.endedAt ? now() - ESC.endedAt : undefined }, SOLOSAFE);
@@ -38624,7 +38642,9 @@ async function resAfterRun() {
       const team = healer() ? healTargets().filter(t => !t.me) : [];
       A.dying = team.some(t => num(t.hp) < 40);
       let low = []; try { low = resSelfLow(); } catch (e) { }
-      const boardHas = (() => { try { return boardOn() && (CONFIG.buffs.schemes[state.role] || []).length > 0; } catch (e) { return false; } })();
+      // SRVBUFF-2026-10-28 (Hero 22:48: "tried to rebuff via community board when only newbie helper is enabled and community board is
+      // disabled"): the board step only when the party's buff source list picks the board now (party ⚙ Settings -> Server -> Where buffs come from)
+      const boardHas = (() => { try { return boardOn() && (typeof soBuffSource !== 'function' || soBuffSource() === 'board') &&(CONFIG.buffs.schemes[state.role] || []).length > 0; } catch (e) { return false; } })();
       const step = resAfterStep({ now: now(), at: A.at, phase: A.phase, board: boardHas, boardTries: A.boardTries, boardOk: A.boardOk, maxBoard: (inRaid() || Me.IsInCombat) ? 1 : 2,
         selfAllowed: (() => { try { return hiveSkillsOn() && rkSelfBuffsAllowed(boardOn(), needsBuff()); } catch (e) { return true; } })(), selfLow: low.length, healer: healer() && hiveHealsOn(),   // HIVESW-2026-10-15
         hurt: team.filter(t => num(t.hp) < 75).length, dying: A.dying, healSince: A.healSince });
@@ -42070,15 +42090,39 @@ App.on('swarm.ccfund', (event) => {
     const d = event.data || {}; if (!d.name || !(Number(d.amount) > 0)) return;
     CCASK[d.name] = { amount: Number(d.amount), until: Number(d.until) || now() + CC_FUND.waitMs, cls: String(d.cls || '') };
     // my party member needs it: the leader pays through the party purse (the !purse give path; his keep-at-least stays)
+    if (d.done) { delete CCASK[d.name]; delete CCPAY.q[d.name]; return; }   // CCQUEUE: the class change is over (changed / gave up)
+    if (d.got) { delete CCPAY.q[d.name]; return; }                        // CCQUEUE: it has the adena now: nothing to pay, the ask just stays open
     if (!isLeader() || d.name === Me.Name || !teamNames().includes(d.name)) return;
-    (async () => {
-      const t0 = now(); while (PURSE.busy && now() - t0 < 60000) await sleep(2000);
-      note(`class change: ${d.name} needs ${ccFmt(d.short)} more adena for ${d.cls} — paying it from the party purse`, true);
-      const r = await purseRun(`class change ${d.name} -> ${d.cls}`, { only: [d.name], manual: true, amount: Number(d.short) || 0 });
-      note(`class change: ${d.name}: ${r.paid ? `paid ${ccFmt(r.total)} adena` : `not paid (${r.text || 'nothing to spare'})`}`.slice(0, 300), true);
-    })().catch(e => logError('ccfund pay', e));
+    // CCQUEUE-2026-10-28 (Vykaax 04:53: "Some members got adena from the leader for 76 class change, some didn't ... they asked for it and were
+    // ignored (maybe leader was busy) so it timed out"): every ask waited at most 60 s for PURSE.busy, then purseRun answered 'already paying'
+    // and nobody paid. Now the asks go into ONE queue that the leader pays one by one, each as long as its ask is open.
+    CCPAY.q[d.name] = { short: Number(d.short) || 0, cls: String(d.cls || ''), until: Number(d.until) || now() + CC_FUND.waitMs };
+    ccPayWork();
   } catch (e) { logError('ccfund', e); }
 });
+const CCPAY = { q: {}, busy: false };
+function ccPayWork() {
+  if (CCPAY.busy) return;
+  CCPAY.busy = true;
+  (async () => {
+    try {
+      for (let guard = 0; guard < 50; guard++) {
+        const names = Object.keys(CCPAY.q).filter(n => CCPAY.q[n].until > now()).sort((a, b) => CCPAY.q[a].until - CCPAY.q[b].until);
+        Object.keys(CCPAY.q).forEach(n => { if (!(CCPAY.q[n].until > now())) delete CCPAY.q[n]; });
+        if (!names.length) break;
+        const n = names[0], a = CCPAY.q[n];
+        while (PURSE.busy && a.until > now()) await sleep(2000);
+        if (!(a.until > now())) { note(`class change: ${n}'s adena ask ran out while I was busy — it asks again`, true); delete CCPAY.q[n]; continue; }
+        note(`class change: ${n} needs ${ccFmt(a.short)} more adena for ${a.cls} — paying it from the party purse${names.length > 1 ? ` (${names.length - 1} more waiting: ${names.slice(1).join(', ')})` : ''}`, true);
+        const r = await purseRun(`class change ${n} -> ${a.cls}`, { only: [n], manual: true, amount: a.short });
+        note(`class change: ${n}: ${r.paid ? `paid ${ccFmt(r.total)} adena` : `not paid (${r.text || 'nothing to spare'})`}`.slice(0, 300), true);
+        if (r.paid || CCPAY.q[n] === a) delete CCPAY.q[n];
+        await sleep(1500);
+      }
+    } catch (e) { logError('ccfund pay', e); }
+    finally { CCPAY.busy = false; if (Object.keys(CCPAY.q).some(n => CCPAY.q[n].until > now())) (async () => { await sleep(3000); ccPayWork(); })().catch(e => logError('ccfund pay', e)); }
+  })().catch(e => logError('ccfund pay', e));
+}
 /** short of adena for a class change: ask (leader + givers), wait until I have `cost` -> { ok, msg } */
 async function ccWaitFunds(cls, cost, why) {
   const asked = ccAskedLabel();
@@ -42091,7 +42135,9 @@ async function ccWaitFunds(cls, cost, why) {
     intent('class change', `waiting for adena: ${line}`);
     App.emit('swarm.ccfund', { name: Me.Name, amount: cost, short: cost - have, cls, until, why: String(why || '') });
     while (now() < until && state.running && itemCount(57) < cost) await sleep(CC_FUND.pollMs);
-    if (itemCount(57) >= cost) { delete CCASK[Me.Name]; note(`class change: got the adena (${ccFmt(itemCount(57))}) — changing to ${cls} now`, true); return { ok: true, msg: '' }; }
+    if (itemCount(57) >= cost) { CCASK[Me.Name] = { amount: cost, until: now() + CC_FUND.waitMs, cls };   // CCQUEUE-2026-10-28: stays open until classChange ends (no hand-over takes it back first)
+      try { App.emit('swarm.ccfund', { name: Me.Name, amount: cost, short: 0, cls, until: now() + CC_FUND.waitMs, got: true }); } catch (e) { }
+      note(`class change: got the adena (${ccFmt(itemCount(57))}) — changing to ${cls} now`, true); return { ok: true, msg: '' }; }
   }
   delete CCASK[Me.Name];
   return { ok: false, msg: `${ccNeedLine(cls, cost, itemCount(57), asked)}; nothing came within ${Math.round(CC_FUND.waitMs * CC_FUND.asks / 60000)} min — give me the adena (party card: !purse give ${Me.Name} ${cost - itemCount(57)}) and order !classchange again` };
@@ -42100,6 +42146,10 @@ async function ccWaitFunds(cls, cost, why) {
  *  name (cpPickButton, never a guess), and afterwards the new class id must be exactly that class.
  *  CCFUND-2026-10-27: short of the stated price (or refused for adena) = ask the leader / givers, wait, try again. */
 async function classChange(why) {
+  try { return await classChangeInner(why); }
+  finally { if (CCASK[Me.Name]) { delete CCASK[Me.Name]; try { App.emit('swarm.ccfund', { name: Me.Name, amount: 1, done: true }); } catch (e) { } } }   // CCQUEUE-2026-10-28
+}
+async function classChangeInner(why) {
   let r = await classChangeOnce(why);
   for (let i = 0; i < 2 && r && r.needAdena; i++) {
     const n = r.needAdena;

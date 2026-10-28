@@ -45,14 +45,16 @@ check(M.ccGiverLabel({ me: 'Vyk', leader: 'Vyk', isLeader: true, givers: { mode:
 check(/^nobody/.test(M.ccGiverLabel({ me: 'Vyk', leader: 'Vyk', isLeader: true, givers: { mode: 'none' } })), 'D3 no leader to ask + givers off = says nobody (and where to switch it on)');
 { const l = M.ccNeedLine('Titan', 5000000, 1200000, 'Vyk (party leader)'); check(l === 'Titan needs 5,000,000 adena (I have 1,200,000, 3,800,000 short) — asked Vyk (party leader)', 'D4 note: "needs X adena ... asked <giver>"'); }
 // E) wiring in swarm.js
-const once = fnSrc('classChangeOnce'), wrap = fnSrc('classChange');
+const once = fnSrc('classChangeOnce'), wrap = fnSrc('classChangeInner');   // CCQUEUE-2026-10-28: classChange = try { classChangeInner } finally { close the ask }
+check(/finally \{ if \(CCASK\[Me\.Name\]\) \{ delete CCASK\[Me\.Name\]; try \{ App\.emit\('swarm\.ccfund', \{ name: Me\.Name, amount: 1, done: true \}\)/.test(fnSrc('classChange')), 'E3b the adena ask stays open until the class change ends (no hand-over takes the adena back first)');
 check(/ccCostFromPage\(page\)/.test(once) && /ccKnownCost\(ccCostRules\(\), tier\)/.test(once) && /itemCount\(57\) < cost/.test(once), 'E1 before the click: price from the page, else the configured one; short = no click');
 check(/ccRefusal\(res, sysMsgRing, tClick, dlgRefusal\)/.test(once) && !/lastSysMsg/.test(once), 'E2 after the click: only refusals after the click (lastSysMsg is gone)');
 check(/needAdena/.test(once) && /ccWaitFunds\(n\.cls, n\.cost, why\)/.test(wrap) && /classChangeOnce\(`\$\{why\} \(after the adena top-up\)`\)/.test(wrap), 'E3 short / refused for adena -> ask, wait, try again');
 const wait = fnSrc('ccWaitFunds');
 check(/App\.emit\('swarm\.ccfund'/.test(wait) && /note\(`class change: \$\{line\}/.test(wait) && /CC_FUND\.asks/.test(wait), 'E4 the ask goes out on swarm.ccfund and is noted on the dashboard (bounded asks)');
 const h = src.slice(src.indexOf("App.on('swarm.ccfund'"), src.indexOf('async function ccWaitFunds'));
-check(/purseRun\(`class change \$\{d\.name\} -> \$\{d\.cls\}`, \{ only: \[d\.name\], manual: true, amount: Number\(d\.short\) \|\| 0 \}\)/.test(h) && /teamNames\(\)\.includes\(d\.name\)/.test(h), 'E5 the leader pays his own member through the party purse (the existing !purse give path)');
+check(/purseRun\(`class change \$\{n\} -> \$\{a\.cls\}`, \{ only: \[n\], manual: true, amount: a\.short \}\)/.test(h) && /teamNames\(\)\.includes\(d\.name\)/.test(h), 'E5 the leader pays his own member through the party purse (the existing !purse give path)');
+check(/while \(PURSE\.busy && a\.until > now\(\)\)/.test(h) && !/now\(\) - t0 < 60000/.test(h), 'E5b CCQUEUE: a busy leader queues the asks and pays each while it is open (no 60 s give-up)');
 check(/const fundTarget = \(n\) => \{ const b = fundTargetBase\(n\), a = typeof ccAskOpen === 'function' \? ccAskOpen\(n\) : 0;/.test(src) && /ccAskOpen\(n\) > 0 \/\* CCFUND/.test(src), 'E6 the fund round tops up an open ask (target raised, no 30-min pause)');
 check(!/\b(sell|Sell|buyAt|BuyItem|gearUpgrade)\b/.test(PURE + wait + h), 'E7 no selling / buying in the class-change funding (NOAUTOSELL, no auto gear buys)');
 console.log(fails ? `\n${fails} FAILED` : '\nALL OK'); process.exit(fails ? 1 : 0);

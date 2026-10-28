@@ -80,6 +80,15 @@ foreach ($kv in @(@('Group', $Group), @('LoginServerIP', $LoginIp), @('LoginServ
   $n.InnerText = $kv[1]
 }
 if ($ServerId) { $n = $o.SelectSingleNode('SelectedServer/id'); if ($n) { $n.InnerText = $ServerId } }
+# L2EXE-2026-10-28 (tester Vykaax: "I have the path in swarm.config.json, but it doesn't seem to write it to new char profiles"): an empty
+# <L2ExePath> takes swarm.config.json "l2Client" (only when that file exists), so "Open in game" works without editing the profile by hand
+try {
+  $cli = ''; try { $cli = [string](([IO.File]::ReadAllText("$root\swarm.config.json") | ConvertFrom-Json).l2Client) } catch { }
+  if ($cli -and (Test-Path $cli)) {
+    $n = $o.SelectSingleNode('L2ExePath')                                 # every template has the node; never append one (3.10 checks the element order)
+    if ($n -and -not $n.InnerText.Trim()) { $n.InnerText = $cli }
+  }
+} catch { }
 # L2Swarm 3.8.14 validates the file: an EMPTY LastLoadedUtc fails (same fix as SETUP.ps1, 2026-10-10)
 $n = $o.SelectSingleNode('LastLoadedUtc'); if ($n -and -not $n.InnerText.Trim()) { $n.InnerText = '2000-01-01T00:00:00Z' }
 $sl = $o.SelectSingleNode('ScriptsList'); if ($sl) { while ($sl.HasChildNodes) { [void]$sl.RemoveChild($sl.FirstChild) } }

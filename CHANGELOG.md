@@ -2,6 +2,18 @@
 
 Every published version of the swarm package. Update with `update.cmd` (see README.md). The full story of how it was built: docs/HISTORY.md.
 
+## v1.12.4 (2026-10-28)
+
+- L2Swarm stays closed when you close it: MemWatch only restarts it after a real crash or a PC restart (before: every close was restarted within 2 min by a hidden task)
+- Solo characters no longer run away at 49 % HP because of PASSIVE monsters nearby: only monsters the server marks aggressive (the 'A' in the title) count, within their own aggro range
+- Buffs: a party whose 'Where buffs come from' list has no Community Board never uses the board, also not when rebuffing after a resurrect
+- Zone drawing: a new corner chains to the last one (a tap right on an edge still inserts there) - the shape no longer jumps around on the 3rd/4th click
+- Spoil: the first Spoil is cast as soon as the monster is targeted, before the first hit (low-level mobs died before Spoil)
+- Class change adena: the leader pays every member's ask from a queue (a busy leader no longer ignores asks), and the adena is not handed back before the class change is done
+- Open in game: new accounts get the client path from swarm.config.json (l2Client)
+- the 'only ONE hooked client' warning only shows when a game client really runs
+- New party setting (Settings -> Fighting -> Several chosen areas): go to the next area after 10 s / 20 s / 30 s / 1 min / 5 min without a monster (default 150 s)
+
 ## v1.12.3 (2026-10-28)
 
 - Selling: a second automatic seller is closed: the clan leader / collector took items marked on the sell list out of the clan warehouse and sold them every 5 min, and an interrupted sale continued after a restart - both now need the party switch 'Sell marked items (automatic)' (off by default, renamed from 'Sell junk on town visits', whose old text wrongly said old gear is sold)

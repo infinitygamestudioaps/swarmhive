@@ -351,9 +351,26 @@ switch ($Action) {
             # stopped on purpose (the Stop task writes Logs\l2swarm_stopped.flag) or a Start is already running
             $flag = "$root\Logs\l2swarm_stopped.flag"
             $starting = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" | Where-Object { $_.CommandLine -match 'l2swarm_ctl\.ps1.*(start|restart)' }
-            if (-not (Test-Path $flag) -and -not $starting -and -not (Lock-Owner)) { Log $ctlLog 'watch: L2Swarm is not running (crash?) - starting it'; Start-L2 }
+            # USERCLOSE-2026-10-28 (tester Raltru: "i closed all and it still opening swarm ... and i dont see the process to kill it"): only a REAL
+            # crash restarts it. A crash leaves an 'Application Error' (1000) / '.NET Runtime' (1026) / 'Windows Error Reporting' (1001) event
+            # naming L2Swarm.exe; no such event since it was last seen running = the user closed it -> write the stopped flag (Start on the
+            # dashboard PC tab / the L2Swarm Start task clears it) and leave it closed.
+            if (-not (Test-Path $flag) -and -not $starting -and -not (Lock-Owner)) {
+                $seenFile = "$root\Logs\l2swarm_seen.txt"; $since = (Get-Date).AddMinutes(-15)
+                try { if (Test-Path $seenFile) { $s = [datetime](Get-Content $seenFile -Raw).Trim(); if ($s -gt $since) { $since = $s.AddMinutes(-3) } } } catch { }
+                $crash = $null
+                try { $crash = Get-WinEvent -FilterHashtable @{ LogName = 'Application'; Id = 1000, 1001, 1026; StartTime = $since } -ErrorAction Stop | Where-Object { $_.Message -match 'L2Swarm\.exe' } | Select-Object -First 1 } catch { $crash = $null }
+                $boot = $null; $seen = $null
+                try { $boot = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime } catch { }
+                try { if (Test-Path $seenFile) { $seen = [datetime](Get-Content $seenFile -Raw).Trim() } } catch { }
+                $rebooted = $boot -and (-not $seen -or $boot -gt $seen)   # the PC restarted since L2Swarm was last seen (or never seen): start as before
+                if ($crash) { Log $ctlLog "watch: L2Swarm crashed ($($crash.ProviderName) $($crash.Id) at $($crash.TimeCreated.ToString('s'))) - starting it"; Start-L2 }
+                elseif ($rebooted) { Log $ctlLog "watch: L2Swarm is not running after the PC start ($($boot.ToString('s'))) - starting it"; Start-L2 }
+                else { Set-Content $flag (Get-Date -Format s); Log $ctlLog 'watch: L2Swarm was closed (no crash event) - left closed; Start on the dashboard PC tab starts it again' }
+            }
             exit 0
         }
+        try { Set-Content "$root\Logs\l2swarm_seen.txt" (Get-Date -Format s) } catch { }   # USERCLOSE-2026-10-28: last time seen running
         try { Reconnect-Brake } catch { Log $ctlLog "brake error: $_" }
         # MINIMIZE (2026-10-08 10:15, old UI-deadlock workaround: the deadlock needed L2Swarm's window to be drawing the mob grid / world map;
         # a minimized WPF window does not render). 2026-10-12 (backlog D5): 3.8.14+ fixed the deadlock, so this is now an OPTION, default OFF:

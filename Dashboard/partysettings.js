@@ -63,7 +63,7 @@
     { key: 'spotLevelCheck', char: false, group: 'combat', label: 'Ask me before hunting a chosen spot above our level', help: 'Off (default): a hunting spot you choose (party card, plan step, order) is always used, even when its monsters are above the safe level; the party only warns in party chat and on the party card. On: such a spot waits for your OK (the Override button on the party card) and the party hunts its automatic spot meanwhile.' }];
   const CB_SHORT = { skills: 'skills', heals: 'heals', potions: 'potions', swarmFight: 'L2Swarm fights' };
   const GMODES = ['collector', 'auto', 'list', 'none'];   // FUNDCOLLECTOR-2026-10-25: the collector is the default giver
-  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false };
+  const TACT_DEF = { mode: 'off', pairSize: 2, maxPairs: 3, leash: 900, zoneScale: 1, minDealers: 4, levelMargin: 2, fallbackHp: 40, includeBuffers: false, aoeMin: 3, raidAoe: 'primary', assist: true, destroyerDrain: false, spotEmptySec: 0 };
   const DESTS = [['auto', 'Clan if a member, else its own'], ['clan', 'Clan warehouse'], ['private', 'Its own warehouse']];
   const MODES = [['rules', 'Smart: materials, old gear, letters…'], ['all', 'Everything except what it uses'], ['off', 'Nothing']];
   const TRIGS = [['bag', 'When the bag holds more than … kinds'], ['weight', 'When it carries more than … % weight'], ['supply', 'Only during supply runs'], ['town', 'Whenever it is idle in its town']];
@@ -544,6 +544,11 @@
         <label class="ps-chk"><input type="checkbox" data-pschk="tactics.destroyerDrain"${t.destroyerDrain ? ' checked' : ''}> Destroyers lower their HP for Frenzy / Zealot (they hit each other)</label>
         <div class="ps-what">${t.destroyerDrain ? 'On — before a raid pull (and when Frenzy is ready again) destroyers hit each other down below 30 % HP, then fire Frenzy, Zealot, Guts. Healers wait.' : 'Off — destroyers never hit teammates; they use Frenzy / Zealot only when the fight itself brings their HP low.'}</div>`;
       if (t.destroyerDrain) sum += ' · destroyer drain';
+      // SPOTEMPTY-2026-10-28 (Hero): several chosen areas / rooms -> how long an empty one is kept
+      body += `<div class="ps-sub"><b>Several chosen areas</b></div>
+        ${sel('tactics.spotEmptySec', Number(t.spotEmptySec) || 0, [[0, 'After 150 s (default)'], [10, 'After 10 s'], [20, 'After 20 s'], [30, 'After 30 s'], [60, 'After 1 min'], [300, 'After 5 min']], 'Go to the next area when nothing is left')}
+        <div class="ps-what">With several hunting areas / rooms chosen: when the current one has had no monster for this long (never during a fight), the party moves to the next one.</div>`;
+      if (Number(t.spotEmptySec) > 0) sum += ` · next area after ${t.spotEmptySec} s`;
     } else body += unavailable('tactics');
     body += adv(note('File: Scripts/data/party_tactics.json — ' + E(PS.leader) + ' (hunting pairs, leveling only). Hunting place: Scripts/data/party_spots.json.'));
     return section('fight', '⚔', 'Fighting', sum, body, { dirty: dirtySecs().includes('tactics') });

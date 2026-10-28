@@ -449,11 +449,15 @@
     render();
   }
   function segDist(p, a, b) { const dx = b.x - a.x, dy = b.y - a.y, L = dx * dx + dy * dy; const t = L ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / L)) : 0; return Math.hypot(p.x - a.x - t * dx, p.y - a.y - t * dy); }
-  function insertPoly(P, w) {
-    let at = P.length;
-    if (P.length >= 3) { let best = 1e12; P.forEach((p, i) => { const q = P[(i + 1) % P.length]; const d = segDist(w, p, q); if (d < best) { best = d; at = i + 1; } }); }
+  // POLYCHAIN-2026-10-28 (Hero: "every next point doesnt chain to the previous one, and on the 3rd or 4th click the shape gets weird"): from
+  // the 3rd corner on every tap went into the NEAREST edge, wherever it was. Now a tap ON an edge (within ~12 screen px) inserts there; any
+  // other tap is the next corner after the one placed / selected last, so the outline is drawn in tap order.
+  function insertPoly(P, w, lastAt) {
+    let at = lastAt >= 0 && lastAt < P.length ? lastAt + 1 : P.length;
+    if (P.length >= 3) { let best = 1e12, bi = -1; P.forEach((p, i) => { const q = P[(i + 1) % P.length]; const d = segDist(w, p, q); if (d < best) { best = d; bi = i + 1; } }); if (bi >= 0 && best <= 12 * S.view.s) at = bi; }
     P.splice(at, 0, w); return at;
   }
+  function selAt(kind, hi) { const s = String(S.sel || '').split(':'); if (s[0] !== kind) return -1; return kind === 'h' ? (+s[1] === hi ? +s[2] : -1) : +s[1]; }
   async function tap(e) {
     const M = S.M; if (!M) return;
     const w = toWorld(e.clientX, e.clientY), px = S.view.s;
@@ -496,10 +500,10 @@
       fillZ(w, hintZ(M.safeWaypoints.length > 1 ? M.safeWaypoints.slice(0, -1) : (M.poly.length ? M.poly : M.waypoints)));
     } else if (S.tool === 'area') {
       if (!M.poly.length && !M.floor && S.floor) { M.floor = { ...S.floor }; toast(`Hunting floor set to "${S.floor.name}" (the floor the map shows) — change it in ☰`); }
-      const at = insertPoly(M.poly, w); S.sel = 'a:' + at; fillZ(w, hintZ(M.poly));
+      const at = insertPoly(M.poly, w, selAt('a')); S.sel = 'a:' + at; fillZ(w, hintZ(M.poly));
     } else if (S.tool === 'hole') {
       if (S.holeI < 0 || !M.holes[S.holeI]) { M.holes.push([]); S.holeI = M.holes.length - 1; }
-      const at = insertPoly(M.holes[S.holeI], w); S.sel = `h:${S.holeI}:${at}`; fillZ(w, hintZ(M.holes[S.holeI]));
+      const at = insertPoly(M.holes[S.holeI], w, selAt('h', S.holeI)); S.sel = `h:${S.holeI}:${at}`; fillZ(w, hintZ(M.holes[S.holeI]));
     } else if (S.tool === 'circle') {
       const c = { x: w.x, y: w.y, r: Math.max(150, Math.round(60 * px / 50) * 50) };
       M.circles.push(c); S.sel = 'c:' + (M.circles.length - 1); fillZ(c, M.z || null);

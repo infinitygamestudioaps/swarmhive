@@ -3223,6 +3223,9 @@ http.createServer(async (req, res) => {
         // ASSIST-2026-10-15 members take the leader's target at once (default ON); DESTROYERDRAIN-2026-10-15 destroyers hit each other below 30 % for Frenzy (default OFF)
         assist: get('assist') !== false, destroyerDrain: get('destroyerDrain') === true,
       };
+      // SPOTEMPTY-2026-10-28 (Hero: "if no new target in the current spot within 10 seconds, then change the spot to next in the list"): seconds
+      // without a monster before the party moves to its next chosen area / room (0 or missing = the built-in 150 s)
+      { const v = get('spotEmptySec'); if (v !== undefined && v !== null && v !== '' && Number(v) > 0) t.spotEmptySec = Math.round(clamp(v, 10, 600, 150)); }
       ['maxAdds', 'expRange', 'hpAvgMin', 'noDeathMin', 'cooldownMin', 'helpHp'].forEach(k => { if (cur[k] !== undefined) t[k] = cur[k]; });   // expert fields: file only
       all[party] = t; all._updated = new Date().toISOString();
       fs.writeFileSync(TFILE, JSON.stringify(all, null, 1));
@@ -3331,7 +3334,11 @@ http.createServer(async (req, res) => {
           if (!cfg) return json(res, 400, { error: `no config with <SelectedCharacter>${name}< in Settings` });
           if (!exe || !fs.existsSync(exe)) return json(res, 400, { error: `${path.basename(cfg)} has no valid <L2ExePath> (L2Swarm would open a "Select L2.exe" dialog). Set it first: close the account, add <L2ExePath>C:\\Lineage2\\system\\l2.exe</L2ExePath>, open it again.` });
           const others = Object.keys(cur).filter(k => k !== name && cur[k] === 'ingame');
-          if (others.length) warning = `${others.join(', ')} is already in game: L2Swarm runs only ONE hooked client at a time, ${name} waits until that client is closed`;
+          // L2EXE-2026-10-28 (Vykaax: "not true, vAcaMage009 is not in game ... No l2.exe process is running"): the switch list alone is not
+          // "in game" — say which case it is (a client really runs, or the other one is only switched to in game and its client never started)
+          let l2run = true; try { l2run = /l2\.exe/i.test(require('child_process').execFileSync('tasklist', ['/FI', 'IMAGENAME eq l2.exe', '/NH'], { encoding: 'utf8', windowsHide: true, timeout: 5000 })); } catch (e) { l2run = true; }
+          if (others.length && l2run) warning = `${others.join(', ')} is already in game: L2Swarm runs only ONE hooked client at a time, ${name} waits until that client is closed`;
+          else if (others.length) warning = `${others.join(', ')} is still switched to "In game" but no game client (l2.exe) is running — MemWatch tries ${others[0]} first; switch ${others.join(', ')} to "Out of game" so ${name} opens now`;
         }
         cur[name] = mode;
         fs.writeFileSync(CM, JSON.stringify(cur));
